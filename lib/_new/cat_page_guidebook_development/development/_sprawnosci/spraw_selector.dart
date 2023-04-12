@@ -3,7 +3,6 @@ import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/floating_container.dart';
 import 'package:harcapp/_common_widgets/search_field.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/_sprawnosci/widgets/spraw_tile_template_widget.dart';
-import 'package:harcapp/main.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
@@ -105,7 +104,7 @@ Future<void> openSprawSelector(
             child: Column(
               children: [
                 AppBar(
-                  title: const Text('Wybierz trop'),
+                  title: const Text('Wybierz sprawność'),
                   elevation: 0,
                   centerTitle: true,
                 ),

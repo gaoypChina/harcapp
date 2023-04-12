@@ -27,7 +27,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '1',
                                   title: 'Ratownik',
                                   ////iconRes: 'spraw_wod_h_ratownik',
-                                  level: '1',
+                                  level: 1,
                                   tasks: [
                                         'Zawsze pływa w kamizelce asekuracyjnej lub ratunkowej.',
                                         'Wie jakimi ﬂagami oznacza się kąpieliska w Polsce i co one oznaczają.',
@@ -40,7 +40,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '2',
                                   title: 'Ratownik',
                                   ////iconRes: 'spraw_wod_h_ratownik',
-                                  level: '2',
+                                  level: 2,
                                   tasks: [
                                         'Wie jak działa ratownictwo wodne w Polsce.',
                                         'Z zastępem lub wachtą odwiedził stację ratownictwa wodnego lub sekcję wodną straży pożarnej.',
@@ -54,7 +54,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '3',
                                   title: 'Ratownik',
                                   ////iconRes: 'spraw_wod_h_ratownik',
-                                  level: '3',
+                                  level: 3,
                                   tasks: [
                                         'Zna strukturę i dyslokację jednostek Morskiej Służby Poszukiwania i Ratownictwa w Polsce.',
                                         'Potrafi udzielić pomocy w przypadku złamania, krwotoku, zwichnięcia.',
@@ -71,7 +71,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '4',
                                   title: 'Ratownik',
                                   ////iconRes: 'spraw_wod_h_ratownik',
-                                  level: '4',
+                                  level: 4,
                                   tasks: [
                                         'Zna procedurę wzywania pomocy przez radiotelefon UKF, potrafi odebrać komunikat MAYDAY, PAN-PAN i SECURITE.',
                                         'Posługuje się szelkami asekuracyjnymi na pokładzie.',
@@ -89,7 +89,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '1',
                                   title: 'Marynista',
                                   ////iconRes: 'spraw_wod_h_marynista',
-                                  level: '1',
+                                  level: 1,
                                   tasks: [
                                         'Potrafi znaleźć w swoim otoczeniu 10 produktów, które mogły dotrzeć do Polski drogą morską.',
                                         'Wymieni przynajmniej 3 gatunki ryb żyjących w Bałtyku i spożywanych w Polsce, przynajmniej jednego z nich próbował.',
@@ -104,7 +104,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '2',
                                   title: 'Marynista',
                                   ////iconRes: 'spraw_wod_h_marynista',
-                                  level: '2',
+                                  level: 2,
                                   tasks: [
                                         'Zna pochodzenie marynarskiego munduru, potrafi wytłumaczyć genezę kroju kołnierza, trzech pasków na kołnierzu, czarnych krawatów i wstążek na czapce, rozszerzanych spodni i sznurków na rozcięciach munduru.',
                                         'Zna historię Władysława Wagnera i jachtów Zjawa.',
@@ -121,7 +121,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '3',
                                   title: 'Marynista',
                                   ////iconRes: 'spraw_wod_h_marynista',
-                                  level: '3',
+                                  level: 3,
                                   tasks: [
                                         'Zna historię Leonida Teligi i jego jachtu Opty.',
                                         'Zna położenie przynajmniej jednej polskiej platformy wiertniczej na Morzu Bałtyckim.',
@@ -138,7 +138,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '4',
                                   title: 'Marynista',
                                   ////iconRes: 'spraw_wod_h_marynista',
-                                  level: '4',
+                                  level: 4,
                                   tasks: [
                                         'Zna najważniejsze porty Polski i ich rolę dla polskiej gospodarki.',
                                         'Zna podstawowe fakty o wybranym polskim porcie morskim (np. wartość przeładowanych towarów, ilość przeładowanych towarów, rodzaje towarów przeładowywanych w polskich portach).',
@@ -160,7 +160,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '1',
                                   title: 'Pływak',
                                   ////iconRes: 'spraw_wod_h_plywak',
-                                  level: '1',
+                                  level: 1,
                                   tasks: [
                                         'Przepłynął 100 m, w tym połowę na plecach.',
                                         'Wytrzymał pod wodą 20 sekund.',
@@ -170,7 +170,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '2',
                                   title: 'Pływak',
                                   ////iconRes: 'spraw_wod_h_plywak',
-                                  level: '2',
+                                  level: 2,
                                   tasks: [
                                         'Przepłynął 200 m, w tym połowę na plecach.',
                                         'Skoczył do wody z wysokości 1 m i przepłynął pod wodą 10 m.',
@@ -181,7 +181,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '3',
                                   title: 'Pływak',
                                   ////iconRes: 'spraw_wod_h_plywak',
-                                  level: '3',
+                                  level: 3,
                                   tasks: [
                                         'Przepłynął 400 m, co najmniej 3 różnymi stylami.',
                                         'Potrafi bezpiecznie skoczyć do wody na kilka sposobów, w tym w kamizelce asekuracyjnej.',
@@ -191,7 +191,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '4',
                                   title: 'Pływak',
                                   ////iconRes: 'spraw_wod_h_plywak',
-                                  level: '4',
+                                  level: 4,
                                   tasks: [
                                         'Przepłynął 600 m, co najmniej 3 różnymi stylami.',
                                         'Potrafi pływać kraulem ratowniczym, przepłynął 50 metrów w czasie poniżej 1 minuty.',
@@ -209,7 +209,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '1',
                                   title: 'Meteorolog',
                                   ////iconRes: 'spraw_wod_h_meteorolog',
-                                  level: '1',
+                                  level: 1,
                                   tasks: [
                                         'Opowie co to jest wiatr.',
                                         'Pokaże szkwał na jeziorze.',
@@ -221,7 +221,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '2',
                                   title: 'Meteorolog',
                                   ////iconRes: 'spraw_wod_h_meteorolog',
-                                  level: '2',
+                                  level: 2,
                                   tasks: [
                                         'Narysuje na czym polega zjawisko bryzy nocnej i dziennej.',
                                         'Będąc na wycieczce lub spływie lub rejsie rozpozna z jaką siłą wieje wiatr w skali Beauforta.',
@@ -233,7 +233,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '3',
                                   title: 'Meteorolog',
                                   ////iconRes: 'spraw_wod_h_meteorolog',
-                                  level: '3',
+                                  level: 3,
                                   tasks: [
                                         'Zna skalę Beauforta w zakresie od 0 do 7 stopni.',
                                         'Potrafi posługiwać się skalą stanu morza.',
@@ -245,7 +245,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '4',
                                   title: 'Meteorolog',
                                   ////iconRes: 'spraw_wod_h_meteorolog',
-                                  level: '4',
+                                  level: 4,
                                   tasks: [
                                         'Stosuje numeryczne prognozy pogody z przynajmniej trzech serwisów.',
                                         'Ściąga i stosuje griby.',
@@ -272,7 +272,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '1',
                                   title: 'Szyper',
                                   ////iconRes: 'spraw_wod_h_szyper',
-                                  level: '1',
+                                  level: 1,
                                   tasks: [
                                         'Rozumie zasadę "jedna ręka dla jachtu - jedna ręka dla siebie".',
                                         'Pływał łódką z żaglem jako załogant, potrafił się zachować na jachcie.',
@@ -286,7 +286,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '2',
                                   title: 'Szyper',
                                   //iconRes: 'spraw_wod_h_szyper',
-                                  level: '2',
+                                  level: 2,
                                   tasks: [
                                         'Dobrze wykonuje polecenia prowadzącego jacht.',
                                         'Poprawnie odpowiada na komendy.',
@@ -302,7 +302,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '3',
                                   title: 'Szyper',
                                   //iconRes: 'spraw_wod_h_szyper',
-                                  level: '3',
+                                  level: 3,
                                   tasks: [
                                         'Potrafi, na jachcie o długości większej niż 5 metrów, wykonać manewry pod żaglami w zakresie:'
                                             '\na) optymalnego doboru żagli do panujących warunków,'
@@ -321,7 +321,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '4',
                                   title: 'Szyper',
                                   //iconRes: 'spraw_wod_h_szyper',
-                                  level: '4',
+                                  level: 4,
                                   tasks: [
                                         'Potrafi wykonać manewry portowe na silniku, jachtem kabinowym dłuższym niż 7,5 metra: wejście między Y bomy rufą do kei, wejście między Y bomy dziobem do kei, cumować na mooringach dziobem i rufą.',
                                         'Potrafi wykonać manewr podejścia do boi jachtem kabinowym dłuższym niż 7,5 metra, na żaglach, lub jachtem dwumasztowym.',
@@ -339,7 +339,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '1',
                                   title: 'Bosman',
                                   //iconRes: 'spraw_wod_h_bosman',
-                                  level: '1',
+                                  level: 1,
                                   tasks: [
                                         'Zawiązał 8 różnych węzłów stosowanych w różnych sytuacjach.',
                                         'Potrafi wskazać dwa różne fały i szoty na jachcie żaglowym.',
@@ -350,7 +350,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '2',
                                   title: 'Bosman',
                                   //iconRes: 'spraw_wod_h_bosman',
-                                  level: '2',
+                                  level: 2,
                                   tasks: [
                                         'Wskaże i nazwie części jachtu mieczowego.',
                                         'Poznał zasady budowy jachtów, konstrukcję łodzi i nazewnictwo jej części oraz rodzaje poszycia, drzewca, osprzętu, olinowania i ożaglowania.',
@@ -364,7 +364,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '3',
                                   title: 'Bosman',
                                   //iconRes: 'spraw_wod_h_bosman',
-                                  level: '3',
+                                  level: 3,
                                   tasks: [
                                         'Brał udział w pracach laminarskich, zeszlifował na równo laminowany element.',
                                         'Brał udział w zabezpieczaniu sprzętu wodnego przed zimą.',
@@ -378,7 +378,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '4',
                                   title: 'Bosman',
                                   //iconRes: 'spraw_wod_h_bosman',
-                                  level: '4',
+                                  level: 4,
                                   tasks: [
                                         'Nazwał żagle na jachcie typu kecz.',
                                         'Zna przynajmniej 10 typów ożaglowania.',
@@ -405,7 +405,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '1',
                                   title: 'Nawigator',
                                   //iconRes: 'spraw_wod_h_nawigator',
-                                  level: '1',
+                                  level: 1,
                                   tasks: [
                                         'Z pomocą kompasu wskazał wschód, zachód, północ i południe.',
                                         'Wie gdzie w jego okolicy znajdują się zbiorniki wodne, potrafi o nich coś opowiedzieć.',
@@ -416,7 +416,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '2',
                                   title: 'Nawigator',
                                   //iconRes: 'spraw_wod_h_nawigator',
-                                  level: '2',
+                                  level: 2,
                                   tasks: [
                                         'Posługiwał się kompasem, umie wyznaczyć azymut na mapie i w terenie.',
                                         'Zna wielkie rzeki Polski oraz pojezierza.',
@@ -428,7 +428,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '3',
                                   title: 'Nawigator',
                                   //iconRes: 'spraw_wod_h_nawigator',
-                                  level: '3',
+                                  level: 3,
                                   tasks: [
                                         'Korzysta z mapy, orientuje ją według kierunku północnego i według kształtu terenu.',
                                         'W czasie rejsów korzysta z przewodników i opisów dróg wodnych, wejść do portów itp.',
@@ -441,7 +441,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '4',
                                   title: 'Nawigator',
                                   //iconRes: 'spraw_wod_h_nawigator',
-                                  level: '4',
+                                  level: 4,
                                   tasks: [
                                         'Zna znaki stosowane na mapach morskich.',
                                         'Potrafi praktycznie posługiwać się programem do nawigacji morskiej. Potrafi wyznaczyć waypoints i trasę żeglugi.',
@@ -459,7 +459,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '1',
                                   title: 'Jurysta żeglarski',
                                   //iconRes: 'spraw_wod_h_jurysta',
-                                  level: '1',
+                                  level: 1,
                                   tasks: [
                                         'Na wycieczce widział śluzę, jaz lub ostrogę.',
                                         'Wie jak muszą się minąć łodzie wiosłowe płynące po jeziorze, by nie doszło do zderzenia.',
@@ -471,7 +471,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '2',
                                   title: 'Jurysta żeglarski',
                                   //iconRes: 'spraw_wod_h_jurysta',
-                                  level: '2',
+                                  level: 2,
                                   tasks: [
                                         'Odróżni, który jacht płynie lewym, a który prawym halsem.',
                                         'Rozumie zasadę prawej strony w przypadku spotkania się dwóch jachtów motorowych.',
@@ -483,7 +483,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '3',
                                   title: 'Jurysta żeglarski',
                                   //iconRes: 'spraw_wod_h_jurysta',
-                                  level: '3',
+                                  level: 3,
                                   tasks: [
                                         'Zna znaczenie znaków żeglugowych stosowanych na wodach śródlądowych.',
                                         'Wie jak w Polsce oznaczane są śródlądowe drogi wodne.',
@@ -497,7 +497,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '4',
                                   title: 'Jurysta żeglarski',
                                   //iconRes: 'spraw_wod_h_jurysta',
-                                  level: '4',
+                                  level: 4,
                                   tasks: [
                                         'Zna oznakowanie boczne systemu IALA.',
                                         'Zna zasady oznakowania kardynalnego, odróżnia boje kardynalne na podstawie tylko znaków szczytowych, i tylko kolorów.',
@@ -521,7 +521,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '1',
                                   title: 'Mechanik',
                                   //iconRes: 'spraw_wod_h_mechanik',
-                                  level: '1',
+                                  level: 1,
                                   tasks: [
                                         'Zna budowę łodzi motorowodnej, budowę silnika dwu i czterosuwowego do 10 KM.',
                                         'Przygotował łódź do wypłynięcia, sklarował po pływaniach.',
@@ -532,7 +532,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '2',
                                   title: 'Mechanik',
                                   //iconRes: 'spraw_wod_h_mechanik',
-                                  level: '2',
+                                  level: 2,
                                   tasks: [
                                         'Zna budowę łodzi motorowodnej, budowę silnika dwu i czterosuwowego do 15 KM.',
                                         'Posiada podstawowe wiadomości o pędnikach jachtów motorowych.',
@@ -544,7 +544,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '3',
                                   title: 'Mechanik',
                                   //iconRes: 'spraw_wod_h_mechanik',
-                                  level: '3',
+                                  level: 3,
                                   tasks: [
                                         'Zna budowę łodzi motorowodnej, budowę silnika dwu i czterosuwowego do 50 KM, oraz instalacji chłodzenia i paliwowej.',
                                         'Potrafi omówić każdy suw silnika czterosuwowego.',
@@ -556,7 +556,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '4',
                                   title: 'Mechanik',
                                   //iconRes: 'spraw_wod_h_mechanik',
-                                  level: '4',
+                                  level: 4,
                                   tasks: [
                                         'Posiada wiedzę z zakresu eksploatacji i budowy instalacji i urządzeń.',
                                         'Ocenił stan techniczny urządzeń.',
@@ -579,7 +579,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '1',
                                   title: 'Szyper motorowodny',
                                   //iconRes: 'spraw_wod_h_szyper_motorowodny',
-                                  level: '1',
+                                  level: 1,
                                   tasks: [
                                         'Prawidłowo uruchomił i odstawił silnik do 10 KM.',
                                         'Wykonał manewr podejścia i odejścia do kei, do boi, na silniku.',
@@ -591,7 +591,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '2',
                                   title: 'Szyper motorowodny',
                                   //iconRes: 'spraw_wod_h_szyper_motorowodny',
-                                  level: '2',
+                                  level: 2,
                                   tasks: [
                                         'Uruchomił i odstawił silnik do 15 KM.',
                                         'Prowadził jacht motorowy przy spotkaniu z innym jachtem oraz jego wyprzedzaniem.',
@@ -605,7 +605,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '3',
                                   title: 'Szyper motorowodny',
                                   //iconRes: 'spraw_wod_h_szyper_motorowodny',
-                                  level: '3',
+                                  level: 3,
                                   tasks: [
                                         'Prowadził jacht motorowy przy spotkaniu z innym jachtem oraz jego wyprzedzaniem.',
                                         'Wykonał manewr: odejście od nadbrzeża, dojście do nadbrzeża, pływanie kursem prostym i cyrkulacja, alarm "człowiek za burtą".',
@@ -616,7 +616,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '4',
                                   title: 'Szyper motorowodny',
                                   //iconRes: 'spraw_wod_h_szyper_motorowodny',
-                                  level: '4',
+                                  level: 4,
                                   tasks: [
                                         'Pełnił funkcję osoby odpowiedzialnej za maszynownię i instalacje jachtowe w czasie rejsu morskiego lub śródlądowego.',
                                         'Sterował jachtem wyposażonym w napęd motorowy za pomocą kierownicy lub koła sterowego.',
@@ -640,7 +640,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '1',
                                   title: 'Kajakarz',
                                   //iconRes: 'spraw_wod_h_kajakarz',
-                                  level: '1',
+                                  level: 1,
                                   tasks: [
                                         'Uczestniczył w co najmniej jednym spływie kajakowym.',
                                         'W czasie spływów zachowuje się bezpiecznie, zawsze używa kamizelki.',
@@ -652,7 +652,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '2',
                                   title: 'Kajakarz',
                                   //iconRes: 'spraw_wod_h_kajakarz',
-                                  level: '2',
+                                  level: 2,
                                   tasks: [
                                         'Uczestniczył w co najmniej 3 spływach kajakowych.',
                                         'Wiosłuje na wprost i wstecz oraz potrafi zawrócić kajakiem.',
@@ -665,7 +665,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '3',
                                   title: 'Kajakarz',
                                   //iconRes: 'spraw_wod_h_kajakarz',
-                                  level: '3',
+                                  level: 3,
                                   tasks: [
                                         'Uczestniczył w co najmniej 5 spływach kajakowych w tym przynajmniej raz z noclegiem.',
                                         'Potrafi piórkować.',
@@ -679,7 +679,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '4',
                                   title: 'Kajakarz',
                                   //iconRes: 'spraw_wod_h_kajakarz',
-                                  level: '4',
+                                  level: 4,
                                   tasks: [
                                         'Uczestniczył w co najmniej 10 spływach kajakowych na różnych akwenach w tym co najmniej w 2 wielodniowych.',
                                         'Wie co to jest kabina i zna zasady jej wykonania.',
@@ -706,7 +706,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '1',
                                   title: 'Znawca wodny',
                                   //iconRes: 'spraw_wod_h_zwiadowca_wodny',
-                                  level: '1',
+                                  level: 1,
                                   tasks: [
                                         'Brał udział w zwiadzie jeziora lub stawu (wody stojącej). Narysował szkic zbiornika, zaznaczył linię brzegową, charakterystyczne punkty i miejsca do lądowania.',
                                         'Rozpoznał pospolite okazy flory i fauny wodnej (np. trzcina, tatarak, moczarka kanadyjska, kaczka krzyżówka, rybitwa).',
@@ -717,7 +717,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '2',
                                   title: 'Znawca wodny',
                                   //iconRes: 'spraw_wod_h_zwiadowca_wodny',
-                                  level: '2',
+                                  level: 2,
                                   tasks: [
                                         'Wie jak wyglądają i do czego służą: faszyna, opaska, ostroga, jaz.',
                                         'Narysował z pamięci mapę konturową Polski i naniósł na nią najważniejsze rzeki, kanały, jeziora, zalewy, porty śródlądowe i morskie.',
@@ -728,7 +728,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '3',
                                   title: 'Znawca wodny',
                                   //iconRes: 'spraw_wod_h_zwiadowca_wodny',
-                                  level: '3',
+                                  level: 3,
                                   tasks: [
                                         'Przeprowadził zwiad rzeki na długości 100m oceniając napotkane trudności i przedstawiając bezpieczne sposoby ich pokonania.',
                                         'Przedstawił na schemacie lub modelu budowę rzeki.',
@@ -742,7 +742,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '4',
                                   title: 'Znawca wodny',
                                   //iconRes: 'spraw_wod_h_zwiadowca_wodny',
-                                  level: '4',
+                                  level: 4,
                                   tasks: [
                                         'Przedstawił zasady organizacji spływu i przepisy obowiązujące podczas spływu.',
                                         'Opracował trasę spływu uwzględniając wiek i umiejętności uczestników.',
@@ -759,7 +759,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '1',
                                   title: 'Wiking',
                                   //iconRes: 'spraw_wod_h_wiking',
-                                  level: '1',
+                                  level: 1,
                                   tasks: [
                                         'Wziął udział w przynajmniej kilkugodzinnej wycieczce wodnej jako wioślarz na kajaku, kanadyjce lub czółnie (na przykład wzdłuż brzegu jeziora albo na łatwej rzece).',
                                         'Brał udział w regatach na kandyjce lub łodzi wiosłowej.',
@@ -770,7 +770,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '2',
                                   title: 'Wiking',
                                   //iconRes: 'spraw_wod_h_wiking',
-                                  level: '2',
+                                  level: 2,
                                   tasks: [
                                         'Wziął udział w kilkudniowym spływie jako sternik łodzi wiosłowej lub kanadyki na rzece o niskim stopniu trudności.',
                                         'Uczestniczył w wywrotkach kanadyjek. Przygotował wywróconą łódź do pływania.',
@@ -780,7 +780,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '3',
                                   title: 'Wiking',
                                   //iconRes: 'spraw_wod_h_wiking',
-                                  level: '3',
+                                  level: 3,
                                   tasks: [
                                         'Wziął udział w trwającym co najmniej tydzień spływie rzecznym na rzece o średnim stopniu trudności z co najmniej jedną przenoską.',
                                         'Zarządzał załogą podczas przenoski na spływie.',
@@ -791,7 +791,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '4',
                                   title: 'Wiking',
                                   //iconRes: 'spraw_wod_h_wiking',
-                                  level: '4',
+                                  level: 4,
                                   tasks: [
                                         'Dowodził patrolem podczas spływu. Przygotował niezbędne dokumenty, zatwierdził spływ w komendzie hufca.',
                                         'Wziął udział w spływie rzeką o charakterze górskim.',
@@ -815,7 +815,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '1',
                                   title: 'Oryl',
                                   //iconRes: 'spraw_wod_h_oryl',
-                                  level: '1',
+                                  level: 1,
                                   tasks: [
                                         'Poprawnie wiosłował pagajem na czółnie lub kanadyjce lub wiosłem na kajaku i odpowiednio reagował na komendy sternika.',
                                         'Wsiadał i wysiadał z lub do kanadyjki lub kajaka z brzegu i pomostu.',
@@ -826,7 +826,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '2',
                                   title: 'Oryl',
                                   //iconRes: 'spraw_wod_h_oryl',
-                                  level: '2',
+                                  level: 2,
                                   tasks: [
                                         'Pokonał tor slalomowy na wodzie stojącej płynąc jako sternik kajaka lub kanadyjki.',
                                         'Odbijał i dobijał do brzegu w wybranym miejscu na rzece.',
@@ -838,7 +838,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '3',
                                   title: 'Oryl',
                                   //iconRes: 'spraw_wod_h_oryl',
-                                  level: '3',
+                                  level: 3,
                                   tasks: [
                                         'Wiosłował długim wiosłem w dulce na wydrze, trenerze, DZ lub smoczej łodzi.',
                                         'Pokonał wyznaczoną trasę śrubkując z rufy do przodu i wstecz.',
@@ -851,7 +851,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '4',
                                   title: 'Oryl',
                                   //iconRes: 'spraw_wod_h_oryl',
-                                  level: '4',
+                                  level: 4,
                                   tasks: [
                                         'Dowodził wioślarzami na szalupie (do wyboru z w/w – dostępnych lokalnie). Poprawnie wydawał komendy wioślarzom i sternikowi (wiosła, wiosła basta, naprzód, prawa naprzód, lewa wstecz) itd.',
                                         'Wiosłował sposobem rybackim "z ręki" jednym wiosłem.',
@@ -868,7 +868,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '1',
                                   title: 'Bosman wioślarski',
                                   //iconRes: 'spraw_wod_h_bosman_wioslarski',
-                                  level: '1',
+                                  level: 1,
                                   tasks: [
                                         'Brał udział w wodowaniu łodzi i wyciąganiu jej na brzeg.',
                                         'Klarował łódź przed i po pływaniu.',
@@ -881,7 +881,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '2',
                                   title: 'Bosman wioślarski',
                                   //iconRes: 'spraw_wod_h_bosman_wioslarski',
-                                  level: '2',
+                                  level: 2,
                                   tasks: [
                                         'Dowodził zastępem podczas wodowania i wyciągania łodzi.',
                                         'Uczestniczył w zabezpieczeniu sprzętu pływającego na zimę.',
@@ -893,7 +893,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '3',
                                   title: 'Bosman wioślarski',
                                   //iconRes: 'spraw_wod_h_bosman_wioslarski',
-                                  level: '3',
+                                  level: 3,
                                   tasks: [
                                         'Uczestniczył w naprawach łodzi laminatowych – czyścił, szlifował, malował elementy kadłuba pod nadzorem.',
                                         'Posługiwał się piłami ręcznymi, tarnikiem, pilnikiem, dłutem, heblem, wiertarką, szlifierką kątową i oscylacyjną podczas zbiórki bosmańskiej.',
@@ -904,7 +904,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '4',
                                   title: 'Bosman wioślarski',
                                   //iconRes: 'spraw_wod_h_bosman_wioslarski',
-                                  level: '4',
+                                  level: 4,
                                   tasks: [
                                         'Samodzielnie dokonał naprawy uszkodzenia łodzi laminatowej – oczyścił uszkodzone miejsce, laminował, szlifował łatę, malował powierzchnię, odpowiednio zadbał o narzędzia.',
                                         'Opracował zasady BHP podczas posługiwania się narzędziami tradycyjnymi i elektrycznymi.',
@@ -928,7 +928,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '1',
                                   title: 'Ratownik wodny',
                                   //iconRes: 'spraw_wod_h_ratownik_wodny',
-                                  level: '1',
+                                  level: 1,
                                   tasks: [
                                         'Wie czym się różni kamizelka asekuracyjna od ratunkowej.',
                                         'Założył kamizelkę asekuracyjną bądź ratunkową.',
@@ -941,7 +941,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '2',
                                   title: 'Ratownik wodny',
                                   //iconRes: 'spraw_wod_h_ratownik_wodny',
-                                  level: '2',
+                                  level: 2,
                                   tasks: [
                                         'W czasie zajęć na wodzie zawsze używa środków asekuracyjnych.',
                                         'Sprawdza poprawność założenia środków asekuracyjnych u swoich kolegów z zastępu.',
@@ -958,7 +958,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '3',
                                   title: 'Ratownik wodny',
                                   //iconRes: 'spraw_wod_h_ratownik_wodny',
-                                  level: '3',
+                                  level: 3,
                                   tasks: [
                                         'Potrafi skoczyć do wody sposobem ratowniczym.',
                                         'Przepłynął dystans 50 metrów kraulem ratowniczym i 50 metrów żabką ratowniczą.',
@@ -973,7 +973,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '4',
                                   title: 'Ratownik wodny',
                                   //iconRes: 'spraw_wod_h_ratownik_wodny',
-                                  level: '4',
+                                  level: 4,
                                   tasks: [
                                         'Odpalił pławkę dymną, flarę ratowniczą lub wystrzelił rakietę spadochronową.',
                                         'Potrafi przepłynąć 400m dowolnym sposobem w czasie poniżej 8 min.',
@@ -1002,7 +1002,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '1',
                                   title: 'Foka',
                                   //iconRes: 'spraw_wod_h_foka',
-                                  level: '1',
+                                  level: 1,
                                   tasks: [
                                         'Przepłynął prawidłowo w płetwach i w masce dystans 25 metrów, oddychając przez fajkę.',
                                         'Potrafi zanurkować na głębokość 2 metrów i wydobyć przedmiot z dna kąpieliska lub basenu.',
@@ -1013,7 +1013,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '2',
                                   title: 'Foka',
                                   //iconRes: 'spraw_wod_h_foka',
-                                  level: '2',
+                                  level: 2,
                                   tasks: [
                                         'Skompletował swoje wyposażenie ABC (płetwy, maska, fajka).',
                                         'Potrafi nurkować w ABC, brał udział w wyławianiu zagubionych przedmiotów lub lustracji dna np. przystani.',
@@ -1026,7 +1026,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '3',
                                   title: 'Foka',
                                   //iconRes: 'spraw_wod_h_foka',
-                                  level: '3',
+                                  level: 3,
                                   tasks: [
                                         'Zdobył podstawowy stopień płetwonurka (OWD) w uznanej federacji nurkowej (PADI, PSAI, SSI, SDI, NAUI, CMAS).',
                                   ]),
@@ -1034,7 +1034,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   id: '4',
                                   title: 'Foka',
                                   //iconRes: 'spraw_wod_h_foka',
-                                  level: '4',
+                                  level: 4,
                                   tasks: [
                                         'Zdobył stopień zaawansowanego płetwonurka (AOWD) w uznanej federacji nurkowej (PADI, PSAI, SSI, SDI, NAUI, CMAS).',
                                   ])

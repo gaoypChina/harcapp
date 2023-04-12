@@ -47,7 +47,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'charakteryzator',
                       title: 'Charakteryzator',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Opowiedziałem(-am) innym zuchom, czym zajmują się charakteryzatorzy i gdzie pracują.',
@@ -58,7 +58,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'charakteryzator',
                       title: 'Charakteryzator',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Opowiedziałem(-am) innym zuchom, czym zajmują się charakteryzatorzy i gdzie pracują oraz jakie są dziedziny ich pracy.',
@@ -71,7 +71,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'charakteryzator',
                       title: 'Charakteryzator',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Opowiedziałem(-am) innym zuchom, czym zajmują się charakteryzatorzy, gdzie pracują i jakie są dziedziny ich pracy. Zaprezentowałem(-am) najlepsze, moim zdaniem, efekty pracy charakteryzatorów w filmie lub teatrze.',
@@ -108,7 +108,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'dekorator',
                       title: 'Dekorator',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Własnoręcznie ozdobiłem(-am) pudełko, w którym zbieram materiały przydatne do majsterkowania i dekorowania, np. ścinki materiałów, kolorowe papiery, wstążki.',
@@ -120,7 +120,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'dekorator',
                       title: 'Dekorator',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Własnoręcznie ozdobiłem(-am) pudełko, w którym zbieram materiały przydatne do majsterkowania i dekorowania, np. ścinki materiałów, kolorowe papiery, wstążki.',
@@ -132,7 +132,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'dekorator',
                       title: 'Dekorator',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Własnoręcznie ozdobiłem(-am) pudełko, w którym zbieram materiały przydatne do majsterkowania i dekorowania, np. ścinki materiałów, kolorowe papiery, wstążki.',
@@ -163,7 +163,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'grajek',
                       title: 'Grajek',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Wiem, czym jest pięciolinia, nuta i pauza. Opowiedziałem(-am) zuchom w kręgu rady, do czego służą.',
@@ -174,7 +174,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'grajek',
                       title: 'Grajek',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Wiem, czym jest pięciolinia, nuta, pauza, klucz wiolinowy. Opowiedziałem(-am) zuchom w kręgu rady, do czego służą. Wyjaśniłem(-am) na plakacie, czym różni się cała nuta od półnuty, ćwierćnuty i ósemki.',
@@ -186,7 +186,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'grajek',
                       title: 'Grajek',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Wiem, czym jest pięciolinia, nuta, pauza, klucz wiolinowy. Opowiedziałem(-am) zuchom w kręgu rady, do czego służą. Wyjaśniłem(-am), czym różni się cała nuta od półnuty, ćwierćnuty i ósemki, wyklaskując ich wartości.',
@@ -219,7 +219,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'lalkarz',
                       title: 'Lalkarz',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Znam rodzaje lalek i wiem, do jakich przedstawień ich się używa. Zaprezentowałem(-am) je mojej szóstce w wybranej formie.',
@@ -230,7 +230,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'lalkarz',
                       title: 'Lalkarz',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Znam rodzaje lalek i wiem, do jakich przedstawień ich się używa. Zaprezentowałem(-am) je mojej szóstce w wybranej formie.',
@@ -242,7 +242,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'lalkarz',
                       title: 'Lalkarz',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Znam rodzaje lalek i wiem, do jakich przedstawień ich się używa. Zaprezentowałem(-am) je mojej gromadzie w wybranej formie.',
@@ -275,7 +275,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'mim',
                       title: 'Mim',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Opowiedziałem(-am) szóstce, czym zajmuje się mim, jak się ubiera i jak się charakteryzuje.',
@@ -286,7 +286,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'mim',
                       title: 'Mim',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Opowiedziałem(-am) gromadzie, czym zajmuje się mim, jak się ubiera i jak się charakteryzuje.',
@@ -299,7 +299,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'mim',
                       title: 'Mim',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Opowiedziałem(-am) gromadzie, czym zajmuje się mim, jak się ubiera i jak charakteryzuje.',
@@ -337,7 +337,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'mistrz_muzyki',
                       title: 'Mistrz muzyki',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Rozpoznałem(-am) po brzmieniu trzy instrumenty. Narysowałem(-am) te instrumenty.',
@@ -348,7 +348,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'mistrz_muzyki',
                       title: 'Mistrz muzyki',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Zagrałem(-am) na instrumencie gamę C-dur. Zapisałem(-am) gamę C-dur na pięciolinii i podpisałem(-am) dźwięki.',
@@ -360,7 +360,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'mistrz_muzyki',
                       title: 'Mistrz muzyki',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Zagrałem(-am) na instrumencie dwie melodie. Zapisałem(-am) do nich nuty na pięciolinii i podpisałem(-am) dźwięki.',
@@ -393,7 +393,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'mistrz_makramy',
                       title: 'Mistrz makramy',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Wiem, co to jest makrama i do czego można ją wykorzystać. Opowiedziałem(-am) o tym w kręgu rady.',
@@ -404,7 +404,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'mistrz_makramy',
                       title: 'Mistrz makramy',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Wiem, co to jest makrama i do czego można ją wykorzystać. Opowiedziałem(-am) o tym w kręgu rady.',
@@ -416,7 +416,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'mistrz_makramy',
                       title: 'Mistrz makramy',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Wiem, co to jest makrama i do czego można ją wykorzystać. Opowiedziałem(-am) o tym w kręgu rady.',
@@ -452,7 +452,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'mistrz_origami',
                       title: 'Mistrz origami',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Przygotowałem(-am) plakat dotyczący sztuki origami, przedstawiający jej historię i pochodzenie.',
@@ -463,7 +463,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'mistrz_origami',
                       title: 'Mistrz origami',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Zaprezentowałem(-am) na zbiórce historię i pochodzenie origami',
@@ -476,7 +476,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'mistrz_origami',
                       title: 'Mistrz origami',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Zaprezentowałem(-am) na zbiórce historię i pochodzenie origami.',
@@ -516,7 +516,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'mistrz_robotek_recznych',
                       title: 'Mistrz robótek ręcznych',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Zrobiłem(-am) dla siebie lub dla kogoś szalik albo inny włóczkowy upominek.',
@@ -527,7 +527,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'mistrz_robotek_recznych',
                       title: 'Mistrz robótek ręcznych',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Zrobiłem(-am) dla siebie lub dla kogoś szalik albo inny włóczkowy upominek.',
@@ -540,7 +540,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'mistrz_robotek_recznych',
                       title: 'Mistrz robótek ręcznych',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Zrobiłem(-am) dla siebie lub dla kogoś szalik albo inny włóczkowy upominek.',
@@ -576,7 +576,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'modelarz',
                       title: 'Modelarz',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Zastosowałem(-am) różne rodzaje klejów (odpowiednio do materiału).',
@@ -586,7 +586,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'modelarz',
                       title: 'Modelarz',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Zastosowałem(-am) różne rodzaje klejów (odpowiednio do materiału).',
@@ -598,7 +598,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'modelarz',
                       title: 'Modelarz',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Zastosowałem(-am) różne rodzaje klejów (odpowiednio do materiału).',
@@ -634,7 +634,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'plastyk',
                       title: 'Plastyk',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Dowiedziałem(-am) się, co znaczą słowa: oryginał, kopia, reprodukcja, galeria, paleta, krytyk. Opowiedziałem(-am) o tym w kręgu rady.',
@@ -645,7 +645,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'plastyk',
                       title: 'Plastyk',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Dowiedziałem(-am) się, co znaczą słowa: oryginał, kopia, reprodukcja, galeria, paleta, krytyk. Opowiedziałem(-am) o tym w kręgu rady.',
@@ -658,7 +658,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'plastyk',
                       title: 'Plastyk',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Dowiedziałem(-am) się, co znaczą słowa: oryginał, reprodukcja, galeria, paleta, krytyk. Opowiedziałem(-am) o tym w kręgu rady.',
@@ -696,7 +696,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'recytator',
                       title: 'Recytator',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Przedstawiłem(-am) szóstce swój ulubiony wiersz i jego autora. Wyrecytowałem(-am) go lub odpowiednio odczytałem(-am).',
@@ -707,7 +707,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'recytator',
                       title: 'Recytator',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Wyrecytowałem(-am) gromadzie mój ulubiony wiersz i przedstawiłem(-am) zuchom jego autora.',
@@ -719,7 +719,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'recytator',
                       title: 'Recytator',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Wyrecytowałem(-am) gromadzie mój ulubiony wiersz i przedstawiłem(-am) jego autora. Uzasadniłem(-am), dlaczego wybrałem ten utwór i czego możemy się z niego nauczyć.',
@@ -755,7 +755,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'rzezbiarz',
                       title: 'Rzeźbiarz',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Byłem(-am) w pracowni rzeźbiarza, kamieniarza lub garncarza. Narysowałem(-am) sprzęty i narzędzia, które tam się znajdują.',
@@ -766,7 +766,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'rzezbiarz',
                       title: 'Rzeźbiarz',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Byłem(-am) w pracowni rzeźbiarza, kamieniarza lub garncarza. Narysowałem(-am) sprzęty i narzędzia, które tam się znajdują.',
@@ -778,7 +778,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'rzezbiarz',
                       title: 'Rzeźbiarz',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Byłem(-am) w pracowni rzeźbiarza, kamieniarza lub garncarza. Narysowałem(-am) sprzęty i narzędzia, które tam się znajdują.',
@@ -815,7 +815,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'szantymen',
                       title: 'Szantymen',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Wiem, co oznacza słowo „szanta”. Wykonałem(-am) plakat promujący szanty.',
@@ -826,7 +826,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'szantymen',
                       title: 'Szantymen',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Wiem, co oznacza słowo „szanta”. Wiem, do czego kiedyś były wykorzystywane szanty. Opowiedziałem(-am) o tym swojej szóstce.',
@@ -839,7 +839,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'szantymen',
                       title: 'Szantymen',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Wykonałem(-am) plakat dotyczący szant. Wyjaśniłem(-am) na nim, skąd wzięła się ich nazwa, do czego były dawniej wykorzystywane oraz wymieniłem(-am) różne rodzaje szant (np. pieśni kubryku, wielorybnicze, szanty klasyczne).',
@@ -876,7 +876,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'spiewak',
                       title: 'Śpiewak',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Założyłem(-am) śpiewnik i stale uzupełniam go nowymi piosenkami. Zaprezentowałem(-am) go mojej szóstce.',
@@ -887,7 +887,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'spiewak',
                       title: 'Śpiewak',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Założyłem(-am) śpiewnik i stale uzupełniam go nowymi piosenkami. Zaprezentowałem(-am) go w kręgu rady.',
@@ -899,7 +899,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'spiewak',
                       title: 'Śpiewak',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Założyłem(-am) śpiewnik i stale uzupełniam go nowymi piosenkami. Mam w nim co najmniej trzy piosenki harcerskie, które umiem już zaśpiewać. Zaśpiewałem(-am) jedną z nich zuchom z mojej gromady.',
@@ -948,7 +948,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'gimnastyk',
                       title: 'Gimnastyk',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Gimnastykowałem(-am) się rano co najmniej trzy razy w tygodniu.',
@@ -959,7 +959,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'gimnastyk',
                       title: 'Gimnastyk',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Gimnastykowałem(-am) się rano co najmniej pięć razy w tygodniu.',
@@ -972,7 +972,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'gimnastyk',
                       title: 'Gimnastyk',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Gimnastykowałem(-am) się rano co najmniej pięć razy w tygodniu.',
@@ -1008,7 +1008,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'lekkoatleta',
                       title: 'Lekkoatleta',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Zawsze jestem przygotowany(-na) na zajęcia sportowe. Narysowałem(-am), jak wyglądam w stroju sportowym.',
@@ -1020,7 +1020,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'lekkoatleta',
                       title: 'Lekkoatleta',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Regularnie ćwiczę na zajęciach sportowych. Zrobiłem(-am) dzienniczek swoich osiągnięć.',
@@ -1034,7 +1034,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'lekkoatleta',
                       title: 'Lekkoatleta',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Regularnie ćwiczę w domu i na zajęciach sportowych. Po każdych zajęciach pamiętam o rozciąganiu. Zrobiłem(-am) plan ćwiczeń odpowiednich dla mojego wieku i zaprezentowałem(-am) go na zbiórce.',
@@ -1074,7 +1074,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'lyzwiarz',
                       title: 'Łyżwiarz',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Byłem(-am) z rodzicami lub klasą na łyżwach. Przejechałem(-am) samodzielnie przynajmniej jedną długość lodowiska.',
@@ -1086,7 +1086,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'lyzwiarz',
                       title: 'Łyżwiarz',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Byłem(-am) z rodzicami lub klasą na łyżwach. Przejechałem(-am) dowolną odległość tyłem.',
@@ -1100,7 +1100,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'lyzwiarz',
                       title: 'Łyżwiarz',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Regularnie ćwiczyłem(-am) na lodowisku. Nauczyłem(-am) młodszego zucha jazdy przodem na lodzie.',
@@ -1136,7 +1136,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'mistrz_deskorolki',
                       title: 'Mistrz deskorolki',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Potrafię jeździć na deskorolce klasycznie oraz hamować.',
@@ -1148,7 +1148,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'mistrz_deskorolki',
                       title: 'Mistrz deskorolki',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Umiem jeździć na deskorolce klasycznie, skręcać i hamować.',
@@ -1161,7 +1161,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'mistrz_deskorolki',
                       title: 'Mistrz deskorolki',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Umiem jeździć na deskorolce klasycznie, skręcać i hamować.',
@@ -1199,7 +1199,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'mistrz_gier_i_zabaw',
                       title: 'Mistrz gier i zabaw',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Wykonałem(-am) przybory do gier i zabaw.',
@@ -1211,7 +1211,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'mistrz_gier_i_zabaw',
                       title: 'Mistrz gier i zabaw',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Założyłem(-am) wielką księgę gier gromady.',
@@ -1225,7 +1225,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'mistrz_gier_i_zabaw',
                       title: 'Mistrz gier i zabaw',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Założyłem(-am) wielką księgę gier gromady.',
@@ -1261,7 +1261,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'mistrz_kometki',
                       title: 'Mistrz kometki',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Mam własny sprzęt do kometki. Zadbałem(-am) o niego.',
@@ -1275,7 +1275,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'mistrz_kometki',
                       title: 'Mistrz kometki',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Mam własny sprzęt do kometki. Zadbałem(-am) o niego. Naprawiłem(-am) niewielkie uszkodzenie.',
@@ -1290,7 +1290,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'mistrz_kometki',
                       title: 'Mistrz kometki',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Mam własny sprzęt do kometki. Kupiłem(-am) go za zaoszczędzone pieniądze.',
@@ -1327,7 +1327,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'mistrz_ping_ponga',
                       title: 'Mistrz ping-ponga',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Mam własną paletkę. Co najmniej raz w tygodniu gram w ping-ponga.',
@@ -1340,7 +1340,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'mistrz_ping_ponga',
                       title: 'Mistrz ping-ponga',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Mam własną paletkę. Co najmniej raz w tygodniu gram w ping-ponga.',
@@ -1354,7 +1354,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'mistrz_ping_ponga',
                       title: 'Mistrz ping-ponga',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Za zaoszczędzone pieniądze kupiłem(-am) własny sprzęt do ping-ponga.',
@@ -1390,7 +1390,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'mistrz_ringo',
                       title: 'Mistrz ringo',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Mam własne ringo. Gram co najmniej raz w tygodniu.',
@@ -1402,7 +1402,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'mistrz_ringo',
                       title: 'Mistrz ringo',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Mam własne ringo. Gram co najmniej raz w tygodniu.',
@@ -1414,7 +1414,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'mistrz_ringo',
                       title: 'Mistrz ringo',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Kupiłem(-am) ringo za zaoszczędzone pieniądze. Gram co najmniej raz w tygodniu.',
@@ -1447,7 +1447,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'mistrz_rolek',
                       title: 'Mistrz rolek',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Nauczyłem(-am) się jeździć w pozycji klasycznej bez pomocy innej osoby i bez podpórek.',
@@ -1458,7 +1458,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'mistrz_rolek',
                       title: 'Mistrz rolek',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Zaprezentowałem(-am) jazdę w pozycji klasycznej, skręt w prawo i w lewo oraz hamowanie.',
@@ -1470,7 +1470,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'mistrz_rolek',
                       title: 'Mistrz rolek',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Jeżdżę na rolkach regularnie, co najmniej dwa razy w tygodniu.',
@@ -1507,7 +1507,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'mistrz_snowboardu',
                       title: 'Mistrz snowboardu',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Jeździłem(-am) na snowboardzie.',
@@ -1521,7 +1521,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'mistrz_snowboardu',
                       title: 'Mistrz snowboardu',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Jeździłem(-am) na snowboardzie co najmniej trzy razy.',
@@ -1536,7 +1536,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'mistrz_snowboardu',
                       title: 'Mistrz snowboardu',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Umiem jeździć na snowboardzie. Byłem(-am) na zimowym wyjeździe.',
@@ -1575,7 +1575,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'narciarz',
                       title: 'Narciarz',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Jeździłem(-am) na nartach.',
@@ -1586,7 +1586,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'narciarz',
                       title: 'Narciarz',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Jeździłem(-am) co najmniej pięć razy na nartach.',
@@ -1600,7 +1600,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'narciarz',
                       title: 'Narciarz',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Umiem jeździć na nartach. Byłem(-am) na zimowym wyjeździe narciarskim.',
@@ -1636,7 +1636,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'pilkarz',
                       title: 'Piłkarz',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Podczas meczu stosuję zasady fair play. Przedstawiłem(-am) je w swojej gromadzie..',
@@ -1647,7 +1647,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'pilkarz',
                       title: 'Piłkarz',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Podczas meczu stosuję zasady fair play. Przedstawiłem(-am) je w swojej gromadzie.',
@@ -1659,7 +1659,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'pilkarz',
                       title: 'Piłkarz',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Rozegrałem(-am) kilkanaście meczów w piłkę nożną (grając na różnych pozycjach).',
@@ -1692,7 +1692,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'plywak',
                       title: 'Pływak',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'W ciągu miesiąca lub podczas kolonii byłem(-am) na basenie lub kąpielisku co najmniej cztery razy.',
@@ -1704,7 +1704,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'plywak',
                       title: 'Pływak',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'W ciągu miesiąca lub podczas kolonii byłem(-am) na basenie lub kąpielisku co najmniej cztery razy.',
@@ -1717,7 +1717,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'plywak',
                       title: 'Pływak',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'W ciągu miesiąca lub podczas kolonii byłem(-am) na basenie lub kąpielisku co najmniej cztery razy.',
@@ -1756,7 +1756,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'rowerzysta',
                       title: 'Rowerzysta',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Na zbiórce gromady opowiedziałem(-am), jak ubieram się do bezpiecznej jazdy rowerem.',
@@ -1767,7 +1767,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'rowerzysta',
                       title: 'Rowerzysta',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Wyszukałem(-am) ilustracje i informacje o tym, jak wyglądały rowery w przeszłości. Pokazałem(-am) na zbiórce zdjęcia i opowiedziałem(-am) o nich kolegom.',
@@ -1779,7 +1779,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'rowerzysta',
                       title: 'Rowerzysta',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Z pamięci wymieniłem(-am) numery alarmowe, pod które mogę zadzwonić po pomoc w razie wypadku na drodze.',
@@ -1818,7 +1818,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'saneczkarz',
                       title: 'Saneczkarz',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Umiem kierować sankami. Pokonałem(-am) górkę lub tor przeszkód.',
@@ -1830,7 +1830,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'saneczkarz',
                       title: 'Saneczkarz',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Zabezpieczyłem(-am) swój sprzęt i wykonałem(-am) potrzebne naprawy.',
@@ -1843,7 +1843,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'saneczkarz',
                       title: 'Saneczkarz',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Zabezpieczyłem(-am) swój sprzęt i wykonałem(-am) potrzebne naprawy.',
@@ -1880,7 +1880,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'szachista',
                       title: 'Szachista',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Znam podstawowe zasady gry w szachy. Przedstawiłem(-am) je na plakacie lub opowiedziałem(-am) o nich w gromadzie.',
@@ -1890,7 +1890,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'szachista',
                       title: 'Szachista',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Znam podstawowe zasady gry w szachy. Przedstawiłem(-am) je na plakacie lub opowiedziałem(-am) o nich w gromadzie.',
@@ -1903,7 +1903,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'szachista',
                       title: 'Szachista',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Potrafię rozpoznać wszystkie figury szachowe. Znam ich ruchy. Nauczyłem(-am) nazw figur i ich ruchów kolegę.',
@@ -1941,7 +1941,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'tenisista',
                       title: 'Tenisista',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Rozegrałem(-am) mecz w singlu i deblu.',
@@ -1954,7 +1954,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'tenisista',
                       title: 'Tenisista',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Rozegrałem(-am) mecz w singlu i deblu.',
@@ -1966,7 +1966,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'tenisista',
                       title: 'Tenisista',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Wytłumaczyłem(-am) zasady gry i fachowe słownictwo używane podczas meczu. Zaprezentowałem(-am) to w gromadzie.',
@@ -2009,7 +2009,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'dama',
                       title: 'Dama',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Używam słów: proszę, przepraszam, dziękuję, dzień dobry, dobranoc, do widzenia. Opowiedziałam swojej szóstce, dlaczego ważne są zwroty grzecznościowe.',
@@ -2021,7 +2021,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'dama',
                       title: 'Dama',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Używam słów: proszę, przepraszam, dziękuję, dzień dobry, dobranoc, do widzenia. Opowiedziałam szóstce, dlaczego ważne są zwroty grzecznościowe.',
@@ -2035,7 +2035,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'dama',
                       title: 'Dama',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Przeczytałam książkę lub artykuł z czasopisma dla dzieci o zasadach savoir-vivre’u. Ułożyłam kodeks damy, który zaprezentowałam kolegom z klasy lub gromady.',
@@ -2068,7 +2068,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'dzentelmen',
                       title: 'Dżentelmen',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Używam słów dziękuję, przepraszam, proszę, dzień dobry, do widzenia. Wytłumaczyłem swojej szóstce, dlaczego te słowa są bardzo ważne.',
@@ -2080,7 +2080,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'dzentelmen',
                       title: 'Dżentelmen',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Używam słów dziękuję, przepraszam, proszę, dzień dobry, do widzenia. Wytłumaczyłem swojej szóstce, dlaczego te słowa są bardzo ważne.',
@@ -2094,7 +2094,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'dzentelmen',
                       title: 'Dżentelmen',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Używam słów dziękuję, przepraszam, proszę, dzień dobry, do widzenia. Wytłumaczyłem swojej szóstce, dlaczego te słowa są bardzo ważne.',
@@ -2127,7 +2127,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'epidemiolog',
                       title: 'Epidemiolog',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Wiem, co znaczą słowa „epidemia” i „kwarantanna”. Wyjaśniłem(-am) je własnymi słowami.',
@@ -2139,7 +2139,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'epidemiolog',
                       title: 'Epidemiolog',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Wiem, co znaczy słowo „epidemia”. Narysowałem(-am) komiks o tym, jak rozprzestrzeniają się choroby zakaźne i jak kwarantanna może temu zapobiegać.',
@@ -2151,7 +2151,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'epidemiolog',
                       title: 'Epidemiolog',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Wiem, co znaczy słowo „epidemia”. Narysowałem(-am) komiks o tym, jak rozprzestrzeniają się choroby zakaźne i jak kwarantanna może temu zapobiegać.',
@@ -2183,7 +2183,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'grosik',
                       title: 'Grosik',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Zbieram swoje oszczędności do skarbonki. Przeznaczyłem(-am) je na wybrany cel.',
@@ -2194,7 +2194,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'grosik',
                       title: 'Grosik',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Wykonałem(-am) skarbonkę, do której zbieram swoje oszczędności. Przeznaczyłem(-am) je na wybrany cel.',
@@ -2206,7 +2206,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'grosik',
                       title: 'Grosik',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Wykonałem(-am) skarbonkę, do której zbieram swoje oszczędności. Przeznaczyłem(-am) je na wybrany cel.',
@@ -2237,7 +2237,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'higienista',
                       title: 'Higienista',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Zademonstrowałem(-am) innym zuchom, jak prawidłowo myć ręce.',
@@ -2248,7 +2248,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'higienista',
                       title: 'Higienista',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Zademonstrowałem(-am) innym zuchom, jak prawidłowo myć ręce.',
@@ -2259,7 +2259,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'higienista',
                       title: 'Higienista',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Zademonstrowałem(-am) innym zuchom, jak prawidłowo myć ręce.',
@@ -2293,7 +2293,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'kuchmistrz',
                       title: 'Kuchmistrz',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Pomogłem(-am) członkowi rodziny przygotować posiłek.',
@@ -2305,7 +2305,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'kuchmistrz',
                       title: 'Kuchmistrz',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Z pomocą osoby dorosłej nauczyłem(-am) się prawidłowo kroić.',
@@ -2318,7 +2318,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'kuchmistrz',
                       title: 'Kuchmistrz',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Przez tydzień zabierałem(-am) zdrowe przekąski do szkoły.',
@@ -2355,7 +2355,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'perfekcyjny_pan_domu',
                       title: 'Perfekcyjny pan/pani domu',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Samodzielnie posprzątałem(-am) swój pokój.',
@@ -2370,7 +2370,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'perfekcyjny_pan_domu',
                       title: 'Perfekcyjny pan/pani domu',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Samodzielnie posprzątałem(-am) swój pokój.',
@@ -2386,7 +2386,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'perfekcyjny_pan_domu',
                       title: 'Perfekcyjny pan/pani domu',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Samodzielnie przyszyłem(-am) plakietkę okolicznościową.',
@@ -2421,7 +2421,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'przechodzien',
                       title: 'Przechodzień',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Narysowałem(-am) i zaprezentowałem(-am) w gromadzie znak drogowy „przejście dla pieszych”. Opowiedziałem(-am), w jaki sposób należy bezpiecznie przechodzić przez jezdnię.',
@@ -2433,7 +2433,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'przechodzien',
                       title: 'Przechodzień',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Umiem w poprawny sposób przejść przez przejście dla pieszych. Pokazałem(-am) rodzicom, jak to robię.',
@@ -2445,7 +2445,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'przechodzien',
                       title: 'Przechodzień',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Wiem, jak należy zareagować podczas wypadku komunikacyjnego. Zaprezentowałem(-am) w kręgu rady, w jaki sposób należy wezwać pomoc.',
@@ -2476,7 +2476,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'przewodnik_po_szkole',
                       title: 'Przewodnik po szkole',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Wiem, gdzie jest moja klasa. Sam(a) do niej trafiłem(-am).',
@@ -2487,7 +2487,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'przewodnik_po_szkole',
                       title: 'Przewodnik po szkole',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Narysowałem(-am) plakat przedstawiający patrona mojej szkoły.',
@@ -2499,7 +2499,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'przewodnik_po_szkole',
                       title: 'Przewodnik po szkole',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Zaangażowałem(-am) się w samorząd klasowy.',
@@ -2533,7 +2533,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'sobieradek_obozowy',
                       title: 'Sobieradek obozowy',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Wziąłem(wzięłam) udział w kolonii zuchowej lub leśnym biwaku.',
@@ -2546,7 +2546,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'sobieradek_obozowy',
                       title: 'Sobieradek obozowy',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Wziąłem(wzięłam) udział w kolonii zuchowej lub leśnym biwaku.',
@@ -2561,7 +2561,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'sobieradek_obozowy',
                       title: 'Sobieradek obozowy',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Wziąłem(wzięłam) udział w kolonii zuchowej lub leśnym biwaku.',
@@ -2597,7 +2597,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'snieznobialy_usmiech',
                       title: 'Śnieżnobiały uśmiech',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Znam budowę jamy ustnej. Podzieliłem(-am) się tą wiedzą z moją szóstką.',
@@ -2608,7 +2608,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'snieznobialy_usmiech',
                       title: 'Śnieżnobiały uśmiech',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Wykonałem(-am) plakat przedstawiający jamę ustną i zaprezentowałem(-am) na zbiórce gromady, jak prawidłowo szczotkować zęby.',
@@ -2620,7 +2620,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'snieznobialy_usmiech',
                       title: 'Śnieżnobiały uśmiech',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Założyłem(-am) dzienniczek szczotkowania zębów i uzupełniałem(-am) go przez siedem dni.',
@@ -2655,7 +2655,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'zlota_raczka',
                       title: 'Złota rączka',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Pod okiem osoby dorosłej wbiłem(-am) gwóźdź pod obrazek.',
@@ -2667,7 +2667,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'zlota_raczka',
                       title: 'Złota rączka',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Wbiłem(-am) gwóźdź pod obrazek i wkręciłem(-am) śrubkę.',
@@ -2681,7 +2681,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'zlota_raczka',
                       title: 'Złota rączka',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Wbiłem(-am) gwóźdź pod obrazek i wkręciłem(-am) śrubkę.',
@@ -2728,7 +2728,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'hodowca_kwiatow',
                       title: 'Hodowca Kwiatów',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Mam swoją ulubioną roślinę doniczkową. Narysowałem(-am) ją.',
@@ -2739,7 +2739,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'hodowca_kwiatow',
                       title: 'Hodowca Kwiatów',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Mam swoją ulubioną roślinę doniczkową. Narysowałem(-am) ją.',
@@ -2752,7 +2752,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'hodowca_kwiatow',
                       title: 'Hodowca Kwiatów',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Mam swoją ulubioną roślinę doniczkową. Narysowałem(-am) ją i opisałem(-am), jak należy ją pielęgnować.',
@@ -2786,7 +2786,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'hodowca_warzyw_i_owocow',
                       title: 'Hodowca warzyw i owoców',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Zebrałem(-am) i wysuszyłem(-am) nasiona warzywa i owocu.',
@@ -2798,7 +2798,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'hodowca_warzyw_i_owocow',
                       title: 'Hodowca warzyw i owoców',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Zebrałem(-am) i wysuszyłem(-am) nasiona dwóch warzyw i owoców.',
@@ -2810,7 +2810,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'hodowca_warzyw_i_owocow',
                       title: 'Hodowca warzyw i owoców',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Zebrałem(-am) i wysuszyłem(-am) nasiona trzech warzyw i owoców. Nasiona pokazałem(-am) innym zuchom w kręgu rady.',
@@ -2844,7 +2844,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'hodowca_zwierzat',
                       title: 'Hodowca Zwierząt',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Mam w domu zwierzę, którym opiekuję się wspólnie z rodzicami, np. daję mu jeść, wyprowadzam na dwór, często się z nim bawię.',
@@ -2856,7 +2856,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'hodowca_zwierzat',
                       title: 'Hodowca Zwierząt',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Mam w domu zwierzę, którym opiekuję się wspólnie z rodzicami. Mam stały obowiązek, np. daję mu jeść lub wyprowadzam na dwór.',
@@ -2869,7 +2869,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'hodowca_zwierzat',
                       title: 'Hodowca Zwierząt',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Mam w domu zwierzę, którym opiekuję się wspólnie z rodzicami. Mam stały obowiązek, np. daję mu jeść lub wyprowadzam na dwór.',
@@ -2902,7 +2902,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'ekolog',
                       title: 'Ekolog',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Z pomocą rodziców dowiedziałem(-am) się, jakie są przyczyny zanieczyszczenia środowiska. Opowiedziałem(-am) o nich drużynowemu.',
@@ -2920,7 +2920,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'ekolog',
                       title: 'Ekolog',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Z pomocą rodziców dowiedziałem(-am) się, jakie są przyczyny zanieczyszczenia środowiska i które z nich są najgroźniejsze. Opowiedziałem(-am) o nich drużynowemu.',
@@ -2942,7 +2942,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'ekolog',
                       title: 'Ekolog',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Dowiedziałem(-am) się, jakie są przyczyny zanieczyszczenia środowiska i które z nich są najgroźniejsze. Opowiedziałem(-am) o nich drużynowemu.',
@@ -2983,7 +2983,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'meteorolog',
                       title: 'Meteorolog',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Wytłumaczyłem(-am), jak powstaje deszcz, śnieg i tęcza.',
@@ -2995,7 +2995,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'meteorolog',
                       title: 'Meteorolog',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Wytłumaczyłem(-am), jak powstaje deszcz, burza, mgła, śnieg i tęcza.',
@@ -3008,7 +3008,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'meteorolog',
                       title: 'Meteorolog',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Wytłumaczyłem(-am), jak powstaje deszcz, burza, grad, mgła, śnieg i tęcza. Opowiedziałem(-am) na zbiórce, jak należy zachować się podczas burzy.',
@@ -3045,7 +3045,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'przyjaciel_lasu',
                       title: 'Przyjaciel Lasu',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Rozpoznaję rodzaje polskich lasów. Znam liście i owoce najpopularniejszych drzew, które w nich występują.',
@@ -3058,7 +3058,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'przyjaciel_lasu',
                       title: 'Przyjaciel Lasu',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Rozpoznaję rodzaje polskich lasów. Zebrałem(-am) i opisałem(-am) liście rosnących w nich drzew.',
@@ -3071,7 +3071,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'przyjaciel_lasu',
                       title: 'Przyjaciel Lasu',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Rozpoznaję rodzaje polskich lasów. Zebrałem(-am) i opisałem(-am) ich liście i narysowałem(-am) lub sfotografowałem(-am) ich owoce. Pracę przedstawiłem(-am) na zbiórce gromady.',
@@ -3107,7 +3107,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'ptasi_opiekun',
                       title: 'Ptasi Opiekun',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Zebrałem(-am) ilustracje, widokówki z ptakami lub ptasie pióra. Pokazałem(-am) je na zbiórce gromady.',
@@ -3119,7 +3119,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'ptasi_opiekun',
                       title: 'Ptasi Opiekun',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Zebrałem(-am) ilustracje przedstawiające ptaki. Pokazałem(-am) je na zbiórce gromady.',
@@ -3132,7 +3132,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'ptasi_opiekun',
                       title: 'Ptasi Opiekun',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Zebrałem(-am) ilustracje z ptakami lub ptasie pióra. Pokazałem(-am) je na zbiórce gromady.',
@@ -3163,7 +3163,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'zbieracz_grzybow',
                       title: 'Zbieracz Grzybów',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Uczestniczyłem(-am) w grzybobraniu i zorganizowałem(-am) konkurs na króla grzybobrania.',
@@ -3175,7 +3175,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'zbieracz_grzybow',
                       title: 'Zbieracz Grzybów',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Uczestniczyłem(-am) w grzybobraniu i zorganizowałem(-am) konkurs na króla grzybobrania.',
@@ -3188,7 +3188,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'zbieracz_grzybow',
                       title: 'Zbieracz Grzybów',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Uczestniczyłem(-am) w grzybobraniu i zorganizowałem(-am) konkurs na króla grzybobrania.',
@@ -3225,7 +3225,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'zielarz',
                       title: 'Zielarz',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Zaprezentowałem(-am) szóstce trzy najpopularniejsze zioła, ich sposób wykorzystania oraz właściwości.',
@@ -3237,7 +3237,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'zielarz',
                       title: 'Zielarz',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Zaprezentowałem(-am) szóstce pięć najpopularniejszych ziół, ich sposób wykorzystania oraz właściwości.',
@@ -3249,7 +3249,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'zielarz',
                       title: 'Zielarz',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Zaprezentowałem(-am) gromadzie siedem najpopularniejszych ziół, ich sposób wykorzystania oraz właściwości.',
@@ -3293,7 +3293,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'astronom',
                       title: 'Astronom',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Dowiedziałem(-am) się, co to są fazy księżyca.',
@@ -3307,7 +3307,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'astronom',
                       title: 'Astronom',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Prowadziłem(-am) regularne obserwacje nieba przez tydzień. Zapisałem(-am) każdego dnia, o której godzinie był wschód i zachód słońca oraz określiłem(-am) fazy księżyca.',
@@ -3320,7 +3320,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'astronom',
                       title: 'Astronom',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Przez tydzień prowadziłem(-am) regularne obserwacje nieba. Zapisałem(-am) każdego dnia, o której godzinie był wschód i zachód słońca oraz określiłem(-am) fazy księżyca.',
@@ -3358,7 +3358,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'badacz',
                       title: 'Badacz',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Przeprowadziłem(-am) przynajmniej dwa doświadczenia. Opisałem(-am) je w swoim dzienniku badań.',
@@ -3370,7 +3370,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'badacz',
                       title: 'Badacz',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Przeprowadziłem(-am) przynajmniej trzy doświadczenia. Opisałem(-am) je w swoim dzienniku badań, który zaprezentowałem(-am) w kręgu rady.',
@@ -3383,7 +3383,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'badacz',
                       title: 'Badacz',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Przeprowadziłem(-am) przynajmniej cztery doświadczenia. Opisałem(-am) je w swoim dzienniku badań, który zaprezentowałem(-am) zuchom w kręgu rady.',
@@ -3423,7 +3423,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'bajarz',
                       title: 'Bajarz',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Wiem, co to jest legenda i co to jest bajka. Porozmawiałem(-am) o tym z drużynowym.',
@@ -3433,7 +3433,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'bajarz',
                       title: 'Bajarz',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Mam swoją ulubioną bajkę, wykonałem(-am) do niej ilustracje. Znam jej autora.',
@@ -3445,7 +3445,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'bajarz',
                       title: 'Bajarz',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Mam swoją ulubioną bajkę. Wykonałem(-am) do niej ilustracje. Znam jej autora.',
@@ -3481,7 +3481,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'fotoamator',
                       title: 'Fotoamator',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Znam budowę tradycyjnego aparatu fotograficznego. Przygotowałem(-am) plakat prezentujący budowę aparatu i przedstawiłem(-am) go drużynowemu.',
@@ -3493,7 +3493,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'fotoamator',
                       title: 'Fotoamator',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Znam budowę tradycyjnego aparatu fotograficznego. Przygotowałem(-am) plakat prezentujący budowę aparatu i przedstawiłem(-am) go na zbiórce.',
@@ -3505,7 +3505,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'fotoamator',
                       title: 'Fotoamator',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Znam budowę tradycyjnego aparatu fotograficznego. Stworzyłem(-am) model aparatu w formacie 3D.',
@@ -3541,7 +3541,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'fryzjer',
                       title: 'Fryzjer',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Byłem(-am) u fryzjera i obserwowałem(-am) jego pracę. Wiem, jakich narzędzi i urządzeń używa oraz do czego służy każde z nich. Narysowałem(-am) je i zaprezentowałem(-am) zuchom w szóstce.',
@@ -3553,7 +3553,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'fryzjer',
                       title: 'Fryzjer',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Byłem(-am) u fryzjera i obserwowałem(-am) jego pracę. Zadałem(-am) fryzjerowi pytania dotyczące pielęgnacji włosów. Zdobytą wiedzą podzieliłem(-am) się z zuchami z mojej szóstki.',
@@ -3566,7 +3566,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'fryzjer',
                       title: 'Fryzjer',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Byłem(-am) u fryzjera i obserwowałem(-am) jego pracę. Zadałem(-am) fryzjerowi pytania dotyczące pielęgnacji włosów. Zdobytą wiedzą podzieliłem(-am) się z zuchami z gromady.',
@@ -3601,7 +3601,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'geoposzukiwacz',
                       title: 'Geoposzukiwacz',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Opowiedziałem(-am) zuchom z mojej szóstki, czym jest geocaching.',
@@ -3613,7 +3613,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'geoposzukiwacz',
                       title: 'Geoposzukiwacz',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Opowiedziałem(-am) zuchom z mojej gromady, czym jest geocaching oraz GPS.',
@@ -3625,7 +3625,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'geoposzukiwacz',
                       title: 'Geoposzukiwacz',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Opowiedziałem(-am) zuchom z mojej gromady, czym jest geocaching i GPS oraz jak z niego korzystać.',
@@ -3665,7 +3665,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'internauta',
                       title: 'Internauta',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         '',
@@ -3673,7 +3673,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'internauta',
                       title: 'Internauta',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         '',
@@ -3683,7 +3683,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'internauta',
                       title: 'Internauta',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Sprawdziłem(-am) w Internecie długoterminową prognozę pogody dla mojej miejscowości. Dowiedziałem(-am) się, czy prognozowane są niebezpieczne zjawiska pogodowe.',
@@ -3722,7 +3722,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'kolekcjoner',
                       title: 'Kolekcjoner',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Zebrałem(-am) własną kolekcję.',
@@ -3734,7 +3734,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'kolekcjoner',
                       title: 'Kolekcjoner',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Zebrałem(-am) własną kolekcję.',
@@ -3746,7 +3746,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'kolekcjoner',
                       title: 'Kolekcjoner',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Zebrałem(-am) własną kolekcję.',
@@ -3782,7 +3782,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'kronikarz',
                       title: 'Kronikarz',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Prowadzę dziennik (pamiętnik), w którym notuję najważniejsze wydarzenia.',
@@ -3793,7 +3793,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'kronikarz',
                       title: 'Kronikarz',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Prowadzę dziennik (pamiętnik), w którym notuję najważniejsze wydarzenia.',
@@ -3806,7 +3806,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'kronikarz',
                       title: 'Kronikarz',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Prowadzę dziennik (pamiętnik), w którym notuję najważniejsze wydarzenia.',
@@ -3841,7 +3841,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'lamiglowa',
                       title: 'Łamigłowa',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Rozwiązałem(-am) krzyżówkę, rebus i ułożyłem(-am) puzzle.',
@@ -3852,7 +3852,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'lamiglowa',
                       title: 'Łamigłowa',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Rozwiązałem(-am) krzyżówkę, labirynt, rebus, odszyfrowałem(-am) wiadomość, ułożyłem(-am) puzzle.',
@@ -3864,7 +3864,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'lamiglowa',
                       title: 'Łamigłowa',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Rozwiązałem(-am) krzyżówkę, sudoku, labirynt, rebus, odszyfrowałem(-am) wiadomość, ułożyłem(-am) puzzle.',
@@ -3900,7 +3900,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'milosnik_filmu',
                       title: 'Miłośnik filmu',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Wiem, jakie zadania przy powstawaniu filmu mają reżyser, operator kamery i scenograf. Opowiedziałem(-am) o tym zuchom z mojej szóstki.',
@@ -3912,7 +3912,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'milosnik_filmu',
                       title: 'Miłośnik filmu',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Wiem, jakie zadania przy powstawaniu filmu mają reżyser, operator kamery, scenograf i kostiumolog. Opowiedziałem(-am) o tym zuchom w kręgu rady.',
@@ -3925,7 +3925,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'milosnik_filmu',
                       title: 'Miłośnik filmu',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Wiem, jakie zadania przy powstawaniu filmu mają reżyser, operator kamery, scenograf, kostiumolog i charakteryzator. Opowiedziałem(-am) o tym zuchom w kręgu rady.',
@@ -3961,7 +3961,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'milosnik_sztuk_pieknych',
                       title: 'Miłośnik sztuk pięknych',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Odwiedziłem(-am) muzeum lub galerię sztuki.',
@@ -3972,7 +3972,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'milosnik_sztuk_pieknych',
                       title: 'Miłośnik sztuk pięknych',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Byłem(-am) w muzeum lub galerii sztuki. Przyniosłem(-am) przewodnik po wystawie, który pokazałem(-am) innym zuchom.',
@@ -3984,7 +3984,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'milosnik_sztuk_pieknych',
                       title: 'Miłośnik sztuk pięknych',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Byłem(-am) w kilku muzeach lub galeriach sztuki. Zbieram przewodniki po wystawach (katalogi).',
@@ -4018,7 +4018,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'mistrz_gier_planszowych',
                       title: 'Mistrz gier planszowych',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Mam własne trzy ulubione gry planszowe. Zaprezentowałem(-am) szóstce ich zasady.',
@@ -4030,7 +4030,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'mistrz_gier_planszowych',
                       title: 'Mistrz gier planszowych',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Mam własne trzy ulubione gry planszowe. Zaprezentowałem(-am) ich zasady i zagrałem(-am) ze swoją szóstką.',
@@ -4042,7 +4042,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'mistrz_gier_planszowych',
                       title: 'Mistrz gier planszowych',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Mam półkę z grami planszowymi. Zagrałem(-am) z kolegami w co najmniej pięć z nich.',
@@ -4079,7 +4079,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'poliglota',
                       title: 'Poliglota',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Nauczyłem(-am) się wybranego wiersza w innym języku. Wyrecytowałem(-am) go w kręgu rady.',
@@ -4090,7 +4090,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'poliglota',
                       title: 'Poliglota',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Nauczyłem(-am) się wybranego wiersza w innym języku. Wyrecytowałem(-am) go w kręgu rady.',
@@ -4103,7 +4103,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'poliglota',
                       title: 'Poliglota',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Nauczyłem(-am) się wybranego wiersza w innym języku. Wyrecytowałem(-am) go w kręgu rady.',
@@ -4142,7 +4142,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'przewodnik_po',
                       title: 'Przewodnik po...',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Opowiedziałem(-am) na zbiórce podanie, historię lub legendę związaną z moją miejscowością.',
@@ -4154,7 +4154,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'przewodnik_po',
                       title: 'Przewodnik po...',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Opowiedziałem(-am) na zbiórce podanie, historię lub legendę związaną z moją miejscowością.',
@@ -4168,7 +4168,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'przewodnik_po',
                       title: 'Przewodnik po...',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Opowiedziałem(-am) na zbiórce podanie, historię lub legendę związaną z moją miejscowością.',
@@ -4208,7 +4208,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'przyjaciel_ksiazek',
                       title: 'Przyjaciel książek',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Założyłem(-am) kartę w bibliotece.',
@@ -4221,7 +4221,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'przyjaciel_ksiazek',
                       title: 'Przyjaciel książek',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Założyłem(-am) kartę w bibliotece.',
@@ -4234,7 +4234,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'przyjaciel_ksiazek',
                       title: 'Przyjaciel książek',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Założyłem(-am) kartę w bibliotece.',
@@ -4280,7 +4280,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'dobry_opiekun',
                       title: 'Dobry opiekun',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Nauczyłem(-am) pląsu młodsze rodzeństwo lub dzieci, którymi się opiekuję.',
@@ -4291,7 +4291,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'dobry_opiekun',
                       title: 'Dobry opiekun',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Opowiedziałem(-am) bajkę młodszym dzieciom.',
@@ -4304,7 +4304,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'dobry_opiekun',
                       title: 'Dobry opiekun',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Opowiedziałem(-am) bajkę młodszym dzieciom.',
@@ -4343,7 +4343,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'kolednik',
                       title: 'Kolędnik',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Potrafię zaśpiewać trzy kolędy. Zapisałem(-am) ich tytuły.',
@@ -4355,7 +4355,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'kolednik',
                       title: 'Kolędnik',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Potrafię zaśpiewać pięć kolęd. Zapisałem(-am) ich tytuły.',
@@ -4367,7 +4367,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'kolednik',
                       title: 'Kolędnik',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Potrafię zaśpiewać pięć kolęd. Nauczyłem(-am) jednej kolędy młodsze zuchy.',
@@ -4401,7 +4401,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'mlody_patriota',
                       title: 'Młody Patriota',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Narysowałem(-am) flagę i godło Polski. Przedstawiłem(-am) je w kręgu rady.',
@@ -4413,7 +4413,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'mlody_patriota',
                       title: 'Młody Patriota',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'W kręgu rady opowiedziałem(-am) legendę o powstaniu Państwa Polskiego.',
@@ -4428,7 +4428,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'mlody_patriota',
                       title: 'Młody Patriota',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Znam hymn Polski i wiem, w jaki sposób trzeba zachowywać się podczas jego śpiewania. Zaśpiewałem(-am) hymn i opowiedziałem(-am) o tym drużynowemu.',
@@ -4464,7 +4464,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'obywatel_unii_europejskiej',
                       title: 'Obywatel Unii Europejskiej',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Wiem, co to jest Unia Europejska i po co powstała. Przygotowałem(-am) do zuchówki plakat o UE.',
@@ -4474,7 +4474,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'obywatel_unii_europejskiej',
                       title: 'Obywatel Unii Europejskiej',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Wiem, co to jest Unia Europejska i po co powstała. Przygotowałem(-am) do zuchówki gazetkę o UE.',
@@ -4486,7 +4486,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'obywatel_unii_europejskiej',
                       title: 'Obywatel Unii Europejskiej',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Wiem, co to jest Unia Europejska i po co powstała. Przygotowałem(-am) do zuchówki gazetkę o UE.',
@@ -4526,7 +4526,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'przyjaciel_nieznanego_swiata',
                       title: 'Przyjaciel Nieznanego Świata',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Opiekowałem(-am) się osobą niepełnosprawną lub starszą i pomagałem(-am) w prostych czynnościach domowych.',
@@ -4538,7 +4538,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'przyjaciel_nieznanego_swiata',
                       title: 'Przyjaciel Nieznanego Świata',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Opiekowałem(-am) się osobą niepełnosprawną lub starszą i pomagałem(-am) jej w prostych czynnościach domowych.',
@@ -4552,7 +4552,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'przyjaciel_nieznanego_swiata',
                       title: 'Przyjaciel Nieznanego Świata',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Opiekowałem(-am) się osobą niepełnosprawną lub starszą i pomagałem(-am) w prostych czynnościach domowych.',
@@ -4589,7 +4589,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'straznik_betlejemskiego_swiatla_pokoju',
                       title: 'Strażnik Betlejemskiego Światła Pokoju',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Razem z moją gromadą lub klasą wziąłem(wzięłam) udział we wspólnym kolędowaniu.',
@@ -4602,7 +4602,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'straznik_betlejemskiego_swiatla_pokoju',
                       title: 'Strażnik Betlejemskiego Światła Pokoju',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Razem z moją gromadą lub klasą uczestniczyłem(-am) we wspólnym kolędowaniu.',
@@ -4618,7 +4618,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'straznik_betlejemskiego_swiatla_pokoju',
                       title: 'Strażnik Betlejemskiego Światła Pokoju',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Razem z gromadą lub klasą uczestniczyłem(-am) we wspólnym kolędowaniu.',
@@ -4664,7 +4664,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'wielkanocny_baranek',
                       title: 'Wielkanocny Baranek',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Znam tradycje związane ze Świętami Wielkanocnymi. Przedstawiłem(-am) je na plakacie.',
@@ -4678,7 +4678,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'wielkanocny_baranek',
                       title: 'Wielkanocny Baranek',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Wiem, na pamiątkę jakiego zdarzenia obchodzi się Święta Wielkanocne. Opowiedziałem(-am) o tym na zbiórce.',
@@ -4692,7 +4692,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'wielkanocny_baranek',
                       title: 'Wielkanocny Baranek',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Wykonałem(-am) samodzielnie lub z pomocą palmę wielkanocną.',
@@ -4729,7 +4729,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'smieszek',
                       title: 'Śmieszek',
-                      level: '1',
+                      level: 1,
                       tasksAreExamples: true,
                       tasks: [
                         'Zorganizowałem(-am) teatr min w swojej szóstce.',
@@ -4741,7 +4741,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'smieszek',
                       title: 'Śmieszek',
-                      level: '2',
+                      level: 2,
                       tasksAreExamples: true,
                       tasks: [
                         'Zorganizowałem(-am) teatr min w swojej szóstce.',
@@ -4754,7 +4754,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   SprawData(
                       id: 'smieszek',
                       title: 'Śmieszek',
-                      level: '3',
+                      level: 3,
                       tasksAreExamples: true,
                       tasks: [
                         'Zorganizowałem(-am) teatr min w swojej szóstce.',

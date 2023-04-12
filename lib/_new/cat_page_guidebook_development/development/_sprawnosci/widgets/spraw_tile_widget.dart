@@ -27,7 +27,7 @@ class SprawTileWidgetState extends State<SprawTileWidget>{
   EdgeInsets get padding => widget.padding;
 
   String get title => spraw.title;
-  String get level => spraw.level;
+  int get level => spraw.level;
 
   @override
   Widget build(BuildContext context) => Stack(
@@ -92,9 +92,9 @@ class SprawTileWidgetState extends State<SprawTileWidget>{
 
   IconData get completeIcon{
     switch(level){
-      case '1': return MdiIcons.trophyOutline;
-      case '2': return MdiIcons.trophy;
-      case '3': return MdiIcons.trophyAward;
+      case 1: return MdiIcons.trophyOutline;
+      case 2: return MdiIcons.trophy;
+      case 3: return MdiIcons.trophyAward;
       default: return MdiIcons.trophyVariant;
     }
   }

@@ -990,10 +990,10 @@ packages:
     dependency: "direct main"
     description:
       name: numberpicker
-      sha256: "73723bd13c940ebcd9e5f0ed56b4874588c1748a9a6a38254f97ad627715142e"
+      sha256: "4c129154944b0f6b133e693f8749c3f8bfb67c4d07ef9dcab48b595c22d1f156"
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.1"
+    version: "2.1.2"
   oktoast:
     dependency: "direct main"
     description:
@@ -1339,14 +1339,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.2.1"
-  sensors:
+  sensors_plus:
     dependency: "direct main"
     description:
-      name: sensors
-      sha256: "69c10fe94a63dd7c6f5e6557366e5329a713bf6c45d885d95a56642dd8722e35"
+      name: sensors_plus
+      sha256: "0c55946d7e828743c7ace61f35bdece9f2d1f00b18b4e669eeba664eb4597e82"
       url: "https://pub.dev"
     source: hosted
     version: "2.0.3"
+  sensors_plus_platform_interface:
+    dependency: transitive
+    description:
+      name: sensors_plus_platform_interface
+      sha256: "95f0cc08791b8bf0c41c5fa99c84be2a7d5bf60a811ddc17e1438b1e68caf0d3"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.3"
   share:
     dependency: "direct main"
     description:

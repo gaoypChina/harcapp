@@ -29,7 +29,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'plomien',
                       title: 'Płomień',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Umie ułożyć i rozpalić ognisko.',
                         'Potrafi umiejętnie podkładać drwa lub gałęzie, regulując wysokość płomienia i ograniczając iskrzenie.',
@@ -41,7 +41,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'straznik_ognia',
                       title: 'Strażnik Ognia',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Potrafi ułożyć i rozpalić różne typy ognisk, takie jak ognisko do gotowania, do podtrzymania żaru, do oświetlenia kręgu, stos na mokry teren.',
                         'Umie podtrzymywać ogień odpowiednio do potrzeb i sytuacji. Zna zasady zachowania w kręgu ogniskowym.',
@@ -54,7 +54,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'ogniowiec',
                       title: 'Ogniowiec',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Umie rozpalić ogień w niesprzyjających warunkach (np. w ulewnym deszczu, przy silnym wietrze lub w głębokim śniegu).',
                         'Potrafi rozpalić ogień bez zapałek, samodzielnie wykonanym narzędziem (np. łukiem ogniowym lub własnoręcznie zrobionym krzesiwem).',
@@ -77,7 +77,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'obserwator',
                       title: 'Obserwator',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Umie posłużyć się mapą papierową (tj. zorientować ją i odczytać), żeby trafić za dnia do wyznaczonego miejsca.',
                         'Potrafi wyznaczyć kierunki świata według busoli, słońca (w dzień) i gwiazd (w nocy).',
@@ -88,7 +88,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'terenoznawca',
                       title: 'Terenoznawca',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Potrafi w dzień i w nocy odnaleźć się na mapie w nieznanym terenie według ukształtowania terenu i przedmiotów terenowych (np. skrzyżowań, budowli, cieków wodnych).',
                         'Umie zmierzyć odległość na mapie i trafnie ocenić odległość „na oko” w terenie.',
@@ -100,7 +100,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'topograf',
                       title: 'Topograf',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi wykonać odpowiednie pomiary i staranny szkic wskazanego terenu z zachowaniem skali.',
                         'Potrafi zmierzyć wysokość drzewa i szerokość rzeki bez użycia specjalistycznych narzędzi.',
@@ -112,7 +112,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'mistrz_orientacji',
                       title: 'Mistrz Orientacji',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Umie w każdych warunkach trafić do wyznaczonego miejsca – w dzień i w nocy, w górach i na nizinie, niezależnie od warunków pogodowych i pory roku, z pomocą map, lokalizatora GPS, kompasu albo bez nich.',
                       ]
@@ -132,7 +132,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'higienista',
                       title: 'Higienista',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Potrafi opatrzyć drobne zranienie, oparzenie i lekki uraz.',
                         'Umie ułożyć poszkodowanego w pozycji bezpiecznej.',
@@ -143,7 +143,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'sanitariusz',
                       title: 'Sanitariusz',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Umie zaradzić w sytuacji wyziębienia, udaru cieplnego, omdlenia i oparzeń.',
                         'Potrafi zaradzić w przypadku urazu kończyny (np. skręcenie lub złamanie), a w razie konieczności umie ją unieruchomić przy pomocy improwizowanego sprzętu.',
@@ -155,7 +155,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'ratownik',
                       title: 'Ratownik',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi pokierować małym zespołem sanitariuszy w czasie akcji ratowniczej.',
                         'Umie udzielić pierwszej pomocy w przypadku ran i krwotoków.',
@@ -181,7 +181,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'mistrz_musztry',
                       title: 'Mistrz musztry',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Umie prawidłowo wykonać wszystkie komendy musztry harcerskiej w czasie zbiórki, apelu i przemarszu.',
                         'Potrafi zadbać o wygląd i czystość swojego munduru, a także wytłumaczyć symbolikę jego elementów.',
@@ -192,7 +192,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'chorazy',
                       title: 'Chorąży',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Umie poruszać się i wykonywać chwyty sztandarem lub proporcem zgodnie z regulaminem musztry.',
                         'Potrafi bezpiecznie przechowywać i zadbać o proporzec lub sztandar, zarówno w warunkach polowych, jak i w harcówce lub w domu.',
@@ -203,7 +203,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'dowodca',
                       title: 'Dowódca',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi poprowadzić apel drużyny zgodnie z regulaminem musztry.',
                         'Umie dowodzić drużyną podczas przemarszu, uroczystości lub pokazu musztry.',
@@ -215,7 +215,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'dobosz',
                       title: 'Dobosz',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi dobrać i nadać kolumnie odpowiednie tempo wybijając rytm na instrumencie perkusyjnym w marszu.',
                         'Potrafi poprowadzić asystę perkusyjną, wybijając odpowiedni rytm na wejście pocztu sztandarowego, złożenie wieńca i apel poległych.',
@@ -226,7 +226,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'trebacz',
                       title: 'Trębacz',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Zna i umie zagrać kilka sygnałów Wojska Polskiego np. Pobudkę, Baczność, Spocznij, Hasło Wojska Polskiego.',
                         'Potrafi zastosować odpowiednie sygnały do kierowania drużyną.',
@@ -247,7 +247,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'lacznik',
                       title: 'Łącznik',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Umie bezbłędnie zapamiętać i przenieść wiadomość ustną złożoną z kilkunastu słów.',
                         'Potrafi zaszyfrować i odczytać wiadomość trzema różnymi szyframi.',
@@ -257,7 +257,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'sygnalista',
                       title: 'Sygnalista',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Umie nadać i odebrać wiadomość zakodowaną alfabetem Morse’a przy pomocy chorągiewek, sygnałów dźwiękowych oraz świetlnych. Umie wykonać prowizoryczny sygnalizacyjny (np. chorągiewkę lub pochodnię).',
                         'Potrafi zakodować i rozkodować wiadomość przy pomocy alfabetu Morse’a.',
@@ -269,7 +269,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'lacznosciowiec',
                       title: 'Łącznościowiec',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Umie zorganizować w terenie sprawną sieć łączności opartą na urządzeniach kablowych lub radiowych: przygotować i rozstawić sprzęt, ustalić zasady korzystania z sieci, przeszkolić operatorów.',
                         'Potrafi zorganizować kilkuosobową stację sygnalizacyjną do płynnego nadawania i odbierania wiadomości alfabetem Morse’a: wyznaczyć zadania, podzielić i zorganizować pracę.',
@@ -280,7 +280,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'krotkofalarz',
                       title: 'Krótkofalarz',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi posłużyć się alfabetem fonetycznym ICAO (tzw. alfabet fonetyczny NATO) oraz jego polskim odpowiednikiem.',
                         'Zna kilkanaście kodów Q najczęściej używanych przez krótkofalarzy oraz kilka wyrażeń z tzw. slangu amatorskiego. Umie przekazać raport RST oraz informacje o własnym QTH Locator.',
@@ -303,7 +303,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'biwakowicz',
                       title: 'Biwakowicz',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Umie dobrze spakować się na biwak.',
                         'Potrafi rozbić namiot turystyczny.',
@@ -315,7 +315,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'traper',
                       title: 'Traper',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Umie przygotować namiot na różne warunki atmosferyczne takie jak mocny wiatr czy burza oraz odpowiednio wybrać i przygotować miejsce do jego rozstawienia.',
                         'Umie wykorzystać 3 węzły przydatne podczas biwakowania (np. do zbudowania zadaszenia z plandeki biwakowej).',
@@ -327,7 +327,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'wloczykij',
                       title: 'Włóczykij',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi przygotować się, skompletować ekwipunek i biwakować w każdych warunkach terenowych.',
                         'Umie w warunkach polowych wysuszyć ubranie i obuwie.',
@@ -339,7 +339,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'polarnik',
                       title: 'Polarnik',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Umie skompletować i spakować ekwipunek odpowiedni do biwakowania w warunkach zimowych.',
                         'Potrafi przygotować legowisko, które przy ujemnej temperaturze pozwoli mu spędzić noc w komforcie cieplnym.',
@@ -362,7 +362,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'sakwa',
                       title: 'Sakwa',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Umie odłożyć pieniądze na zaplanowany wydatek. Potrafi oszacować, ile czasu będzie mu potrzebne na zebranie określonej kwoty.',
                         'Umie bezpiecznie przechowywać pieniądze.',
@@ -373,7 +373,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'gospodarz',
                       title: 'Gospodarz',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Umie skompletować narzędzia dla zastępu na biwak lub obóz.',
                         'Potrafi konserwować narzędzia pionierskie a także odpowiednio je oznakować. Umie prowadzić wykaz sprzętu zastępu.',
@@ -384,7 +384,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'kwatermistrz',
                       title: 'Kwatermistrz',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi zaplanować budżet wyjazdu lub biwaku, sprawować nadzór nad wydatkami i rozliczyć powierzone środki.',
                         'Umie przygotować kompletną listę zadań kwatermistrzowskich związanych z organizacją biwaku lub wędrówki, takich jak dojazd, aprowizacja, noclegi. Każde z tych zadań potrafi wykonać samodzielnie.',
@@ -397,7 +397,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'magazynier',
                       title: 'Magazynier',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi wykonać prace konserwacyjne sprzętu takiego jak namioty, sprzęt pływający, kanadyjki. Umie pokierować wykonaniem takich prac przez drużynę.',
                         'Potrafi wysuszyć namioty różnych typów, zabezpieczyć je przed zawilgoceniem i właściwie przygotować do magazynowania.',
@@ -421,7 +421,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'sobieradek_obozowy',
                       title: 'Sobieradek Obozowy',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Potrafi sprawnie posługiwać się narzędziami pionierskimi: młotkiem, toporkiem i piłą. Umie zabezpieczyć je po skończonej pracy.',
                         'Umie zaprojektować i wykonać drobny przedmiot pionierki obozowej (np. drogowskaz, wieszak lub ławkę).',
@@ -432,7 +432,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'zdobnik',
                       title: 'Zdobnik',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Umie samodzielnie wykonać prosty totem lub inny element zdobnictwa obozowego z wykorzystaniem materiałów znalezionych w terenie.',
                         'Posiada sprawność *Plastyka ze ścieżki „Rzemiosło plastyczne”.',
@@ -442,7 +442,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'technik_obozowy',
                       title: 'Technik Obozowy',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Umie zaprojektować oraz pokierować wykonaniem pomysłowego i estetycznego urządzenia obozowego (np. bramy, latryny lub pionierki w namiocie).',
                         'Umie pokierować rozstawieniem namiotu dziesięcioosobowego.',
@@ -452,7 +452,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'wyga_obozowy',
                       title: 'Wyga Obozowy',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi zaprojektować i pokierować budową dużego urządzenia obozowego (np. pomostu, zadaszenia kuchni, stołówki, elektrowni solarnej, pieca lub wieży ciśnień).',
                         'Umie sprawnie pokierować rozstawieniem namiotów według określonego planu (np. w kręgu, w kwadracie lub szeregu).',
@@ -463,7 +463,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'mistrz_zdobnictwa',
                       title: 'Mistrz Zdobnictwa',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Umie wykonać totem przedstawiający w rozpoznawalny sposób charakterystyczne zwierzę lub konkretną postać, z wykorzystaniem materiałów znalezionych w terenie.',
                         'Umie opracować dokładny projekt plastyczny i na jego podstawie wykonać samodzielnie trwały element zdobniczy (np. proporzec, rzeźbioną buławę, herb, inny element obrzędowy).',
@@ -484,7 +484,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'lekka_stopa',
                       title: 'Lekka Stopa',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Umie poruszać się bezszelestnie w różnych warunkach terenowych.',
                         'Potrafi sprawnie pokonać różne przeszkody (np. wejść na drzewo, przeskoczyć rów o szerokości 1,5 m, przejść przez ogrodzenie).',
@@ -495,7 +495,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'tropiciel',
                       title: 'Tropiciel',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Potrafi zamaskować się w terenie tak, by pozostać niezauważonym.',
                         'Potrafi posprzątać i zamaskować miejsce odpoczynku lub biwaku, by nie zostawić po sobie śladów.',
@@ -508,7 +508,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'zwiadowca',
                       title: 'Zwiadowca',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi zdobywać informacje za pomocą różnych technik wywiadowczych, takich jak rozmowa, obserwacja, śledzenie, badanie śladów, analiza map i dokumentów.',
                         'Potrafi zorientować się, gdy jest śledzony. Umie zmylić pościg.',
@@ -522,7 +522,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'nieuchwytny',
                       title: 'Nieuchwytny',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi w dzień i w nocy trafić do wyznaczonego miejsca na podstawie pobieżnego szkicu lub zapamiętanej trasy, bez użycia narzędzi nawigacyjnych i mapy.',
                         'Potrafi skrycie podejść strzeżony teren lub obiekt, a następnie wycofać się niepostrzeżenie, nie pozostawiając po sobie śladów. Umie wykorzystać uzyskane zawczasu informacje do zaplanowania podchodów.',
@@ -544,7 +544,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'czujka',
                       title: 'Czujka',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Potrafi prawidłowo pełnić służbę wartowniczą w dzień i w nocy.',
                         'Umie poruszać się w nocy nie wykorzystując sztucznych źródeł światła. Potrafi wyłącznie przy pomocy słuchu określić, z której strony zbliża się człowiek.',
@@ -556,7 +556,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'wartownik',
                       title: 'Wartownik',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Umie samodzielnie pełnić nocną służbę wartowniczą. Obudzony potrafi szybko i sprawnie wstać oraz przygotować się do służby.',
                         'Zna i potrafi stosować zasady harcerskich podchodów. Umie ocenić strzeżony teren i wybrać najlepsze stanowiska do pełnienia warty.',
@@ -569,7 +569,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'dowodca_warty',
                       title: 'Dowódca Warty',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Gdy rozkłada z zastępem obozowisko, potrafi umiejscowić je tak, aby było jak najlepiej zakamuflowane.',
                         'Umie ustalić grafik wart. Wie, w których godzinach warta jest najtrudniejsza, i potrafi adekwatnie dobrać wartowników.',
@@ -592,7 +592,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'bystre_oko',
                       title: 'Bystre Oko',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Umie rozpoznać na podstawie sylwetki lub odgłosów 12 gatunków zwierząt, w tym 6 ptaków, występujących na wolności w polskich lasach.',
                         'Potrafi wykorzystać atlas lub inne źródła do rozpoznania każdego, nawet nieznanego sobie zwierzęcia zaobserwowanego wcześniej w terenie.',
@@ -602,7 +602,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'tropiciel_zwierzyny',
                       title: 'Tropiciel Zwierzyny',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Umie zaplanować i przeprowadzić udaną obserwację zwierzyny.',
                         'Potrafi rozpoznać tropy lub ślady bytowania 10 zwierząt występujących na wolności w polskich lasach.',
@@ -614,7 +614,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'znawca_zwierzyny',
                       title: 'Znawca Zwierzyny',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Umie odnaleźć zwierzynę w terenie wyłącznie na podstawie tropów i śladów.',
                         'Na podstawie znalezionych w lesie tropów i śladów potrafi wysnuć wnioski i opisać zdarzenie z udziałem zwierząt.',
@@ -636,7 +636,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'przyrodnik',
                       title: 'Przyrodnik',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Umie przy pomocy atlasu roślin rozpoznać w lesie 6 roślin jadalnych (np. malina, jeżyna, borówka czarna, poziomka, lipa, pokrzywa, mięta, komosa biała, szczawik zajęczy, szczaw, stokrotka) oraz 3 trujące (np. wilcza jagoda, cis pospolity, czeremcha, kruszyna, bluszcz, bylicę piołun, glistnik jaskółcze ziele, jaskier, wrotycz).',
                         'Potrafi przygotować danie na zimno z samodzielnie zebranych darów lasu.',
@@ -646,7 +646,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'botanik',
                       title: 'Botanik',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Umie przygotować napar (herbatę) z pospolicie występującej rośliny (np. z liści pokrzywy lub mięty, liści lub pędów malin czy koszyczków rumianku).',
                         'Umie rozpoznać i wykorzystać 12 roślin jadalnych. Wie, które części tych roślin są jadalne, a jeżeli wymagają przed spożyciem specjalnej obróbki, to potrafi ją przeprowadzić (dotyczy to np. jarzębiny i liści mniszka lekarskiego).',
@@ -658,7 +658,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'zielarz',
                       title: 'Zielarz',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Z wykorzystaniem samodzielnie zebranych dziko rosnących ziół i owoców z 8 różnych gatunków potrafi przygotować 10 dań, w tym 3 na ciepło.',
                         'Umie rozpoznać 5 ziół o właściwościach leczniczych i zna ich zastosowanie. Potrafi odnaleźć 3 z nich w terenie.',
@@ -681,7 +681,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'chatka_robinsona',
                       title: 'Chatka Robinsona',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Potrafi poradzić sobie w czasie 24 godzinnej wyprawy zastępu do lasu, bez namiotu lub innego gotowego zadaszenia.',
                         'Potrafi zabezpieczyć prowiant i swój ekwipunek na czas bytowania w lesie (np. przed deszczem, zwierzętami).',
@@ -691,7 +691,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'lesny_czlowiek',
                       title: 'Leśny Człowiek',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Potrafi zbudować szałas pozwalający na przetrwanie deszczowej nocy i spędzić w nim noc.',
                         'Umie zamaskować ślady swojego pobytu.',
@@ -702,7 +702,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'rosomak',
                       title: 'Rosomak',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi w terenie pozyskać wodę zdatną do picia.',
                         'Potrafi przygotować ciepły posiłek mając do dyspozycji jedynie nóż, zapałki i butelkę wody.',
@@ -734,7 +734,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'szarpidrut',
                       title: 'Szarpidrut',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Potrafi zagrać na gitarze 2 piosenki. Umie zagrać i nazwać 5 akordów.',
                         'Potrafi nastroić gitarę (np. przy pomocy stroika) oraz bezpiecznie ją przechowywać.',
@@ -744,7 +744,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'grajek',
                       title: 'Grajek',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Umie akompaniować na gitarze do 5 piosenek.',
                         'Potrafi chwytać akordy barowe oraz płynnie przechodzić między akordami.',
@@ -757,7 +757,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'gitarzysta',
                       title: 'Gitarzysta',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Umie poprowadzić muzycznie ognisko lub śpiewanki, nawet w razie braku śpiewnika z akordami. Potrafi poprowadzić grupę kilku akompaniatorów.',
                         'Umie dobrać technikę gry do nastroju piosenki. Potrafi zastosować różne techniki lewej i prawej ręki (np. ozdobniki, legato, różne rodzaje bicia, tremolo).',
@@ -778,7 +778,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'muzykant',
                       title: 'Muzykant',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Potrafi zagrać na wybranym instrumencie dwie piosenki, melodie lub rytmy, a także zagrać i nazwać kilka akordów lub dźwięków.',
                         'Umie przygotować instrument do grania (np. złożyć lub nastroić przy pomocy stroika) oraz odpowiednio go zabezpieczyć (np. na czas transportu).',
@@ -788,7 +788,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'instrumentalista',
                       title: 'Instrumentalista',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Potrafi na podstawie zapisu (np. nutowego lub tabulaturowego) samodzielnie nauczyć się grać wybrany utwór.',
                         'Umie grać w kilkuosobowym zespole, trzymając wspólny rytm i tonację.',
@@ -799,7 +799,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'akompaniator',
                       title: 'Akompaniator',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Umie akompaniować do 5 piosenek, stosując różne techniki gry i ozdobniki.',
                         'Potrafi zaśpiewać do własnego akompaniamentu i ocenić, czy śpiewany utwór jest w dobrej tonacji dla grupy.',
@@ -810,7 +810,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'bebniarz',
                       title: 'Bębniarz',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Umie zagrać na instrumencie perkusyjnym wybrany rytm na podstawie zapisu nutowego. Potrafi powtórzyć kilkutaktowy rytm zagrany przez kogoś innego.',
                         'Umie stosować różne rodzaje artykulacji dźwięku na instrumentach perkusyjnych, w tym tremolo.',
@@ -821,7 +821,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'wirtuoz',
                       title: 'Wirtuoz',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi przygotować się i wystąpić przed publicznością.',
                         'Umie zagrać 3 utwory, każdy o innym charakterze, wymagające kilku różnych technik gry.',
@@ -833,7 +833,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'czlowiek_orkiestra',
                       title: 'Człowiek Orkiestra',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Umie zaplanować i poprowadzić akompaniament instrumentalny podczas ogniska lub śpiewanek. Potrafi poprowadzić grupę kilku akompaniatorów.',
                         'Potrafi dobrać technikę gry do nastroju piosenki.',
@@ -846,7 +846,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'improwizator',
                       title: 'Improwizator',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Umie improwizować do akompaniamentu.',
                         'Potrafi wymyślić i zagrać własną melodię (np. do istniejącego tekstu).',
@@ -858,7 +858,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'perkusista',
                       title: 'Perkusista',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Umie na zestawie perkusyjnym improwizować do utworów w wybranym stylu muzycznym, takim jak rock, jazz, metal, R’n’B lub reggae.',
                         'Potrafi wyjaśnić różnice między różnymi stylami muzyki popularnej (np. rockiem, jazzem, metalem, reggae, r’n’b) oraz w jaki sposób przekłada się to na grę na zestawie (dobór instrumentów, pałeczek, rytmów, styl gry).',
@@ -881,7 +881,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'spiewak',
                       title: 'Śpiewak',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Potrafi zaśpiewać 5 wybranych piosenek, zna ich teksty na pamięć.',
                         'W swoim śpiewie trzyma się rytmu i melodii.',
@@ -891,7 +891,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'zapiewajlo',
                       title: 'Zapiewajło',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Umie zaśpiewać 10 wybranych piosenek.',
                         'Potrafi powtórzyć melodię ze słuchu i wystukać do niej rytm.',
@@ -904,7 +904,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'wokalista',
                       title: 'Wokalista',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi zaśpiewać 3 utwory o zróżnicowanym charakterze i nastroju (np. utwór poetycki, piosenkę musicalową i pieśń modlitewną) odpowiednio je interpretując. Umie wymienić autorów i kompozytorów tych utworów.',
                         'Potrafi wystąpić solo przed publicznością.',
@@ -917,7 +917,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'wodzirej',
                       title: 'Wodzirej',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi poprowadzić ognisko lub kominek, tj. dobrać repertuar, ustalić scenariusz, zaintonować piosenki.',
                         'Umie zebrać i pokierować zespołem, który poprowadzi imprezę (np. leśny festiwal teatralny lub festyn w szkole).',
@@ -941,7 +941,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'holubiec',
                       title: 'Hołubiec',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Potrafi zatańczyć krok podstawowy i 2 figury w wybranym stylu tańca.',
                         'Umie określić rytmikę swojego tańca i rozliczyć rytmicznie znane figury.',
@@ -951,7 +951,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'tancerz',
                       title: 'Tancerz',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Potrafi zatańczyć krok podstawowy i 6 figur w wybranym stylu tańca towarzyskiego.',
                         'Umie zatańczyć do piosenki i utrzymać rytm przez cały czas jej trwania.',
@@ -962,7 +962,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'krol_parkietu',
                       title: 'Król Parkietu',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Zna i umie zatańczyć krok podstawowy i 5 figur w 3 różnych stylach tanecznych, towarzyskich lub solowych.',
                         'Potrafi nie gubiąc rytmu improwizować i łączyć figury taneczne w spójną całość.',
@@ -985,7 +985,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'debiutant',
                       title: 'Debiutant',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Umie nauczyć się roli i ją odegrać (np. podczas przedstawienia szkolnego lub ogniska).',
                         'Potrafi wykonać element stroju lub rekwizyt potrzebny do odgrywanej roli.',
@@ -995,7 +995,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'komediant',
                       title: 'Komediant',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Umie przygotować się do pierwszoplanowej roli w krótkim przedstawieniu (nauczyć się dialogów, odtworzyć charakter i motywacje postaci) oraz śmiało tę rolę odegrać.',
                         'Potrafi posługiwać się różnymi formami wyrazu (np. wykonać scenkę pantomimiczną, zinterpretować piosenkę, wydeklamować wiersz).',
@@ -1006,7 +1006,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'gawedziarz',
                       title: 'Gawędziarz',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Potrafi przed publicznością wygłosić krótką wypowiedź na zadany temat (np. relację z wędrówki), zachowując logiczny ciąg i płynność wypowiedzi.',
                         'W trakcie wypowiedzi umie zachować właściwą postawę ciała i utrzymać kontakt ze słuchaczami.',
@@ -1017,7 +1017,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'aktor',
                       title: 'Aktor',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi przygotować się do występu scenicznego przed publicznością (np. teatru amatorskiego), współpracując przy tym z reżyserem i scenografem.',
                         'Umie wymyślić i nadać realizowanej postaci cechy szczególne, zarówno w dykcji jak i w ruchach. Potrafi pokazać różne emocje.',
@@ -1029,7 +1029,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'mowca',
                       title: 'Mówca',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi przygotować i wygłosić wypowiedź (np. gawędę lub referat) dotyczącą wybranego tematu. Umie w przekonujący i porywający sposób przekazać swoją myśl w czasie nie dłuższym niż 7 minut.',
                         'Potrafi dobrać formę i ton (np. modulację głosu, ułożenie treści, dynamikę wypowiedzi, argumentację, postawę) adekwatne do tematu wypowiedzi i grona słuchaczy.',
@@ -1061,7 +1061,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'lazik',
                       title: 'Łazik',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Umie odpowiednio się ubrać, skompletować ekwipunek i poradzić sobie podczas całodniowej wędrówki.',
                         'Potrafi opowiedzieć o poznanych w czasie wędrówki zabytkach lub osobliwościach przyrodniczych.',
@@ -1072,7 +1072,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'wloczega',
                       title: 'Włóczęga',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Potrafi, posługując się mapą, odwiedzić wskazane miejsca i zdobyć informacje na temat ich historii, wartości kulturowych lub przyrodniczych.',
                         'Umie poprowadzić zastęp trasą wyznaczoną według mapy lub planu miasta.',
@@ -1084,7 +1084,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'wskazidroga',
                       title: 'Wskazidroga',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Korzystając z różnych źródeł (np. internetowe mapy, rozkłady jazdy) potrafi wskazać odpowiednio najkrótszą, najszybszą, najtańszą czy najwygodniejszą drogę we wskazane miejsce.',
                         'Doskonale zna swoją okolicę (np. miejscowość, dzielnicę), wie gdzie znajdują się w ważne i interesujące obiekty publiczne, takie jak teatr, kino, dom kultury, sklep, biblioteka, bank, dworzec czy kościół i potrafi szczegółowo opisać z pamięci jak do nich dotrzeć.',
@@ -1095,7 +1095,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'wedrowiec',
                       title: 'Wędrowiec',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi zaplanować i przeprowadzić kilkudniową wędrówkę w nieznanym regionie, obejmującą poznanie historii, zabytków kultury, etnografii lub wartości przyrodniczo-krajobrazowych.',
                         'Umie do przygotowania wędrówki wykorzystać różne źródła informacji (np. książki historyczne, przewodniki, informacje z Internetu).',
@@ -1107,7 +1107,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'wedrowiec_gorski',
                       title: 'Wędrowiec Górski',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi zaplanować i przeprowadzić kilkudniową górską wędrówkę. Zna i stosuje zasady bezpieczeństwa w górach, m.in. zwraca uwagę na pogodę, prowiant, ubiór i samopoczucie zespołu.',
                         'Potrafi ocenić trudność szlaku oraz dobrać odpowiednią dla danej grupy trasę. Na podstawie przewyższenia i długości trasy umie oszacować czas marszu (np. przeliczając długość i przewyższenie na punkty GOT). Zna przepisy dotyczące poruszania się po górach powyżej 1000 m n.p.m.',
@@ -1118,7 +1118,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'przewodnik',
                       title: 'Przewodnik',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi zaplanować, zorganizować i przeprowadzić tematyczną wycieczkę po rodzinnym mieście lub regionie.',
                         'Zna w swoim mieście lub regionie 10 miejsc, które warto odwiedzić, i umie o nich opowiedzieć.',
@@ -1130,7 +1130,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'nartobiegacz',
                       title: 'Nartobiegacz',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Umie sprawnie poruszać się na nartach biegowych stylem klasycznym i łyżwowym. Potrafi poprawnie posługiwać się kijami i dobrać ich wysokość. Umie iść na nartach w kopnym śniegu, bez przetartego śladu.',
                         'Potrafi nie wypinając nart obrócić się w miejscu w trzech ruchach bez utraty równowagi. Jadąc na nartach z plecakiem umie utrzymać równowagę.',
@@ -1152,7 +1152,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'rowerzysta',
                       title: 'Rowerzysta',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Potrafi przygotować rower i ekwipunek na jednodniową wyprawę rowerową.',
                         'Umie przejechać na rowerze 30 km w ciągu jednego dnia.',
@@ -1163,7 +1163,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'cyklista',
                       title: 'Cyklista',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Potrafi przygotować się i poradzić sobie podczas kilkudniowej wyprawy rowerowej.',
                         'Umie samodzielnie wyregulować hamulce i przerzutki oraz wykonać prace takie jak zamontowanie bagażnika czy dokręcenie pedału.',
@@ -1174,7 +1174,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'kolarz',
                       title: 'Kolarz',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Umie przejechać na rowerze 100 km w ciągu jednego dnia.',
                         'Potrafi zaplanować kilkudniową wyprawę rowerową, umiejętnie dobierając potrzebny ekwipunek (np. namioty, narzędzia do naprawy rowerów, części zapasowe) i rozdzielając go między uczestników wyprawy.',
@@ -1186,7 +1186,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'kurier_rowerowy',
                       title: 'Kurier rowerowy',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi efektywnie poruszać się rowerem po mieście stosując się do zasad ruchu drogowego, nie utrudniając poruszania się pieszym i samochodom.',
                         'Umie dobrać trasę przejazdu w taki sposób, aby jak najrzadziej się zatrzymywać i schodzić z roweru.',
@@ -1209,7 +1209,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'kijanka',
                       title: 'Kijanka',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Potrafi przepłynąć bez przerwy dystans 100 m w wodzie stojącej lub dystans 200 m z nurtem.',
                         'Umie stabilnie utrzymywać się na powierzchni wody.',
@@ -1221,7 +1221,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'plywak',
                       title: 'Pływak',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Potrafi przepłynąć dystans 200 m w wodzie stojącej, w tym przynajmniej 50 m stylem grzbietowym, lub dystans 400 m z nurtem, w tym przynajmniej 100 m stylem grzbietowym.',
                         'Umie przepłynąć pod wodą dystans 5 m w wodzie stojącej lub 15 m z nurtem.',
@@ -1235,7 +1235,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'plywak_doskonaly',
                       title: 'Pływak Doskonały',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi przepłynąć w wodzie dystans 1000 m co najmniej dwoma stylami.',
                         'Umie przepłynąć 15 m pod wodą, a także zdjąć w wodzie ubranie: koszulę, spodnie i buty.',
@@ -1249,7 +1249,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'delfin',
                       title: 'Delfin',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi przepłynąć 50 m w czasie nie dłuższym niż 45 s.',
                         'Umie poprawnie pływać co najmniej czterema stylami w tym stylem motylkowym (tzw. delfinem).',
@@ -1272,7 +1272,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'wioslarz',
                       title: 'Wioślarz',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Umie wiosłować i wykonywać podstawowe manewry: skręcać, cofać i obracać się w miejscu.',
                         'Potrafi się odpowiednio przygotować i poradzić sobie podczas całodniowej wycieczki kajakowej lub na dystansie 10 km.',
@@ -1283,7 +1283,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'kajakarz',
                       title: 'Kajakarz',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Umie przygotować się i poradzić sobie w czasie kilkudniowego spływu kajakowego, w tym zabezpieczyć bagaż przed przemoczeniem.',
                         'Potrafi pokonać przeszkody na rzece takie jak zwalone drzewa, płycizny, mosty, bystry nurt itp.',
@@ -1297,7 +1297,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'kajakarz_doskonaly',
                       title: 'Kajakarz doskonały',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi zaplanować i przeprowadzić kilkudniowy i kilkuosobowy spływ (zorganizować mapy, wyposażenie biwakowe, rozdział ekwipunku na kajaki, miejsca noclegowe itd.).',
                         'Umie dbać o bezpieczeństwo spływu w różnych warunkach terenowych, umie pełnić funkcję otwierającego spływ.',
@@ -1311,7 +1311,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'kajakarz_gorski',
                       title: 'Kajakarz górski',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Umie spłynąć jednoosobowym kajakiem z fartuchem rzeką z odcinkami górskimi.',
                         'Potrafi przygotować się do niebezpiecznego spływu (kask, odpowiedni ubiór, odpowiedni kajak itd.).',
@@ -1334,7 +1334,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'szotmen',
                       title: 'Szotmen',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Potrafi wykorzystywać podstawowe węzły żeglarskie, w tym: prosty, szotowy i cumowniczy.',
                         'Umie obsługiwać (wybierać, luzować, knagować) szoty i talie.',
@@ -1347,7 +1347,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'mlodszy_sternik',
                       title: 'Młodszy Sternik',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Potrafi sterować na wiatr, na punkt i wg. kompasu, umie ostrzyć i odpadać, a także wykonywać wszelkie komendy na ster podczas manewrów.',
                         'Umie pokierować stawianiem, zrzucaniem i klarowaniem żagli.',
@@ -1359,7 +1359,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'sternik_manewrowy',
                       title: 'Sternik Manewrowy',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi wykonać prawidłowo zwrot przez sztag i przez rufę, wydając właściwe komendy załodze.',
                         'Umie wykonać prawidłowo podejście oraz odejście od i do nabrzeża (pomostu) na żaglach wydając odpowiednie komendy załodze.',
@@ -1382,7 +1382,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'sportowiec',
                       title: 'Sportowiec',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Umie aktywnie uczestniczyć w rozgrywce wybranej gry zespołowej i stosować się do jej zasad.',
                         'Rozróżnia funkcje poszczególnych graczy i potrafi objąć różne role w zespole.'
@@ -1392,7 +1392,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'sportowiec',
                       title: 'Sportowiec',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Umie grać na wybranej pozycji lub w wybranej roli w zespole stosując specjalistyczne techniki gry z nią związane (np. piąstkowanie bramkarza w piłce nożnej, krótki atak w siatkówce, rzut za 3 pkt w koszykówce).',
                         'Zna dokładnie zasady wybranego sportu zespołowego zgodne z międzynarodowym regulaminem.',
@@ -1404,7 +1404,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'trener',
                       title: 'Trener',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Umie przygotować zespół (np. zastęp) do zawodów sportowych: zaznajomić graczy z zasadami, ustalić i omówić strategię gry, przydzielić role i zadania, opracować i przeprowadzić plan treningowy (systematyczne spotkania, odpowiednie ćwiczenia itd.).',
                         'Potrafi przeprowadzić prawidłową rozgrzewkę zespołu.',
@@ -1415,7 +1415,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'sedzia',
                       title: 'Sędzia',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Umie sędziować, zachowując bezstronność i nie przeszkadzając w rozgrywce.',
                         'Potrafi skoordynować pracę zespołu sędziowskiego (np. sędziów liniowych, pomocników i sekretarza).',
@@ -1427,7 +1427,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'organizator_sportowy',
                       title: 'Organizator Sportowy',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi zorganizować i przeprowadzić rozgrywki w wybranej dyscyplinie sportu zespołowego: przygotować boisko i sprzęt sportowy, załogę sędziowską, nagrody, regulamin, zorganizować zapisy, podsumować wyniki itd.',
                         'Zna zasady działania lig i turniejów w swojej dyscyplinie sportowej (np. sposób wyłaniania drużyn w turniejach, zasady losowania grup, zasady poruszania się zawodników między ligą narodową a klubową lub okna transferowe).',
@@ -1449,7 +1449,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'truchcik',
                       title: 'Truchcik',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Umie przygotować się do wysiłku poprzez prawidłową rozgrzewkę.',
                         'Potrafi przebiec bez przerwy dystans 1 km.'
@@ -1459,7 +1459,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'sprinter',
                       title: 'Sprinter',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Umie przebiec dystans 100 m w czasie poniżej 16 s.',
                         'Umie przebiec bez przerwy dystans 2 km.',
@@ -1471,7 +1471,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'biegacz',
                       title: 'Biegacz',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi pokonać dystans 5 km w czasie krótszym niż 25 min.',
                         'Umie przygotować swój organizm do konkretnego treningu, takiego jak trening siłowy, kondycyjny, wysokogórski, rozciąganie.',
@@ -1494,7 +1494,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'gibki',
                       title: 'Gibki',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Umie sprawnie wykonać poprawny przewrót w przód i w tył oraz 15 pompek, 25 przysiadów i 20 brzuszków.',
                         'Potrafi zawisnąć na drążku przez 20 s na rękach oraz 10 s trzymając się wyłącznie nogami.'
@@ -1504,7 +1504,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'gimnastyk',
                       title: 'Gimnastyk',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Umie podciągnąć się oburącz na drążku podchwytem i nachwytem.',
                         'Potrafi stabilnie stać na rękach, opierając nogi o ścianę.',
@@ -1517,7 +1517,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'akrobata',
                       title: 'Akrobata',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi na drążku zawisnąć przez 60 s, wykonać wymyk przodem oraz wejście siłowe (tzw. muscle up).',
                         'Umie bez podparcia nogami stabilnie ustać na rękach przez kilkanaście sekund.',
@@ -1539,7 +1539,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'klama',
                       title: 'Klama',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Umie poprawnie założyć uprząż, przywiązać się do liny węzłem „ósemka”, wspinać się z asekuracją górną („na wędkę”) z zachowaniem podstawowych zasad bezpieczeństwa, takich jak utrzymywanie kontaktu z asekurującym i wzajemna kontrola bezpieczeństwa przed rozpoczęciem wspinania.',
                         'Po osiągnięciu końcowego punktu drogi wspinaczkowej potrafi sprawnie i bezpiecznie zjechać na dół.',
@@ -1550,7 +1550,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'oblak',
                       title: 'Oblak',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Potrafi przeprowadzić asekurację górną z użyciem samoblokującego się przyrządu asekuracyjnego (np. grigri).',
                         'Umie wspinać się z asekuracją dolną, potrafi samodzielnie skompletować sprzęt przed tego rodzaju wspinaczką, m.in. policzyć potrzebne expressy i pętle.',
@@ -1562,7 +1562,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'wspinacz',
                       title: 'Wspinacz',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi wspinać się zarówno na ściance wspinaczkowej, jak i w naturalnych skałach.',
                         'Podczas wspinaczki z asekuracją dolną umie samodzielnie dokonać przewiązania na końcowym punkcie drogi wspinaczkowej z wykorzystaniem dowolnej techniki autoasekuracji.',
@@ -1586,7 +1586,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'zjazd',
                       title: 'Zjazd',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Umie przejechać na łagodnym stoku przynajmniej 15 m i w razie potrzeby bezpiecznie upaść.',
                         'Potrafi wstać po upadku, nie wypinając nart lub deski.',
@@ -1598,7 +1598,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'szus',
                       title: 'Szus',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Umie bez wywrotki przejechać przynajmniej 100 m na stoku o małym nachyleniu (np. na trasie „niebieskiej”), wykonując przy tym płynne skręty w obie strony i omijając przeszkody.',
                         'Potrafi wjechać na stok przy pomocy wyciągu orczykowego lub krzesełkowego.',
@@ -1610,7 +1610,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'snowboardzista',
                       title: 'Snowboardzista',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi przejechać trudną trasę zjazdową (np. czerwoną) utrzymując poprawną pozycję, korzystając z takich technik jak jazda na krawędzi i skręty cięte.',
                         'Umie jeździć z tylną nogą z przodu (tzw. switch) z zachowaniem poprawnej pozycji.',
@@ -1622,7 +1622,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'narciarz',
                       title: 'Narciarz',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi przejechać trudną trasę zjazdową (np. czerwoną) utrzymując poprawną pozycję, korzystając z technik takich jak jazda na krawędziach, skręt długi i krótki.',
                         'Umie sprawnie i poprawnie technicznie przejechać slalom wymagający co najmniej kilkunastu skrętów (np. ustawiony z kijków).',
@@ -1645,7 +1645,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'ploza',
                       title: 'Płoza',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Umie stabilnie stać na łyżwach i jeździć do przodu po lodowisku bez asekuracji.',
                         'Potrafi odpowiednio dobrać rozmiar i prawidłowo ubrać się w łyżwy, tak aby uniknąć odcisków i otarć.',
@@ -1655,7 +1655,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'lyzwiarz',
                       title: 'Łyżwiarz',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Umie jeździć tzw. przeplatanką oraz płynnie pokonać slalom.',
                         'Potrafi przejechać dystans równy 5 długościom pełnowymiarowego boiska bez żadnego upadku. Umie zmienić kierunek jazdy o 180 stopni wykonując łuk w lewo lub w prawo.',
@@ -1667,7 +1667,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'lyzwiarz_doskonaly',
                       title: 'Łyżwiarz Doskonały',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Umie płynnie (w ruchu) zmieniać styl z jazdy przodem na jazdę tyłem, a także przejechać dowolną odległość każdym z nich.',
                         'Potrafi jeździć przeplatanką zarówno przodem jak i tyłem.',
@@ -1690,7 +1690,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'fuks',
                       title: 'Fuks',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Umie płynnie (w ruchu) zmieniać styl z jazdy przodem na jazdę tyłem, a także przejechać dowolną odległość każdym z nich.',
                         'Potrafi jeździć przeplatanką zarówno przodem jak i tyłem.',
@@ -1703,7 +1703,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'strzelec',
                       title: 'Strzelec',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Potrafi posługiwać się bronią palną, wiatrówkami lub replikami broni, przestrzegając dodatkowych zasad bezpieczeństwa specyficznych dla danego rodzaju broni. Umie zastosować adekwatne środki ochrony oczu, słuchu, twarzy i ciała.',
                         'Potrafi celnie strzelać z wybranej broni (np. strzelając z wiatrówki z odległości 10 m do standardowej tarczy o średnicy 155,5 mm osiągnie wynik powyżej 70/100 punktów).',
@@ -1715,7 +1715,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'snajper',
                       title: 'Snajper',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi rozłożyć i złożyć karabin oraz pistolet i wytłumaczyć ich działanie.',
                         'Potrafi samodzielnie bezpiecznie obsługiwać broń palną, w tym zająć stanowisko, załadować, odbezpieczyć i ustawić przyrządy celownicze.',
@@ -1747,7 +1747,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'majster',
                       title: 'Majster',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Potrafi wykonać element wyposażenia pokoju, mieszkania lub namiotu (np. świecznik, przybornik, pudełko).',
                         'Umie zorganizować miejsce do wygodne majsterkowania, dbając o porządek i bezpieczeństwo',
@@ -1757,7 +1757,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'technik',
                       title: 'Technik',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Umie wykonać praktyczny mebel (np. stołek lub stojak na proporce) lub naprawić uszkodzony przedmiot.',
                         'Potrafi posługiwać się narzędziami ręcznymi oraz elektronarzędziami z zachowaniem zasad bezpieczeństwa pracy.',
@@ -1769,7 +1769,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'kreslarz',
                       title: 'Kreślarz',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi sporządzić w określonej skali i opisać plan (np. domu, pomieszczenia lub ogrodu).',
                         'Umie wykorzystać zasady perspektywy dla odwzorowania rzeczywistości.',
@@ -1780,7 +1780,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'architekt',
                       title: 'Architekt',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Umie wykonać projekt urządzenia pomieszczenia lub zagospodarowania terenu, w sposób pozwalający na realizację prac kilkuosobowemu zespołowi, z wykorzystaniem rzutowania, rysunków przekrojowych, wymiarowania i opisów.',
                         'Potrafi precyzyjnie oszacować ilość potrzebnych materiałów do kompletnego wykonania opracowanego projektu.',
@@ -1793,7 +1793,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'stolarz',
                       title: 'Stolarz',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi samodzielnie wykonać solidny mebel odpowiadający proporcjom człowieka z wykorzystaniem różnych stolarskich technik łączenia elementów.',
                         'Umie posługiwać się narzędziami stolarskimi: heblem, ściskiem, imadłem, dłutem i pilnikiem.',
@@ -1805,7 +1805,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'inzynier',
                       title: 'Inżynier',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Umie samodzielnie wykonać maszynę prostą, taką jak kołowrót, przekładnia lub wielokrążek, składającą się z różnych materiałów, używając własnoręcznie wykonanego szkicu technicznego, suwmiarki oraz narzędzi ręcznych.',
                         'Potrafi wyjaśnić zasadę działania różnych maszyn prostych.',
@@ -1817,7 +1817,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'mechanik',
                       title: 'Mechanik',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi złożyć urządzenie spalinowe (np. pompę lub piłę spalinową), wymienić uszkodzoną część, wykonać podstawowy serwis (np. naostrzyć łańcuch, przygotować odpowiednią mieszankę).',
                         'Potrafi samodzielnie dokonać podstawowych czynności obsługowych pojazdu: sprawdzić i uzupełnić płyny eksploatacyjne, wymienić koło, zmienić przepaloną żarówkę, wymienić dowolny filtr.',
@@ -1828,7 +1828,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'robotyk',
                       title: 'Robotyk',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi samodzielnie zaprojektować i wykonać układ automatyczny, taki jak fotokomórka lub migająca lampka, posługując się stworzonym przez siebie schematem, multimetrem, lutownicą i innymi potrzebnymi narzędziami.',
                         'Zna podstawy jednego z języków programowania i potrafi je zastosować do stworzenia użytecznego programu na platformie Arduino, Raspberry Pi lub innej tego typu.',
@@ -1850,7 +1850,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'diodak',
                       title: 'Diodak',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Potrafi wykonać prosty obwód elektryczny. Przykłady: zabawkowy silnik elektryczny (z magnesu, baterii i drutu), elektromagnes (z baterii, gwoździa i grubego izolowanego drutu), prymitywny próbnik przewodności elektrycznej (z baterii, żarówki i kabelków).',
                         'Potrafi bezpiecznie wymienić żarówkę.',
@@ -1860,7 +1860,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'elektronik',
                       title: 'Elektronik',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Umie zbudować na płytce prototypowej prosty układ elektroniczny i wyjaśnić jego działanie.',
                         'Potrafi rozpoznać podstawowe elementy elektroniczne, takie jak diody, oporniki i kondensatory. Umie określić polaryzację diod i kondensatorów elektrolitycznych.',
@@ -1872,7 +1872,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'elektryk',
                       title: 'Elektryk',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Umie bezpiecznie wykonać pracę przy domowej lub polowej instalacji elektrycznej (np. zamontować wtyczkę, podłączyć akumulator do ładowania, podłączyć baterie słoneczne).',
                         'Potrafi narysować schemat zadanego obwodu elektrycznego (np. obozowej instalacji elektrycznej). Umie na podstawie schematu zestawić działający obwód.',
@@ -1884,7 +1884,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'ukladowiec',
                       title: 'Układowiec',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi zaprojektować płytkę PCB i wytrawić ją w domu bądź zlecić jej wyprodukowanie.',
                         'Umie prawidłowo zlutować i uruchomić zaprojektowany układ.',
@@ -1896,7 +1896,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'komputerowiec',
                       title: 'Komputerowiec',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Umie złożyć komputer z podzespołów i zainstalować w nim system operacyjny.',
                         'Potrafi zlokalizować i wymienić uszkodzony element komputera, laptopa lub tabletu (np. baterię, płytę główną, procesor lub dysk twardy) oraz dokonać jego rozbudowy (np. zwiększenia pamięci RAM lub zainstalowania karty graficznej).',
@@ -1908,7 +1908,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'elektrotechnik',
                       title: 'Elektrotechnik',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Umie bezpiecznie i prawidłowo przygotować do pracy (w tym uziemić) oraz obsłużyć urządzenia, które mogą dostarczać energii elektrycznej w terenie (np. agregat prądotwórczy, baterie słoneczne). Potrafi zaprojektować i uruchomić polową instalację elektryczną a także zabezpieczyć ją przed wpływem warunków pogodowych.',
                         'Umie wykorzystać prawo Ohma i potrafi obliczyć moc prądu elektrycznego.',
@@ -1930,7 +1930,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'koder',
                       title: 'Koder',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Potrafi napisać i uruchomić program, który pobiera od użytkownika tekst i wyświetla go na ekranie.',
                         'Umie podłączyć do komputera urządzenia peryferyjne, takie jak monitor, mikrofon, głośniki lub drukarka.',
@@ -1940,7 +1940,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'programista',
                       title: 'Programista',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Potrafi napisać program (np. wykonujący działania matematyczne, szyfrujący wiadomość lub przeliczający jednostki miary) i umie wytłumaczyć jego działanie.',
                         'Potrafi zabezpieczyć plik hasłem i przesłać go mailem.',
@@ -1950,7 +1950,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'webjunior',
                       title: 'Webjunior',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Umie stworzyć pojedynczą stronę internetową, korzystając z języków HTML i CSS.',
                         'Potrafi umieścić swoją stronę w Internecie. Umie utworzyć jej kopię zapasową oraz wgrać ją z powrotem na serwer.',
@@ -1961,7 +1961,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'deweloper',
                       title: 'Deweloper',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Umie napisać program złożony z kilku podprogramów lub obiektów, wykorzystujący biblioteki programistyczne i złożone typy danych.',
                         'Potrafi zabezpieczyć program przed wprowadzeniem niepoprawnych danych. Umie skonstruować jego intuicyjną instrukcję obsługi (np. w formie wyświetlanych komunikatów lub osobnej dokumentacji).',
@@ -1974,7 +1974,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'webmaster',
                       title: 'Webmaster',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi uruchomić witrynę WWW opartą o popularny system zarządzania treścią (np. Wordpress, Joomla, Media Wiki). Umie znaleźć i zainstalować moduły i dodatki, które zwiększą możliwości i atrakcyjność witryny.',
                         'Potrafi skonfigurować połączenie HTTPS, wie czym różni się od HTTP.',
@@ -1987,7 +1987,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'administrator',
                       title: 'Administrator',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi zaprojektować oraz skonfigurować bezpieczną sieć lokalną, przewodową lub bezprzewodową, z dostępem do Internetu.',
                         'Umie zainstalować i skonfigurować ogólnodostępny serwer (np. WWW lub wymiany plików), dobierając odpowiedni system operacyjny.',
@@ -2011,7 +2011,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'plastyk',
                       title: 'Plastyk',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Umie przygotować odpowiednie narzędzia i materiały do wybranych działań plastycznych (np. modelowania lub rysowania).',
                         'Potrafi wykonać model albo rysunek na podstawie opisu lub szczegółowo odwzorować przedmiot z natury (np. liść lub totem).',
@@ -2022,7 +2022,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'grafik',
                       title: 'Grafik',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Potrafi wykonać szkic z natury z zachowaniem proporcji i odwzorowaniem charakterystycznych cech szkicowanego obiektu lub postaci.',
                         'Umie zaprojektować i wykonać plakat, ogłoszenie lub ozdobną kartę kroniki, zwracając uwagę na czytelność informacji, kompozycję i precyzję wykonania.',
@@ -2033,7 +2033,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'rekodzielnik',
                       title: 'Rękodzielnik',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Umie samodzielnie wykonać za pomocą scyzoryka lub innego narzędzia drobny element ozdobny lub użytkowy z drewna lub kory (np. pierścień, list na korze czy pieczęć zastępu).',
                         'Potrafi wykonać według własnego projektu ozdobny element aranżacji pokoju, namiotu lub harcówki (np. abażur, skrzynkę lub wieszak na proporce).',
@@ -2044,7 +2044,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'ilustrator',
                       title: 'Ilustrator',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Umie przedstawić historię lub zobrazować tekst ilustracją bądź sekwencją ilustracji, akcentując charakterystyczne i ważne dla narracji elementy.',
                         'Potrafi posługiwać się 5 różnymi technikami plastycznymi, takimi jak rysunek węglem, pastele, akwarele, malarstwo olejne lub temperowe, linoryt, grafika rastrowa lub wektorowa. Umie dobrać odpowiednią technikę do realizowanego dzieła.',
@@ -2057,7 +2057,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'scenograf',
                       title: 'Scenograf',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi stworzyć kompletną wizję i zaprojektować scenografię na potrzeby przedstawienia, w którym występuje wiele postaci a akcja toczy się w różnych miejscach.',
                         'Umie przygotować oświetlenie, rekwizyty i dekoracje w taki sposób, aby jak najlepiej podkreślić treść przedstawienia.',
@@ -2069,7 +2069,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'rzezbiarz',
                       title: 'Rzeźbiarz',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi samodzielnie wykonać model obiektu z natury z odwzorowaniem jego charakterystycznych cech i proporcji, wykorzystując do tego materiały takie jak glina, gips, masa plastyczna lub drewno.',
                         'Umie posługiwać się narzędziami rzeźbiarskimi do drewna, takimi jak dłuto, rylec, tarnik. Zna przynajmniej 3 rodzaje drewna przydatne w rzeźbie i potrafi je scharakteryzować.',
@@ -2081,7 +2081,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'modelarz',
                       title: 'Modelarz',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi złożyć i – jeśli to konieczne pomalować – model pojazdu, budynku lub innego obiektu w przynajmniej 2 technikach.',
                         'Umie wykonać dioramę z zachowaniem skali i precyzji adekwatnej do przedstawianego wydarzenia oraz wybranej techniki lub wykonać ruchomy model napędzany mechanicznie lub elektrycznie.',
@@ -2092,7 +2092,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'krawiec',
                       title: 'Krawiec',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Umie zaprojektować i wykonać element garderoby. Potrafi przy tym skorzystać z wykrojników i odpowiednio dobrać technikę łączenia.',
                         'Potrafi sprawnie posłużyć się igłą i nicią. Umie obsługiwać maszynę do szycia (np. wykonać szwy różnymi ściegami).',
@@ -2115,7 +2115,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'migawka',
                       title: 'Migawka',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Potrafi wykonać element wyposażenia pokoju, mieszkania lub namiotu (np. świecznik, przybornik, pudełko).',
                         'Umie zorganizować miejsce do wygodne majsterkowania, dbając o porządek i bezpieczeństwo',
@@ -2125,7 +2125,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'fotograf',
                       title: 'Fotograf',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Umie zrobić serię zdjęć portretowych (np. harcerzom swojej drużyny). Potrafi zadbać przy tym o odpowiednie dobranie parametrów (np. tła, światła i głębi ostrości) aparatu, aby zdjęcia były spójne wizualnie.',
                         'Umie dobrać odpowiedni tryb aparatu do fotografowanej sceny: np. pejzaż, ruch, sport, portret, portret zbiorowy, scenę na ulicy.',
@@ -2137,7 +2137,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'fotografik',
                       title: 'Fotografik',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Umie posługiwać się trybem manualnym swojego aparatu: odpowiednio do fotografowanej sytuacji ustawić przysłonę, czas naświetlania, czułość i balans bieli. Potrafi kreatywnie wykorzystać te parametry, aby osiągnąć zamierzony efekt wizualny.',
                         'Umie opowiedzieć historię w formie fotoreportażu składającego się z 6–8 zdjęć. Potrafi przygotować wydruk swojego fotoreportażu w formacie wystawowym.',
@@ -2160,7 +2160,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'klaps',
                       title: 'Klaps',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Potrafi nakręcić scenę opowiadającą krótką historię lub obrazującą działania zespołu (np. wideorelacja z gry terenowej albo scena wyjaśniająca genezę nazwy zastępu).',
                       ]
@@ -2169,7 +2169,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'filmowiec',
                       title: 'Filmowiec',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Potrafi zrealizować krótką, składającą się z kliku scen etiudę lub klip według własnej wizji.',
                         'Potrafi zebrać zespół, podzielić zadania (operator, aktorzy itd.) i czuwać nad ich realizacją.',
@@ -2180,7 +2180,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'rezyser',
                       title: 'Reżyser',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi wyreżyserować krótki (5–15 min.) film fabularny lub dokumentalny. W czasie jego powstawania jest w stanie kierować całą ekipą filmową, dawać wskazówki, instruować aktorów, dbać o spójność stylu i obrazu.',
                         'Zna podstawy języka filmowego (np. rodzaje planów, techniki montażu, techniki aktorskie) i umie z nich świadomie korzystać przy realizacji filmu wywołując u widza zamierzone emocje.',
@@ -2191,7 +2191,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'operator_filmowy',
                       title: 'Operator Filmowy',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi pełnić funkcję operatora (reżysera obrazu) przy realizacji krótkiego filmu fabularnego lub dokumentalnego.',
                         'Umie kierować pracą kamery: potrafi ją obsługiwać, zna jej ograniczenia i walory techniczne.',
@@ -2203,7 +2203,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'animator',
                       title: 'Animator',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Umie zrealizować krótki (1–2 min.) film animowany, wykorzystując dowolną technikę, taką jak animacja rysunkowa, animacja poklatkowa, animacja cyfrowa 2D lub 3D.',
                         'Zna różne zasady teoretyczne i sztuczki animacyjne oraz potrafi z nich korzystać w swoich dziełach (np. 12 podstawowych technik animacyjnych z książki „Animacja Disneya: Iluzja Życia”).',
@@ -2225,7 +2225,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'opiekun_zwierzat',
                       title: 'Opiekun Zwierząt',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Umie samodzielnie wykonać czynności związane z codzienną opieką nad zwierzęciem, takie jak karmienie, czesanie, wyprowadzanie na spacer, czyszczenie kuwety.',
                       ]
@@ -2234,7 +2234,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'hodowca',
                       title: 'Hodowca',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Potrafi samodzielnie zaopiekować się zwierzęciem przez kilka tygodni: właściwie odmierzyć, przygotować i podać karmę, dbać o czystość i higienę itd.',
                         'Umie wykonać skomplikowaną czynność związaną z regularną opieką nad zwierzęciem (np. przyciąć szpony, wykąpać lub wyczyścić akwarium).',
@@ -2245,7 +2245,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'mistrz_chowu',
                       title: 'Mistrz chowu',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Umie wykonywać wszystkie czynności wiążące się ze stałą opieką nad zwierzęciem, zgodnie z wymogami gatunku i rasy. Potrafi posługiwać się kalendarzem szczepień, zna przepisy prawa związane z danym gatunkiem. Wie, jaki stan wskazuje na problemy zdrowotne.',
                         'Potrafi przewieźć duże zwierzę (np. psa, kota lub dużego szczura) komunikacją zbiorową zgodnie z przepisami prawa.',
@@ -2258,7 +2258,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'akwarysta_terrarysta',
                       title: 'Akwarysta/Terrarysta',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi dobrać gatunki ryb i roślin do akwarium, aby utrzymywać jego bioróżnorodność przez dłuższy czas albo potrafi właściwie przygotować terrarium dla hodowanych gadów, płazów, owadów lub pajęczaków, aby odtworzyć biotop charakterystyczny dla gatunku.',
                         'Potrafi sprawdzić i kontrolować parametry w akwarium lub terrarium: umie wyjaśnić jakie parametry powinien spełniać mikroklimat dla hodowanego gatunku.',
@@ -2281,7 +2281,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'ogrodnik',
                       title: 'Ogrodnik',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Umie zadbać o roślinę przez kilka tygodni, dbając o jej właściwe usytuowanie oraz odpowiednią porę podlewania i ilość wody.',
                         'Potrafi samodzielnie przesadzić sadzonkę.',
@@ -2291,7 +2291,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'siewca',
                       title: 'Siewca',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Umie wyhodować 5 gatunków roślin z rozsady lub z nasion.',
                         'Potrafi samodzielnie wyhodować dwa szybko rosnące warzywa (np. rzodkiew lub szczaw) i zebrać plon pozwalający na przygotowanie posiłku.',
@@ -2303,7 +2303,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'plantator',
                       title: 'Plantator',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi wyhodować 5 różnych warzyw i zebrać z każdego z nich plon, pozwalający na przygotowanie posiłku.',
                         'Wie co decyduje o efektywności hodowli, umie samodzielnie zapylić kwiaty i odpowiednio zasilić rośliny nawozem lub kompostem.',
@@ -2328,7 +2328,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'plantator',
                       title: 'Plantator',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Umie przygotować potrawę na ciepło, taką jak jajecznica na boczku, naleśniki lub jajko sadzone z ziemniakami.',
                         'Potrafi nakryć do stołu i podać potrawę w estetycznej formie (w warunkach domowych lub polowych).'
@@ -2338,7 +2338,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'kucharz',
                       title: 'Kucharz',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Umie przyrządzić smaczny, trzydaniowy posiłek dla 4–6 osób (np. rodziny lub zastępu).',
                         'Rozpoznaje i potrafi korzystać w swoich potrawach z podstawowych przypraw.'
@@ -2348,7 +2348,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'cukiernik',
                       title: 'Cukiernik',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Potrafi przygotować i atrakcyjnie podać deser (np. ciasto, ciastka lub tort).',
                         'Umie wykonać element dekoracyjny deseru (np. wzór z kandyzowanych owoców lub bitej śmietany).',
@@ -2358,7 +2358,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'wek',
                       title: 'Wek',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Umie przygotować proste przetwory (np. dżem lub ogórki kiszone).',
                         'W warunkach polowych potrafi zabezpieczyć żywność (np. nabiał, mięso, owoce) przed zepsuciem przez 3 dni.',
@@ -2369,7 +2369,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'kuchmistrz',
                       title: 'Kuchmistrz',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Umie ugotować 10 różnych dań.',
                         'Potrafi zaplanować i przygotować kierując kilkuosobowym zespołem obiad dla 15–20 osób (np. dla drużyny), składający się z dwóch dań. Umie obliczyć ilość potrzebnych produktów tak, aby wszyscy się najedli.',
@@ -2382,7 +2382,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'cukiermistrz',
                       title: 'Cukiermistrz',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi przygotować 10 różnych deserów.',
                         'Umie dobrać i przygotować deser na wyjątkową okazję dla grupy kilkunastu osób (np. podczas święta obozu, rodzinnego spotkania albo urodzin znajomego).',
@@ -2394,7 +2394,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'przetwornik',
                       title: 'Przetwornik',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Umie samodzielnie przygotować smaczne i zdrowe wyżywienie, które nie zepsuje się czasie kilkudniowej wędrówki (np. suszone mięso i owoce, własnoręcznie przygotowane batoniki energetyczne lub weki).',
                         'Potrafi przygotować 5 różnych przetworów, w tym słodkie i słone.',
@@ -2425,7 +2425,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'eksperymentator',
                       title: 'Eksperymentator',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Umie przeprowadzić ciekawy eksperyment naukowy i pokazać go kolegom (np. harcerzom z zastępu).',
                       ]
@@ -2434,7 +2434,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'fizyk',
                       title: 'Fizyk',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Potrafi w eksperymencie zademonstrować jedno z praw fizycznych (np. prawo Archimedesa, zasadę zachowania pędu lub wytwarzanie pola magnetycznego przez prąd elektryczny).',
                         'Umie podać praktyczne przykłady, gdzie to prawo ma zastosowanie.',
@@ -2444,7 +2444,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'chemik',
                       title: 'Chemik',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Umie w bezpieczny sposób przeprowadzić reakcję chemiczną (np. mieszanie sody oczyszczonej z octem lub spalanie cukru).',
                         'Potrafi wskazać praktyczne zastosowania tej reakcji.',
@@ -2454,7 +2454,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'biolog',
                       title: 'Biolog',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Potrafi przeprowadzić eksperyment, żeby zademonstrować wybrane zjawisko ze świata bakterii, grzybów, roślin lub zwierząt (np. wpływ temperatury i wilgotności na pleśnienie jedzenia albo zjawisko osmozy).',
                         'Umie zaprezentować wnioski z przeprowadzonego eksperymentu.',
@@ -2464,7 +2464,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'newton',
                       title: 'Newton',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi samodzielnie zaplanować i przeprowadzić eksperyment, żeby potwierdzić jedno z praw fizycznych (np. prawo Ohma lub drugą zasadę dynamiki) albo zmierzyć wartość jakiejś stałej fizycznej (np. prędkości dźwięku lub przyspieszenia ziemskiego).',
                         'Umie przeanalizować wyniki doświadczenia oraz wytłumaczyć ewentualną niezgodność wyników z teorią.',
@@ -2475,7 +2475,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'mendelejew',
                       title: 'Mendelejew',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Umie w warunkach domowych lub polowych wytworzyć substancję (np. atrament sympatyczny lub mydło) albo przeprowadzić eksperyment chemiczny (np. węże faraona z sody i cukru) samodzielnie dobierając składniki w odpowiednich proporcjach, przygotowując i przeprowadzając cały proces.',
                         'Potrafi wyjaśnić przebieg doświadczenia, wskazać jakie reakcje chemiczne miały miejsce i zapisać ich równania.',
@@ -2486,7 +2486,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'linneusz',
                       title: 'Linneusz',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi zaplanować eksperyment z dziedziny biologii: wyznaczyć cel, sformułować hipotezę, przygotować potrzebne materiały i składniki. Przykładowo: wpływ różnych czynników (np. wilgotności, światła lub obecności osobników innych gatunków) na kiełkowanie nasion albo wpływ mydlin na wzrost roślin lądowych i wodnych.',
                         'Umie przeprowadzić zaplanowany eksperyment zgodnie z wymogami rzetelnej pracy naukowej: m.in. minimum 20 powtórzeń w próbie (np. 20 nasion hodowanych w tych samych warunkach), porównanie z próbą kontrolną.',
@@ -2509,7 +2509,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'obserwator_nieba',
                       title: 'Obserwator nieba',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Umie odnaleźć na niebie Gwiazdę Polarną, a także rozpoznać 3 gwiazdozbiory.',
                         'Potrafi rozpoznać chmury z rodzaju Cumulus.',
@@ -2519,7 +2519,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'astronom',
                       title: 'Astronom',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Zna i umie samodzielnie odnaleźć na niebie 5 gwiazdozbiorów, w tym po jednym charakterystycznym dla nieba letniego i zimowego.',
                         'Potrafi wykorzystać mapę nieba, aby odnaleźć lub nazwać widoczne gwiazdozbiory i najjaśniejsze gwiazdy.',
@@ -2530,7 +2530,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'meteorolog',
                       title: 'Meteorolog',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Umie na podstawie zjawisk na lądzie lub morzu ocenić siłę wiatru w skali Beauforta.'
                             'Potrafi odczytać z barometru ciśnienie atmosferyczne. Na podstawie kilku kolejnych pomiarów umie ocenić, czy ciśnienie rośnie, spada czy utrzymuje się na stałym poziomie.'
@@ -2542,7 +2542,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'kopernik',
                       title: 'Kopernik',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi używać teleskopu: wie do czego służą jego poszczególne części, jak go przechowywać i przygotować do obserwacji.',
                         'Umie przez teleskop obserwować ciała niebieskie (np. bliskie galaktyki, powierzchnię Księżyca, księżyce Jowisza) i zjawiska astronomiczne (np. fazy Wenus). Potrafi pokazać je kolegom.',
@@ -2554,7 +2554,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'synoptyk',
                       title: 'Synoptyk',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Umie zorganizować stację meteorologiczną, która umożliwi pomiar temperatury powietrza, ciśnienia atmosferycznego i kierunku wiatru. Na podstawie odczytu z barometru potrafi obliczyć ciśnienie zredukowane do poziomu morza. Umie wykorzystać wyniki pomiarów do orientacyjnego przewidywania pogody.',
                         'Potrafi rozpoznać niebezpieczne zmiany siły i kierunku wiatru, takie jak szkwał, odbicie i dysza; umie wyjaśnić zjawisko bryzy porannej i wieczornej; wie, jakie kierunki wiatru dominują w Polsce. Potrafi wykorzystać tę wiedzę w praktyce (np. w czasie żeglugi lub rozstawiania obozowiska).',
@@ -2578,7 +2578,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'poszukiwacz',
                       title: 'Poszukiwacz',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Umie znaleźć prawdopodobną przyczynę ciekawego zjawiska zaobserwowanego w najbliższym otoczeniu (np. popularności piosenek na ogniskach lub tras, którymi koledzy chodzą do szkoły).',
                         'Potrafi użyć do sprawdzenia swojej hipotezy narzędzi badawczych (np. cyklicznej obserwacji lub ankiety).',
@@ -2588,7 +2588,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'badacz',
                       title: 'Badacz',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Umie określić cel w planowanym badaniu (np. ocena zadowolenia harcerzy z posiłków na ostatnim obozie lub atrakcyjności zajęć pozalekcyjnych dostępnych w szkole).',
                         'Potrafi zrealizować badanie odpowiadające na postawiony cel za pomocą przygotowanych przez siebie narzędzi badawczych (np. ankiety, eksperymentu lub serii wywiadów osobistych).',
@@ -2600,7 +2600,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'socjolog',
                       title: 'Socjolog',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Umie przygotować scenariusz i na jego podstawie przeprowadzić osobisty wywiad pogłębiony, a także wypisać wnioski z niego płynące.',
                         'Potrafi przygotować kwestionariusz do badania, unikając typowych błędów (np. sugerowania odpowiedzi, niejasnych pytań oraz nieprzemyślanej kolejności pytań). Umie przeprowadzić badanie ankietowe w wybranej formie (np. ankieta papierowa lub internetowa).',
@@ -2612,7 +2612,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'moderator',
                       title: 'Moderator',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi przygotować scenariusz i materiały pomocnicze (np. dane statystyczne związane z tematem) a następnie przeprowadzić dyskusję moderowaną w gronie co najmniej 4 osób. Umie określić zasady spotkania (np. kolejność oraz czas wypowiedzi) i pilnować ich w czasie dyskusji.',
                         'Potrafi napisać sprawozdanie lub artykuł z przeprowadzonej dyskusji, uwzględniając w nim różne pojawiające się w niej punkty widzenia, problemy lub pomysły i zaplanowane rozwiązania.',
@@ -2634,7 +2634,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'skryba',
                       title: 'Skryba',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Umie w ciekawy i poprawny językowo sposób opisać wydarzenie, w którym uczestniczył.',
                         'Potrafi opracować wpis do kroniki (papierowej lub elektronicznej) w formie relacji zawierającej tekst i zdjęcia lub ilustracje oraz wykonać go w estetyczny sposób.',
@@ -2644,7 +2644,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'kronikarz',
                       title: 'Kronikarz',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Umie opisać wydarzenia, których był świadkiem, dbając nie tylko o fakty, ale także oddając nastrój i towarzyszące im emocje, korzystając z własnych wspomnień, a także konfrontując ze sobą relacje uczestników (np. członków przeciwnych zespołów w relacji z gry terenowej).',
                         'Potrafi zaplanować i wykonać cykl kronikarski (np. na stronie lub fanpage’u drużyny) opisujący kilka wydarzeń i łączący się w spójną stylistycznie całość.',
@@ -2656,7 +2656,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'kopista',
                       title: 'Kopista',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Umie płynnie i czytelnie pisać odręcznie, zachowując stałą wysokość liter małych i wielkich.',
                         'Potrafi korzystać z narzędzi pisarskich o różnych końcówkach (np. flamastrów o końcówkach okrągłych i ściętych).',
@@ -2667,7 +2667,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'reporter',
                       title: 'Reporter',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi wybrać interesujący go temat, dotrzeć do świadków związanych z nim wydarzeń oraz zebrać i opracować ich relacje, posługując się dyktafonem lub kamerą.',
                         'Umie rzetelnie i ciekawie opisać fakty na podstawie zebranych relacji, dokumentów i materiałów multimedialnych.',
@@ -2679,7 +2679,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'historyk',
                       title: 'Historyk',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi napisać tekst (np. artykuł), w którym skonfrontuje ze sobą dwa różne opisy tego samego wydarzenia historycznego i wskaże różnice między nimi.',
                         'Umie przygotować rozmowę ze świadkiem historii, wie, jakie powinien zebrać informacje wcześniej. Potrafi zadać pytania w sposób pozwalający na swobodną wypowiedź.',
@@ -2692,7 +2692,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'kaligraf',
                       title: 'Kaligraf',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi płynnie posługiwać się przynajmniej dwoma odręcznymi krojami pisma w odmianie prostej i pochyłej. Zna i umie wykorzystać w swoim piśmie różne rodzaje szeryfów.',
                         'Wie czym są i do czego służą inicjały, a także potrafi wykonać ozdobny inicjał każdej litery.',
@@ -2715,7 +2715,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'pioro',
                       title: 'Pióro',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Umie napisać krótką historyjkę, komiks lub wierszyk albo przerobić tekst piosenki, zachowując zasady poprawnej pisowni.',
                         'Potrafi przygotować swój tekst do prezentacji innym (np. w gazetce, na tablicy obozowej lub stronie internetowej).',
@@ -2725,7 +2725,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'pisarz',
                       title: 'Pisarz',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Umie napisać utwór w wybranej przez siebie formie literackiej na podstawie inspiracji (np. wiersz na podstawie zdjęcia, opowiadanie na podstawie obrazu lub piosenki) albo przerobić lub uzupełnić istniejącą historię (np. napisać alternatywne zakończenie książki, opisać dalsze losy bohatera lub rozwinąć epizod).',
                         'Potrafi stosować trójpodział narracji (wstęp, rozwinięcie i zakończenie) w swoich utworach literackich (np. opowiadaniach, felietonach).',
@@ -2736,7 +2736,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'poeta',
                       title: 'Poeta',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi napisać wiersz lub piosenkę na zadany temat, świadomie wykorzystując różne środki stylistyczne, takie jak metafora, parafraza, onomatopeja itp., w celu wywołania konkretnych emocji u odbiorcy.',
                         'Umie zaimprowizować kilkuwersową formę poetycką (np. haiku lub limeryk).',
@@ -2749,7 +2749,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'powiesciopisarz',
                       title: 'Powieściopisarz',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Umie stworzyć opowieść z wieloma wątkami i postaciami w wybranej konwencji literackiej (np. detektywistyczną, fantasy lub science-fiction).',
                         'Potrafi wykreować i opisać atrakcyjny i przekonujący świat przedstawiony, wypełniony bohaterami o określonych cechach i motywacjach.',
@@ -2762,7 +2762,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'popularyzator',
                       title: 'Popularyzator',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi napisać porywający a jednocześnie rzetelny artykuł popularnonaukowy na temat, który go interesuje.',
                         'Umie zweryfikować prawdziwość informacji z dziedziny, którą się interesuje, a także ocenić i potwierdzić wiarygodność źródeł, z których korzysta.',
@@ -2775,7 +2775,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'scenarzysta',
                       title: 'Scenarzysta',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Umie przygotować scenariusz adaptowany bądź oryginalny, zawierający opisy scen, dialogi i didaskalia, na którym może oprzeć się praca ekipy filmowej bądź teatralnej.',
                         'Potrafi stworzyć narrację, w której bohaterowie wchodzą w różnego rodzaju konflikty (np. wewnętrzne, lokalne, zewnętrzne) budujące napięcie i dynamizujące akcję.',
@@ -2797,7 +2797,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'rozmowka',
                       title: 'Rozmówka',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Potrafi załatwić kilka spraw w obcym języku, np. dogadać się w sklepie, zapytać o drogę.',
                         'Umie w obcym języku krótko opowiedzieć o sobie i o wydarzeniu, w którym uczestniczył (np. ostatniej zbiórce drużyny, wycieczce klasowej).',
@@ -2807,7 +2807,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'tlumacz',
                       title: 'Tłumacz',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Umie porozmawiać w języku obcym na kilka tematów (np. szkoła, zainteresowania, wakacje czy miejscowość z której pochodzi).',
                         'Potrafi zrozumieć obcojęzyczny film z napisami w danym języku.',
@@ -2819,7 +2819,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'lingwista',
                       title: 'Lingwista',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Umie przeprowadzić prezentację w języku obcym (np. oprowadzić obcokrajowców po swoim mieście albo zaprezentować klasie lub drużynie swoje hobby).',
                         'Potrafi ze zrozumieniem przeczytać tekst w języku obcym (np. opowiadanie czy krótką książkę).',
@@ -2842,7 +2842,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'zgodny',
                       title: 'Zgodny',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Umie rozwiązać konflikt z kolegą lub koleżanką uwzględniając zarówno potrzeby własne, jak i drugiej osoby.',
                         'W różnych sytuacjach potrafi nazwać swoje uczucia i wskazać ich źródła.',
@@ -2852,7 +2852,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'rozjemca',
                       title: 'Rozjemca',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Umie oddzielić fakty od opinii i ocen (np. podsumowując grę potrafi wskazać realne przyczyny zwycięstwa lub porażki oraz zaproponować rozwiązania na przyszłość).',
                         'W swoich wypowiedziach potrafi opisać zdarzenie wyraźnie rozgraniczając fakty od emocji, które kierowały jego uczestnikami. Umie wykorzystać tę umiejętność do opisu konfliktu, którego był świadkiem bądź uczestnikiem.',
@@ -2862,7 +2862,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'mediator',
                       title: 'Mediator',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi rozwiązać konflikt podejmując się roli mediatora.',
                         'Aby zwiększyć szanse nawiązania kontaktu i porozumienia potrafi prowadzić dialog stosując 4 kroki komunikacji bez przemocy: 1) zaobserwować i opisać fakty w konkretnej sytuacji, 2) nazwać własne uczucia, 3) ocenić jakie jego potrzeby zostały spełnione bądź nie, 4) wyrazić prośby i oczekiwania na przyszłość.',
@@ -2883,7 +2883,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'swojak',
                       title: 'Swojak',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Umie doprowadzić do zgodnego podjęcia decyzji w gronie kolegów (np. w zastępie), którą zaakceptują także nieprzekonani.',
                         'Potrafi przeprowadzić uczciwe wybory lub losowanie (np. prezentów na Mikołajki w zastępie).',
@@ -2893,7 +2893,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'niewidzialna_reka',
                       title: 'Niewidzialna ręka',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Na podstawie obserwacji i rozmów umie zaplanować zadanie służące konkretnej osobie lub społeczności (np. pomoc starszej osobie lub naprawa uszkodzonej ławki na podwórku), a następnie zrealizować je samodzielnie lub w grupie kolegów. Potrafi zrobić to w taki sposób, aby adresat działania nie wiedział, kto je wykonał.',
                       ]
@@ -2902,7 +2902,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'obywatel',
                       title: 'Obywatel',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Umie skutecznie zainicjować i doprowadzić do realizacji przedsięwzięcia związanego z życiem szkoły lub życiem sąsiedzkim (np. obchody święta szkoły lub porządkowanie podwórka).',
                         'Potrafi skutecznie przeprowadzić akcję promującą aktywność obywatelską (np. akcja „Wywieś Flagę” lub akcja Szlachetna Paczka).',
@@ -2925,7 +2925,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'zbieracz',
                       title: 'Zbieracz',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Umie zebrać kolekcję tematyczną i wyjaśnić, co łączy poszczególne przedmioty w kolekcji.',
                         'Potrafi zaprezentować kolegom swoją kolekcję.',
@@ -2935,7 +2935,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'hobbysta',
                       title: 'Hobbysta',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Umie opisać kilka elementów swojego zbioru za pomocą 3 kryteriów (np. kraj pochodzenia, rok wykonania, miejsce wydania).',
                         'Potrafi określić ramy gromadzonej kolekcji oraz wyróżnić i scharakteryzować w niej podzbiory, a także barwnie i szczegółowo opowiedzieć historię związaną z wybranym jej elementem.',
@@ -2947,7 +2947,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'kolekcjoner',
                       title: 'Kolekcjoner',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Umie skatalogować swój zbiór poprzez opis wykorzystujący informacje encyklopedyczne, profesjonalne katalogi i inne dane źródłowe.',
                         'Potrafi ciekawie opowiedzieć o różnych elementach swojej kolekcji (np. w kontekście historycznym, geograficznym lub artystycznym).',
@@ -2971,7 +2971,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'harcownik',
                       title: 'Harcownik',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Umie wytłumaczyć zasady i uczestniczyć w 6 różnych grach (np. terenowych, słownych, planszowych lub logicznych).',
                         'We wszelkich grach potrafi postępować honorowo.',
@@ -2981,7 +2981,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'taktyk',
                       title: 'Taktyk',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Potrafi dowodzić zespołem podczas gry terenowej.',
                         'Umie przeanalizować zasady gry terenowej i na tej podstawie ustalić taktykę oraz przydzielić zadania członkom zespołu. Potrafi w trakcie gry na bieżąco oceniać sytuację i przeprowadzać zmiany w przyjętym planie.',
@@ -2993,7 +2993,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'strateg',
                       title: 'Strateg',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Umie grać w przynajmniej jedną grę wymagającą logicznego myślenia (np. szachy, brydż lub go). Potrafi wytłumaczyć jej zasady i nauczyć podstaw gry nowicjusza.',
                         'Umie stosować typowe zagrania taktyczne w wybranej grze logiczno-strategicznej (np. impas brydżowy, pułapki szachowe, groźba ko w go).',
@@ -3004,7 +3004,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'organizator_gier_terenowych',
                       title: 'Organizator Gier Terenowych',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi wymyślić, przygotować i przeprowadzić minimum godzinną grę terenową dla kilku zespołów (np. zastępów w drużynie) uwzględniając jej mechanikę, estetykę (np. rekwizytów lub instrukcji) i fabułę.',
                         'Umie sporządzić plan gry i listę potrzebnych rzeczy, które pozwolą na jej odtworzenie przez osobę, która wcześniej jej nie znała.',
@@ -3016,7 +3016,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'tworca_gier',
                       title: 'Twórca gier',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Umie wymyślić i stworzyć własną, atrakcyjną grę planszową lub logiczną dla grupy 4–10 osób, uwzględniając jej mechanikę, estetykę (np. planszy lub kart) i fabułę.',
                         'Potrafi opracować instrukcję do swojej gry, która umożliwi samodzielne zrozumienie i rozegranie gry osobom, które jej nie znają.',
@@ -3027,7 +3027,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'arcymistrz',
                       title: 'Arcymistrz',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Umie przeanalizować strategię lub taktyczne zagrania przeciwnika w wybranej grze logiczno-strategicznej, wskazać wady i zalety tych zagrań i zastosować odpowiednie kontry.',
                         'Zna zasady turniejowe wybranej przez siebie gry logiczno-strategicznej. Potrafi taki turniej zorganizować.',
@@ -3058,7 +3058,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'chudy_jastrzab',
                       title: 'Chudy Jastrząb',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Umie spierać się z szacunkiem do rozmówcy w dyskusji na żywo i w Internecie. Potrafi wypowiadać się tak, by być dobrze zrozumianym i nie urazić innych.',
                         'Potrafi przedstawić konkretne argumenty potwierdzające jego zdanie lub opinię.',
@@ -3068,7 +3068,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'czarna_pantera',
                       title: 'Czarna Pantera',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Umie zauważyć popełniane przez siebie lub innych błędy poznawcze (np. uprzedzenia, generalizowanie, myślenie czarnobiałe itd.) i potrafi wyjaśnić, na czym polegają i jak się ich wystrzegać.',
                         'Potrafi przedstawić różne racje i spojrzenia na tę samą sprawę oraz wyjaśnić jakie mogą być przyczyny różnych poglądów.',
@@ -3079,7 +3079,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'stary_wilk',
                       title: 'Stary Wilk',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi poprowadzić debatę, w której obowiązują określone zasady.',
                         'Umie przedstawić swoje racje, również w sytuacji kiedy są niepopularne w grupie.',
@@ -3102,7 +3102,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'kamyk',
                       title: 'Kamyk',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Umie zaplanować swój dzień tak, aby zrealizować swoje regularne obowiązki oraz mieć czas na przyjemności i odpoczynek.',
                         'Potrafi przez określony czas (np. dwóch tygodni) dotrzymać zobowiązania lub postanowienia (np. nowego obowiązku domowego lub systematycznych ćwiczeń).',
@@ -3112,7 +3112,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'glaz',
                       title: 'Głaz',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Umie na określony czas (np. miesiąc) zrezygnować z konkretnej przyjemności, żeby zrealizować postawiony sobie cel.',
                         'Potrafi zaplanować i przeprowadzić działanie, które zajmuje czas kilkunastu dni lub kilku tygodni (np. konieczna jest systematyczna codzienna praca przez 2 lub 3 tygodnie).',
@@ -3122,7 +3122,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'skala',
                       title: 'Skała',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi wyrobić sobie nowy pożyteczny nawyk.',
                         'Umie wskazać swoje mocne i słabe strony oraz uwzględnić je w podejmowanych działaniach, aby jak najlepiej wykorzystać swój potencjał.',
@@ -3145,7 +3145,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'ministrant',
                       title: 'Ministrant',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Umie służyć do Mszy Świętej (m.in. obsłużyć dzwonki, ampułki, kielich).',
                       ]
@@ -3154,7 +3154,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'ministrant_oltarza',
                       title: 'Ministrant Ołtarza',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Potrafi wypełniać obowiązki asysty ministranckiej w trakcie uroczystej Mszy Świętej (m.in. obsłużyć trybularz, akolitki, ewangeliarz) oraz innych nabożeństw.',
                       ]
@@ -3163,7 +3163,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'liturgista',
                       title: 'Liturgista',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Umie zorganizować uroczystą liturgię jako ceremoniarz i potrafi do niej służyć.',
                         'Umie zorganizować Mszę Świętą w warunkach polowych, aby zapewnić jej godne sprawowanie.',
@@ -3185,7 +3185,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'biblista',
                       title: 'Biblista',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Umie odnaleźć właściwy fragment Pisma Świętego na podstawie skrótów biblijnych (sigla).',
                         'Potrafi godnie odczytać fragment Pisma Świętego (np. podczas Mszy Świętej lub obchodów święta w domu).',
@@ -3195,7 +3195,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'librysta',
                       title: 'Librysta',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Umie poprawnie pod względem interpretacji, intonacji, odpowiednio stawianych akcentów zdaniowych, dykcji i emisji głosu, proklamować Słowo Boże.',
                         'Potrafi znaleźć i zaznaczyć odpowiednie czytania w lekcjonarzu i ewangeliarzu oraz przygotować potrzebne księgi liturgiczne do celebracji. Potrafi o nie zadbać z należytym szacunkiem tak w czasie liturgii, jak i poza nią.',
@@ -3206,7 +3206,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                   SprawData(
                       id: 'lektor',
                       title: 'Lektor',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi korzystać z różnych interpretacji i komentarzy do Pisma Świętego.',
                         'Umie przeprowadzić rozważania modlitewne lub dyskusję w oparciu o odpowiednio dobrane fragmenty Pisma Świętego.',
@@ -3227,7 +3227,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                 SprawData(
                     id: 'iskra',
                     title: 'Iskra',
-                    level: '1',
+                    level: 1,
                     tasks: [
                       'Umie poprowadzić modlitwę zastępu lub drużyny w różnych sytuacjach (np. modlitwę przed posiłkiem, poranną i wieczorną).',
                     ]
@@ -3236,7 +3236,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                 SprawData(
                     id: 'zagiew',
                     title: 'Żagiew',
-                    level: '2',
+                    level: 2,
                     tasks: [
                       'Zna różne rodzaje i formy modlitwy oraz potrafi ją animować w życiu drużyny.',
                       'Umie zapewnić odpowiednią oprawę do modlitwy, dbając o takie elementy jak miejsce, symbole, wystrój i muzyka.',
@@ -3246,7 +3246,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                 SprawData(
                     id: 'luczywo',
                     title: 'Łuczywo',
-                    level: '3',
+                    level: 3,
                     tasks: [
                       'Potrafi zorganizować wydarzenie związane z życiem religijnym w drużynie (np. czuwanie adwentowe, spotkanie wigilijne drużyny, drogę krzyżową) dbając przy tym o scenariusz, wykorzystanie obrzędów i element skupienia (rozważania i modlitwę).',
                     ]
@@ -3255,7 +3255,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                 SprawData(
                     id: 'pielgrzym',
                     title: 'Pielgrzym',
-                    level: '3',
+                    level: 3,
                     tasks: [
                       'Umie określić duchową intencję pielgrzymowania, dobierając odpowiednią trasę i cel.',
                       'Potrafi opowiedzieć innym pątnikom o znaczeniu religijnym i historii miejsca, będącego celem pielgrzymki.',

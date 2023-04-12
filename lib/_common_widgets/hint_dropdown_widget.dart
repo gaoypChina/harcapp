@@ -73,7 +73,7 @@ class HintDropdownWidget<T> extends StatelessWidget{
 
       Positioned(
         top: 0,
-        left: 0,
+        left: Dimen.TEXT_FIELD_PADD,
         child: AnimatedOpacity(
           duration: const Duration(milliseconds: 300),
           opacity:

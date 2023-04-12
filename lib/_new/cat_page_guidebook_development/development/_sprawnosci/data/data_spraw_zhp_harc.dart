@@ -42,7 +42,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'wyga',
                       title: 'Wyga',
-                      level: '1',
+                      level: 1,
                       comment: 'Przygotowuje proste urządzenie obozowe. Rozpala ogniska i przygotowuje na nich proste ciepłe posiłki w terenie. Bierze udział w rozstawianiu obozowiska. Wyznacza kierunki świata.',
                       tasks: [
                         'Wziąłem(wzięłam) udział w obozie lub biwaku pod namiotami. Poznałem(-am) zasady bezpieczeństwa i przestrzegałem(-am) ich. Pozostawiłem(-am) po sobie porządek.',
@@ -53,7 +53,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'wyga',
                       title: 'Wyga',
-                      level: '2',
+                      level: 2,
                       comment: 'Przygotowuje złożone urządzenie obozowe. Umiejętnie buduje szałasy w bezpiecznym miejscu. Przygotowuje złożone posiłki na ognisku',
                       tasks: [
                         'Rozpaliłem(-am) ognisko na łonie natury w bezpiecznym miejscu, z zachowaniem zasad bezpieczeństwa, z użyciem wyłącznie naturalnych materiałów (nie dotyczy zapałek); po zgaszeniu doprowadziłem(-am) miejsce do pierwotnego stanu. Uczestniczyłem(-am) w przygotowaniu złożonego posiłku na ognisku.',
@@ -65,7 +65,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'wyga',
                       title: 'Wyga',
-                      level: '3',
+                      level: 3,
                       comment: 'Potrafi zapewniać sobie w terenie komfortowy i bezpieczny sposób bytowania (spanie, jedzenie, przechowywanie rzeczy, załatwianie potrzeb fizjologicznych, mycie). Potrafi zorganizować bytowanie grupy w terenie (służby kuchenne, zapewnienie bezpieczeństwa). Kieruje budową podstawowych urządzeń obozowych.',
                       tasks: [
                         'Wziąłem(wzięłam) udział w kilkudniowym rajdzie lub wyprawie z nocowaniem na łonie przyrody, podczas którego minimalizowałem(-am) swój wpływ na środowisko (odpowiednio gospodarując wodą i odpadami, przygotowując nocleg, zabezpieczając ognisko).',
@@ -80,7 +80,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'wyga',
                       title: 'Wyga',
-                      level: '4',
+                      level: 4,
                       comment: 'Zapewnia sobie w terenie komfortowy i bezpieczny sposób bytowania. Praktykuje różne formy wędrowania. Bierze aktywny udział w przygotowywaniu obozu swojej drużyny lub środowiska.',
                       tasks: [
                         'Zaplanowałem(-am) i zorganizowałem(-am) kilkudniową wędrówkę zgodnie z zasadami Leave No Trace',
@@ -96,7 +96,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'skaut',
                       title: 'Skaut',
-                      level: '1',
+                      level: 1,
                       comment: 'Zna zwyczaje i obrzędy własnej drużyny. Poznaje podstawowe informacje dotyczące ruchu harcerskiego.',
                       tasks: [
                         'Noszę mundur zgodny z regulaminem obowiązującym w ZHP.',
@@ -108,7 +108,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'skaut',
                       title: 'Skaut',
-                      level: '2',
+                      level: 2,
                       comment: 'Odkrywa harcerstwo poza własną drużyną. Zna miejsce swojej drużyny w ZHP, w ruchu harcerskim.',
                       tasks: [
                         'Dowiedziałem(-am) się, jakie inne organizacje harcerskie, poza ZHP, działają w Polsce. Nawiązałem(-am) kontakt z członkiem jednej z nich i poznałem(-am) kilka różnic między naszymi organizacjami, opowiedziałem(-am) o tym zastępowi.',
@@ -119,7 +119,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'skaut',
                       title: 'Skaut',
-                      level: '3',
+                      level: 3,
                       comment: 'Pielęgnuje tożsamość własnej drużyny, świadomie odkrywa tożsamość ruchu harcerskiego.',
                       tasks: [
                         'Odwiedziłem(-am) jedno z miejsc związanych z ważnymi dla harcerstwa wydarzeniami.',
@@ -131,7 +131,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'skaut',
                       title: 'Skaut',
-                      level: '4',
+                      level: 4,
                       comment: 'Współtworzy tożsamość własnej drużyny i pielęgnuje spuściznę ruchu harcerskiego, jest jego ambasadorem',
                       tasks: [
                         'Przekazałem(-am) w ciekawej formie młodszym członkom mojego środowiska harcerskiego wiedzę o jego tradycjach.',
@@ -147,7 +147,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'znawca_musztry',
                       title: 'Znawca musztry',
-                      level: '1',
+                      level: 1,
                       comment: 'Wykonuje podstawowe elementy musztry indywidualnej i zespołowej.',
                       tasks: [
                         'Przyjąłem(-am) postawy zasadniczą i swobodną. Wykonałem(-am) zwroty: w lewo, w prawo, w tył.',
@@ -158,7 +158,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'znawca_musztry',
                       title: 'Znawca musztry',
-                      level: '2',
+                      level: 2,
                       comment: 'Prowadzi musztrę zastępu. Występuje w rolach innych niż szeregowy członek grupy.',
                       tasks: [
                         'Kierowałem(-am) musztrą zastępu, wykonując: zbiórkę, zmiany szyku, odliczanie.',
@@ -171,7 +171,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'znawca_musztry',
                       title: 'Znawca musztry',
-                      level: '3',
+                      level: 3,
                       comment: 'Prowadzi apel drużyny. Wykorzystuje musztrę na poziomie niezbędnym oboźnemu.',
                       tasks: [
                         'Kierowałem(-am) apelem drużyny.',
@@ -182,7 +182,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'znawca_musztry',
                       title: 'Znawca musztry',
-                      level: '4',
+                      level: 4,
                       comment: 'Kieruje apelem na szczeblu powyżej drużyny. Kieruje wydarzeniami ceremonialnymi i występuje podczas nich w każdej roli.',
                       tasks: [
                         'Wykonałem(-am) co najmniej jedno z poniższych zadań:'
@@ -206,7 +206,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'wartownik',
                       title: 'Wartownik',
-                      level: '2',
+                      level: 2,
                       comment: 'Zna i stosuje zasady służby wartowniczej. Reaguje w trudnych sytuacjach.',
                       tasks: [
                         'Wiem, jakie znaczenie ma służba wartownicza dla bezpieczeństwa osób i mienia znajdującego się na terenie obozu (biwaku). Pełniłem(-am) wzorowo służbę wartowniczą łącznie przez 10 godzin w nocy i 8 godzin w dzień.',
@@ -221,7 +221,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'wartownik',
                       title: 'Wartownik',
-                      level: '3',
+                      level: 3,
                       comment: 'Kieruje służbą wartowniczą.',
                       tasks: [
                         'Zdobyłem(-am) sprawność Wartownika (**).',
@@ -232,7 +232,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'wartownik',
                       title: 'Wartownik',
-                      level: '4',
+                      level: 4,
                       comment: 'Dba o bezpieczeństwo obozu.',
                       tasks: [
                         'Przyjmowałem(-am) gości obozowych i wizytacje zgodnie z właściwymi procedurami.',
@@ -256,7 +256,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'harcownik',
                       title: 'Harcownik',
-                      level: '2',
+                      level: 2,
                       comment: 'Uczestniczy w grach terenowych i ćwiczeniach rozwijających spostrzegawczość, refleks, pamięć. Rozumie wagę uczciwego współzawodnictwa. Postępuje zgodnie z zasadami.',
                       tasks: [
                         'Wziąłem(wzięłam) udział w pięciu grach w terenie o różnych zasadach, np. INO, grze ruchowej, zabawie ruchowej, biegu patrolowym. Byłem(-am) uczciwa w trakcie współzawodnictwa przestrzegałem(-am) zasad.',
@@ -267,7 +267,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'harcownik',
                       title: 'Harcownik',
-                      level: '3',
+                      level: 3,
                       comment: 'Przeprowadzi gry rozwijające u uczestników różne umiejętności. Posiada zbiór pomysłów na gry (w tym te wymagające przygotowania i te możliwe do przeprowadzenia na poczekaniu).',
                       tasks: [
                         'Kierowałem(-am) zastępem/drużyną w czasie gry terenowej/zawodów sportowych.',
@@ -279,7 +279,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'harcownik',
                       title: 'Harcownik',
-                      level: '4',
+                      level: 4,
                       comment: 'Prowadzi gry i ćwiczenia dla różnych grup wiekowych. Posiada duży repertuar różnorodnych gier i ćwiczeń. Przekazuje wiedzę innym.',
                       tasks: [
                         'W grze pokierowałem(-am) zespołem, opracowałem(-am) taktykę działania, przydzieliłem(-am) zadania członkom zespołu adekwatne do umiejętności. Zadbałem(-am) o komunikację i współpracę członków zespołu podczas trwania gry.',
@@ -299,7 +299,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'straznik_ognia',
                       title: 'Strażnik ognia',
-                      level: '2',
+                      level: 2,
                       comment: 'Ustawia i rozpala ogniska z odpowiednich materiałów i w odpowiednim miejscu',
                       tasks: [
                         'Znam znaczenie ognia w historii ludzkości, opowiedziałem(-am) w zastępie, jak rozpalano go i korzystano z niego na przestrzeni wieków.',
@@ -310,7 +310,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'straznik_ognia',
                       title: 'Strażnik ognia',
-                      level: '3',
+                      level: 3,
                       comment: 'Układa różne stosy ogniskowe i rozpala ogniska dostosowane do potrzeb. Przestrzega zasad bezpieczeństwa. Radzi sobie z oparzeniami.',
                       tasks: [
                         'Skompletowałem(-am) własny zestaw materiałów do rozpalania ognia zabezpieczonych we właściwy sposób.',
@@ -321,7 +321,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'straznik_ognia',
                       title: 'Strażnik ognia',
-                      level: '4',
+                      level: 4,
                       comment: 'Rozpala ogniska za pomocą alternatywnych metod (krzesiwo, soczewki itd.) lub materiałów znalezionych w terenie zastępujących zapałki, również w trudnych warunkach. Przekazuje wiedzę innym.',
                       tasks: [
                         'Zorganizowałem(-am) miejsce ogniskowe. Przeszkoliłem(-am) grupę harcerzy/harcerek objaśniając im, jak dobierać materiały w zależności od przeznaczenia ogniska i nadzorując ich podczas przygotowywania stosu ogniskowego. Przygotowałem(-am) ich do pełnienia funkcji strażników ognia oraz nadzorowałem(-am) w trakcie.',
@@ -341,7 +341,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'lesny_czlowiek',
                       title: 'Leśny człowiek',
-                      level: '2',
+                      level: 2,
                       comment: 'Poznaje las o wszystkich porach dnia i nocy razem z kolegą/koleżanką.',
                       tasks: [
                         'Przeprowadziłem(-am) w pobliżu obozu w samotności kilkugodzinną obserwację życia lasu o wschodzie Słońca (np. od wschodu Słońca do pobudki obozowej).',
@@ -352,7 +352,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'lesny_czlowiek',
                       title: 'Leśny człowiek',
-                      level: '3',
+                      level: 3,
                       comment: 'Samodzielnie poznaje las. Doskonali swoje umiejętności bushcraftowe.',
                       tasks: [
                         'Odbyłem(-am) samotną wędrówkę po lesie (od świtu do zmroku), żywiąc się wyłącznie owocami lasu, odnalazłem(-am) wyznaczone przez drużynowego miejsce. Powróciłem(-am) niepostrzeżenie do ogniska i na podstawie obserwacji oraz przemyśleń z wędrówki opowiedziałem(-am) gawędę o życiu lasu.',
@@ -366,7 +366,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'lesny_czlowiek',
                       title: 'Leśny człowiek',
-                      level: '4',
+                      level: 4,
                       comment: 'Jest specjalistą od przetrwania w lesie. Uczy tego młodszych.',
                       tasks: [
                         'Spędziłem(-am) samotnie co najmniej jedną noc w lesie (poza obozem) będąc niezauważalny/a dla osób postronnych. Aby nie niszczyć poszycia leśnego, wykorzystałem(-łam) do urządzenia noclegu płachtę biwakową/hamak/tarp/.',
@@ -387,7 +387,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'zwiadowca',
                       title: 'Zwiadowca',
-                      level: '2',
+                      level: 2,
                       comment: 'Dobrze orientuje się w terenie. Wykonuje zadania dokładnie i bez zwracania na siebie uwagi.',
                       tasks: [
                         'Wskazałem(-am) najkrótszą drogę do ważnych miejsc w swojej miejscowości.',
@@ -398,7 +398,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'zwiadowca',
                       title: 'Zwiadowca',
-                      level: '3',
+                      level: 3,
                       comment: 'Jest dobrym obserwatorem. Sprawnie zdobywa przydatne informacje. Umiejętnie posługuje się środkami łączności.',
                       tasks: [
                         'Znalazłem(-am) w Internecie (lub w inny sposób) adresy i numery telefonów trzech, wyznaczonych przez drużynowego, instytucji, dysponując tylko ich nazwą. Załatwiłam/em wyznaczoną przez drużynowego sprawę.',
@@ -411,7 +411,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'zwiadowca',
                       title: 'Zwiadowca',
-                      level: '4',
+                      level: 4,
                       comment: 'Potrafi zebrać potrzebne informacje posługując się różnymi źródłami.',
                       tasks: [
                         'Przeprowadziłem(-am) zwiad na określony temat różnymi technikami (wywiad, obserwacja, badanie dokumentów). Zebrałem(-am) materiały, sporządziłem(-am) szczegółowy raport z opisem wykonanych zadań i zaobserwowanych/badanych zdarzeń.',
@@ -431,7 +431,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'enigma',
                       title: 'Enigma',
-                      level: '1',
+                      level: 1,
                       comment: 'Korzysta z różnych metod łączności (poczta, Internet, terenowe metody łączności). Potrafi zaszyfrować informację.',
                       tasks: [
                         'Posiadam stały adres e-mailowy, regularnie sprawdzam swoją skrzynkę odbiorczą. Napisałem(-am) i wysłałem(-am) list tradycyjny i e-mailowy.',
@@ -441,7 +441,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'enigma',
                       title: 'Enigma',
-                      level: '2',
+                      level: 2,
                       comment: 'Potrafi porozumiewać się na odległość za pomocą tradycyjnych systemów szyfrowania i przekazywania informacji. Konstruuje proste szyfry na potrzeby swojego zastępu lub drużyny.',
                       tasks: [
                         'Wykonałem jedno z zadań:'
@@ -453,7 +453,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'enigma',
                       title: 'Enigma',
-                      level: '3',
+                      level: 3,
                       comment: 'Wie, jak są konstruowane szyfry, i zna podstawowe metody ich łamania. Wie, jak są używane współcześnie, i rozumie wagę ochrony danych.',
                       tasks: [
                         'Wiem, jak sprawdzić sygnaturę e-maila i jak powinien być on podpisany. Wiem, jak sprawdzić, czy połączenie jest bezpieczne. Wysłałem(-am) maila podpisanego lub szyfrowanego i wykonałem co najmniej jedno z zadań:'
@@ -466,7 +466,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'enigma',
                       title: 'Enigma',
-                      level: '4',
+                      level: 4,
                       comment: 'Posiada umiejętności kryptoanalizy, umie przypuścić skuteczny atak na szyfr polialfabetyczny; wie, jak szyfry są stosowane we współczesnym świecie.',
                       tasks: [
                         'Wziąłem(wzięłam) udział w konkursie kryptologicznym (np. lamaczeszyfrow.pl) lub we własnym zakresie zapoznałem(-am) się z rodzajami szyfrów i metodami skutecznego ataku na nie.',
@@ -492,7 +492,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'ratownik',
                       title: 'Ratownik',
-                      level: '1',
+                      level: 1,
                       comment: 'Podczas rzeczywistego wydarzenia lub symulacji wykazuje się umiejętnościami udzielania pierwszej pomocy w sytuacjach, które mogą przydarzyć się w domu. Zna numery alarmowe, wie, kiedy i w jaki sposób z nich korzystać.',
                       tasks: [
                         'Udzieliłem(-am) pomocy w następujących sytuacjach:'
@@ -506,7 +506,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'ratownik',
                       title: 'Ratownik',
-                      level: '2',
+                      level: 2,
                       comment: 'W prawdziwej sytuacji lub podczas symulacji udziela pierwszej pomocy w najczęściej spotykanych urazach w domu, szkole i na obozie.',
                       tasks: [
                         'Skompletowałem(-am) apteczkę osobistą.',
@@ -522,7 +522,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'ratownik',
                       title: 'Ratownik',
-                      level: '3',
+                      level: 3,
                       comment: 'W prawdziwej sytuacji lub podczas symulacji rozpoznaje najczęstsze stany zagrożenia życia i udziela pierwszej pomocy, dbając o bezpieczeństwo swoje i świadków zdarzenia.',
                       tasks: [
                         'Przeprowadziłem(-am) resuscytację krążeniowo-oddechową na fantomie osoby dorosłej.',
@@ -543,7 +543,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'lider_zdrowia',
                       title: 'Lider Zdrowia',
-                      level: '1',
+                      level: 1,
                       comment: 'Umie ubrać się stosownie do pogody. Stosuje zasady zdrowego odżywiania się. Bierze udział w krótkich formach aktywnego wypoczynku na łonie natury. Regularnie uprawia wybrane dziedziny aktywności fizycznej.',
                       tasks: [
                         'Przez minimum 2 tygodnie samodzielnie przygotowywałem(-am) sobie drugie śniadanie do szkoły zgodnie z zasadami zbilansowanej diety.',
@@ -554,7 +554,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'lider_zdrowia',
                       title: 'Lider Zdrowia',
-                      level: '2',
+                      level: 2,
                       comment: 'Przestrzega zaleceń zdrowego odżywiania się. Bierze udział w całodziennych formach aktywnego wypoczynku na łonie natury. Regularnie ćwiczy wybraną dziedzinę sprawności fizycznej, poprawiając swoje wyniki. Bierze udział w różnych formach zespołowej aktywności fizycznej.',
                       tasks: [
                         'Wraz z rodzicami ułożyłem(-am) dla siebie tygodniowy jadłospis zgodnie z zasadami zbilansowanej diety. Pilnowałem(-am) jego przestrzegania (np. nie dojadając między posiłkami).',
@@ -566,7 +566,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'lider_zdrowia',
                       title: 'Lider Zdrowia',
-                      level: '3',
+                      level: 3,
                       comment: 'Wprowadził(-a) do swojego życia na stałe zasady zdrowego odżywania się. Zna znaczenie higieny snu. Regularnie monitoruje stan swojego zdrowia. Ma ulubioną formę regularnej aktywności fizycznej.',
                       tasks: [
                         'Przez trzy miesiące spałem(-am) minimum po siedem godzin dziennie, dbając o to, aby przed snem się wyciszyć. Dowiedziałem(-am) się, dlaczego używanie urządzeń z wyświetlaczem przed snem jest niekorzystne dla jakości snu, i nie korzystałem(-am) z nich na min. godzinę przed snem.',
@@ -577,7 +577,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'lider_zdrowia',
                       title: 'Lider Zdrowia',
-                      level: '4',
+                      level: 4,
                       comment: '* Umiejętnie stosuje właściwą dietę w zależności od rodzaju wysiłku fizycznego. Przestrzega zasady higieny snu. Posiada nawyk regularnej aktywności fizycznej.',
                       tasks: [
                         'Zaplanowałem(-am) i zorganizowałem(-am) długotrwały wysiłek fizyczny o charakterze wyczynu i dobrałem(-am) dostosowaną do niego dietę. W miarę możliwości uzyskałem(-am) dla swojego pomysłu akceptację profesjonalisty.',
@@ -594,7 +594,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'pomocna_dlon',
                       title: 'Pomocna Dłoń',
-                      level: '1',
+                      level: 1,
                       comment: 'Bezpiecznie opiekuje się dzieckiem pod nieobecność dorosłych. Wykonuje proste czynności związane z opieką nad osobą starszą lub chorą.',
                       tasks: [
                         'Opiekowałem(-am) się młodszym rodzeństwem lub innym dzieckiem przez kilka godzin (np. pod nieobecność rodziców lub gdy byli bardzo zajęci), umiejętnie je zabawiając i zapewniając bezpieczeństwo.',
@@ -604,7 +604,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'pomocna_dlon',
                       title: 'Pomocna Dłoń',
-                      level: '2',
+                      level: 2,
                       comment: 'Umiejętnie zajmuje się powierzonymi jego(jej) opiece osobami młodszymi i chorymi. Posiada podstawowe umiejętności pozwalające na aktywne włączenie się w życie rodziny.',
                       tasks: [
                         'Potrafię opiekować się małym dzieckiem. Pod nadzorem rodziców zadbałem(-am) o powierzone mi dziecko (np. rodzeństwo, dziecko sąsiadów) przez dłuższy okres (np. miesiąc, wakacje):'
@@ -623,7 +623,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'pomocna_dlon',
                       title: 'Pomocna Dłoń',
-                      level: '3',
+                      level: 3,
                       comment: 'Kompetentnie i kompleksowo opiekuje się dziećmi i osobami chorymi',
                       tasks: [
                         'Własnoręcznie przygotowałem(-am) niespodziankę dla dziecka (własnoręcznie wykonana zabawka, uszyte lub przerobione ubranko, ulubiony podwieczorek).',
@@ -642,7 +642,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'epidemiolog',
                       title: 'Epidemiolog',
-                      level: '1',
+                      level: 1,
                       comment: 'Umie w czasie epidemii zadbać o siebie.',
                       tasks: [
                         'Wiem, jak się zachowywać w czasie epidemii. Ograniczyłem(-am) do minimum wyjścia z domu i bezpośrednie kontakty z innymi osobami. Zachowałem(-am) kontakt telefoniczny/internetowy z moimi bliskimi, z którymi nie mieszkam (np. dziadkami).',
@@ -653,7 +653,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'epidemiolog',
                       title: 'Epidemiolog',
-                      level: '2',
+                      level: 2,
                       comment: 'Pomaga rodzinie w czasie epidemii, jest aktywny.',
                       tasks: [
                         'Dowiedziałem(-am) się, czym jest izolacja społeczna. Zastosowałem(-am) w praktyce jej zasady.',
@@ -664,7 +664,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'epidemiolog',
                       title: 'Epidemiolog',
-                      level: '3',
+                      level: 3,
                       comment: 'Pełni służbę informacyjną w czasie epidemii.',
                       tasks: [
                         'Dowiedziałem(-am) się, czym różni się bakteria od wirusa, dlatego wiem, na czym polegają działania prewencyjne. Zastosowałem(-am) się do zaleceń służb sanitarnych.',
@@ -675,7 +675,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'epidemiolog',
                       title: 'Epidemiolog',
-                      level: '4',
+                      level: 4,
                       comment: 'Pełni służbę na rzecz młodszych harcerzy i na zewnątrz organizacji.',
                       tasks: [
                         'Opracowałem(-am) zbiórkę dla drużyny i przeprowadziłem(-am) ją z wykorzystaniem łączy internetowych. Materiały potrzebne do zorganizowania zbiórki udostępniłem(-am) innym wędrownikom/instruktorom.',
@@ -691,7 +691,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'bezpieczny',
                       title: 'Bezpieczny',
-                      level: '1',
+                      level: 1,
                       comment: 'Dba o swoje bezpieczeństwo w domu, w szkole, na drodze, w lesie i w podróży.',
                       tasks: [
                         'Wiem, jak niebezpieczne w domu jest wspinanie się na meble, parapety itp. Aby sięgnąć po coś z góry lub umyć okna, używałem(-am) wyłącznie stabilnych taboretów lub domowych drabinek.',
@@ -705,7 +705,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'bezpieczny',
                       title: 'Bezpieczny',
-                      level: '2',
+                      level: 2,
                       comment: 'Dba o swoje bezpieczeństwo w domu, w szkole, na drodze, w lesie i w podróży.',
                       tasks: [
                         'Nauczyłem(-am) się zabezpieczać dom przed złodziejami i zdarzeniami losowymi. Sporządziłem(-am) listę kontrolną czynności, które należy wykonać przed wyjściem z domu/mieszkania (zamknięcie okien i balkonu, wyłączenie kuchenki gazowej, wyłączenie urządzeń elektrycznych, sprawdzenie kranów z wodą itp.). Regularnie ją stosowałem(-am) przed każdym wyjściem z domu.',
@@ -718,7 +718,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'bezpieczny',
                       title: 'Bezpieczny',
-                      level: '3',
+                      level: 3,
                       comment: 'Dba o swoje bezpieczeństwo w domu, w szkole, na drodze, w lesie i w podróży.',
                       tasks: [
                         'Sprawdziłem(-am) w mieszkaniu lub domu, gdzie znajdują się zawory: gazu, wody i wyłącznik prądu. Nauczyłem(-am) się je obsługiwać. Dowiedziałem(-am) się, kiedy i w jakich okolicznościach należy je zamknąć.',
@@ -730,7 +730,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'bezpieczny',
                       title: 'Bezpieczny',
-                      level: '4',
+                      level: 4,
                       comment: 'Dba o swoje bezpieczeństwo w domu, w szkole, na drodze, w lesie i w podróży. Doświadczeniami dzieli się z młodszymi.',
                       tasks: [
                         'Dowiedziałem(-am) się, na czym polega w domu zagrożenie tlenkiem węgla i pożarem. Wykonałem(-am) co najmniej jedno zadanie:'
@@ -760,7 +760,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'ekolog',
                       title: 'Ekolog',
-                      level: '1',
+                      level: 1,
                       comment: 'Rozumie, że człowiek swoimi decyzjami wpływa na środowisko. Stosuje podstawowe nawyki proekologiczne w sytuacjach domowych. Zachowuje się odpowiednio podczas kilkugodzinnego pobytu na łonie natury.',
                       tasks: [
                         'Znam zasady segregacji odpadów w swoim miejscu zamieszkania. Segreguję zgodnie z nimi odpady w domu, szkole i harcówce.',
@@ -771,7 +771,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'ekolog',
                       title: 'Ekolog',
-                      level: '2',
+                      level: 2,
                       comment: 'Propaguje w swoim otoczeniu świadomość, że człowiek swoimi decyzjami wpływa na środowisko. Stosuje podstawowe nawyki proekologiczne w domu i na wycieczce. Zachowuje się odpowiednio podczas całodziennego pobytu na łonie natury.',
                       tasks: [
                         'Korzystałem(-am) regularnie z wielorazowej butelki na wodę, nie kupując wody w jednorazowych, plastikowych butelkach, o ile nie było to absolutnie konieczne, przynajmniej przez 3 miesiące.',
@@ -783,7 +783,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'ekolog',
                       title: 'Ekolog',
-                      level: '3',
+                      level: 3,
                       comment: 'Rozumie zależności pomiędzy człowiekiem a środowiskiem na przykładzie śladu węglowego. Stosuje zaawansowane nawyki proekologiczne. Zachowuje się odpowiednio podczas weekendowego pobytu na łonie natury.',
                       tasks: [
                         'Wziąłem (Wzięłam) udział w kilkudniowej wyprawie z nocowaniem na łonie przyrody. Nauczyłem(-am) się odpowiednio załatwiać swoje potrzeby fizjologiczne, będąc w terenie.',
@@ -798,7 +798,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'ekolog',
                       title: 'Ekolog',
-                      level: '4',
+                      level: 4,
                       comment: 'Rozumie i propaguje świadomość najważniejszych zależności pomiędzy człowiekiem a środowiskiem na przykładzie śladu wodnego. Stosuje i propaguje zaawansowane nawyki proekologiczne. Zachowuje się odpowiednio podczas pobytów na łonie natury.',
                       tasks: [
                         'Poznałem(-am) podstawowe problemy związane z dostępem do wody pitnej (w tym problem jej niedoboru) na świecie i w Polsce. Wykonałem(-am) jedno z poniższych zadań:'
@@ -820,7 +820,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'przyrodnik',
                       title: 'Przyrodnik',
-                      level: '1',
+                      level: 1,
                       comment: 'Rozpoznaje najpopularniejsze rośliny i zwierzęta leśne. Opiekuje się roślinami domowymi.',
                       tasks: [
                         'Rozpoznałem(-am) podstawowe jadalne rośliny leśne (np. borówka, poziomka, malina, jeżyna, orzechy laskowe).',
@@ -831,7 +831,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'przyrodnik',
                       title: 'Przyrodnik',
-                      level: '2',
+                      level: 2,
                       comment: 'Rozpoznaje rośliny, zwierzęta i grzyby leśne. Obserwuje dziką przyrodę w sposób bezpieczny dla siebie i natury. Hoduje rośliny domowe.',
                       tasks: [
                         'Rozpoznałem(-am) przynajmniej 5 roślin i grzybów niebezpiecznych lub trujących (np. konwalia majowa, barszcz sosnowskiego, wawrzynek wilczełyko, pokrzyk, wilcza jagoda, trzmielina). Opowiedziałem(-am) innym jak postępować i pomóc komuś w przypadku spożycia/kontaktu z nimi.',
@@ -846,7 +846,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'przyrodnik',
                       title: 'Przyrodnik',
-                      level: '3',
+                      level: 3,
                       comment: 'Rozpoznaje rośliny i zwierzęta występujące w jego/jej regionie. Organizuje wycieczki przyrodnicze w sposób bezpieczny dla uczestników i natury.',
                       tasks: [
                         'Rozpoznałem(-am) i opowiedziałem innym osobom o życiu co najmniej 10 występujących w moim otoczeniu roślin i zwierząt:'
@@ -859,7 +859,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'przyrodnik',
                       title: 'Przyrodnik',
-                      level: '4',
+                      level: 4,
                       comment: 'Rozpoznaje rośliny i zwierzęta występujące w Polsce. Bierze czynny udział w inicjatywach mających na celu ochronę przyrody.',
                       tasks: [
                         'Skompletowałem(-am) biblioteczkę (książki, artykuły, foldery, adresy stron internetowych) o tematyce ekologicznej. Przeprowadziłem(-am) zbiórkę na temat znaczenia przyrody dla zdrowia człowieka oraz potrzeby jej ochrony przed zagrożeniami cywilizacyjnymi.',
@@ -875,7 +875,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'przyjaciel_roslin',
                       title: 'Przyjaciel roślin',
-                      level: '1',
+                      level: 1,
                       comment:'Rozpoznaje podstawowe rośliny uprawiane w polskich domach i ogródkach czy rosnące w lasach i na łąkach. Sadzi i opiekuje się roślinami.',
                       tasks: [
                         'Wyhodowałem(-am) z nasion, pestek lub cebulek wybraną przez siebie roślinę, opiekowałem(-am) się nią i udokumentowałem(-am) np. na zdjęciach etapy jej wzrastania i przedstawiłem(-am) je na zbiórce.',
@@ -885,7 +885,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'przyjaciel_roslin',
                       title: 'Przyjaciel roślin',
-                      level: '2',
+                      level: 2,
                       comment: 'Zna rośliny chronione, w tym też takie, które wymagają w naszym kraju specjalnej troski.',
                       tasks: [
                         'Odnalazłem(-am) i odwiedziłem(-am) w swojej okolicy co najmniej dwa drzewa/grupy drzew - pomniki przyrody.',
@@ -896,7 +896,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                       id: 'przyjaciel_roslin',
                       title: 'Przyjaciel roślin',
                       comment: 'Działa na rzecz ochrony roślin.',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Przedstawiłem(-am) na zbiórce drużyny w ciekawy sposób wybrane gatunki roślin występujących na świecie, zagrożonych wyginięciem („czerwona księga”).',
                         'Poprowadziłem(-am) wycieczkę zastępu lub drużyny w celu poznania środowiska roślinnego najbliższej okolicy. Ciekawie opowiedziałem(-am) o co najmniej 8 roślinach, które napotkaliśmy (np. na łące, w lesie). Przygotowując wyprawę, korzystałem(-am) ze swoich zbiorów: albumów, atlasów, zielników, zbiorów cyfrowych itp. na temat roślin.',
@@ -912,7 +912,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'zielarz',
                       title: 'Zielarz',
-                      level: '2',
+                      level: 2,
                       comment: 'Zna podstawowe zioła występujące w Polsce. Potrafi je wykorzystać.',
                       tasks: [
                         'Znalazłem(-am) w lesie i na łące co najmniej 6 roślin jadalnych, które zebrałem w celu wykorzystania.',
@@ -922,7 +922,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'zielarz',
                       title: 'Zielarz',
-                      level: '3',
+                      level: 3,
                       comment: 'Zna zasady zbierania i przechowywania ziół.',
                       tasks: [
                         'Samodzielnie wysuszyłem(-am) i odpowiednio spakowałem(-am) przyprawy, które następnie wziąłem (wzięłam) na biwak - np. bazylia, natka pietruszki itp., w tym co najmniej jedną przyprawę samodzielnie znalezioną w terenie.',
@@ -933,7 +933,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'zielarz',
                       title: 'Zielarz',
-                      level: '4',
+                      level: 4,
                       comment: 'Korzysta z darów lasu i łąki do przyrządzania posiłków we wszystkich porach roku. Propaguje ziołolecznictwo.',
                       tasks: [
                         'Przygotowałem co najmniej 8 potraw (minimum 4 ciepłe) z wykorzystaniem samodzielnie zebranych, dziko rosnących owoców i ziół (przy wykorzystaniu dodatkowo takich produktów jak kasza, mąką i miód).',
@@ -951,7 +951,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'florysta',
                       title: 'Florysta',
-                      level: '2',
+                      level: 2,
                       comment: 'Rozpoznaje najpopularniejsze kwiaty ogrodowe, doniczkowe i polne. Pielęgnuje własny ogródek kwiatowy. Układa bukiety kwiatowe, korzystając z roślin sezonowych.',
                       tasks: [
                         'Rozpoznałem(-am) co najmniej 15 różnych kwiatów w tym kwiaty ogrodowe, doniczkowe i polne.',
@@ -961,7 +961,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'florysta',
                       title: 'Florysta',
-                      level: '3',
+                      level: 3,
                       comment: 'Pielęgnuje rzadkie lub trudne w uprawie kwiaty. Układa bukiety kwiatowe, świadomie korzystając z polskich kwiatów. Korzysta z kwiatów w celach dekoracyjnych.',
                       tasks: [
                         'Dowiedziałem(-am) się, jakie kwiaty można uprawiać w Polsce, a jakie sprowadza się z zagranicy. Ułożyłem(-am) 3 bukiety składające się wyłącznie z polskich kwiatów.',
@@ -980,7 +980,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                       id: 'ogrodnik',
                       title: 'Ogrodnik',
                       comment: 'Rozpoznaje nasiona popularnych warzyw. Hoduje własne warzywa. Przygotowuje warzywa do przechowywania podczas zimy.',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Rozpoznałem(-am) nasiona popularnych warzyw np. marchwi, pietruszki, sałaty, ogórków, buraczków, groszku i dyni.',
                         'Wyhodowałem(-am) samodzielnie co najmniej 5 warzyw z nasion lub rozsady. Starałem(-am) się nie korzystać z nawozów sztucznych oraz oszczędnie gospodarowałem(-am) wodą (np. łapałem(-am) deszczówkę).',
@@ -988,7 +988,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'ogrodnik',
                       title: 'Ogrodnik',
-                      level: '3',
+                      level: 3,
                       comment: 'Rozpoznaje nasiona mniej popularnych warzyw. Samodzielnie prowadzi własny ogródek warzywny.',
                       tasks: [
                         'Rozpoznałem(-am) nasiona rzadziej hodowanych warzyw np. karczochów, jarmużu, rzepy, szpinaku i rukoli.',
@@ -1007,7 +1007,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'sadownik',
                       title: 'Sadownik',
-                      level: '3',
+                      level: 3,
                       comment: 'Rozpoznaje typowe drzewa owocowe. Bierze udział w pielęgnacji sadu. Bierze udział w zbiorze owoców lub ich zabezpieczeniu na zimę.',
                       tasks: [
                         'Rozpoznałem(-am) po pniach i liściach popularne drzewa owocowe np. jabłonie, grusze, śliwy, wiśnie, czereśnie oraz krzewy owocowe np. maliny, porzeczki, winorośl.',
@@ -1027,7 +1027,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'lesnik',
                       title: 'Leśnik',
-                      level: '3',
+                      level: 3,
                       comment: 'Obserwuje życie lasu w różnych porach dnia i roku. Pełni służbę na rzecz lasu.',
                       tasks: [
                         'Obserwowałem(-am) życie lasu o świcie, o zmierzchu i w nocy. Wytropiłem(-am) zwierzę i obserwowałem(-am) jego życie. Poszerzyłem(-am) swoją wiedzę o zwyczajach tego zwierzęcia w książkach, telewizji lub Internecie. Przedstawiłem(-am) swoje obserwacje i zdobytą wiedzę w dowolnej formie (opowieść przy ognisku, wpis w Internecie itp.).',
@@ -1037,7 +1037,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'lesnik',
                       title: 'Leśnik',
-                      level: '4',
+                      level: 4,
                       comment: 'Działa na rzecz ochrony lasów. Popularyzuje wiedzę o lasach.',
                       tasks: [
                         'Brałem(-am) udział w całodziennych pracach leśnych - w co najmniej w 3 rodzajach: zbieranie nasion, siew nasion, dołowanie sadzonek, sadzenie, pielęgnowanie upraw, sprzątanie zrębu.',
@@ -1055,7 +1055,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'znawca_grzybow',
                       title: 'Znawca grzybów',
-                      level: '2',
+                      level: 2,
                       comment: 'Rozpoznaje popularne gatunki grzybów jadalnych, niejadalnych i trujących. Bierze udział w grzybobraniach oraz przygotowaniu grzybów do suszenia lub marynowania. Przygotowuje posiłki z wykorzystaniem grzybów jadalnych.',
                       tasks: [
                         'Rozpoznałem(-am) co najmniej 5 grzybów jadalnych (np. borowika szlachetnego, maślaka zwyczajnego, podgrzybka brunatnego, czubajkę kanię, pieprznika jadalnego), 5 grzybów niejadalnych (np. gąskę białawą, gąskę siarkową, aksamitówkę złotą, gołąbka krwistego, lisówkę pomarańczową) oraz 5 grzybów trujących (np. muchomora sromotnikowego, muchomora czerwonego, borowika szatańskiego, borowika purpurowego, strzępiaka ceglastego). Uwieczniłem(-am) je na zdjęciach.',
@@ -1073,7 +1073,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'przyjaciel_zwierzat',
                       title: 'Przyjaciel zwierząt',
-                      level: '1',
+                      level: 1,
                       comment: 'Zna zwierzęta żyjące dziko w swojej najbliższej okolicy i wie, jak można im pomagać. Wie, jak powinno opiekować się wybranymi zwierzętami domowymi.',
                       tasks: [
                         'Przygotowałem(-am) dla zastępu quiz, grę planszową itp. wymagającą rozpoznania na zdjęciach lub rysunkach minimum 15 gatunków zwierząt żyjących dziko w Polsce.',
@@ -1085,7 +1085,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'przyjaciel_zwierzat',
                       title: 'Przyjaciel zwierząt',
-                      level: '2',
+                      level: 2,
                       comment: 'Pogłębia swoją wiedzę o świecie zwierząt dzikich i domowych oraz o zasadach opieki/pomocy zwierzętom. Propaguje wiedzę o świecie zwierząt.',
                       tasks: [
                         'Wiem, jakie niebezpieczne zwierzęta żyją w Polsce. Opowiedziałem(-am) członkom/członkiniom mojego zastępu przed wyprawą do lasu jak należy postępować w przypadku spotkania z nimi.',
@@ -1101,7 +1101,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'przyjaciel_zwierzat',
                       title: 'Przyjaciel zwierząt',
-                      level: '3',
+                      level: 3,
                       comment: 'Jest znawcą zwyczajów zwierząt. Zna obowiązujące prawo dotyczące ochrony zwierząt i potrafi przekazać swoją wiedzę innym.',
                       tasks: [
                         'Podczas samodzielnej wyprawy do lasu obserwowałem(-am) wybrane zwierzę i podążałem(-am) jego śladem, dokumentując jego życie (w sposób bezpieczny dla niego i dla mnie). Przedstawiłem(-am) jego zwyczaje na forum zastępu lub drużyny.',
@@ -1112,7 +1112,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'przyjaciel_zwierzat',
                       title: 'Przyjaciel zwierząt',
-                      level: '4',
+                      level: 4,
                       comment: 'Bierze czynny udział w ochronie zwierząt i propagowaniu stylu życia, który minimalizuje ich cierpienie.',
                       tasks: [
                         'Zorganizowałem(-am) dla swojego zastępu lub drużyny służbę na rzecz zwierząt.',
@@ -1128,7 +1128,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'hodowca',
                       title: 'Hodowca (ptaków, gryzoni, drobiu, ryb)',
-                      level: '2',
+                      level: 2,
                       comment: 'Świadomie prowadzi hodowlę wybranych zwierząt (np. ptaków, gryzoni, drobiu, ryb).',
                       tasks: [
                         'Przed założeniem hodowli dowiedziałem(-am) się z rzetelnego źródła wiedzy, w jaki sposób należy dbać o interesujące mnie zwierzęta. Dowiedziałem(-am) się, które zwierzęta hodowlane są obce/inwazyjne i jakie są konsekwencje ich umyślnego lub przypadkowego uwolnienia do środowiska naturalnego. Oceniłem(-am) swoje możliwości i po uzyskaniu zgody rodziców/opiekunów dokonałem(-am) wyboru zwierząt do hodowli.',
@@ -1139,7 +1139,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'hodowca',
                       title: 'Hodowca (ptaków, gryzoni, drobiu, ryb)',
-                      level: '3',
+                      level: 3,
                       comment: 'Świadomie kultywuje hodowlę wybranych zwierząt (np. ptaków, gryzoni, drobiu, ryb).',
                       tasks: [
                         'Dbam o zdrowie moich zwierząt, wykonując jedno z poniższych zadań:'
@@ -1161,7 +1161,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'pszczelarz',
                       title: 'Pszczelarz',
-                      level: '2',
+                      level: 2,
                       comment: 'Umie odróżnić pszczołę od innych podobnych owadów, wie jak się zachowuje i co produkuje.',
                       tasks: [
                         'Przygotowałem(-am) plakat/prezentację na temat różnic w wyglądzie między pszczołami, osami, trzmielami i szerszeniami. Zaprezentowałem(-am) go na zbiórce zastępu lub drużyny i opowiedziałem(-am) o tym, co pożytecznego robią pszczoły i trzmiele.',
@@ -1172,7 +1172,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'pszczelarz',
                       title: 'Pszczelarz',
-                      level: '3',
+                      level: 3,
                       comment: 'Umie rozpoznać pszczele produkty, wie, jak się je pozyskuje. Pomaga owadom zapylającym.',
                       tasks: [
                         'Wziąłem (Wzięłam) udział w kręceniu miodu.',
@@ -1183,7 +1183,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'pszczelarz',
                       title: 'Pszczelarz',
-                      level: '4',
+                      level: 4,
                       comment: 'Interesuje się życiem pszczół, dzieli się swoją wiedzą z innymi. Bierze udział w pracach w pasiece.',
                       tasks: [
                         'Od wiosny do jesieni pracowałem(-am) w pasiece i stworzyłem(-am) relację ze swoich działań w dowolnej, atrakcyjnej formie (np. zdjęcia, pamiętnik, filmy, relacja w mediach społecznościowych).',
@@ -1211,7 +1211,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'przedsiebiorca',
                       title: 'Przedsiębiorca',
-                      level: '1',
+                      level: 1,
                       comment: 'Oszczędził(-a) niewielkie kwoty, rozsądnie gospodarując pieniędzmi, zrobił(-a) proste zakupy',
                       tasks: [
                         'Zaoszczędziłem(-am) pieniądze na wybrany przez siebie cel.',
@@ -1222,7 +1222,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'przedsiebiorca',
                       title: 'Przedsiębiorca',
-                      level: '2',
+                      level: 2,
                       comment: 'Nauczył(-a) się gospodarować posiadanymi pieniędzmi, w szczególności efektywnie je wydatkować oraz oszczędzać. Wziął/wzięła udział w przedsięwzięciach finansowych drużyny.',
                       tasks: [
                         'Robiąc zakupy na rzecz drużyny, uzyskałem(-am) od sprzedającego właściwie wystawioną fakturę. Odbierając ją, sprawdziłem(-am) poprawność wszystkich niezbędnych danych.',
@@ -1233,7 +1233,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'przedsiebiorca',
                       title: 'Przedsiębiorca',
-                      level: '3',
+                      level: 3,
                       comment: 'Uzyskał(-a) doświadczenie związane z zarabianiem oraz gospodarowaniem pieniędzmi na potrzeby własne lub zespołów, w których aktywnie działa.',
                       tasks: [
                         'Wykorzystując więcej niż jeden sposób, pozyskałem(-am) środki finansowe lub materialne na wybrany przez siebie cel.',
@@ -1248,7 +1248,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'przedsiebiorca',
                       title: 'Przedsiębiorca',
-                      level: '4',
+                      level: 4,
                       comment: 'Nabył(-a) umiejętności w zakresie planowania oraz prowadzenia rozliczeń finansowych w ramach podstawowych aktywności zespołów (np. drużyny, zastępu itp.). Zdobył(-a) podstawową wiedzę o swoich kompetencjach jako przyszłego pracownika lub przedsiębiorcy. Skutecznie nauczył(-a) się przekazywać innym wiedzę o podstawowych pojęciach ekonomicznych.',
                       tasks: [
                         'Wykonałem(-am) co najmniej jedno z poniższych zadań:',
@@ -1267,7 +1267,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'kwatermistrz',
                       title: 'Kwatermistrz',
-                      level: '2',
+                      level: 2,
                       comment: 'Dba o sprzęt zastępu. Potrafi naprawiać i konserwować sprzęt. Potrafi zaopiekować się harcówką. ',
                       tasks: [
                         'Skompletowałem(-am) sprzęt zastępu potrzebny na obozie. Dbałem(-am) o niego w czasie obozu.',
@@ -1277,7 +1277,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'kwatermistrz',
                       title: 'Kwatermistrz',
-                      level: '3',
+                      level: 3,
                       comment: 'Kwatermistrz drużyny. Potrafi poprowadzić magazyn i rejestr sprzętu. Uczy młodszych harcerzy, jak opiekować się sprzętem. ',
                       tasks: [
                         'W okresie trwania próby prowadziłem(-am) magazyn sprzętu podczas obozu drużyny lub w ciągu roku wraz z dokumentacją.',
@@ -1288,7 +1288,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'kwatermistrz',
                       title: 'Kwatermistrz',
-                      level: '4',
+                      level: 4,
                       comment: 'Wspiera kwatermistrzów drużyn i zastępów. Przeprowadza inwentaryzację sprzętu. Organizuje obozy pod względem kwatermistrzowskim.',
                       tasks: [
                         'Przeprowadziłem(-am) szkolenie dla kwatermistrzów zastępów lub drużyn.',
@@ -1304,7 +1304,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'skarbnik',
                       title: 'Skarbnik',
-                      level: '2',
+                      level: 2,
                       comment: 'Skarbnik zastępu. Swoje umiejętności finansowe wykorzystuje w pomaganiu zastępowemu w sprawach finansowych.',
                       tasks: [
                         'Wiem na co są zbierane składki w ZHP. Zapoznałem(-am) z tym tematem członków mojego zastępu.',
@@ -1314,7 +1314,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'skarbnik',
                       title: 'Skarbnik',
-                      level: '3',
+                      level: 3,
                       comment: 'Skarbnik drużyny. Na bieżąco wspiera prace drużynowego zajmując się rozliczeniami finansowymi. ',
                       tasks: [
                         'Poznałem(-am) przepisy finansowe ZHP obowiązujące drużynę.',
@@ -1329,7 +1329,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'skarbnik',
                       title: 'Skarbnik',
-                      level: '4',
+                      level: 4,
                       comment: 'Wykorzystuje swoje umiejętności finansowo-księgowe do wspierania działań prowadzonych na poziomie szczepu lub hufca',
                       tasks: [
                         'Przeprowadziłem(-am) szkolenie dla skarbników zastępów i drużyn.',
@@ -1352,7 +1352,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'swiadomy_konsument',
                       title: 'Świadomy konsument',
-                      level: '2',
+                      level: 2,
                       comment: 'Zna podstawowe zasady, które powinien stosować świadomy konsument i stosuje je w swoich działaniach. Jest świadomy(-a), gdzie w swojej okolicy może nabyć produkty fair trade',
                       tasks: [
                         'Przygotowałem(-am) zasady bycia odpowiedzialnym konsumentem i przedstawiłem(-am) je zastępowi lub drużynie wraz z informacją o zasadach fair trade.',
@@ -1363,7 +1363,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'swiadomy_konsument',
                       title: 'Świadomy konsument',
-                      level: '3',
+                      level: 3,
                       comment: 'Posiada dużą wiedzę na temat zasad bycia świadomym konsumentem i wdraża je w swoich codziennych aktywnościach. Dzieli się posiadaną wiedzą z innymi.',
                       tasks: [
                         'Przeanalizowałem(-am) skład kilku często kupowanych produktów pod kątem zdrowych i szkodliwych składników, a także mikroplastików (acrylate), jednocześnie zweryfikowałem(-am) ich pochodzenie i sposób wytworzenia pod kątem kwestii odpowiedzialności za środowisko, jak ślad wodny oraz ślad węglowy. Z analizy wyciągnąłem(wyciągnęłam) wnioski, którymi podzieliłem(-am) się z minimum jedną osobą, podejmując wspólnie z nią konkretne postanowienia co do ułożenia na nowo swoich konsumenckich nawyków. Efekty przyjętych postanowień śledziłem(-am) przez minimum 2 miesiące, porównując je z tą osobą.',
@@ -1383,7 +1383,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'pracownik',
                       title: 'Pracownik',
-                      level: '3',
+                      level: 3,
                       comment: 'Identyfikuje swoje predyspozycje zawodowe oraz przygotował(-a) się do rekrutacji. Bierze udział w praktykach lub zdobywa pracę dostępną dla osób młodocianych bądź studentów.',
                       tasks: [
                         'Zidentyfikowałem(-am) swoje predyspozycje zawodowe korzystając z pomocy doradcy zawodowego lub wybranego kwestionariusza. Na podstawie zidentyfikowanych predyspozycji zawodowych przygotowałem(-am) swoje CV.',
@@ -1395,7 +1395,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'pracownik',
                       title: 'Pracownik',
-                      level: '4',
+                      level: 4,
                       comment: 'Określa oraz świadomie rozwija swoje predyspozycje zawodowe. Zdobył(-a) pracę. Dzieli się swoją wiedzą i doświadczeniem z innymi.',
                       tasks: [
                         'Znalazłem(-am) interesujące mnie oferty pracy, do których dostosowałem(-am) swoje CV oraz list motywacyjny (o ile był potrzebny) i wysłałem(-am) w ramach złożonej aplikacji. Przygotowałem(-am) się do rozmowy o pracę, pozyskując z dostępnych źródeł informacje o potencjalnym pracodawcy.',
@@ -1416,7 +1416,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'reklamozerca',
                       title: 'Reklamożerca',
-                      level: '2',
+                      level: 2,
                       comment: 'Jest świadomy(-a) zagrożeń i korzyści wynikających ze stosowania reklamy. Przygotowuje proste przekazy reklamowe. ',
                       tasks: [
                         'Przeanalizowałem(-am) kilka reklam wybranego produktu oceniając, na ile odnoszą się do rzeczywistych jego cech użytkowych.',
@@ -1427,7 +1427,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'reklamozerca',
                       title: 'Reklamożerca',
-                      level: '3',
+                      level: 3,
                       comment: 'Posiada podstawową wiedzę na temat rodzajów reklam oraz mechanizmów ich oddziaływania. Przygotowuje proste kampanie reklamowe. Jest świadomy(-a) kwestii etycznych związanych z wykorzystaniem reklamy.',
                       tasks: [
                         'Zaprezentowałem(-am) członkom drużyny wywiad, jaki przeprowadziłem(-am) z profesjonalistą (psychologiem reklamy, pracownikiem firmy reklamowej bądź działu marketingu) na temat mechanizmów i technik stosowanych dla maksymalizacji skuteczności przekazu reklamowego oraz różnych rodzajów reklam, a w szczególności różnic pomiędzy reklamą komercyjną a społeczną.',
@@ -1460,7 +1460,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'bankier',
                       title: 'Bankier',
-                      level: '1',
+                      level: 1,
                       comment: 'Posiada podstawową wiedzę o tym, czym jest pieniądz. Jest świadomy(-a) istnienia usług bankowych i ich dostępnego zakresu. Interpretuje informacje na temat kosztu kredytu.',
                       tasks: [
                         'Dowiedziałem(-am) się, z jakiego banku korzystają moi rodzice lub opiekunowie, gdzie się znajduje i jakie usługi oferuje. Wspólnie z nimi przedyskutowałem(-am) powody, dla których korzystają z oferty akurat tego banku.',
@@ -1471,7 +1471,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'bankier',
                       title: 'Bankier',
-                      level: '2',
+                      level: 2,
                       comment: 'Posiada wiedzę o tym, czym jest pieniądz i jakie pełni w gospodarce funkcje. Posiada podstawowe umiejętności w zakresie obliczania oprocentowania oraz wykorzystania podstawowych form przekazywania środków finansowych innym podmiotom lub osobom.',
                       tasks: [
                         'Poznałem(-am) pojęcia takie jak: cechy pieniądza, funkcje pieniądza oraz jestem świadomy(-a) ewolucji form pieniądza. Jedno z tych pojęć wyjaśniłem(-am) na forum zastępu przygotowując graficzną prezentację.',
@@ -1484,7 +1484,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'bankier',
                       title: 'Bankier',
-                      level: '3',
+                      level: 3,
                       comment: 'Posiada podstawowe informacje na temat systemu bankowego. Jest świadomy(-a) sposobu obiegu pieniądza w gospodarce oraz dostępnych form jego inwestowania i związanych z tym ryzyk.',
                       tasks: [
                         'Wyjaśniłem(-am) innym, jak wygląda obieg pieniądza w gospodarce. Przygotowałem(-am) na ten temat dowolną prezentację.',
@@ -1495,7 +1495,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'bankier',
                       title: 'Bankier',
-                      level: '4',
+                      level: 4,
                       comment: 'Posiada rozszerzone informacje na temat systemu bankowego. Biegle posługuje się bankowością elektroniczną. Dokonuje podstawowe obliczenia w zakresie określania kosztu pieniądza w czasie oraz ryzyka kursu waluty.',
                       tasks: [
                         'Wyliczyłem(-am) ratę równą i malejącą z kredytu oraz zaprezentowałem(-am), jakie są między nimi różnice. Uwzględniłem(-am) w takich obliczeniach element ryzyka kursu waluty oraz podałem(-am) stopę nominalnego oraz realnego jego oprocentowania, z uwzględnieniem wpływu stopy inflacji.',
@@ -1524,7 +1524,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'makler',
                       title: 'Makler',
-                      level: '3',
+                      level: 3,
                       comment: 'Zna podstawowe mechanizmy funkcjonowania giełdy oraz innych rynków finansowych. Na podstawie posiadanych informacji potrafi ocenić ryzyko oraz spodziewaną rentowność podejmowanych decyzji. W działaniu potrafi wykorzystać mapę ryzyka inwestycyjnego. ',
                       tasks: [
                         'Przygotowałem(-am) infografikę przedstawiającą strukturę rynku finansowego w Polsce oraz podmiotów na nim występujących. Infografika pozwoli zrozumieć zainteresowanym znaczenie podstawowych pojęć jak: rynek, giełda, notowanie, akcja, obligacja, dywidenda, dematerializacja oraz rolę podstawowych instytucji: KNF, GPW, KDPW, NBP, itp. Na podstawie infografiki przedstawiłem(-am) funkcjonowanie tego rynku swojej drużynie/zastępowi.',
@@ -1535,7 +1535,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'makler',
                       title: 'Makler',
-                      level: '4',
+                      level: 4,
                       comment: 'Zna zasady funkcjonowania giełdy oraz innych rynków finansowych i potrafi wykorzystać je praktycznie w podejmowanych decyzjach inwestycyjnych. Wykorzystał(-a) w działaniu wiedzę na temat zasad inwestowania oraz oceny ryzyka. Potrafi obliczyć rentowność instrumentów finansowych oraz wyjaśnić innym podstawowe pojęcia i zasady funkcjonowania rynków finansowych',
                       tasks: [
                         'Na podstawie dostępnych w Internecie materiałów przeprowadziłem(-am) dla członków drużyny test oceny skłonności do ryzyka inwestycyjnego.',
@@ -1561,7 +1561,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'komputerowiec',
                       title: 'Komputerowiec',
-                      level: '1',
+                      level: 1,
                       comment: 'Potrafi wykonać podstawowe czynności na komputerze, wie jak w świadomy i bezpieczny sposób korzystać z sieci Internet.',
                       tasks: [
                         'Wykonałem(-am) jedną z podstawowych czynności na komputerze:'
@@ -1576,7 +1576,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                       id: 'komputerowiec',
                       title: 'Komputerowiec',
                       comment: 'W swobodny sposób porusza się po wybranym pakiecie biurowym (np. Word, Excel, PowerPoint). Zna i stosuje zasady kulturalnego zachowania się w sieci. Rozumie znaczenie nowoczesnych technologii i zagrożenia płynące z niewłaściwego ich wykorzystania.',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Korzystając z wybranego pakietu biurowego, wykonałem(-am) jedno z poniższych zadań:'
                             '\n\na) Przygotowałem(-am) prezentację multimedialną na wybrany temat.'
@@ -1588,7 +1588,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'komputerowiec',
                       title: 'Komputerowiec',
-                      level: '3',
+                      level: 3,
                       comment: 'Posiada podstawowe umiejętności w zakresie obróbki graficznej zdjęć (np. przycinanie, zmiana rozmiaru) oraz rozszerzoną wiedzę z zakresu obsługi edytora tekstu. Podczas korzystania z sieci Internet zwraca szczególną uwagę na ochronę danych osobowych i praw autorskich.',
                       tasks: [
                         'Utworzyłem(-am) konto e-mailowe. Wykorzystuję podstawowe funkcje klienta pocztowego, m.in. ustawiłem(-am) podpis w wiadomości, przy wysyłaniu e-maili do wielu osób korzystam z opcji UDW.3',
@@ -1604,7 +1604,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'komputerowiec',
                       title: 'Komputerowiec',
-                      level: '4',
+                      level: 4,
                       comment: 'Jest świadomym użytkownikiem/ świadomą użytkowniczką nowych technologii. Wykorzystuje je do wykonania projektu związanego z obszarem jego/jej zainteresowań.',
                       tasks: [
                         'Zainstalowałem(-am) i skonfigurowałem(-am) specjalistyczny program, który wykorzystuję w mojej pracy lub do realizacji moich zainteresowań.',
@@ -1620,7 +1620,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'webmaster',
                       title: 'Webmaster',
-                      level: '2',
+                      level: 2,
                       comment: 'Zna podstawy bezpiecznego korzystania z Internetu i zabezpieczania stron. Tworzy rozbudowane strony internetowe. Potrafi uruchomić serwer.',
                       tasks: [
                         'Stworzyłem(-am) prostą statyczną stronę WWW, wykorzystując język HTML i arkusz stylów CSS oraz zewnętrzne zasoby (np. obrazki).',
@@ -1632,7 +1632,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'webmaster',
                       title: 'Webmaster',
-                      level: '4',
+                      level: 4,
                       comment: 'Zna podstawy wybranego języka programowania webowego. Konfiguruje i stawia wymagające strony internetowe.',
                       tasks: [
                         'Stworzyłem(-am) prostą aplikację webową w wybranym języku backendowym z wykorzystaniem relacyjnych baz danych (np. MySQL, PostgreSQL, SQLite, Firebird).',
@@ -1648,7 +1648,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'programista',
                       title: 'Programista',
-                      level: '2',
+                      level: 2,
                       comment: 'Zna podstawy programowania. Zna składnię wybranego języka programowania. Tworzy proste programy w wybranym języku programowania',
                       tasks: [
                         'Poznałem(-am) podstawy algorytmów. Stworzyłem(-am) schemat blokowy na podstawie wybranego przez siebie procesu (np. proces zbierania i opłacania składek, proces decyzyjny w przypadku udzielania pierwszej pomocy, itp.).',
@@ -1658,7 +1658,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'programista',
                       title: 'Programista',
-                      level: '3',
+                      level: 3,
                       comment: 'Pisze praktyczne programy. Dba o jakość kodu oraz prawidłowo zarządza wersjonowaniem aplikacji.',
                       tasks: [
                         'Napisałem(-am) użyteczny w pracy harcerskiej program, wykorzystując wybrany paradygmat programowania (proceduralny, obiektowy, funkcyjny, logiczny itd.). Zaprezentowałem(-am) go wybranej grupie docelowej (zastępowi, zespołowi kwatermistrzowskiemu, zespołowi promocji itp.) i udostępniłem(-am) do wykorzystywania. Uwzględniłem(-am) informację zwrotną, ulepszając program.',
@@ -1669,7 +1669,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'programista',
                       title: 'Programista',
-                      level: '4',
+                      level: 4,
                       comment: 'Pisze złożone programy, wykorzystując gotowe narzędzia oraz frameworki. W swoich programach implementuje gotowe moduły oraz rozszerzenia.',
                       tasks: [
                         'Napisałem(-am) złożony program pomocny w pracy harcerskiej, wykorzystując wybrany framework (np. .NET, Symphony, Flask) w celu uniknięcia konieczności samodzielnego implementowania powszechnie wykorzystywanych funkcjonalności.',
@@ -1687,7 +1687,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'technik_informatyk',
                       title: 'Technik Informatyk',
-                      level: '2',
+                      level: 2,
                       comment: 'Zna podstawowe urządzenia i elementy wchodzące w skład budowy komputera. Wie, za co odpowiadają. Doradza w doborze pamięci masowej oraz pamięci RAM w zależności od zastosowania i potrzeb użytkowników. Konfiguruje podstawowe urządzenia peryferyjne.',
                       tasks: [
                         'Poznałem(-am) budowę komputera (stacjonarnego lub laptopa). Zapoznałem(-am) się z najważniejszymi podzespołami komputera (zasilacz, płyta główna, pamięć, karta graficzna, procesor, itp.) i wiem, do czego służą. Sprawdziłem konfigurację używanego komputera, wykorzystując funkcjonalność systemu operacyjnego lub narzędzia dodatkowe. Przygotowałem(-am) opis swojego komputera, prezentując w nim najważniejsze informacje o każdym istotnym jego podzespole.',
@@ -1697,7 +1697,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'technik_informatyk',
                       title: 'Technik Informatyk',
-                      level: '3',
+                      level: 3,
                       comment: 'Zna fachową terminologię dotyczącą komputerów oraz różnice pomiędzy poszczególnymi wersjami i modelami podzespołów komputerowych. Konfiguruje pracę podzespołów komputera (procesora, karty graficznej) oraz urządzeń peryferyjnych.',
                       tasks: [
                         'Zapoznałem(-am) się z podstawowymi oznaczeniami najbardziej znanych modeli procesorów. Ręcznie zmieniłem(-am) taktowanie procesora w komputerze (np. w BIOS/UEFI), zaobserwowałem efekty (stabilność, szybkość działania, zużycie energii, temperatura procesora) i wyjaśniłem(-am) je.',
@@ -1707,7 +1707,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'technik_informatyk',
                       title: 'Technik Informatyk',
-                      level: '4',
+                      level: 4,
                       comment: 'Zna zależności pomiędzy infrastrukturą komputerową. Samodzielnie składa komputery zarówno stacjonarne, jak i laptopy. Dobiera podzespoły komputera do potrzeb użytkownika.',
                       tasks: [
                         'Poznałem(-am) zależności wynikające ze współpracy poszczególnych podzespołów komputerowych. Złożyłem(-am) komputer stacjonarny od podstaw, samodzielnie montując takie rzeczy jak: płyta główna, procesor, karta graficzna, pamięć RAM oraz inne konieczne podzespoły.',
@@ -1729,7 +1729,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'modelarz_3d',
                       title: 'Modelarz 3D',
-                      level: '3',
+                      level: 3,
                       comment: 'Zna podstawy modelowania trójwymiarowego i zasady działania technologii druku 3D. Wykorzystuje je do produkcji drobnych przedmiotów przydatnych w codziennym życiu.',
                       tasks: [
                         'Dowiedziałem(-am) się, na czym polega druk 3D i jakie może mieć zastosowania. Skonfigurowałem(-am) drukarkę do prostego wydruku. Dowiedziałem(-am) się, czym są filament, hotend, extruder.',
@@ -1756,7 +1756,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'kucharz',
                       title: 'Kucharz',
-                      level: '1',
+                      level: 1,
                       comment: 'Przygotował/a prosty posiłek. Umie posługiwać się przyborami kuchennymi. Bezpiecznie obsługiwał/a kuchenkę elektryczną lub gazową',
                       tasks: [
                         'Przygotowałem(-am) pod nadzorem rodzica śniadanie lub kolację dla domowników, w tym jedno wybrane danie na ciepło, np. owsiankę, jajecznicę itp.',
@@ -1770,7 +1770,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'kucharz',
                       title: 'Kucharz',
-                      level: '2',
+                      level: 2,
                       comment: 'Przygotował/a złożony posiłek według przepisu. Bezpiecznie posługiwał/a się urządzeniami kuchennymi.',
                       tasks: [
                         'Ugotowałem(-am) zupę i drugie danie (niekoniecznie jednego dnia) dla mojej rodziny z pomocą przepisu (z Internetu, książki kucharskiej).',
@@ -1786,7 +1786,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'kucharz',
                       title: 'Kucharz',
-                      level: '3',
+                      level: 3,
                       comment: 'Ugotował/a i podał/a 3-daniowy obiad (zupa, drugie danie i deser), stosując różne sposoby przygotowania i nie korzystając z półproduktów. Bezpiecznie obsługiwał/a piekarnik.',
                       tasks: [
                         'Przygotowałem(-am) potrawę tradycyjną dla wybranego regionu Polski (np. proziaki z Podkarpacia, babkę ziemniaczaną z Podlasia).',
@@ -1805,7 +1805,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'kucharz',
                       title: 'Kucharz',
-                      level: '4',
+                      level: 4,
                       comment: 'Samodzielnie zarządzał/a swoim żywieniem. Testował/a różne przepisy i tworzył/a własne receptury.',
                       tasks: [
                         'Kierowałem(-am) co najmniej przez dwa dni służbą kuchenną na obozie drużyny lub na biwaku, układając jadłospisy i przygotowując dania mięsne i wegetariańskie.',
@@ -1823,7 +1823,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'zlota_raczka',
                       title: 'Złota rączka',
-                      level: '1',
+                      level: 1,
                       comment: 'Poradził/a sobie w prostych sytuacjach domowych. Używał/a podstawowych narzędzi do prac domowych (młotek, igła, śrubokręt, obcęgi, nóż).',
                       tasks: [
                         'Przez okres próby utrzymywałem(-am) porządek w pokoju, w którym mieszkam.',
@@ -1840,7 +1840,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'zlota_raczka',
                       title: 'Złota rączka',
-                      level: '2',
+                      level: 2,
                       comment: 'Wykonał/a proste potrzebne dla domu prace manualne i techniczne.',
                       tasks: [
                         'Mam stały obowiązek związany z obsługą sprzętów lub urządzeń domowych (np. pralka, zmywarka, odkurzacz) i wywiązuję się z niego.',
@@ -1860,7 +1860,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'zlota_raczka',
                       title: 'Złota rączka',
-                      level: '3',
+                      level: 3,
                       comment: 'Wykonał/a zaawansowane prace manualne i techniczne przydatne w domu.',
                       tasks: [
                         'Rzetelnie wykonuję swoje obowiązki domowe. Zdobyłem(-am) nową umiejętność przydatną w gospodarstwie domowym (np. umiejętność obsługi pralki, ostrzenia noży, wiercenia otworów wiertarką, mycia okien itp.).',
@@ -1879,7 +1879,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'zlota_raczka',
                       title: 'Złota rączka',
-                      level: '4',
+                      level: 4,
                       comment: 'Wykonał/a zaawansowane prace manualne i techniczne, używając potrzebnych narzędzi i elektronarzędzi. Naprawił/a urządzenie domowe.',
                       tasks: [
                         'Wykonałem(-am) jedno z poniższych zadań:'
@@ -1898,7 +1898,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'domownik',
                       title: 'Domownik',
-                      level: '1',
+                      level: 1,
                       comment: 'Regularnie wypełniania swoje obowiązki domowe. Wykonuje podstawowe czynności w domu.',
                       tasks: [
                         'Przez minimum tydzień podjąłem(-am) się dodatkowego obowiązku, ustalonego z rodzicami, na rzecz domu, np. zmywałem(-am) naczynia, wynosiłem(-am) śmieci.',
@@ -1910,7 +1910,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'domownik',
                       title: 'Domownik',
-                      level: '2',
+                      level: 2,
                       comment: 'Wspiera swoją rodzinę w wykonywaniu takich czynności domowych jak pranie, zakupy i sprzątanie.',
                       tasks: [
                         'Wstawiłem(-am) pranie, prawidłowo posegregowałem(-am) rzeczy, dobrałem(-am) odpowiedni program, wyciągnąłem(-am) i rozwiesiłem(-am).',
@@ -1922,7 +1922,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'domownik',
                       title: 'Domownik',
-                      level: '3',
+                      level: 3,
                       comment: 'Wykonuje bardziej skomplikowane prace domowe.',
                       tasks: [
                         'Przygotowałem(-am) strój na ważne wydarzenie, estetycznie wyprasowałem(-am) koszulę.',
@@ -1934,7 +1934,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'domownik',
                       title: 'Domownik',
-                      level: '4',
+                      level: 4,
                       comment: 'Prowadzi sprawy domowe, odciążając rodziców/opiekunów.',
                       tasks: [
                         'Zorganizowałem(-am) uroczystość rodzinną lub przyjęcie dla znajomych na kilka osób, przygotowałem(-am) potrawy, zadbałem o odpowiednią oprawę przyjęcia (np. muzyka, nakrycia, wystrój).',
@@ -1953,7 +1953,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'organizator_nauki',
                       title: 'Organizator nauki',
-                      level: '1',
+                      level: 1,
                       comment: 'Wie po co i jak się uczyć, wykorzystuje tę wiedzę w praktyce.',
                       tasks: [
                         'Opracowałem(-am) tygodniowy plan zajęć, w którym uwzględniłem(-am) wszystkie swoje zajęcia (lekcje w szkole, odrabianie zadań domowych, zajęcia pozalekcyjne, obowiązki domowe, czas odpoczynku).',
@@ -1965,7 +1965,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'organizator_nauki',
                       title: 'Organizator nauki',
-                      level: '2',
+                      level: 2,
                       comment: 'Stosuje kilka metod efektywnego uczenia się i trenowania pamięci. W praktyce wykorzystuje wiedzę o wpływie snu i ćwiczeń na uczenie się.',
                       tasks: [
                         'Poznałem(-am) kilka metod zapamiętywania i efektywnego uczenia się - wykorzystuję je w mojej codziennej nauce. Nauczyłem(-am) jednej metody członków mojego zastępu.',
@@ -1977,7 +1977,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'organizator_nauki',
                       title: 'Organizator nauki',
-                      level: '3',
+                      level: 3,
                       comment: 'Wspiera innych w doskonaleniu umiejętności uczenia się. Rozumie mechanizmy uczenia się mózgu i zna metody wspierania ich.',
                       tasks: [
                         'W ramach zbiórki zorganizowałem(-am) formę przyswajania wiedzy, która była jednocześnie dobrą zabawą.',
@@ -1998,7 +1998,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'organizator_czasu',
                       title: 'Organizator czasu',
-                      level: '2',
+                      level: 2,
                       comment: 'Cyklicznie planuje swój czas.',
                       tasks: [
                         'Rozumiem, dlaczego należy zarządzać swoim czasem. Planując zadania na tydzień, dopilnowałem(-am), aby nie przeładować swojego tygodnia i zostawić sobie czas na odpoczynek i odpowiednią ilość snu.',
@@ -2010,7 +2010,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'organizator_czasu',
                       title: 'Organizator czasu',
-                      level: '3',
+                      level: 3,
                       comment: 'Umie prowadzić planowanie zespołowe - zarządza projektami. Dzieli się wiedzą.',
                       tasks: [
                         'Założyłem(-am) własny bullet journal, dobierając najwygodniejsze i najpotrzebniejsze dla siebie elementy. Prowadziłem(-am) go przez co najmniej miesiąc, a następnie podzieliłem(-am) się dobrymi praktykami z zastępem lub znajomymi.',
@@ -2022,7 +2022,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'organizator_czasu',
                       title: 'Organizator czasu',
-                      level: '4',
+                      level: 4,
                       comment: 'Prowadząc projekty, właściwie dobiera narzędzia ze znanych mu metodyk zarządzania projektami, biorąc pod uwagę charakter zespołu i samego projektu.',
                       tasks: [
                         'Poznałem(-am) podstawy zarządzania projektami, wiem czym jest agile i waterfall. Do prowadzonego przez siebie projektu dobrałem(-am) takie narzędzia z tych metodyk projektowych, które pasowały do charakteru grupy i prowadzonego projektu tak, by wspierały efektywność pracy, a nie ją utrudniały.',
@@ -2043,7 +2043,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'mistrz_splotow',
                       title: 'Mistrz splotów',
-                      level: '2',
+                      level: 2,
                       comment: 'Interesuje się samodzielnym wykonywaniem na szydełku, drutach lub techniką makramy różnych ozdób, rzeczy codziennego użytku. Poznaje różne techniki i wzory.',
                       tasks: [
                         'Z pomocą innej osoby, książek lub Internetu poznałem(-am) i wypróbowałem co najmniej dwie z aktywności: szydełkowanie, robienie na drutach lub ramie dziewiarskiej, makramę.',
@@ -2054,7 +2054,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'mistrz_splotow',
                       title: 'Mistrz splotów',
-                      level: '3',
+                      level: 3,
                       comment: 'Rozwija swoje zainteresowania. Wybrał/a rodzaj rękodzieła, w którym przede wszystkim zwiększa swoje umiejętności.',
                       tasks: [
                         'Samodzielnie wykonałem(-am) co najmniej 8 przedmiotów w wybranej przeze mnie technice dziewiarskiej. Wykorzystałem(-am) co najmniej 6 różnych ściegów podstawowych i ażurowych (szydełko, druty, obręcz) lub węzłów makramowych.',
@@ -2067,7 +2067,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'mistrz_splotow',
                       title: 'Mistrz splotów',
-                      level: '4',
+                      level: 4,
                       comment: 'Zyskał/a mistrzostwo w wybranym rodzaju rękodzieła. Swoją pasją stara się zarazić innych.',
                       tasks: [
                         'Regularnie doskonalę swoje umiejętności w wybranej dziedzinie dziewiarstwa (uczestniczę w warsztatach, korzystam z tutoriali w Internecie). W swoich pracach zastosowałem(-am) co najmniej 15 ściegów lub węzłów. Nawiązałem(-am) regularny kontakt z co najmniej jedną osobą mającą takie same zainteresowania, z którą wymieniamy się pomysłami.',
@@ -2092,7 +2092,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'mistrz_diy',
                       title: 'Mistrz DIY',
-                      level: '2',
+                      level: 2,
                       comment: 'Interesuje się samodzielnym wykonywaniem różnych ozdób, rzeczy codziennego użytku, czyli DIY. Próbuje swoich sił w różnych dziedzinach.',
                       tasks: [
                         'Na lekcji techniki, zajęciach w domu kultury, na zbiórce lub z pomocą książek i Internetu poznałem(-am) i wypróbowałem(-am) różne rodzaje DIY.',
@@ -2103,7 +2103,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'mistrz_diy',
                       title: 'Mistrz DIY',
-                      level: '3',
+                      level: 3,
                       comment: 'Rozwija swoje zainteresowania DIY. Wybrał/a jeden lub dwa rodzaje rękodzieła, w których przede wszystkim zwiększa swoje umiejętności.',
                       tasks: [
                         'Wziąłem(wzięłam) udział w profesjonalnych warsztatach rękodzielniczych np. podczas imprezy harcerskiej, festiwalu rękodzieła, w domu kultury. Poznałem(-am) podstawowe techniki (np. ściegi hafciarskie) potrzebne w danym rękodziele.',
@@ -2115,7 +2115,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'mistrz_diy',
                       title: 'Mistrz DIY',
-                      level: '4',
+                      level: 4,
                       comment: 'Zyskał/a mistrzostwo w wybranym rodzaju rękodzieła. Swoją pasją stara się zarazić innych.',
                       tasks: [
                         'Regularnie doskonalę swoje umiejętności w wybranej dziedzinie rękodzieła (uczestniczę w warsztatach, korzystam z tutoriali w Internecie). Nawiązałem(-am) regularny kontakt z co najmniej jedną osobą mającą takie same zainteresowania, z którą wymieniamy się pomysłami.',
@@ -2134,7 +2134,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'mistrz_igly',
                       title: 'Mistrz igły',
-                      level: '2',
+                      level: 2,
                       comment: 'Posługuje się sprawnie igła i nitką do napraw i drobnych prac krawieckich.',
                       tasks: [
                         'Nawlokłem(-am) nitkę na igłę. Rozpocząłem/rozpoczęłam i zakończyłem(-am) ścieg. Zastosowałem(-am) co najmniej dwa różne ściegi (np. fastryga, ścieg za igłą, ścieg przed igłą).',
@@ -2152,7 +2152,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'mistrz_igly',
                       title: 'Mistrz igły',
-                      level: '3',
+                      level: 3,
                       comment: 'Posługuje się maszyną do szycia.',
                       tasks: [
                         'Rozpoznałem(-am) po dotyku i wyglądzie podstawowe rodzaje tkanin (np. bawełna, wełna, jedwab, len, sztuczne tworzywa) i wytłumaczyłem(-am), jaki wpływa ma rodzaj tkaniny na technikę szycia i co można uszyć z wymienionych tkanin.',
@@ -2169,7 +2169,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'mistrz_igly',
                       title: 'Mistrz igły',
-                      level: '4',
+                      level: 4,
                       comment: 'Sprawnie posługuje się maszyną do szycia. Potrafi dostosować do swoich potrzeb gotowe wykroje lub tworzy je samodzielnie.',
                       tasks: [
                         'Zaprezentowałem(-am) własny styl ubierania się, szyjąc samodzielnie lub adaptując gotowe ubrania do własnych potrzeb (co najmniej 8 projektów).',
@@ -2195,7 +2195,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'kartograf',
                       title: 'Kartograf',
-                      level: '1',
+                      level: 1,
                       comment: 'Poruszając się w terenie, wyznacza kierunki świata. Z pomocą mapy (bez wsparcia GPS) pokonuje nieskomplikowane trasy.',
                       tasks: [
                         'Wyznaczyłem(-am) kilkakrotnie kierunki świata w terenie, za pomocą kompasu oraz bez jego użycia, wykorzystując elementy terenowe.',
@@ -2207,7 +2207,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'kartograf',
                       title: 'Kartograf',
-                      level: '2',
+                      level: 2,
                       comment: 'Sprawnie posługuje się mapami i planami. Porusza się w terenie, trafiając do celu przy pomocy mapy. Rysuje proste szkice sytuacyjne.',
                       tasks: [
                         'Wyznaczyłem(-am) kilkakrotnie kierunki świata w terenie, za pomocą gwiazd lub słońca.',
@@ -2220,7 +2220,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'kartograf',
                       title: 'Kartograf',
-                      level: '3',
+                      level: 3,
                       comment: 'Wykonuje szczegółowe plany i szkice. Do prac topograficznych wykorzystuje różne przyrządy.',
                       tasks: [
                         'Wyznaczyłem(-am) kierunki świata w terenie z pomocą gwiazd oraz leśnych słupków oddziałowych.',
@@ -2232,7 +2232,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'kartograf',
                       title: 'Kartograf',
-                      level: '4',
+                      level: 4,
                       comment: 'Kreśli nowe i aktualizuje stare mapy i plany. Organizuje INO. Szkoli młodszych harcerzy.',
                       tasks: [
                         'Wykreśliłem(-am) mapę wybranego terenu (lub zaktualizowałem(-am) starą mapę) na potrzeby obozu, gry terenowej, rajdu, INO itp.',
@@ -2253,7 +2253,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'przewodnik',
                       title: 'Przewodnik',
-                      level: '1',
+                      level: 1,
                       comment: 'Zna topografię i ciekawostki historyczne swojej dzielnicy/miejscowości.',
                       tasks: [
                         'Doskonale znam swoją okolicę (np. miejscowość, dzielnicę). Wskazałem(-am) w terenie, jak dojść do wybranych ulic i charakterystycznych miejsc w mojej dzielnicy/miejscowości lub wskazałem(-am) je na mapie (np. ośrodek zdrowia, aptekę, pocztę, straż pożarną, posterunek policji, urząd gminy, bibliotekę, dom kultury, kino, dworzec).',
@@ -2264,7 +2264,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'przewodnik',
                       title: 'Przewodnik',
-                      level: '2',
+                      level: 2,
                       comment: 'Pogłębia wiedzę na temat swojej miejscowości i przekazuje ją swojemu zastępowi.',
                       tasks: [
                         'Ciekawie opowiedziałem swojemu zastępowi, skąd wzięła się nazwa rodzinnej miejscowości oraz przedstawiłem jej herb (jeśli miejscowość go posiada) i wyjaśniłem(-am) dlaczego tak wygląda.',
@@ -2275,7 +2275,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'przewodnik',
                       title: 'Przewodnik',
-                      level: '3',
+                      level: 3,
                       comment: 'Zna najważniejsze miejsca i zabytki na terenie swojej dzielnicy/miejscowości. Potrafi o nich opowiedzieć.',
                       tasks: [
                         'Nauczyłem(-am) się podstawowych zwrotów w języku obcym, przydatnych do udzielania informacji zagranicznym turystom.',
@@ -2287,7 +2287,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'przewodnik',
                       title: 'Przewodnik',
-                      level: '4',
+                      level: 4,
                       comment: 'Zna słabe i mocne strony swojej dzielnicy/miejscowości. Zgłębia wiedzę na temat jej historii i dnia dzisiejszego. Oprowadza innych po okolicy, opracowuje materiały ukazujące najważniejsze jej walory. Aktywnie bierze udział w życiu najbliższej okolicy.',
                       tasks: [
                         'Poznałem(-am) historię swojego regionu. Korzystałem(-am) z publikacji na temat dzielnicy/miejscowości. Poznałem(-am) strony i społeczności internetowe związane z dzielnicą/ miejscowością. Opracowałem(-am) minimum jeden wpis na tych stronach dotyczący walorów przyrodniczych, historycznych lub kulturowych mojej miejscowości/regionu.',
@@ -2305,7 +2305,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'regionalista',
                       title: 'Regionalista',
-                      level: '1',
+                      level: 1,
                       comment: 'Posiada podstawowe wiadomości na temat swojego regionu.',
                       tasks: [
                         'Dowiedziałem(-am) się, w jakim regionie mieszkam, skąd się wzięła jego nazwa i z jakimi regionami graniczy. Zaopatrzyłem(-am) się w mapę regionu. Zaprezentowałem ją na zbiórce zastępu i pokazałem granice mojego regionu.',
@@ -2316,7 +2316,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'regionalista',
                       title: 'Regionalista',
-                      level: '2',
+                      level: 2,
                       comment: 'Poznaje miejsca cenne przyrodniczo i ważne dla kultury i historii swojego regionu.',
                       tasks: [
                         'Poznałem(-am) przyrodę regionu: krajobraz, występujące zwierzęta i rośliny, miejsca ochrony przyrody. Z zastępem odwiedziłem(-am) co najmniej jeden obiekt cenny przyrodniczo w moim regionie.',
@@ -2327,7 +2327,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'regionalista',
                       title: 'Regionalista',
-                      level: '3',
+                      level: 3,
                       comment: 'Pogłębia znajomość dziedzictwa kulturowego regionu. Poznaje gwarę/dialekt oraz kuchnię swojego regionu.',
                       tasks: [
                         'Poznałem(-am) i rozpropagowałem(-am) wiedzę o wybranej wybitnej osobie związanej z moim regionem (najlepiej taką, która jest mniej znana).',
@@ -2339,7 +2339,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'regionalista',
                       title: 'Regionalista',
-                      level: '4',
+                      level: 4,
                       comment: 'Zna najważniejsze zabytki oraz wydarzenia z historii swojego regionu. Aktywnie uczestniczy w życiu regionu. Zaciekawia nim innych.',
                       tasks: [
                         'Poznałem(-am) najważniejsze wydarzenia z historii regionu. Wykonałem(-am) na ten temat prezentację multimedialną, którą wykorzystałem(-am) na zbiórce lub udostępniłem(-am) w mediach społecznościowych.',
@@ -2361,7 +2361,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'krajoznawca',
                       title: 'Krajoznawca',
-                      level: '1',
+                      level: 1,
                       comment: 'Zna najważniejsze regiony w Polsce.',
                       tasks: [
                         'Poznałem(-am) najważniejsze regiony Polski. Wskazałem(-am) je na mapie.',
@@ -2372,7 +2372,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'krajoznawca',
                       title: 'Krajoznawca',
-                      level: '2',
+                      level: 2,
                       comment: 'Poznaje swój i inne regiony Polski.',
                       tasks: [
                         'Wskazałem(-am) różnice między mapami drogowymi, krajobrazowymi i tematycznymi. Skorzystałem(-am) z różnych map w praktyce, dostosowując mapę do potrzeb.',
@@ -2384,7 +2384,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'krajoznawca',
                       title: 'Krajoznawca',
-                      level: '3',
+                      level: 3,
                       comment: 'Korzysta z rzetelnych źródeł na temat dziedzictwa kulturowego i przyrodniczego Polski. Odwiedza ciekawe miejsca w różnych regionach Polski.',
                       tasks: [
                         'Korzystałem(-am) z Kanonu Krajoznawczego Polski lub innych źródeł rzetelnych informacji o krajoznawstwie. W oparciu o nie zaproponowałem(-am) miejsca warte odwiedzenia podczas rodzinnego wypadu lub biwaku/rajdu/obozu drużyny.',
@@ -2395,7 +2395,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'krajoznawca',
                       title: 'Krajoznawca',
-                      level: '4',
+                      level: 4,
                       comment: 'Korzysta z wiedzy krajoznawczej. Propaguje wiedzę i wędrówki po Polsce.',
                       tasks: [
                         'Korzystałem(-am) z literatury lub Internetu na temat wybranego regionu Polski. Dowiedziałem(-am) się, jakie aktywności można uprawiać w różnych regionach Polski. Poznałem(-am) najważniejsze trasy z nimi związane. Przedstawiłem(-am) je podczas planowania wyjazdu (biwaku/obozu).',
@@ -2411,7 +2411,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'lazik',
                       title: 'Łazik',
-                      level: '1',
+                      level: 1,
                       comment: 'Bierze udział w całodziennych wędrówkach pieszych. Jest przygotowany do wycieczki zarówno pod względem podstawowej wiedzy, jak i ekwipunku.',
                       tasks: [
                         'Przeszedłem/przeszłam samodzielnie lub z zastępem zaplanowaną trasę o długości co najmniej 6 km w terenie pozamiejskim, ubierając się stosownie do warunków terenowych i pogodowych, zabezpieczając się przed przegrzaniem, przemoczeniem oraz otarciem stóp.',
@@ -2423,7 +2423,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'lazik',
                       title: 'Łazik',
-                      level: '2',
+                      level: 2,
                       comment: 'Początkujący turysta, potrafi przetrwać trudy wędrówki.',
                       tasks: [
                         'Uczestniczyłem(-am) w co najmniej dwóch kilkudniowych wycieczkach pieszych. Nauczyłem(-am) się korzystać z oznakowanych szlaków turystycznych. Co najmniej raz zaplanowałem całodzienną trasę uwzględniając szlaki.',
@@ -2435,7 +2435,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'lazik',
                       title: 'Łazik',
-                      level: '3',
+                      level: 3,
                       comment: 'Swobodnie porusza się i nocuje na łonie natury, dbając o zachowanie jej stanu.',
                       tasks: [
                         'Poznałem(-am) zasady bezpiecznego marszu (tempo, odpoczynek, maksymalne obciążenie, przepisy ruchu drogowego). Pilnowałem(-am) przestrzegania tych zasad przez zastęp.',
@@ -2447,7 +2447,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'lazik',
                       title: 'Łazik',
-                      level: '4',
+                      level: 4,
                       comment: 'Odbywa dłuższe wędrówki w zróżnicowanym terenie. Potrafi zorganizować wędrówkę.',
                       tasks: [
                         'Odbyłem(-am) co najmniej pięć samodzielnych wypraw w promieniu kilku kilometrów od miejsca zamieszkania oraz co najmniej jedną dalszą wyprawę poza swój region (niekoniecznie samodzielną).',
@@ -2468,7 +2468,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'turysta_gorski',
                       title: 'Turysta górski',
-                      level: '2',
+                      level: 2,
                       comment: 'Ma świadomość jak bezpiecznie poruszać się po szlakach górskich. Przygotowuje ekwipunek oraz ubrania adekwatne do warunków terenowych i pogodowych.',
                       tasks: [
                         'Dowiedziałem(-am) się: jak bezpiecznie wędrować po szlaku, co zrobić w przypadku nagłego załamania pogody (nagła burza, mgła, itd.), spotkania dzikich zwierząt (niedźwiedzia, żmii) i jak wezwać pomoc w górach. Przedstawiłem(-am) to swojemu zastępowi.',
@@ -2480,7 +2480,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'turysta_gorski',
                       title: 'Turysta górski',
-                      level: '3',
+                      level: 3,
                       comment: 'Regularnie uprawia turystykę górską latem, rozwija swoje umiejętności. Kompletuje odpowiedni strój oraz sprzęt do turystyki górskiej.',
                       tasks: [
                         'Zapoznałem(-am) się z publikacjami dotyczącymi wybranych pasm górskich (np. przewodniki, strony internetowe). Zachęciłem(-am) członków mojej drużyny do wspólnego lub indywidualnego wyjazdu w te miejsca.',
@@ -2492,7 +2492,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'turysta_gorski',
                       title: 'Turysta górski',
-                      level: '4',
+                      level: 4,
                       comment: 'Potrafi bezpiecznie poruszać się po szlakach górskich. Planuje i organizuje wycieczki górskie.',
                       tasks: [
                         'Wykonałem(-am) jedno z poniższych zadań:'
@@ -2512,7 +2512,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'wyga_gorski',
                       title: 'Wyga górski',
-                      level: '4',
+                      level: 4,
                       comment: 'Bezpiecznie porusza się po szlakach w górach w warunkach zimowych.',
                       tasks: [
                         'Wykonałem(-am) co najmniej jedno z poniższych zadań:'
@@ -2536,7 +2536,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'rowerzysta',
                       title: 'Rowerzysta',
-                      level: '1',
+                      level: 1,
                       comment: 'Zna zasady użytkowania roweru, jego konserwacji oraz poruszania się po drodze. Bierze udział w krótkich wycieczkach rowerowych.',
                       tasks: [
                         'Poznałem(-am) i zademonstrowałem(-am) podstawowe zasady bezpiecznego poruszania się pojazdu jednośladowego po drodze (prawostronny ruch, zakaz jazdy po chodnikach, prawidłowe oświetlenie roweru oraz właściwy ubiór rowerzysty).',
@@ -2548,7 +2548,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'rowerzysta',
                       title: 'Rowerzysta',
-                      level: '2',
+                      level: 2,
                       comment: 'Porusza się rowerem po drogach publicznych z zachowaniem zasad bezpieczeństwa. Bierze udział w dłuższych wycieczkach rowerowych. Wykonuje proste naprawy swojego roweru.',
                       tasks: [
                         'Poznałem(-am) i zademonstrowałem(-am) różnice pomiędzy wymijaniem, omijaniem i wyprzedzaniem oraz znam zasady pierwszeństwa przejazdu (m.in. na skrzyżowaniach).',
@@ -2559,7 +2559,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'rowerzysta',
                       title: 'Rowerzysta',
-                      level: '3',
+                      level: 3,
                       comment: 'Propaguje turystykę rowerową wśród swoich znajomych z zastępu/drużyny. Dokumentuje swoje wyprawy. Bierze udział w wyprawach rowerowych z nocowaniem. Organizuje wycieczki rowerowe. Regularnie wykonuje przeglądy swojego roweru.',
                       tasks: [
                         'Wyregulowałem(-am) przerzutki i szprychy oraz zakonserwowałem(-am) łańcuch.',
@@ -2571,7 +2571,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'rowerzysta',
                       title: 'Rowerzysta',
-                      level: '4',
+                      level: 4,
                       comment: 'Bierze udział w wyścigach/rajdach rowerowych. Współorganizuje wyprawy rowerowe. Współorganizuje otwarte warsztaty rowerowe.',
                       tasks: [
                         'Wraz z innymi wędrownikami współorganizowałem(-am) otwarty warsztat rowerowy, dokonując drobnych napraw, sprawdzania sprzętu przed sezonem oraz edukując na temat zasad bezpiecznego kolarstwa.',
@@ -2597,7 +2597,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'muzyk',
                       title: 'Muzyk',
-                      level: '1',
+                      level: 1,
                       comment:'Gra na wybranym instrumencie. Potrafi zagrać kilka ulubionych utworów. Posługuje się zapisem nutowym.',
                       tasks: [
                         'Nauczyłem(-am) się grać na wybranym instrumencie. Przygotowałem(-am) wybrany utwór, który zaprezentowałem(-am) przed większym gronem (drużyną, rodziną).',
@@ -2607,7 +2607,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'muzyk',
                       title: 'Muzyk',
-                      level: '2',
+                      level: 2,
                       comment:'Gra na wybranym instrumencie również w duecie/tercecie. Właściwie dobiera utwory do okoliczności. Zna najpopularniejsze utwory znanych kompozytorów.',
                       tasks: [
                         'W duecie (bądź w większym zespole) przygotowałem(-am) wybrany utwór muzyczny, który zaprezentowałem(-am) przed większym gronem (drużyną, rodziną).',
@@ -2617,7 +2617,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'muzyk',
                       title: 'Muzyk',
-                      level: '3',
+                      level: 3,
                       comment:'Bierze udział w konkursach/przeglądach muzycznych. Propaguje w swoim środowisku świat muzyki. Angażuje się w oprawę muzyczną wydarzeń harcerskich.',
                       tasks: [
                         'Wziąłem(wzięłam) udział w konkursie/przeglądzie muzycznym.',
@@ -2627,7 +2627,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'muzyk',
                       title: 'Muzyk',
-                      level: '4',
+                      level: 4,
                       comment:'Komponuje utwory. Rozwija swoją wiedzę w zakresie teorii muzyki tj. jej historii, zasad, kształcenia słuchu. Wie co się aktualnie dzieje w muzycznym świecie, szczególnie w Polsce. Propaguje tę wiedzę w swoim środowisku.',
                       tasks: [
                         'Skomponowałem(-am) własny utwór.',
@@ -2643,7 +2643,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'gitarzysta',
                       title: 'Gitarzysta',
-                      level: '2',
+                      level: 2,
                       comment:'Wykorzystuje gitarę do akompaniowania zastępowi lub drużynie.',
                       tasks: [
                         'Akompaniowałem(-am) drużynie przy wykonaniu minimum 5 piosenek (np. w czasie ogniska, na zbiórce).',
@@ -2653,7 +2653,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'gitarzysta',
                       title: 'Gitarzysta',
-                      level: '3',
+                      level: 3,
                       comment:'Sprawnie wykorzystuje gitarę do akompaniowania drużynie na zbiórkach i występach.',
                       tasks: [
                         'Akompaniowałem(-am) drużynie przy wykonaniu minimum 15 piosenek. Poprowadziłem(-am) muzycznie co najmniej 3 ogniska/kominki.',
@@ -2670,7 +2670,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'piosenkarz',
                       title: 'Piosenkarz',
-                      level: '1',
+                      level: 1,
                       comment:'Chętnie śpiewa z drużyną. Inicjuje naukę nowych piosenek w zastępie. Wie jak dbać o swój głos, zna podstawowe zasady higieny głosu.',
                       tasks: [
                         'Rozpocząłem(-am) śpiew kilku piosenek na zbiórce zastępu i zaśpiewałem piosenkę w duecie.',
@@ -2681,7 +2681,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'piosenkarz',
                       title: 'Piosenkarz',
-                      level: '2',
+                      level: 2,
                       comment:'Występuje jako solista. Doskonali swój warsztat śpiewaka',
                       tasks: [
                         'Wystąpiłem(-am) jako solista np. w szkolnym konkursie talentów, podczas szkolnego apelu czy festiwalu obozowego.',
@@ -2692,7 +2692,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'piosenkarz',
                       title: 'Piosenkarz',
-                      level: '3',
+                      level: 3,
                       comment:'Występuje przed większą, nieznaną wcześniej publicznością. Pracuje nad osiągnięciem najlepszych dostępnych mu/jej możliwości wokalnych.',
                       tasks: [
                         'Wystąpiłem(-am) z przygotowanym wcześniej utworem/utworami w konkursie poza swoim najbliższym środowiskiem np. w konkursie międzyszkolnym, gminnym, ogólnopolskim lub na chorągwianym festiwalu harcerskim.',
@@ -2703,7 +2703,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'piosenkarz',
                       title: 'Piosenkarz',
-                      level: '4',
+                      level: 4,
                       comment:'Doskonali swoje możliwości wokalne. Zna różne style muzyczne. Na stałe jest zaangażowany/a w śpiew w zespole lub solo. Organizuje warsztaty wokalne.',
                       tasks: [
                         'Jestem solistą/solistką lub wokalistątką zespołu muzycznego czy chóru. Przynajmniej od 3 miesięcy uczestniczę w regularnych próbach i występach.',
@@ -2720,7 +2720,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'aktor',
                       title: 'Aktor',
-                      level: '2',
+                      level: 2,
                       comment:'Prezentuje publicznie swoje umiejętności aktorskie. Bierze udział w przedstawieniach lub zajęciach teatralnych.',
                       tasks: [
                         'Zaprezentowałem(-am) się przed publicznością w jednej z form aktorskich: monolog, dialog, pantomima, teatr radia, teatr lalek, teatr tańca.',
@@ -2732,7 +2732,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'aktor',
                       title: 'Aktor',
-                      level: '3',
+                      level: 3,
                       comment:'Prezentuje się przed publicznością w różnych formach aktorskich. Bierze udział w poprzedzonych próbami przedstawieniach lub zajęciach kółka teatralnego.',
                       tasks: [
                         'Zaprezentowałem(-am) się przed publicznością w trzech różnych formach aktorskich np. monolog, dialog, pantomima, teatr radia, teatr lalek, teatr tańca.',
@@ -2750,7 +2750,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'lalkarz',
                       title: 'Lalkarz',
-                      level: '2',
+                      level: 2,
                       comment:'Bierze udział w przedstawieniach teatrzyku lalkowego, animując wybrany rodzaj lalki. Współtworzy przedstawienia odpowiadając za wybrane aspekty techniczne (wykonywanie lalek, dekoracji, instalacji, efektów).',
                       tasks: [
                         'Obejrzałem(-am) kilka spektaklów w teatrze lalek lub lalkowych programów telewizyjnych poznając teatr cieni i teatr przedmiotu, a także różne rodzaje lalek (np. kukły, pacynki, marionetki, jawajki, bunkaku, maski, lalki cieniowe).',
@@ -2769,7 +2769,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'wodzirej',
                       title: 'Wodzirej',
-                      level: '3',
+                      level: 3,
                       comment:'Prowadzi ogniska, kominki i inne przedsięwzięcia kulturalne. Przewodzi śpiewom w drużynie. Prowadzi pląsy i zabawy.',
                       tasks: [
                         'Poprowadziłem(-am) kilka ognisk i kominków. Ustaliłem(-am) scenariusz, umiejętnie dobrałem(-am) repertuar, zaintonowałem(-am) piosenki.',
@@ -2786,7 +2786,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'recytator',
                       title: 'Recytator',
-                      level: '2',
+                      level: 2,
                       comment:'Ćwiczy dykcję. Recytuje prozę i wiersze.',
                       tasks: [
                         'Zaprezentowałem(-am) członkom zastępu podstawowe ćwiczenia doskonalące dykcję.',
@@ -2797,7 +2797,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'recytator',
                       title: 'Recytator',
-                      level: '3',
+                      level: 3,
                       comment:'Doskonali swoje umiejętności recytatorskie, dzieli się swoim doświadczeniem z innymi. Organizuje przedsięwzięcia recytatorskie.',
                       tasks: [
                         'Przeprowadziłem(-am) dla kilku osób ćwiczenia dykcji w trakcie prób przed występem.',
@@ -2814,7 +2814,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'gawedziarz',
                       title: 'Gawędziarz',
-                      level: '3',
+                      level: 3,
                       comment:'Opowiada gawędy w trakcie ognisk/kominków. W opowieściach posługuje się inspiracjami z legend i książek. Tworzy gawędy na podstawie konkretnych wydarzeń.',
                       tasks: [
                         'Opowiedziałem(-am) kilka gawęd podczas ogniska lub kominka zawierających morał lub przysłowie.',
@@ -2831,7 +2831,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'rezyser_teatralny',
                       title: 'Reżyser Teatralny',
-                      level: '3',
+                      level: 3,
                       comment:'Przygotowuje różne przedstawienia do wystawienia, pełniąc rolę reżysera. Opracowuje scenariusze. Dobiera rekwizyty i dekoracje',
                       tasks: [
                         'Wraz z zastępem lub grupą kolegów przygotowałem(-am) do wystawienia (pełniąc rolę reżysera) sztukę lalkową, teatrzyk harcerski, program kabaretowy itp.',
@@ -2841,7 +2841,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'rezyser_teatralny',
                       title: 'Reżyser Teatralny',
-                      level: '4',
+                      level: 4,
                       comment:'Reżyseruje wybrane przez siebie sztuki lub inne przedstawienia. Dokonuje doboru aktorów. Udziela wskazówek aktorom.',
                       tasks: [
                         'Przygotowałem(-am) do wystawienia sztukę teatru dramatycznego (komedię lub tragedię), teatru lalek, teatru tańca lub pantomimę. Dobrałem(-am) aktorów i przeprowadziłem(-am) próby.',
@@ -2857,7 +2857,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'rezyser_teatralny',
                       title: 'Reżyser Teatralny',
-                      level: '3',
+                      level: 3,
                       comment:'Wykonuje kostiumy i detale scenograficzne. Kieruje wykonywaniem scenografii lub dekoracji.',
                       tasks: [
                         'Wykonałem jedno z poniższych zadań:'
@@ -2876,7 +2876,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'filmowiec',
                       title: 'Filmowiec',
-                      level: '3',
+                      level: 3,
                       comment:'Nagrywa filmy przy użyciu wybranego środka technicznego. Prezentuje je drużynie/znajomym. Zgłębia wiedzę na temat kina i dzieli się nią z innymi osobami.',
                       tasks: [
                         'Poznałem(-am) podstawowe zasady filmowania. Zgodnie z nimi udokumentowałem wydarzenie w drużynie, szkole lub rodzinie',
@@ -2887,7 +2887,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'filmowiec',
                       title: 'Filmowiec',
-                      level: '4',
+                      level: 4,
                       comment:'Kręci profesjonalne filmy przy użyciu wyposażenia filmowego i publikuje je w Internecie.',
                       tasks: [
                         'Poznałem(-am) podstawowe kadry filmowe (np. amerykański, pełny, bliski itp.) oraz ich zastosowanie. Wykorzystałem(-am) różne rodzaje kadrów kręcąc materiały do filmu.',
@@ -2905,7 +2905,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'plastyk',
                       title: 'Plastyk',
-                      level: '1',
+                      level: 1,
                       comment:'Próbuje różnych rodzajów wyrazu artystycznego tworząc przedmioty lub prace ubarwiające życie w drużynie, w domu lub w szkole.',
                       tasks: [
                         'Wykonałem(-am) co najmniej 3 ozdobne strony do kroniki (np. stronę tytułową, wpisy zawierające ozdobne inicjały, rysunki itp.) trzema różnymi stylami i technikami lub trzy ilustracje na potrzeby drużyny, do swojego śpiewnika czy na potrzeby szkoły lub domu.',
@@ -2918,7 +2918,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'plastyk',
                       title: 'Plastyk',
-                      level: '2',
+                      level: 2,
                       comment:'Poszerza swoją wiedzę o sztuce. Poznaje i wykorzystuje zasady dobrego tworzenia, próbuje nowych rzeczy. Wykorzystuje swoje umiejętności na rzecz swojego środowiska harcerskiego.',
                       tasks: [
                         'Dowiedziałem(-am) się jak zrobić dobry plakat (Youtube, Google) i wykonałem(-am) co najmniej jeden plakat reklamowy na potrzeby zastępu lub drużyny wykorzystując zdobyte wskazówki.',
@@ -2929,7 +2929,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'plastyk',
                       title: 'Plastyk',
-                      level: '3',
+                      level: 3,
                       comment:'Poszerza swoją wiedzę o sztuce. Stosuje w praktyce wiedzę na temat kompozycji. Wykorzystuje nowe pomysły na sposoby kreatywnej ekspresji. Stosuje całościowe podejście podczas aranżacji przestrzeni. Wykorzystuje swoje umiejętności w pracy swojego środowiska harcerskiego.',
                       tasks: [
                         'Szukam informacji o dziełach sztuki - rzeźbie i malarstwie polskim. Wybrałem(-am) 10 dzieł, które podobają mi się najbardziej i zaprezentowałem(-am) je na zbiórce, wycieczce itp. w dowolnej formie.',
@@ -2947,7 +2947,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'malarz',
                       title: 'Malarz',
-                      level: '1',
+                      level: 1,
                       comment:'Maluje obrazy dowolną techniką malarską. Odwiedza wystawy/muzea i ogląda dzieła malarskie. Posługuje się barwami podstawowymi.',
                       tasks: [
                         'Skompletowałem(-am) zestaw podstawowych narzędzi do pracy: farby, paleta i pędzle. Opowiedziałem(-am) członkom zastępu, jak o nie dbam.',
@@ -2958,7 +2958,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'malarz',
                       title: 'Malarz',
-                      level: '2',
+                      level: 2,
                       comment:'Uzyskuje pożądane kolory łącząc farby. W swoich pracach posługuje się kilkoma technikami malarskimi. Odwiedza wystawy malarskie, analizując wnikliwie wybrane dzieła. Zna twórczość wybranych malarzy.',
                       tasks: [
                         'Odpowiednio wymieszałem(-am) farby, aby uzyskać kolor: pomarańczowy, fioletowy, zielony, brązowy, szary. Wykorzystałem(-am), w tym celu tylko barwy podstawowe.',
@@ -2969,7 +2969,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'malarz',
                       title: 'Malarz',
-                      level: '3',
+                      level: 3,
                       comment:'Bierze udział w plenerach malarskich. Tworzy swoje prace na różnych materiałach, dopasowując odpowiednią technikę. Odwiedza wystawy malarskie, szukając inspiracji do własnych prac. Propaguje wiedzę o epokach malarskich.',
                       tasks: [
                         'Wziął/wzięła udział w plenerze malarskim.',
@@ -2980,7 +2980,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'malarz',
                       title: 'Malarz',
-                      level: '4',
+                      level: 4,
                       comment:'Przygotowuje podłoże malarskie do swojej pracy. Wystawia własne obrazy w miejscu publicznym. Prowadzi szkicownik.',
                       tasks: [
                         'Przygotowałem(-am) infografikę przedstawiającą dwie epoki malarskie. Infografika zawiera krótką charakterystykę każdej epoki, sylwetki co najmniej 4 artystów (po dwie dla każdej epoki), ciekawostki.',
@@ -2997,7 +2997,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'rzezbiarz',
                       title: 'Rzeźbiarz',
-                      level: '2',
+                      level: 2,
                       comment:'Poszerza swoją wiedzę o rzeźbiarstwie. Posługując się narzędziami rzeźbiarskimi wykonuje różne elementy zdobnictwa obozowego.',
                       tasks: [
                         'Zobaczyłem/ am co najmniej 5 pomników. Dowiedziałem(-am) się, kto jest ich autorem i jaką techniką zostały wykonane.',
@@ -3007,7 +3007,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'rzezbiarz',
                       title: 'Rzeźbiarz',
-                      level: '3',
+                      level: 3,
                       comment:'Poszerza swoją wiedzę o rzeźbiarzach i technikach ich pracy. Wykonuje różne obiekty przydatne w pracy jego środowiska harcerskiego.',
                       tasks: [
                         'Odwiedziłem(-am) co najmniej 3 muzea lub obiekty zabytkowe, w których odnalazłem rzeźby/płaskorzeźby reprezentujące co najmniej 3 okresy w sztuce. Dowiedziałem(-am) się, kto jest ich autorem i jaką techniką zostały wykonane.',
@@ -3023,7 +3023,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'architekt_wnetrz',
                       title: 'Architekt Wnętrz',
-                      level: '3',
+                      level: 3,
                       comment:'Rozpoznaje podstawowe style w architekturze. Popularyzuje wiedzę o ciekawych obiektach architektonicznych swojej okolicy. Projektuje przestrzeń pojedynczych pomieszczeń.',
                       tasks: [
                         'Rozpoznaję 6 podstawowych nowożytnych stylów w architekturze. Odwiedziłem(-am) znajdujące się w okolicy budowle charakterystyczne dla tych stylów i wypromowałem(-am) je w swoim środowisku poprzez fotorelację.',
@@ -3035,7 +3035,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'architekt',
                       title: 'Architekt',
-                      level: '4',
+                      level: 4,
                       comment:'Rozpoznaje dzieła różnych twórców swojego ulubionego stylu architektonicznego. Popularyzuje wiedzę o ciekawych obiektach architektonicznych swojego ulubionego twórcy. Projektuje przestrzeń mieszkania/domu.',
                       tasks: [
                         'Poznałem(-am) dzieła przynajmniej 5 twórców stylu, który lubię najbardziej. Wypromowałem(-am) je w swoim środowisku poprzez fotorelację z własnych podróży.',
@@ -3053,7 +3053,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'fotograf',
                       title: 'Fotograf',
-                      level: '1',
+                      level: 1,
                       comment:'Wykonuje zdjęcia przy użyciu podstawowych funkcji aparatu/telefonu. Wybiera do publikacji zdjęcia z puli wykonanych fotografii.',
                       tasks: [
                         'Wykonałam/em portret osoby lub zjawiska przyrody.',
@@ -3064,7 +3064,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'fotograf',
                       title: 'Fotograf',
-                      level: '2',
+                      level: 2,
                       comment:'Kadruje i wykonuje zdjęcia przy użyciu dostępnych ustawień urządzenia. Rozwija swoją wiedzę z zakresu fotografii.',
                       tasks: [
                         'Poznałem(-am) urządzenia, dzięki którym mogę wykonać zdjęcia. Dowiedziałem(-am) się, na jakie parametry zwracać uwagę. Fotografując, stosowałam/em prawidłowe ustawienia.',
@@ -3075,7 +3075,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'fotograf',
                       title: 'Fotograf',
-                      level: '3',
+                      level: 3,
                       comment:'Wykonuje zdjęcia przy użyciu manualnych ustawień aparatu. Wykorzystuje swoje umiejętności na rzecz innych.',
                       tasks: [
                         'Wykonałem(-am) zdjęcia w trudnych warunkach np. w nocy, obiektów w ruchu.',
@@ -3086,7 +3086,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'fotograf',
                       title: 'Fotograf',
-                      level: '4',
+                      level: 4,
                       comment:'Wykonuje zdjęcia przy użyciu zaawansowanych ustawień aparatu np. balansu bieli, nasycenia. Koordynuje pracę zespołu fotografów.',
                       tasks: [
                         'Wykonałem(-am) udane zdjęcia w każdych warunkach (np. w ciemności, w ruchu, pod słońce) - za każdym razem dobierając ustawienia aparatu.',
@@ -3103,7 +3103,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'grafik_komputerowy',
                       title: 'Grafik Komputerowy',
-                      level: '2',
+                      level: 2,
                       comment:'Projektuje proste grafiki. Wykorzystuje programy graficzne do wykonania prac dla zastępu lub drużyny.',
                       tasks: [
                         'Zaprojektowałem(-am) prostą grafikę w dowolnym programie graficznym np. plakat, zaproszenie.',
@@ -3113,7 +3113,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'grafik_komputerowy',
                       title: 'Grafik Komputerowy',
-                      level: '3',
+                      level: 3,
                       comment:'Przygotowuje grafiki na potrzeby promocji zastępu lub drużyny lub innej organizacji pozarządowej. Tworzy grafiki w oparciu o Katalog Identyfikacji Wizualnej ZHP.',
                       tasks: [
                         'Przygotowałem(-am) grafikę promującą ważne wydarzenie: plakat i grafiki do mediów społecznościowych np. Facebook, Instagram. Zapoznałem(-am) się z pojęciem white space i wykorzystałem(-am) tę wiedzę podczas tworzenia projektów.',
@@ -3124,7 +3124,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'grafik_komputerowy',
                       title: 'Grafik Komputerowy',
-                      level: '4',
+                      level: 4,
                       comment:'Przygotowuje grafiki i wdraża do użytku. Przestrzega zasad korzystania z grafik, fotografii, krojów pisma zgodnie z prawem autorskim.',
                       tasks: [
                         'Przygotowałem(-am) listę lub repozytorium legalnych źródeł grafik, fotografii i krojów pisma (również tych zawierających polskie znaki). Wiem jak się nimi posługiwać zgodnie z obowiązującym prawem autorskim.',
@@ -3152,7 +3152,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                       id: 'obywatel',
                       title: 'Obywatel',
                       comment:'Aktywnie poznaje swój kraj.',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Znam historię godła i barw narodowych. Wiem, co oznaczają i potrafię się wobec nich zachować. Wywiesiłem(-am) flagę biało-czerwoną w dniu święta państwowego.',
                         'Razem z zastępem lub drużyną zaśpiewałem(-am) hymn państwowy w czasie uroczystości.',
@@ -3163,7 +3163,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                       id: 'obywatel',
                       title: 'Obywatel',
                       comment:'Poznaje swoje państwo i zasady demokracji.',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Poznałem(-am) daty polskich świąt narodowych. Wiem, na pamiątkę jakich wydarzeń zostały ustanowione. Przygotowałem(-am) z zastępem zbiórkę z okazji jednego z nich.',
                         'Wskazałem(-am) na mapie krainy geograficzne Polski. Jedną z nich zaprezentowałem(-am) na zbiórce zastępu.',
@@ -3176,7 +3176,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                       id: 'obywatel',
                       title: 'Obywatel',
                       comment:'Angażuje się w życie społeczności do których należy.',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Przeprowadziłem(-am) zwiad tematyczny w mojej „małej ojczyźnie” (np. poznając kulturę, historię, współczesne życie społeczne i gospodarcze, poznając ciekawe osoby, odkrywając mało znane miejsca, zapomniane pamiątki historyczne). Sporządziłem(-am) dokumentację zwiadu (np. opisy, wywiady, pamiątki, fotografie, spis lektur na wybrany temat). W interesujący sposób przedstawiłem(-am) wyniki zwiadu w drużynie.',
                         'Wziąłem(wzięłam) udział w pracach samorządu klasowego lub szkolnego (chodzi o udział w przedsięwzięciu organizowanym przez samorząd, nie jest konieczne sprawowanie w nim funkcji).',
@@ -3187,7 +3187,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                       id: 'obywatel',
                       title: 'Obywatel',
                       comment:'Przygotowuje się do bycia dorosłym obywatelem RP. Śledzi aktualną sytuację na polskiej scenie politycznej. Promuje aktywność obywatelską oraz głosowanie w oparciu o rzetelną wiedzę.',
-                      level: '4',
+                      level: 4,
                       tasks: [
                         'Poznałem(-am) najważniejsze fakty z najnowszej historii Polski. Odwiedziłem(-am) miejsce związane z takim wydarzeniem, by w pełni zrozumieć, jakie płyną z niego dla nas przesłania. Na wyprawę zabrałem(-am) drużynę/zastęp/przyjaciela/rodzinę.',
                         'We współpracy z samorządem uczniowskim, przygotowałem(-am) szkolną akcję promującą aktywność społeczną i obywatelską.',
@@ -3206,7 +3206,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                       id: 'europejczyk',
                       title: 'Europejczyk',
                       comment:'Posiada podstawową wiedzę na temat Unii Europejskiej, jej symboli i państw do niej należących. Swoją wiedzą dzieli się z rówieśnikami.',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Dowiedziałem(-am) się, czym jest Unia Europejska i od kiedy należy do niej Polska. Zdobyłem(-am) różne ciekawostki dotyczące państw należących do UE. Zaprezentowałem(-am) je w ciekawej formie rówieśnikom.',
                         'Poznałem(-am) najważniejsze symbole Unii Europejskiej. Wykonałem(-am) jedno z zadań:'
@@ -3219,7 +3219,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                       id: 'europejczyk',
                       title: 'Europejczyk',
                       comment:'Dostrzega wokół siebie wpływ członkostwa w UE na rozwój Polski. Propaguje wiedzę o UE.',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Przedstawiłem(-am) członkom zastępu dewizę/motto Unii Europejskiej. Przygotowałem(-am) z rówieśnikami (np. w zastępie) plakat prezentujący UE i jej motto.',
                         'Poznałem(-am) ważne informacje dotyczące Unii Europejskiej oraz jej najważniejsze instytucje. Zorganizowałem(-am) konkurs wiedzy o UE i jej krajach członkowskich dla rówieśników.',
@@ -3229,7 +3229,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                       id: 'europejczyk',
                       title: 'Europejczyk',
                       comment:'Wie, czym jest integracja europejska oraz jakie obejmuje działania. Propaguje wśród grupy rówieśniczej wiedzę o kulturze innych państw UE. ',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Dowiedziałem(-am) się, czym była Deklaracja Schumana i jakie miała znaczenie w pokojowym jednoczeniu kontynentu. Wcieliłem(-am) się w rolę historyka i stworzyłem(-am) krótką notatkę przedstawiającą główne etapy tworzenia Unii Europejskiej. Dowiedziałem(-am) się, jakie kraje starają się obecnie przystąpić do Unii Europejskiej i jakie jeszcze warunki muszą spełnić. Wyniki swojej pracy zaprezentowałem(-am) publicznie.',
                         'Wykonałem(-am) co najmniej jedno z poniższych zadań:'
@@ -3242,7 +3242,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                       id: 'europejczyk',
                       title: 'Europejczyk',
                       comment:'Wie, jak wygląda proces decyzyjny Unii Europejskiej oraz jakie są instytucje europejskie. Rozumie mechanizmy obrony Unii Europejskiej. Potrafi skorzystać z programów dotacyjnych UE.',
-                      level: '4',
+                      level: 4,
                       tasks: [
                         'Poznałem(-am) zasady deklaracji bolońskiej. Skorzystałem(-am) z Europejskiej Sieci Informacji o Edukacji - EURYDICE. Na tej podstawie zebrałem(-am) informacje dotyczące możliwości i warunków podejmowania przez młodych Polaków nauki w wybranym kraju Unii Europejskiej. Zebrane materiały przedstawiłem(-am) swoim rówieśnikom.',
                         'Dowiedziałem(-am) się, w jaki sposób Unia Europejska prowadzi swoją politykę migracyjną i azylową oraz jak wpływają one na bezpieczeństwo obywateli państw członkowskich. Zorganizowałem(-am) zbiórkę/spotkanie wędrownicze/instruktorskie na ten temat.',
@@ -3258,7 +3258,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                       id: 'ekumenista',
                       title: 'Ekumenista',
                       comment:'Posiada podstawową wiedzę na temat wyznań chrześcijańskich w Polsce. Potrafi zachować się właściwie w ich przestrzeni sakralnej. ',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Dowiedziałem(-am) się, jak nazywa się świątynia i duchowny w wyznaniach chrześcijańskich działających w Polsce. Rozpoznałem(-am) ich stroje liturgiczne.',
                         'Dowiedziałem(-am) się, jakie Kościoły i wspólnoty chrześcijańskie działają w mojej okolicy/regionie. Odwiedziłem(-am) (np. z rodzicami lub zastępem) świątynię, miejsce modlitwy lub cmentarz należące do jednego z nich (innego niż moje własne). Zastosowałem(-am) się do obowiązujących zasad ubioru i zachowania w miejscu kultu lub podczas ceremonii religijnej.',
@@ -3268,7 +3268,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                       id: 'ekumenista',
                       title: 'Ekumenista',
                       comment:'Poznaje różnorodność chrześcijaństwa. Rozróżnia wyznania chrześcijańskie istniejące naświecie. Zna podobieństwa i różnice między nimi. Poznaje je w praktyce. Upowszechnia zasady właściwego zachowania w przestrzeni sakralnej i podczas ceremonii religijnych w różnych tradycjach wyznaniowych. ',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Poznałem(-am) typowe elementy architektury i wyposażenia oraz ich znaczenie w świątyniach wyznań chrześcijańskich tradycji wschodniej i zachodniej (np. ikonostas, carskie i diakońskie wrota, ikony, obrazy lub ich brak, ambona, osobne przestrzenie dla kobiet i mężczyzn). Przedstawiłem(-am) je na zbiórce zastępu.',
                         'Pomogłem(-am) zorganizować wycieczkę zastępu lub drużyny do świątyni wyznawców wybranego wyznania lub obrządku (innych niż większości uczestników) i przedstawiłem(-am) informacje o niej. Przygotowałem(-am) członków zastępu lub drużyny pod względem właściwego ubioru i zachowania.',
@@ -3279,7 +3279,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                       id: 'ekumenista',
                       title: 'Ekumenista',
                       comment:'Wie, jakie są założenia ruchu ekumenicznego. Rozumie przyczyny i rolę różnorodności w Chrześcijaństwie. Poznaje inne wyznania i szuka ich wspólnych cech. Upowszechnia ideę dialogu międzyreligijnego i ekumenizmu. ',
-                      level: '4',
+                      level: 4,
                       tasks: [
                         'Na zbiórce zastępu lub drużyny zaprezentowałem(-am) w ciekawy sposób ideę i najważniejsze działania ruchu ekumenicznego, bazując na dokumentach Światowej Rady Kościołów lub Polskiej Rady Ekumenicznej. Przedstawiłem(-am) idee i sposób działania Wspólnoty z Taizé.',
                         'Wziąłem(wzięłam) udział w nabożeństwie w ramach Światowego Tygodnia Modlitw o Jedność Chrześcijan, Europejskiego Spotkania Młodych lub w innym nabożeństwie ekumenicznym. Porozmawiałem(-am) z kilkorgiem jego uczestników o powodach, dla których zdecydowali się na udział.',
@@ -3297,7 +3297,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                       id: 'liturgista',
                       title: 'Liturgista',
                       comment:'Wie, czym jest liturgia. Posiada podstawową wiedzę na postaw i gestów liturgicznych.',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Pobożnie i aktywnie uczestniczyłem(-am) w nabożeństwie/mszy świętej/liturgii, starając się stanowić wzór dla innych.',
                         'Poznałem(-am) podstawowe postawy i gesty liturgiczne. Wykazałem(-am) się ich znajomością asystując we mszy świętej.',
@@ -3307,7 +3307,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                       id: 'liturgista',
                       title: 'Liturgista',
                       comment:'Wie, czym kieruje się liturgia Kościoła. Angażuje się w jej przeżywanie.',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Poznałem(-am) strukturę roku liturgicznego. Wiem, kiedy się rozpoczyna i kończy i jak się nazywają jego główne okresy. Stworzyłem(-am) swój kalendarz liturgiczny. Zaznaczyłem(-am) na nim najważniejsze święta mojego wyznania. Wiem, które z tych świąt mają stały termin obchodów, a które są „ruchome”.',
                         'Poznałem(-am) możliwości zaangażowania w przygotowanie liturgii. Pomogłem(-am) w organizacji wydarzenia religijnego (np. polowa msza święta) w hufcu/drużynie.',
@@ -3317,7 +3317,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                       id: 'liturgista',
                       title: 'Liturgista',
                       comment:'Wie, dlaczego Eucharystia nazywana jest szczytem liturgii. Bierze czynny udział w organizowaniu mszy harcerskich/nabożeństw/liturgii.',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Poznałem(-am) strukturę mszy świętej/nabożeństwa/liturgii. Umiem wymienić jej części i dowiedziałem(-am) się, jakie postawy należy przyjąć w poszczególnych jej elementach. Przekazałem tę wiedzę młodszej osobie.',
                         'Poznałem(-am) nazwy podstawowych paramentów liturgicznych (np. kielich, patena, palka, korporał, puryfikaterz, lavabo, trybularz). Przygotowałem(-am) ołtarz do sprawowania Eucharystii.',
@@ -3328,7 +3328,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                       id: 'liturgista',
                       title: 'Liturgista',
                       comment:'Współpracuje z kapelanami/duszpasterzami harcerskimi.',
-                      level: '4',
+                      level: 4,
                       tasks: [
                         'Przygotowałem(-am) hufcowy/drużynowy „niezbędnik liturgiczny” dla mojego wyznania w formie broszury, który zawiera, np. opis obrzędu mszy, pieśni, piosenki harcerskie, które można wykorzystać w liturgii, sposoby zaangażowania w liturgię.',
                         'Zadbałem(-am) wspólnie z chętnymi osobami o urządzenie na obozie/biwaku miejsca modlitwy (wyciszenia, skupienia), w którym każdy może realizować swoje potrzeby duchowe (np. ołtarz polowy, kapliczkę obozową, leśną "czytelnię" wartościowych książek dotyczących rozwoju duchowego).',
@@ -3343,7 +3343,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                       id: 'negocjator',
                       title: 'Negocjator',
                       comment:'Rozpoznaje różne rodzaje informacji, które do niego/niej docierają, potrafi rozdzielić je i wyłowić fakty. Wie, czym są: negocjacja, opinia, fakt, pogłoska, dane, przypuszczenie i potrafi je identyfikować w rozmowie. ',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Poznałem(-am) terminy: negocjacja, opinia, fakt, pogłoska, dane, przypuszczenie. Wyjaśniłem(-am) zastępowi relacje i różnice między nimi. W działaniach zastępu staram się by informacje były oparte na faktach i danych, a nie na pogłoskach i przypuszczeniach, i aby każdy miał okazje do wygłoszenia swojej opinii.',
                         'Odnalazłem(-am) i przedstawiłem(-am) kilka przykładów opinii, faktu, pogłoski, danej, przypuszczenia znalezionych w mediach (źródła drukowane i elektroniczne).',
@@ -3354,7 +3354,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                       id: 'negocjator',
                       title: 'Negocjator',
                       comment:'Rozumie rolę emocji i wagę zarządzania nimi w rozmowie. Rozumie rolę moderatora rozmowy oraz wagę słuchania w tej roli. Łagodzi konflikty w otoczeniu.',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Poznałem(-am) fazy negocjacji prowadzące do porozumienia. Przedstawiłem(-am) zastępowi podstawowe zasady negocjacji.',
                         'Przeprowadziłem(-am) dwa rodzaje debat dla zastępu, drużyny lub innej grupy. Przed debatami przygotowałem(-am) do nich uczestników.',
@@ -3365,7 +3365,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                       id: 'negocjator',
                       title: 'Negocjator',
                       comment:'Posiadaną wiedzę na temat metod negocjacji stale szlifuje, stosując ją w praktyce. Poszerza wiedzę dotyczącą rozmów, uczy się identyfikowania forteli erystycznych, aby poprawnie na nie reagować, a u siebie zastępować merytoryczną argumentacją. ',
-                      level: '4',
+                      level: 4,
                       tasks: [
                         'Doprowadziłem(-am) do porozumienia między stronami konfliktu.',
                         'Znam pojęcie erystyki. Zapoznałem(-am) się z dialektyką erystyczną Schopenhauera i potrafię zidentyfikować minimum 5 forteli w dyskusji i właściwie na nie zareagować, rozbrajając oponenta.',
@@ -3381,7 +3381,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                       id: 'dziennikarz',
                       title: 'Dziennikarz',
                       comment:'Ma świadomość, w jaki sposób relacjonuje się zdarzenia w środkach masowego przekazu. Orientuje się w bieżących wydarzeniach życia szkoły, drużyny oraz swojego kraju. Opracowuje krótsze i dłuższe relacje z życia środowiska, w którym funkcjonuje (zastęp, drużyna, szkoła).',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Poznałem(-am) różne rodzaje środków masowego przekazu. Za pomocą jednego z nich, uzyskałem(-am) bieżące informacje dotyczące mojego kraju. Podzieliłem(-am) się nimi z rówieśnikami, pozyskując ich opinie na ważne dla mnie tematy.',
                         'Poznałem(-am) różne rodzaje mediów społecznościowych, za pomocą jednego z nich przedstawiłem(-am) wydarzenie z życia drużyny szerszej publiczności.',
@@ -3393,7 +3393,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                       id: 'dziennikarz',
                       title: 'Dziennikarz',
                       comment:'Wykazuje się obiektywizmem w tworzeniu artykułów/fotoreportaży. Upublicznia swoje teksty szerszej publiczności. Poznaje twórczość różnych reporterów.',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Podczas zbiórki zastępu zaprezentowałem(-am) cechy, jakimi powinni charakteryzować się dziennikarze oraz zasady, jakie obowiązują w ich zawodzie. Zaprezentowałem(-am) przykład rzetelnego dziennikarza/reportera.',
                         'Przygotowałem(-am) relacje z biwaku, obozu drużyny lub innego dłuższego wyjazdu. Upubliczniłem(-am) je na blogu/fanpage lub stronie drużyny.',
@@ -3411,7 +3411,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                       id: 'dziennikarz',
                       title: 'Dziennikarz',
                       comment:'Rozumie znaczenie środków masowego przekazu dla zachowania wolności słowa. Wykorzystuje media, aby zdobyć potrzebne informacje. Wie, co to jest czwarta władza, na czym polega linia programowa redakcji i dostrzega rolę manipulacji w mediach. Świadomie upublicznia wytworzone przez siebie materiały.',
-                      level: '4',
+                      level: 4,
                       tasks: [
                         'Przeprowadziłem(-am) debatę na temat znaczenia środków masowego przekazu dla zachowania wolności słowa. Przeanalizowałem(-am) sytuację prawną dziennikarzy. W czasie debaty wziąłem(wzięłam) pod uwagę represje wobec dziennikarzy ze strony różnych państw.',
                         'Wykonałem(-am) co najmniej jedno z poniższych zadań:'
@@ -3443,7 +3443,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'poliglota',
                       title: 'Poliglota',
-                      level: '1',
+                      level: 1,
                       comment: 'Wykazuje zainteresowanie językami, dba o higienę języka, poszerza swoją wiedzę językową.',
                       tasks: [
                         'Wyszukałem(-am) zadane słowa w słowniku języka obcego. Znalazłem(-am) definicje zadanych słów w słowniku języka polskiego, stosując zarówno słowniki książkowe, jak i cyfrowe.',
@@ -3455,7 +3455,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'poliglota',
                       title: 'Poliglota',
-                      level: '2',
+                      level: 2,
                       comment: 'Pogłębia swoją wiedzę językową i stosuje ją w praktyce.',
                       tasks: [
                         'Pogłębiłem(-am) znajomość języka, którego się uczę, podczas kontaktów ze skautami z zagranicy pomagałem(-am) się z nimi porozumieć.',
@@ -3467,7 +3467,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'poliglota',
                       title: 'Poliglota',
-                      level: '3',
+                      level: 3,
                       comment: 'Porozumiewa się w co najmniej dwóch językach, znajomość językową wykorzystuje do ubogacania działania w środowisku.',
                       tasks: [
                         'Opanowałem(-am) na poziomie podstawowym co najmniej dwa języki obce. Nauczyłem(-am) innych podstawowych zwrotów w tych językach.',
@@ -3486,7 +3486,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'badacz',
                       title: 'Badacz',
-                      level: '2',
+                      level: 2,
                       comment: 'Poszukuje informacji różnymi metodami. Zebrane info rmacje wykorzystuje w działaniu.',
                       tasks: [
                         'Zapoznałem(-am) się z różnymi możliwościami wprowadzania zapytań i narzędziami wyszukiwania oferowanymi przez przeglądarki, za ich pomocą wyszukałem(-am) informacje dotyczące wybranego tematu i porównałem(-am) wiarygodność treści pochodzących z różnych źródeł, co pokazałem(-am) na dwóch przykładach.',
@@ -3498,7 +3498,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'badacz',
                       title: 'Badacz',
-                      level: '3',
+                      level: 3,
                       comment: 'Wyszukuje wiarygodne informacje, weryfikując fakty. Wykorzystuje te umiejętności do znajdowania przydatnej wie dzy.',
                       tasks: [
                         'Na zbiórce zaprezentowałem(-am) wiarygodne źródła wiedzy w wybranym temacie i opowiedziałem(-am) o mechanizmach „zakotwiczenia i dostosowania”.',
@@ -3510,7 +3510,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'badacz',
                       title: 'Badacz',
-                      level: '4',
+                      level: 4,
                       comment: 'Poszerza wiedzę o błędach i metodach poznawczych. Propaguje zdobywanie rzetelnej wiedzy.',
                       tasks: [
                         'Poznałem(-am) metody badawcze, potrafię odróżnić metody ilościowe i jakościowe oraz właściwie dobierać je do badanej cechy. Rozumiem, czym jest próba reprezentatywna, pozyskałem(-am) wiadomości o metodach jej doboru. Przeprowadziłem(-am) badania na temat ważny dla mojego środowiska harcerskiego, prezentując wyniki w formie raportu.',
@@ -3526,7 +3526,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'genealog',
                       title: 'Genealog',
-                      level: '1',
+                      level: 1,
                       comment: 'Poznaje swoich przodków.',
                       tasks: [
                         'Przeprowadziłem(-am) wywiad z rodzicami na temat ich rodziców i rodzeństwa. Na tej podstawie stworzyłem(-am) proste drzewo genealogiczne uwzględniające najbliższych krewnych.',
@@ -3537,7 +3537,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'genealog',
                       title: 'Genealog',
-                      level: '2',
+                      level: 2,
                       comment: 'Poznaje historię swojej rodziny.',
                       tasks: [
                         'Odtworzyłem(-am) drzewo genealogiczne swojej rodziny przynajmniej trzy pokolenia wstecz, korzystając np. z dokumentów rodzinnych.',
@@ -3550,7 +3550,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'genealog',
                       title: 'Genealog',
-                      level: '3',
+                      level: 3,
                       comment: 'Poznając historię swojej rodziny, poznaje historię Polski.',
                       tasks: [
                         'Drzewo genealogiczne swojej rodziny (co najmniej trzy pokolenia wstecz) uzupełniłem(-am) o opis i w miarę możliwości zdjęcie każdej osoby umieszczonej na nim.',
@@ -3562,7 +3562,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'genealog',
                       title: 'Genealog',
-                      level: '4',
+                      level: 4,
                       comment: 'Propaguje genealogię jako sposób na poznawanie historii Polski przez dzieje własnej rodziny.',
                       tasks: [
                         'Rozbudowałem(-am) drzewo genealogiczne swojej rodziny do przynajmniej czterech pokoleń wstecz.',
@@ -3582,7 +3582,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'historyk',
                       title: 'Historyk',
-                      level: '2',
+                      level: 2,
                       comment: 'Interesuje się tym, co było kiedyś.',
                       tasks: [
                         'Odwiedziłem(-am) w mojej miejscowości lub podczas wyjazdu dwa muzea poświęcone dawnym czasom. Opowiedziałem(-am) o jednej z obejrzanych wystaw.',
@@ -3594,7 +3594,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'historyk',
                       title: 'Historyk',
-                      level: '3',
+                      level: 3,
                       comment: 'Poznaje historię swojego państwa. Korzysta ze źródeł historycznych (materialnych i niematerialnych).',
                       tasks: [
                         'Wykonałem(-am) jedno z zadań:'
@@ -3610,7 +3610,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'historyk',
                       title: 'Historyk',
-                      level: '4',
+                      level: 4,
                       comment: 'Bierze udział w wydarzeniach upamiętniających historię. Poznaje literaturą historyczną. Propaguje historię w swoim środowisku rówieśniczym, lokalnym. Współpracuje z instytucjami krzewiącymi historię. Ma pierwsze osiągnięcia naukowe.',
                       tasks: [
                         'Wykonałem(-am) jedno z zadań:'
@@ -3638,7 +3638,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'etnograf',
                       title: 'Etnograf',
-                      level: '2',
+                      level: 2,
                       comment: 'Wie, czym jest etnografia. Zna główne grupy etnograficzne w Polsce.',
                       tasks: [
                         'Dowiedziałem(-am) się, czym jest etnografia. Uzasadniłem(-am), czemu badanie i zachowywanie kultury jest ważne.',
@@ -3649,7 +3649,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'etnograf',
                       title: 'Etnograf',
-                      level: '3',
+                      level: 3,
                       comment: 'Wie, czym jest kulturowe dziedzictwo materialne i niematerialne. Poznaje różnorodność kultury w Polsce.',
                       tasks: [
                         'Odszukałem(-am) elementy różnorodnego dziedzictwa kulturowego (np. język, architektura, organizacje społeczne, sztuka, elementy stroju) w Polsce z kręgu co najmniej czterech kultur, np. żydowskiej, niemieckiej, czeskiej, ukraińskiej, litewskiej.',
@@ -3661,7 +3661,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'etnograf',
                       title: 'Etnograf',
-                      level: '4',
+                      level: 4,
                       comment: 'Poszerza wiedzę etnograficzną na podstawie rozmów i literatury. Propaguje pozyskaną wiedzę.',
                       tasks: [
                         'Przeprowadziłem(-am) zwiad etnograficzny, odwiedzając wybraną społeczność i dowiadując się o jej sposobie życia.',
@@ -3678,7 +3678,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'astronom',
                       title: 'Astronom',
-                      level: '1',
+                      level: 1,
                       comment: 'Spogląda w górę i widzi gwieździste niebo nad głową, które go zachwyca i zaciekawia.',
                       tasks: [
                         'Odwiedziłem(-am) planetarium, wziąłem(wzięłam) udział w pokazie tematycznym.',
@@ -3689,7 +3689,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'astronom',
                       title: 'Astronom',
-                      level: '2',
+                      level: 2,
                       comment: 'Zdobywa podstawową wiedzę z zakresu astronomii, uczy się obserwacji nieba i zjawisk astronomicznych.',
                       tasks: [
                         'Korzystałem(-am) z mapy nieba, aby zidentyfikować gwiazdozbiory i najjaśniejsze gwiazdy. Za jej pomocą wyznaczyłem(-am) również układ gwiazd o różnych porach roku i nocy.',
@@ -3700,7 +3700,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'astronom',
                       title: 'Astronom',
-                      level: '3',
+                      level: 3,
                       comment: 'Astronomia go wabi i nurtuje. Stawia nowe pytania i szuka odpowiedzi na nie. Poszukuje i obserwuje.',
                       tasks: [
                         'Skorzystałem(-am) z programów komputerowych do nauki astronomii i obserwacji nieba (np. Stellarium, Stark Walk 2, Sky Safari czy NASA itp.), by na bieżąco śledzić zjawiska astronomiczne.',
@@ -3714,7 +3714,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'astronom',
                       title: 'Astronom',
-                      level: '4',
+                      level: 4,
                       comment: 'Astronomia jest jego pasją, a niebo ma przed nim coraz mniej tajemnic.',
                       tasks: [
                         'Skorzystałem(-am) z programów komputerowych do nauki astronomii i obserwacji nieba (np. Stellarium, Stark Walk 2, Sky Safari czy NASA itp.), by na bieżąco śledzić zjawiska astronomiczne.',
@@ -3733,7 +3733,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'geolog',
                       title: 'Geolog',
-                      level: '2',
+                      level: 2,
                       comment: 'Poznaje pracę geologów. Powiększa zbiór skał i minerałów.',
                       tasks: [
                         'Nauczyłem(-am) się rozróżniać kilka rodzajów skał. Zaprezentowałem(-am) członkom zastępu swoje zbiory skał i minerałów.',
@@ -3744,7 +3744,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'geolog',
                       title: 'Geolog',
-                      level: '3',
+                      level: 3,
                       comment: 'Uprawia geoturystykę - odwiedza miejsca, gdzie może rozwijać swoją wiedzę geologiczną.',
                       tasks: [
                         'Zlokalizowałem(-am) i odwiedziłem(-am) w swoim regionie min. 3 stanowiska geologiczne różnego typu. Przedstawiłem(-am) dokumentację zdjęciową na zbiórce drużyny lub zastępu, opowiadając o tym, jaką wiedzę o historii geologicznej regionu można czerpać z obserwacji danego stanowiska.',
@@ -3762,7 +3762,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'geolog',
                       title: 'Geolog',
-                      level: '4',
+                      level: 4,
                       comment: 'Propaguje wiedzę na temat geologii.',
                       tasks: [
                         'Zaplanowałem(-am) i odbyłem(-am) 2-dniową wycieczkę geologiczną po wybranym regionie, uwzględniającą ciekawe stanowiska geologiczne oraz możliwości pozyskania okazów skał i minerałów lub formy ochrony przyrody nieożywionej. Folder opisujący wycieczkę zilustrowałem(-am) wykonanymi samodzielnie zdjęciami.',
@@ -3778,7 +3778,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'religioznawca',
                       title: 'Religioznawca',
-                      level: '1',
+                      level: 1,
                       comment: 'Posiada podstawową wiedzę na temat największych monoteistycznych religii świata. Potrafi zachować się właściwie w przestrzeni sakralnej i podczas ceremonii religijnych.',
                       tasks: [
                         'Rozpoznałem(-am) symbole i nazwy świętych ksiąg islamu, judaizmu i chrześcijaństwa. Dowiedziałem(-am) się, jak nazywa się Bóg w każdej z tych religii.',
@@ -3790,7 +3790,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'religioznawca',
                       title: 'Religioznawca',
-                      level: '2',
+                      level: 2,
                       comment: 'Rozróżnia wyznania chrześcijańskie i religie istnie jące na świecie. Zna podobieństwa i różnice między nimi. Upowszechnia zasady właściwego zachowania w przestrzeni sakralnej i podczas ceremonii religijnych.',
                       tasks: [
                         'Na zbiórce zastępu przedstawiłem(-am) święta, symbole, wydarzenia i najważniejsze postacie judaizmu, islamu, chrześcijaństwa wschodniego i zachodniego.',
@@ -3802,7 +3802,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'religioznawca',
                       title: 'Religioznawca',
-                      level: '3',
+                      level: 3,
                       comment: 'Wie, z czego wynikają różnice pomiędzy głównymi religiami i wyznaniami chrześcijańskimi. Upowszechnia tę wiedzę oraz ideę dialog u międzyreligijnego i ekumenizmu. Dyskutuje na tematy związane z religią, wiarą, wartościami.',
                       tasks: [
                         'Na zbiórce zastępu w ciekawej formie (np. gra, quiz, turniej wiedzy) przedstawiłem(-am) historię i okoliczności powstania największych religii świata: ich wspólne wydarzenia, postacie i miejsca.',
@@ -3816,7 +3816,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'religioznawca',
                       title: 'Religioznawca',
-                      level: '4',
+                      level: 4,
                       comment: 'Zna główne prawdy i zasady wiary oraz święta najwię kszych religii świata. Posiada pogłębioną wiedzę o wybranej religii. Propaguje tolera ncję religijną w swojej społeczności.',
                       tasks: [
                         'Poznałem(-am) główne dogmaty wiary i święta trzech największych religii świata (judaizm, chrześcijaństwo, islam). Wziąłem(wzięłam) udział w święcie innego wyznania lub religii niż własna (np. na otwartych spotkaniach, podczas festiwali, u znajomych).',
@@ -3839,7 +3839,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'kolekcjoner',
                     title: 'Kolekcjoner',
-                    level: '1',
+                    level: 1,
                     comment: 'Tworzy drobne kolekcje na interesujące tematy. Potrafi wyjaśnić, skąd wzięła się dana rzecz i jakie są jej właściwości.',
                     tasks: [
                       'Przez co najmniej miesiąc zbierałem(-am) wybrane przedmioty i przechowywałem(-am) je w bezpiecznym miejscu tak, aby nie uległy zniszczeniu.',
@@ -3849,7 +3849,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'kolekcjoner',
                     title: 'Kolekcjoner',
-                    level: '2',
+                    level: 2,
                     comment: 'Posiada kolekcję, którą stale uzupełnia. Kontaktuje się z innymi osobami kolekcjonującymi te same przedmioty.',
                     tasks: [
                       'Stworzyłem(-am) własną kolekcję wybranych przedmiotów lub systematycznie powiększałem(-am) kolekcję, którą otrzymałem(-am).',
@@ -3859,7 +3859,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'kolekcjoner',
                     title: 'Kolekcjoner',
-                    level: '3',
+                    level: 3,
                     comment: 'Prezentuje swoje eksponaty na wystawach lub w Internecie.',
                     tasks: [
                       'Zbudowałem(-am) zadbaną i wyróżniającą się w moim najbliższym otoczeniu kolekcję.',
@@ -3870,7 +3870,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'kolekcjoner',
                     title: 'Kolekcjoner',
-                    level: '4',
+                    level: 4,
                     comment: 'Prowadzi wartościową kolekcję. Zaraża innych swoją pasją.',
                     tasks: [
                       'Pozyskałem(-am) co najmniej jeden rzadki przedmiot do swojej kolekcji.',
@@ -3886,7 +3886,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'przyjaciel_ksiazki',
                     title: 'Przyjaciel Książki',
-                    level: '1',
+                    level: 1,
                     comment: 'Poszukuje i znajduje książki, dzięki którym przekonuje się, że czytanie jest przyjemne.',
                     tasks: [
                       'Stworzyłem(-am) listę książek, które chciałbym(chciałabym) przeczytać. Przeczytałem(-am) co najmniej dwie książki z mojej listy.',
@@ -3897,7 +3897,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'przyjaciel_ksiazki',
                     title: 'Przyjaciel książki',
-                    level: '2',
+                    level: 2,
                     comment: 'Regularnie czyta różne książki. Korzysta z zasobów bibliotecznych. Gromadzi własna biblioteczkę i/lub e-biblioteczkę.',
                     tasks: [
                       'Przeczytałem(-am) książki z 3 różnych gatunków literatury, w tym przynajmniej jedną popularnonaukową.',
@@ -3910,7 +3910,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'przyjaciel_ksiazki',
                     title: 'Przyjaciel książki',
-                    level: '3',
+                    level: 3,
                     comment: 'Poszerza swoje gusta literackie. Sięga po książki poradnikowe i rozwijające wiedzę.',
                     tasks: [
                       'Śledziłem(-am) nowości wydawnicze w wybranej dziedzinie i przeczytałem(-am) przynajmniej 2 z nich.',
@@ -3925,7 +3925,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'przyjaciel_ksiazki',
                     title: 'Przyjaciel książki',
-                    level: '4',
+                    level: 4,
                     comment: 'Orientuje się w najciekawszych aktualnie wydawanych pozycjach. Dużo czyta oraz dzieli się swoją pasją do książek.',
                     tasks: [
                       'Przedstawiłem(-am) i uzasadniłem(-am) propozycje książek, które warto dodać do biblioteczki drużyny lub przeczytać w ramach prób na stopnie.',
@@ -3944,7 +3944,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'kronikarz',
                     title: 'Kronikarz',
-                    level: '1',
+                    level: 1,
                     comment: 'Prowadzi kronikę. Na bieżąco odnotowuje ważne wydarzenia.',
                     tasks: [
                       'Prowadziłem(-am) w okresie próby kronikę (zastępu, drużyny lub prywatną), posługując się kilkoma rodzajami pisma.',
@@ -3955,7 +3955,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'kronikarz',
                     title: 'Kronikarz',
-                    level: '2',
+                    level: 2,
                     comment: 'Ma świadomość, w jaki sposób relacjonuje się zdarzenia w kronice. Rozumie obrzędową rolę kroniki w drużynie. Uwieczniając wydarzenia, wykazuje się kreatywnością.',
                     tasks: [
                       'Przygotowałem(-am) minimum 3 wydarzenia z życia zastępu lub drużyny, umieszczając wpis w kronice zastępu lub drużyny. W ramach wpisów uwzględniłem(-am) ważne dla środowiska elementy obrzędowe i anegdotyczne. Wykazałem(-am) się kreatywnością w ich tworzeniu.',
@@ -3968,7 +3968,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'kronikarz',
                     title: 'Kronikarz',
-                    level: '3',
+                    level: 3,
                     comment: 'Prowadzi kronikę, tworząc wpisy o bardzo różnorodnym charakterze. Pomaga młodszym w odnalezieniu się na funkcji kronikarza.',
                     tasks: [
                       'Prowadziłem(-am) w okresie próby kronikę, opisując minimum 7 wydarzeń dotyczących drużyny. Oprawę graficzną opisów dopasowałem(-am) do klimatu lub treści wydarzenia.',
@@ -3986,7 +3986,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'k6',
                     title: 'K6',
-                    level: '1',
+                    level: 1,
                     comment: 'Gra w kilka gier stolikowych. Potrafi wyjaśnić zasady gry zastępowi.',
                     tasks: [
                       'Zagrałem(-am) w 5 różnych gier stolikowych z rodziną, zastępem lub znajomymi.',
@@ -3997,7 +3997,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'k6',
                     title: 'K6',
-                    level: '2',
+                    level: 2,
                     comment: 'Wie, jak różne gry stolikowe wpływają na zdolności. Orientuje się w popularnych grach stolikowych.',
                     tasks: [
                       'Poznałem(-am) przynajmniej jedną grę na refleks, strategię, rozwijającą logiczne myślenie, zdolności ekonomiczne, planowania, pamięć, wiedzę, kreatywne myślenie (mogą się pokrywać). Zaprezentowałem(-am) te gry, wplatając je w prace mojego zastępu.',
@@ -4008,7 +4008,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'k6',
                     title: 'K6',
-                    level: '3',
+                    level: 3,
                     comment: 'Zna podstawowe mechaniki gier. Umiejętnie dobiera grę do graczy.',
                     tasks: [
                       'Zorganizowałem(-am) turniej gier stolikowych w dowolnym środowisku lub pracowałem(-am) na targach gier stolikowych, wyjaśniając gry.',
@@ -4019,7 +4019,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'k6',
                     title: 'K6',
-                    level: '4',
+                    level: 4,
                     comment: 'Tworzy własne gry stolikowe. Rozumie różnicę między „ciekawym pomysłem” a „grywalnym pomysłem”.',
                     tasks: [
                       'Określiłem(-am) potrzebę edukacyjną, docelową grupę wiekową i zakres wiedzy, który można przekazać za pomocą gry. Odpowiednio dobrałem(-am) mechanikę do projektowanej gry i stworzyłem(-am) fabułę.',
@@ -4034,7 +4034,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'grpg_owiec',
                     title: 'GRPGowiec',
-                    level: '2',
+                    level: 2,
                     comment: 'Ma świadomość, w jaki sposób relacjonuje się zdarzenia w kronice. Rozumie obrzędową rolę kroniki w drużynie. Uwieczniając wydarzenia, wykazuje się kreatywnością.',
                     tasks: [
                       'Przygotowałem(-am) minimum 3 wydarzenia z życia zastępu lub drużyny, umieszczając wpis w kronice zastępu lub drużyny. W ramach wpisów uwzględniłem(-am) ważne dla środowiska elementy obrzędowe i anegdotyczne. Wykazałem(-am) się kreatywnością w ich tworzeniu.',
@@ -4047,7 +4047,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'grpg_owiec',
                     title: 'GRPGowiec',
-                    level: '3',
+                    level: 3,
                     comment: 'Odkrywa różnorodność gier fabularnych, poznaje inne systemy i settingi. Prowadzi dla rówieśników jako Mistrz Gry proste scenariusze, tworząc klimat rozgrywki.',
                     tasks: [
                       'Poznałem(-am) jeden system RPG. Współtworzyłem(-am) jej klimat swoją grą aktorską, dobieraniem rekwizytów i interakcją ze światem gry.',
@@ -4057,7 +4057,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'grpg_owiec',
                     title: 'GRPGowiec',
-                    level: '4',
+                    level: 4,
                     comment: 'Tworzy złożone scenariusze na kilka sesji w różnych systemach. Prowadzi je, tworząc właściwy klimat.',
                     tasks: [
                       'Stworzyłem(-am) złożony scenariusz do przeprowadzenia w ciągu kilku sesji w co najmniej dwóch systemach i przeprowadziłem(-am) przynajmniej jeden.',
@@ -4074,7 +4074,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'straznik_granicy',
                     title: 'Strażnik granicy',
-                    level: '1',
+                    level: 1,
                     comment: 'Zna podstawowe informacje dotyczące granicy państwowej, rozwija podstawowe cechy osobowości przydatne funkcjonariuszowi Straży Granicznej (pamięć, refleks, spostrzegawczość, cierpliwość).',
                     tasks: [
                       'Wiem, co to jest granica i jakie są jej rodzaje (morska, lądowa, lotnicza). Wymieniłem(-am) kraje graniczące z Polską.',
@@ -4085,7 +4085,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'straznik_granicy',
                     title: 'Strażnik granicy',
-                    level: '2',
+                    level: 2,
                     comment: 'Interesuje się funkcjonowaniem granicy państwowej i Straży Granicznej.',
                     tasks: [
                       'Dowiedziałem(-am) się, jak dzieli się obszar granicy państwowej i czym różnią się jej poszczególne elementy (granica właściwa, pas drogi granicznej, strefa nadgraniczna). Wiem, czym jest oznaczana granica państwa na mapie i w terenie oraz na różnych odcinkach. Wyjaśniłem(-am), na czym polega różnica między granicą zewnętrzną i granicą wewnętrzną strefy Schengen.',
@@ -4096,7 +4096,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'straznik_granicy',
                     title: 'Strażnik graniczny',
-                    level: '3',
+                    level: 3,
                     comment: 'Pogłębia wiedzę dotyczącą funkcjonowania granicy i Straży Granicznej, włącza tematykę ochrony granic w prowadzone przez siebie gry i zajęcia dla środowiska harcerskiego (zastępu, drużyny).',
                     tasks: [
                       'W czasie ćwiczeń rozpoznałem(-am) ślady ludzi, określając przy tym: ich wiek, kierunek marszu i sposób poruszania się.',
@@ -4107,7 +4107,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'straznik_granicy',
                     title: 'Strażnik granicy',
-                    level: '4',
+                    level: 4,
                     comment: 'Promuje wiedzę dotyczącą tematyki granicznej. Nawiązuje współpracę ze Strażą Graniczną szkoląc harcerzy i propagując wiedzę na temat funkcjonowania granicy.',
                     tasks: [
                       'Odbyłem(-am) kilkudniową wędrówkę po wybranym odcinku granicy lub brałem(-am) udział w wycieczce na wybrane przejście graniczne. Zapoznałem(-am) się ze specyfiką poznanego odcinka granicy i związanymi z tym szczególnymi cechami pełnionej tu służby granicznej.',
@@ -4131,7 +4131,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'obronca',
                     title: 'Obrońca',
-                    level: '1',
+                    level: 1,
                     comment: 'Unika niebezpieczeństw. Radzi sobie w trudnych sytuacjach.',
                     tasks: [
                       'Pokazałem(-am) kilka sposobów, jak unikać kontaktu z niebezpiecznymi osobami (udawanie rozmowy przez telefon, przyłączenie się do przechodniów itp.).',
@@ -4144,7 +4144,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'obronca',
                     title: 'Obrońca',
-                    level: '2',
+                    level: 2,
                     comment: 'Doskonali swoją wiedzę z zakresu samoobrony.',
                     tasks: [
                       'Zdobyłem(-am) wiedzę i umiejętności na poziomie sprawności Obrońca (*).',
@@ -4157,7 +4157,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'obronca',
                     title: 'Obrońca',
-                    level: '3',
+                    level: 3,
                     comment: 'Dzieli się wiedzą z zakresu samoobrony.',
                     tasks: [
                       'Zdobyłem(-am) wiedzę i umiejętności na poziomie sprawności Obrońca (**).',
@@ -4174,7 +4174,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'strazak',
                     title: 'Strażak',
-                    level: '2',
+                    level: 2,
                     comment: 'Posiada podstawową wiedzę i umiejętności niezbędne w działaniach strażackich.',
                     tasks: [
                       'W czasie zbiórek zastępów wykazałem(-am) się znajomością:'
@@ -4190,7 +4190,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'strazak',
                     title: 'Strażak',
-                    level: '3',
+                    level: 3,
                     comment: 'W czasie ćwiczeń wykazuje się umiejętnościami gaszenia prostych pożarów.',
                     tasks: [
                       'Wykazałem(-am) się znajomością budowy i zasady działania gaśnicy i hydronetki. W czasie ćwiczeń sprawnie posługiwałem(-am) się nimi oraz kocem gaśniczym, bosakiem, sprzętem burzącym i tłumicą.',
@@ -4202,7 +4202,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'strazak',
                     title: 'Strażak',
-                    level: '4',
+                    level: 4,
                     comment: 'W czasie ćwiczeń kieruje pracą grupy harcerzy-strażaków.',
                     tasks: [
                       'Zebrałem(-am) informacje o stanie zaopatrzenia wybranej miejscowości w wodę oraz ustaliłem(-am) najdogodniejsze miejsce na ustawienie motopompy.',
@@ -4221,7 +4221,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'pocztowiec',
                     title: 'Pocztowiec',
-                    level: '2',
+                    level: 2,
                     comment: 'Poznaje zasady działania poczty harcerskiej i angażuje się w proste projekty.',
                     tasks: [
                       'Poznałem(-am) zasady działania poczt harcerskich oraz ich historię. Przeczytałem(-am) książkę J. Kasprzaka „Tropami powstańczej przesyłki”.',
@@ -4232,7 +4232,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'pocztowiec',
                     title: 'Pocztowiec',
-                    level: '3',
+                    level: 3,
                     comment: 'Realizuje w zespołach projekty pocztowe.',
                     tasks: [
                       'Uczestniczyłem(-am) w obsłudze pocztowej na zlocie, obozie, imprezie hufca albo imprezie publicznej.',
@@ -4246,7 +4246,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'pocztowiec',
                     title: 'Pocztowiec',
-                    level: '4',
+                    level: 4,
                     comment: 'Kieruje dużymi projektami organizowanymi przez pocztę harcerską.',
                     tasks: [
                       'Kierowałem(-am) kilkoma projektami tematycznymi poczty.',
@@ -4261,7 +4261,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'krotkofalowiec',
                     title: 'Krótkofalowiec',
-                    level: '2',
+                    level: 2,
                     comment: 'Prowadzi nasłuchy, poznaje podstawową wiedzę krótkofalarską.',
                     tasks: [
                       'Poznałem(-am) międzynarodowy podział pasm radiowych oraz służby korzystające z nich. Opowiedziałem(-am) o tym swojemu zastępowi.',
@@ -4272,7 +4272,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'krotkofalowiec',
                     title: 'Krótkofalowiec',
-                    level: '3',
+                    level: 3,
                     comment: 'Prowadzi łączności krótkofalarskie na własnoręcznie rozstawionym sprzęcie.',
                     tasks: [
                       'Przeprowadziłem(-am) na stacji klubowej co najmniej dwadzieścia łączności.',
@@ -4284,7 +4284,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'krotkofalowiec',
                     title: 'Krótkofalowiec',
-                    level: '4',
+                    level: 4,
                     comment: 'Osiąga mistrzostwo w łączności krótkofalarskiej. Propaguje tę formę aktywności wśród młodszych.',
                     tasks: [
                       'Odebrałem(-am) i nadałem(-am) kluczem 60 znaków na minutę według PARIS.',
@@ -4307,7 +4307,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'zawodnik',
                       title: 'Zawodnik',
-                      level: '1',
+                      level: 1,
                       comment: 'Chętnie i często uczestniczy w meczach dyscyplin sportów zespołowych. Uczy się podstawowych podań oraz gry na różnych pozycjach.',
                       tasks: [
                         'Brałem(-am) udział w trzech meczach (np. siatkówki, piłki nożnej, koszykówki, footballu amerykańskiego, piłki ręcznej), pamiętając o zasadach fair play.',
@@ -4318,7 +4318,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'zawodnik',
                       title: 'Zawodnik',
-                      level: '2',
+                      level: 2,
                       comment: 'Regularnie ćwiczy wybraną dyscyplinę sportów zespołowych oraz uczy innych obowiązujących w niej zasad. Uczestniczy w rozgrywkach wybranej dyscypliny.',
                       tasks: [
                         'Nauczyłem(-am) innych zasad gry mojej ulubionej dyscypliny sportów zespołowych (np. siatkówki, piłki nożnej, koszykówki, footballu amerykańskiego, piłki ręcznej).',
@@ -4329,7 +4329,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'zawodnik',
                       title: 'Zawodnik',
-                      level: '3',
+                      level: 3,
                       comment: 'Samodzielnie planuje swój rozwój w ramach trenowania wybranej dyscypliny sportów zespołowych. Uczy innych podstawowych podań i prostych trików. Testuje różne taktyki przydatne w meczach. Organizuje i sędziuje rozgrywki wybranej dyscypliny',
                       tasks: [
                         'Zorganizowałem(-am) zawody, podczas których pełniłem(-am) funkcję sędziego.',
@@ -4346,7 +4346,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'gimnastyk',
                       title: 'Gimnastyk',
-                      level: '1',
+                      level: 1,
                       comment: 'Wie, jakie pozytywne efekty daje gimnastyka. Samodzielnie prowadzi ją dla siebie i dla innych.',
                       tasks: [
                         'Dowiedziałem(-am) się, jaki pozytywny wpływ na nasz organizm ma wysiłek fizyczny i gimnastyka. Zdobytą wiedzę przedstawiłem(-am) klasie lub swojemu zastępowi.',
@@ -4357,7 +4357,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'gimnastyk',
                       title: 'Gimnastyk',
-                      level: '2',
+                      level: 2,
                       comment: 'Rozwija swoje umiejętności gimnastyczne i kondycję fizyczną. Wykonuje poprawną rozgrzewkę przed każdym treningiem. Propaguje gimnastykę w swoim środowisku harcerskim.',
                       tasks: [
                         'Nauczyłem(-am) się wykonywać jeden zestaw ćwiczeń z wybranego rodzaju treningu (aerobik, gimnastyka sportowa, gimnastyka artystyczna, kalistenika, tabata, zumba, fitness, joga, crossfit itp.).',
@@ -4368,7 +4368,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'gimnastyk',
                       title: 'Gimnastyk',
-                      level: '3',
+                      level: 3,
                       comment: 'Regularnie rozwija swoje umiejętności gimnastyczne i kondycję fizyczną. Wykonuje poprawne rozciąganie po każdym treningu. Uczy innych wykonywania ćwiczeń gimnastycznych tak, aby miały pozytywny wpływ na ich organizm.',
                       tasks: [
                         'Pod okiem trenera opracowałem(-am) własny zestaw ćwiczeń z wybranego rodzaju treningu (aerobik, gimnastyka sportowa, gimnastyka artystyczna, kalistenika, tabata, zumba, fitness, joga, crossfit itp.).',
@@ -4379,7 +4379,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'gimnastyk',
                       title: 'Gimnastyk',
-                      level: '4',
+                      level: 4,
                       comment: 'Osiągnął(-ęła) poziom mistrzowski w wybranym rodzaju gimnastyki. Propaguje gimnastykę w swoim środowisku lokalnym.',
                       tasks: [
                         'W ciągu miesiąca nauczyłem(-am) się wykonywać ćwiczenie, którego wcześniej nie byłem(-am) w stanie wykonać.',
@@ -4394,7 +4394,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'tancerz',
                       title: 'Tancerz',
-                      level: '1',
+                      level: 1,
                       comment: 'Rozwija swoje zainteresowania taneczne. Zdobywa podstawową wiedzę dotyczącą wybranych rodzajów tańca. Prezentuje wyczucie rytmu oraz umiejętność przedstawienia przygotowanej choreografii.',
                       tasks: [
                         'Wziąłem(-am) udział w wydarzeniu kulturalnym bądź sportowym związanym z tańcem, którym się interesuję.',
@@ -4405,7 +4405,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'tancerz',
                       title: 'Tancerz',
-                      level: '2',
+                      level: 2,
                       comment: 'Uczy się tańca. Prezentuje swoje umiejętności z wybranych rodzajów tańca. Realizuje swoją pasję w sposób bezpieczny dla zdrowia',
                       tasks: [
                         'Zatańczyłem(-am) publicznie minimum dwa wybrane tańce z różnych gatunków, z których minimum jeden to taniec tańczony w parze. Skompletowałem(-am) strój taneczny do wybranego rodzaju tańca, który zaprezentowałem(-am).',
@@ -4416,7 +4416,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'tancerz',
                       title: 'Tancerz',
-                      level: '3',
+                      level: 3,
                       comment: 'Swobodnie tańczy różne rodzaje tańca. W wybranej dziedzinie tańca bierze udział w zawodach. Uczy podstaw tańca inne osoby.',
                       tasks: [
                         'Wziąłem(-am) udział w konkursie tanecznym, starając się uzyskać jak najlepszą ocenę.',
@@ -4427,7 +4427,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'tancerz',
                       title: 'Tancerz',
-                      level: '4',
+                      level: 4,
                       comment: 'Swobodnie prezentuje swoje wysokiej klasy umiejętności taneczne. W sposób świadomy rozwija posiadane kompetencje, czerpiąc z różnych źródeł. Układa własną choreografię.',
                       tasks: [
                         'Zatańczyłem(-am) publicznie, prezentując co najmniej trzy wybrane choreografie, które przedstawią minimum trzy różne rodzaje tańca, np.: taniec ludowy, towarzyski, nowoczesny, klasyczny.',
@@ -4443,7 +4443,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'wspinacz',
                       title: 'Wspinacz',
-                      level: '1',
+                      level: 1,
                       comment: 'Wspina się na sztucznej ściance z zachowaniem zasad bezpieczeństwa. Korzysta ze sprzętu wspinaczkowego.',
                       tasks: [
                         'Przeprowadziłem(-am) rozgrzewkę przed treningiem oraz rozciągałem(-am) się po treningu.',
@@ -4457,7 +4457,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'wspinacz',
                       title: 'Wspinacz',
-                      level: '2',
+                      level: 2,
                       comment: 'Rozwija swoje umiejętności wspinaczkowe. Poznaje rodzaje wspinaczki oraz rozpoznaje skale trudności. Korzysta z przewodnika wspinaczkowego. Wie, jakie są rejony wspinaczkowe.',
                       tasks: [
                         'Nauczyłem(-am) się dwóch ćwiczeń poprawiających technikę wspinaczkową i stosuję je w praktyce.',
@@ -4472,7 +4472,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'wspinacz',
                       title: 'Wspinacz',
-                      level: '3',
+                      level: 3,
                       comment: 'Posiada własny sprzęt wspinaczkowy, osiąga konkretne rezultaty we wspinaczce. Propaguje wiedzę wśród innych wspinaczy.',
                       tasks: [
                         'Poprowadziłem(-am) drogę o wycenie 5 (asekuracja dolna)',
@@ -4488,7 +4488,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'wspinacz',
                       title: 'Wspinacz',
-                      level: '4',
+                      level: 4,
                       comment: 'Osiąga mistrzowski poziom we wspinaczce. Regularnie wyjeżdża w skały. Stosuje się do norm etycznych obowiązujących w środowisku wspinaczy, dba o przyrodę. Propaguje wspinaczkę w swoim środowisku lokalnym.',
                       tasks: [
                         'Poprowadziłem(-am) drogę o wycenie 6b.',
@@ -4515,7 +4515,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'narciarz',
                       title: 'Narciarz',
-                      level: '1',
+                      level: 1,
                       comment: 'Korzysta z podstawowego wyposażenia narciarstwa zjazdowego. Potrafi zjechać ze stoku oraz podejść pod stok dowolną techniką.',
                       tasks: [
                         'Samodzielnie założyłem(-am) buty narciarskie. Wpiąłem(-ęłam) i wypiąłem(-ęłam) narty zjazdowe.',
@@ -4527,7 +4527,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'narciarz',
                       title: 'Narciarz',
-                      level: '2',
+                      level: 2,
                       comment: 'Poznaje zaawansowane techniki zjazdu oraz zasady bezpieczeństwa na nartach. Korzysta z różnych wyciągów.',
                       tasks: [
                         'Wykonałem(-am) jedno z poniższych zadań:'
@@ -4541,7 +4541,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'narciarz',
                       title: 'Narciarz',
-                      level: '3',
+                      level: 3,
                       comment: 'Poznaje inne dyscypliny narciarskie. Dąży do mistrzostwa w technikach zjazdu. Jest świadomy(-a), jak wiele czynników wpływa na jazdę na nartach.',
                       tasks: [
                         'Wykonałem(-am) jedno z poniższych zadań:'
@@ -4555,7 +4555,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'narciarz',
                       title: 'Narciarz',
-                      level: '4',
+                      level: 4,
                       comment: 'Przygotowuje inne osoby do jazdy na nartach. Organizuje wycieczki narciarskie, dbając o bezpieczeństwo grupy.',
                       tasks: [
                         'Opracowałem(-am) i przeprowadziłem(-am) wycieczkę narciarską na podstawie mapy topograficznej o długości co najmniej 10 km. Wziąłem(wzięłam) pod uwagę możliwości jej uczestników. Zaplanowałem(-am) ekwipunek indywidualny i zbiorowy na trasę wycieczki. Pomogłem(-am) jej uczestnikom w jego skompletowaniu.',
@@ -4576,7 +4576,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'rolkarz',
                       title: 'Rolkarz',
-                      level: '1',
+                      level: 1,
                       comment: 'Porusza się na rolkach. Wie, jak poprawnie i bezpiecznie trenować jazdę na rolkach.',
                       tasks: [
                         'Potrafię jeździć na rolkach do przodu, przejechałem(-am) jednorazowo min. 2 km.',
@@ -4588,7 +4588,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'rolkarz',
                       title: 'Rolkarz',
-                      level: '2',
+                      level: 2,
                       comment: 'Pewnie i świadomie porusza się na rolkach. Potrafi utrzymać równowagę oraz zatrzymać się w wyznaczonym miejscu.',
                       tasks: [
                         'Podczas jazdy zachowywałem(-am) prawidłową pozycję rolkową (piszczele na języki rolek, ciało pochylone do przodu, proste plecy). Potrafię jeździć na rolkach tyłem, przejechałem(-am) kilkanaście metrów, bezpiecznie obracając się w obie strony.',
@@ -4602,7 +4602,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'rolkarz',
                       title: 'Rolkarz',
-                      level: '3',
+                      level: 3,
                       comment: 'Szuka swojej ulubionej dyscypliny i regularnie podnosi swoje umiejętności jazdy na rolkach.',
                       tasks: [
                         'Znam różnice w budowie rolek oraz skompletowałem(-am) swój sprzęt odpowiedni do ulubionego stylu jazdy, pamiętając o ochraniaczach i kasku.',
@@ -4615,7 +4615,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'rolkarz',
                       title: 'Rolkarz',
-                      level: '4',
+                      level: 4,
                       comment: 'Planowo doskonali swoje umiejętności w wybranej dyscyplinie jazdy na rolkach. Bierze udział w życiu społeczności rolkowej.',
                       tasks: [
                         'Wykonałem(-am) jedno z poniższych zadań:'
@@ -4633,7 +4633,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'lyzwiarz',
                       title: 'Łyżwiarz',
-                      level: '1',
+                      level: 1,
                       comment: 'Potrafi poruszać się na łyżwach. Regularnie uczęszcza na lodowisko',
                       tasks: [
                         'Nauczyłem(-am) się jeździć na łyżwach do przodu, przejechałem(-am) bez wywrotki kilka kółek na lodowisku.',
@@ -4644,7 +4644,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'lyzwiarz',
                       title: 'Łyżwiarz',
-                      level: '2',
+                      level: 2,
                       comment: 'Pewnie i świadomie porusza się na łyżwach. Ćwiczy utrzymywanie równowagi.',
                       tasks: [
                         'Przejechałem(-am) kilka metrów na łyżwach tyłem, z asekuracją drugiej osoby z przodu.',
@@ -4656,7 +4656,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'lyzwiarz',
                       title: 'Łyżwiarz',
-                      level: '3',
+                      level: 3,
                       comment: 'Doskonali swoje umiejętności jazdy na łyżwach, w tym wykonywanie trików/figur. Kompletuje sprzęt łyżwiarski. Propaguje jazdę na łyżwach w swoim środowisku harcerskim.',
                       tasks: [
                         'Przejechałem(-am) przekładanką przodem i tyłem po okręgu na łyżwach (demonstrując umiejętność skręcania oraz zwracania uwagi na osoby znajdujące się za moimi plecami), zwracając uwagę na inne osoby na tafli lodowiska.',
@@ -4674,7 +4674,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'znawca_sztuk_walki',
                       title: 'Znawca sztuk walki',
-                      level: '1',
+                      level: 1,
                       comment: 'Poznaje podstawowe pozycje oraz techniki w wybranej sztuce walki. Rozwija się sprawnościowo. Ma świadomość, jak bezpiecznie ćwiczyć sztuki walki.',
                       tasks: [
                         'Brałem(-am) udział w min. 5 zajęciach dotyczących wybranej sztuk walki.',
@@ -4686,7 +4686,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'znawca_sztuk_walki',
                       title: 'Znawca sztuk walki',
-                      level: '2',
+                      level: 2,
                       comment: 'Regularnie ćwiczy wybrany styl walki. Rozwija swoje umiejętności wojownicze i kondycję fizyczną. Kompletuje niezbędny sprzęt do ćwiczeń.',
                       tasks: [
                         'Zaprezentowałem(-am) i objaśniłem(-am) swojemu zastępowi albo rówieśnikom spoza drużyny kilka chwytów, kopnięć, bloków (min. 10 przykładów) charakterystycznych dla mojego stylu walki.',
@@ -4698,7 +4698,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'znawca_sztuk_walki',
                       title: 'Znawca sztuk walki',
-                      level: '3',
+                      level: 3,
                       comment: 'Regularnie rozwija swoje umiejętności wojownicze i kondycję fizyczną. Osiąga konkretne rezultaty w wybranej sztuce walki. Propaguje wiedzę nt. sztuk walki wśród rówieśników. W codziennym życiu w razie emocjonalnych sytuacji nie stosuje przemocy.',
                       tasks: [
                         'Zorganizowałem(-am) wyjście zastępu/drużyny na zajęcia sportowe dotyczące sztuki walki.',
@@ -4715,7 +4715,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'znawca_sztuk_walki',
                       title: 'Znawca sztuk walki',
-                      level: '4',
+                      level: 4,
                       comment: 'Doskonali swoje umiejętności w wybranej sztuce walki. Propaguje sztuki walki w swoim środowisku lokalnym. Przeciwdziała przemocy fizycznej. Posiada umiejętności udzielania pierwszej pomocy.',
                       tasks: [
                         'Wykonałem(-am) jedno z poniższych zadań:'
@@ -4735,7 +4735,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'maratonczyk',
                       title: 'Maratończyk',
-                      level: '1',
+                      level: 1,
                       comment: 'Ma świadomość, jak bezpiecznie biegać. Biega regularnie.',
                       tasks: [
                         'Wykonałem(-am) rozgrzewkę przed bieganiem oraz rozciąganie po bieganiu.',
@@ -4747,7 +4747,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'maratonczyk',
                       title: 'Maratończyk',
-                      level: '2',
+                      level: 2,
                       comment: 'Rozwija swoje umiejętności biegowe oraz kondycję fizyczną. Interesuje się wydarzeniami sportowymi związanymi z biegami.',
                       tasks: [
                         'Poznałem(-am) zasady odpowiedniego przygotowania się do treningu biegowego (obowiązkowo rozgrzewka, odpowiednie ubranie do panującej pogody i temperatury). Biegałem(-am) w min. dwa dni o różnych warunkach atmosferycznych.',
@@ -4759,7 +4759,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'maratonczyk',
                       title: 'Maratończyk',
-                      level: '3',
+                      level: 3,
                       comment: 'Regularnie rozwija swoje umiejętności i kondycję fizyczną. Posiada własny sprzęt oraz aplikacje pomagające podnosić dotychczasowe wyniki. Dba o dostarczanie organizmowi odpowiednich wartości odżywczych.',
                       tasks: [
                         'Wykonałem(-am) jedno z poniższych zadań:'
@@ -4776,7 +4776,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'maratonczyk',
                       title: 'Maratończyk',
-                      level: '4',
+                      level: 4,
                       comment: 'Osiągnął(-ęła) poziom mistrzowski w bieganiu. Propaguje je w swoim środowisku lokalnym. Próbuje różnych aktywności biegowych odpowiednich do swojego etapu rozwoju.',
                       tasks: [
                         'Ułożyłem(-am) plan treningowy, uwzględniając: treningi siłowe, treningi na wytrzymałość, odpowiednie posiłki oraz odpowiednią ilość snu i wypoczynku. Po skończonym planie treningowym byłem(-am) w stanie przebiec 20 km.',
@@ -4803,7 +4803,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'plywak',
                       title: 'Pływak',
-                      level: '1',
+                      level: 1,
                       comment: 'W wodzie czuje się swobodnie, potrafi się w niej poruszać i zanurzyć.',
                       tasks: [
                         'Przepłynąłem(-ęłam) 100 metrów, w tym połowę na plecach.',
@@ -4814,7 +4814,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'plywak',
                       title: 'Pływak',
-                      level: '2',
+                      level: 2,
                       comment: 'Potrafi skakać do wody, nurkować i orientować się pod wodą. Jest w stanie przepłynąć dłuższy dystans.',
                       tasks: [
                         'Przepłynąłem(-ęłam) 200 metrów, w tym połowę na plecach.',
@@ -4826,7 +4826,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'plywak',
                       title: 'Pływak',
-                      level: '3',
+                      level: 3,
                       comment: 'Zna przynajmniej trzy style pływackie, pracuje nad swoją techniką pływania.',
                       tasks: [
                         'Przepłynąłem(-ęłam) 400 metrów co najmniej trzema różnymi stylami.',
@@ -4838,7 +4838,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'plywak',
                       title: 'Pływak',
-                      level: '4',
+                      level: 4,
                       comment: 'Zna wszystkie (4) style pływackie. Jest w stanie przepłynąć większy dystans bez przerwy. Wie, w jaki sposób można holować tonącego.',
                       tasks: [
                         'Przepłynąłem(-am) 800 m, dowolnie wybierając style płynięcia, bez przerw.',
@@ -4855,7 +4855,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'ratownik_specjalista',
                       title: 'Ratownik specjalista',
-                      level: '1',
+                      level: 1,
                       comment: 'Wie, jakie zasady bezpieczeństwa obowiązują nad wodą, potrafi wezwać pomoc.',
                       tasks: [
                         'W czasie zajęć na wodzie zawsze pływałem(-am) w kamizelce asekuracyjnej lub ratunkowej.',
@@ -4868,7 +4868,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'ratownik_specjalista',
                       title: 'Ratownik specjalista',
-                      level: '2',
+                      level: 2,
                       comment: 'Potrafi udzielić podstawowej pomocy w wypadku nad wodą.',
                       tasks: [
                         'Odwiedziłem(-am) z drużyną, zastępem lub wachtą stację ratownictwa wodnego lub sekcję wodną straży pożarnej.',
@@ -4881,7 +4881,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'ratownik_specjalista',
                       title: 'Ratownik specjalista',
-                      level: '3',
+                      level: 3,
                       comment: 'Potrafi zachować się w sytuacji wypadku na wodzie.',
                       tasks: [
                         'Rozpoznałem(-am) oznaki hipotermii i opowiedziałem(-am), jak postąpić w przypadku jej wystąpienia.',
@@ -4895,7 +4895,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'ratownik_specjalista',
                       title: 'Ratownik specjalista',
-                      level: '4',
+                      level: 4,
                       comment: 'Potrafi zachować się w przypadku niebezpiecznego zdarzenia na wodzie.',
                       tasks: [
                         'Opisałem(-am) procedurę wzywania pomocy przez radiotelefon UKF, odebrałem(-am) pozorowany komunikat MAYDAY, PAN-PAN i SECURITE.',
@@ -4914,7 +4914,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'ratownik_wodny',
                       title: 'Ratownik wodny',
-                      level: '1',
+                      level: 1,
                       comment: 'Dba o własne bezpieczeństwo na wodzie. Potrafi pływać i nurkować. Zna podstawy pierwszej pomocy.',
                       tasks: [
                         'Wie, czym się różni kamizelka asekuracyjna od ratunkowej, poprawnie założyłem(-am) jedną z nich.',
@@ -4927,7 +4927,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'ratownik_wodny',
                       title: 'Ratownik wodny',
-                      level: '2',
+                      level: 2,
                       comment: 'W czasie zajęć na wodzie zawsze używa środków asekuracyjnych i pilnuje innych w tym zakresie. Posługuje się podstawowym sprzętem ratowniczym. Jest dobrym pływakiem.',
                       tasks: [
                         'Przed zajęciami na wodzie sprawdziłem(-am) poprawność założenia środków asekuracyjnych u innych członków zastępu.',
@@ -4942,7 +4942,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'ratownik_wodny',
                       title: 'Ratownik wodny',
-                      level: '3',
+                      level: 3,
                       comment: 'Zna skoki i style ratownicze oraz sposoby holowania. Używa bardziej zaawansowanego sprzętu ratowniczego.',
                       tasks: [
                         'Skoczyłem(-am) do wody sposobem ratowniczym.',
@@ -4955,7 +4955,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'ratownik_wodny',
                       title: 'Ratownik wodny',
-                      level: '4',
+                      level: 4,
                       comment: 'Potrafi udzielić pomocy tonącemu w różnych sytuacjach. Potrafi pływać łodzią ratowniczą. Używa zaawansowanego sprzętu ratowniczego i zna sposoby wzywania pomocy.',
                       tasks: [
                         'Podczas ćwiczeń odpaliłem(-am) pławkę dymną, flarę ratowniczą lub rakietę spadochronową.',
@@ -4975,7 +4975,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'foka',
                       title: 'Foka',
-                      level: '1',
+                      level: 1,
                       comment: 'Pływa i nurkuje w ABC.',
                       tasks: [
                         'Przepłynąłem(-am) prawidłowo w płetwach i w masce dystans 25 metrów, oddychając przez fajkę.',
@@ -4987,7 +4987,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'foka',
                       title: 'Foka',
-                      level: '2',
+                      level: 2,
                       comment: 'Nurkuje w ABC w basenie i na wodach otwartych.',
                       tasks: [
                         'Skompletowałem(-am) swoje wyposażenie ABC (płetwy, maska, fajka).',
@@ -5001,7 +5001,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'foka',
                       title: 'Foka',
-                      level: '3',
+                      level: 3,
                       comment: 'Jest płetwonurkiem uznanej organizacji nurkowej.',
                       tasks: [
                         'Zdobyłem(-am) podstawowy stopień płetwonurka (OWD) w uznanej federacji nurkowej (PADI, PSAI, SSI, SDI, NAUI, CMAS)'
@@ -5010,7 +5010,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'foka',
                       title: 'Foka',
-                      level: '4',
+                      level: 4,
                       comment: 'Jest zaawansowanym płetwonurkiem uznanej organizacji nurkowej.',
                       tasks: [
                         'Zdobyłem(-am) stopień zaawansowanego płetwonurka (AOWD) w uznanej federacji nurkowej (PADI, PSAI, SSI, SDI, NAUI, CMAS)'
@@ -5025,7 +5025,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'meteorolog',
                       title: 'Meteorolog',
-                      level: '1',
+                      level: 1,
                       comment: 'Potrafi rozpoznać podstawowe zjawiska pogodowe.',
                       tasks: [
                         'Opowiedziałem(-am), co to jest wiatr.',
@@ -5038,7 +5038,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'meteorolog',
                       title: 'Meteorolog',
-                      level: '2',
+                      level: 2,
                       comment: 'Rozpoznaje zjawiska pogodowe.',
                       tasks: [
                         'Narysowałem(-am) i wytłumaczyłem(-am), na czym polega zjawisko bryzy nocnej i dziennej.',
@@ -5051,7 +5051,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'meteorolog',
                       title: 'Meteorolog',
-                      level: '3',
+                      level: 3,
                       comment: 'Potrafi określić i przewidzieć zjawiska pogodowe.',
                       tasks: [
                         'Zaprezentowałem(-am) skalę Beauforta w zakresie od 0 do 7 stopni. W czasie zajęć nad wodą pięć razy wskazałem(-am), z jaką siłą wieje wiatr.',
@@ -5065,7 +5065,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'meteorolog',
                       title: 'Meteorolog',
-                      level: '4',
+                      level: 4,
                       comment: 'Wykorzystuje prognozy pogody i wiedze meteorologiczną na poziomie zaawansowanym.',
                       tasks: [
                         'Zastosowałem(-am) numeryczne prognozy pogody z przynajmniej trzech serwisów.',
@@ -5084,7 +5084,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'marynista',
                       title: 'Marynista',
-                      level: '1',
+                      level: 1,
                       comment: 'Wie, jakie znaczenie dla Polski ma Morze Bałtyckie i jakie najważniejsze miejsca się nad nim znajdują. Zna podstawowe symbole używane przez Marynarkę Wojenną i marynarkę handlową. Zna przesądy żeglarskie.',
                       tasks: [
                         'Znalazłem(-am) w swoim otoczeniu 10 produktów, które mogły dotrzeć do Polski drogą morską oraz nazwałem(-am) przynajmniej trzy gatunki ryb żyjących w Bałtyku.',
@@ -5098,7 +5098,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'marynista',
                       title: 'Marynista',
-                      level: '2',
+                      level: 2,
                       comment: 'Zna tradycje żeglarskie i postaci ważne dla harcerskiego ruchu wodnego. Rozpoznaje polskie i harcerskie bandery i proporce oraz żaglowce.',
                       tasks: [
                         'Poznałem(-am) pochodzenie marynarskiego munduru. Wytłumaczyłem(-am) genezę kroju kołnierza, trzech pasków na kołnierzu, czarnych krawatów i wstążek na czapce, rozszerzanych spodni i sznurków na rozcięciach munduru.',
@@ -5113,7 +5113,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'marynista',
                       title: 'Marynista',
-                      level: '3',
+                      level: 3,
                       comment: 'Zna historie Polskiej Marynarki Wojennej oraz Harcerskiego Ruchu Wodnego. Zna kilka szant i piosenek żeglarskich. Wie, jakie gatunki chronione są w Bałtyku i na czym polega ich ochrona.',
                       tasks: [
                         'Poznałem(-am) historię żaglowca Zawisza Czarny oraz Leonida Teligi i jego jachtu Opty.',
@@ -5129,7 +5129,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'marynista',
                       title: 'Marynista',
-                      level: '4',
+                      level: 4,
                       comment: 'Zna porty morskie, interesuje się Morzem Bałtyckim, gatunkami w nim występującymi oraz krajami nadbałtyckimi. Poznałem żaglowiec ZHP s/y Zawisza Czarny.',
                       tasks: [
                         'Poznałem(-am) najważniejsze porty Polski i ich rolę dla polskiej gospodarki. Poznałem(-am) podstawowe fakty o wybranym polskim porcie morskim (np. wartość przeładowanych towarów, ilość przeładowanych towarów, rodzaje towarów przeładowywanych w polskich portach). Przedstawiłem(-am) zdobyte informacje w ciekawej formie.',
@@ -5148,7 +5148,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'szyper',
                       title: 'Szyper',
-                      level: '1',
+                      level: 1,
                       comment: 'Aktywnie uczestniczy w żeglowaniu jachtem.',
                       tasks: [
                         'Podczas żeglugi obsługiwałem(-am) szoty foka, balastowałem(-am) oraz odpowiadałem(-am) na komendy żeglarskie.',
@@ -5162,7 +5162,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'szyper',
                       title: 'Szyper',
-                      level: '2',
+                      level: 2,
                       comment: 'Sprawnie i świadomie obsługuje stanowiska manewrowe podczas żeglowania jachtem.',
                       tasks: [
                         'Podczas żeglugi obsługiwałem(-am) jednocześnie ster i szot grota oraz obsługiwałem(-am) szoty foka aktywnie, wybierając i luzując żagiel do granicy łopotu.',
@@ -5176,7 +5176,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'szyper',
                       title: 'Szyper',
-                      level: '3',
+                      level: 3,
                       comment: 'Kieruje jachtem podczas manewrów pod żaglami i na silniku.',
                       tasks: [
                         'Podczas żeglugi kierowałem(-am) pracą załogi poprzez zapowiedź manewru, przydzielanie stanowisk i zadań oraz wydawanie i egzekwowanie komend we właściwym momencie.',
@@ -5190,7 +5190,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'szyper',
                       title: 'Szyper',
-                      level: '4',
+                      level: 4,
                       comment: 'Kieruje jachtem podczas szkolenia i żeglugi swobodnej.',
                       tasks: [
                         'Podczas żeglugi kierowałem(-am) pracą załogi poprzez omówienie manewru planowego, zapasowego i awaryjnego, przydzielanie stanowisk i zadań oraz ustalenie zasad komunikacji w trakcie.',
@@ -5209,7 +5209,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'bosman',
                       title: 'Bosman',
-                      level: '1',
+                      level: 1,
                       comment: 'Uczestniczy w przygotowaniu jachtu do żeglugi i postoju.',
                       tasks: [
                         'Zawiązałem(-am) węzły: knagowy, ósemka, płaski, ratowniczy przed sobą i na sobie oraz zbuchtowałem(-am) linę.',
@@ -5221,7 +5221,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'bosman',
                       title: 'Bosman',
-                      level: '2',
+                      level: 2,
                       comment: 'Aktywnie uczestniczy w przygotowaniu jachtu do żeglugi i postoju.',
                       tasks: [
                         'Zawiązałem(-am) węzły: rożkowy, wyblinka, cumowy żeglarski oraz z zakrytymi oczami zawiązałem(-am) węzły: knagowy, ósemka, płaski.',
@@ -5233,7 +5233,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'bosman',
                       title: 'Bosman',
-                      level: '3',
+                      level: 3,
                       comment: 'Potrafi bezpiecznie obsłużyć instalacje jachtowe, zacumować jacht, postawić i położyć maszt. Kieruje pracami załogi.',
                       tasks: [
                         'Nauczyłem(-am) inną osobę wiązać węzły z zakresu pierwszej gwiazdki (jungi) oraz wykonałem(-am) opaskę z juzingu na końcówce liny miękkiej.',
@@ -5246,7 +5246,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'bosman',
                       title: 'Bosman',
-                      level: '4',
+                      level: 4,
                       comment: 'Kieruje przygotowaniem jachtu do postoju i żeglugi. Zna bardziej zaawansowane węzły i sploty. Potrafi obsługiwać instalacje jachtowe, wyjaśnić ich działanie. Wie, jak taklować lub roztaklować jacht.',
                       tasks: [
                         'Wyjaśniłem(-am) zasady użycia oraz nauczyłem(-am) inną osobę wiązać węzły z zakresu pierwszej i drugiej gwiazdki oraz samodzielnie wykonałem(-am) dodatkowe prace linowe, np. opaskę turecką, kulkę bosmańską, sploty na linach miękkich.',
@@ -5264,7 +5264,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'nawigator',
                       title: 'Nawigator',
-                      level: '1',
+                      level: 1,
                       comment: 'Używa kompasu, czyta mapy papierowe i korzysta z wyszukiwania na mapach cyfrowych.',
                       tasks: [
                         'Wskazałem(-am) z pomocą kompasu północ i południe oraz wschód i zachód.',
@@ -5277,7 +5277,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'nawigator',
                       title: 'Nawigator',
-                      level: '2',
+                      level: 2,
                       comment: 'Używa kompasu i odbiornika satelitarnego, orientuje się w przestrzeni na podstawie mapy papierowe lub cyfrowej.',
                       tasks: [
                         'Wyznaczyłem(-am) azymut na mapie i w terenie, posługując się kompasem magnetycznym.',
@@ -5290,7 +5290,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'nawigator',
                       title: 'Nawigator',
-                      level: '3',
+                      level: 3,
                       comment: 'Świadomie używa odbiornika satelitarnego, wykonuje proste pomiary i obliczenia na mapie, monitoruje realizację planu podróży na wodzie.',
                       tasks: [
                         'W aplikacji lub odbiorniku nawigacji satelitarnej (GPS) zapisałem(-am) przebytą drogę podczas wędrówki. Wyświetliłem(-am) na mapie cyfrowej, sprawdziłem(-am) i omówiłem(-am) kompletność oraz dokładność swojego śladu.',
@@ -5303,7 +5303,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'nawigator',
                       title: 'Nawigator',
-                      level: '4',
+                      level: 4,
                       comment: 'Używa map elektronicznych i papierowych oraz pomocy nawigacyjnych do planowania i realizacji podróży morskiej.',
                       tasks: [
                         'W aplikacji lub chartploterze do nawigacji jachtowej ustawiłem(-am) i aktywowałem(-am) punkty (waypoints) oraz trasę (route) żeglugi.',
@@ -5321,7 +5321,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'jurysta_morski',
                       title: 'Jurysta morski',
-                      level: '1',
+                      level: 1,
                       comment: 'Stosuje podstawowe przepisy prawa drogi i ochrony środowiska.',
                       tasks: [
                         'Rozróżniałem(-am) napędy mijanych jednostek na wodzie i stosowałem(-am) prawo drogi: (1) żagle (2) wiosła (3) silnik.',
@@ -5334,7 +5334,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'jurysta_morski',
                       title: 'Jurysta morski',
-                      level: '2',
+                      level: 2,
                       comment: 'Stosuje typowe przepisy prawa drogi i ochrony środowiska.',
                       tasks: [
                         'Zastosowałem(-am) na wodzie zasadę „wyprzedany ma prawo drogi przed wyprzedającym”.',
@@ -5348,7 +5348,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'jurysta_morski',
                       title: 'Jurysta morski',
-                      level: '3',
+                      level: 3,
                       comment: 'Stosuje przepisy prawa drogi i zasady ochrony środowiska na wodach śródlądowych.',
                       tasks: [
                         'Prowadziłem(-am) jacht pod żaglami przy spotkaniu z innym jachtem oraz przy wyprzedzaniu.',
@@ -5362,7 +5362,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'jurysta_morski',
                       title: 'Jurysta morski',
-                      level: '4',
+                      level: 4,
                       comment: 'Stosuje przepisy prawa drogi i zasady ochrony środowiska na wodach morskich. Zna oznaczenie szlaku żeglownego, rozpoznaje statki po oznakowaniu dziennym i nocnym.',
                       tasks: [
                         'Podczas żeglugi oceniłem(-am) ryzyko zderzenia na podstawie obserwacji namiaru burtowego oraz podjąłem(-ęłam) działanie zgodne z prawidłami MPZZM (colreg).',
@@ -5381,7 +5381,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'mechanik',
                       title: 'Mechanik',
-                      level: '1',
+                      level: 1,
                       comment: 'Potrafi bezpiecznie zachować się na jachcie motorowym, zna jego podstawową budowę.',
                       tasks: [
                         'Poznałem(-am) zasady bezpieczeństwa panujące na jachcie motorowodnym.',
@@ -5393,7 +5393,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'mechanik',
                       title: 'Mechanik',
-                      level: '2',
+                      level: 2,
                       comment: 'Potrafi prawidłowo używać silnika, dbać o niego i sprawdzić podstawowe parametry.',
                       tasks: [
                         'Poznałem(-am) szczegółową budowę łodzi motorowodnej oraz zasady działania silnika dwu- i czterosuwowego.',
@@ -5405,7 +5405,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'mechanik',
                       title: 'Mechanik',
-                      level: '3',
+                      level: 3,
                       comment: 'Poznaje bardziej skomplikowane silniki, potrafi samodzielnie przygotować, sklarować i zabezpieczyć silnik oraz wykonać proste naprawy.',
                       tasks: [
                         'Poznałem(-am) budowę mocniejszych silników zaburtowych oraz stacjonarnych, zasady ich działania i metody przenoszenia napędu.',
@@ -5417,7 +5417,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'mechanik',
                       title: 'Mechanik',
-                      level: '4',
+                      level: 4,
                       comment: 'Potrafi dokonać trudniejszych napraw w większych silnikach, wymienić i wyregulować niezbędne elementy.',
                       tasks: [
                         'Oceniłem(-am) stan techniczny pędnika, mechanizmu przenoszenia napędu oraz mechanizm sterujący. Wymieniłem(-am) uszkodzony pędnik w silniku stacjonarnym.',
@@ -5434,7 +5434,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'szyper_motorowodny',
                       title: 'Szyper motorowodny',
-                      level: '1',
+                      level: 1,
                       comment: 'Potrafi uruchomić silnik, trzymać kurs i zmieniać biegi na silniku.',
                       tasks: [
                         'Prawidłowo uruchomiłem(-am) mały silnik zaburtowy.',
@@ -5446,7 +5446,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'szyper_motorowodny',
                       title: 'Szyper motorowodny',
-                      level: '2',
+                      level: 2,
                       comment: 'Potrafi prowadzić jacht motorowy i wykonać podstawowe manewry.',
                       tasks: [
                         'Prowadziłem(-am) jacht motorowy, gdy na akwenie znajdowały się też inne jednostki.',
@@ -5458,7 +5458,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'szyper_motorowodny',
                       title: 'Szyper motorowodny',
-                      level: '3',
+                      level: 3,
                       comment: 'Potrafi prowadzić jacht motorowy w trudniejszych warunkach. Wie, jak przeprowadzić akcję ratunkową przy pomocy jachtu motorowego.',
                       tasks: [
                         'Poznałem(-am) prawo panujące na wodach śródlądowych - oznaczenie szlaków żeglownych, podstawy locji, sygnały dźwiękowe. Wskazałem(-am) kilka znaków i boi oraz opowiedziałem(-am), co one oznaczają.',
@@ -5470,7 +5470,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'szyper_motorowodny',
                       title: 'Szyper motorowodny',
-                      level: '4',
+                      level: 4,
                       comment: 'Manewruje większymi jachtami motorowymi. Ma doświadczenie w rejsach.',
                       tasks: [
                         'Pełniłem(-am) funkcję osoby odpowiedzialnej za maszynownię i instalacje jachtowe w czasie rejsu morskiego lub śródlądowego.',
@@ -5487,7 +5487,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'kajakarz',
                       title: 'Kajakarz',
-                      level: '1',
+                      level: 1,
                       comment: 'Pływa kajakiem, prawidłowo wiosłuje wiosłem kajakowym, przestrzega zasad bezpieczeństwa.',
                       tasks: [
                         'Uczestniczyłem(-am) w co najmniej jednym spływie kajakowym.',
@@ -5501,7 +5501,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'kajakarz',
                       title: 'Kajakarz',
-                      level: '2',
+                      level: 2,
                       comment: 'Skutecznie kieruje kajakiem. Czyta locje rzeki. Wie, jak spakować kajak na spływ.',
                       tasks: [
                         'Uczestniczyłem(-am) w co najmniej trzech spływach kajakowych.',
@@ -5515,7 +5515,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'kajakarz',
                       title: 'Kajakarz',
-                      level: '3',
+                      level: 3,
                       comment: 'Zna i używa bardziej zaawansowanych technik wiosłowania i sterowania kajakiem. Potrafi udzielić pomocy podczas wywrotki kajaka.',
                       tasks: [
                         'Uczestniczyłem(-am) w co najmniej pięciu spływach kajakowych w tym przynajmniej raz z noclegiem.',
@@ -5529,7 +5529,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'kajakarz',
                       title: 'Kajakarz',
-                      level: '4',
+                      level: 4,
                       comment: 'Steruje kajakiem tak, aby pływać bezpiecznie. Potrafi zaplanować i poprowadzić spływ kajakowy.',
                       tasks: [
                         'Uczestniczyłem(-am) w co najmniej 10 spływach kajakowych na różnych akwenach w tym co najmniej w dwóch wielodniowych.',
@@ -5548,7 +5548,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'zwiadowca_wodny',
                       title: 'Zwiadowca wodny',
-                      level: '1',
+                      level: 1,
                       comment: 'Zna pospolitą faunę i florę wodną. Potrafi rozpoznać podstawowe budowle hydrotechniczne. Wie, jakie zbiorniki wodne znajdują się w pobliżu jego miejsca zamieszkania.',
                       tasks: [
                         'Brałem(-am) udział w zwiadzie jeziora lub stawu (wody stojącej).',
@@ -5561,7 +5561,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'zwiadowca_wodny',
                       title: 'Zwiadowca wodny',
-                      level: '2',
+                      level: 2,
                       comment: 'Zna najważniejsze zbiorniki wodne Polski. Rozpoznaje chronione gatunki i budowle hydrotechniczne, które może spotkać na rzece.',
                       tasks: [
                         'Rozpoznałem(-am) na ilustracji lub w terenie faszynę, opaskę, ostrogę i opisałem(-am) do czego służą.',
@@ -5574,7 +5574,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'zwiadowca_wodny',
                       title: 'Zwiadowca wodny',
-                      level: '3',
+                      level: 3,
                       comment: 'Potrafi czytać rzekę, wie jak jest zbudowana. Interesuje się turystyką związaną ze zbiornikami wodnymi w swojej okolicy.',
                       tasks: [
                         'Przeprowadziłem(-am) zwiad rzeki na długości 100 metrów, oceniając napotkane trudności i przedstawiając bezpieczne sposoby ich pokonania.',
@@ -5587,7 +5587,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'zwiadowca_wodny',
                       title: 'Zwiadowca wodny',
-                      level: '4',
+                      level: 4,
                       comment: 'Potrafi przygotować bezpieczny spływ. Zna szlaki wodne w swoim województwie.',
                       tasks: [
                         'Przedstawiłem(-am) zasady organizacji spływu i przepisy obowiązujące podczas spływu.',
@@ -5606,7 +5606,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'wiking',
                       title: 'Wiking',
-                      level: '1',
+                      level: 1,
                       comment: 'Potrafię bezpiecznie zachować się na łodzi.',
                       tasks: [
                         'Wziąłem(wzięłam) udział w przynajmniej kilkugodzinnej wycieczce wodnej jako wioślarz na kajaku, kanadyjce lub czółnie (np. wzdłuż brzegu jeziora albo na łatwej rzece).',
@@ -5618,7 +5618,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'wiking',
                       title: 'Wiking',
-                      level: '2',
+                      level: 2,
                       comment: 'Wiem, jak zachować się podczas wywrotki kanadyjki.',
                       tasks: [
                         'Wziąłem(wzięłam) udział w kilkudniowym spływie jako sternik łodzi wiosłowej lub kanadyjki na rzece o niskim stopniu trudności.',
@@ -5629,7 +5629,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'wiking',
                       title: 'Wiking',
-                      level: '3',
+                      level: 3,
                       comment: 'Potrafię zarządzać załogą i dowodzić łodzią oraz zorganizować miejsce noclegu mojego zastępu.',
                       tasks: [
                         'Wziąłem(wzięłam) udział w trwającym min. tydzień spływie na rzece o średnim stopniu trudności z min. jedną przenoską.',
@@ -5641,7 +5641,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'wiking',
                       title: 'Wiking',
-                      level: '4',
+                      level: 4,
                       comment: 'Potrafię dowodzić i organizować pływania wielu jednostek.',
                       tasks: [
                         'Dowodziłem(-am) patrolem podczas spływu. Przygotowałem(-am) niezbędne dokumenty, zatwierdziłem(-am) spływ w komendzie hufca.',
@@ -5657,7 +5657,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'bosman_wioslarski',
                       title: 'Bosman wioślarski',
-                      level: '1',
+                      level: 1,
                       comment: 'Zna budowę łodzi wiosłowej i nazwy elementów podstawowego osprzętu. Umie sklarować łódkę i przygotować niezbędne wyposażenie.',
                       tasks: [
                         'Brałem(-am) udział w wodowaniu łodzi i wyciąganiu jej na brzeg.',
@@ -5670,7 +5670,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'bosman_wioslarski',
                       title: 'Bosman wioślarski',
-                      level: '2',
+                      level: 2,
                       comment: 'Wie, jak zabezpieczyć sprzęt na zimę i dokonać prostych napraw. Zna kilka węzłów.',
                       tasks: [
                         'Dowodziłem(-am) zastępem podczas wodowania i wyciągania łodzi.',
@@ -5683,7 +5683,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'bosman_wioslarski',
                       title: 'Bosman wioślarski',
-                      level: '3',
+                      level: 3,
                       comment: 'Posługuje się narzędziami i elektronarzędziami przy bardziej zaawansowanych naprawach, dbając o bezpieczeństwo.',
                       tasks: [
                         'Uczestniczyłem(-am) w naprawach łodzi laminatowych - czyściłem(-am), szlifowałem(-am), malowałem(-am) elementy kadłuba pod nadzorem.',
@@ -5695,7 +5695,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'bosman_wioslarski',
                       title: 'Bosman wioślarski',
-                      level: '4',
+                      level: 4,
                       comment: 'Samodzielnie dokonuje większych napraw, dba o bezpieczeństwo swoje i innych.',
                       tasks: [
                         'Samodzielnie dokonałem(-am) naprawy uszkodzenia łodzi laminatowej - oczyściłem(-am) uszkodzone miejsce, laminowałem(-am), szlifowałem(-am) łatę, malowałem(-am) powierzchnię, odpowiednio zadbałem(-am) o narzędzia.',
@@ -5711,7 +5711,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'oryl',
                       title: 'Oryl',
-                      level: '1',
+                      level: 1,
                       comment: 'Potrafi poprawnie wiosłować i bezpiecznie zachować się na łodzi.',
                       tasks: [
                         'Poprawnie wiosłowałem(-am) pagajem na czółnie lub kanadyjce lub wiosłem na kajaku i odpowiednio reagowałem(-am) na komendy sternika',
@@ -5723,7 +5723,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'oryl',
                       title: 'Oryl',
-                      level: '2',
+                      level: 2,
                       comment: 'Potrafi sterować łodzią wiosłową i wiosłować wiosłami w dulkach.',
                       tasks: [
                         'Pokonałem(-am) tor slalomowy na wodzie stojącej, płynąc jako sternik kajaka lub kanadyjki.',
@@ -5736,7 +5736,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'oryl',
                       title: 'Oryl',
-                      level: '3',
+                      level: 3,
                       comment: 'Potrafi wiosłować wiosłem długim, “na pych”, śrubkować, piórkować.',
                       tasks: [
                         'Wiosłowałem(-am) długim wiosłem w dulce na wydrze, trenerze, DZ lub smoczej łodzi.',
@@ -5749,7 +5749,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'oryl',
                       title: 'Oryl',
-                      level: '4',
+                      level: 4,
                       comment: 'Potrafi dowodzić wioślarzami i wydawać komendy. Wie, jak podjąć człowieka, który wypadł za burtę. Przekazuje umiejętności wiosłowania młodszym.',
                       tasks: [
                         'Dowodziłem(-am) wioślarzami na szalupie. Poprawnie wydawałem(-am) komendy wioślarzom i sternikowi (wiosła, wiosła basta, naprzód, prawa naprzód, lewa wstecz) itd.',
@@ -5775,7 +5775,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'gawedziarz_lotniczy',
                     title: 'Gawędziarz Lotniczy',
-                    level: '2',
+                    level: 2,
                     comment: 'W ciekawy sposób opowiada gawędy lotnicze. Potrafi wyszukać informacje w książkach, czasopismach i Internecie oraz z nich skorzystać. ',
                     tasks: [
                       'Opowiedziałem(-am) 5 legendarnych i baśniowych opowieści lotniczych. Wykazałem(-am) się wiedzą, z jakiego kraju i okresu pochodzą. Wskazałem(-am) wydawnictwa, w których są zamieszczone. ',
@@ -5795,7 +5795,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'kolekcjoner_lotniczy',
                     title: 'Kolekcjoner Lotniczy',
-                    level: '2',
+                    level: 2,
                     comment: 'Prowadzi kolekcję lotniczą w sposób uporządkowany. Potrafi ją zaprezentować i o niej opowiedzieć',
                     tasks: [
                       'Objaśniłem(-am) lotniczą treść swego zbioru.',
@@ -5816,7 +5816,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'awiatyk',
                     title: 'Awiatyk',
-                    level: '2',
+                    level: 2,
                     comment: 'Projektuje i wykonuje awiatyki.',
                     tasks: [
                       'Przeczytałem(-am) kilka publikacji (książek lub artykułów) z wybranej dziedziny awiatyki.',
@@ -5836,7 +5836,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'historyk_lotniczy',
                     title: 'Historyk Lotniczy',
-                    level: '3',
+                    level: 3,
                     comment: 'Pasjonuje się historią lotnictwa, biegle się w niej porusza i potrafi się nią dzielić.',
                     tasks: [
                       'Wykazałem(-am) się znajomością w zarysie polskiej i międzynarodowej historii lotnictwa: legendy lotnicze, pierwsze próby i pierwsze wzloty, pierwsze sukcesy i współczesne rekordy, rozwój baloniarstwa, spadochroniarstwa, szybownictwa, lotnictwa silnikowego i pocisków rakietowych.',
@@ -5856,7 +5856,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'konstruktor_latawcow',
                     title: 'Konstruktor Latawców',
-                    level: '1',
+                    level: 1,
                     comment: 'Operuje latawcem. Potrafi skonstruować prosty model i wyjaśnić zasadę jego lotu.',
                     tasks: [
                       'Rozpoznałem(-am) różne rodzaje latawców. Wykazałem(-am) się wiedzą, jaka jest konstrukcja każdego z nich i jakie miały zastosowanie dawniej i dziś.',
@@ -5876,7 +5876,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'modelarz_kartonowek',
                     title: 'Modelarz Kartonówek',
-                    level: '1',
+                    level: 1,
                     comment: 'Konstruuje proste modele kartonowe i potrafi wyjaśnić ich działanie.',
                     tasks: [
                       'Opowiedziałem(-am) o pierwszych próbach wzlotów szybowcowych.',
@@ -5897,7 +5897,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'mlody_astronauta',
                     title: 'Młody Astronauta',
-                    level: '1',
+                    level: 1,
                     comment: 'Konstruuje proste modele rakiet i potrafi wyjaśnić ich działanie.',
                     tasks: [
                       'Poznałem(-am) i stosuję zasady bezpieczeństwa używania modeli rakiet.',
@@ -5916,7 +5916,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'modelarz_redukcyjny',
                     title: 'Modelarz Redukcyjny',
-                    level: '2',
+                    level: 2,
                     comment: 'Konstruuje modele samolotów wiernie oddające wygląd.',
                     tasks: [
                       'Rozpoznałem(-am) 3 typy polskich szybowców i 12 typów używanych w Polsce samolotów lub śmigłowców.',
@@ -5934,7 +5934,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'radiomodelarz',
                     title: 'Radiomodelarz',
-                    level: '2',
+                    level: 2,
                     comment: 'Obsługuje model samolotu sterowany zdalnie i potrafi wyjaśnić działanie zdalnego sterowania.',
                     tasks: [
                       'Poznałem(-am) przynajmniej dwa systemy zdalnego sterowania samolotem; wiem, czym one się charakteryzują. Dowiedziałem(-am) się, jaką rolę w urządzeniu zdalnie sterowanym spełniają przekaźniki elektromechaniczne, czujniki i silniki elektryczne.',
@@ -5953,7 +5953,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'konstruktor_lotniczy',
                     title: 'Konstruktor Lotniczy',
-                    level: '3',
+                    level: 3,
                     comment: 'Konstruuje zaawansowane modele samolotów.',
                     tasks: [
                       'Opowiedziałem(-am) o kilku najnowszych osiągnięciach techniki lotniczej, różnych doświadczalnych rodzajach samolotów i układach aerodynamicznych. Objaśniłem(-am) zasady lotu różnego rodzaju statków latających.',
@@ -5972,7 +5972,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'pomocnik_sedziego_modelarstwa',
                     title: 'Pomocnik Sędziego Sportowego Modelarstwa Lotniczego i Kosmicznego',
-                    level: '3',
+                    level: 3,
                     comment: 'Asystuje przy sędziowaniu zawodów modeli latających.',
                     tasks: [
                       'Wykazałem(-am) się znajomością przepisów Kodeksu Sportowego FAI (w szczególności część 4a i 4b), dotyczących zawodów modelarskich. Wykazałem(-am) się znajomością organizacji pracy komisji sędziowskiej.',
@@ -5991,7 +5991,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'paralotniarz',
                     title: '(Para)Lotniarz',
-                    level: '1',
+                    level: 1,
                     comment: 'Konstruuje prosty latawiec i wyjaśnia na nim pilotaż lotnią.',
                     tasks: [
                       'Wyjaśniłem(-am) i zademonstrowałem(-am) zasady lotu i pilotażu lotni lub paralotni, korzystając z samodzielnie zbudowanego latawca płaskiego. ',
@@ -6002,7 +6002,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'paralotniarz',
                     title: '(Para)Lotniarz',
-                    level: '2',
+                    level: 2,
                     comment: 'Przygotowuje lotnię do lotu. Rozróżnia rodzaje i zastosowanie lotni.',
                     tasks: [
                       'Zademonstrowałem(-am) i wyjaśniłem(-am) kolegom zasady sterowania lotnią lub paralotnią.',
@@ -6014,7 +6014,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'paralotniarz',
                     title: '(Para)Lotniarz',
-                    level: '3',
+                    level: 3,
                     comment: 'Ocenia warunki do lotu. Steruje skrzydłem lotni w sposób kontrolowany. Udziela pierwszej pomocy poszkodowanemu.',
                     tasks: [
                       'Określiłem(-am) kierunek i prędkość wiatru względem zbocza oraz możliwości latania w danych warunkach.',
@@ -6032,7 +6032,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'szybownik',
                     title: 'Szybownik',
-                    level: '1',
+                    level: 1,
                     comment: 'Konstruuje prosty szybowiec i wyjaśnia na nim lot szybowy.',
                     tasks: [
                       'Wyjaśniłem(-am) i zademonstrowałem(-am) zasady lotu i pilotażu szybowca, korzystając z samodzielnie zbudowanego prostego modelu szybowca.',
@@ -6043,7 +6043,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'szybownik',
                     title: 'Szybownik',
-                    level: '2',
+                    level: 2,
                     comment: 'Asystuje przy startach szybowców.',
                     tasks: [
                       'Wykazałem(-am) się wiedzą, jakie siły działają na szybowiec w locie i jakie warunki sprzyjają lotom szybowcowym. W terenie lub na mapie wskazałem(-am), gdzie powstają prądy wznoszące.',
@@ -6061,7 +6061,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'lotnik_samolotowy',
                     title: 'Lotnik Samolotowy',
-                    level: '1',
+                    level: 1,
                     comment: 'Interesuje się pilotażem lotniczym.',
                     tasks: [
                       'Wymieniłem(-am) wymagania zdrowotne i psychiczne stawiane lotnikom. Wykazałem(-am) się wiedzą dot. warunków przyjęcia na szkolenia lotnicze (wiek, wykształcenie) i główne rodzaje pracy w lotnictwie.',
@@ -6073,7 +6073,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'lotnik_samolotowy',
                     title: 'Lotnik Samolotowy',
-                    level: '2',
+                    level: 2,
                     comment: 'Wykazuje się pogłębioną wiedzą nt pilotażu i doświadcza pierwszych lotów samolotem sportowym.',
                     tasks: [
                       'Określiłem(-am) nawigacyjną prędkość, meteorologiczny kierunek i prędkość wiatru oraz możliwości latania w danych warunkach.',
@@ -6092,7 +6092,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'baloniarz',
                     title: 'Baloniarz',
-                    level: '1',
+                    level: 1,
                     comment: 'Konstruuje proste modele balonów i potrafi wyjaśnić ich działanie.',
                     tasks: [
                       'Wyjaśniłem(-am) zasady unoszenia się balonu w powietrzu oraz budowę balonu sportowego.',
@@ -6104,7 +6104,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'baloniarz',
                     title: 'Baloniarz',
-                    level: '2',
+                    level: 2,
                     comment: 'Wykazuje się pogłębioną wiedzą na temat baloniarstwa i doświadcza pierwszych lotów balonem.',
                     tasks: [
                       'Opowiedziałem(-am) kolegom o sukcesach Polaków w zawodach Gordon-Bennetta oraz o najważniejszych faktach z dziejów balonu i historii baloniarstwa w Polsce.',
@@ -6116,7 +6116,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'baloniarz',
                     title: 'Baloniarz',
-                    level: '3',
+                    level: 3,
                     comment: 'Asystuje przy lotach balonem.',
                     tasks: [
                       'Opowiedziałem(-am) o dziejach baloniarstwa w Polsce i na świecie, wykazując się ich dobrą znajomością.',
@@ -6134,7 +6134,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'mlody_spadochroniarz',
                     title: 'Młody Spadochroniarz',
-                    level: '1',
+                    level: 1,
                     comment: ' Interesuje się spadochroniarstwem.',
                     tasks: [
                       'Wykazałem(-am) się wiedzą, gdzie znajduje się najbliższe lotnisko, na którym odbywają się skoki spadochronowe.',
@@ -6154,7 +6154,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'aspirant_spadochronowy',
                     title: 'Aspirant Spadochronowy',
-                    level: '2',
+                    level: 2,
                     comment: 'Asystuje przy organizacji zrzutowiska.',
                     tasks: [
                       'Zdobyłem(-am) wiedzę i umiejętności na poziomie sprawności Młody spadochroniarz (*).',
@@ -6175,7 +6175,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'spadochroniarz',
                     title: 'Spadochroniarz',
-                    level: '3',
+                    level: 3,
                     comment: 'Doświadcza elementów spadochroniarstwa i przygotowuje się do samodzielnego skoku. ',
                     tasks: [
                       'Zdobyłem(-am) wiedzę i umiejętności na poziomie sprawności Aspirant spadochronowy (**).',
@@ -6198,7 +6198,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'pomocnik_ukladacza_spadochronowego',
                     title: 'Pomocnik Układacza Spadochronowego',
-                    level: '3',
+                    level: 3,
                     comment: 'Przygotowuje spadochrony do skoku i transportu.',
                     tasks: [
                       'Wykazałem(-am) się znajomością podstawowych zasad przechowywania, konserwacji i transportu sprzętu spadochronowego.',
@@ -6218,7 +6218,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'pomocnik_sedziego_spadochronowego',
                     title: 'Pomocnik Sędziego Spadochronowego',
-                    level: '3',
+                    level: 3,
                     comment: 'Asystuje sędziemu podczas zawodów spadochronowych.',
                     tasks: [
                       'Wykazałem(-am) się znajomością podstawowych przepisów Kodeksu Sportowego FAI dotyczących zawodów spadochronowych.',
@@ -6237,7 +6237,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'doswiadczony_spadochroniarz',
                     title: 'Doświadczony Spadochroniarz',
-                    level: '4',
+                    level: 4,
                     comment: 'W bezpieczny sposób podchodzi do wykonywania skoków spadochronowych.',
                     tasks: [
                       'Odczytałem(-am) i zinterpretowałem(-am) komunikat pogodowy.',
@@ -6258,7 +6258,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'pilot_spadochronu',
                     title: 'Pilot Spadochronu',
-                    level: '4',
+                    level: 4,
                     comment: 'Wykonuje skoki na strugi i biegle steruje czaszą spadochronu.',
                     tasks: [
                       'Wykonałem(-am) stabilne skoki na strugi relatywne.',
@@ -6279,7 +6279,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'spadochroniarz_zwiadowca',
                     title: 'Spadochroniarz Zwiadowca',
-                    level: '4',
+                    level: 4,
                     comment: 'Samodzielnie dokonuje zwiadu taktycznego, kontaktuje się przez radio i zapewnia sobie przetrwanie w warunkach leśnych.',
                     tasks: [
                       'Wykazałem(-am) się znajomością historii polskich wojskowych jednostek specjalnych. Rozpoznałem(-am) znaki identyfikacyjne tych formacji oraz wymieniłem(-am) ich główne zadania.',
@@ -6301,7 +6301,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'spadochroniarz_ratownik',
                     title: 'Spadochroniarz Ratownik',
-                    level: '4',
+                    level: 4,
                     comment: 'Reaguje na niebezpieczeństwa, stosuje odpowiednie algorytmy zachowania, współpracuje ze służbami mundurowymi.',
                     tasks: [
                       'Wykazałem(-am) się wiedzą na temat bojowego ratownictwa i poszukiwań (CSAR), w szczególności zastosowania w tym celu spadochroniarstwa.',
@@ -6322,7 +6322,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'spadochroniarz_operator',
                     title: 'Spadochroniarz Operator',
-                    level: '4',
+                    level: 4,
                     comment: 'Szkoli się z samoobrony, strzelectwa i potrafi omówić spadochroniarstwo wojskowe.',
                     tasks: [
                       'Wykazałem(-am) się znajomością wymagań stawianym kandydatom na żołnierzy zawodowych w jednostkach powietrzno-desantowych. Osiągnąłem(osiągnęłam) sprawność pozwalającą na zaliczenie egzaminu z wychowania fizycznego według norm określonych w takich jednostkach (co najmniej na poziomie dostatecznym).',
@@ -6345,7 +6345,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'lotnik_tunelowy',
                     title: 'Lotnik Tunelowy',
-                    level: '1',
+                    level: 1,
                     comment: 'Zachowuje spokój w tunelu aerodynamicznym i stosuje się do komend instruktora.',
                     tasks: [
                       'Ukończyłem(-am) odpowiednie szkolenie przygotowawcze (instruktaż) do latania w tunelu aerodynamicznym.',
@@ -6357,7 +6357,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'lotnik_tunelowy',
                     title: 'Lotnik Tunelowy',
-                    level: '2',
+                    level: 2,
                     comment: 'Utrzymuje się stabilnie na strugach w tunelu aerodynamicznym.',
                     tasks: [
                       'Zdobyłem(-am) wiedzę i umiejętności na poziomie sprawności (*).',
@@ -6370,7 +6370,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'lotnik_tunelowy',
                     title: 'Lotnik Tunelowy',
-                    level: '3',
+                    level: 3,
                     comment: 'Samodzielnie porusza się w tunelu aerodynamicznym.',
                     tasks: [
                       'Zdobyłem(-am) wiedzę i umiejętności na poziomie sprawności (**).',
@@ -6383,7 +6383,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'lotnik_tunelowy',
                     title: 'Lotnik Tunelowy',
-                    level: '4',
+                    level: 4,
                     comment: 'Lata w tunelu z innymi osobami. Startuje w zawodach tunelowych.',
                     tasks: [
                       'Zdobyłem(-am) wiedzę i umiejętności na poziomie sprawności (***).',
@@ -6402,7 +6402,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'spotter',
                     title: 'Spotter',
-                    level: '1',
+                    level: 1,
                     comment: 'Rozpoznaje samoloty cywilne i wojskowe, znaki sił powietrznych i linii lotniczych. Bezpiecznie porusza się po lotnisku.',
                     tasks: [
                       'Rozpoznałem(-am) i rozróżniłem(-am) samoloty cywilne i wojskowe. Rozpoznałem(-am) znaki sił powietrznych i linii lotniczych przynajmniej trzech krajów.',
@@ -6415,7 +6415,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'spotter',
                     title: 'Spotter',
-                    level: '2',
+                    level: 2,
                     comment: 'Rozpoznaje modele i typy obserwowanych samolotów. Sprawnie przemieszcza się po lotnisku.',
                     tasks: [
                       'Rozpoznałem(-am) i rozróżniłem(-am) samoloty cywilne i wojskowe. Rozpoznałem(-am) znaki sił powietrznych i linii lotniczych przynajmniej dziesięciu krajów.',
@@ -6436,7 +6436,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'spotter_specjalista',
                     title: 'Spotter Specjalista',
-                    level: '3',
+                    level: 3,
                     comment: 'Dzieli się swoją wiedzą i umiejętnościami spotterskimi.',
                     tasks: [
                       'Rozpoznałem(-am) i rozróżniłem(-am) samoloty cywilne i wojskowe. Rozpoznałem(-am) znaki sił powietrznych i linii lotniczych przynajmniej dwudziestu krajów.',
@@ -6457,7 +6457,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'spotter_fotograf',
                     title: 'Spotter Fotograf',
-                    level: '3',
+                    level: 3,
                     comment: 'Fotografuje statki powietrzne, rozpoznaje je i wyjaśnia różnice.',
                     tasks: [
                       'Rozpoznałem(-am) i rozróżniłem(-am) samoloty cywilne i wojskowe. Rozpoznałem(-am) znaki sił powietrznych i linii lotniczych przynajmniej dwudziestu krajów.',
@@ -6477,7 +6477,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'operator_drona',
                     title: 'Operator Drona',
-                    level: '1',
+                    level: 1,
                     comment: 'Asystuje przy operowaniu dronem.',
                     tasks: [
                       'Poprawnie wykonałem(-am) manewry startu i lądowania.',
@@ -6490,7 +6490,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'operator_drona',
                     title: 'Operator Drona',
-                    level: '2',
+                    level: 2,
                     comment: 'Samodzielnie operuje dronem w podstawowym zakresie.',
                     tasks: [
                       'Zdobyłem(-am) wiedzę i umiejętności na poziomie sprawności (*).',
@@ -6508,7 +6508,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 SprawData(
                     id: 'operator_drona',
                     title: 'Operator Drona',
-                    level: '3',
+                    level: 3,
                     comment: 'Biegle operuje dronem.',
                     tasks: [
                       'Zdobyłem(-am) wiedzę i umiejętności na poziomie sprawności (**).',
@@ -6537,7 +6537,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'jezdziec',
                       title: 'Jeździec',
-                      level: '1',
+                      level: 1,
                       comment:'Przekazuje wiedzę na temat maści i odmian koni. Prawidłowo podchodzi do koni i odczytuje ich reakcje. Prawidłowo przygotowuje konia do jazdy oraz zakłada rząd jeździecki, nazywa jego części. Porusza się w trzech chodach w zastępie podczas jazdy konnej.',
                       tasks: [
                         'Poznałem(-am) budowę zewnętrzną, maści i odmiany koni. Wiedzę tę przekazałem(-am) swojemu zastępowi podczas zbiórki.',
@@ -6548,7 +6548,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'jezdziec',
                       title: 'Jeździec',
-                      level: '2',
+                      level: 2,
                       comment:'Skompletował(-a) odpowiedni strój do jazdy. Rozróżnia podstawowy sprzęt. Prawidłowo wyjeżdża podstawowe figury na ujeżdżalni. Porusza się w równowadze w trzech podstawowych chodach.',
                       tasks: [
                         'Skompletowałem(-am) odpowiedni i bezpieczny strój do jazdy konnej.',
@@ -6559,7 +6559,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'jezdziec',
                       title: 'Jeździec',
-                      level: '3',
+                      level: 3,
                       comment:'Przekazuje wiedzę dotyczącą podstaw jazdy, pomocy jeździeckich. Pokazuje elementy ujeżdżeniowe. Prawidłowo pokonuje przeszkody do 60 cm.',
                       tasks: [
                         'Wytłumaczyłem(-am) zastępowi podstawy teorii jazdy konnej, a także czym jest dosiad i jakie są jego rodzaje.',
@@ -6576,7 +6576,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'adept_ujezdzania',
                       title: 'Adept Ujeżdżania',
-                      level: '1',
+                      level: 1,
                       comment:'Orientuje się na czworoboku, przedstawia, jak są rozmieszczone konkretne litery na czworoboku, umie się na nim odnaleźć, prawidłowo wykonuje podstawowe figury ujeżdżeniowe w podstawowych chodach.',
                       tasks: [
                         'Pokazałem(-am) położenie liter na małym i dużym czworoboku. Wykonałem(-am) szkic - oznaczając je.',
@@ -6587,7 +6587,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'adept_ujezdzania',
                       title: 'Adept Ujeżdżania',
-                      level: '2',
+                      level: 2,
                       comment:'Doskonale odnajduje się na czworoboku, wie czym wyróżnia się ta dyscyplina. Rozróżnia oraz prawidłowo wykonuje figury ujeżdzeniowe, a także rodzaje chodów konia. Potrafi zaopiekować się koniem ujeżdżeniowym.',
                       tasks: [
                         'Wykonałem(-am) prawidłowo koło o średnicy 20 m we wszystkich trzech chodach.',
@@ -6598,7 +6598,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'adept_ujezdzania',
                       title: 'Adept Ujeżdżania',
-                      level: '3',
+                      level: 3,
                       comment:'Wyjeżdża elementy ujeżdżeniowe podstawowe oraz te bardziej zaawansowane, charakteryzuje specjalistyczny dla tej dyscypliny sprzęt - umie go prawidłowo dopasować.',
                       tasks: [
                         'Założyłem(-am) samodzielnie owijki z podkładem.',
@@ -6616,7 +6616,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'skoczek',
                       title: 'Skoczek',
-                      level: '1',
+                      level: 1,
                       comment:'Utrzymuje równowagę podczas wykonywania skoku. Poprawnie pokonuje przeszkody. Wykonuje szereg gimnastyczny. Zmienia nogę po skoku.',
                       tasks: [
                         'Utrzymałem(-am) równowagę w skoku, podążałem(-am) za koniem, zarówno z kłusu, jak i z galopu.',
@@ -6627,7 +6627,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'skoczek',
                       title: 'Skoczek',
-                      level: '2',
+                      level: 2,
                       comment:'Pokonuje parkur złożony z 8 przeszkód. Odlicza foule w linii. Pokonuje szereg gimnastyczny z zachowaniem równowagi i kontaktu z koniem. Bierze udział w zawodach towarzyskich.',
                       tasks: [
                         'Przejechałem(-am) parkur złożony z 8 różnych przeszkód o wysokości 70-80cm (duże konie) i 60-70 cm (kucyki).',
@@ -6638,7 +6638,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'skoczek',
                       title: 'Skoczek',
-                      level: '3',
+                      level: 3,
                       comment:'Pokonuje parkur złożony z więcej niż 8 przeszkód. Kompletuje ubiór na zawody zgodny z obowiązującym regulaminem. Bierze udział w zawodach. Przekazuje wiedzę na temat jazdy skokowej i zawodów.',
                       tasks: [
                         'Przejechałem(-am) parkur złożony z więcej niż 8 przeszkód o wysokości powyżej 80 cm (duże konie) i 70 cm (kucyki).',
@@ -6654,7 +6654,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'zawodnik_hobby_horses',
                       title: 'Zawodnik Hobby Horses',
-                      level: '1',
+                      level: 1,
                       comment:'Wie, co to jest Hobby Horsing, potrafi to wytłumaczyć. Posiada własnego Hobby Horsa. Zna trzy podstawowe chody podczas jazdy na Hobby Horse. Potrafi ułożyć trasę z niskimi przeszkodami naturalnymi.',
                       tasks: [
                         'Nauczyłem(-am) się, czym jest Hobby Horsing. Przygotowałem(-am) zbiórkę na ten temat dla swojego zastępu.',
@@ -6665,7 +6665,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'zawodnik_hobby_horses',
                       title: 'Zawodnik Hobby Horses',
-                      level: '2',
+                      level: 2,
                       comment:'Posiada swojego Hobby Horsa. Tworzy układy ujeżdżeniowe do dowolnej piosenki. Organizuje zawody Hobby Horsing.',
                       tasks: [
                         'Wykonałem(-am) własnego Hobby Horsa. Zaprezentowałem(-am) go na zbiórce. Nadałem(-am) mu imię oraz przedstawiłem(-am) jego dane (rasa, maść, wiek). Opowiedziałem(-am) o cechach charakterystycznych dla tej rasy.',
@@ -6676,7 +6676,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'zawodnik_hobby_horses',
                       title: 'Zawodnik Hobby Horses',
-                      level: '3',
+                      level: 3,
                       comment:'Regularnie trenuje na własnoręcznie zrobionych min. trzech Hobby Horsach. Prowadzi zajęcia majsterkowe dla zastępu lub drużyny na których pokazuje, jak zrobić własnego Hobby Horsa. Bierze udział w przygotowaniach zawodów „Potęgi Skoku” i Dnia Hobby Horsing.',
                       tasks: [
                         'Wykonałem(-am) co najmniej trzy Hobby Horses. Powiedziałem(-am), jakiej są rasy i maści. Regularnie na nich trenuję.',
@@ -6687,7 +6687,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'zawodnik_hobby_horses',
                       title: 'Zawodnik Hobby Horses',
-                      level: '4',
+                      level: 4,
                       comment:'Przekazuje wiedzę o trenowaniu i utrzymywaniu w porządku swoich Hobby Horses. Wykona własną stajnię Hobby Horses. Organizuje zawody Hobby Horses dla innych drużyn',
                       tasks: [
                         'Wykonałem(-am) stajnię dla moich Hobby Horses. Uszyłem(-am) derki i kantary.',
@@ -6702,7 +6702,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'woltyzer',
                       title: 'Woltyżer',
-                      level: '1',
+                      level: 1,
                       comment:'Przestrzega podstawowych zasad lonżowania konia. Zna podstawowy sprzęt do woltyżerki. Wsiada i zsiada z konia z obydwóch stron. Wykonuje podstawowe ćwiczenia na koniu gimnastycznym, stojącym oraz chodzącym stępem',
                       tasks: [
                         'Prawidłowo wsiadałem(-am) i zsiadałem(-am) z konia, zarówno z prawej, jak i lewej strony (dopuszczalna jest pomoc asystenta).',
@@ -6716,7 +6716,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'woltyzer',
                       title: 'Woltyżer',
-                      level: '2',
+                      level: 2,
                       comment:'Utrzymuje równowagę w trzech podstawowych chodach. Prawidłowo wykonuje ćwiczenia na koniu stojącym oraz chodzącym w trzech chodach. Zakłada i dopasowuje sprzęt woltyżerski.',
                       tasks: [
                         'Utrzymywałem(-am) równowagę w stępie, kłusie i galopie.',
@@ -6729,7 +6729,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'woltyzer',
                       title: 'Woltyżer',
-                      level: '3',
+                      level: 3,
                       comment:'Prezentuje wymyślone przez siebie układy. Przekazuje wiedzę na temat woltyżerki mniej doświadczonym osobom, uczy je podstawowych ćwiczeń. Prawidłowo wykonuje ćwiczenia na koniu stojącym oraz chodzącym w trzech chodach.',
                       tasks: [
                         'Przedstawiłem(-am) swojemu zastępowi w dowolny sposób regulamin dyscypliny woltyżerka.',
@@ -6747,7 +6747,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'westernowiec',
                       title: 'Westernowiec',
-                      level: '1',
+                      level: 1,
                       comment:'Nosi strój zgodny z kanonem dyscypliny. Rozpoznaje elementy rzędu jeździeckiego. Wsiada i zsiada na konia „po strzemieniu”. Porusza się w stępie, kłusie oraz cofa.',
                       tasks: [
                         'Skompletowałem(-am) odpowiedni i bezpieczny strój do jazdy konnej, a także wytłumaczyłem(-am), jak wygląda strój jeźdźca zgodny z kanonem tej dyscypliny.',
@@ -6758,7 +6758,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'westernowiec',
                       title: 'Westernowiec',
-                      level: '2',
+                      level: 2,
                       comment:'Porusza się w trzech chodach, wykonuje płynne przejścia pomiędzy nimi. Rozpoznaje kiełzna. Opisuje jedną z konkurencji oraz korzenie tej dyscypliny.',
                       tasks: [
                         'Opisałem(-am) jedną z konkurencji rozgrywanych w stylu western.',
@@ -6769,7 +6769,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'westernowiec',
                       title: 'Westernowiec',
-                      level: '3',
+                      level: 3,
                       comment:'Opisuje najważniejsze klasy pokazowe w western. Samodzielnie przygotowuje konia. Poprawnie trzyma wodze. Rozpoznaje typowe dla westernu rasy koni. Porusza się w trzech chodach, prawidłowo wykonuje figury westernowe, zachowuje balans przy przejściach pomiędzy nimi.',
                       tasks: [
                         'Wymieniłem(-am) i opisałem(-am) najważniejsze klasy pokazowe w stylu western.',
@@ -6786,7 +6786,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'powozacy',
                       title: 'Powożący',
-                      level: '1',
+                      level: 1,
                       comment:'Opiekuje się koniem. Widzi różnicę pomiędzy uprzężą szorową a chomątową. Rozpoznaje kiełzna zaprzęgowe. Wie, jak bezpiecznie zaprzęgać konie.',
                       tasks: [
                         'Rozpoznałem(-am) kiełzna wykorzystywane w zaprzęgach.',
@@ -6797,7 +6797,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'powozacy',
                       title: 'Powożący',
-                      level: '2',
+                      level: 2,
                       comment:'Wymienia i rozpoznaje rodzaje uprzęży oraz typy pojazdów. Dopasowuje uprzęże oraz wymienia, z czego się składają. Pełni funkcję luzaka, opowiada, na czym ona polega',
                       tasks: [
                         'Wymieniłem(-am) rodzaje uprzęży i typy pojazdów, rozpoznając je na rysunkach lub zdjęciach.',
@@ -6808,7 +6808,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'powozacy',
                       title: 'Powożący',
-                      level: '3',
+                      level: 3,
                       comment:'Wyjaśnia terminologię związaną z powożeniem. Rozróżnia style zaprzęgów. Wsiada i zsiada z pojazdu, odmierza lejce. Prowadzi zastęp jedno- lub wielokonny. Znajduje informacje na temat reprezentantów Polski w tej dziedzinie',
                       tasks: [
                         'Poznałem(-am) budowę uprzęży. Dowiedziałem(-am) się, co to jest munsztuk zaprzęgowy, liverpool, fasculce, blendysz, duga itp. oraz opowiedziałem(-am) o tym na zbiórce zastępu lub drużyny.',
@@ -6825,7 +6825,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'zawodnik_working_equitation',
                       title: 'Zawodnik Working Equitation',
-                      level: '1',
+                      level: 1,
                       comment:'Wie, co to jest Working Equitation. Porusza się płynnie w trzech chodach. Poprawnie pokonuje przeszkody. Prawidłowo wyjeżdża podstawowe figury ujeżdżeniowe.',
                       tasks: [
                         'Poruszałem(-am) się płynnie i w równowadze w trzech podstawowych chodach.',
@@ -6836,7 +6836,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'zawodnik_working_equitation',
                       title: 'Zawodnik Working Equitation',
-                      level: '2',
+                      level: 2,
                       comment:'Bierze udział w zawodach na poziomie L. Pokonuje przeszkody w kłusie. Monitoruje rozwój dyscypliny i ma jeźdźca, na którym się wzoruje. Pokazuje innym, jak prawidłowo pokonuje się podane przeszkody.',
                       tasks: [
                         'Wziąłem(Wzięłam) udział w zawodach regionalnych lub towarzyskich na poziomie L, osiągnąłem(osiągnęłam) wynik min. 55%.',
@@ -6847,7 +6847,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'zawodnik_working_equitation',
                       title: 'Zawodnik Working Equitation',
-                      level: '3',
+                      level: 3,
                       comment:'Współorganizuje zawody z elementami WE. Prawidłowo pokonuje podane przeszkody i figury ujeżdżeniowe. Przekazuje wiedzę, jak poprawnie technicznie pokonać przeszkody.',
                       tasks: [
                         'Współorganizowałem(-am) u siebie w stajni zawody z elementami Working Equitation dla kolegów lub zastępu.',
@@ -6864,7 +6864,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'zawodnik_trec',
                       title: 'Zawodnik TREC',
-                      level: '1',
+                      level: 1,
                       comment:'Ma świadomość, czym są zawody TREC PTTK, rozróżnia ich fazy. Prawidłowo orientuje się w terenie. Bierze udział w dwóch fazach TREC - MA oraz PTV.',
                       tasks: [
                         'Wytłumaczyłem(-am) zastępowi, czym są zawody TREC PTTK, oraz wyjaśniłem(-am) skróty Faza PTV, MA, POR.',
@@ -6875,7 +6875,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'zawodnik_trec',
                       title: 'Zawodnik TREC',
-                      level: '2',
+                      level: 2,
                       comment:'Trenuje elementy TREC, wyjeżdżając w teren, prawidłowo odnajduje się na mapie. Przekazuje wiedzę na temat TREC PTTK innym harcerzom. Sprawnie pokonuje coraz trudniejsze elementy fazy PTV oraz osiąga coraz lepsze wyniki w fazie MA.',
                       tasks: [
                         'Zaprezentowałem(-am) zastępowi w dowolnej formie regulamin TREC PTTK.',
@@ -6886,7 +6886,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'zawodnik_trec',
                       title: 'Zawodnik TREC',
-                      level: '3',
+                      level: 3,
                       comment:'Bierze udział w zawodach TREC PTTK. Organizuje zawody z elementami tej dyscypliny dla innych. Sprawnie pokonuje coraz trudniejsze elementy fazy PTV oraz osiąga coraz lepsze wyniki w fazie MA',
                       tasks: [
                         'Wziąłem(Wzięłam) udział w zawodach TREC PTTK.',
@@ -6901,7 +6901,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'turysta_konny',
                       title: 'Turysta Konny',
-                      level: '1',
+                      level: 1,
                       comment:'Zna podstawową wiedzę dotyczącą chowu, hodowli i popasu. Wykonuje ćwiczenia rozluźniające w siodle. Porusza się w 3 podstawowych chodach. Bierze udział w wycieczkach konnych odbywających się okolicach ośrodka.',
                       tasks: [
                         'Za pomocą dowolnej formy przedstawiłem(-am) podstawowe informacje na temat chowu i hodowli koni: typy i rasy koni, maści koni, podstawowe części ciała, ogólne wiadomości o zasadach żywienia koni.',
@@ -6913,7 +6913,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'turysta_konny',
                       title: 'Turysta Konny',
-                      level: '2',
+                      level: 2,
                       comment:'Dzieli się wiedzą na temat anatomii konia, pomocy jeździeckich, powodowania koniem, wyjazdów w teren i rajdów. Porusza się w trzech podstawowych chodach, pokonuje w nich niskie przeszkody. Potrafi poruszać się w terenie otwartym. Bierze udział w dwudniowych rajdach.',
                       tasks: [
                         'Posiadałem(-am) i potrafiłem(-am) przedstawić w ciekawy sposób: anatomię konia, zasady stosowania pomocy jeździeckich, powodowanie koniem w podstawowych chodach.',
@@ -6925,7 +6925,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'turysta_konny',
                       title: 'Turysta Konny',
-                      level: '3',
+                      level: 3,
                       comment:'Przekazuje wiedzę na temat poruszania się po drogach, przygotowania konia do wyjazdu oraz poruszania się konia. Prawidłowo stosuje pomoce jeździeckie. Pokonuje przeszkody do 40 cm. Bierze udział w wycieczkach konnych i rajdach konnych.',
                       tasks: [
                         'Nauczyłem(-am) się podstawowych zasady z prawa o ruchu drogowym dotyczących poruszania się po drogach publicznych, nauczyłem(-am) się, jak przygotować konia do wyjazdu oraz jak zachować się w terenie i na postojach.',
@@ -6942,7 +6942,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'konny_rekonstruktor_historyczny',
                       title: 'Konny Rekonstruktor Historyczny',
-                      level: '2',
+                      level: 2,
                       comment:'Wie, jaki jest odpowiedni strój w danej epoce. Opowiada o danej epoce historycznej. Posiada wiedzę na temat różnych grup rekonstrukcyjnych, szczególnie działających w jego okolicy zamieszkania.',
                       tasks: [
                         'Posiadłem(-am) wiedzę na temat różnych grup rekonstrukcyjnych, znalazłem(-am) informacje o tym, jakie grupy działają w okolicy mojego zamieszkania.',
@@ -6953,7 +6953,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'konny_rekonstruktor_historyczny',
                       title: 'Konny Rekonstruktor Historyczny',
-                      level: '3',
+                      level: 3,
                       comment:'Opowiada o rasach koni wykorzystywanych w rekonstrukcji. Organizuje pokazy jazdy. Opowiada szczegółowo o danej epoce historycznej. Posługuje się dodatkowymi atrybutami historycznymi związanymi z rekonstrukcją.',
                       tasks: [
                         'Zorganizowałem(-am) pokaz jazdy dla swojej drużyny, opowiedziałem(-am) szczegółowo o danej epoce historycznej.',
@@ -6969,7 +6969,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'opiekun_koni',
                       title: 'Opiekun Koni',
-                      level: '1',
+                      level: 1,
                       comment:'Wymienia oraz stosuje się do podstawowych zasad pracy w stajni. Rozróżnia stanowisko i boks, a także podstawowe pasze objętościowe i treściwe. Prawidłowo przygotowuje i podaje pasze dla koni.',
                       tasks: [
                         'Poznałem(-am) podstawowe zasady bezpieczeństwa pracy przy koniach. Stosowałem(-am) je w praktyce, a także w dowolnej formie przedstawiłem(-am) je swojemu zastępowi.',
@@ -6980,7 +6980,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'opiekun_koni',
                       title: 'Opiekun Koni',
-                      level: '2',
+                      level: 2,
                       comment:'Rozróżnia rośliny jadalne i trujące dla koni. Dba o bezpieczeństwo konia i siebie. Prawidłowo odczytuje mowę koni, chętnie przekazuje wiedzę na ten temat innym. Prawidłowo przygotowuje pastwisko do wypasu. Zakłada na konia podstawowy sprzęt stajenny.',
                       tasks: [
                         'Rozpoznałem(-am) na pastwisku, czy wszystkie rośliny są jadalne dla koni, wymieniłem(-am) 5 roślin trujących. Sprawdziłem(-am), czy siano i pasza treściwa są zdatne do zjedzenia dla konia (np. brak pleśni).',
@@ -6991,7 +6991,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'opiekun_koni',
                       title: 'Opiekun Koni',
-                      level: '3',
+                      level: 3,
                       comment:'Prawidłowo kieruje zespołem podczas prac stajennych. Przekazuje wiedzę na temat dobrostanu koni oraz ich prawidłowego utrzymania.',
                       tasks: [
                         'Kierowałem(-am) pracą wachty stajennej na obozie lub w klubie.',
@@ -7007,7 +7007,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'zootechnik',
                       title: 'Zootechnik',
-                      level: '1',
+                      level: 1,
                       comment:'Rozróżnia pojęcia chów i hodowla, przekazuje innym, jak je prawidłowo definiować. Dzieli się swoją wiedzą na temat ras i typów użytkowych, a także budowy konia. Wymienia składowe oceny wartości użytkowej. Wskazuje na koniach zadane maści i odmiany.',
                       tasks: [
                         'Rozróżniałem(-am) pojęcia chów i hodowla, przedstawiłem(-am) za pomocą wizualizacji (np. mapy myśli), jak prawidłowo definiować te pojęcia.',
@@ -7019,7 +7019,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'zootechnik',
                       title: 'Zootechnik',
-                      level: '2',
+                      level: 2,
                       comment:'Dzieli się wiedzą z zakresu: rozrodu koni, eksterieru, prób dzielności. Opisuje etapy rozwoju konia, zwraca uwagę na jego stan psychiczny i fizyczny. Ocenia budowę koni. Na przykładach wymienia rasy koni ze względu na typ koni.',
                       tasks: [
                         'Opowiedziałem(-am) zastępowi lub drużynie o okresie trwania ciąży u konia, terminie przeprowadzania stanówki i odsadzaniu źrebiąt.',
@@ -7031,7 +7031,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'zootechnik',
                       title: 'Zootechnik',
-                      level: '3',
+                      level: 3,
                       comment:'Korzysta z Ksiąg Stadnych. Wskazuje i zapobiega złym nawykom i narowom. Poznał, czym jest imbred. Ocenia wiek konia po zębach. Dzieli się wiedzą na temat przyznawania klas ogierom rozpłodowym.',
                       tasks: [
                         'Prawidłowo korzystałem(-am) z Ksiąg Stadnych, wyszukałem(-am) konkretnego konia po ustalonych wcześniej założeniach. Wykonałem(-am) teoretyczny rodowód konia do 3 pokoleń wstecz.',
@@ -7048,7 +7048,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'dietetyk_konny',
                       title: 'Dietetyk Konna',
-                      level: '1',
+                      level: 1,
                       comment:'Rozpoznaje podstawowe pasze. Prezentuje zasady karmienia i pojenia. Karmi konie oraz czyści poidła. Zna budowę układu pokarmowego konia',
                       tasks: [
                         'Rozpoznawałem(-am) podstawowe pasze objętościowe i treściwe w żywieniu koni.',
@@ -7060,7 +7060,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'dietetyk_konny',
                       title: 'Dietetyk Konna',
-                      level: '2',
+                      level: 2,
                       comment:'Ocenia jakość pasz. Opisuje, na czym polega ocena BSC. Przedstawia, w jakich momentach lub aspektach należy zmienić pasze. Przygotowuje i zadaje mesz. Charakteryzuje budowę układu pokarmowego konia.',
                       tasks: [
                         'Oceniłem(-am) organoleptycznie jakość podawanych pasz treściwych i objętościowych.',
@@ -7072,7 +7072,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'dietetyk_konny',
                       title: 'Dietetyk Konna',
-                      level: '3',
+                      level: 3,
                       comment:'Pomaga przy układaniu dawki pokarmowej. Dokonuje oceny BCS. Opisuje objawy podstawowych chorób układu pokarmowego konia. Wymienia metody oceny wagi konia. Kontroluje pobieranie paszy przez konie. Obserwuje specjalistę podczas kontroli uzębienia',
                       tasks: [
                         'Byłem(-am) obecny(-a) przy układaniu dawki pokarmowej przez specjalistę żywienia koni. Następnie przedstawiłem(-am) zastępowi, na co należy zwracać uwagę przy układaniu zbilansowanej dawki, a także opowiedziałem(-am), jak taki specjalista pracuje.',
@@ -7089,7 +7089,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'zaklinacz_koni',
                       title: 'Zaklinacz Koni',
-                      level: '1',
+                      level: 1,
                       comment:'Zauważa, jak działa mowa ciała między koniem a człowiekiem. Uczy konia sztuczki. Obserwuje pokazy i prezentuje, jakie są sztuczki',
                       tasks: [
                         'Prawidłowo odczytywałem(-am) mowę ciała konia (ogólny wygląd, ustawienie zadu, głowy, mowa nóg, mowa ogona). Na podstawie odczytanych sygnałów konia bezpiecznie podchodziłem(-am) do konia. Sygnały mowy końskiej wskazałem(-am) zastępowi.  ',
@@ -7101,7 +7101,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'zaklinacz_koni',
                       title: 'Zaklinacz Koni',
-                      level: '2',
+                      level: 2,
                       comment:'Uczy konie kilku sztuczek. Widzi wady i zalety sztuczek oraz wskazuje, z jakich naturalnych zachowań wywodzą się sztuczki. Wymienia autorytety, które pracują na zasadzie sztuczek.',
                       tasks: [
                         'Pod okiem specjalisty nauczyłem(-am) konie trzech dowolnych sztuczek.',
@@ -7112,7 +7112,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'zaklinacz_koni',
                       title: 'Zaklinacz Koni',
-                      level: '3',
+                      level: 3,
                       comment:'Uczy konie sztuczek i tworzy pokazy. Bierze udział w sesjach zdjęciowych końskich sztuczek. Przekazuje wiedzę, jak wykonać z koniem sztuczki.',
                       tasks: [
                         'Pod okiem specjalisty przygotowałem(-am) konia (nauczyłem(-am) sztuczek) do swojego przedstawienia.',
@@ -7128,7 +7128,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'rozmawiajacy_z_konmi',
                       title: 'Rozmawiający z Końmi',
-                      level: '1',
+                      level: 1,
                       comment:'Odczytuje i przekazuje innym, jak należy interpretować mowę końskiego ciała. Podchodzi odpowiednio do konia, zakłada kantar, prowadzi, odwrażliwia na dotyk, uczy ustępować od nacisku, zatrzymuje. Porozumiewa się z koniem za pomocą mowy ciała. Gra w trzy pierwsze gry Parelliego.',
                       tasks: [
                         'Prawidłowo odczytywałem(-am) mowę ciała konia (ogólny wygląd, ustawienie zadu, głowy, mowa nóg, mowa ogona). Na podstawie odczytanych sygnałów konia bezpiecznie podchodziłem(-am) do konia. Sygnały mowy końskiej wskazałem(-am) zastępowi.',
@@ -7139,7 +7139,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'rozmawiajacy_z_konmi',
                       title: 'Rozmawiający z Końmi',
-                      level: '2',
+                      level: 2,
                       comment:'Gra w gry Parelliego. Odczula konia na różne przedmioty. Pracuje zgodnie z założeniami bezstresowej pracy. Pracuje z koniem z ziemi. Lonżuje prawidłowo konia.',
                       tasks: [
                         'Grałem(-am) w 7 gier Parelliego.',
@@ -7151,7 +7151,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'rozmawiajacy_z_konmi',
                       title: 'Rozmawiający z Końmi',
-                      level: '3',
+                      level: 3,
                       comment:'Stosując różne źródła, poszerza swoją wiedzę na temat pracy z ziemi i komunikacji człowiekkoń. Analizując różne osoby i ich sposoby pracy, odnalazł(-a) najbardziej mu odpowiadający nurt naturalnej pracy z koniem. Nawiązuje kontakt z koniem w sposób bezpieczny i przyjazny dla konia i człowieka. Pracuje z użyciem naturalnych pomocy. Przekazuje wiedzę na temat porozumienia i harmonii w pracy z ziemi.',
                       tasks: [
                         'Przeczytałem(-am) książkę dotyczącą pracy z koniem z ziemi lub komunikowania się z koniem, zaprezentowałem(-am) „złote myśli” i pomysły na zadania swojemu zastępowi.',
@@ -7168,7 +7168,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'lonzujacy',
                       title: 'Lonżujący',
-                      level: '1',
+                      level: 1,
                       comment:'Zna podstawy lonżowania koni, zwraca uwagę na mowę ciała konia oraz ton głosu. Prawidłowo posługuje się pomocami przy lonży.',
                       tasks: [
                         'Wymieniłem(-am) podstawowe wyposażenie lonżującego oraz konia, którego lonżujemy. Zabezpieczyłem(-am) strzemiona w siodle na czas lonżowania, dlaczego należy to robić.',
@@ -7179,7 +7179,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'lonzujacy',
                       title: 'Lonżujący',
-                      level: '2',
+                      level: 2,
                       comment:'Wyjaśnia, po co stosuje się lonże. Opowiada o wodzach pomocniczych oraz czasie pracy konia w poszczególnych chodach. Ćwiczy lonżowanie i uatrakcyjnia trening.',
                       tasks: [
                         'W dowolny sposób przedstawiłem(-am) zalety i wady poszczególnych wodzy pomocniczych. Nauczyłem(-am) się, kiedy należy ich stosować. Poznałem(-am) kilka sposobów przypinania lonży, zaprezentowałem(-am) je na zbiórce.',
@@ -7190,7 +7190,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'lonzujacy',
                       title: 'Lonżujący',
-                      level: '3',
+                      level: 3,
                       comment:'Dopasowuje wodze pomocnicze, prawidłowo planuje odpowiedni trening dostosowany do konia oraz prowadzi go. Przekazuje mniej doświadczonym kolegom wiedzę na temat tego, w jaki sposób lonżować konia oraz prowadzić lonże z jeźdźcem na grzbiecie konia.',
                       tasks: [
                         'Prawidłowo dopasowałem(-am) wodze pomocnicze: wypinacze, chambon, gogue, wodze Pessoa, nauczyłem(-am) się, na co zwracać uwagę przy dopasowaniu tych pomocy.',
@@ -7207,7 +7207,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'pomocnik_weterynarza',
                       title: 'Pomocnik Weterynaża',
-                      level: '1',
+                      level: 1,
                       comment:'Pokazuje kilka najważniejszych struktur kostnych konia. Opowiada o temperaturze i odrobaczaniu oraz o odpowiedniej diecie dla konia, a także potrafi wymienić podstawowe choroby koni.',
                       tasks: [
                         'Poznałem(-am) budowę konia. Wskazałem(-am) na koniu przebieg kręgosłupa, łopatkę, nadgarstek, biodro, kolano, staw skokowy.',
@@ -7218,7 +7218,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'pomocnik_weterynarza',
                       title: 'Pomocnik Weterynaża',
-                      level: '2',
+                      level: 2,
                       comment:'Prawidłowo posługuje się terminologią anatomiczną. Mierzy temperaturę (kontroluje, czy jest odpowiednia), tętno i liczbę oddechów. Rozpoznaje najczęstsze objawy chorobowe i dopasowuje je do choroby. Kontroluje stan apteczki, uzupełnia ją.',
                       tasks: [
                         'Poznałem(-am) budowa ogólną, budowę anatomiczną konia, układ szkieletowy oraz położenie najważniejszych narządów.',
@@ -7229,7 +7229,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'pomocnik_weterynarza',
                       title: 'Pomocnik Weterynaża',
-                      level: '3',
+                      level: 3,
                       comment:'Opowiada o podstawowej anatomii konia. Udziela pomocy w przypadku problemów zdrowotnych. Przekazuje wiedzę na temat temperatury konia, oddechów, tętna, nawodnienia. Zwraca uwagę na szczepienia oraz ich powód.',
                       tasks: [
                         'Poznałem(-am) anatomię konia (szkielet, podstawowe układy pokarmowy, krwionośny, mięśniowy, oddechowy). Zaprezentowałem(-am), gdzie znajdują się poszczególne narządy, wskazując je na koniu (anatomia topograficzna).',
@@ -7245,7 +7245,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'podkuwacz',
                       title: 'Podkuwacz',
-                      level: '1',
+                      level: 1,
                       comment:'Zna budowę anatomiczną kopyta, rodzaje podków oraz zasady prawidłowego podkuwania koni. Pomaga podkuwaczowi (kowalowi). Trzyma prawidłowo nogi konia. Pielęgnuje kopyta w odpowiedni sposób.',
                       tasks: [
                         'Poznałem(-am) budowę anatomiczną końskiego kopyta.',
@@ -7256,7 +7256,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'podkuwacz',
                       title: 'Podkuwacz',
-                      level: '2',
+                      level: 2,
                       comment:'Rozpoznaje wady budowy kopyt. Prawidłowo pielęgnuje kopyta, odpowiednio reaguje przy problemach z nimi związanymi. Pomaga przy podkuwaniu. Przekazuje wiedzę dotyczącą podnoszenia kończyn i codziennej pielęgnacji innym osobom.',
                       tasks: [
                         'Rozpoznałem(-am) wady budowy kopyt.',
@@ -7268,7 +7268,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'podkuwacz',
                       title: 'Podkuwacz',
-                      level: '3',
+                      level: 3,
                       comment:'Wie, jakie są naturalne sposoby strugania koni. Prawidłowo postępuje w przypadku zagwożdżenia. Przekazuje wiedzę dotyczącą podkuwania i pielęgnacji kopyt. Dobiera podkowy w stosunku do wady budowy kopyta.',
                       tasks: [
                         'Poznałem(-am) i zastosowałem(-am) w praktyce naturalne sposoby strugania koni w obecności specjalisty.',
@@ -7284,7 +7284,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'zoofizjoterapeuta_koni',
                       title: 'Zoofizjoterapeuta Koni',
-                      level: '2',
+                      level: 2,
                       comment:'Wyjaśnia, czym jest zoofizjoterapia. Wskazuje na koniu podstawowe struktury kostne i mięśniowe. Przekazuje wiedzę dotyczącą masażu koni. Regularnie rozciąga swoje ciało poprzez stretching.',
                       tasks: [
                         'Wyjaśniłem(-am), czym jest zoofizjoterapia, a także co wchodzi w jej skład, podałem(-am) kilka przykładów działań zoofizjoterapeuty.',
@@ -7296,7 +7296,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'zoofizjoterapeuta_koni',
                       title: 'Zoofizjoterapeuta Koni',
-                      level: '3',
+                      level: 3,
                       comment:'Znajduje zalety i wady masażu. Wykonuje masaż „wzdłuż kręgosłupa”. Wskazuje na koniu poszczególne struktury anatomiczne. Opisuje, czym jest więzadło karkowe i jaką pełni funkcje u koni. Unika własnych kontuzji i rozpoznaje reakcje na ból.',
                       tasks: [
                         'Zaprezentowałem(-am) w ciekawej formie zalety i wady: masażu, laseroterapii, magnetoterapii, leczenie ruchem, stretching.',
@@ -7308,7 +7308,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'zoofizjoterapeuta_koni',
                       title: 'Zoofizjoterapeuta Koni',
-                      level: '4',
+                      level: 4,
                       comment:'Pomaga podczas zabiegów zoofizjoterapeutycznych. Wskazuje ważne struktury kości i ważniejsze mięśnie. Ocenia prawidłowość kopyt. Przekazuje wiedzę na temat zoofizjoterapii pod kątem bezpieczeństwa ludzi i koni. Pokazuje ćwiczenia stretchingowe wykonywane na koniach.',
                       tasks: [
                         'Asystowałem(-am) podczas zabiegów zoofizjoterapeutycznych koni, aktywnie pomagałem(-am) specjaliście.',
@@ -7321,7 +7321,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'saddle_fitter',
                       title: 'Saddle Fitter',
-                      level: '1',
+                      level: 1,
                       comment:'Opisuje budowę siodła oraz ogłowia, prawidłowo zakłada je na konia. Konserwuje sprzęt skórzany. Sprawdza, czy grzbiet konia jest w dobrym stanie (takim, że można założyć siodło), rozpoznaje symptomy źle dopasowanego siodła, które widoczne są na grzbiecie.',
                       tasks: [
                         'Poznałem(-am) podstawową budowę siodła, poznałem(-am) pojęcie terlica oraz wymieniłem(-am) i opisałem(-am) typy siodeł. Poznałem(-am) podstawową budowę ogłowia, rozróżniłem(-am) i opisałem(-am) nachrapniki.',
@@ -7332,7 +7332,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'saddle_fitter',
                       title: 'Saddle Fitter',
-                      level: '2',
+                      level: 2,
                       comment:'Wyznacza granice, w których powinno leżeć siodło. Przekazuje wiedzę, dlaczego należy sprawdzać siodło, czym jest terlica oraz jakie mamy rodzaje wędzideł. Składa i dopasowuje ogłowie po konserwacji.',
                       tasks: [
                         'Wyznaczyłem(-am) na koniu granice, w których powinno leżeć siodło, tak aby nie wchodziło na łopatki oraz nie wychodziło poza odcinek piersiowy konia.',
@@ -7344,7 +7344,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'saddle_fitter',
                       title: 'Saddle Fitter',
-                      level: '3',
+                      level: 3,
                       comment:'Pokazuje, na jakich mięśniach leży siodło. Wykonuje podstawową ocenę siodła. Przekazuje wiedzę na temat tego, jak siodłać i kiełznać konia. Dyskutuje na temat wad i zalet różnych wodzy pomocniczych.',
                       tasks: [
                         'Wymieniłem(-am) i pokazałem(-am) na koniu, na jakich mięśniach leży siodło.',
@@ -7361,7 +7361,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'wychowawca_zrebiat',
                       title: 'Wychowawca Źrebiąt',
-                      level: '2',
+                      level: 2,
                       comment:'Zna etapy życia konia. Prezentuje, jakie są różnice między końmi w pierwszych okresach życia oraz czego powinien się nauczyć źrebak w pierwszych miesiącach życia. Czyści źrebaka.',
                       tasks: [
                         'Wskazałem(-am) i scharakteryzowałem(-am) etapy życia konia.',
@@ -7372,7 +7372,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'wychowawca_zrebiat',
                       title: 'Wychowawca Źrebiąt',
-                      level: '3',
+                      level: 3,
                       comment:'Przekazuje wiedzę na temat imprintingu. Bierze udział w sesji treningowej źrebaka. Wskazuje, do ilu godzin po porodzie należy wykonać pierwszą sesję. Trzyma źrebaka w pozycji bezpiecznej.',
                       tasks: [
                         'Przedstawiłem(-am) zastępowi, co to jest imprinting zwierząt, kto opisał tę metodę dla koni oraz jakie są jej główne cele.',
@@ -7383,7 +7383,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'wychowawca_zrebiat',
                       title: 'Wychowawca Źrebiąt',
-                      level: '4',
+                      level: 4,
                       comment:'Nazywa zabawy źrebiąt. Poznaje zasady planowania sesji treningowych oraz zalety i wady wczesnego szkolenia źrebiąt. Prezentuje zasady postępowania przy źrebiętach.',
                       tasks: [
                         'Obserwując zabawy źrebiąt na pastwisku, wskazałem(-am) i nazwałem(-am) zabawy źrebiąt np. przyszczypywanie, skakanie, podskoki, wspinanie się itd.',
@@ -7399,7 +7399,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'hipoterapeuta',
                       title: 'Hipoterapeuta',
-                      level: '2',
+                      level: 2,
                       comment:'Tłumaczy harcerzom, czym jest hipoterapia. Pomaga w przygotowaniu konia. Opisuje konia oraz hipoterapeutę. Prezentuje ćwiczenia hipoterapeutyczne.',
                       tasks: [
                         'Nauczyłem(-am) się, czym jest hipoterapia. Wytłumaczyłem(-am) zastępowi, na czym polega.',
@@ -7410,7 +7410,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'hipoterapeuta',
                       title: 'Hipoterapeuta',
-                      level: '3',
+                      level: 3,
                       comment:'Przedstawia wiedzę na temat hipoterapii i jej rodzaje. Prowadzi konia, wymyśla ćwiczenia. Dba o dopasowanie sprzętu przed hipoterapią. Zna wskazania i przeciwwskazania do tej terapii.',
                       tasks: [
                         'Poznałem(-am) rodzaje hipoterapii, w dowolny sposób swoją wiedzę na ten temat przedstawiłem(-am) zastępowi.',
@@ -7422,7 +7422,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'hipoterapeuta',
                       title: 'Hipoterapeuta',
-                      level: '4',
+                      level: 4,
                       comment:'Zna kanony pracy hipoterapeuty. Dobiera konia do pacjenta oraz układa wstępny plan zajęć. Orientuje się w podstawowych jednostkach chorobowych oraz jak oddziaływaniu konia na pacjenta. Ocenia postawę jeźdźca.',
                       tasks: [
                         'Poznałem(-am) kanony pracy hipoterapeuty i przedstawiłem(-am) je zainteresowanym kolegom z drużyny.',

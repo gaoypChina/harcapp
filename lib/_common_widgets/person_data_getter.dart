@@ -76,8 +76,8 @@ class PersonDataDialogState extends State<PersonDataDialog>{
               Padding(
                 padding: const EdgeInsets.only(
                   top: 10,
-                  left: Dimen.SIDE_MARG,
-                  right: Dimen.SIDE_MARG,
+                  left: Dimen.TEXT_FIELD_PADD,
+                  right: Dimen.TEXT_FIELD_PADD,
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,

@@ -48,19 +48,19 @@ class LevelWidget extends StatelessWidget{
 
   static const double starSize = 24.0;
 
-  final Spraw? spraw;
+  final Spraw spraw;
   final double size;
   const LevelWidget(this.spraw, {this.size = starSize, super.key});
 
   @override
   Widget build(BuildContext context) {
 
-    if(spraw!.level=='1')
+    if(spraw.level==1)
       return Row(
           mainAxisSize: MainAxisSize.min,
           children: [Icon(MdiIcons.star, size: size, color: Colors.yellow)]
       );
-    if(spraw!.level=='2')
+    if(spraw.level==2)
       return Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -68,7 +68,7 @@ class LevelWidget extends StatelessWidget{
             Icon(MdiIcons.star, size: size, color: Colors.amberAccent),
           ]
       );
-    if(spraw!.level=='3')
+    if(spraw.level==3)
       return Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -77,7 +77,7 @@ class LevelWidget extends StatelessWidget{
             Icon(MdiIcons.star, size: size, color: Colors.amber),
           ]
       );
-    if(spraw!.level=='4')
+    if(spraw.level==4)
       return Row(
           mainAxisSize: MainAxisSize.min,
           children: [

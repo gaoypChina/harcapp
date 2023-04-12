@@ -5,7 +5,6 @@ import 'package:harcapp/_common_widgets/search_field.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/_sprawnosci/widgets/spraw_tile_template_widget.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_tile.dart';
-import 'package:harcapp/main.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
@@ -110,7 +109,7 @@ Future<void> openTropSelector(
           child: Column(
             children: [
               AppBar(
-                title: const Text('Wybierz sprawność'),
+                title: const Text('Wybierz trop'),
                 elevation: 0,
                 centerTitle: true,
               ),

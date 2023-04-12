@@ -1,9 +1,7 @@
-
-import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
-import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
-import 'package:sensors/sensors.dart';
+import 'package:sensors_plus/sensors_plus.dart';
+import 'package:tuple/tuple.dart';
 
 enum GyroscofeShift{
   ABSOLUITE,
@@ -27,25 +25,29 @@ class GyroscopeWidget extends StatefulWidget {
   }):super(key: key);
 
   static GyroscopeWidget fill({required Widget child, required double scale, Key? key}) => GyroscopeWidget(
-    child: child,
     scale: scale,
     multipleX: (1 - scale)/2,
     multipleY: (1 - scale)/2,
     shift: GyroscofeShift.FACTOR,
     key: key,
+    child: child,
   );
 
   @override
   _GyroscopeWidgetState createState() => _GyroscopeWidgetState();
+
 }
 
 class _GyroscopeWidgetState extends State<GyroscopeWidget>{
 
-  late ValueNotifier<List<double>> notifier;
+  late ValueNotifier<Tuple2<double, double>> notifier;
   static const double _max = 9.81;
 
-  double? childWidth;
-  double? childHeight;
+  late double childWidth;
+  late double childHeight;
+
+  late double maxX;
+  late double maxY;
 
   late GlobalKey globalKey;
 
@@ -53,58 +55,57 @@ class _GyroscopeWidgetState extends State<GyroscopeWidget>{
   void initState() {
     super.initState();
 
-    notifier = ValueNotifier([0, 0]);
+    notifier = ValueNotifier(const Tuple2(0, 0));
 
-    accelerometerEvents.listen((AccelerometerEvent event) =>
-      notifier.value = [event.x/_max * widget.multipleX, event.z/_max * widget.multipleY]
-    );
+    maxX = _max / widget.multipleX;
+    maxY = _max / widget.multipleY;
+
+    // This should be:
+    // gyroscopeEvents.listen((GyroscopeEvent event)
+    // But it seems someone named it wrong.
+    accelerometerEvents.listen((AccelerometerEvent event){
+      notifier.value = Tuple2(event.x, event.z);
+    });
 
     childWidth = 1;
     childHeight = 1;
 
     globalKey = GlobalKey();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-
-    if(childWidth == null || childHeight == null)
+    if(widget.shift == GyroscofeShift.FACTOR)
       post((){
         childWidth = globalKey.currentContext!.size!.width;
         childHeight = globalKey.currentContext!.size!.height;
       });
+  }
 
-    return
+  @override
+  Widget build(BuildContext context) =>
     widget.shift == GyroscofeShift.ABSOLUITE?
     AnimatedBuilder(
-      //key: widget.globalKey,
+      key: globalKey,
       animation: notifier,
-      child: widget.child,
+      child: Transform.scale(scale: widget.scale, child: widget.child),
       builder: (context, child) => Transform.translate(
+          filterQuality: FilterQuality.none,
           offset: Offset(
-              -notifier.value[0],
-              -notifier.value[1]
+              -notifier.value.item1/maxX,
+              -notifier.value.item2/maxY
           ),
-          child: Transform.scale(scale: widget.scale, child: child)
+          child: child,
       ),
-    )
-    :
+    ) :
     AnimatedBuilder(
-      //key: widget.globalKey,
+      key: globalKey,
       animation: notifier,
-      child: widget.child,
-      builder: (context, child){
-
-        return Transform.translate(
-            offset: Offset(
-                -notifier.value[0]*childWidth!,
-                -notifier.value[1]*childHeight!
-            ),
-            child: Transform.scale(scale: widget.scale, child: child)
-        );
-
-      },
+      child: Transform.scale(scale: widget.scale, child: widget.child),
+      builder: (context, child) => Transform.translate(
+        filterQuality: FilterQuality.none,
+        offset: Offset(
+            -notifier.value.item1*childWidth/maxX,
+            -notifier.value.item2*childHeight/maxY
+        ),
+        child: child,
+      ),
     );
 
-  }
 }

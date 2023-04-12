@@ -889,12 +889,16 @@ class ZmartwychwstanieLayoutState extends State<DefaultLayout>{
                               ),
                             ),
 
-                            GyroscopeWidget(
-                              multipleY: 0,
-                              multipleX: 24,
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 85),
-                                child: SvgPicture.asset('assets/images/resur_rock.svg'),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 175),
+                              child: GyroscopeWidget(
+                                multipleY: 0,
+                                multipleX: 44,
+                                child: SvgPicture.asset(
+                                  'assets/images/resur_rock.svg',
+                                  height: 110,
+                                  width: 110,
+                                ),
                               ),
                             ),
 

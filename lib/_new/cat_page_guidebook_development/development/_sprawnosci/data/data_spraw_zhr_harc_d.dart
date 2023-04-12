@@ -26,7 +26,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'dwulistna_koniczyna',
                       title: 'Dwulistna koniczyna',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'W trudnej sytuacji np. w czasie prac pionierskich, męczącej wędrówki zadba o dobry nastrój grupy (z zachowaniem tajemnicy zdobywania sprawności).'
                       ]
@@ -35,7 +35,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'trzylistna_koniczyna',
                       title: 'Trzylistna koniczyna',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Zorganizuje dla zastępu jednorazową służbę w wybranej przez siebie miejscowości.',
                         'W czasie poszukiwania służby obdarzy życzliwym uśmiechem wszystkie osoby, z którymi będzie rozmawiać.',
@@ -46,7 +46,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'czterolistna_koniczyna',
                       title: 'Czterolistna koniczyna',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Przerwie łańcuch plotki i obmowy lub atmosferę niechęci i stworzy w środowisku nastrój przychylności i życzliwości do wybranej osoby.'
                       ]
@@ -61,7 +61,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'tarcza_sw_jerzego',
                       title: 'Tarcza św. Jerzego',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Wystąpi odważnie sama przeciwko dużej grupie rówieśniczej (klasa lub jej część, grupa podwórzowa itp.) broniąc słusznej sprawy lub potępiając czyn moralnie zły.'
                       ]
@@ -70,7 +70,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'wlocznia_sw_jerzego',
                       title: 'Włócznia św. Jerzego',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Sama lub z wybraną grupą dziewcząt podejmie długotrwałą walkę szlachetnymi metodami z „paczką” rówieśniczą mającą zły wpływ na innych.'
                       ]
@@ -86,7 +86,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'male_ksiaze_1',
                       title: 'Mały książę',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Mając za pokarm jedynie chleb i wodę, pozbawiona obuwia i w prostej odzieży, zachowa przez cały dzień obozowy radość życia i zapał do pracy.'
                       ]
@@ -95,7 +95,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'male_ksiaze_2',
                       title: 'Mały książę',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Na ognisku drużyny, w czasie otwarcia próby, przeczyta 3 wybrane losowo fragmenty Ewangelii i w przeciągu 3 godzin nocnego czuwania na osobności rozważy je w odniesieniu do własnego życia. Przemyślenia przedstawi kapelanowi lub drużynowej.'
                       ]
@@ -111,7 +111,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'pollyanna',
                       title: 'Pollyanna',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'W czasie trwania próby będzie odnajdywała dobre strony we wszystkich trudnych sytuacjach, jakie ją spotkają.'
                       ]
@@ -127,7 +127,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'szara_lilijka_1',
                       title: 'Szara lilijka',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Zachowa w tajemnicy swój spory sukces, jeśli był on jednocześnie porażką dla innego człowieka.'
                       ]
@@ -136,7 +136,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'szara_lilijka_2',
                       title: 'Szara lilijka',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'W ciągu całego dnia, we wszystkich rozmowach prowadzonych z ludźmi, będzie uważną słuchaczką i czujną odbiorczynią ich problemów, w których postara się zaradzić lub przynajmniej pocieszyć. Nie będzie w tym dniu mówić o własnych sprawach.'
                       ],
@@ -146,7 +146,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'szara_lilijka_3',
                       title: 'Szara lilijka',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Spośród grona rówieśniczek wybierze 2 osoby najbardziej potrzebujące pomocy (osamotnione, o trudnym charakterze, niezdolne, pozostające w konflikcie z rodziną itp.), podejmie długotrwałą pomoc, która zostanie uwieńczona pewnymi sukcesami.'
                       ]
@@ -162,7 +162,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'milczek_1',
                       title: 'Milczek',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Przez całą dobę zachowa milczenie.',
                         'Nie będzie używać kartki i długopisu w celu kontaktowania się z innymi.',
@@ -174,7 +174,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'milczek_2',
                       title: 'Milczek',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Przez całą dobę zachowa milczenie, w czasie, którego rozważy cztery fragmenty z Pisma Świętego lub nauczania Ojca Świętego.',
                         'Przemyśleniami podzieli się z kapelanem w kontekście swojego życia – znajdzie i przedstawi motto, które będzie jej towarzyszyło przez najbliższy rok.'
@@ -185,7 +185,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'milczek_3',
                       title: 'Milczek',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Weźmie udział w rekolekcjach milczenia, na których będzie się porozumiewała jedynie z przewodnikiem duchowym (np. rekolekcje w zgromadzeniach zakonnych reguł franciszkańskich, benedyktyńskich, rekolekcje ignacjańskie).'
                       ],
@@ -210,7 +210,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'corka_maryi',
                       title: 'Córka Maryi',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Zna różaniec – części, tajemnice, dni, w których się je odmawia, podjęła odmawianie różańca w uzgodnionym czasie i wymiarze.',
                         'Zna przynajmniej 3 święta maryjne, w tym Święto Matki Bożej Królowej Polski, umie o nich opowiedzieć (geneza, tradycja, sposób ich obchodzenia).',
@@ -223,7 +223,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'poslaniec_maryi',
                       title: 'Posłaniec Maryi',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Zna przynajmniej 3 wydarzenia historyczne związane z modlitwą różańcową, opowie o nich na kominku.',
                         'Potrafi wymienić najważniejsze święta maryjne.',
@@ -238,7 +238,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'miriam',
                       title: 'Miriam',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Przeczyta adhortację apostolską Pawła VI „Marialis cultus” lub encyklikę Jana Pawła II „Redemptoris Mater” oraz ułoży komentarze do tajemnic różańca św. i poprowadzi na ich podstawie modlitwę różańcową swojej drużyny.',
                       ]
@@ -247,7 +247,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'apostolka_maryi',
                       title: 'Apostołka Maryi',
-                      level: '4',
+                      level: 4,
                       tasks: [
                         'Zainicjuje modlitwę żywym różańcem w wybranej intencji podczas obozu lub przez miesiąc w ciągu roku szkolnego.',
                         'Zna dogmaty maryjne.',
@@ -269,7 +269,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'biblistka',
                       title: 'Biblistka',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Ma Biblię i zna historię jej powstania.',
                         'Wie, co to są parametry i wg nich potrafi znaleźć fragment tekstu.',
@@ -282,7 +282,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'znawczyni_biblii',
                       title: 'Znawczyni biblii',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Zdobędzie wiedzę na temat tłumaczeń Pisma Świętego.',
                         'Zna najstarsze rękopisy Pisma Świętego.',
@@ -304,7 +304,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'hagiografka',
                       title: 'Hagiografka',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Zna patrona swojej miejscowości.',
                         'Zna swoją patronkę (jeśli jest to święta) lub etymologię swojego imienia.',
@@ -325,7 +325,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'parafianka_1',
                       title: 'Parafianka',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Wie  gdzie mieści się jej parafia   i pod jakim jest wezwaniem.',
                         'Zna obecnych duszpasterzy parafii.',
@@ -338,7 +338,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'parafianka_2',
                       title: 'Parafianka',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Weźmie udział w spotkaniu z inną grupą parafialną (np. Oaza, ministranci, Grupa Apostolska).',
                         'Zna historię swojej parafii.',
@@ -350,7 +350,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'parafianka_3',
                       title: 'Parafianka',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Zorganizuje spotkanie harcerek z inną grupą parafialną (np. Oaza, ministranci, Grupa Apostolska).',
                         'Włączy się z drużyną w organizację święta w swojej parafii (np. zbuduje ołtarz na Boże Ciało, ognisko w Wielką Sobotę, budowa Grobu Pańskiego).',
@@ -369,7 +369,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'liturgistka',
                       title: 'liturgistka',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Wie, z jakich części składa się msza św. i w pełni w niej uczestniczy.',
                         'Zna okresy roku liturgicznego, symbolikę koloru szat liturgicznych, święta obowiązkowe i uroczystości kościelne.',
@@ -390,7 +390,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'choralistka',
                       title: 'Choralistka',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Zapozna się z muzyką religijną różnych okresów od chorału po muzykę gospel i dzieła współczesne.',
                         'Potrafi odróżnić pieśni liturgiczne od przygodnych.',
@@ -412,7 +412,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'mloda_ekumenistka',
                       title: 'Młoda ekumenistka',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Odwiedzi świątynię innego wyznania chrześcijańskiego (Cerkiew prawosławną, zbór, itp.).',
                         'Wie, czym różnią się nabożeństwa w różnych kościołach.',
@@ -424,7 +424,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'ekumenistka',
                       title: 'Ekumenistka',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Będzie uczestniczyła w nabożeństwie w innym kościele chrześcijańskim.',
                         'Pozna główne różnice między kościołami chrześcijańskimi (zwyczaje, dogmaty, architektura sakralna).',
@@ -435,7 +435,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'propagatorka_ekumenizmu',
                       title: 'Propagatorka ekumenizmu',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Przeprowadzi dla harcerek z drużyny zbiórkę o innych kościołach chrześcijańskich i ekumenizmie.',
                         'Będzie współorganizowała spotkanie młodych chrześcijan z różnych kościołów.',
@@ -453,7 +453,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'lolek',
                       title: 'Lolek',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Zna  najważniejsze  wydarzenia z życia Karola Wojtyły.',
                         'Odwiedziła miejsce związane z Karolem Wojtyłą, zna jego historię.',
@@ -466,7 +466,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'wujek',
                       title: 'Wujek',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Wie, jakie były najważniejsze wydarzenia pontyfikatu Jana Pawła II.',
                         'Przeczyta „List do dzieci «Tra Pochi Giorno»” lub inny dokument papieski.',
@@ -479,7 +479,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'jpii',
                       title: 'JP II',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Zorganizuje pielgrzymkę (dla drużyny, zastępu, grupy przyjaciół) śladami Jana Pawła II, wzbogaconą o rozważanie jego myśli, przesłań i biografii.',
                         'Poprowadzi modlitwę różańcową opartą na refleksjach i dokumentach Jana Pawła II.',
@@ -492,7 +492,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'wielki_jpii',
                       title: 'Wielki JP II',
-                      level: '4',
+                      level: 4,
                       tasks: [
                         'Stworzy projekt propagujący nauczanie i refleksje nad przesłaniem Jana Pawła II w swoim środowisku. Zadba o jego realizację.',
                         'Wzbogaci pracę harcerską o myśli, przesłania Jana Pawła II.',
@@ -511,7 +511,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'moja_patronka',
                       title: 'Moja patronka',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Zna życiorys swojej patronki, opowie kim była.',
                         'Postara się odwiedzić miejsce z nią związane lub kościół pod jej wezwaniem.',
@@ -530,7 +530,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'adalbertus',
                       title: 'Adalbertus',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Wie kim był i co robił św. Wojciech oraz jakie jest znaczenie wydarzeń sprzed 1000 lat dla współczesnej Polski.',
                         'Opracuje z zastępem turystyczną trasę związaną ze św. Wojciechem, zaprezentuje ją w szkole, parafii lub opublikuje w prasie.',
@@ -550,7 +550,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'jadwiga_1',
                       title: 'Jadwiga',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Zna podstawowe fakty z życia świętej królowej Jadwigi – patronki polskich harcerek.',
                         'Zna legendy o królowej Jadwidze, na ich podstawie potrafi powiedzieć, jakie cechy charakteru miała święta królowa Jadwiga.',
@@ -562,7 +562,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'jadwiga_2',
                       title: 'Jadwiga',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Pogłębia swoją wiedzę o królowej Jadwidze, zna jej dokonania – zapozna się z treścią homilii Jana Pawła II ze Mszy Kanonizacyjnej, przeczyta książkę lub inny utwór literacki o królowej Jadwidze (np. Jadwiga i Jagienka, Litwin i Andegawenka).',
                         'Św. Jadwiga modląc się przed czarnym krucyfiksem w wawelskiej katedrze usłyszała słowa „Fac quo vides – czyń, co widzisz”, które zainspirowały ją do intensywnej służby drugiemu człowiekowi. Zgodnie z jej przykładem harcerka podejmie trzytygodniową służbę bliźniemu w zakresie ustalonym z drużynową.',
@@ -574,7 +574,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'jadwiga_3',
                       title: 'Jadwiga',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Zapozna się z listem Henryka Bitterfelda do królowej Jadwigi.',
                         'W czasie modlitwy przed Czarnym Krucyfiksem w katedrze wawelskiej rozważy fragment Ewangelii (Łk 10, 38-42) kierując się wskazówkami z listu Henryka do Jadwigi. Zastanowi się, jak ten fragment odnosi się do jej osobistej sytuacji, podejmie postanowienie, służbę związaną z wnioskami z rozważań, zgodnie z ideą Marii i Marty.',
@@ -592,7 +592,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'wicek_1',
                       title: 'Wicek',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Zna życiorys Błogosławionego.',
                         'Potrafi wytłumaczyć dlaczego bł. Stefan Wincenty Frelichowski jest harcerskim patronem oraz wymienić innych patronów harcerskich.',
@@ -606,7 +606,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'wicek_2',
                       title: 'Wicek',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Zna życiorys Błogosławionego oraz miejsca związane z jego osobą.',
                         'Potrafi wytłumaczyć, dlaczego bł. Stefan Wincenty Frelichowski jest harcerskim patronem oraz jaka jest„rola patrona” w życiu człowieka.',
@@ -622,7 +622,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'wicek_3',
                       title: 'Wicek',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Zna życiorys i inne opracowania dotyczące Błogosławionego (szczególnie homilię Ojca Świętego).',
                         'Potrafi wytłumaczyć, dlaczego bł. Stefan Wincenty Frelichowski został patronem harcerstwa i porównać jego życie z innymi patronami harcerskimi (np. Św. Jerzym).',
@@ -654,7 +654,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'poszukiwaczka_korzeni',
                       title: 'Poszukiwaczka korzeni',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Zna rodowód swojej rodziny, z informacji rodziców i dziadków stworzy drzewo genealogiczne, opowie o najciekawszych postaciach wśród swoich przodków.',
                         'Odwiedzi miejsce, gdzie rozegrało się jakieś ważne wydarzenie historyczne, potrafi o nim opowiedzieć.',
@@ -666,7 +666,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'tropicielka_dziejow',
                       title: 'Tropicielka dziejów',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Zna historię swojej miejscowości, wie, kiedy powstała, jakie są jej najważniejsze budowle i pamiątki, jakie sławne postacie są z nią związane.',
                         'Zwiedzi co najmniej: 1 zamek królewski, 2 pałace magnackie, dwór szlachecki, 3 kościoły z różnych epok, obejrzy kamieniczki staromiejskie w dowolnie wybranym mieście Polski.',
@@ -678,7 +678,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'historyczka',
                       title: 'Historyczka',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Przeczyta co najmniej 20 książek o tematyce historycznej.',
                         'Zapozna się z jednym z zabytków archeologicznych Polski z okresu słowiańskiego lub przedsłowiańskiego (Biskupin, Ostrów Tumski, Ostrów Lednicki lub inne).',
@@ -698,7 +698,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'szperacz_historyczny',
                       title: 'Szperacz historyczny',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Poszerza swoją wiedzę ponad materiał obowiązujący w szkole.',
                         'Wykona drzewo genealogiczne postaci ważnej dla Polski, uzupełni je w miarę możliwości wizerunkami.',
@@ -712,7 +712,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'badaczka_historii_polski',
                       title: 'Badaczka historii Polski',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Zapozna się z datami panowania poszczególnych królów Polski, wie, z jakich dynastii pochodzili.',
                         'Przygotuje plan wycieczki po rodzinnej miejscowości, uwzględniając miejsca ciekawe historycznie.',
@@ -726,7 +726,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'historyczka_polski',
                       title: 'Historyczka Polski',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Zapozna się z powstaniami, które zapisały się na kartach historii. Potrafi opowiedzieć o ich zasługach, przyporządkować je do odpowiednich epok. Odnajdzie grób powstańców.',
                         'Przeprowadzi wywiad z osobą będącą świadkiem ważnych wydarzeń historycznych i opublikuje go.',
@@ -745,7 +745,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'mala_historycznka',
                       title: 'Mała historyczka',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Wie na czym polega praca historyka, gromadzi pomoce przydatne w pracy historyka (np. atlas, itp.)',
                         'Umie zaznaczyć na osi czasu poszczególne wydarzenia. Prawidłowo przelicza lata na wieki.',
@@ -758,7 +758,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'badaczka_przeszlosci',
                       title: 'Badaczka przeszłości',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Poszerza swoją wiedzę o pracy historyków dziś i w przeszłości.',
                         'Umie określać w przybliżeniu w jakiej epoce historycznej powstały wskazane budynki czy przedmioty.',
@@ -772,7 +772,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'badaczka_dziejow',
                       title: 'Badaczka dziejów',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Stale pracuje nad poszerzaniem warsztatu pracy historyka.',
                         'Umie opowiedzieć o trudnościach czekających na badacza przeszłości.',
@@ -786,7 +786,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'historiografka',
                       title: 'Historiografka',
-                      level: '4',
+                      level: 4,
                       tasks: [
                         'Swą pracą historyczną wniesie wkład w badania związane z historią harcerstwa, rodziny lub miejscowości.',
                         'Pracę skonsultuje z profesjonalnym historykiem, wzbogaci ją badaniem różnorodnych śródeł.',
@@ -804,7 +804,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'solidarnosc_1',
                       title: 'Solidarność',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Wie czym był Niezależny Samorządny Związek Zawodowy (NSZZ) „Solidarność” w latach 1980 – 1989.',
                         'Zna najważniejsze fakty z walki NSZZ „S” o niepodległość Polski.',
@@ -818,7 +818,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'solidarnosc_2',
                       title: 'Solidarność',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Wie czym był NSZZ „Solidarność” w latach 1980 – 1989, zna najważniejsze fakty z  walki  NSZZ  „S”  o niepodległość Polski.',
                         'Wymieni nazwiska 6 osób  które przewodziły tej walce i krótko o nich opowie.',
@@ -832,7 +832,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'solidarnosc_3',
                       title: 'Solidarność',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Zna historię walki NSZZ „Solidarność” o niepodległość Polski w latach 1980 – 1989.',
                         'Wymieni nazwiska 10 osób które przewodziły tej walce, krótko o nich opowie. Wyjaśni rolę Jana Pawła II w obaleniu komunizmu.',
@@ -847,7 +847,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'solidarnosc_4',
                       title: 'Solidarność',
-                      level: '4',
+                      level: 4,
                       tasks: [
                         'Zna historię walki NSZZ „Solidarność” o niepodległość Polski w latach 1980 – 1989.',
                         'Zna nazwiska 20 osób przewodzących tej walce i przedstawicieli władz komunistycznych, krótko o nich opowie. Wyjaśni rolę Jana Pawła II w obaleniu komunizmu.',
@@ -886,7 +886,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'wiez_pokolen_1',
                       title: 'Więź pokoleń',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Z szacunkiem odnosi się do ludzi starszych.',
                         'Rozumie pojęcie patriotyzmu, zna swoje powinności względem Polski.',
@@ -900,7 +900,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'wiez_pokolen_2',
                       title: 'Więź pokoleń',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Potrafi uszanować miejsca pamięci narodowej. Daje przykład postawy patriotycznej w swojej rodzinie.',
                         'Zgłębia, poprzez kontakt z seniorami, przedwojenne zwyczaje i tradycje polskie w tym również harcerskie. Przeczyta książkę na temat II Wojny Światowej, w ciekawy sposób przedstawi zdobytą wiedzę na zbiórce zastępu lub drużyny.',
@@ -914,7 +914,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'wiez_pokolen_3',
                       title: 'Więź pokoleń',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Własną postawą daje wyraz patriotyzmu i pamięci narodowej w swoim środowisku. Może być przykładem dla innych.',
                         'Wie, czym była druga konspiracja młodzieży, przeczytała na jej temat wybraną książkę, obejrzała film.',
@@ -928,7 +928,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'wiez_pokolen_4',
                       title: 'Więź pokoleń',
-                      level: '4',
+                      level: 4,
                       tasks: [
                         'Wie, jak współcześnie rozumieć pojęcie patriotyzmu. Potrafi w swojej postawie łączyć pamięć o przeszłości z bieżącą służbą Polsce.',
                         'Zbiera i prezentuje materiały dotyczące dziedzictwa organizacji harcerskich. Współpracuje w tym zakresie z odpowiednimi archiwami.',
@@ -948,7 +948,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'kresy_1',
                       title: 'Kresy',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Wie, co to są Kresy. Interesuje się tą tematyką, zbiera materiały na temat Kresów',
                         'Weźmie udział w służbie na rzecz Polaków na Kresach.',
@@ -960,7 +960,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'kresy_2',
                       title: 'Kresy',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Odwiedzi dawne Kresy Rzeczypospolitej lub nawiąże kontakt z Polakami na Kresach.',
                         'Potrafi krótko opowiedzieć o sytuacji Polaków mieszkających na Łotwie, Litwie, Białorusi i Ukrainie.',
@@ -973,7 +973,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'kresy_3',
                       title: 'Kresy',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Zorganizuje lub weźmie udział w organizacji wyjazdu na Kresy RP.',
                         'Odnajdzie i przygotuje dla jednostki harcerskiej służbę na Kresach lub na ich rzecz.',
@@ -987,7 +987,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'kresy_4',
                       title: 'Kresy',
-                      level: '4',
+                      level: 4,
                       tasks: [
                         'Będzie koordynowała chorągwianą lub ogólnopolską służbę na rzecz Kresów.',
                         'Wniesie trwały wkład w porządkowanie i promowanie wiedzy o Kresach.',
@@ -1006,7 +1006,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'golgota_wschodu_1',
                       title: 'Golgota wschodu',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Odwiedzi miejsca związane z „Golgotą Wschodu” w swojej okolicy. Przy jednym z nich podejmie służbę (trzymanie warty, sprzątanie).',
                         'Wyjaśni pojęcie „Golgota Wschodu”. Przedstawi, w dowolnej formie, w środowisku pozaharcerskim informacje dotyczące Zbrodni Katyńskiej.',
@@ -1019,7 +1019,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'golgota_wschodu_2',
                       title: 'Golgota wschodu',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Jest przewodnikiem po miejscach związanych z „Golgotą Wschodu” w swojej okolicy.',
                         'Zbierze jak najwięcej informacji dotyczących „Golgoty Wschodu” i zaprezentuje je w środowisku pozaharcerskim podczas seminarium, debaty historycznej, itp.',
@@ -1040,7 +1040,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'flaga',
                       title: 'Flaga',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Umie zaśpiewać 4 zwrotki hymnu narodowego. Wie jak zachować się przy śpiewaniu hymnu.',
                         'Zna historię godła narodowego, potrafi je naszkicować.',
@@ -1053,7 +1053,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'odkrywca_symboli_narodowych',
                       title: 'Odkrywca symboli narodowych',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Zna historię powstania hymnu narodowego, umie wymienić poprzednie pieśni pełniące rolę hymnu.',
                         'Wykona godło narodowe ciekawą techniką.',
@@ -1067,7 +1067,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'znawczyni_symboli_narodowych',
                       title: 'Znawczyni symboli narodowych',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Przeprowadzi ciekawe obchody święta narodowego dla drużyny lub hufca.',
                         'Odwiedzi Muzeum Hymnu Narodowego w Będominie.',
@@ -1085,7 +1085,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'patriotka',
                       title: 'Patriotka',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Aktywnie uczestniczy w tworzeniu współczesnej kultury polskiej  w skali lokalnej. Swoje uczestnictwo potrafi udokumentować.',
                         'Nawiąże kontakt z polskim harcerstwem poza granicami kraju.',
@@ -1104,7 +1104,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'polska_w_europie',
                       title: 'Polska w Europie',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Potrafi pokazać na mapie wszystkie państwa Unii Europejskiej.',
                         'Zna symbolikę flagi UE.',
@@ -1116,7 +1116,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'polska_w_swiecie',
                       title: 'Polska w swiecie',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Wie, do jakich głównych organizacji międzynarodowych należy Polska i jakie ma to dla niej konsekwencje',
                         'W ciekawy sposób opowie o wybranym wydarzeniu z historii Polski, które wpłynęło na historię świata.',
@@ -1142,7 +1142,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'czerwone_korale',
                       title: 'Czerwone korale',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         '1.	Weźmie udział w przygotowaniu i przeprowadzeniu gry dla zastępu, poświęconej Oldze Drahonowskiej-Małkowskiej.',
                         '2.	Wystąpi na kominku poświęconym Oldze z recytacją wiersza jej autorstwa.',
@@ -1160,7 +1160,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'kronika_historii_harcerstwa_zenskiego',
                       title: 'Kronika historii harcerstwa żeńskiego',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Zapozna się szczegółowo z ważnym wydarzeniem z historii harcerstwa żeńskiego w swojej miejscowości związanym z drużyną lub patronką tej drużyny lub swoim środowiskiem działania.',
                         'Przygotuje w formie karty informacje, wspomnienia, zdjęcia prezentujące to wydarzenie.',
@@ -1178,7 +1178,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'opowiedz_mi_swoja_historie',
                       title: 'Kronika historii harcerstwa żeńskiego',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'W swojej miejscowości lub w okolicy odnajdzie dawną instruktorkę lub harcerkę, nawiąże z nią znajomość, pozna jej potrzeby i w razie konieczności udzieli pomocy.',
                         'Zapozna się szczegółowo z okresem w historii harcerstwa związanym z działalnością seniorki.',
@@ -1196,7 +1196,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'kronikarka',
                       title: 'Kronikarka',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Poprowadzi kronikę zastępu lub drużyny przynajmniej przez 3 miesiące lub jeden obóz, dbając o jej wartość historyczną (daty, miejsca, nazwiska) i aktualność.',
                         'Sporządzi notatki w kronice na podstawie opowiadania lub wywiadu.',
@@ -1210,7 +1210,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'dziejopisarka',
                       title: 'Dziejopisarka',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Zbierze materiały i opracuje wraz z zespołem historię swojego środowiska (drużyny, szczepu itp.) zarys dziejów, historia drużyn.',
                         'Zbierze materiały i opracuje wraz z zespołem historię swojego środowiska (drużyny, szczepu itp.) sylwetki instruktorek.',
@@ -1230,7 +1230,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'badaczka_historii_harcerstwa',
                       title: 'Badaczka historii harcerstwa',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Scharakteryzuje główne okresy działalności harcerstwa od powstania po dzień dzisiejszy, przedstawi daty, wydarzenia, główne  postacie z tych okresów, symbolikę, obrzędy.',
                         'Posiada śpiewniczek starych piosenek harcerskich, wie, z jakiego okresu pochodzą.',
@@ -1243,7 +1243,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'znawczyni_historii_harcerstwa',
                       title: 'Znawczyni historii harcerstwa',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Przeczyta 8 książek i wiele artykułów związanych z historią harcerstwa.',
                         'Potrafi scharakteryzować sylwetki i przedstawić fakty z życia znanych instruktorek, o 3 z nich opowie gawędy.'
@@ -1262,7 +1262,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'badaczka_historii_zhr',
                       title: 'Badaczka historii ZHR',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Zna genezę powstania ZHR. Przeprowadzi wywiad z instruktorką na temat historii ZHR (wyjaśnienie pojęć mały, średni i duży ZHR, ważne wydarzenia, itd.).',
                         'Potrafi  wymienić  Naczelniczki  Harcerek  w  ZHR i ZHP – r. zał. 1918.',
@@ -1280,7 +1280,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'badz_gotow_1',
                       title: 'Bądź gotów',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Zna znaczenie i historię haseł: „Czuwaj”, „bądź Gotów”.',
                         'Wie, kiedy się rozpoczęła i zakończyła II wojna światowa, czym było Powstanie Warszawskie, kiedy się rozpoczęło, kiedy zakończyło, co to była Akcja „Burza”.',
@@ -1295,7 +1295,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'badz_gotow_2',
                       title: 'Bądź gotów',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Rozumie, co dla harcerki oznacza służba Polsce, stara się dobrze tę służbę wypełniać.',
                         'Zna podstawowe fakty z historii II Wojny Światowej, a w szczególności Powstania Warszawskiego i Akcji „Burza”.',
@@ -1310,7 +1310,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                     id: 'badz_gotow_3',
                     title: 'Bądź gotów',
-                    level: '3',
+                    level: 3,
                     tasks: [
                       'Znajdzie postać harcerki biorącej udział w Powstaniu Warszawskim, która może być dla niej wzorem postępowania. Postara się ją naśladować (powinna to być inna postać niż patronka drużyny. Nowa dla harcerki.).',
                       'Zna historię II Wojny Światowej, a w szczególności Akcji „Burza” i Powstania Warszawskiego, potrafi powiązać te wydarzenia z szerszym kontekstem historycznym.',
@@ -1325,7 +1325,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                     id: 'badz_gotow_4',
                     title: 'Bądź gotów',
-                    level: '4',
+                    level: 4,
                     tasks: [
                       'Całym swoim życiem pełni służbę Polsce, jest przykładem postępowania dla swojej rodziny, znajomych.',
                       'Zna bibliografię poświęconą Akcji „Burza” i Powstaniu Warszawskiemu, poleci książkę młodszej harcerce.',
@@ -1354,7 +1354,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'sobieradek_obozowy',
                       title: 'Sobieradek obozowy',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Samodzielnie, w dobrym tempie rozwinie i zwinie namiot 2-osobowy.',
                         'Bezpiecznie rozpali ognisko, zagasi i zatrze jego ślady.',
@@ -1369,7 +1369,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'pionierka',
                       title: 'Pionierka',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Rozbije z zastępem w dobrym tempie namiot 10-osobowy.',
                         'Rozpali ognisko w trudnych warunkach (np. po deszczu, trzema zapałkami).',
@@ -1384,7 +1384,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'obozowiczka',
                       title: 'Obozowiczka',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Pokieruje rozbiciem namiotów różnych typów.',
                         'Wykaże się wprawą w ścinaniu drzewa o grubości 15-18 cm w odziomku.',
@@ -1399,7 +1399,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'mistrzyni_obozownictwa',
                       title: 'Mistrzyni obozownictwa',
-                      level: '4',
+                      level: 4,
                       tasks: [
                         'Pokieruje budową obozu stałego w terenie leśnym:',
                         'Dokona zwiadu kwatermistrzowskiego przed obozem (rozpoznanie terenu, szkic terenu, zamówienie budulca, ujęcie wody, itp.).',
@@ -1423,7 +1423,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'pietaszek',
                       title: 'Piętaszek',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Uprawia harce leśne, weźmie udział w co najmniej 3 grach terenowych.',
                         'Zachowuje dobrą orientację w terenie, wyprowadzona 2 km w nieznanym terenie leśnym powróci bez błądzenia.',
@@ -1437,7 +1437,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'traper',
                       title: 'Traper',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Poza obrębem obozu harcerskiego zbuduje dla siebie szałas i go zagospodaruje (legowisko, ława, palenisko, itp.).',
                         'Spędzi w szałasie jedną dobę.',
@@ -1454,7 +1454,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'lesny_czlowiek',
                       title: 'Leśny człowiek',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Spędzi samotnie noc na drzewie w wykonanym przez siebie legowisku.',
                         'Mając: 0,5 kg chleba, sól, menażkę, nóż i 6 zapałek przygotuje z produktów leśnych dwa smaczne posiłki.',
@@ -1466,7 +1466,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'robinson',
                       title: 'Robinson',
-                      level: '4',
+                      level: 4,
                       tasks: [
                         'Spędzi samotnie tydzień na „bezludnej wyspie” mając za przyjaciela wybrane zwierzę (pies, papuga, koza, itp.). Nie będzie się w tym czasie z nikim kontaktować (dozwolone jest jedynie ustalenie sygnału alarmowego w razie niebezpieczeństwa). Czas wykorzysta na naukę i własny rozwój (np. obcojęzycznych zwrotów z „rozmówek” w języku, którego zaczyna się uczyć).',
                         'Zagospodaruje wyspę zmagazynuje żywność (ew. wodę), sprzęt, odzież, leki, książki, itp., ilość rzeczy nie może przekraczać jednorazowego przewozu łódką,',
@@ -1486,7 +1486,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                     id: 'trzy_piora',
                     title: 'Trzy pióra',
-                    level: '4',
+                    level: 4,
                     tasks: [
                       'Przejdzie pomyślnie przez kolejne 3 doby próby głodu, milczenia i samotności:'
                           '\n- w czasie pierwszej doby powstrzyma się od spożywania jakichkolwiek pokarmów i napojów uczestnicząc we wszystkich zajęciach obozowych. Podczas dużych upałów dozwolone jest ugaszenie pragnienia czystą wodą,'
@@ -1509,7 +1509,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'kuchcik',
                       title: 'Kuchcik',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Wybierze dobre miejsce na kuchnię polową, zbuduje ją i przygotuje na niej herbatę.',
                         'Odszuka i pobierze dobrą wodę do picia.',
@@ -1524,7 +1524,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'kucharka',
                       title: 'Kucharka',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Zbuduje 3 rodzaje kuchni polowych, osłoni kuchnie przed deszczem.',
                         'Skompletuje i obsłuży kuchenki turystyczne różnych typów (gazowa, benzynowa, ew. spirytusowa).',
@@ -1538,7 +1538,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'kuchmistrzyni',
                       title: 'Kuchmistrzyni',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         '1.	Przez dwa dni będzie pełniła obowiązki kucharki na obozie:'
                             '\n- ułoży jadłospis i zapotrzebowanie na żywność.'
@@ -1565,7 +1565,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'wartowniczka',
                       title: 'Wartowniczka',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Dobrze pełni na obozie wartowniczą służbę dzienną, dba o porządek na terenie obozu, prawidłowo zachowuje się w kontaktach z gośćmi, osobami obcymi, instruktorami harcerskimi.',
                         'Czujnie pełni wartę nocną.',
@@ -1577,7 +1577,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'starsza_wartowniczka',
                       title: 'Starsza wartowniczka',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Prawidłowo zorganizuje służbę wartowniczą dla obozu.',
                         'Prawidłowo pełni wartę honorową, potrafi rozprowadzić warty.',
@@ -1596,7 +1596,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'skrzat',
                       title: 'Skrzat',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Wie jak korzystać za sprzętu pionierskiego tak, aby go nie zniszczyć (toporek, saperka, dłuto) oraz jak konserwować namiot.',
                         'Dokona trzech drobnych napraw sprzętu pionierskiego, kuchennego lub biwakowego.',
@@ -1611,7 +1611,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'gospodyni_zastepu',
                       title: 'Gospodyni zastępu',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Konserwuje sprzęt pionierski i namioty (ostrzenie narzędzi, osadzanie toporków i siekier, szycie namiotów, itp.).',
                         'Gromadzi ekwipunek zastępu, odpowiednio go zabezpiecza, dokona uzupełnień w razie potrzeby.',
@@ -1627,7 +1627,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'kwatermistrzyni',
                       title: 'Kwatermistrzyni',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Zaplanuje, przygotuje i rozliczy akcję zarobkową drużyny.',
                         'Pokieruje konserwacją sprzętu.',
@@ -1649,7 +1649,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'skarbonka',
                       title: 'Skarbonka',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Planuje swoje wydatki, umie zaoszczędzić pieniądze i wydać je w pożyteczny sposób.',
                         'Zrobi listę zakupów potrzebnych w domu, oceniając, ile potrzeba na nie pieniędzy, dokona zakupów trzymając się planu.',
@@ -1662,7 +1662,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'skarbniczka',
                       title: 'Skarbniczka',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Napisze preliminarz finansowy na jednodniową wycieczkę, zbiórkę okolicznościową.',
                         'Według preliminarza zorganizuje wyjazd, zbiórkę, oraz prawidłowo je rozliczy.',
@@ -1674,7 +1674,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'finansistka',
                       title: 'Finansistka',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Znajdzie inny niż akcja zarobkowa sposób na zdobycie środków finansowych dla drużyny – dotacja, darowizna, itp.',
                         'Wie z przepisów państwowych i przepisów ogólnozwiązkowych, jakie są zasady otrzymywania dotacji i darowizn.',
@@ -1687,7 +1687,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'przedsiebiorca',
                       title: 'Przedsiębiorca',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Dowie się, co jest potrzebne do rozpoczęcia samodzielnej działalności gospodarczej, zna różne formy prowadzenia działalności gospodarczej.',
                         'Wie, gdzie zarejestrować działalność gospodarczą.',
@@ -1702,7 +1702,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'ekonomistka',
                       title: 'Ekonomistka',
-                      level: '4',
+                      level: 4,
                       tasks: [
                         'Napisze biznes plan.',
                         'Umie sporządzić rozliczenie podatkowe jako osoba fizyczna.',
@@ -1729,7 +1729,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'obserwatorka',
                       title: 'Obserwatorka',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Wyznaczy strony świata wg busoli, Słońca i gwiazd.',
                         'Narysuje plan harcówki, dobierając skalę i posługując się wymiarami własnego ciała.',
@@ -1743,7 +1743,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'terenoznawczyni',
                       title: 'Terenoznawczyni',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Wyznaczy strony świata wg przedmiotów terenowych oraz Słońca i zegarka.',
                         'Oceni odległość „na oko” z dopuszczalnym błędem 20 %.',
@@ -1760,7 +1760,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'topografka',
                       title: 'Topografka',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Posłuży się mapami przy projektowaniu zajęć terenowych – ustali  i wymierzy wg mapy drogę marszu, wykreśli profil terenu.',
                         'Uzyska   informacje   o  ważnych obiektach w nieznanym terenie, korzystając z możliwości Internetu i naniesie je na przygotowywany dla potrzeb drużyny fragment planu miasta.',
@@ -1775,7 +1775,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'mistrzyni_mapy',
                       title: 'Mistrzyni mapy',
-                      level: '4',
+                      level: 4,
                       tasks: [
                         'Dokona pomiaru terenu nadającego się na urządzenie obozu lub dziecięcego placu zabaw. Wykona dokładny plan.',
                         'Wykreśli mapę wybranego terenu oraz zaktualizuje starą mapę na potrzeby obozu, gry terenowej, rajdu, itp.',
@@ -1794,7 +1794,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'laczniczka',
                       title: 'Łączniczka',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Korzysta z książki telefonicznej, biura numerów, telefonu stacjonarnego i komórkowego, komunikatora internetowego. Potrafi nadać fax, wezwać pogotowie ratunkowe, straż pożarną, policję.',
                         'Zaadresuje list, wypełni blankiet listu poleconego, przekazu pieniężnego lub paczki, wyśle i odbierze e-mail z załącznikiem, wyśle sms. Wie ile dni trwa doręczanie poszczególnych typów listów.',
@@ -1807,7 +1807,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'sygnalistka',
                       title: 'Sygnalistka',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Zorganizuje w terenie pracę stacji sygnalizacyjnej, z uwzględnieniem warunków ukrycia, tła, odległości, podziału pracy',
                         "Nada chorągiewkami i odbierze depeszę alfabetem Morse'a zawierającą min. 20 słów, z szybkością 15 liter na minutę.",
@@ -1822,7 +1822,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'lacznosciowiec',
                       title: 'Łącznościowiec',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Zorganizuje tanią sieć komunikacji na obozie.',
                         'Zna zasady posługiwania się radiem CB, zorganizuje łączność radiową w konkretnym celu (gra terenowa, kontakt ze służbą leśną, itp.). Potrafi wezwać pomoc – policję, pogotowie ratunkowe.',
@@ -1842,7 +1842,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'lekka_stopa',
                       title: 'Lekka stopa',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Skrycie podejdzie strzeżony teren lub obiekt, zacierając swoje ślady.',
                         'Porusza się bezszelestnie, czołga się i maskuje.',
@@ -1855,7 +1855,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'tropicielka',
                       title: 'Tropicielka',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Wykaże szczególną wprawę w tropieniu. Rozpozna ślady pozostawione w różnych okolicznościach przez pojazdy (rodzaj pojazdu, kierunek jazdy), ludzi (bieg, chód) oraz zwierzęta i wyciągnie z nich trafne wnioski. Sporządzi na podstawie obserwacji opis sytuacji lub osoby śledzonej w przeciągu 2 godzin z ukrycia. Rozpozna tropy 5 zwierząt żyjących na swobodzie i 5 gospodarskich, przejdzie 2 km tropem tych śladów.',
                         'Przedstawi kilka szkiców lub opisów podpatrzonych przez siebie scen z życia zwierząt (ssaki, ptaki, owady).',
@@ -1869,7 +1869,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'zwiadowca',
                       title: 'Zwiadowca',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Podejdzie skrycie strzeżony obiekt w nieznanym terenie, wykona zlecone zadanie i wycofa się niepostrzeżenie. Wykona szkic przebytej drogi z naniesieniem charakterystycznych punktów terenu lub opis sytuacyjny obiektu.',
                         'Przeprowadzi zwiad na określony temat, wykorzystując różne sposoby (wywiad, obserwacja, badanie dokumentów) i sporządzi raport.',
@@ -1889,7 +1889,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'iskierka',
                       title: 'Iskierka',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Poprawnie zbuduje i rozpali stos ogniskowy. Zatrze ślady ogniska po jego wygaszeniu.',
                         'Pozna obrzędowość związaną z harcerskim ogniskiem.',
@@ -1903,7 +1903,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'strazniczka_ognia',
                       title: 'Strażniczka ognia',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Nauczy się rozpoznawać różne gatunki drewna, dowie się, czym się charakteryzują i w jaki sposób się palą.',
                         'Sprawnie rąbie drewno, ostrzy i oprawia siekierę lub toporek.',
@@ -1925,7 +1925,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'harcowniczka',
                       title: 'Harcowniczka',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Weźmie udział w 5 grach terenowych, będzie przestrzegała zasad w nich obowiązujących.',
                         'Pozna 10 ćwiczeń rozwijających spostrzegawczość, refleks, pamięć. Dwa z nich będzie systematycznie ćwiczyła przez minimum 2 tygodnie.',
@@ -1936,7 +1936,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'milosniczka_harcow',
                       title: 'Miłośniczka harców',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Przeprowadzi 10 gier terenowych i harcówkowych, sprawnie ucząc innych zasad w nich obowiązujących.',
                         'Zorganizuje ćwiczenia z  KIM-a w harcówce i w terenie.',
@@ -1949,7 +1949,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'organizatorka_harcow',
                       title: 'Organizatorka harców',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Zorganizuje całodniową grę terenową zawierającą elementy ćwiczące spostrzeganie, wnioskowanie, taktykę, komenderowanie.',
                         'Przeprowadzi kilkanaście mniejszych gier, zawodów, harców w terenie ćwiczących słuch, wzrok, zwinność, refleks, zaradność.',
@@ -1961,7 +1961,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'mistrzyni_harcow',
                       title: 'Mistrzyni harców',
-                      level: '4',
+                      level: 4,
                       tasks: [
                         'Zorganizuje co najmniej 4-dniowy biwak drużyny lub zlot kilku drużyn w formie Turnieju Zastępów w zakresie gier terenowych i harców.',
                       ],
@@ -1977,7 +1977,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'eskimoska',
                       title: 'Eskimoska',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Chętnie uczestniczy w wycieczkach zimowych.',
                         'Odpowiednio ubierze się na zimową wycieczkę, zabezpieczy przed przemarznięciem i przemoczeniem.',
@@ -1989,7 +1989,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'czlowiek_zimy',
                       title: 'Człowiek zimy',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Nie korzystając z pojazdów mechanicznych dotrze w zimie do celu oddalonego o 15 km.',
                         'Przygotuje na śniegu ciepły posiłek.',
@@ -2002,7 +2002,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'polarniczka',
                       title: 'Polarniczka',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Przejdzie na nartach 30 km.',
                         'Weźmie udział w narciarskiej wycieczce górskiej. Skompletuje ekwipunek.',
@@ -2033,7 +2033,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'poszukiwaczka_przyjaciol',
                       title: 'Poszukiwaczka przyjaciół',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Pozna 2 zwyczaje odwiedzanej drużyny, inne niż w jej drużynie. Potrafi opowiedzieć o nich i wyjaśnić ich sens.',
                         'Nauczy się 1 nowej piosenki.',
@@ -2048,7 +2048,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'tropicielka_przyjaciol',
                       title: 'Tropicielka przyjaciół',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Podpatrzy jedno nowe rozwiązanie pionierki. Nauczy się je wykonywać. Udokumentuje jego konstrukcję w kronice.',
                         'Nawiąże kontakt z 1 osobą w podobnym wieku lub pełniącą zbliżoną do niej funkcję. W wyniku tego kontaktu pogłębi swoją wiedzę lub umiejętności (np. pozna nową grę terenową, szyfr, nauczy się sygnalizacji). Będzie starała się dbać o tą znajomość również po zakończeniu odwiedzin.',
@@ -2061,7 +2061,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                     id: 'wedrujaca_przyjaciolka',
                     title: 'Wędrująca przyjaciółka',
-                    level: '3',
+                    level: 3,
                     tasks: [
                       'Pomoże w zorganizowaniu odwiedzin swojej drużyny/zastępu w obozie drużyny z innej chorągwi lub odwiedzi przynajmniej 3 obozy drużyn w tym minimum 2 z innych chorągwi. Przygotowując odwiedziny i podczas wizyty zadba by nie były kłopotliwe dla gospodarzy.',
                       'Odwdzięczy się za gościnę nie tylko finansowo.',
@@ -2075,7 +2075,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                     id: 'wedrowniczka_przyjazni_1',
                     title: 'Wędrowniczka przyjaźni',
-                    level: '3',
+                    level: 3,
                     tasks: [
                       'Odwiedzi przynajmniej 3 obozy drużyn, w tym minimum 2 drużyn wędrowniczych (w tym – choć jeden spoza własnej chorągwi). Przygotowując odwiedziny i podczas wizyty zadba by nie były one kłopotliwe dla gospodarzy.',
                       'Odwdzięczy się za gościnę nie tylko finansowo.',
@@ -2089,7 +2089,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                     id: 'wedrowniczka_przyjazni_2',
                     title: 'Wędrowniczka przyjaźni',
-                    level: '4',
+                    level: 4,
                     tasks: [
                       'Odwiedzi 2 kursy metodyczne lub instruktorskie, w tym minimum  1 spoza własnej chorągwi. Tak zorganizuje wizytę by nie być kłopotliwą, a pomocną dla kursów.',
                       'Na każdym kursie weźmie udział w minimum 2 zajęciach (które uzna za przydatne dla siebie) i spędzi minimum 1 dzień uczestnicząc w jego rytmie. Jeśli jest to potrzebne i możliwe poprowadzi wybrane zajęcia.',
@@ -2104,7 +2104,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                     id: 'globskautka',
                     title: 'Globskautka',
-                    level: '4',
+                    level: 4,
                     tasks: [
                       'Nawiąże kontakt ze skautkami z innego kraju. Doprowadzi do wymiany obozowej między drużynami: zorganizuje obóz harcerski poza granicami kraju i przyjmie skautki na obozie w Polsce:',
                       'Obozy będą wzorowo zorganizowane, ze zdobnictwem oddającym kulturę lub historię krajów, z których pochodzą drużyny.',
@@ -2123,7 +2123,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'lazik',
                       title: 'Łazik',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Odbędzie 4 wycieczki harcerskie, w tym l z nocowaniem.',
                         'W czasie wycieczek zachowuje pogodny nastrój, nie narzeka na trudy.',
@@ -2138,7 +2138,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'wedrowniczka',
                       title: 'Wędrowniczka',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Zaplanuje i przeprowadzi dwie wycieczki zastępu o różnym charakterze (cel, trasa, program) wykorzystując mapy, przewodniki, rozkład jazdy.',
                         'Skompletuje ekwipunek i prowiant zastępu na wycieczkę li 2-dniową, zależnie od jej czasu trwania, pory roku, sposobu wędrowania.',
@@ -2153,7 +2153,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'turystka',
                       title: 'Turystka',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Zaplanuje i przeprowadzi w drużynie 3 wycieczki (w tym jedną 2-dniową) o różnej tematyce: krajoznawcza, historyczna, przyrodnicza, architektoniczna, itp.',
                         'Obliczy przed wycieczką planowany jej koszt, a po powrocie przedstawi rozliczenie finansowe.',
@@ -2169,7 +2169,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'przewodniczka',
                       title: 'Przewodniczka',
-                      level: '4',
+                      level: 4,
                       tasks: [
                         'Nie korzystając z żadnych form zorganizowanych wyjazdów, samodzielnie zaplanuje i przeprowadzi zagraniczny obóz wędrowny swojej drużyny. Będzie pełniła na nim rolę przewodnika. Obóz spełni następujące warunki:'
                             '\n-	niski koszt pozwalający na udział wszystkich harcerek przy ew. dofinansowaniu jednostek.'
@@ -2182,7 +2182,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'wloczega',
                       title: 'Włóczęga',
-                      level: '4',
+                      level: 4,
                       tasks: [
                         'Zaplanuje i poprowadzi co najmniej 7-dniową wędrówkę lub obóz wędrowny swojej drużyny.',
                         'Odbędzie próbę szlaku o charakterze wyczynu turystycznego wędrując innymi sposobami niż pieszo, np. rowerem, kajakiem, żaglówką, konno, na nartach.',
@@ -2199,7 +2199,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'lazik_gorski',
                       title: 'Łazik górski',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Odbędzie 5 jednodniowych wędrówek górskich.',
                         'Nie narzekając na trudy zdobędzie 5 szczytów górskich.',
@@ -2213,7 +2213,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'wedrowniczka_gorska',
                       title: 'Wędrowniczka górska',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Odbyła kilkudniową wędrówkę górską z nocowaniem w terenie.',
                         'Dobrze orientuje się w terenie górskim, prawidłowo lokalizuje z mapą doliny, granie, szczyty, przełęcze.',
@@ -2227,7 +2227,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'lazik_gorski_zimowy',
                       title: 'Łazik górski zimowy',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Odbędzie 5 górskich wycieczek zimowych.',
                         'Dobrze orientuje się w terenie górskim, prawidłowo lokalizuje z mapą doliny, granie, szczyty, przełęcze.',
@@ -2240,7 +2240,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'turystka_gorska',
                       title: 'Turystka górska',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Przejdzie granie główne 4 pasm górskich w Karpatach lub Sudetach.',
                         'Przejdzie 10 km przez góry „na przełaj”, nie korzystając z dróg i szlaków (w rejonie, w którym jest to dozwolone).',
@@ -2253,7 +2253,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'przewodniczka_gorska',
                       title: 'Przewodniczka górska',
-                      level: '4',
+                      level: 4,
                       tasks: [
                         'Nie korzystając z żadnych zorganizowanych form wyjazdów turystycznych zaplanuje wyjazd drużyny w mało znane pasmo górskie Europy (w Rumunii, Bułgarii, Norwegii, itp.):'
                             '\n- zadba o wyposażenie uczestników (ubiór, sprzęt), przeszkolenie i trening kondycyjny.'
@@ -2266,7 +2266,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'wloczega_gorski',
                       title: 'Włóczęga górski',
-                      level: '4',
+                      level: 4,
                       tasks: [
                         'Zaplanuje i poprowadzi, co najmniej 7-dniową wędrówkę górską lub obóz wędrowny górski swojej drużyny.',
                         'Odbędzie próbę szlaku, o charakterze wyczynu turystycznego.',
@@ -2283,7 +2283,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'wskazidroga',
                       title: 'Wskazidroga',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Na konturowej mapie swojej miejscowości (dzielnicy, miasta) zaznaczy nazwy głównych ulic i placów oraz ważniejsze obiekty: ośrodek zdrowia, aptekę, pocztę, straż pożarną, posterunek policji, itp.',
                         'W czasie gry terenowej po najbliższej okolicy poprowadzi do określonego miejsca, odszuka zadany obiekt.',
@@ -2298,7 +2298,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'przewodniczka_po',
                       title: 'Przewodniczka po ...',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Opracuje plan zwiedzania swojego lub najbliższego miasta, posiadając podstawowe wiadomości o jego zabytkach i osobliwościach przyrodniczych.',
                         'Sprawnie posługuje się planem miasta, wskaże najkrótszy dojazd do określonego miejsca.',
@@ -2316,7 +2316,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'krajoznawczyni',
                       title: 'Krajoznawczyni',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Oprowadzi 3 wycieczki po swoim mieście i jego okolicy (lub po regionie) wykazując znajomość jego historii, zabytków, ciekawych obiektów.',
                         'Zaplanuje cykle wycieczek po Polsce o tematyce historycznej, przyrodniczej, architektonicznej i geograficznej posługując się mapami i przewodnikami.',
@@ -2330,7 +2330,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'pilot_wycieczek',
                       title: 'Pilot wycieczek',
-                      level: '4',
+                      level: 4,
                       tasks: [
                         'Zna dokładnie topografię regionu i nazewnictwo z nią związane wybranego regionu turystycznego.',
                         'Zna historię regionu, pamiątki historyczne (budynki, kościoły, pomniki, tablice pamiątkowe i inne) oraz miejsca związane z wydarzeniami historycznymi wybranego regionu turystycznego.',
@@ -2354,7 +2354,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'odkrywca',
                       title: 'Odkrywca... (nazwa miasta)',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Zna godło/herb miasta, narysuje go.',
                         'Zna 2-4 legendy związane z miastem, w tym legendę lub historię związaną z powstaniem miasta i jego nazwą.',
@@ -2370,7 +2370,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'znawca',
                       title: 'Znawca... (nazwa miasta)',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Odszuka 2 zwyczaje związane z poznawanym miastem, jeśli to możliwe weźmie udział w uroczystości specyficznej dla tego miejsca (np. w Krakowie – w nabożeństwie bractwa kurkowego).',
                         'Zna najważniejsze miejsca/zabytki w mieście, potrafi wskazać do nich drogę z głównego dworca, po jednym z nich oprowadziła zastęp.',
@@ -2393,7 +2393,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'syrenka',
                       title: 'Syrenka',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Wie, kto i kiedy przeniósł stolicę do Warszawy.',
                         'Zna główne, ważniejsze zabytki Warszawy i miejsca walki o niepodległość – zwiedzi jedno nieznane.',
@@ -2408,7 +2408,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'syrenka',
                       title: 'Syrenka',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Zna zabytki Warszawy, po wybranym oprowadzi zastęp, wykazując się wiedzą na temat zabytku, sztuki, itp.',
                         'Przeprowadzi wraz z zastępem zwiad dotyczący wybranych zabytkowych obiektów na terenie Warszawy.',
@@ -2436,7 +2436,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'przyjaciolka_lasu',
                       title: 'Przyjaciółka lasu',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Spędzi z zastępem kilka godzin w lesie obserwując jego życie (żerujące zwierzęta, zachowanie ptaków, życie mrowiska, itp.). Opisze swoje spostrzeżenia dołączając rysunki ciekawych roślin lub zwierząt.',
                         'Zbierze z każdego piętra lasu po 5 gatunków liści i/lub kwiatów i rozpozna je.',
@@ -2448,7 +2448,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'duch_puszczy',
                       title: 'Duch puszczy',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Przeprowadzi samotną, trzygodzinną obserwację życia lasu o wschodzie słońca.',
                         'Przedstawi kilka fotografii, szkiców lub opisów podpatrzonych'
@@ -2462,7 +2462,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'lesniczka',
                       title: 'Leśniczka',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Przeprowadzi samotną, całodobową obserwację życia lasu (po 3 godziny rano, w południe, wieczorem i w nocy). Przedstawi notatki i zdjęcia.',
                         'Rozpozna po liściach, korze i owocach 15 gatunków drzew i krzewów leśnych, nazwie 15 gatunków roślin runa leśnego.',
@@ -2483,7 +2483,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'przyrodniczka',
                       title: 'Przyrodniczka',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Przyniesie z wycieczki 15 roślin leśnych i 15 roślin łąkowych, rozpozna je.',
                         'Założy zielnik roślin dziko żyjących.',
@@ -2500,7 +2500,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'botaniczka',
                       title: 'Botaniczka',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Prowadzi zielnik. Ma w nim już co najmniej po 10 gatunków: drzew, krzewów, roślin łąkowych, roślin leśnych oraz po 5 gatunków:'
                             'mchów, porostów, roślin wodnych i bagiennych, roślin górskich.',
@@ -2516,7 +2516,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'zielarka',
                       title: 'Zielarka',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Sporządzi zielnik, w którym oprócz pospolitych gatunków lasów, łąk, pól znajdzie się 15 gatunków ziół. Określi: nazwę, środowisko występowania, porę wzrostu, kwitnienia'
                             'i owocowania, części rośliny o właściwościach leczniczych, porę i sposób zbioru, sposób przechowywania oraz zastosowania lecznicze, sposób przyrządzania.',
@@ -2537,7 +2537,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'kwiaciarka',
                       title: 'Kwiaciarka',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Rozróżnia 10 gatunków kwiatów ciętych i 10 gatunków roślin doniczkowych, wie, które z nich są hodowane w ogrodach polskich.',
                         'Posiada w swoim pokoju rośliny doniczkowe, którymi się opiekuje.',
@@ -2550,7 +2550,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'milosniczka_roslin',
                       title: 'Miłośniczka roślin',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Hoduje w swoim pokoju 8 gatunków roślin doniczkowych.',
                         'Umiejętnie dobiera rośliny do ogródków skrzynkowych.',
@@ -2563,7 +2563,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'ogrodniczka',
                       title: 'Ogrodniczka',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Założy na działce lub przed domem trawnik.',
                         'Zbuduje własne alpinarium lub klomb kwiatowy (umiejętnie przygotuje glebę, zastosuje odpowied-'
@@ -2576,7 +2576,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                     id: 'rolnik',
                     title: 'Rolnik',
-                    level: '3',
+                    level: 3,
                     tasks: [
                       'Wykona samodzielnie, przez co najmniej 3 dni, prace przy orce, siewie, żniwach, sianokosach, wykopkach lub innych pracach polowych.',
                       'Przez 2 miesiące będzie doglądała'
@@ -2598,7 +2598,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'zbieraczka_grzybow',
                       title: 'Zbieraczka grzybów',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Weźmie udział w grzybobraniu, zbierze koszyczek grzybów jadalnych (pod kontrolą osoby doświadczonej).',
                         'Zbiera grzyby nie niszcząc grzybni. Oczyści grzyby, posegreguje wg przeznaczenia (suszenie, marynowanie, duszenie).',
@@ -2612,7 +2612,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'grzybiarka',
                       title: 'Grzybiarka',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Rozpozna po 10 gatunków grzybów jadalnych, niejadalnych i trujących.',
                         'Przyrządzi 2 potrawy z wykorzystaniem grzybów.',
@@ -2632,7 +2632,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'obserwatorka_zwierzyny',
                       title: 'Obserwatorka zwierzyny',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Spośród zwierząt żyjących w Polsce rozpoznaje: 10 gatunków ssaków, 10 gatunków ptaków, 5 gatunków gadów, 5 gatunków ryb.',
                         'Umiejętnie naśladuje głosy 5 zwierząt, w tym ptaków.',
@@ -2645,7 +2645,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'tropicielka_zwierzyny',
                       title: 'Tropicielka zwierzyny',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Dokona kilkugodzinnej obserwacji'
                             'życia zwierząt. Wskaże leśne ścieżki jednego z nich.',
@@ -2662,7 +2662,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'zoolog',
                       title: 'Zoolog',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Interesuje się światem zwierząt, zbiera artykuły, albumy i atlasy zwierząt.',
                         'Wykaże się znajomością zwierząt'
@@ -2683,7 +2683,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'przyjaciolka_zwierzat',
                       title: 'Przyjaciółka zwierząt',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Samodzielnie opiekuje się zwierzęciem domowym (pies, kot, chomik, rybki, ptak lub inne), karmi je, czyści siedlisko, ew. wyprowadza na spacer.',
                         'Obserwuje zachowanie swojego zwierzęcia, potrafi po zachowaniu odgadnąć jego potrzeby.',
@@ -2695,7 +2695,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'opiekunka_zwierzat',
                       title: 'Opiekunkna zwierząt',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Przeczyta książkę na temat hodowli zwierzęcia, które posiada.',
                         'Samodzielnie będzie się opiekować nowonarodzonym zwierzęciem do osiągnięcia przez nie samodzielno-'
@@ -2709,7 +2709,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'hodowca',
                       title: 'Hodowca',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Zaopiekuje się przez 2 miesiące zwierzęciem gospodarskim (np. krową, koniem, świnią, kurami, królikami, pszczołami).',
                         'Przygotuje i utrzyma w czystości pomieszczenie dla zwierzęcia.',
@@ -2729,7 +2729,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'akwarystka',
                       title: 'Akwarystka',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Założy akwarium dobierając odpowiedni zbiornik.',
                         'Urządzi estetycznie wnętrze zbiornika.',
@@ -2745,7 +2745,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'wodniczka',
                       title: 'Wodniczka',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Hoduje przynajmniej od roku ryby lub inne zwierzęta wodne (żabki,'
                             'żółwie), opiekuje się nimi samodzielnie.',
@@ -2762,7 +2762,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'oceanolog',
                       title: 'Oceanolog',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Kolekcjonuje książki o tematyce morskiej i inne eksponaty (egzotyczne muszle, kraby, kawałki raf koralowych, itp.).',
                         'Potrafi scharakteryzować faunę'
@@ -2783,7 +2783,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'chmurka',
                       title: 'Chmurka',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Zmierzy temperaturę powietrza zachowując wymagane warunki dla pomiarów meteorologicznych.',
                         'Odczyta z barometru ciśnienie powietrza i określi czy jest to ciśnie-'
@@ -2800,7 +2800,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'znawczyni_pogody',
                       title: 'Znawczyni pogody',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Poda charakterystyczne cechy (rozkład ciśnienia, temperatury, kierunek i prędkość wiatru, rodzaj chmur) pogody słonecznej, pogody zimnej, pogody złej dla klimatu Polski.',
                         'Rozróżnia 10 rodzajów chmur, masy powietrza, oznaki ich zbliżania się.',
@@ -2817,7 +2817,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'meteorolog',
                       title: 'Meteorolog',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Scharakteryzuje poszczególne warstwy atmosfery ziemskiej pod względem składu, zjawisk w nich występujących i roli, jaką pełnią dla'
                             'życia na Ziemi.',
@@ -2839,7 +2839,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'maly_ekolog',
                       title: 'Mały ekolog',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Zwraca szczególną uwagę na zgodność swojego postępowania z przyrodniczym punktem Prawa Harcerskiego, zrealizuje wynikające stąd postanowienia.',
                         'Z zastępem lub drużyną weźmie udział w leśnym rajdzie lub biwaku, zwróci szczególną uwagę na swoje zachowanie w lesie i przeprowadzi obserwacje przyrodnicze.',
@@ -2854,7 +2854,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'ekolog',
                       title: 'Ekolog',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Grzecznie i odważnie zwraca uwagę wszystkim, którzy przyczyniają się do niszczenia środowiska: śmiecą, niszczą zieleń, piszą po murach, itp.',
                         'Wspólnie z zastępem lub drużyną podejmie działania poprawiające stan środowiska naturalnego lub zapobiegające jego dewastacji.',
@@ -2870,7 +2870,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'ratowniczka_przyrody',
                       title: 'Ratowniczka przyrody',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Pozna stan zagrożenia ekologicznego wybranego obszaru Polski i w interesujący sposób przedstawi o nim raport w drużynie.',
                         'Nawiąże współpracę z organizacją bądź instytucją zajmującą się ekologią, zorganizuje działanie na rzecz środowiska naturalnego przy wsparciu odpowiedniej instytucji lub organizacji opracowując je metodycznie.',
@@ -2882,7 +2882,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'zielona',
                       title: 'Zielona',
-                      level: '4',
+                      level: 4,
                       tasks: [
                         'Zorganizuje i przeprowadzi obóz wędrowny/stały/kolonię zuchową o tematyce przyrodniczej, na którym uczestniczki:'
                             'a)	zapoznają się z zasadami życia i zachowania w lesie,'
@@ -2905,7 +2905,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'rybka',
                       title: 'Rybka',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Założy prawidłowo żyłkę na wędkę.',
                         'Zna 5 rodzajów ryb słodkowodnych i słonowodnych zdatnych do jedzenia.',
@@ -2918,7 +2918,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'wedkarz',
                       title: 'Wędkarz',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Prawidłowo nałoży żyłkę, przynętę i dobrze zarzuci.',
                         'Zna 10 gatunków ryb słodkoi słonowodnych.',
@@ -2932,7 +2932,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'rybak',
                       title: 'rybak',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Spędzi dzień na wodzie łowiąc ryby najlepszymi znanymi jej sposobami.',
                         'Przyrządzi dwa posiłki ze złowionych przez siebie ryb.',
@@ -2958,7 +2958,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'higienistka',
                       title: 'Higienistka',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Skompletuje osobistą apteczkę na rajd/biwak/obóz, umie z niej korzystać.',
                         'Umie zapobiegać przeziębieniu, zabezpieczy się przed odparzeniem nóg, odmrożeniem, przegrzaniem.',
@@ -2973,7 +2973,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'sanitariuszka',
                       title: 'Sanitariuszka',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Skompletuje polową apteczkę zastępu i pokaże jak z niej prawidłowo korzystać.',
                         'Zaradzi w prostym przypadku'
@@ -2989,7 +2989,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'ratowniczka',
                       title: 'Ratowniczka',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Skompletuje apteczkę drużyny, nauczy dwie harcerki jak z niej korzystać.',
                         'Zaradzi w przypadku omdlenia, odmrożenia, oparzenia, udaru'
@@ -3005,7 +3005,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'samarytanka',
                       title: 'Samarytanka',
-                      level: '4',
+                      level: 4,
                       tasks: [
                         'Pokieruje patrolem ratowniczym podczas Białej Służby lub w czasie innej służby. Prawidłowo wykona swoje obowiązki pamiętając o bezpieczeństwie swoim oraz członków patrolu.',
                         'Umie przeciwdziałać wywoływaniu paniki wśród tłumu.',
@@ -3023,7 +3023,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'ratowniczka_medyczna',
                       title: 'Ratowniczka medyczna',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Zna zasadę „złotej godziny”, wie jak szybko wezwać pomoc w różnych warunkach (w lesie, na wodzie, na stoku, itd.).',
                         'Ukończy kurs pierwszej pomocy (np. HOPR, PCK, Fundacji św. Kamila).',
@@ -3036,7 +3036,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'propagatorka_ratownictwa_medycznego',
                       title: 'Propagatorka ratownictwa medycznego',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Zorganizuje i ukończy kurs pierwszej pomocy (np. HOPR, PCK, Fundacji św. Kamila).',
                         'Zorganizuje akcję promującą wiedzę o udzielaniu pierwszej pomocy w swojej szkole, na osiedlu, w parafii.',
@@ -3048,7 +3048,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'opiekunka_chorych',
                       title: 'Opiekunkna chorych',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Przygotuje pokój dla chorego (lub namiot izolatkę) i utrzyma go w porządku.',
                         'Zaopiekuje się chorym domownikiem lub harcerką na obozie:'
@@ -3065,7 +3065,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'mistrzyni_ratownictwa_medycznego',
                       title: 'Mistrzyni ratownictwa medycznego',
-                      level: '4',
+                      level: 4,
                       tasks: [
                         'Zdobędzie wyższe kwalifikacje w ratownictwie (kurs instruktorski, kurs II stopnia, kurs ratownika WOPR, itd.).',
                         'Współpracuje z placówką ratownictwa w swoim otoczeniu, np. przy organizacji pokazów ratownictwa, itd.',
@@ -3077,7 +3077,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'pielegniarka',
                       title: 'Pielęgniarka',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Zaopiekuje się chorym przez miesiąc: będzie przyrządzała proste posiłki dietetyczne, parzyła zioła, pomagała choremu w myciu się, czesaniu, załatwia-'
                             'niu potrzeb osobistych, zapobiegała powstawaniu odleżyn.',
@@ -3097,7 +3097,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'zdrowy_duszek',
                       title: 'Zdrowy duszek',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Zna piramidę żywieniową, postara się dostosować do niej swoją dietę.',
                         'Przebiegnie „ścieżkę zdrowia”.',
@@ -3110,7 +3110,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'zdrowy_duch',
                       title: 'Zdrowy duch',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Zapozna się z 3 rodzajami diet, wskaże ich wady i zalety.',
                         'Dowie się, czym jest anoreksja i bulimia i jak je rozpoznać.',
@@ -3124,7 +3124,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'animatorka_promocji_zdrowia',
                       title: 'Animatorka promocji zdrowia',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi poradzić sobie z konsekwencjami zmian hormonalnych u dojrzewającej dziewczyny (trądzik, wahania wagi, spadek kondycji, itd.).',
                         'Włączy się wraz z koleżankami w program promujący zdrowy styl życia (np. program profilaktyczny).',
@@ -3137,7 +3137,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'mistrzyni_promocji_zdrowia',
                       title: 'Mistrzyni promocji zdrowia',
-                      level: '4',
+                      level: 4,
                       tasks: [
                         'Stworzy projekt promocji zdrowia dla niewielkiej grupy dziewcząt (drużyna, szczep, klasa, itd.) zawierający fachowe poradnictwo'
                             'z zakresu zdrowego wizerunku, doboru ćwiczeń, kosmetyków, prawidłowego odżywiania się. Skorzysta z pomocy profesjonalisty.',
@@ -3156,7 +3156,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'wnuczka',
                       title: 'Wnuczka',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Chętnie pomaga starszej osobie (babcia, dziadek), zrobi zakupy, posprząta pokój, przygotuje prosty posiłek.',
                         'Razem z zastępem weźmie udział'
@@ -3168,7 +3168,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'opiekunka_starszych',
                       title: 'Opiekunka starszych',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Pomaga sama lub z innymi harcerkami osobie starszej (będzie sprzątała, robiła zakupy, itp.).',
                         'Opiekuje się osobą starszą podczas choroby.',
@@ -3181,7 +3181,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'przyjaciolka_seniora',
                       title: 'Przyjaciółka seniora',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Systematycznie opiekuje się osobą starszą (minimum pół roku), potrafi powiedzieć, jakie korzyści odnosi z tego kontaktu.',
                         'Stale utrzymuje w porządku miesz-'
@@ -3198,7 +3198,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'przyjaciel_domu',
                       title: 'Przyjaciel domu',
-                      level: '4',
+                      level: 4,
                       tasks: [
                         'Opiekując się osobą starszą, niedołężną lub biedną zapewni jej godziwe warunki mieszkania:'
                             'a)	odnowi mieszkanie,'
@@ -3218,7 +3218,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'starsza_siostra',
                       title: 'Starsza siostra',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Zajmie się dzieckiem powierzonym jej opiece, zabawi w ciągu kilku godzin.',
                         'Nakarmi dziecko przygotowaną przez siebie potrawą.',
@@ -3231,7 +3231,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'przyjaciolka_dzieci',
                       title: 'Przyjaciółka dzieci',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Obserwuje dzieci, pomaga im w rozwiązywaniu problemów. Zajmie i zabawi kilkoro dzieci w różnym wieku w ciągu kilku godzin:'
                             'a)	zorganizuje zabawy ruchowe i statyczne,'
@@ -3246,7 +3246,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'opiekunka_dzieci',
                       title: 'Opiekunka dzieci',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Zajmie się przez kilka godzin niemowlęciem, przewinie je, nakarmi butelką, będzie asystowała przy kąpieli.',
                         'Zaopiekuje się dzieckiem przedszkolnym przez kilka dni.',
@@ -3263,7 +3263,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'mama_muminkow',
                       title: 'Mama muminków',
-                      level: '4',
+                      level: 4,
                       tasks: [
                         'Zorganizuje w drużynie stałą służbę na rzecz dzieci (do wyboru):'
                             '\n- ubogich, zaniedbanych,'
@@ -3283,7 +3283,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'promyczek_slonca',
                       title: 'Promyczek słońca',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Pomoże wraz z zastępem harcerek osobie biednej, zaniedbanej.',
                         'Pomyśli o losie ludzi najuboższych.',
@@ -3294,7 +3294,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'pomocna_dlon',
                       title: 'Pomocna dłoń',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Zorganizuje przynajmniej trzy razy służbę na rzecz ludzi najuboższych (zbierze odzież lub produkty pierwszej potrzeby, książki dla dzieci, itp.).',
                         'Zapozna się z refleksjami Matki Te-'
@@ -3306,7 +3306,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'wolontariuszka',
                       title: 'Wolontariuszka',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Zorganizuje stałe pole służby dla drużyny, wykazując się przy tym znajomością potrzeb i oczekiwań ludzi najuboższych'
                             'weźmie udział w służbie ludziom potrzebującym pomocy poza granicami kraju.',
@@ -3324,7 +3324,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'harcerka_pelni',
                       title: 'Harcerka pełni',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Wie, co to jest niepełnosprawność, alfabet Braille’a, język migowy, piktogramy, olimpiady specjalne.',
                         'Spędzi 1-3 godzin z osobą niepełnosprawną'
@@ -3337,7 +3337,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'pionierka_pelni',
                       title: 'Pionierka pełni',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Po uzgodnieniu z drużynową przeczyta dowolną książkę lub obejrzy film przybliżający sytuację osób niepełnosprawnych. Podzieli się swoimi przemyśleniami.',
                         'Zna podstawy i zasady alfabetu migowego i kilka podstawowych zwrotów.',
@@ -3352,7 +3352,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'przewodniczka_pelni',
                       title: 'Przewodniczka pełni',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Nawiąże kontakt z ośrodkiem, stowarzyszeniem, bądź inną organizacją pomagającą osobom niepełnosprawnym. Dzięki niemu zdobędzie konkretną wiedzę i umiejętności.',
                         'Rozumie pojęcia: integracja i izolacja osób niepełnosprawnych, wie, z czego wynikają i jakie niosą skutki. Stworzy (współtworzy) i zrealizuje, dla wybranej grupy, środowiska program pozytywnego kształtowania postaw wobec osób niepełnosprawnych. Wykorzysta w tym celu publikacje, filmy, rozmowy, spotkania, itp.',
@@ -3364,7 +3364,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'wedrowniczka_pelni',
                       title: 'Wędrowniczka pełni',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Odbędzie 24-godzinną próbę aktywnego funkcjonowania z zawiązanymi oczami (by doświadczyć jednego z rodzajów niepełnosprawności).',
                         'Zdobędzie konkretną umiejętność'
@@ -3377,7 +3377,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'mistrzyni_pelni',
                       title: 'Mistrzyni pełni',
-                      level: '4',
+                      level: 4,
                       tasks: [
                         'Zdobędzie umiejętności przydatne przy pomaganiu/organizowaniu pomocy dla osób niepełnosprawnych (instruktor orientacji przestrzennej, trener przeciwdziałania'
                             'przemocy, kurs masażu, język Braille’a, itp.).',
@@ -3405,7 +3405,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'sobieradek',
                       title: 'Sobieradek',
-                      level: '1',
+                      level: 1,
                       tasks: [
 
                         'Naostrzy nóż.',
@@ -3426,7 +3426,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'sprawne_rece',
                       title: 'Sprawne ręce',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Posiada zestaw podstawowych narzędzi i stara się go powiększyć.',
                         'Sklei rozbitą porcelanę.',
@@ -3444,7 +3444,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'majsterkowiczka',
                       title: 'Majsterkowiczka',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Zreperuje cieknący kran.',
                         'Odetka umywalkę przez oczyszczenie syfonu.',
@@ -3466,7 +3466,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'dobry_duszek',
                       title: 'Dobry duszek',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Utrzymuje porządek w swoim pokoju: odkurza, myje okna, pastuje podłogi, trzepie dywany, narzuty.',
                         'Układa wszystkie rzeczy we właściwych dla nich miejscach, ma porządek w szafie, na biurku, półkach.',
@@ -3483,7 +3483,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'pani_domu',
                       title: 'Pani domu',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Pierze ubrania w pralce, segreguje wg rodzaju tkanin (temperatury prania) i intensywności barw.',
                         'Usunie z odzieży plamy różnego typu (tłuszcz, smoła, żywica, sok, krew, trawa, stearyna).',
@@ -3500,7 +3500,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'gazdzina',
                       title: 'Gaździna',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Odnowi mieszkanie: pomaluje sufit, ściany (ew. wytapetuje), okna.',
                         'Wie jak walczyć z robactwem domowym (karaluchy, mrówki, pluskwy), myszami, szczurami.',
@@ -3521,7 +3521,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'gosposia',
                       title: 'Gosposia',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Gospodaruje często w kuchni, utrzymuje w niej czystość i porządek.',
                         'Przygotuje trzykrotnie śniadania i trzykrotnie kolacje dla rodziny, zadba o ich różnorodność, prawidłowo dobierze produkty.',
@@ -3535,7 +3535,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'gospodyni',
                       title: 'Gospodyni',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Urządzi domową spiżarnię, prawidłowo zabezpieczy przed szkodnikami i psuciem różne typy produktów.',
                         'Rozmrozi i umyje lodówkę.',
@@ -3549,7 +3549,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'mistrzyni_kuchni',
                       title: 'Mistrzyni kuchni',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Poprowadzi przez tydzień kuchnię domową:'
                             '\n- ułoży jadłospis,'
@@ -3570,7 +3570,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'szefowa_kuchni',
                       title: 'Szefowa kuchni',
-                      level: '4',
+                      level: 4,
                       tasks: [
                         'Zorganizuje i będzie prowadziła wraz z harcerkami kuchnię dla ludzi ubogich, wakacyjnych grup dziecięcych, kuchnię obozową, itp. przez okres 2 tygodni (obiady lub wyżywienie całodzienne):'
                             '\n- przygotuje pomieszczenia kuchenne i naczynia,'
@@ -3593,7 +3593,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'cukierniczka',
                       title: 'Cukierniczka',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Upiecze proste ciasto wg przepisu.',
                         'Upiecze kruche ciasteczka.',
@@ -3608,7 +3608,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'ciastkarka',
                       title: 'Ciastkarka',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Upiecze dwa rodzaje ciasta oraz kilka rodzajów ciasteczek i ciastek.',
                         'Zrobi lukier, masę do tortu, dowolne cukierki lub czekoladę.',
@@ -3624,7 +3624,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'ciastkarka_doskonala',
                       title: 'Ciastkarka doskonała',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Upiecze po jednym cieście wybranym z każdej grupy:'
                             '\n- babka, placek, pączki (ciasto drożdżowe).'
@@ -3638,7 +3638,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                     id: 'mistrzyni_cukiernictwa',
                     title: 'Mistrzyni cukiernictwa',
-                    level: '4',
+                    level: 4,
                     tasks: [
                       'Zorganizuje wraz z drużyną sprzedaż wyrobów cukierniczych przed Świętami Wielkanocnymi:'
                           '\n- ustali asortyment wyrobów przeznaczonych na sprzedaż (co najmniej 8 gatunków),'
@@ -3661,7 +3661,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'chomiczka',
                       title: 'Chomiczka',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Nastawi mleko „na zsiadłe”, zrobi twarożek.',
                         'Ususzy owoce, warzywa, grzyby, kiełbasę.',
@@ -3674,7 +3674,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'spizarniowiec',
                       title: 'Spiżarniwiec',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Nazbiera i ususzy dwie rośliny dzikie przeznaczone na „herbatkę”: liście mięty, kwiat rumianku, lipy, owoc dzikiej róży, czarnego bzu, itp.',
                         'Przygotuje na zimę dowolny rodzaj produktu wysokowitaminowego dla małych dzieci lub osób chorych.',
@@ -3687,7 +3687,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'przetworczyni',
                       title: 'Przetwórczyni',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Zrobi na zimę przetwory: sok, powidła lub dżem, kompot, marynatę.',
                         'Sporządzi ocet.',
@@ -3706,7 +3706,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'igielka',
                       title: 'Igiełka',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Uszyje drobny przedmiot: kołnierzyk mundurowy, woreczek na przybory do mycia, saszetkę, „łapkę” kuchenną, itp.',
                         'Wykona prawidłowo drobne prace krawieckie: przyszyje sprawnie guziki, wciągnie gumkę, naszyje aplikacje.',
@@ -3718,7 +3718,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'mistrzyni_igly',
                       title: 'Mistrzyni igły',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Uszyje wg gotowego wykroju 2 proste części ubrania, np. fartuch, bluzkę bez rękawów, spódnicę.',
                         'Rozróżnia podstawowe rodzaje materiałów naturalnych i sztucznych.',
@@ -3732,7 +3732,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'krawcowa',
                       title: 'Krawcowa',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Pobierze miarę, sporządzi wykrój i wg niego skroi i uszyje mundur harcerski lub bluzkę koszulową i spódnicę.',
                         'Orientuje się w bieżącej modzie, przerobi stare ubranie na atrakcyjny i modny element odzieży.',
@@ -3744,7 +3744,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'mistrzyni_krawiectwa',
                       title: 'Mistrzyni krawiectwa',
-                      level: '4',
+                      level: 4,
                       tasks: [
                         'Wraz z harcerkami, które przyuczyła do szycia zorganizuje i poprowadzi w ramach drużyny punkt krawiecki, np. szycia mundurów w nietypowych rozmiarach, kangurek, itp.:'
                             '\n- urządzi pracownię, odpowiednio ją wyposaży,'
@@ -3765,7 +3765,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'oczko',
                       title: 'Oczko',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Zna trzy ściegi, w tym dżersej i ściągacz.',
                         'Wykona na drutach prosty element ubrania: szalik, getry, chustę, itp.',
@@ -3777,7 +3777,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'dziewiarka',
                       title: 'Dziewiarka',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Zna trzy sploty ozdobne szydełkiem i trzy sploty ozdobne na drutach.',
                         'Wykona na drutach części ubrania, np. sweter, sukienkę.',
@@ -3791,7 +3791,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'dziewiarka_doskonala',
                       title: 'Dziewiarka doskonała',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Wykona na drutach dużą, podstawową część ubrania (np. sweter lub sukienkę) z wielobarwnym wzorem.',
                         'Wykona pracę na pięciu drutach.',
@@ -3809,7 +3809,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'niteczka',
                       title: 'Niteczka',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Zna i potrafi wykonać kilka ściegów: za igłą, okrętkowy, krzyżykowy, łańcuszkowy, dziergany.',
                         'Ozdobi haftem 3 różne przedmioty, dobierze odpowiedni materiał, nici, barwy.',
@@ -3820,7 +3820,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'hafciarka',
                       title: 'Hafciarka',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Ozdobi eleganckim haftem przedmiot dekoracyjny lub odzież (komplet serwetek, bluzkę, itp.).',
                         'Samodzielnie wykona projekt haftu.',
@@ -3832,7 +3832,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'hafciarka_doskonala',
                       title: 'Hafciarka doskonała',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Zastosuje haft półpełny i pełny.',
                         'Wykona obrus haftem richelieu.',
@@ -3850,7 +3850,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'wezelek',
                       title: 'Węzełek',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Odróżni węzeł płaski od babskiego.',
                         'Zwiąże dwie linki jednakowej i różnej grubości.',
@@ -3865,7 +3865,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'makramiarka',
                       title: 'Makramiarka',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Zna 20 węzłów.',
                         'Założy linkę flagową.',
@@ -3880,7 +3880,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'makramiarka_doskonala',
                       title: 'Makramiarka doskonała',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Zna 50 węzłów.',
                         'Zaplanuje wystrój obozu wykorzystując sztukę wiązania.',
@@ -3898,7 +3898,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'glinka',
                       title: 'Glinka',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Zrobi z gliny kilka małych, ozdobnych przedmiotów, polakierowała je. Posługuje się różnymi narzędziami do formowania gliny. Wykonane przez nią przedmioty mają różne tekstury – w swoich pracach wykorzystuje rzeczy o różnych powierzchniach. Używa nie tylko gliny, ale także muszelek, kamyczków, itp.',
                         'Odwiedzi w muzeum wystawę ceramiki (ludowej, współczesnej, użytkowej, itp.), zachęci kilka osób do zobaczenia tej wystawy.',
@@ -3909,7 +3909,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'garncarka',
                       title: 'Garncarka',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Przeczyta dwie książki dotyczące technik ceramicznych i historii ceramiki.',
                         'Wykona na akcję zarobkową różne przedmioty i doprowadzi do ich sprzedaży.',
@@ -3923,7 +3923,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'tworczyni_ceramiki',
                       title: 'Twórczyni ceramiki',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Zorganizuje wystawę swoich prac i zareklamuje ją w swoim środowisku.',
                         'Doprowadzi do ukazania się w prasie wzmianki o jej osiągnięciach.',
@@ -3934,7 +3934,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'mistrzyni_rekodziela',
                       title: 'Mistrzyni rękodzieła',
-                      level: '4',
+                      level: 4,
                       tasks: [
                         'Regularnie doskonali swoje umiejętności w wybranej dziedzinie rękodzieła.',
                         'Zorganizuje wystawę lub aukcję swoich prac.',
@@ -3953,7 +3953,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'fryzjerka',
                       title: 'Fryzjerka',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Wykona trzy fryzury z długich włosów. Umyje, zakręci na wałki, wysuszy, ułoży na szczotce krótsze włosy.',
                         'Podstrzyże odrastające włosy.',
@@ -3971,7 +3971,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'mloda_projektantka',
                       title: 'Młoda projektantka',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Potrafi rysować, „projektować” ubrania.',
                         'Umie narysować sylwetkę ludzką.',
@@ -3984,7 +3984,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'projektantka',
                       title: 'Projektantka',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Potrafi narysować sylwetkę ludzką w różnych ustawieniach, zachowując odpowiednie proporcje.',
                         'Zaprezentuje część swoich prac przed drużyną lub zastępem.',
@@ -3996,7 +3996,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'projektantka_doskonala',
                       title: 'Projektantka doskonała',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi narysować sylwetkę damską, męską oraz dziecięcą, zachowując odpowiednie proporcje. Nauczy tej umiejętności kilka młodszych druhen.',
                         'Weźmie udział w pokazie mody.',
@@ -4013,7 +4013,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'maszynistka',
                       title: 'Maszynistka',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Pisze na maszynie lub komputerze metodą bezwzrokową 10-cioma palcami z szybkością 90 uderzeń (50 słów) na minutę.',
                         'Czysto przepisze na maszynie lub komputerze tekst do druku.',
@@ -4031,7 +4031,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'introlikatorka',
                       title: 'Introligatorka',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Oprawi 3 książki różnej wielkości, w tym 2 w oprawę kartonową z grzbietami i narożnikami płóciennymi.',
                         'Wykona album, tekę lub okładkę do dokumentów lub inną pracę introligatorską.',
@@ -4055,7 +4055,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'x',
                       title: 'x',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'x'
                       ]
@@ -4078,7 +4078,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'spiewaczka',
                       title: 'Śpiewaczka',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Śpiewa 30 piosenek w tym 10 harcerskich.',
                         'Prowadzi śpiewniczek harcerski.',
@@ -4090,7 +4090,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'wokalistka',
                       title: 'Wokalistka',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Intonuje piosenki na ognisku, kominku, wycieczkach.',
                         'Zna przynajmniej po 10 piosenek żołnierskich i ludowych oraz 6 pieśni narodowych.',
@@ -4103,7 +4103,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'piesniarka',
                       title: 'Pieśniarka',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Przygotuje i przeprowadzi ognisko tematyczne lub kominek proponując odpowiedni zestaw piosenek.',
                         'Weźmie udział w przygotowaniu festiwalu piosenki.',
@@ -4116,7 +4116,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'kierownik_artystyczny',
                       title: 'Kierownik artystyczny',
-                      level: '4',
+                      level: 4,
                       tasks: [
                         'Zorganizuje festiwal piosenki harcerskiej na szczeblu hufca lub chorągwi, który:'
                             '\n- będzie rozpropagowany w sposób zachęcający do wzięcia w nim udziału,'
@@ -4137,7 +4137,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'nutka',
                       title: 'Nutka',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Zagra 3 melodie na prostym instrumencie (grzebień, flet, dzwonki, itp.).',
                         'W swoim otoczeniu odnajdzie kilka przedmiotów wydających ciekawe dświęki.',
@@ -4149,7 +4149,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'grajek',
                       title: 'Grajek',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Gra na wybranym instrumencie muzycznym (nie dotyczy gitary – patrz GITARZYSTKA).',
                         'Zagra kilkanaście piosenek harcerskich i innych.',
@@ -4162,7 +4162,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'muzyk',
                       title: 'Muzyk',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Gra dobrze na jednym instrumencie, rozpoczyna naukę na dwóch innych instrumentach.',
                         'Posługuje się zapisem nutowym.',
@@ -4179,7 +4179,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'werblistka',
                       title: 'Werblistka',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Gra na werblu podstawowe sygnały (baczność, spocznij, zbiórka, itp.).',
                         'Wykorzysta grę na werblu w czasie zbiórki zastępu, drużyny.',
@@ -4190,7 +4190,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'dobosz',
                       title: 'Dobosz',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Pełni funkcję dobosza w paradzie harcerskiej.',
                         'Zagra na werblu apel poległych.',
@@ -4206,7 +4206,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'trebacz',
                       title: 'Trębacz',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Zagra na fanfarze lub sygnałówce kilka prostych melodii.',
                         'Zagra sygnały harcerskie: baczność, spocznij, marsz, cisza, posiłek, alarm.',
@@ -4222,7 +4222,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'rysowniczka',
                       title: 'Rysowniczka',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Zawsze posiada przy sobie papier i ołówek, wykorzystuje wolne chwile na szkicowanie.',
                         'Przedstawi po 3 szkice:'
@@ -4236,7 +4236,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'malarka',
                       title: 'Malarka',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Interesuje się malarstwem współczesnym i dawnym, zwiedzi kilka wystaw, gromadzi reprodukcje i książki z tej dziedziny.',
                         'Scharakteryzuje style malarskie na przestrzeni dziejów.',
@@ -4254,7 +4254,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'dekoratorka',
                       title: 'Dekoratorka',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Posiada estetycznie udekorowany przez siebie pokój lub kącik do pracy.',
                         'Dekoruje kronikę zastępu lub drużyny.',
@@ -4267,7 +4267,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'zdobniczka',
                       title: 'Zdobniczka',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Wykona proporzec zastępu lub totem.',
                         'Opracuje pomysł np. znaku drużyny, pieczątki, pocztówki obozowej.',
@@ -4282,7 +4282,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'plastyczka',
                       title: 'Plastyczka',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Zaprojektuje wnętrze harcówki lub namiotu, dobierze materiały, zestaw barw i form przestrzennych.',
                         'Wykona dekorację okolicznościową, scenografię.',
@@ -4296,7 +4296,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'mistrzyni_dekoracji',
                       title: 'Mistrzyni dekoracji',
-                      level: '4',
+                      level: 4,
                       tasks: [
                         'Zaprojektuje, zgromadzi materiały i pokieruje wykonaniem (do wyboru):'
                             '\n- wystroju kościoła z okazji uroczystości,'
@@ -4316,7 +4316,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'fraszka',
                       title: 'Fraszka',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Wystąpi na ognisku lub kominku recytując wiersz odpowiedni do tematyki spotkania.',
                         'Weźmie udział w układaniu tekstu piosenki obozowej lub piosenki zastępu.',
@@ -4327,7 +4327,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'adeptka_poezji',
                       title: 'Adeptka poezji',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Ma ulubionego poetę, zna jego życie i twórczość.',
                         'Pisze wiersze rymowane i wiersze białe, niektóre z nich zaprezentuje na ognisku harcerskim.',
@@ -4340,7 +4340,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'recytatorka',
                       title: 'Recytatorka',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Czyta wiele wierszy, zna na pamięć co najmniej 15.',
                         'Zna podstawowe techniki recytacji i interpretacji tekstu.',
@@ -4354,7 +4354,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'poetka',
                       title: 'Poetka',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Często urozmaica gawędy przy ogniskach zręcznie wplecioną poezją.',
                         'Przygotuje wieczór poezji na wybraną okoliczność (np. święto narodowe).',
@@ -4372,7 +4372,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'gama',
                       title: 'Gama',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Zna zasady strojenia gitary i stara się stroić instrument przed każdym użyciem.',
                         'Wie jak nazywają się poszczególne części gitary oraz zna nazwy strun gitary.',
@@ -4386,7 +4386,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'gitarzystka',
                       title: 'Gitarzystka',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Zawsze stroi gitarę przed jej użyciem.',
                         'Zna wszystkie chwyty podstawowe: C, c, D, d, E, e, F, f, G, g, A, a, H, h.',
@@ -4401,7 +4401,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'gitarzystka_doskonala',
                       title: 'Gitarzystka doskonała',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Zawsze stroi gitarę przed jej użyciem; wytłumaczy młodszej harcerce, po co i w jaki sposób stroi się gitarę.',
                         'Odczyta z nut piosenkę.',
@@ -4422,7 +4422,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'lalkarka',
                       title: 'Lalkarka',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Wykona z zastępem lalki różnego rodzaju: „pacynki”, jarzynki lub marionetki.',
                         'Przygotuje z zastępem przedstawienie lalkowe, zagra w nim – poruszając lalką – przynajmniej l rolę.',
@@ -4434,7 +4434,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'rezyserka_lalkowa',
                       title: 'Reżyserka lalkowa',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Napisze scenariusz przedstawienia lalkowego na podstawie znanej bajki, dobierze ilustrację muzyczną i efekty dświękowe.',
                         'Wraz z drużyną przygotuje jego wystawienie, rozdzieli role, przeprowadzi próby.',
@@ -4452,7 +4452,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'tancereczka',
                       title: 'Tancereczka',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Regularnie uczęszcza na zajęcia tańca towarzyskiego lub współczesnego.',
                         'Umie zatańczyć 3 tańce (walc, polonez, kujawiak, polka).',
@@ -4464,7 +4464,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'tancerka',
                       title: 'Tancerka',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Zatańczy poloneza, zna kilka figur.',
                         'Zatańczy po 2 tańce:'
@@ -4479,7 +4479,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'tancerka_doskonala',
                       title: 'Tancerka doskonała',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Pozna historię wybranego tańca (walc, polonez, kujawiak, polka) i przedstawi zdobyte informacje w interesujący sposób drużynie.',
                         'Zorganizuje konkurs taneczny.',
@@ -4490,7 +4490,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'instruktorka_tanca',
                       title: 'Instruktorka tańca',
-                      level: '4',
+                      level: 4,
                       tasks: [
                         'Należy do teatru tańca.',
                         'Poprowadzi kurs tańca.',
@@ -4508,7 +4508,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'plasik',
                       title: 'Pląsik',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Chętnie bierze udział w zabawach ze śpiewem.',
                         'Zna 4 pląsy. Nauczy się jednego nowego pląsu, pokaże go następnie harcerkom z zastępu.',
@@ -4521,7 +4521,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'wodzirej',
                       title: 'Wodzirej',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Przygotuje i przeprowadzi bal harcerski o określonej tematyce, będzie pełniła na nim rolę wodzireja.',
                         'Zaprojektuje wystrój sali i określi stroje zgodnie z tematyką balu.',
@@ -4540,7 +4540,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'bajarka',
                       title: 'Bajarka',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Zna 20 bajek. Opowie kilka z nich w swoim zastępie „na dobranoc”.',
                         'Opowiada płynnie, barwnym językiem, zmieniając barwę głosu w dialogu.',
@@ -4553,7 +4553,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'gawedziarka',
                       title: 'Gawędziarka',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Powie 3 ciekawe gawędy 10-15 minutowe na wybrany oraz zadane tematy, oprze się na obserwacji życia i wiedzy książkowej.',
                         'Prezentowane gawędy zawierać będą coś, co dla słuchacza posiada trwałą, zasadniczą wartość mogącą wpłynąć na jego życie.',
@@ -4567,7 +4567,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'sabala',
                       title: 'Sabała',
-                      level: '4',
+                      level: 4,
                       tasks: [
                         'Opracuje pisemnie i wyda jako pomoc dla drużynowych cykl swoich gawęd, (co najmniej 10) do wyboru:'
                             '\n- dotyczących jednego tematu, ujętego z różnych punktów widzenia i przeznaczonych dla harcerek w różnym wieku,'
@@ -4583,7 +4583,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'komediantka',
                       title: 'Komediantka',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Wystąpi przynajmniej 3 razy z zastępem na ognisku lub kominku dobrze odgrywając przydzieloną sobie rolę.',
                         'Opanuje tremę w czasie występów.',
@@ -4596,7 +4596,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'aktorka',
                       title: 'Aktorka',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Przygotuje z zastępem przedstawienie zaczerpnięte z literatury odgrywając dobrze jedną z głównych ról.',
                         'Wygłosi z pamięci wiersz lub fragment prozy prawidłowo dobrany do tematyki ogniska lub kominka.',
@@ -4609,7 +4609,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'asystentka_rezyserki',
                       title: 'Asystentka reżyserki',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Przygotuje i przeprowadzi 2 duże ogniska harcerskie, w tym l ognisko tematyczne.',
                         'Przygotuje i zrealizuje inscenizację bajki dla dzieci.',
@@ -4621,7 +4621,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'rezyserka',
                       title: 'Reżyserka',
-                      level: '4',
+                      level: 4,
                       tasks: [
                         'Przygotuje przedstawienie teatralne dla osób spoza środowiska harcerskiego (np. w szkole, domu dziecka) – ułoży program, dobierze teksty i ilustrację muzyczną, podzieli role, ustali kolejność występów i słowo wiążące:'
                             '\n- poprowadzi próby i nauczy aktorów poprawnie mówić,'
@@ -4639,7 +4639,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'wielbicielka_kina',
                       title: 'Wielbicielka kina',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Posiada kanon swoich ulubionych filmów. Potrafi uzasadnić swój wybór.',
                         'Zapozna się z sylwetką jednego wybranego twórcy kina polskiego. Swoją wiedzą podzieli się z innymi.',
@@ -4651,7 +4651,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'klaps',
                       title: 'Klaps',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Weźmie udział w produkcji krótkiego filmu (np. napisze scenariusz, będzie operatorką, itd.).',
                         'Zorganizuje mały festiwal filmowy.',
@@ -4663,7 +4663,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'mistrzyni_filmu',
                       title: 'Mistrzyni filmu',
-                      level: '4',
+                      level: 4,
                       tasks: [
                         'Zrealizuje krótki film, np. promujący harcerstwo.',
                         'Z dowolnego opowiadania stworzy poprawny scenariusz.',
@@ -4681,7 +4681,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'fotoamatorka',
                       title: 'Fotoamatorka',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Nazwie podstawowe części aparatu fotograficznego, którym fotografuje.',
                         'Dba o sprzęt fotograficzny, potrafi przygotować go do pracy i obsłużyć:'
@@ -4695,7 +4695,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'fotograf',
                       title: 'Fotograf',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Fotografuje często, wykona serię zdjęć z życia zastępu, drużyny.',
                         'Zna różne rodzaje aparatów (analogowe i cyfrowe), wykona dobre technicznie zdjęcia różnymi rodzajami aparatów, potrafi w lustrzance manualnie ustawić odpowiednio do potrzeb czas i przysłonę.',
@@ -4708,7 +4708,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'fotoreporterka',
                       title: 'Fotoreporterka',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Fotografuje często, dokumentuje życie drużyny, swoje zdjęcia wykorzystała w przygotowaniu zbiórki lub gry dla drużyny/zastępu.',
                         'Samodzielnie wywoła czarno-biały film i sporządzi odbitki przy pomocy powiększalnika.',
@@ -4722,7 +4722,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'mistrzyni_fotografii',
                       title: 'Mistrzyni fotografii',
-                      level: '4',
+                      level: 4,
                       tasks: [
                         'Fotografia jest jej pasją, wykorzystuje ją w pracy harcerskiej.',
                         'Wykona serię dobrych kompozycyjnie i technicznie zdjęć w studiu, plenerze, reportaż.',
@@ -4736,7 +4736,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'operatorka_video',
                       title: 'Operatorka video',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Posługując się kamerą video sporządzi trzy filmy przydatne w szkoleniu zastępowych lub drużynowych (dotyczące np. pionierki obozowej, obrzędowości innych drużyn i zastępów,'
                             'musztry, itp.). Zareklamuje i rozpowszechni film.',
@@ -4763,7 +4763,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'szperacz',
                       title: 'Szperacz',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'W nieznanej sobie miejscowości odszuka i zlokalizuje ważniejsze obiekty: ośrodek zdrowia, straż pożarną, dworzec lub przystanek PKS, itp.',
                         'Weźmie udział w zwiadzie terenowym dotyczącym poznania historii miejscowości i życia jej mieszkańców.',
@@ -4778,7 +4778,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'poszukiwaczka',
                       title: 'Poszukiwaczka',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Kierując grupą zwiadowczą przeprowadzi zwiad terenowy na określony temat.',
                         'W czasie zwiadu skorzysta z książek, przewodników, przeprowadzi rozmowy z ludźmi.',
@@ -4792,7 +4792,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'badaczka',
                       title: 'Badaczka',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Dokona podziału Polski na regiony geograficzne, przyrodnicze, historyczne i etnograficzne – charakteryzując je uzasadni podział.',
                         'Korzystając z czytelni i biblioteki sporządzi bibliografię na zadany temat. Interesuje się jedną z dziedzin wiedzy (np. astronomią, oceanologią, meteorologią, itp.), przedstawi tytuły 3 książek przeczytanych w tej dziedzinie, zaciekawi harcerki w drużynie opowiadaniem z zakresu tej wiedzy.',
@@ -4810,7 +4810,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'czytelniczka',
                       title: 'Czytelniczka',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Lubi czytać książki, posiada swojego ulubionego autora, przeczyta kilka jego książek.',
                         'W swoim zastępie na wycieczce lub „na dobranoc” opowie fragment mało znanej a ciekawej książki tak, że zainteresuje nią inne harcerki.',
@@ -4823,7 +4823,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'bibliotekarka',
                       title: 'Bibliotekarka',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Pomaga w bibliotece:'
                             '\n- porządkuje i oprawia książki,'
@@ -4841,7 +4841,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'bibliofilka',
                       title: 'Bibliofilka',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Odwiedzi kilka dużych bibliotek i czytelni, zapozna się z organizacją ich pracy.',
                         'Posługując się katalogami zgromadzi i przeczyta kilka książek z określonej dziedziny, zdobyte wiadomości wykorzysta w czasie zajęć harcerskich.',
@@ -4860,7 +4860,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'kolekcjonerka',
                       title: 'Kolekcjonerka',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Odwiedzi dwa różne muzea, opowie w zastępie o odwiedzonych wystawach.',
                         'Wie jak należy zachowywać się w muzeum i dlaczego.',
@@ -4872,7 +4872,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'kolekcjonerka_muzealnik',
                       title: 'Kolekcjonerka - muzealnik',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Odwiedzi trzy różne typy muzeów (np. galerię, skansen, muzeum historyczne).',
                         'Wie, kiedy i gdzie powstało pierwsze muzeum na świecie i pierwsze w Polsce.',
@@ -4886,7 +4886,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'mlody_muzealnik',
                       title: 'Młody muzealnik',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Nawiąże współpracę z wybranym muzeum, zwiedzi je, przeprowadzi rozmowy z pracownikami. Zdobyte wiadomości wykorzysta w pracy drużyny (przygotuje zbiórkę, grę, program biwaku lub obozu dotyczące poznanych zagadnień).',
                         'Zorganizuje udział drużyny w zajęciach edukacyjnych (pokazy, lekcja muzealna, warsztaty muzealne). Przygotuje młodsze harcerki do uczestnictwa w zajęciach.',
@@ -4899,7 +4899,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'muzealnik',
                       title: 'Muzealnik',
-                      level: '4',
+                      level: 4,
                       tasks: [
                         'Przygotuje wystawę muzealną (w muzeum, domu kultury lub szkole):'
                             '\n- będzie odpowiedzialna za opracowanie zbiorów (dobór eks-'
@@ -4918,7 +4918,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'mala_archiwistka',
                       title: 'Mała archiwistka',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Zbiera dokumenty z życia zastępu, drużyny.',
                         'Utrzymuje je w porządku.',
@@ -4931,7 +4931,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'mloda_archiwistka',
                       title: 'Młoda archiwistka',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Zbiera dokumenty, rozkazy, pamiątki związane z życiem drużyny.',
                         'Zabezpiecza zbiory przed wilgocią, szkodnikami i kurzem.',
@@ -4944,7 +4944,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'archiwistka',
                       title: 'Archiwistka',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Prowadzi archiwum rodzinne lub archiwum drużyny.',
                         'Materiały utrzymuje w porządku. Pracuje nad ich opracowaniem.',
@@ -4956,7 +4956,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'archiwistka_doskonala',
                       title: 'Archiwistka doskonała',
-                      level: '4',
+                      level: 4,
                       tasks: [
                         'Opracowuje archiwum hufca lub chorągwi.',
                         'Prowadzi je zgodnie z zasadami archiwalnymi (wg instrukcji kancelaryjnej i archiwalnej).',
@@ -4972,7 +4972,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'mloda_reporterka',
                       title: 'Młoda reporterka',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Na ognisku drużyny rzeczowo i ciekawie zda relację z wycieczki lub zwiadu zastępu.',
                         'Posłuży się magnetofonem, przedstawi dokonane przez siebie nagranie.',
@@ -4984,7 +4984,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'reporterka',
                       title: 'Reporterka',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Przeprowadzi wywiad na zadany temat opracowując go pisemnie (np. gazetka).',
                         'Przygotuje kilka artykułów do gazetki drużyny/środowiska/obozowej lub będzie redagowała jej wybrany dział (min. 6 numerów).',
@@ -4996,7 +4996,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'dziennikarka',
                       title: 'Dziennikarka',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Będzie redagować przez 6 miesięcy lub w trakcie obozu gazetkę harcerską (min. 6 numerów).',
                         'Prześle 5 swoich artykułów do redakcji pisma harcerskiego.',
@@ -5009,7 +5009,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'redaktorka',
                       title: 'Redaktorka',
-                      level: '4',
+                      level: 4,
                       tasks: [
                         'Weźmie udział w pracach redakcji pisma harcerskiego (lokalnego lub ogólnopolskiego) przez okres pół roku (co najmniej 6 numerów):'
                             '\n- będzie zbierać materiały z danej'
@@ -5030,7 +5030,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'krajka',
                       title: 'Krajka',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Wraz z zastępem weźmie udział w zwiadzie etnograficznym, porozmawia z mieszkańcami o historii miejscowości i życiu w tej miejscowości.',
                         'W czasie zwiadu dokona obserwacji stylu budownictwa, elementów sztuki ludowej, języka mieszkańców (powiedzenia gwarowe, akcent, itp.).',
@@ -5041,7 +5041,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'folklorystka',
                       title: 'Folklorystka',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Weźmie udział w zwiadzie etnograficznym, co najmniej w 3 różnych regionach Polski.',
                         'Zwiedzi z zastępem muzeum regionalne lub skansen okolic własnego miejsca zamieszkania.',
@@ -5053,7 +5053,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'folklorystka_doskonala',
                       title: 'Folklorystka doskonała',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Zorganizuje wystawę lub warsztaty dotyczące kultury, historii, sztuki wybranego regionu etnograficznego. W ramach przygotowań nawiąże i wykorzysta kontakt z ludźmi związanymi z tym regionem.',
                         'Przygotuje folder z trasami turystycznymi i wybrane elementy programu (zajęcia regionalne) na użytek obozu zorganizowanego na terenie wybranego regionu.',
@@ -5064,7 +5064,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'etnografka',
                       title: 'Etnografka',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Przygotuje dla młodszych harcerek prezentację/folder, itp. pokazujący podział Polski na regiony etnograficzne z ich charakterystyką (budownictwo, stroje, język, zwyczaje, itp.), który będzie można wykorzystać w pracy drużyny.',
                         'Na wycieczce drużyny lub zastępu pełnić będzie rolę przewodnika po zabytkach kultury ludowej danego regionu.',
@@ -5081,7 +5081,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'gwiazda_polarna',
                       title: 'Gwiazda polarna',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Orientuje się w stronach świata wg Księżyca, Słońca, gwiazd (odnajdzie Gwiazdę Polarną, zna fazy Księżyca i ich związek ze stronami świata, stosuje metodę „Słońca i zegarka”).',
                         'Zbuduje zegar słoneczny.',
@@ -5093,7 +5093,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'obserwatorka_nieba',
                       title: 'Obserwatorka nieba',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Wie, co to jest Układ Słoneczny, przedstawi ciekawie każdą z planet opowiadając o jej wyglądzie i warunkach na niej panujących.',
                         'Zapozna się z podstawową wiedzą o Księżycu, w czasie obozu lub w ciągu roku podejmie obserwację faz księżyca i związanych z tym zmian pogody.',
@@ -5107,7 +5107,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'atronom',
                       title: 'Astronom',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Nazywa widoczne na polskim niebie gwiazdozbiory i planety, opowie o nich innym harcerkom, zna kilka mitologicznych opowiadań związanych z ich nazwami.',
                         'Systematycznie obserwuje niebo przez przyrząd optyczny, zaprosi do obserwacji młodsze harcerki.',
@@ -5124,7 +5124,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'skalka',
                       title: 'Skałka',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Zwiedzi kamieniołom lub żwirownię, znajdzie skamieliny z odciskami roślin lub zwierząt.',
                         'Przeczyta książkę o prehistorii Ziemi.',
@@ -5138,7 +5138,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'geolog',
                       title: 'Geolog',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Pozna w czasie podróży i wycieczek podstawowe typy krajobrazu Polski: wysokogórski, górski, wyżynny, nizinny, krajobraz pojezierzy i nadmorski; scharakteryzuje każdy z nich i powie, w jaki sposób był kształtowany.',
                         'Odwiedzi teren wydmowy (nadmorski lub sandrowy), obejrzy meandry rzeczne i pradolinę rzeki.',
@@ -5152,7 +5152,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'badaczka_dziejow_ziemi',
                       title: 'Badaczka dziejów ziemi',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Przeczyta 10 artykułów lub fragmentów książek przedstawiających opis wulkanów lub trzęsień ziemi, podzieli się ciekawostkami z innymi harcerkami. Zwiedzi kopalnię czynną lub wyeksploatowaną, przyniesie z niej ciekawe eksponaty.',
                         'Sporządzi wystawę geologiczną, gdzie przy poszczególnych erach i okresach historii Ziemi znajdą się odpowiednie skały, skamieliny i rysunki obrazujące krajobraz i formy życia.',
@@ -5169,7 +5169,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'alchemiczka',
                       title: 'Alchemiczka',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Napisze list atramentem sympatycznym i wywoła jego treść.',
                         'Ozdobi materiał monogramem uzyskanym drogą chemiczną (chusteczkę, część ubrania, itp.).',
@@ -5183,7 +5183,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'laborantka',
                       title: 'Laborantka',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Posiada podstawowe przybory do doświadczeń chemicznych (kolby, menzurki, itp.).',
                         'Sporządzi samodzielnie barwniki w 3 kolorach.',
@@ -5198,7 +5198,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'chemiczka',
                       title: 'Chemiczka',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Posiada własne małe laboratorium chemiczne, w którym często demonstruje innym ciekawe doświadczenia.',
                         'Wyprodukuje sztuczne ognie na choinkę.',
@@ -5215,7 +5215,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'potega',
                       title: 'Potęga',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Zręcznie układając pytania pokona 3 przeciwników w grze w 10 pytań.',
                         'Zna i przedstawi innym 5 zagadek matematycznych.',
@@ -5229,7 +5229,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'matematyczka',
                       title: 'Matematyczka',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Poda zasadę odszukiwania drogi w labiryncie przy zabłądzeniu oraz zasadę pozwalającą zwiedzić wszystkie korytarze labiryntu.',
                         'Opowie o tajemnicach piramid egipskich.',
@@ -5244,7 +5244,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'alfa_i_omega',
                       title: 'Alfa i omega',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Zna kilka kwadratów magicznych.',
                         'Sporządzi ciekawy algorytm przydatny w szkoleniu harcerskim (np. postępowanie w przypadku spo-'
@@ -5262,7 +5262,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'mala_informatyk',
                       title: 'Mała informatyk',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Umie połączyć elementy komputera, peryferia i akcesoria (monitor, klawiatura, myszka, drukarka, słuchawki, itp.).',
                         'Umie posługiwać się komputerem: napisać prosty tekst w edytorze, przegrać go na wymienny nośnik (dyskietka, CD, itp.), wydrukować.',
@@ -5274,7 +5274,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'znawczyni_komputera',
                       title: 'Znawczyni komputera',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Umie posługiwać się pakietem biurowym (typu Office): edytor tekstu, arkusz kalkulacyjny, prezentacje (np. prezentacja drużyny, środowiska).',
                         'Samodzielnie ułoży, połamie i wydrukuje publikację (śpiewnik, gazetkę, regulaminy, itp.). Zastosuje różne kroje pisma, układy stron (format, nagłówki, marginesy, itp.), tabelki.',
@@ -5288,7 +5288,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'informatyczka',
                       title: 'Informatyczka',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Regularnie czyta czasopismo lub przegląda serwis z branży informatycznej. Potrafi powiedzieć, co nowego się dzieje w branży.',
                         'Stworzy rozwiązania informatyczne przydatne w pracy drużyny (np. szablon do dokumentacji finansowej, system ewidencjonowania składek, itd.).',
@@ -5302,7 +5302,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'poczatkujaca_programistka',
                       title: 'Początkująca programistka',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Zna dowolny język programowania (np. C++).',
                         'Stworzy aplikację działającą przez www.',
@@ -5316,7 +5316,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'programistka',
                       title: 'Programistka',
-                      level: '4',
+                      level: 4,
                       tasks: [
                         'Pozna w stopniu zaawansowanym wybrany język programowania (np. C++, Java, PHP).',
                         'Zaprojektuje i uruchomi program (aplikację www) przydatny w pracy drużyny lub grę, program edukacyjny.',
@@ -5336,7 +5336,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'grafik',
                       title: 'Grafik',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Stworzy przyjemną dla oka i funkcjonalną szatę graficzną do dowolnej strony www (np. drużyny), zastosuje różne techniki i możliwości.',
                         'Zna przynajmniej 2 programy do'
@@ -5350,7 +5350,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'znawczyni_grafiki_komputerowej',
                       title: 'Znawczyni grafiki komputerowej',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Zaprojektuje logo/plakietkę w formacie wektorowym.',
                         'Potrafi wykonać prosty retusz grafiki bądź zdjęcia.',
@@ -5363,7 +5363,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'grafik_doskonaly',
                       title: 'Grafik doskonały',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi wykonać atrakcyjną grafikę dynamiczną w różnych formatach (.gif; .fla).',
                         'Tworzy własne narzędzia graficzne (np. „pędzle”, filtry, czcionki).',
@@ -5381,7 +5381,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'opiekunka_strony',
                       title: 'Opiekunka strony',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Przez 3 miesiące będzie webmasterką harcerskiej strony www (strona będzie często aktualizowana, będzie widoczne życie strony, zmiany i ulepszenia).',
                         'Sprawnie posługuje się programami do tworzenia stron www. Umie przygotować poprawną (w sensie kodu HTML, kodowania znaków narodowych) stronę www.',
@@ -5392,7 +5392,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'webmasterka',
                       title: 'Webmasterka',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Przez okres, co najmniej 3 miesięcy opiekuje się potrzebnym serwisem harcerskim, mającym zasięg działania na poziomie hufca lub wyżej. Użytkownicy są zadowoleni z aktualności, łatwości w nawigacji, itp.',
                         'Zna podstawy grafiki komputerowej (potrafi stworzyć prostą szatę graficzną do strony www).',
@@ -5406,7 +5406,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'webmasterka_programistka',
                       title: 'Webmasterka - programistka',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Zbuduje potrzebny serwis-portal internetowy, wykorzystując dostępne oprogramowanie typu CMS. Serwis ma służyć do sprawnej komunikacji grupy osób i/lub promocji wydarzenia harcerskiego, np. zlotu, złazu, dużego rajdu (na poziomie chorągwi lub wyżej).',
                         'Potrafi zabezpieczyć stronę przed włamaniem.',
@@ -5418,7 +5418,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'webmasterka_doskonala',
                       title: 'Webmasterka doskonała',
-                      level: '4',
+                      level: 4,
                       tasks: [
                         'Zbuduje/rozbuduje i poprowadzi potrzebny w harcerstwie ogólnopolski serwis internetowy wykorzystując bazy danych, pisząc własne skrypty i wykorzystując różne techniki do budowy i zarządzania dużym serwisem www.',
                         'Informacje w takim serwisie www są możliwe do znalezienia przy pomocy popularnych wyszukiwarek internetowych.',
@@ -5434,7 +5434,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'internetowa_podrozniczka',
                       title: 'Internetowa podróżniczka',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Zna podstawowe pojęcia używane w języku internautów: www, domena, chat, portal, linux, serwer, itd.',
                         'Umie założyć konto e-mail na dowolnym serwisie internetowym.',
@@ -5446,7 +5446,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'internautka',
                       title: 'Internautka',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Wykaże się znajomością programów do obsługi Internetu.',
                         'Umie korzystać z przesyłania FTP.',
@@ -5464,7 +5464,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'poliglotka',
                       title: 'Poliglotka',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Nauczy się podstawowych zwrotów grzecznościowych w językach: angielskim, francuskim, niemieckim, rosyjskim, hiszpańskim.',
                         'W wybranym przez siebie języku obcym nauczy się podstawowego słownictwa związanego z harcerstwem (co najmniej 20 słówek).',
@@ -5476,7 +5476,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'tlumaczka',
                       title: 'Tłumaczka',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Opanuje wybrany język obcy w stopniu wystarczającym do porozumienia się w sprawach związanych z życiem codziennym, stale pogłębia znajomość wybranego języka.',
                         'Przeczyta książkę w języku obcym i zaprezentuje jej treść w trakcie zajęć harcerskich.',
@@ -5494,7 +5494,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'specjalistka_public_relation',
                       title: 'Specjalistka public relation',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Zaprojektuje kampanię mającą na celu poprawienie wizerunku harcerstwa w społeczności lokalnej.',
                         'Zaprojektuje gadżet promocyjny, skalkuluje koszty jego wykonania.',
@@ -5506,7 +5506,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'znawczyni_multimediow',
                       title: 'Znawczyni multimediów',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Wykona prezentację multimedialną pomocną w pracy harcerskiej.',
                         'Wykorzysta nowoczesne media do promowania harcerstwa w swoim otoczeniu (np. przy organizacji akcji naborowej).',
@@ -5519,7 +5519,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'rzeczniczka_harcerstwa',
                       title: 'Rzeczniczka harcerstwa',
-                      level: '4',
+                      level: 4,
                       tasks: [
                         'Przeczyta trzy pozycje książkowe dotyczące przekazywania informacji.',
                         'Pozna specyfikę strony internetowej ZHR, śledzi na bieżąco informacje dotyczące ZHR.',
@@ -5532,7 +5532,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'mistrzyni_multimediow',
                       title: 'Mistrzyni multimediów',
-                      level: '4',
+                      level: 4,
                       tasks: [
                         'Profesjonalnie posługuje się wybranym sprzętem multimedialnym. Swoje umiejętności wykorzystuje w pracy harcerskiej.',
                         'Zorganizuje kurs związany z wybraną dziedziną multimediów (np. kurs tworzenia stron internetowych, obróbki obrazów cyfrowych, itd.).',
@@ -5548,7 +5548,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'tropicielka_sienkiewiczowska',
                       title: 'Tropicielka sienkiewiczowska',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Przeczyta wybraną powieść Henryka Sienkiewicza.',
                         'Wskaże na mapie najważniejsze miejsca, w których toczy się akcja powieści.',
@@ -5560,7 +5560,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'szperaczka_sienkiewiczowska',
                       title: 'Szperaczka sienkiewiczowska',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Przeczyta Trylogię Henryka Sienkiewicza.',
                         'Zaznaczy na mapie drogę jaką przebył (do wyboru):'
@@ -5576,7 +5576,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'milosniczka_sienkiewiczowska',
                       title: 'Miłośniczka sienkiewiczowska',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Przeczyta Trylogię, „Quo Vadis”, oraz trzy wybrane nowele Henryka Sienkiewicza.',
                         'Zna przyczyny powstania wielu powieści sienkiewiczowskich, umiejscowi je w epoce literackiej i środowisku politycznym tamtych czasów.',
@@ -5608,7 +5608,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'zwinka',
                       title: 'Zwinka',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Wspina się po linie na wysokość 3 m.',
                         'Przechodzi po linach poziomych nad przeszkodą wodną.',
@@ -5622,7 +5622,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'linoskoczka',
                       title: 'Linoskoczka',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Mocuje linę na drzewie różnymi sposobami.',
                         'Zna 10 węzłów, stosuje je prawidłowo w zależności od potrzeby.',
@@ -5636,7 +5636,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'alpinistka',
                       title: 'Alpinistka',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Zjeżdża po linie w kluczu zjazdowym.',
                         'Wspina się po linie metodą prusikowania.',
@@ -5654,7 +5654,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'juz_plywam',
                       title: 'Już pływam',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Przepłynie stylem dowolnym 50 m na basenie krytym lub 25 m w innym akwenie.',
                         'Utrzyma się na wodzie 10 minut.',
@@ -5667,7 +5667,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'plywaczka',
                       title: 'Pływaczka',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Przepłynie 200 m stylem klasycznym lub kraulem na piersiach.',
                         'Opanuje styl grzbietowy.',
@@ -5681,7 +5681,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'plywaczka_doskonala',
                       title: 'Pływaczka doskonała',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Przepłynie 500 m w wodzie stojącej lub 100 m pod prąd rzeki, co najmniej dwoma stylami.',
                         'Pokona dystans 15 m pod wodą.',
@@ -5702,7 +5702,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'wodniaczka',
                       title: 'Wodniaczka',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Umie pływać.',
                         'Potrafi założyć kapok, zawiąże węzeł ratowniczy na linie ratowniczej.',
@@ -5717,7 +5717,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'wioslarka',
                       title: 'Wioślarka',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Weźmie udział w spływie wioślarskim, co najmniej 5-dniowym.',
                         'Dobrze wiosłuje i steruje, zręcznie wymija przeszkody, wybiera dogodną drogę na wodzie.',
@@ -5731,7 +5731,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'kajakarka',
                       title: 'Kajakarka',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Weźmie udział w co najmniej 3 różnych spływach kajakowych na różnych rzekach.',
                         'Posługując się mapą i przewodnikami zaplanuje trasę kilkudniowego spływu.',
@@ -5745,7 +5745,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                     id: 'mistrzyni_kajakarstwa',
                     title: 'Mistrzyni kajakarstwa',
-                    level: '4',
+                    level: 4,
                     tasks: [
                       'Zorganizuje spływ wioślarski dla swojej drużyny:'
                           '\n- wynajmie, zakupi kajaki/kanadyjki lub wyremontuje kajaki/kanadyjki drużyny,'
@@ -5770,7 +5770,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'junga',
                       title: 'Junga',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Zna zasady bezpiecznego żeglowania, potrafi założyć kapok, zawiąże węzeł ratowniczy na linie ratowniczej.',
                         'Zna 10 węzłów żeglarskich.',
@@ -5785,7 +5785,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'szotmenka',
                       title: 'Szotmenka',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Potrafi żeglować na dwużaglowej łodzi (jacht typu slup):'
                             '\n- utrzymuje i prawidłowo zmienia kurs,'
@@ -5808,7 +5808,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'zeglarka',
                       title: 'Żeglarka',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Posiada umiejętności na poziomie stopnia żeglarza jachtowego uprawniającego do dowodzenia jednostkami żaglowymi po wodach śródlądowych.',
                         'Weźmie udział w kilkudniowym rejsie po jeziorach.',
@@ -5821,7 +5821,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'milosniczka_zeglarstwa',
                       title: 'Miłośniczka żeglarstwa',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Weźmie udział w tygodniowym rejsie śródlądowym lub morskim.',
                         'Zna podstawowe zasady polskiego ceremoniału morskiego, zwyczaje morskie, pieśni żeglarskie.',
@@ -5833,7 +5833,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'instruktorka_zeglarstwa',
                       title: 'Instruktorka żeglarstwa',
-                      level: '4',
+                      level: 4,
                       tasks: [
                         'Zorganizuje drużynę wodną (żeglarską) lub patrol wodny (żeglarski) w przypadku starszych harcerek/ albo sprawi, że drużyna, do której należy, przekształci się w drużynę wodną lub drużynę o specjalności żeglarskiej /w przypadku drużyn wędrowniczek i harcerek starszych/:'
                             '\n- załatwi dostęp drużyny do sprzętu żeglarskiego,'
@@ -5849,7 +5849,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'sterniczka',
                       title: 'Sterniczka',
-                      level: '4',
+                      level: 4,
                       tasks: [
                         'Posiada patent żeglarski uprawniający do prowadzenia rejsów przynajmniej na przybrzeżnych wodach morskich.',
                         'Weźmie udział w rejsie morskim lub zatokowym.',
@@ -5865,7 +5865,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'wilk_morski',
                       title: 'Wilk morski',
-                      level: '4',
+                      level: 4,
                       tasks: [
                         'Spędzi na morzu min. 200 godzin podczas rejsów jachtem żaglowym.',
                         'Odbędzie min. 2 rejsy morskie na różnych typach jachtów (np. na jolu i slupie).',
@@ -5885,7 +5885,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'cyklistka',
                       title: 'Cyklistka',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Zna znaki drogowe.',
                         'Weźmie udział w l całodniowej wycieczce rowerowej.',
@@ -5898,7 +5898,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'rowerzystka',
                       title: 'Rowerzystka',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Odbędzie 3 wycieczki kolarskie przebywając łącznie ok. 100 km.',
                         'Prawidłowo mocuje i przewozi na rowerze bagaż.',
@@ -5910,7 +5910,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'kolarz',
                       title: 'Kolarz',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Weźmie udział w obozie kolarskim.',
                         'Zaopatrzy się prawidłowo w odzież i sprzęt potrzebny na obozie rowerowym.',
@@ -5930,7 +5930,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'wrotkarka',
                       title: 'Wrotkarka',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Wykona kilka ćwiczeń – jazdę na rolkach przodem i tyłem, przekładanką, przeskoczenie małej przeszkody, zatrzymanie się na sygnał, łuki w przód i w tył prawą i lewą nogą na zewnątrz i wewnątrz, jazdę slalomową.',
                         'Przebiegnie na rolkach 300 m.',
@@ -5943,7 +5943,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'rolkarka_doskonala',
                       title: 'Rolkarka doskonała',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Dobrze jeśdzi na rolkach przodem i tyłem. Przebędzie w jeśdzie przodem 2 km w ciągu 6 minut.',
                         'Wykona układ figurowy przy muzyce.',
@@ -5961,7 +5961,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'mistrzyni_rakietki',
                       title: 'Mistrzyni rakietki',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Wykona kilka ćwiczeń – elementów gry w tenisa stołowego, ziemnego lub kometkę (prawidłowe trzymanie rakietki, odbicie z prawej i lewej strony, zagrywka, ścięcie).',
                         'Rozegra 5 spotkań w grze pojedynczej i 2 w grze podwójnej, wykaże się znajomością zasad i techniki gry w tenisa stołowego lub kometkę.',
@@ -5974,7 +5974,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'tenisistka',
                       title: 'Tenisistka',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Dobrze gra w tenisa, wykorzystuje prawidłowy serwis, forhend, bekhend, wolej.',
                         'Systematycznie trenuje grę w tenisa przez min. 3 miesiące, wykaże się postępami.',
@@ -5991,7 +5991,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'luczniczka',
                       title: 'Łuczniczka',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Wykona w warunkach terenowych łuk i 3 strzały lub tarczę łuczniczą.',
                         'Rozróżnia i nazwie części łuku i strzały.',
@@ -6009,7 +6009,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'saneczkarka',
                       title: 'Saneczkarka',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Pokona 3 zjazdy wymijając przeszkody i stosując różne techniki skrętu, hamowania i jazdy.',
                         'Podniesie leżące przedmioty w czasie zjazdu z łagodnego stoku.',
@@ -6029,7 +6029,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'lyzwiarka',
                       title: 'Łyżwiarka',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Wykona kilka ćwiczeń – jazdę na łyżwach lub rolkach przodem i tyłem, przekładanką, przeskoczenie małej przeszkody, zatrzymanie się na sygnał, łuki w przód i w tył prawą i lewą nogą na zewnątrz i wewnątrz, jazdę slalomową.',
                         'Przebiegnie na łyżwach lub rolkach 300 m.',
@@ -6042,7 +6042,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'lyzwiarka_doskonala',
                       title: 'Łyżwiarka doskonała',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Dobrze jeśdzi na łyżwach przodem i tyłem. Przebędzie w jeśdzie przodem 2 km w ciągu 6 minut.',
                         'Wykona układ figurowy przy muzyce.',
@@ -6059,7 +6059,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'snowboardzistka_poczatkujaca',
                       title: 'Snowboardzistka początkująca',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Umie dobrać dla siebie odpowiedni sprzęt snowboardowy, z uwzględnieniem ochraniaczy.',
                         'Wykonuje na desce skręty w obie strony, potrafi się bezpiecznie zatrzymać.',
@@ -6072,7 +6072,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'snowboardzistka',
                       title: 'Snowboardzistka',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Wjeżdża z deską wyciągiem krzesełkowym i orczykowym.',
                         'Potrafi zjechać po średnio-zaawansowanej trasie z muldami oraz nartostradą.',
@@ -6085,7 +6085,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'snowboardzistka_doskonala',
                       title: 'Snowboardzistka doskonała',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Potrafi zapanować nad deską na lodzie, ćwiczy jazdę w trudnych warunkach.',
                         'Zna zasady szybkiej, bezpiecznej jazdy na snowboardzie, unika jazdy ryzykownej.',
@@ -6098,7 +6098,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'mistrzyni_snowboardu',
                       title: 'Mistrzyni snowboardu',
-                      level: '4',
+                      level: 4,
                       tasks: [
                         'Regularnie przygotowuje się do zimowego sezonu (np. poprzez specjalną suchą zaprawę).',
                         'Potrafi w bezpieczny sposób zjechać z trudnej (czarnej) lub zawodniczej trasy.',
@@ -6117,7 +6117,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'narciarka',
                       title: 'Narciarka',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Pewnie zjedzie techniką carvingową po przygotowanej trasie.',
                         'Wykona w prawidłowej pozycji zjazd na wprost i wskos stoku, zmieni kierunek jazdy przestępowaniem, pługiem i skrętem.',
@@ -6132,7 +6132,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'narciarka_doskonala',
                       title: 'Narciarka doskonała',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Pewnie zjedzie po stoku techniką carvingową i klasyczną, potrafi je rozróżnić.',
                         'Wykona zjazd w różnych warunkach terenowych: muldy, stok nieprzejeżdżony, świeży lub mokry śnieg.',
@@ -6148,7 +6148,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'narciarka_biegowa',
                       title: 'Narciarka biegowa',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Wykona krok z odbicia, bezkrok, zwroty, krok w podejściu, zjazdy.',
                         'W biegu płaskim na l km uzyska czas 8-11 minut w zależności od wieku.',
@@ -6164,7 +6164,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'mistrzyni_nart',
                       title: 'Mistrzyni nart',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Jeśdzi dynamicznie i kontrolowanie, stosując różne techniki.',
                         'Odbędzie fachowe szkolenie narciarskie.',
@@ -6179,7 +6179,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'instruktorka_narciarstwa',
                       title: 'Instruktorka narciarstwa',
-                      level: '4',
+                      level: 4,
                       tasks: [
                         'Przygotuje i zorganizuje obóz narciarski dla drużyny lub innego środowiska:'
                             '\n- pomoże zaopatrzyć uczestniczki w sprzęt narciarski (dobierze narty, wiązania, buty, itp.),'
@@ -6195,7 +6195,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'sniezka',
                       title: 'Śnieżka',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Weźmie udział w 10 grach śnieżnych.',
                         'Zorganizuje 2 krótkie gry śnieżne.',
@@ -6208,7 +6208,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'organizatorka_gier_zimowych',
                       title: 'Organizatorka gier zimowych',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Zorganizuje 10 gier śnieżnych.',
                         'Wykona schronienie ze śniegu.',
@@ -6225,7 +6225,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'dzokejka',
                       title: 'Dżokejka',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Zna i odróżnia maści i odmiany koni.',
                         'Potrafi opisać podstawowe chody koni.',
@@ -6237,7 +6237,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'jezdziec',
                       title: 'Jeździec',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Zna rasy koni hodowanych w Polsce i rejony hodowli.',
                         'Ukończy podstawowe szkolenie jeśdzieckie i regularnie jeśdzi konno doskonaląc swoje umiejętności.',
@@ -6252,7 +6252,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'amazonka',
                       title: 'Amazonka',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Zna podstawy fizjologii konia, zasady normowania pasz, wie jak dostosować żywienie do aktualnej eksploatacji konia.',
                         'Wie jak zachować się z koniem na lodzie, w wodzie, podczas burzy i innych niebezpiecz? nych sytuacji.',
@@ -6269,7 +6269,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'wedrowniczka_konna',
                       title: 'Wędrowniczka konna',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Ukończy kurs jazdy konnej i regularnie jeśdzi konno. Pewnie trzyma się w siodle w terenie.',
                         'Umie zachować się na popasie z końmi – sama zajmie się swoim koniem.',
@@ -6285,7 +6285,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'milosniczka_koni',
                       title: 'Miłośniczka koni',
-                      level: '4',
+                      level: 4,
                       tasks: [
                         'Zorganizuje obóz konny dla drużyny, środowiska, na którym przeprowadzi program szkolenia jeśdzieckiego zróżnicowany wg posiadanych przez harcerki umiejętności.',
                       ]
@@ -6299,7 +6299,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'organizatorka_gier',
                       title: 'Organizatorka gier',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Zna po 10 gier, zabaw ruchowych i towarzyskich wykorzysta je w pracy drużyny, zastępu.',
                         'Zorganizuje i poprowadzi wieczór zabaw w drużynie.',
@@ -6311,7 +6311,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'milosniczka_gier',
                       title: 'Miłośniczka gier',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Zna 30 gier i zabaw ruchowych, przedstawi sporządzony przez siebie zbiór, wykorzysta go w pracy z młodszymi harcerkami. Są w nim również propozycje gier w izbie'
                             'harcerskiej i do wykorzystania podczas niepogody.',
@@ -6335,7 +6335,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'mistrzyni_warcabow',
                       title: 'Mistrzyni warcabów',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Weźmie udział w turnieju warcabów.',
                         'Nauczy się 2 gier, które powstały na podstawie warcabów.',
@@ -6347,7 +6347,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'szachistka',
                       title: 'Szachistka',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Wykaże się znajomością zasad gry w szachy (znajomość figur i ich znaków, umiejętność stosowania roszady, bicia w przelocie, itp.).',
                         'Zna wartość figur i ich podział (figury lekkie i ciężkie, jedna figura lekka = 3 piony, itp.).',
@@ -6360,7 +6360,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'arcymistrzyni',
                       title: 'Arcymistrzyni',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'W czasie gry w szachy stosuje wymyślną taktykę (potrafi przejść z obrony do ataku, przegrupować figury z centrum na skrzydła lub odwrotnie).',
                         'Zorganizuje turniej szachowy. Będzie pełniła w nim rolę sędziego.',
@@ -6375,7 +6375,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'mala_gimnastyczka',
                       title: 'Mała gimnastyczka',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Przez 3 tygodnie codziennie się gimnastykuje (min. przez 15 minut).',
                         'Czynnie uczestniczy w zajęciach wf.',
@@ -6388,7 +6388,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'gimnastyczka',
                       title: 'Gimnastyczka',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Wykona 3-minutowy dowolny układ gimnastyczny z podkładem muzycznym i rekwizytem (taśma, koło, drążek, itp.).',
                         'Przedstawi układ 5 ćwiczeń z osobą współćwiczącą.',
@@ -6400,7 +6400,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'mistrzyni_gimnastyki',
                       title: 'Mistrzyni gimnastyki',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Ćwiczy systematycznie jedną z form gimnastyki nowoczesnej: aerobic, kalanetics, itp. lub uprawia codzienny bieg z gimnastyką.',
                         'Zna zasady przeprowadzania gimnastyki porannej i rozgrzewki sportowej, poprowadzi gimnastykę na obozie (codziennie 15 minut).',
@@ -6417,7 +6417,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'mala_lekkoatletka',
                       title: 'Mała lekkoatletka',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Weźmie udział w zawodach sportowych.',
                         'Wybierze dla siebie l dyscyplinę lekkoatletyczną, którą będzie ćwiczyła przez min. 3 tygodnie (3 stałe dni w tygodniu po min. 30 minut).',
@@ -6429,7 +6429,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'lekkoatletka',
                       title: 'Lekkoatletka',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Weźmie udział w zawodach lekkoatletycznych lub w zawodach terenowych w sztafecie wahadłowej, zakwalifikuje się do niej.',
                         'Wykaże się znajomością zasad i technik różnych dyscyplin lekkoatletycznych – odczyta czas na stoperze, zmierzy długość skoku w dal, poprowadzi punktację zawodów, itp.',
@@ -6489,7 +6489,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'mistrzyni_lekkoatletyki',
                       title: 'Mistrzyni lekkoatletyki',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Zna zasady prawidłowego treningu w dyscyplinach lekkoatletycznych (dopuszczalny wysiłek, jego częstość, potrzebny odpoczynek, czas ćwiczeń, tryb życia, żywienie, itp.), stosuje się do nich.',
                         'Zorganizuje zawody sportowe i przygotuje grupę osób do udziału w nich.',
@@ -6506,7 +6506,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'milosniczka_sportu',
                       title: 'Miłośniczka sportu',
-                      level: '1',
+                      level: 1,
                       tasks: [
                         'Pozna cechy charakteru i tryb życia dobrego sportowca i przedyskutuje je z drużynową.',
                         'Ułoży plan uwzględniający odpowiednią ilość snu, wypoczynku, ruchu, właściwe odżywianie, skonsultuje go z drużynową i realizuje przez okres 2 tygodni (ten punkt nie może być realizowany podczas wyjazdu).',
@@ -6517,7 +6517,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'sportowiec',
                       title: 'Sportowiec',
-                      level: '2',
+                      level: 2,
                       tasks: [
                         'Wyróżnia się bardzo dobrymi wynikami w określonej dziedzinie sportu.',
                         'Trenuje systematycznie, starając się ciągle poprawiać swoje wyniki.',
@@ -6529,7 +6529,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                   SprawData(
                       id: 'olimpijka',
                       title: 'Olimpijka',
-                      level: '3',
+                      level: 3,
                       tasks: [
                         'Uprawia wyczynowo określoną dziedzinę sportu nie objętą wymaganiami innych sprawności. Trenuje codziennie, osiąga sukcesy w zawodach.',
                         'Zademonstruje swoje umiejętności w danej dyscyplinie podczas zawodów jako reprezentantka drużyny lub hufca.',

@@ -19,7 +19,7 @@ class SprawData{
 
   final String id;
   final String title;
-  final String level;
+  final int level;
   final String? comment;
 
   final List<String>? requirements;
@@ -81,13 +81,13 @@ class Spraw extends RankSprawTemplate<SprawGetResp>{
           group.id + Spraw.sepChar +
           family.id + Spraw.sepChar +
           id + Spraw.sepChar +
-          level;
+          level.toString();
 
   SprawData data;
 
   String get id => data.id;
   String get title => data.title;
-  String get level => data.level;
+  int get level => data.level;
   String? get comment => data.comment;
 
   List<String>? get requirements => data.requirements??family.requirements;
@@ -255,7 +255,7 @@ class Spraw extends RankSprawTemplate<SprawGetResp>{
     String sprawGroupId = parts[1];
     String sprawFamilyId = parts[2];
     String sprawId = parts[3];
-    String sprawLevel = parts[4];
+    int sprawLevel = int.tryParse(parts[4])??0;
 
     SprawBook? sprawBook = SprawBookData.getById(sprawBookId);
 

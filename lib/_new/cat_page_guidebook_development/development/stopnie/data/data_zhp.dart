@@ -367,37 +367,24 @@ class SprawSelectedListWidgetState extends State<SprawSelectedListWidget>{
               required: index < (reqCount??count),
               onSelectTap: () async {
 
-                String level1 = '';
-                String level2 = '';
+                int minLevel = 0;
                 switch(rankId){
                   case rankZhp1Id:
-                    level1 = '1';
-                    level2 = '2';
-                    break;
                   case rankZhp2Id:
-                    level1 = '1';
-                    level2 = '2';
+                    minLevel = 1;
                     break;
                   case rankZhp3Id:
-                    level1 = '2';
-                    level2 = '3';
-                    break;
                   case rankZhp4Id:
-                    level1 = '2';
-                    level2 = '3';
+                    minLevel = 2;
                     break;
                   case rankZhp5Id:
-                    level1 = '3';
-                    level2 = '4';
-                    break;
                   case rankZhp6Id:
-                    level1 = '3';
-                    level2 = '4';
+                    minLevel = 3;
                     break;
                 }
 
                 List<Spraw> spraws = sprawBookZHPHarcSim2022.allSpraws.where(
-                        (spraw) => spraw.level == level1 || spraw.level == level2
+                        (spraw) => spraw.level >= minLevel || spraw.level == 0
                 ).toList();
 
                 Spraw? selectedSpraw = await selectSpraw(

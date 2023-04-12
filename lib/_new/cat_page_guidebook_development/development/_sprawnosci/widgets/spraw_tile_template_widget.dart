@@ -41,7 +41,7 @@ class SprawTileTemplateWidgetState extends State<SprawTileTemplateWidget>{
   Widget? get trailing => widget.trailing;
 
   String get title => spraw.title;
-  String get level => spraw.level;
+  int get level => spraw.level;
 
   @override
   Widget build(BuildContext context) => InkWell(
@@ -112,7 +112,6 @@ class SprawTileProgressWidget extends StatelessWidget{
     style: AppTextStyle(
         fontSize: Dimen.TEXT_SIZE_APPBAR,
         fontWeight: weight.halfBold,
-        // color: hintEnab_(context)
     ),
   );
 

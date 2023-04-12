@@ -35,4 +35,14 @@ List<HarcForm> allForms = [
     colorEnd: Colors.black
   ),
 
+  const HarcForm(
+      filename: 'wieza_papieru',
+      title: 'Wieża papieru',
+      icon: MdiIcons.scriptOutline,
+      meto: [metoH, metoHS, metoW],
+      tags: [tagFormaZespolowa],
+      colorStart: Colors.grey,
+      colorEnd: Colors.blue
+  ),
+
 ];
