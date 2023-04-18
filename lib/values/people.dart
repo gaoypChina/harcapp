@@ -149,10 +149,11 @@ List<Person> allPeople = [
   MICHAL_JANAS,
   MICHAL_KARWOWSKI,
   MICHAL_METEL,
-  MIKOLAJ_GORECKI,
-  MIKOLAJ_LUKASIK,
+  MICHAL_SITEK,
   MICHAL_SUPINSKI,
   MICHAL_PIENIAZEK,
+  MIKOLAJ_GORECKI,
+  MIKOLAJ_LUKASIK,
   NADIA_OSSOWSKA,
   NADIA_WYSZOGRODZKA,
   NATALIA_STODOLNA,
@@ -975,21 +976,6 @@ const Person MICHAL_METEL = Person(
   org: Org.zhp,
   email: ['michal.metel@zhp.net.pl'],
 );
-const Person MIKOLAJ_GORECKI = Person(
-  name: 'Mikołaj Górecki',
-  druzyna: '30. PgDSHW "Waganci"',
-  hufiec: huf_zhp_krakow_pdg,
-  org: Org.zhp,
-  email: ['mikolaj.gorecki.pl@gmail.com']
-);
-const Person MIKOLAJ_LUKASIK = Person(
-    name: 'Mikołaj Łukasik',
-    druzyna: '8. PgDSH "Pandora"',
-    hufiec: huf_zhp_krakow_pdg,
-    stopH: StopHarc.dhc,
-    org: Org.zhp,
-    email: ['mikiriki2017@gmail.com']
-);
 const Person MICHAL_PIENIAZEK = Person(
     name: 'Michał Pieniążek ',
     druzyna: '1 KDH',
@@ -997,6 +983,12 @@ const Person MICHAL_PIENIAZEK = Person(
     stopH: StopHarc.zhpHRc,
     org: Org.hrp,
     email: ['4michalpieniazek@gmail.com']
+);
+const Person MICHAL_SITEK = Person(
+    name: 'Michał Sitek',
+    druzyna: '21. EŚDH Horyzont',
+    hufiec: huf_zhp_chrzanow,
+    email: ['misiokikol@gmail.com']
 );
 const Person MICHAL_SUPINSKI = Person(
   name: 'Michał Supiński',
@@ -1006,6 +998,21 @@ const Person MICHAL_SUPINSKI = Person(
   hufiec: huf_zhp_poznan_nowe_miasto,
   org: Org.zhp,
   email: ['michal.supinskii@gmail.com']
+);
+const Person MIKOLAJ_GORECKI = Person(
+    name: 'Mikołaj Górecki',
+    druzyna: '30. PgDSHW "Waganci"',
+    hufiec: huf_zhp_krakow_pdg,
+    org: Org.zhp,
+    email: ['mikolaj.gorecki.pl@gmail.com']
+);
+const Person MIKOLAJ_LUKASIK = Person(
+    name: 'Mikołaj Łukasik',
+    druzyna: '8. PgDSH "Pandora"',
+    hufiec: huf_zhp_krakow_pdg,
+    stopH: StopHarc.dhc,
+    org: Org.zhp,
+    email: ['mikiriki2017@gmail.com']
 );
 const Person NADIA_OSSOWSKA = Person(
   name: 'Nadia Ossowska',
