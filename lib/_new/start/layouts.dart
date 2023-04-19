@@ -18,6 +18,7 @@ import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/gradient_widget.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:metaballs/metaballs.dart';
 
 import 'quote_widget.dart';
 import 'definition_widget.dart';
@@ -302,6 +303,7 @@ class DefaultLayout extends StatefulWidget{
       case AppMode.appModeChristmas: return ChristmasLayoutState();
       case AppMode.appModeWielkiPiatek: return WielkiPiatekLayoutState();
       case AppMode.appModeZmartwychwstanie: return ZmartwychwstanieLayoutState();
+      case AppMode.appModeWolyn: return WolynLayoutState();
       case AppMode.appModePowstWarsz: return PowstanieWarszawskieLayoutState();
       case AppMode.appModeNiepodleglosc: return NiepodlegloscLayoutState();
       default: return DefaultLayoutState();
@@ -930,6 +932,81 @@ class ZmartwychwstanieLayoutState extends State<DefaultLayout>{
 
         ],
       )
+  );
+
+}
+
+class WolynLayoutState extends State<DefaultLayout>{
+
+  @override
+  Widget build(BuildContext context) => Container(
+    color: Colors.black,
+    child: Metaballs(
+        color: Colors.black,
+        effect: MetaballsEffect.follow(
+          growthFactor: 1,
+          smoothing: 1,
+          radius: 0.5,
+        ),
+        gradient: LinearGradient(
+            colors: [
+              Colors.orange[600]!,
+              Colors.red[800]!,
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter
+        ),
+        metaballs: 110,
+        animationDuration: const Duration(milliseconds: 200),
+        speedMultiplier: 1,
+        bounceStiffness: 5,
+        minBallRadius: 7,
+        maxBallRadius: 30,
+        glowRadius: 0.3,
+        glowIntensity: 1,
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+
+              Text(
+                'Wołyń 1943',
+                style: TextStyle(
+                  fontSize: 60.0,
+                  fontWeight: FontWeight.w900,
+                  fontFamily: 'Hand15',
+                  color: Colors.black,
+                ),
+                textAlign: TextAlign.center,
+              ),
+
+              SizedBox(height: 36.0),
+
+              Text(
+                '„Nie o zemstę,\nlecz o pamięć i prawdę\nwołają ofiary.”',
+                style: TextStyle(
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.w900,
+                  fontFamily: 'Hand15',
+                  color: Colors.black,
+                  shadows: <Shadow>[
+                    Shadow(
+                      blurRadius: 100.0,
+                      color: Colors.orange[800]!,
+                    ),
+                  ],
+                ),
+                textAlign: TextAlign.center,
+              ),
+
+              const SizedBox(height: 160.0),
+
+            ],
+          ),
+        )
+    ),
   );
 
 }

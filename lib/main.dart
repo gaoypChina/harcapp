@@ -67,8 +67,19 @@ enum AppMode{
   appModeChristmas,
   appModeWielkiPiatek,
   appModeZmartwychwstanie,
+  appModeWolyn,
   appModePowstWarsz,
   appModeNiepodleglosc
+}
+
+bool isDuringMonthAndDay({
+  required int startDay,
+  required int stopDay,
+  required int month,
+  int? stopMonth}){
+  DateTime now = DateTime.now();
+  stopMonth = stopMonth??month;
+  return now.month >= month && now.month <= stopMonth && now.day >= startDay && now.day <= stopDay;
 }
 
 void main() async {
@@ -92,23 +103,6 @@ void main() async {
       basePath: 'assets/locale/',
       supportedLocales: ['pl']);
 
-  DateTime.now().isAfter(DateTime(2020, 4, 11, 8)) && DateTime.now().isBefore(DateTime(2020, 4, 20, 1))?
-  appMode = AppMode.appModeZmartwychwstanie:
-  appMode = AppMode.appModeDefault;
-
-  DateTime.now().isAfter(DateTime(2020, 8, 1, 17)) && DateTime.now().isBefore(DateTime(2020, 8, 8, 23))?
-  appMode = AppMode.appModePowstWarsz:
-  appMode = AppMode.appModeDefault;
-
-  if(DateTime.now().isAfter(DateTime(2021, 11, 29, 8)) && DateTime.now().isBefore(DateTime(2021, 12, 25, 1)))
-    appMode = AppMode.appModeAdwent;
-  else if(DateTime.now().isAfter(DateTime(2021, 12, 25, 1)) && DateTime.now().isBefore(DateTime(2022, 1, 4, 0)))
-    appMode = AppMode.appModeChristmas;
-  else if(DateTime.now().isAfter(DateTime(2022, 11, 10, 0)) && DateTime.now().isBefore(DateTime(2022, 11, 17, 0)))
-    appMode = AppMode.appModeNiepodleglosc;
-  else
-    appMode = AppMode.appModeDefault;
-
   if(DateTime.now().isAfter(DateTime(2022, 4, 15, 14)) && DateTime.now().isBefore(DateTime(2022, 4, 17, 4)))
     appMode = AppMode.appModeWielkiPiatek;
   else if(DateTime.now().isAfter(DateTime(2022, 4, 17, 4)) && DateTime.now().isBefore(DateTime(2022, 4, 24, 0)))
@@ -118,6 +112,20 @@ void main() async {
     appMode = AppMode.appModeWielkiPiatek;
   else if(DateTime.now().isAfter(DateTime(2023, 4, 9, 4)) && DateTime.now().isBefore(DateTime(2023, 4, 17, 0)))
     appMode = AppMode.appModeZmartwychwstanie;
+
+  if(isDuringMonthAndDay(startDay: 11, stopDay: 18, month: 7))
+    appMode = AppMode.appModeWolyn;
+  else if(isDuringMonthAndDay(startDay: 1, stopDay: 3, month: 8))
+    appMode = AppMode.appModePowstWarsz;
+  else if(isDuringMonthAndDay(startDay: 10, stopDay: 17, month: 11))
+    appMode = AppMode.appModeNiepodleglosc;
+  else if(isDuringMonthAndDay(startDay: 29, month: 11, stopDay: 24, stopMonth: 12))
+    appMode = AppMode.appModeAdwent;
+  else if(isDuringMonthAndDay(startDay: 25, stopDay: 31, month: 12) ||
+          isDuringMonthAndDay(startDay: 1, stopDay: 3, month: 1))
+    appMode = AppMode.appModeChristmas;
+  else
+    appMode = AppMode.appModeDefault;
 
   await ShaPref.init();
   await initPaths();
