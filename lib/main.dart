@@ -69,6 +69,7 @@ enum AppMode{
   appModeZmartwychwstanie,
   appModeWolyn,
   appModePowstWarsz,
+  appModePowstanieWielkopolskie,
   appModeNiepodleglosc
 }
 
@@ -113,7 +114,9 @@ void main() async {
   else if(DateTime.now().isAfter(DateTime(2023, 4, 9, 4)) && DateTime.now().isBefore(DateTime(2023, 4, 17, 0)))
     appMode = AppMode.appModeZmartwychwstanie;
 
-  if(isDuringMonthAndDay(startDay: 11, stopDay: 18, month: 7))
+  if(isDuringMonthAndDay(startDay: 14, stopDay: 21, month: 2))
+    appMode = AppMode.appModePowstanieWielkopolskie;
+  else if(isDuringMonthAndDay(startDay: 11, stopDay: 18, month: 7))
     appMode = AppMode.appModeWolyn;
   else if(isDuringMonthAndDay(startDay: 1, stopDay: 3, month: 8))
     appMode = AppMode.appModePowstWarsz;

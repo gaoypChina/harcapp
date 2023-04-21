@@ -301,6 +301,7 @@ class DefaultLayout extends StatefulWidget{
       case AppMode.appModeDefault: return DefaultLayoutState();
       case AppMode.appModeAdwent: return AdwentLayoutState();
       case AppMode.appModeChristmas: return ChristmasLayoutState();
+      case AppMode.appModePowstanieWielkopolskie: return PowstanieWielkopolskieLayoutState();
       case AppMode.appModeWielkiPiatek: return WielkiPiatekLayoutState();
       case AppMode.appModeZmartwychwstanie: return ZmartwychwstanieLayoutState();
       case AppMode.appModeWolyn: return WolynLayoutState();
@@ -632,9 +633,7 @@ class ChristmasLayoutState extends State<DefaultLayout>{
   }
 
   @override
-  Widget build(BuildContext context) {
-
-    return GradientWidget(
+  Widget build(BuildContext context) => GradientWidget(
         radius: 0,
         colorStart: Colors.lightBlueAccent,//Colors.amber,//Color.fromARGB(255, 220, 20, 20),
         colorEnd: Colors.indigo[900]!,//Colors.red[900],//Color.fromARGB(255, 110, 0, 0),
@@ -699,7 +698,98 @@ class ChristmasLayoutState extends State<DefaultLayout>{
         Container()
     );
 
-  }
+}
+
+class PowstanieWielkopolskieLayoutState extends State<DefaultLayout>{
+
+  @override
+  Widget build(BuildContext context) => GradientWidget(
+      radius: 0,
+      colorStart: Colors.white,
+      colorEnd: Colors.grey,
+      child: Stack(
+        children: [
+
+          Column(
+              children:[
+
+                Expanded(
+                  child: Column(
+                    children: [
+
+                      const SizedBox(height: 32.0),
+
+                      Center(
+                        child: SvgPicture.asset(
+                          'assets/images/start/powstanie_wielkopolskie_orzel.svg',
+                          width: MediaQuery.of(context).size.shortestSide/2,
+                          color: Colors.red[700]!,
+                        ),
+                      ),
+
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          top: 32,
+                          left: 32,
+                          right: 32
+                        ),
+                        child: Text(
+                          '16 lutego 1919 A.D.',
+                          style: GoogleFonts.cinzelDecorative(
+                              fontSize: QuoteWidgetState.textSize,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.red[700]!,
+                              height: 1.3
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            top: 16,
+                            left: 32,
+                            right: 32,
+                        ),
+                        child: Text(
+                          'Zwycięstwo Powstania Wielkopolskiego',
+                          style: GoogleFonts.cinzelDecorative(
+                              fontSize: QuoteWidgetState.textSize,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.red[700]!,
+                              height: 1.3
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+
+                    ],
+                  )
+                ),
+
+                Expanded(
+                  child: Align(
+                    alignment: Alignment.bottomRight,
+                    child: Image.asset(
+                      'assets/images/start/powstanie_wielkopolskie_zolnierz.webp',
+                      width: MediaQuery.of(context).size.shortestSide/1.2,
+                    ),
+                  ),
+                )
+
+              ]
+          ),
+
+          const Positioned(
+            bottom: Dimen.defMarg,
+            right: Dimen.defMarg,
+            child: PatroniteSupport(),
+          )
+
+        ],
+      )
+  );
+
 }
 
 class WielkiPiatekLayoutState extends State<DefaultLayout>{

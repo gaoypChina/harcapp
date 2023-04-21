@@ -123,6 +123,7 @@ class TropPredefPageState extends State<TropPredefPage> with TickerProviderState
                           elevation: AppCard.bigElevation,
                           borderRadius: BorderRadius.circular(AppCard.bigRadius),
                           color: AppColors.zhpTropColor,
+                          clipBehavior: Clip.hardEdge,
                           child: TitleShortcutRowWidget(
                             title: 'Fajne, biorę',
                             titleColor: Colors.white,

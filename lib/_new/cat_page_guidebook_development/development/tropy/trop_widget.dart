@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_widgets/border_material.dart';
 import 'package:harcapp/_common_widgets/duration_date_widget.dart';
+import 'package:harcapp/_new/app_drawer.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_editor_page/_main.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_icon.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_task_widget.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_tile.dart';
+import 'package:harcapp/account/account.dart';
+import 'package:harcapp/account/account_page/account_page.dart';
+import 'package:harcapp/account/account_thumbnail_row_widget.dart';
 import 'package:harcapp/values/colors.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
@@ -89,17 +93,34 @@ class TropWidget extends StatelessWidget{
                     iconSize: iconSize,
                   ),
 
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: SimpleButton.from(
-                        context: context,
-                        color: AppColors.zhpTropColor,
-                        textColor: Colors.white,
-                        icon: MdiIcons.accountPlusOutline,
-                        text: 'Zaproś kumpli',
-                        onTap: () => showAppToast(context, text: 'Na razie to nie działa.')
+                  if(account)
+                    Row(
+                      children: [
+
+                        Expanded(child: AccountThumbnailRowWidget(trop.users.values.map((u) => u.name).toList())),
+
+                        if(trop.users.length <= 1)
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: SimpleButton.from(
+                                context: context,
+                                color: AppColors.zhpTropColor,
+                                textColor: Colors.white,
+                                icon: MdiIcons.accountPlusOutline,
+                                text: 'Zaproś kumpli',
+                                onTap: (){
+
+                                  if(AccountData.loggedIn)
+                                    showAppToast(context, text: 'Na razie to nie działa.');
+                                  else
+                                    AccountPage.open(context);
+
+                                }
+                            ),
+                          ),
+
+                      ],
                     ),
-                  ),
 
                   if(trop.aims.isNotEmpty)
                     const SizedBox(height: Dimen.SIDE_MARG),
