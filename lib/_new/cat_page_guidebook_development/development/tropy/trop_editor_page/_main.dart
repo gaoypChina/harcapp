@@ -19,7 +19,7 @@ import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
-import '../trop.dart';
+import '../model/trop.dart';
 
 class TropEditorPage extends StatefulWidget{
 
@@ -91,6 +91,9 @@ class TropEditorPageState extends State<TropEditorPage>{
 
                   if(tasks.isEmpty){
                     showAppToast(context, text: 'Czy to jest trop bez żadnego zadania? Litości...');
+                    return;
+                  } else if(tasks.length > Trop.maxTaskCount){
+                    showAppToast(context, text: 'Chyba trochę za dużo tych zadań, co? Ogranicz się do ${Trop.maxTaskCount}');
                     return;
                   }
 
@@ -495,7 +498,15 @@ class TropEditorPageState extends State<TropEditorPage>{
                       icon: MdiIcons.plus,
                       text: 'Dodaj zadanie',
                       margin: EdgeInsets.zero,
-                      onTap: () => prov.add()
+                      onTap: (){
+                        if(prov.tasks.length >= Trop.maxTaskCount)
+                          showAppToast(
+                            context,
+                            text: 'Maksymalna liczba zadań to ${Trop.maxTaskCount}'
+                          );
+                        else
+                          prov.add();
+                      }
                   ),
                 ),
 

@@ -6,12 +6,14 @@ import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_common_widgets/empty_message_widget.dart';
 import 'package:harcapp/_common_widgets/extended_floating_button.dart';
+import 'package:harcapp/_new/app_drawer.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/ideas/trop_ideas_page.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/predefined/data_z.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_icon.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_page.dart';
 import 'package:harcapp/values/colors.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
+import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
@@ -23,7 +25,7 @@ import 'ideas/data_h.dart';
 import 'ideas/data_hs.dart';
 import 'ideas/data_w.dart';
 import 'predefined/trop_predef_page.dart';
-import 'trop.dart';
+import 'model/trop.dart';
 import 'trop_editor_page/_main.dart';
 import 'trop_tile.dart';
 
@@ -33,82 +35,148 @@ class TropyPage extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) => Consumer<TropListProvider>(
-    builder: (context, prov, child) => BottomNavScaffold(
-      body: Consumer<TropListProvider>(
-        builder: (context, prov, child) => CustomScrollView(
-          physics: const BouncingScrollPhysics(),
-          slivers: [
+    builder: (context, prov, child){
 
-            const SliverAppBar(
-              floating: true,
-              pinned: true,
-              centerTitle: true,
-              title: Text('Tropy'),
-            ),
+      List<Widget> slivers = [
+        const SliverAppBar(
+          floating: true,
+          pinned: true,
+          centerTitle: true,
+          title: Text('Tropy'),
+        )
+      ];
 
-            if(Trop.all.isEmpty)
-              SliverFillRemaining(
-                hasScrollBody: false,
-                child: Center(
-                  child: SimpleButton(
-                      radius: AppCard.bigRadius,
-                      onTap: () => openNewTropBottomSheet(
-                        context,
-                        onNewTropSaved: (trop) =>
-                            pushPage(context, builder: (context) => TropPage(trop))
-                      ),
-                      child: const Padding(
-                        padding: EdgeInsets.all(Dimen.SIDE_MARG),
-                        child: EmptyMessageWidget(
-                          icon: Trop.icon,
-                          text: 'Rozpocznij nowy trop!',
-                        ),
-                      )
+      if(Trop.allOwn.isEmpty && Trop.allSharedWithMe.isEmpty)
+        slivers.add(SliverFillRemaining(
+            hasScrollBody: false,
+            child: Center(
+              child: SimpleButton(
+                  radius: AppCard.bigRadius,
+                  onTap: () => openNewTropBottomSheet(
+                      context,
+                      onNewTropSaved: (trop) =>
+                          pushPage(context, builder: (context) => TropPage(trop))
                   ),
-                )
-              )
-            else
-              SliverPadding(
-                padding: const EdgeInsets.all(Dimen.SIDE_MARG).add(
-                    const EdgeInsets.only(bottom: Dimen.FLOATING_BUTTON_SIZE + 2*Dimen.FLOATING_BUTTON_MARG)
-                ),
-                sliver: SliverList(delegate: SliverChildSeparatedBuilderDelegate(
-                    (BuildContext context, int index) => SimpleButton(
-                      clipBehavior: Clip.none,
-                      radius: AppCard.bigRadius,
-                      child: TropTile(
-                        name: Trop.all[index].name,
-                        category: Trop.all[index].category,
-                        zuchTropName: Trop.all[index].customIconTropName,
-                        trailing: TropTileProgressWidget(Trop.all[index]),
-                        iconSize: TropIcon.defSize,
-                      ),
-                      onTap: () => pushPage(
-                          context,
-                          builder: (BuildContext context) => TropPage(Trop.all[index])
-                      ),
+                  child: const Padding(
+                    padding: EdgeInsets.all(Dimen.SIDE_MARG),
+                    child: EmptyMessageWidget(
+                      icon: Trop.icon,
+                      text: 'Rozpocznij nowy trop!',
                     ),
-                    separatorBuilder: (BuildContext context, int index) => const SizedBox(height: Dimen.SIDE_MARG),
-                    count: Trop.all.length
-                )),
-              )
+                  )
+              ),
+            )
+        ));
 
-          ],
+      else{
+        slivers.add(SliverPadding(
+            padding: const EdgeInsets.only(left: Dimen.SIDE_MARG),
+            sliver: SliverList(delegate: SliverChildListDelegate([
+              const TitleShortcutRowWidget(
+                title: 'Moje tropy',
+                textAlign: TextAlign.left,
+              ),
+            ]))));
+
+        if(Trop.allOwn.isEmpty)
+          slivers.add(SliverList(delegate: SliverChildListDelegate([
+            const NoTropWidget(),
+          ])));
+        else
+          slivers.add(SliverPadding(
+            padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+            sliver: SliverList(delegate: SliverChildSeparatedBuilderDelegate(
+                (BuildContext context, int index) => SimpleButton(
+                  clipBehavior: Clip.none,
+                  radius: AppCard.bigRadius,
+                  child: TropTile(
+                    name: Trop.allOwn[index].name,
+                    category: Trop.allOwn[index].category,
+                    zuchTropName: Trop.allOwn[index].customIconTropName,
+                    trailing: TropTileProgressWidget(Trop.allOwn[index]),
+                    iconSize: TropIcon.defSize,
+                  ),
+                  onTap: () => pushPage(
+                      context,
+                      builder: (BuildContext context) => TropPage(Trop.allOwn[index])
+                  ),
+                ),
+                separatorBuilder: (BuildContext context, int index) => const SizedBox(height: Dimen.SIDE_MARG),
+                count: Trop.allOwn.length
+            )),
+          ));
+
+        if(account)
+          slivers.add(SliverPadding(
+            padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, top: Dimen.SIDE_MARG),
+            sliver: SliverList(delegate: SliverChildListDelegate([
+              const TitleShortcutRowWidget(
+                title: 'Udostępnione mi tropy',
+                textAlign: TextAlign.left,
+              ),
+            ])),
+          ));
+
+        if(account && Trop.allSharedWithMe.isEmpty)
+          slivers.add(SliverList(delegate: SliverChildListDelegate([
+            const NoTropWidget(),
+          ])));
+        else if(account)
+          slivers.add(SliverPadding(
+            padding: const EdgeInsets.all(Dimen.SIDE_MARG).add(
+                const EdgeInsets.only(bottom: Dimen.FLOATING_BUTTON_SIZE + 2*Dimen.FLOATING_BUTTON_MARG)
+            ),
+            sliver: SliverList(delegate: SliverChildSeparatedBuilderDelegate(
+                (BuildContext context, int index) => SimpleButton(
+                  clipBehavior: Clip.none,
+                  radius: AppCard.bigRadius,
+                  child: TropTile(
+                    name: Trop.allSharedWithMe[index].name,
+                    category: Trop.allSharedWithMe[index].category,
+                    zuchTropName: Trop.allSharedWithMe[index].customIconTropName,
+                    trailing: TropTileProgressWidget(Trop.allSharedWithMe[index]),
+                    iconSize: TropIcon.defSize,
+                  ),
+                  onTap: () => pushPage(
+                      context,
+                      builder: (BuildContext context) => TropPage(Trop.allSharedWithMe[index])
+                  ),
+                ),
+                separatorBuilder: (BuildContext context, int index) => const SizedBox(height: Dimen.SIDE_MARG),
+                count: Trop.allSharedWithMe.length
+            )),
+          ));
+
+        slivers.add(
+          SliverList(delegate: SliverChildListDelegate([
+            const SizedBox(height: Dimen.FLOATING_BUTTON_SIZE + 2*Dimen.FLOATING_BUTTON_MARG)
+          ]))
+        );
+
+      }
+
+      return BottomNavScaffold(
+        body: Consumer<TropListProvider>(
+          builder: (context, prov, child) => CustomScrollView(
+            physics: const BouncingScrollPhysics(),
+            slivers: slivers,
+          ),
         ),
-      ),
-      floatingActionButton: ExtendedFloatingButton(
-          MdiIcons.plus,
-          'Nowy trop',
-          background: AppColors.zhpTropColor,
-          backgroundEnd: AppColors.zhpTropDarkColor,
-          textColor: Colors.white,
-          onTap: () => openNewTropBottomSheet(
-            context,
-            onNewTropSaved: (trop) =>
-              pushPage(context, builder: (context) => TropPage(trop))
-          )
-      ),
-    ),
+        floatingActionButton: ExtendedFloatingButton(
+            MdiIcons.plus,
+            'Nowy trop',
+            background: AppColors.zhpTropColor,
+            backgroundEnd: AppColors.zhpTropDarkColor,
+            textColor: Colors.white,
+            onTap: () => openNewTropBottomSheet(
+                context,
+                onNewTropSaved: (trop) =>
+                    pushPage(context, builder: (context) => TropPage(trop))
+            )
+        ),
+      );
+
+    },
   );
 
   Future<void> openNewTropBottomSheet(
@@ -137,7 +205,7 @@ class TropyPage extends StatelessWidget{
                   pushPage(context, builder: (_) => TropEditorPage(
                       allCategories: allHarcTropCategories,
                       onSaved: (Trop trop){
-                        Trop.addToAll(trop);
+                        Trop.addOwnToAll(trop);
                         Trop.callProviders(tropProvider, tropListProvider);
                         onNewTropSaved?.call(trop);
                       }
@@ -161,7 +229,7 @@ class TropyPage extends StatelessWidget{
                       predefTrops: zuchTrops,
                       allCategories: allZuchTropCategories,
                       onNewTropSaved: (trop){
-                        Trop.addToAll(trop);
+                        Trop.addOwnToAll(trop);
                         Trop.callProviders(tropProvider, tropListProvider);
                         onNewTropSaved?.call(trop);
                       },
@@ -251,6 +319,45 @@ class TropyPage extends StatelessWidget{
             ],
           )
       )
+  );
+
+}
+
+class NoTropWidget extends StatelessWidget{
+
+  const NoTropWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) => Padding(
+    padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+    child: Material(
+      borderRadius: BorderRadius.circular(AppCard.bigRadius),
+      color: cardEnab_(context),
+      child: Padding(
+        padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+        child: Row(
+          children: [
+
+            Icon(MdiIcons.windPower, color: hintEnab_(context)),
+
+            Expanded(
+              child: Text(
+                'Wieje pustką...',
+                style: AppTextStyle(
+                    fontSize: Dimen.TEXT_SIZE_BIG,
+                    fontWeight: weight.halfBold,
+                    color: hintEnab_(context)
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+
+            Icon(MdiIcons.windsock, color: hintEnab_(context)),
+
+          ],
+        )
+      ),
+    ),
   );
 
 }

@@ -403,6 +403,7 @@ class Community extends CommunityBasicData{
   List<CommunityManager> get loadedManagers => _loadedManagers;
   Map<String, CommunityManager> get loadedManagersMap => _loadedManagersMap;
 
+  // TODO: why can this be null? Correct it also in indivComp, forum, circle.
   int? managerCount;
 
   final Map<String, MarkerData> markersMap;
@@ -456,7 +457,7 @@ class Community extends CommunityBasicData{
 
   void removeLoadedManagersByKey(List<String> managerKeys, {bool shrinkTotalCount=true, BuildContext? context}){
 
-    _loadedManagers.removeWhere((particip) => managerKeys.contains(particip.key));
+    _loadedManagers.removeWhere((manager) => managerKeys.contains(manager.key));
     for(String managerKey in managerKeys){
       CommunityManager? removed = _loadedManagersMap.remove(managerKey);
       if(removed != null && shrinkTotalCount)

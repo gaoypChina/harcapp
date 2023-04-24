@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/_sprawnosci/spraw_icon.dart';
-import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop.dart';
+import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/model/trop.dart';
 
 class TropIcon extends StatelessWidget{
 

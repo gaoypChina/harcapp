@@ -17,12 +17,12 @@ import '../cat_page_home/community/model/community.dart';
 import '../cat_page_home/community/model/community_category.dart';
 import '_api.dart';
 
-class CommunityManagerRespBody{
+class CommunityManagerBody{
 
   final String key;
   final CommunityRole role;
 
-  const CommunityManagerRespBody(this.key, this.role);
+  const CommunityManagerBody(this.key, this.role);
 
 }
 
@@ -38,11 +38,11 @@ class CommunityManagerUpdateBody{
 
 }
 
-class CommunityManagerRespBodyNick extends CommunityManagerRespBody{
+class CommunityManagerBodyNick extends CommunityManagerBody{
 
   final String nick;
 
-  const CommunityManagerRespBodyNick(super.key, super.role, this.nick);
+  const CommunityManagerBodyNick(super.key, super.role, this.nick);
 
 }
 
@@ -263,7 +263,7 @@ class ApiCommunity{
 
   static Future<Response?> addManagers({
     required String communityKey,
-    required List<CommunityManagerRespBodyNick> users,
+    required List<CommunityManagerBodyNick> users,
     FutureOr<void> Function(List<CommunityManager>)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
     FutureOr<bool> Function()? onServerMaybeWakingUp,
@@ -271,7 +271,7 @@ class ApiCommunity{
   }) async{
 
     List<Map<String, dynamic>> body = [];
-    for(CommunityManagerRespBodyNick user in users)
+    for(CommunityManagerBodyNick user in users)
       body.add({
         'userNick': user.nick,
         'role': communityRoleToStr[user.role],
@@ -287,9 +287,9 @@ class ApiCommunity{
         if(onSuccess == null) return;
 
         List<CommunityManager> managers = [];
-        Map membersRespMap = response.data;
-        for(MapEntry memEntry in membersRespMap.entries)
-          managers.add(CommunityManager.fromRespMap(memEntry.value, key: memEntry.key));
+        Map managersRespMap = response.data;
+        for(MapEntry managEntry in managersRespMap.entries)
+          managers.add(CommunityManager.fromRespMap(managEntry.value, key: managEntry.key));
 
         onSuccess(managers);
       },

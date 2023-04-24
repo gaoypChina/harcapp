@@ -6,7 +6,7 @@ import 'package:harcapp/_common_widgets/folder_widget/folder_tab.dart';
 import 'package:harcapp/_common_widgets/folder_widget/folder_tab_indicator.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/predefined/trop_predef_search_page.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/predefined/trop_predef_widget.dart';
-import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop.dart';
+import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/model/trop.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_editor_page/_main.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_icon.dart';
 import 'package:harcapp/values/colors.dart';

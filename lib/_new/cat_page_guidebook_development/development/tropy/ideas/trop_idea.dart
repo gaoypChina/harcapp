@@ -1,4 +1,4 @@
-import '../trop.dart';
+import '../model/trop.dart';
 
 class TropIdea{
 

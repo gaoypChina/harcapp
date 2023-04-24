@@ -11,7 +11,7 @@ import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/
 import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/models_common/rank_group.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/models_common/rank_task.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/rank_widgets/rank_widget.dart';
-import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop.dart';
+import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/model/trop.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_tile.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
@@ -593,7 +593,7 @@ class TropSelectedListWidgetState extends State<TropSelectedListWidget>{
           if(extText == null)
             trop = null;
           else if(extText.length > TropSelectedListWidget.samplePrefix.length)
-            trop = Trop.readFromUniqName(extText.substring(TropSelectedListWidget.samplePrefix.length));
+            trop = Trop.readOwnFromUniqName(extText.substring(TropSelectedListWidget.samplePrefix.length));
           else if(!extText.startsWith(TropSelectedListWidget.samplePrefix) && !extText.startsWith(TropSelectedListWidget.customPrefix) && extText.isNotEmpty) {
             // This is a temporary solution.
             trop = null;

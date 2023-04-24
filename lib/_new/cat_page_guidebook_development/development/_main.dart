@@ -5,7 +5,7 @@ import 'package:harcapp/_common_classes/org/org_handler.dart';
 import 'package:harcapp/_common_widgets/border_material.dart';
 import 'package:harcapp/_common_widgets/gradient_icon.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/_main.dart';
-import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop.dart';
+import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/model/trop.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_icon.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_widget_small.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
@@ -482,7 +482,7 @@ class TropyPreviewList extends StatelessWidget{
   Widget build(BuildContext context) => Consumer2<TropProvider, TropListProvider>(
     builder: (context, tropProv, tropProvList, child){
 
-      if(Trop.all.isEmpty)
+      if(Trop.allOwn.isEmpty)
         return const SizedBox(
           height: TropIcon.defSize + Dimen.defMarg,
           child: TropyPreviewEmptyWidget(),
@@ -497,11 +497,11 @@ class TropyPreviewList extends StatelessWidget{
             bottom: Dimen.defMarg,
           ),
           itemBuilder: (context, index) => TropWidgetSmall(
-            Trop.all[index],
+            Trop.allOwn[index],
             elevation: 0,
           ),
           separatorBuilder: (context, index) => const SizedBox(width: Dimen.defMarg),
-          itemCount: Trop.all.length,
+          itemCount: Trop.allOwn.length,
           scrollDirection: Axis.horizontal,
           shrinkWrap: true,
           physics: const BouncingScrollPhysics(),

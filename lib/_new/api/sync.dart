@@ -15,7 +15,7 @@ import 'package:harcapp/_new/cat_page_guidebook_development/development/_sprawno
 import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/models/rank_def.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/models/rank_zhp_sim_2022.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/models_common/rank.dart';
-import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop.dart';
+import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/model/trop.dart';
 import 'package:harcapp/_new/cat_page_song_book/settings/song_book_settings_resp.dart';
 import 'package:harcapp/logger.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/album.dart';
@@ -196,7 +196,7 @@ class ApiSync{
         
         if(trops != null)
           for(String uniqName in trops.keys)
-            Trop.allMapByUniqName[uniqName]!.saveSyncResult(trops[uniqName], syncedTime);
+            Trop.allOwnMapByUniqName[uniqName]!.saveSyncResult(trops[uniqName], syncedTime);
         
         SynchronizerEngine.lastSyncTimeLocal = syncedTime;
 
@@ -497,7 +497,7 @@ class ApiSync{
         }
 
         for(String tropUniqName in trops.keys){
-          Trop? trop = Trop.allMapByUniqName[tropUniqName];
+          Trop? trop = Trop.allOwnMapByUniqName[tropUniqName];
           TropGetResp? tropResp = trops[tropUniqName]!;
           if(trop == null){
             List<TropTaskData> tasks = [];
@@ -508,7 +508,7 @@ class ApiSync{
                 content: taskBody.content,
                 summary: taskBody.summary,
                 deadline: taskBody.deadline,
-                assignee: tropResp.users[taskBody.assigneeKey],
+                assignee: tropResp.assignedUsers[taskBody.assigneeKey],
                 assigneeCustomText: taskBody.assigneeCustomText,
                 completed: taskBody.completed
               ));
@@ -526,7 +526,7 @@ class ApiSync{
                 tasks: tasks
             );
             trop.save(localOnly: true, synced: true);
-            Trop.addToAll(trop);
+            Trop.addOwnToAll(trop);
           }else{
             trop.applySyncGetResp(tropResp);
           }

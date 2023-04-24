@@ -3,7 +3,7 @@ import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/floating_container.dart';
 import 'package:harcapp/_common_widgets/search_field.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/_sprawnosci/widgets/spraw_tile_template_widget.dart';
-import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop.dart';
+import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/model/trop.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_tile.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
@@ -32,7 +32,7 @@ class TropSelectorState extends State<TropSelector>{
 
   @override
   void initState() {
-    searchedTrops = Trop.all;
+    searchedTrops = Trop.allOwn;
     super.initState();
   }
 
@@ -51,13 +51,13 @@ class TropSelectorState extends State<TropSelector>{
 
             text = remPolChars(text);
             if(text.isEmpty){
-              setState(() => this.searchedTrops = Trop.all);
+              setState(() => this.searchedTrops = Trop.allOwn);
               return;
             }
 
             List<Trop> searchedTrops = [];
 
-            for(Trop trop in Trop.all)
+            for(Trop trop in Trop.allOwn)
               if(remPolChars(trop.name).contains(text))
                 searchedTrops.add(trop);
 

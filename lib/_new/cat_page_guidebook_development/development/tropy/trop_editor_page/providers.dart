@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
-import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop.dart';
+import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/model/trop.dart';
 import 'package:provider/provider.dart';
 
 class NameControllerProvider extends ChangeNotifier{

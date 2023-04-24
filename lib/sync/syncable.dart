@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:harcapp/_common_classes/org/org_handler.dart';
 import 'package:harcapp/_new/api/sync_resp_body/sync_entity_resp.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/models/rank_def.dart';
-import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop.dart';
+import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/model/trop.dart';
 import 'package:harcapp/_new/details/app_settings.dart';
 import 'package:path/path.dart';
 
@@ -72,7 +72,7 @@ mixin SyncGetRespNode<T extends SyncGetResp> on SyncableParam{
   static SyncableParam get tropNodes => SyncableParamGroup(
       null,
       paramId: Trop.syncClassId,
-      childParams: Trop.all
+      childParams: Trop.allOwn
   );
 
   static List<SyncableParam> get all => [

@@ -3,7 +3,7 @@ import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_widgets/border_material.dart';
 import 'package:harcapp/_common_widgets/duration_date_widget.dart';
 import 'package:harcapp/_new/app_drawer.dart';
-import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop.dart';
+import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/model/trop.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_editor_page/_main.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_icon.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_task_widget.dart';
@@ -97,9 +97,9 @@ class TropWidget extends StatelessWidget{
                     Row(
                       children: [
 
-                        Expanded(child: AccountThumbnailRowWidget(trop.users.values.map((u) => u.name).toList())),
+                        Expanded(child: AccountThumbnailRowWidget(trop.assignedUsers.map((p) => p.name).toList())),
 
-                        if(trop.users.length <= 1)
+                        if(trop.assignedUsers.length <= 1)
                           Align(
                             alignment: Alignment.centerRight,
                             child: SimpleButton.from(

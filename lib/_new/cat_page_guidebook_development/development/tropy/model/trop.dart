@@ -8,6 +8,9 @@ import 'package:harcapp/_common_classes/missing_decode_param_error.dart';
 import 'package:harcapp/_common_classes/storage.dart';
 import 'package:harcapp/_new/api/sync_resp_body/trop_get_resp.dart';
 import 'package:harcapp/_new/api/sync_resp_body/trop_task_get_resp.dart';
+import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/model/trop_role.dart';
+import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/model/trop_user.dart';
+import 'package:harcapp/account/account.dart';
 import 'package:harcapp/logger.dart';
 import 'package:harcapp/sync/syncable.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
@@ -35,6 +38,20 @@ class TropListProvider extends ChangeNotifier{
 
 class TropTaskProvider extends ChangeNotifier{
   static TropTaskProvider of(BuildContext context) => Provider.of<TropTaskProvider>(context, listen: false);
+  static void notify_(BuildContext context) => of(context).notify();
+
+  void notify() => notifyListeners();
+}
+
+class TropAssignedUsersProvider extends ChangeNotifier{
+  static TropAssignedUsersProvider of(BuildContext context) => Provider.of<TropAssignedUsersProvider>(context, listen: false);
+  static void notify_(BuildContext context) => of(context).notify();
+
+  void notify() => notifyListeners();
+}
+
+class TropLoadedUsersProvider extends ChangeNotifier{
+  static TropLoadedUsersProvider of(BuildContext context) => Provider.of<TropLoadedUsersProvider>(context, listen: false);
   static void notify_(BuildContext context) => of(context).notify();
 
   void notify() => notifyListeners();
@@ -145,6 +162,29 @@ String tropCategoryToName(TropCategory category){
   }
 }
 
+class TropPreviewData{
+
+  String uniqName;
+  String name;
+  TropCategory category;
+  String? customIconTropName;
+
+  TropPreviewData({
+    required this.uniqName,
+    required this.name,
+    required this.category,
+    this.customIconTropName
+  });
+
+  static TropPreviewData fromRespMap(Map respMapData, String uniqName) => TropPreviewData(
+    uniqName: uniqName,
+    name: respMapData[Trop.paramName]??(throw MissingDecodeParamError(Trop.paramName)),
+    customIconTropName: respMapData[Trop.paramCustomIconTropName],
+    category: strToTropCategory(respMapData[Trop.paramCategory])??(throw MissingDecodeParamError(Trop.paramCategory)),
+  );
+  
+}
+
 class TropBaseData<T extends TropTaskBaseData>{
 
   String name;
@@ -182,42 +222,88 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
     tropListProvider.notify();
   }
 
-  static late List<Trop> all;
-  static late Map<String, Trop> allMapByUniqName;
+  static callProvidersWithAssignedUsersOf(BuildContext context){
+    callProvidersOf(context);
+    TropAssignedUsersProvider.notify_(context);
+  }
 
-  static addToAll(Trop t, {BuildContext? context}){
-    if(allMapByUniqName[t.uniqName] != null) return;
+  static callProvidersWithAssignedUsers(TropProvider tropProvider, TropListProvider tropListProvider, TropAssignedUsersProvider tropAssignedUsersProv){
+    callProviders(tropProvider, tropListProvider);
+    tropAssignedUsersProv.notify();
+  }
 
-    all.add(t);
-    allMapByUniqName[t.uniqName] = t;
+  static callProvidersWithLoadedUsersOf(BuildContext context){
+    callProvidersOf(context);
+    TropLoadedUsersProvider.notify_(context);
+  }
+
+  static callProvidersWithLoadedUsers(TropProvider tropProvider, TropListProvider tropListProvider, TropLoadedUsersProvider tropLoadedUsersProv){
+    callProviders(tropProvider, tropListProvider);
+    tropLoadedUsersProv.notify();
+  }
+
+  static late List<Trop> allOwn;
+  static late Map<String, Trop> allOwnMapByUniqName;
+
+  static addOwnToAll(Trop t, {BuildContext? context}){
+    if(allOwnMapByUniqName[t.uniqName] != null) return;
+
+    allOwn.add(t);
+    allOwnMapByUniqName[t.uniqName] = t;
 
     if(context == null) return;
     callProvidersOf(context);
   }
 
-  static removeFromAll(Trop t, {BuildContext? context}){
-    if(allMapByUniqName[t.uniqName] == null) return;
+  static removeOwnFromAll(Trop t, {BuildContext? context}){
+    if(allOwnMapByUniqName[t.uniqName] == null) return;
 
-    all.remove(t);
-    allMapByUniqName.remove(t.uniqName);
+    allOwn.remove(t);
+    allOwnMapByUniqName.remove(t.uniqName);
 
     if(context == null) return;
     callProvidersOf(context);
   }
 
+  static late List<Trop> allSharedWithMe;
+  static late Map<String, Trop> allSharedWithMeMapByUniqName;
+
+  static addSharedWithMeToAll(Trop t, {BuildContext? context}){
+    if(allSharedWithMeMapByUniqName[t.uniqName] != null) return;
+
+    allSharedWithMe.add(t);
+    allSharedWithMeMapByUniqName[t.uniqName] = t;
+
+    if(context == null) return;
+    callProvidersOf(context);
+  }
+
+  static removeSharedWithMeFromAll(Trop t, {BuildContext? context}){
+    if(allSharedWithMeMapByUniqName[t.uniqName] == null) return;
+
+    allSharedWithMe.remove(t);
+    allSharedWithMeMapByUniqName.remove(t.uniqName);
+
+    if(context == null) return;
+    callProvidersOf(context);
+  }
+  
   static Future<void> init() async {
     
-    all = [];
-    allMapByUniqName = {};
+    allOwn = [];
+    allOwnMapByUniqName = {};
+    
+    allSharedWithMe = [];
+    allSharedWithMeMapByUniqName = {};
     
     Directory ownTropyDir = Directory(getOwnTropFolderPath);
     await ownTropyDir.create(recursive: true);
 
     for (FileSystemEntity file in ownTropyDir.listSync(recursive: false)) {
-      Trop? trop = Trop.readFromUniqName(basename(file.path));
+      Trop? trop = Trop.readOwnFromUniqName(basename(file.path));
       if(trop == null) continue;
-      all.add(trop);
-      allMapByUniqName[trop.uniqName] = trop;
+      allOwn.add(trop);
+      allOwnMapByUniqName[trop.uniqName] = trop;
     }
 
     // all.addAll([
@@ -308,7 +394,7 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
     //       tasks: []
     //   )
     // ]);
-    allMapByUniqName = { for(Trop t in all) t.uniqName: t};
+    allOwnMapByUniqName = { for(Trop t in allOwn) t.uniqName: t};
 
     initialized = true;
   }
@@ -325,7 +411,8 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
   static const String paramCompleted = 'completed';
   static const String paramCompletionTime = 'completionDate';
   static const String paramTasks = 'tasks';
-  static const String paramUsers = 'users';
+  static const String paramAssignedUsers = 'assignedUsers';
+  static const String paramLoadedUsers = 'loadedUsers';
 
   static const int maxLenName = 80;
   static const int maxAimCount = 50;
@@ -340,7 +427,19 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
   bool completed;
   DateTime? completionDate;
 
-  Map<String, UserData> users;
+  // The users account should always be either in _loadedUsers or in _assignedUsers.
+  final List<TropUser> _assignedUsers;
+  final Map<String, TropUser> _assignedUsersMap;
+  List<TropUser> get assignedUsers => _assignedUsers;
+  Map<String, TropUser> get assignedUsersMap => _assignedUsersMap;
+
+  final List<TropUser> _loadedUsers;
+  final Map<String, TropUser> _loadedUsersMap;
+  List<TropUser> get loadedUsers => _loadedUsers;
+  Map<String, TropUser> get loadedUsersMap => _loadedUsersMap;
+
+  // TODO: why can this be null?
+  int? userCount;
 
   bool get isCategoryHarc => allHarcTropCategories.contains(category);
 
@@ -354,6 +453,15 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
       allCount = 1;
 
     return (100*completedCount/allCount.toDouble()).round();
+  }
+
+  TropRole? get myRole{
+    String? accKey = AccountData.key;
+    if(accKey == null){
+      logger.w('Value of saved account data key is null. Are you logged in?');
+      return null;
+    }
+    return (_assignedUsersMap[accKey]??_loadedUsersMap[accKey])?.role;
   }
 
   Trop({
@@ -370,11 +478,17 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
     required this.completionDate,
 
     required super.tasks,
-    required this.users,
+    required Map<String, TropUser> assignedUsersMap,
+    required Map<String, TropUser> loadedUsersMap,
+
+    this.userCount,
 
     super.notesForLeaders,
     super.exampleSpraws,
-  });
+  }): _assignedUsersMap = assignedUsersMap,
+      _assignedUsers = assignedUsersMap.values.toList(),
+      _loadedUsersMap = loadedUsersMap,
+      _loadedUsers = loadedUsersMap.values.toList();
 
   void update(Trop trop){
     name = trop.name;
@@ -386,7 +500,6 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
     completed = trop.completed;
     completionDate = trop.completionDate;
     tasks = trop.tasks;
-    users = trop.users;
   }
 
   static Trop create({
@@ -419,7 +532,8 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
         completionDate: completionTime,
 
         tasks: [],
-        users: {},
+        assignedUsersMap: {},
+        loadedUsersMap: {},
     );
 
     trop.tasks = tasks.map((t) => t.toTask(trop)).toList();
@@ -442,7 +556,8 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
       completionDate: DateTime.tryParse(respMapData[paramCompletionTime]??''),
 
       tasks: [],
-      users: {},
+      assignedUsersMap: {},
+      loadedUsersMap: {},
     );
 
     List<TropTask> tasks = [];
@@ -450,15 +565,20 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
       tasks.add(TropTask.fromRespMap(respMapData[paramTasks][taskLclId], taskLclId, trop));
     trop.tasks = tasks;
 
-    Map<String, UserData> users = {};
-    for(String userKey in respMapData[paramUsers].keys)
-      users[userKey] = UserData.fromRespMap(respMapData[paramUsers][userKey], key: userKey);
-    trop.users = users;
+    Map<String, TropUser> assignedUsers = {};
+    for(String userKey in respMapData[paramAssignedUsers].keys)
+      assignedUsers[userKey] = TropUser.fromRespMap(respMapData[paramAssignedUsers][userKey], key: userKey);
+    trop.addAssignedUsers(assignedUsers.values.toList());
+
+    Map<String, TropUser> loadedUsers = {};
+    for(String userKey in respMapData[paramLoadedUsers].keys)
+      loadedUsers[userKey] = TropUser.fromRespMap(respMapData[paramLoadedUsers][userKey], key: userKey);
+    trop.addLoadedUsers(loadedUsers.values.toList());
 
     return trop;
   }
 
-  static Trop? readFromUniqName(String uniqName, {bool log = true}){
+  static Trop? readOwnFromUniqName(String uniqName, {bool log = true}){
     try {
       String tropData = readFileAsString(getOwnTropFolderPath + uniqName);
       Map map = jsonDecode(tropData);
@@ -499,15 +619,30 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
         needsUpdating = true;
       }
 
-      if(!map.containsKey(paramUsers)) {
-        map[paramUsers] = {};
+      if(!map.containsKey(paramAssignedUsers)) {
+        map[paramAssignedUsers] = {};
         needsUpdating = true;
       }
 
+      if(!map.containsKey(paramLoadedUsers)) {
+        map[paramLoadedUsers] = {};
+        needsUpdating = true;
+      }
+      
       if(needsUpdating)
         fromRespMap(map, uniqName).save();
       // TMP TMP TMP
 
+      return fromRespMap(map, uniqName);
+    } catch(e) {
+      if(log) logger.e(e);
+      return null;
+    }
+  }
+  static Trop? readSharedFromUniqName(String uniqName, {bool log = true}){
+    try {
+      String tropData = readFileAsString(getSharedTropFolderPath + uniqName);
+      Map map = jsonDecode(tropData);
       return fromRespMap(map, uniqName);
     } catch(e) {
       if(log) logger.e(e);
@@ -528,13 +663,14 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
     paramCompletionTime: completionDate?.toIso8601String(),
 
     paramTasks: { for(TropTask task in tasks) task.lclId: task.toJsonMap() },
-    paramUsers : users.map((key, value) => MapEntry(key, value.toJsonMap()))
+    paramAssignedUsers: _assignedUsersMap.map((key, value) => MapEntry(key, value.toJsonMap())),
+    paramLoadedUsers : _loadedUsersMap.map((key, value) => MapEntry(key, value.toJsonMap())),
   };
 
   void save({localOnly = false, bool synced = false}){
 
     // Mark removed tasks as removed.
-    Trop? oldTrop = readFromUniqName(uniqName, log: false);
+    Trop? oldTrop = readOwnFromUniqName(uniqName, log: false);
     if(oldTrop != null && !synced) {
       Set<String> oldTaskLclIds = Set.from(oldTrop.tasks.map((t) => t.lclId).toList());
       Set<String> taskLclIds = Set.from(tasks.map((t) => t.lclId).toList());
@@ -565,12 +701,132 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
   bool delete({BuildContext? context}){
     try{
       File(getOwnTropFolderPath + uniqName).deleteSync();
-      removeFromAll(this, context: context);
+      removeOwnFromAll(this, context: context);
       return true;
     }catch(e){
       if(context != null) showAppToast(context, text: 'Wystąpił problem z usuwaniem tropu.');
       return false;
     }
+  }
+
+  // Participants
+
+  void addAssignedUsers(List<TropUser> newUsers, {BuildContext? context}){
+
+    for(TropUser participant in newUsers) {
+      if(_assignedUsersMap.containsKey(participant.key)) continue;
+      _assignedUsers.add(participant);
+      _assignedUsersMap[participant.key] = participant;
+    }
+
+    if(context == null) return;
+    callProvidersWithAssignedUsersOf(context);
+
+  }
+
+  void setAllAssignedUsers(List<TropUser> allUsers, {BuildContext? context}){
+    _assignedUsers.clear();
+    _assignedUsersMap.clear();
+    _assignedUsers.addAll(allUsers);
+    _assignedUsers.sort((p1, p2) => p1.name.compareTo(p2.name));
+    _assignedUsersMap.addAll({for (TropUser? m in allUsers) m!.key: m});
+
+    if(context == null) return;
+    callProvidersWithAssignedUsersOf(context);
+  }
+
+  void updateAssignedUsers(List<TropUser> newUsers, {BuildContext? context}){
+
+    for(TropUser user in newUsers) {
+      int index = _assignedUsers.indexWhere((userIter) => userIter.key == user.key);
+      _assignedUsers.removeAt(index);
+      _assignedUsers.insert(index, user);
+      _assignedUsersMap[user.key] = user;
+    }
+
+    if(context == null) return;
+    callProvidersWithAssignedUsersOf(context);
+  }
+
+  void removeAssignedUsersByKey(List<String> userKeys, {bool shrinkTotalCount=true, BuildContext? context}){
+
+    _assignedUsers.removeWhere((user) => userKeys.contains(user.key));
+    for(String managerKey in userKeys)
+      _assignedUsersMap.remove(managerKey);
+
+    if(context == null) return;
+    callProvidersWithAssignedUsersOf(context);
+  }
+
+  void removeAssignedUsers(TropUser user, {bool shrinkTotalCount=true}){
+    bool success = _assignedUsers.remove(user);
+    TropUser? removed = _assignedUsersMap.remove(user.key);
+
+    if(success != (removed != null))
+      logger.d("A dangerous inconsistency between the objectList and the objectKeyMap occurred!");
+  }
+
+  // Loaded users
+
+  void addLoadedUsers(List<TropUser> newUsers, {BuildContext? context}){
+
+    for(TropUser user in newUsers) {
+      if(_loadedUsersMap.containsKey(user.key)) continue;
+      _loadedUsers.add(user);
+      _loadedUsersMap[user.key] = user;
+    }
+
+    if(context == null) return;
+    callProvidersWithLoadedUsersOf(context);
+
+  }
+
+  void setAllLoadedUsers(List<TropUser> allUsers, {BuildContext? context}){
+    _loadedUsers.clear();
+    _loadedUsersMap.clear();
+    _loadedUsers.addAll(allUsers);
+    _loadedUsers.sort((o1, o2) => o1.name.compareTo(o2.name));
+    _loadedUsersMap.addAll({for (TropUser u in allUsers) u.key: u});
+
+    if(context == null) return;
+    callProvidersWithLoadedUsersOf(context);
+  }
+
+  void updateLoadedUsers(List<TropUser> newUsers, {BuildContext? context}){
+
+    for(TropUser user in newUsers) {
+      int index = _loadedUsers.indexWhere((userIter) => userIter.key == user.key);
+      _loadedUsers.removeAt(index);
+      _loadedUsers.insert(index, user);
+      _loadedUsersMap[user.key] = user;
+    }
+
+    if(context == null) return;
+    callProvidersWithLoadedUsersOf(context);
+  }
+
+  void removeLoadedUsersByKey(List<String> userKeys, {bool shrinkTotalCount=true, BuildContext? context}){
+
+    _loadedUsers.removeWhere((user) => userKeys.contains(user.key));
+    for(String userKey in userKeys){
+      TropUser? removed = _loadedUsersMap.remove(userKey);
+      if(removed != null && shrinkTotalCount)
+        userCount = userCount! - 1;
+    }
+
+    if(context == null) return;
+    callProvidersWithLoadedUsersOf(context);
+  }
+
+  void removeLoadedUsers(TropUser user, {bool shrinkTotalCount=true}){
+    bool success = _loadedUsers.remove(user);
+    TropUser? removed = _loadedUsersMap.remove(user.key);
+
+    if(success != (removed != null))
+      logger.d("A dangerous inconsistency between the objectList and the objectKeyMap occurred!");
+
+    if(success && removed != null && shrinkTotalCount)
+      userCount = userCount! - 1;
   }
 
   static const String syncClassId = 'trop';
@@ -663,7 +919,7 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
     completed = resp.completed;
     completionDate = resp.completionDate;
 
-    users = resp.users;
+    setAllAssignedUsers(resp.assignedUsers.values.toList());
 
     List<String> taskLclIds = resp.tasks.keys.toList();
     for(int i=0; i<taskLclIds.length; i++){
@@ -676,7 +932,7 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
             content: taskResp.content,
             summary: taskResp.summary,
             deadline: taskResp.deadline,
-            assignee: users[taskResp.assigneeKey],
+            assignee: _assignedUsersMap[taskResp.assigneeKey],
             assigneeCustomText: taskResp.assigneeCustomText,
             completed: taskResp.completed,
             trop: this
@@ -802,7 +1058,7 @@ class TropTask extends TropTaskData with SyncableParamGroupMixin, SyncGetRespNod
     content: respMapData[paramContent]??(throw MissingDecodeParamError(paramContent)),
     summary: respMapData[paramSummary],
     deadline: DateTime.tryParse(respMapData[paramDeadline])??(throw MissingDecodeParamError(paramDeadline)),
-    assignee: trop.users[respMapData[paramAssigneeKey]],
+    assignee: trop._assignedUsersMap[respMapData[paramAssigneeKey]],
     assigneeCustomText: respMapData[paramAssigneeCustomText],
     completed: respMapData[paramCompleted]??false,
     trop: trop,
@@ -813,7 +1069,7 @@ class TropTask extends TropTaskData with SyncableParamGroupMixin, SyncGetRespNod
     content = resp.content;
     summary = resp.summary;
     deadline = resp.deadline;
-    assignee = trop.users[resp.assigneeKey];
+    assignee = trop._assignedUsersMap[resp.assigneeKey];
     assigneeCustomText = resp.assigneeCustomText;
     completed = resp.completed;
   }

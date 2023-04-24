@@ -1,8 +1,8 @@
-import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_new/api/_api.dart';
 import 'package:harcapp/_new/api/sync_resp_body/sync_entity_resp.dart';
 import 'package:harcapp/_new/api/sync_resp_body/trop_task_get_resp.dart';
-import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop.dart';
+import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/model/trop.dart';
+import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/model/trop_user.dart';
 
 class TropGetResp extends SyncGetResp{
 
@@ -35,8 +35,11 @@ class TropGetResp extends SyncGetResp{
   static const String paramTasks = 'tasks';
   final Map<String, TropTaskGetResp> tasks;
 
-  static const String paramUsers = 'users';
-  final Map<String, UserData> users;
+  static const String paramAssignedUsers = 'assignedUsers';
+  final Map<String, TropUser> assignedUsers;
+
+  static const String paramLoadedUsers = 'loadedUsers';
+  final Map<String, TropUser> loadedUsers;
 
 
   const TropGetResp({
@@ -50,7 +53,8 @@ class TropGetResp extends SyncGetResp{
     required this.completed,
     required this.completionDate,
     required this.tasks,
-    required this.users,
+    required this.assignedUsers,
+    required this.loadedUsers,
   });
 
   static TropGetResp fromRespMap(Map respMapData){
@@ -61,11 +65,18 @@ class TropGetResp extends SyncGetResp{
       for(String uniqTaskName in tasksBody.keys)
         tasks[uniqTaskName] = TropTaskGetResp.from(tasksBody[uniqTaskName]);
 
-    Map<String, dynamic>? usersBody = respMapData[paramUsers];
-    Map<String, UserData> users = {};
-    if(usersBody != null)
-      for(String userKey in usersBody.keys)
-        users[userKey] = UserData.fromRespMap(usersBody[userKey], key: userKey);
+    Map<String, dynamic>? participantsBody = respMapData[paramAssignedUsers];
+    Map<String, TropUser> participants = {};
+    if(participantsBody != null)
+      for(String participKey in participantsBody.keys)
+        participants[participKey] = TropUser.fromRespMap(participantsBody[participKey], key: participKey);
+
+    Map<String, dynamic>? observersBody = respMapData[paramLoadedUsers];
+    Map<String, TropUser> observers = {};
+    if(observersBody != null)
+      for(String observerKey in observersBody.keys)
+        observers[observerKey] = TropUser.fromRespMap(observersBody[observerKey], key: observerKey);
+
 
     return TropGetResp(
         name: respMapData[paramName]??(throw InvalidResponseError(paramName)),
@@ -78,7 +89,8 @@ class TropGetResp extends SyncGetResp{
         completionDate: DateTime.tryParse(respMapData[paramCompletionDate]??''),
         completed: respMapData[paramCompleted]??false,
         tasks: tasks,
-        users: users
+        assignedUsers: participants,
+        loadedUsers: observers
     );
   }
 
