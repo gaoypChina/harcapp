@@ -2,9 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:harcapp/_common_classes/missing_decode_param_error.dart';
-import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/models_common/rank.dart';
-import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/models_common/rank_state_shared.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/model/trop.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/model/trop_role.dart';
 import 'package:optional/optional_internal.dart';
@@ -177,7 +174,7 @@ class ApiTrop{
       onError: (err) async => await onError?.call()
   );
 
-  static Future<Response?> getAllShared(
+  static Future<Response?> getAllSharedPreviews(
       { FutureOr<void> Function()? onError,
         FutureOr<void> Function(List<TropPreviewData>)? onSuccess,
       }) async => await API.sendRequest(
@@ -201,27 +198,25 @@ class ApiTrop{
   );
 
   static Future<Response?> getShared({
-    required String key,
+    required String tropUniqName,
     required DateTime lastUpdateTime,
-    FutureOr<void> Function(Rank rank)? onSuccess,
+    FutureOr<void> Function(Trop trop)? onSuccess,
     FutureOr<void> Function(Response? response)? onError,
   }) async => await API.sendRequest(
     withToken: true,
     requestSender: (Dio dio) async => await dio.get(
-      '${API.SERVER_URL}api/rank/shared/$key',
+      '${API.SERVER_URL}api/trop/shared/$tropUniqName',
     ),
     onSuccess: (Response response, DateTime now) async {
 
-      Map<String, dynamic> rankSyncData = response.data;
-      String rankUniqName = rankSyncData['uniqName']??(throw MissingDecodeParamError('uniqName'));
+      Map<String, dynamic> tropRawData = response.data;
 
-      RankStateShared stateShared = RankStateShared.fromRespMap(key, rankUniqName, lastUpdateTime, rankSyncData);
-      stateShared.dump();
-
-      Rank? preview = Rank.fromStateShared(rankUniqName, stateShared);
-
-      if(preview == null) await onError?.call(null);
-      else await onSuccess?.call(preview);
+      try {
+        Trop trop = Trop.fromRespMap(tropRawData, tropUniqName);
+        await onSuccess?.call(trop);
+      } catch(e) {
+        await onError?.call(response);
+      }
 
     },
     onError: (err) async => onError?.call(err.response),
