@@ -89,7 +89,7 @@ class TropWidget extends StatelessWidget{
                     name: trop.name,
                     category: trop.category,
                     zuchTropName: trop.customIconTropName,
-                    trailing: TropTileProgressWidget(trop),
+                    trailing: TropTileProgressWidget(trop.completenessPercent),
                     iconSize: iconSize,
                   ),
 
@@ -111,7 +111,7 @@ class TropWidget extends StatelessWidget{
                                 onTap: (){
 
                                   if(AccountData.loggedIn)
-                                    showAppToast(context, text: 'Na razie to nie działa.');
+                                    showAppToast(context, text: 'Na razie to nie działa!');
                                   else
                                     AccountPage.open(context);
 

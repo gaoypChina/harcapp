@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_common_classes/color_pack.dart';
+import 'package:harcapp/_common_classes/date_format.dart';
 import 'package:harcapp/_common_classes/org/org.dart';
 import 'package:harcapp/_common_classes/sha_pref.dart';
 import 'package:harcapp/_new/api/sync_resp_body/rank_get_resp.dart';
@@ -580,7 +581,7 @@ abstract class Rank<TData extends RankData, TResp extends RankGetResp, TState ex
       SyncableParamSingle(
         this,
         paramId: paramCompletionDate,
-        value: () => completionDate==null?null:DateFormat('yyyy-MM-dd').format(completionDate!),
+        value: () => completionDate==null?null:formatDate(completionDate!),
       ),
 
       SyncableParamGroup(

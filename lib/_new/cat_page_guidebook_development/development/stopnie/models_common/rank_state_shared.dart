@@ -58,7 +58,7 @@ class RankStateShared extends RankState<RankTaskStateShared>{
 
   RankStateShared(this.key, this.rankUniqName, this.lastUpdateTime, this.inProgress, this.completionDate, this.completed, this.tasks);
 
-  static RankStateShared fromRespMap(String key, String rankUniqName, DateTime lastUpdateTime, Map<String, dynamic> respMap){
+  static RankStateShared fromRespMap(String key, String rankUniqName, Map<String, dynamic> respMap){
 
     Map<String, RankTaskStateShared> tasks = {};
     Map<String, dynamic> taskRespMap = ((respMap['tasks']??(throw InvalidResponseError('tasks'))) as Map) as Map<String, dynamic>;
@@ -69,7 +69,7 @@ class RankStateShared extends RankState<RankTaskStateShared>{
     return RankStateShared(
       key,
       rankUniqName,
-      lastUpdateTime,
+      DateTime.tryParse(respMap['lastUpdateTime']??'')??(throw InvalidResponseError('lastUpdateTime')),
       respMap['inProgress']??(throw InvalidResponseError('inProgress')),
       respMap['completionDate']==null?null:DateTime.tryParse(respMap['completionDate']),
       respMap['completed']??(throw InvalidResponseError('completed')),
@@ -99,9 +99,8 @@ class RankStateShared extends RankState<RankTaskStateShared>{
     String? serialized = ShaPref.getStringOrNull(_shaPrefSharedRankKey(key));
     if(serialized == null) return null;
     Map map = jsonDecode(serialized);
-    DateTime? dateTime = DateTime.tryParse(map['lastUpdateTime'])??(throw MissingDecodeParamError('lastUpdateTime'));;
     String rankUniqName = map['rankUniqName']??(throw MissingDecodeParamError('rankUniqName'));
-    return RankStateShared.fromRespMap(key, rankUniqName, dateTime, jsonDecode(serialized));
+    return RankStateShared.fromRespMap(key, rankUniqName, jsonDecode(serialized));
   }
 
 }

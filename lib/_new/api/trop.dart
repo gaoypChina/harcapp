@@ -40,6 +40,41 @@ class TropUserBodyNick extends TropUserBody{
 
 class ApiTrop{
 
+  static Future<Response?> getSharedTropPreviews({
+    required int? pageSize,
+    required String? lastStartTime,
+    required String? lastName,
+    required String? lastTropUniqName,
+    FutureOr<void> Function(List<TropPreviewData>)? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<void> Function()? onError,
+  }) => API.sendRequest(
+      withToken: true,
+      requestSender: (Dio dio) => dio.get(
+          '${API.SERVER_URL}api/trop/shared',
+          queryParameters: {
+            if(pageSize != null) 'pageSize': pageSize,
+            if(lastStartTime != null) 'lastStartTime': lastStartTime,
+            if(lastName != null) 'lastName': lastName,
+            if(lastTropUniqName != null) 'lastTropUniqName': lastTropUniqName,
+          }
+      ),
+      onSuccess: (Response response, DateTime now) async {
+        if(onSuccess == null) return;
+
+        List<TropPreviewData> trops = [];
+        Map tropPreviewsRespMap = response.data;
+        for(String tropUniqName in tropPreviewsRespMap.keys)
+          trops.add(TropPreviewData.fromRespMap(tropPreviewsRespMap[tropUniqName]!, tropUniqName));
+
+        onSuccess(trops);
+      },
+      onForceLoggedOut: onForceLoggedOut,
+      onServerMaybeWakingUp: onServerMaybeWakingUp,
+      onError: (err) async => onError?.call()
+  );
+
   static Future<Response?> getUsers({
     required String tropUniqName,
     required int? pageSize,
@@ -199,13 +234,12 @@ class ApiTrop{
 
   static Future<Response?> getShared({
     required String tropUniqName,
-    required DateTime lastUpdateTime,
     FutureOr<void> Function(Trop trop)? onSuccess,
     FutureOr<void> Function(Response? response)? onError,
   }) async => await API.sendRequest(
     withToken: true,
     requestSender: (Dio dio) async => await dio.get(
-      '${API.SERVER_URL}api/trop/shared/$tropUniqName',
+      '${API.SERVER_URL}api/trop/$tropUniqName',
     ),
     onSuccess: (Response response, DateTime now) async {
 
@@ -215,7 +249,7 @@ class ApiTrop{
         Trop trop = Trop.fromRespMap(tropRawData, tropUniqName);
         await onSuccess?.call(trop);
       } catch(e) {
-        await onError?.call(response);
+        await onError?.call(null);
       }
 
     },

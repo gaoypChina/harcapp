@@ -41,6 +41,8 @@ class TropGetResp extends SyncGetResp{
   static const String paramLoadedUsers = 'loadedUsers';
   final Map<String, TropUser> loadedUsers;
 
+  static const String paramLastUpdateTime = 'lastUpdateTime';
+  final DateTime lastUpdateTime;
 
   const TropGetResp({
     required this.name,
@@ -53,6 +55,7 @@ class TropGetResp extends SyncGetResp{
     required this.completed,
     required this.completionDate,
     required this.tasks,
+    required this.lastUpdateTime,
     required this.assignedUsers,
     required this.loadedUsers,
   });
@@ -89,6 +92,7 @@ class TropGetResp extends SyncGetResp{
         completionDate: DateTime.tryParse(respMapData[paramCompletionDate]??''),
         completed: respMapData[paramCompleted]??false,
         tasks: tasks,
+        lastUpdateTime: DateTime.tryParse(respMapData[paramLastUpdateTime]??'')??(throw InvalidResponseError(paramLastUpdateTime)),
         assignedUsers: participants,
         loadedUsers: observers
     );

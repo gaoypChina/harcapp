@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
+import 'package:harcapp/_common_classes/date_format.dart';
 import 'package:harcapp/_common_classes/missing_decode_param_error.dart';
 import 'package:harcapp/_common_classes/storage.dart';
 import 'package:harcapp/_new/api/sync_resp_body/trop_get_resp.dart';
@@ -20,7 +21,6 @@ import 'package:path/path.dart';
 import 'package:uuid/uuid.dart';
 import 'package:provider/provider.dart';
 import 'package:webfeed/util/iterable.dart';
-import 'package:intl/intl.dart';
 
 class TropProvider extends ChangeNotifier{
   static TropProvider of(BuildContext context) => Provider.of<TropProvider>(context, listen: false);
@@ -164,16 +164,43 @@ String tropCategoryToName(TropCategory category){
 
 class TropPreviewData{
 
+  static List<TropPreviewData> all = [];
+  static Map<String, TropPreviewData> allMapByUniqName = {};
+
+  static addToAll(TropPreviewData t){
+    if(allMapByUniqName[t.uniqName] != null) return;
+
+    all.add(t);
+    allMapByUniqName[t.uniqName] = t;
+  }
+
+  static addAllToAll(List<TropPreviewData> tropPrevs){
+    for(TropPreviewData t in tropPrevs){
+      if(allMapByUniqName[t.uniqName] != null) continue;
+
+      all.add(t);
+      allMapByUniqName[t.uniqName] = t;
+    }
+  }
+
+  static void setAll(List<TropPreviewData> allTropPrevs){
+    all.clear();
+    allMapByUniqName.clear();
+    addAllToAll(allTropPrevs);
+  }
+
   String uniqName;
   String name;
   TropCategory category;
   String? customIconTropName;
+  DateTime lastUpdateTime;
 
   TropPreviewData({
     required this.uniqName,
     required this.name,
     required this.category,
-    this.customIconTropName
+    this.customIconTropName,
+    required this.lastUpdateTime,
   });
 
   static TropPreviewData fromRespMap(Map respMapData, String uniqName) => TropPreviewData(
@@ -181,6 +208,7 @@ class TropPreviewData{
     name: respMapData[Trop.paramName]??(throw MissingDecodeParamError(Trop.paramName)),
     customIconTropName: respMapData[Trop.paramCustomIconTropName],
     category: strToTropCategory(respMapData[Trop.paramCategory])??(throw MissingDecodeParamError(Trop.paramCategory)),
+    lastUpdateTime: DateTime.parse(respMapData[Trop.paramLastUpdateTime]??(throw MissingDecodeParamError(Trop.paramLastUpdateTime))),
   );
   
 }
@@ -210,6 +238,8 @@ class TropBaseData<T extends TropTaskBaseData>{
 }
 
 class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetRespNode<TropGetResp>{
+
+  static const int tropPageSize = 10;
 
   // Whether the all, allMap, etc. are initialized.
   static bool initialized = false;
@@ -298,7 +328,6 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
     
     Directory ownTropyDir = Directory(getOwnTropFolderPath);
     await ownTropyDir.create(recursive: true);
-
     for (FileSystemEntity file in ownTropyDir.listSync(recursive: false)) {
       Trop? trop = Trop.readOwnFromUniqName(basename(file.path));
       if(trop == null) continue;
@@ -306,95 +335,16 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
       allOwnMapByUniqName[trop.uniqName] = trop;
     }
 
-    // all.addAll([
-    //   Trop(
-    //       lclId: '1',
-    //       name: 'Zajęcia dla dzieci z fundacji TaSzansa',
-    //       category: TropCategory.harcBraterstwo,
-    //       aims: [
-    //         'Chcemy nawiązać kontakt z dzieciaczkami z lokalnej społeczności i pomóc im robić fajne rzeczy.',
-    //         'Budowanie odpowiedzialności u harcerzy w zastępie',
-    //       ],
-    //       startTime: DateTime.now(),
-    //       endTime: DateTime.now().add(const Duration(days: 60)),
-    //       tasks: [
-    //         TropTask.create(
-    //             content: 'Zrobienie czegośtam - to jest zadanie numer jeden.',
-    //             deadline: DateTime.now().add(const Duration(days: 7)),
-    //             assigneeCustomText: 'Włodzimierz Koc'
-    //         ),
-    //         TropTask.create(
-    //             content: 'Tu z kolei będziemy robić jakieś zadanie numer dwa.',
-    //             deadline: DateTime.now().add(const Duration(days: 8))
-    //         ),
-    //         TropTask.create(
-    //             content: 'Czas najwyższy, żeby zrobić zadanko numer trzy!',
-    //             deadline: DateTime.now().add(const Duration(days: 9))
-    //         ),
-    //       ]
-    //   ),
-    //
-    //   Trop(
-    //     lclId: '1',
-    //     name: 'Sadzenie drzew, bo to przecież takie potrzebne',
-    //     category: TropCategory.harcNatura,
-    //     aims: [],
-    //     startTime: DateTime.now(),
-    //     endTime: DateTime.now().add(const Duration(days: 70)),
-    //     tasks: []
-    //   ),
-    //
-    //   Trop(
-    //       lclId: '1',
-    //       name: 'No szczerze nie wiem co tu dać za nazwę.',
-    //       category: TropCategory.harcInicjatywa,
-    //       aims: [],
-    //       startTime: DateTime.now(),
-    //       endTime: DateTime.now().add(const Duration(days: 80)),
-    //       tasks: []
-    //   ),
-    //
-    //   Trop(
-    //       lclId: '1',
-    //       name: 'Odkrywanie Ameryki na nowo',
-    //       category: TropCategory.harcOdkrywanie,
-    //       aims: [],
-    //       startTime: DateTime.now(),
-    //       endTime: DateTime.now().add(const Duration(days: 90)),
-    //       tasks: []
-    //   ),
-    //
-    //   Trop(
-    //       lclId: '1',
-    //       name: 'Szycie biało-czerwonych flag',
-    //       category: TropCategory.harcOjczyzna,
-    //       aims: [],
-    //       startTime: DateTime.now(),
-    //       endTime: DateTime.now().add(const Duration(days: 100)),
-    //       tasks: []
-    //   ),
-    //
-    //   Trop(
-    //       lclId: '1',
-    //       name: 'Kopanie dołów na obozie w celach lodówkowych',
-    //       category: TropCategory.harcZaradnosc,
-    //       aims: [],
-    //       startTime: DateTime.now(),
-    //       endTime: DateTime.now().add(const Duration(days: 110)),
-    //       tasks: []
-    //   ),
-    //
-    //   Trop(
-    //       lclId: '1',
-    //       name: 'Złoty trop',
-    //       category: TropCategory.harcZlotyTrop,
-    //       aims: [],
-    //       startTime: DateTime.now(),
-    //       endTime: DateTime.now().add(const Duration(days: 120)),
-    //       tasks: []
-    //   )
-    // ]);
-    allOwnMapByUniqName = { for(Trop t in allOwn) t.uniqName: t};
+    Directory sharedTropyDir = Directory(getSharedTropFolderPath);
+    await sharedTropyDir.create(recursive: true);
+    for (FileSystemEntity file in sharedTropyDir.listSync(recursive: false)) {
+      Trop? trop = Trop.readSharedFromUniqName(basename(file.path));
+      if(trop == null) continue;
+      allSharedWithMe.add(trop);
+      allSharedWithMeMapByUniqName[trop.uniqName] = trop;
+    }
+
+    TropPreviewData.setAll(allSharedWithMe.map((t) => t.toPreviewData()).toList());
 
     initialized = true;
   }
@@ -411,6 +361,7 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
   static const String paramCompleted = 'completed';
   static const String paramCompletionTime = 'completionDate';
   static const String paramTasks = 'tasks';
+  static const String paramLastUpdateTime = 'lastUpdateTime';
   static const String paramAssignedUsers = 'assignedUsers';
   static const String paramLoadedUsers = 'loadedUsers';
 
@@ -420,6 +371,8 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
   static const int maxTaskCount = 50;
 
   final String uniqName;
+  // This can be null only when trop is not yet synced.
+  final DateTime? lastServerUpdateTime;
 
   DateTime startDate;
   DateTime endDate;
@@ -478,6 +431,7 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
     required this.completionDate,
 
     required super.tasks,
+    required this.lastServerUpdateTime,
     required Map<String, TropUser> assignedUsersMap,
     required Map<String, TropUser> loadedUsersMap,
 
@@ -505,17 +459,18 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
   static Trop create({
     String? uniqName,
     required String name,
-    String? customIconTropName,
+    required String? customIconTropName,
     required TropCategory category,
     required List<String> aims,
 
-    required DateTime startTime,
-    required DateTime endTime,
+    required DateTime startDate,
+    required DateTime endDate,
 
     required bool completed,
     required DateTime? completionTime,
 
     required List<TropTaskData> tasks,
+    required DateTime? lastServerUpdateTime,
   }){
 
     Trop trop = Trop(
@@ -525,13 +480,14 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
         category: category,
         aims: aims,
 
-        startDate: startTime,
-        endDate: endTime,
+        startDate: startDate,
+        endDate: endDate,
 
         completed: completed,
         completionDate: completionTime,
 
         tasks: [],
+        lastServerUpdateTime: lastServerUpdateTime,
         assignedUsersMap: {},
         loadedUsersMap: {},
     );
@@ -540,7 +496,11 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
     return trop;
   }
 
-  static Trop fromRespMap(Map respMapData, String uniqName){
+  static Trop fromRespMap(Map respMapData, String uniqName, {bool fromServer = true}){
+
+    DateTime? lastServerUpdateTime = DateTime.tryParse(respMapData[paramLastUpdateTime]??'');
+    if(fromServer && lastServerUpdateTime == null)
+      throw MissingDecodeParamError(paramLastUpdateTime);
 
     Trop trop = Trop(
       uniqName: uniqName,
@@ -556,22 +516,23 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
       completionDate: DateTime.tryParse(respMapData[paramCompletionTime]??''),
 
       tasks: [],
+      lastServerUpdateTime: lastServerUpdateTime,
       assignedUsersMap: {},
       loadedUsersMap: {},
     );
 
     List<TropTask> tasks = [];
-    for(String taskLclId in respMapData[paramTasks].keys)
+    for(String taskLclId in (respMapData[paramTasks]??{}).keys)
       tasks.add(TropTask.fromRespMap(respMapData[paramTasks][taskLclId], taskLclId, trop));
     trop.tasks = tasks;
 
     Map<String, TropUser> assignedUsers = {};
-    for(String userKey in respMapData[paramAssignedUsers].keys)
+    for(String userKey in (respMapData[paramAssignedUsers]??{}).keys)
       assignedUsers[userKey] = TropUser.fromRespMap(respMapData[paramAssignedUsers][userKey], key: userKey);
     trop.addAssignedUsers(assignedUsers.values.toList());
 
     Map<String, TropUser> loadedUsers = {};
-    for(String userKey in respMapData[paramLoadedUsers].keys)
+    for(String userKey in (respMapData[paramLoadedUsers]??{}).keys)
       loadedUsers[userKey] = TropUser.fromRespMap(respMapData[paramLoadedUsers][userKey], key: userKey);
     trop.addLoadedUsers(loadedUsers.values.toList());
 
@@ -589,7 +550,7 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
       if(!map.containsKey("startTime")) {
         DateTime? startDate = DateTime.tryParse(map["startTime"]??'');
         if(startDate != null) {
-          map[paramStartDate] = DateFormat('yyyy-MM-dd').format(startDate);
+          map[paramStartDate] = formatDate(startDate);
           needsUpdating = true;
         }
       }
@@ -597,7 +558,7 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
       if(!map.containsKey("endTime")) {
         DateTime? endTime = DateTime.tryParse(map["endTime"]??'');
         if(endTime != null) {
-          map[paramEndDate] = DateFormat('yyyy-MM-dd').format(endTime);
+          map[paramEndDate] = formatDate(endTime);
           needsUpdating = true;
         }
       }
@@ -628,12 +589,23 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
         map[paramLoadedUsers] = {};
         needsUpdating = true;
       }
-      
+
+      if(!map.containsKey(paramLastUpdateTime)) {
+        map[paramLastUpdateTime] = null;
+        needsUpdating = true;
+      }
+
+      Trop trop = fromRespMap(map, uniqName, fromServer: false);
+
       if(needsUpdating)
-        fromRespMap(map, uniqName).save();
+        saveStringAsFileToFolder(
+          getMyTropFolderLocalPath,
+          jsonEncode(trop.toJsonMap()),
+          fileName: uniqName,
+        );
       // TMP TMP TMP
 
-      return fromRespMap(map, uniqName);
+      return trop;
     } catch(e) {
       if(log) logger.e(e);
       return null;
@@ -650,19 +622,37 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
     }
   }
 
+  void dumpAsShared(){
+    saveStringAsFileToFolder(
+      getSharedTropFolderLocalPath,
+      jsonEncode(toJsonMap()),
+      fileName: uniqName,
+    );
+    logger.i('Dumped trop $uniqName');
+  }
+
+  TropPreviewData toPreviewData() => TropPreviewData(
+    uniqName: uniqName,
+    name: name,
+    customIconTropName: customIconTropName,
+    category: category,
+    lastUpdateTime: lastServerUpdateTime!
+  );
+
   Map toJsonMap() => {
     paramName: name,
     paramCustomIconTropName: customIconTropName,
     paramCategory: tropCategoryToStr(category),
     paramAims: aims,
 
-    paramStartDate: DateFormat('yyyy-MM-dd').format(startDate),
-    paramEndDate: DateFormat('yyyy-MM-dd').format(endDate),
+    paramStartDate: formatDate(startDate),
+    paramEndDate: formatDate(endDate),
 
     paramCompleted: completed,
     paramCompletionTime: completionDate?.toIso8601String(),
 
     paramTasks: { for(TropTask task in tasks) task.lclId: task.toJsonMap() },
+    paramLastUpdateTime: lastServerUpdateTime?.toIso8601String(),
     paramAssignedUsers: _assignedUsersMap.map((key, value) => MapEntry(key, value.toJsonMap())),
     paramLoadedUsers : _loadedUsersMap.map((key, value) => MapEntry(key, value.toJsonMap())),
   };
@@ -867,13 +857,13 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
   SyncableParamSingle get syncParamStartDate => SyncableParamSingle(
     this,
     paramId: paramStartDate,
-    value: () => DateFormat('yyyy-MM-dd').format(startDate)
+    value: () => formatDate(startDate)
   );
 
   SyncableParamSingle get syncParamEndDate => SyncableParamSingle(
     this,
     paramId: paramEndDate,
-    value: () => DateFormat('yyyy-MM-dd').format(endDate),
+    value: () => formatDate(endDate),
   );
 
   SyncableParamSingle get syncParamCompleted => SyncableParamSingle(

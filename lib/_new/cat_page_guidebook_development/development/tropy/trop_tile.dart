@@ -94,13 +94,13 @@ class TropTile extends StatelessWidget{
 
 class TropTileProgressWidget extends StatelessWidget{
 
-  final Trop trop;
-  const TropTileProgressWidget(this.trop, {super.key});
+  final int completenessPercent;
+  const TropTileProgressWidget(this.completenessPercent, {super.key});
 
   @override
   Widget build(BuildContext context) => Consumer<TropTaskProvider>(
     builder: (context, prov, child) => Text(
-      '${trop.completenessPercent}%',
+      '$completenessPercent%',
       style: AppTextStyle(
           fontSize: Dimen.TEXT_SIZE_APPBAR,
           fontWeight: weight.halfBold

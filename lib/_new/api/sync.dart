@@ -517,13 +517,15 @@ class ApiSync{
             trop = Trop.create(
                 uniqName: tropUniqName,
                 name: tropResp.name,
+                customIconTropName: tropResp.customIconTropName,
                 category: tropResp.category,
                 aims: tropResp.aims,
-                startTime: tropResp.startDate,
-                endTime: tropResp.endDate,
+                startDate: tropResp.startDate,
+                endDate: tropResp.endDate,
                 completed: tropResp.completed,
                 completionTime: tropResp.completionDate,
-                tasks: tasks
+                tasks: tasks,
+                lastServerUpdateTime: tropResp.lastUpdateTime
             );
             trop.save(localOnly: true, synced: true);
             Trop.addOwnToAll(trop);

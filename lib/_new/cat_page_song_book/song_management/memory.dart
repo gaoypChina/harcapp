@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:harcapp/_common_classes/date_format.dart';
 import 'package:harcapp/_common_classes/missing_decode_param_error.dart';
 import 'package:harcapp/_new/api/sync_resp_body/memory_resp.dart';
 import 'package:harcapp/sync/syncable.dart';
@@ -10,7 +11,6 @@ import 'package:harcapp/_common_classes/storage.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/song.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:harcapp_core/dimen.dart';
-import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
 
 class MemoryBuilder{
@@ -299,7 +299,7 @@ class Memory extends SyncableParamGroupMixin with SyncGetRespNode<MemoryGetResp>
     SyncableParamSingle(
       this,
       paramId: paramDate,
-      value: () => date==null?null:DateFormat('yyyy-MM-dd').format(date!),
+      value: () => date==null?null:formatDate(date!),
     ),
 
     SyncableParamSingle(

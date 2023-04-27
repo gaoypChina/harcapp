@@ -62,7 +62,7 @@ class RankTileWidgetShare extends StatelessWidget {
             children: [
               Icon(MdiIcons.update, size: Dimen.TEXT_SIZE_NORMAL + 2, color: hintEnab_(context)),
               const SizedBox(width: Dimen.defMarg),
-              Text(dateToString(data.lastUpdateDate, shortMonth: true, withTime: true), style: AppTextStyle(color: hintEnab_(context), fontWeight: weight.halfBold))
+              Text(dateToString(data.lastUpdateTime, shortMonth: true, withTime: true), style: AppTextStyle(color: hintEnab_(context), fontWeight: weight.halfBold))
             ],
           ),
         )
@@ -96,20 +96,19 @@ Future<void> loadOpenRankDialog(BuildContext context, Color color, SharedRankMet
   Rank? loadedSharedRank;
   if(RankStateShared.dumpExists(data.sharedRankKey)) {
     RankStateShared stateShared = RankStateShared.fromDump(data.sharedRankKey)!;
-    if(data.lastUpdateDate == stateShared.lastUpdateTime)
+    if(data.lastUpdateTime == stateShared.lastUpdateTime)
       loadedSharedRank = Rank.fromStateShared(data.rankUniqName, stateShared);
   }
   
   if(loadedSharedRank != null)
-    _openRankDialog(context, loadedSharedRank, data.lastUpdateDate);
+    _openRankDialog(context, loadedSharedRank, data.lastUpdateTime);
   else {
     showLoadingWidget(context, color, 'Otwieranie...');
     await ApiRank.getShared(
         key: data.sharedRankKey,
-        lastUpdateTime: data.lastUpdateDate,
         onSuccess: (Rank sharedRank) async {
           await popPage(context);
-          _openRankDialog(context, sharedRank, data.lastUpdateDate);
+          _openRankDialog(context, sharedRank, data.lastUpdateTime);
         },
         onError: (_) async {
           await popPage(context);

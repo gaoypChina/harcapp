@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:harcapp/_common_classes/date_format.dart';
 import 'package:harcapp/_common_classes/sha_pref.dart';
 import 'package:harcapp/_new/api/sync_resp_body/spraw_get_resp.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/_sprawnosci/data/all_spraw_books.dart';
@@ -12,7 +13,6 @@ import 'package:harcapp/_new/cat_page_guidebook_development/providers.dart';
 import 'package:harcapp/sync/syncable.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:provider/provider.dart';
-import 'package:intl/intl.dart';
 
 
 class SprawData{
@@ -311,7 +311,7 @@ class Spraw extends RankSprawTemplate<SprawGetResp>{
     SyncableParamSingle(
       this,
       paramId: paramCompletionDate,
-      value: () => completionDate==null?null:DateFormat('yyyy-MM-dd').format(completionDate!),
+      value: () => completionDate==null?null:formatDate(completionDate!),
     ),
 
     SyncableParamGroup(

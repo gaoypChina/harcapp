@@ -121,12 +121,13 @@ void main() {
     Trop trop = Trop.create(
         name: 'Mój super trop',
         category: TropCategory.harcNatura,
+        customIconTropName: null,
         aims: [
           'Cel tropu 1',
           'Cel tropu 2'
         ],
-        startTime: DateTime(2023, 10, 1),
-        endTime: DateTime(2023, 10, 21),
+        startDate: DateTime(2023, 10, 1),
+        endDate: DateTime(2023, 10, 21),
         completed: false,
         completionTime: null,
         tasks: [
@@ -144,7 +145,8 @@ void main() {
             assigneeCustomText: 'Malwina i jej koleżanki',
             completed: true,
           ),
-        ]
+        ],
+        lastServerUpdateTime: null
     );
     trop.save(localOnly: true);
     Trop.addOwnToAll(trop);

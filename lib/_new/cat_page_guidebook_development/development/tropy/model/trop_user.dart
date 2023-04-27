@@ -31,6 +31,13 @@ class TropUser extends UserData{
     role: strToTropRole[respMap['role']]??(throw InvalidResponseError('role')),
   );
 
+  @override
+  Map toJsonMap(){
+    Map map = super.toJsonMap();
+    map.addAll({'role': tropRoleToStr[role]});
+    return map;
+  }
+
   UserData toUserData() => UserData(key: key, name: name, shadow: shadow, sex: sex);
 
 }

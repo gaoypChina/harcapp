@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:harcapp/_common_classes/date_format.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/comp_role.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/show_rank_data.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
@@ -170,9 +171,9 @@ class ApiIndivComp{
     reqMap['name'] = name;
     reqMap['colorsKey'] = colorsKey;
     reqMap['iconKey'] = iconKey;
-    reqMap['startTime'] = DateFormat('yyyy-MM-dd').format(startTime);
+    reqMap['startTime'] = formatDate(startTime);
     if(endTime != null)
-      reqMap['endTime'] = DateFormat('yyyy-MM-dd').format(endTime);
+      reqMap['endTime'] = formatDate(endTime);
     reqMap['tasks'] = tasksReqData;
     reqMap['rankDispType'] = rankDispTypeToStr[rankDispType!];
     reqMap['awards'] = awards;
@@ -304,8 +305,8 @@ class ApiIndivComp{
     if(name != null) reqMap['name'] = name;
     if(colorsKey != null) reqMap['colorsKey'] = colorsKey;
     if(iconKey != null) reqMap['iconKey'] = iconKey;
-    if(startTime != null) reqMap['startTime'] = DateFormat('yyyy-MM-dd').format(startTime);
-    if(endTime != null) reqMap['endTime'] = DateFormat('yyyy-MM-dd').format(endTime);
+    if(startTime != null) reqMap['startTime'] = formatDate(startTime);
+    if(endTime != null) reqMap['endTime'] = formatDate(endTime);
 
     Map<String, dynamic> tasks = {};
     if(taskCreateReqData.isNotEmpty) tasks['create'] = taskCreateReqData;

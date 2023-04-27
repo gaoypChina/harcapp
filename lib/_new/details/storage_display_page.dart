@@ -90,6 +90,23 @@ class StorageDisplayPageState extends State<StorageDisplayPage>{
 
           const Padding(
             padding: EdgeInsets.only(left: Dimen.ICON_MARG, top: Dimen.ICON_MARG),
+            child: TitleShortcutRowWidget(title: 'Tropy', textAlign: TextAlign.start),
+          ),
+
+          _Item(
+            icon: MdiIcons.folderOutline,
+            title: 'folder: <b>${basename(getOwnTropFolderPath)}</b>',
+            onOpen: () => openDialog(context: context, builder: (context) => JSONFolderDisplayer(getOwnTropFolderPath)),
+          ),
+
+          _Item(
+            icon: MdiIcons.folderOutline,
+            title: 'folder: <b>${basename(getSharedTropFolderPath)}</b>',
+            onOpen: () => openDialog(context: context, builder: (context) => JSONFolderDisplayer(getSharedTropFolderPath)),
+          ),
+
+          const Padding(
+            padding: EdgeInsets.only(left: Dimen.ICON_MARG, top: Dimen.ICON_MARG),
             child: TitleShortcutRowWidget(title: 'Artykuły', textAlign: TextAlign.start),
           ),
 

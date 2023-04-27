@@ -115,11 +115,12 @@ class TropEditorPageState extends State<TropEditorPage>{
                         customIconTropName: initTropBaseData?.customIconTropName,
                         category: category,
                         aims: aims,
-                        startTime: startTime,
-                        endTime: endTime,
+                        startDate: startTime,
+                        endDate: endTime,
                         completed: false,
                         completionTime: null,
-                        tasks: tasks
+                        tasks: tasks,
+                        lastServerUpdateTime: null
                     );
                     trop.save();
                     await popPage(context);

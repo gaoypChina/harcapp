@@ -22,7 +22,7 @@ class SharedRankMetaData{
   final bool rankInProgress;
   final int rankCompletedTasksCnt;
 
-  final DateTime lastUpdateDate;
+  final DateTime lastUpdateTime;
 
   const SharedRankMetaData({
     required this.userData,
@@ -34,7 +34,7 @@ class SharedRankMetaData{
     required this.rankInProgress,
     required this.rankCompletedTasksCnt,
 
-    required this.lastUpdateDate,
+    required this.lastUpdateTime,
   });
 
   static SharedRankMetaData fromRespMap(Map respMap){
@@ -51,7 +51,7 @@ class SharedRankMetaData{
       rankInProgress: rankData['inProgress']??(throw InvalidResponseError('inProgress')),
       rankCompletedTasksCnt: rankData['completedTasksCnt']??(throw InvalidResponseError('completedTasksCnt')),
 
-      lastUpdateDate: DateTime.parse(rankData['lastUpdateTime']??(throw InvalidResponseError('lastUpdateTime')))
+      lastUpdateTime: DateTime.parse(rankData['lastUpdateTime']??(throw InvalidResponseError('lastUpdateTime')))
     );
   }
 
@@ -143,7 +143,6 @@ class ApiRank{
 
   static Future<Response?> getShared({
     required String key,
-    required DateTime lastUpdateTime,
     FutureOr<void> Function(Rank rank)? onSuccess,
     FutureOr<void> Function(Response? response)? onError,
   }) async => await API.sendRequest(
@@ -156,7 +155,7 @@ class ApiRank{
       Map<String, dynamic> rankSyncData = response.data;
       String rankUniqName = rankSyncData['uniqName']??(throw MissingDecodeParamError('uniqName'));
 
-      RankStateShared stateShared = RankStateShared.fromRespMap(key, rankUniqName, lastUpdateTime, rankSyncData);
+      RankStateShared stateShared = RankStateShared.fromRespMap(key, rankUniqName, rankSyncData);
       stateShared.dump();
 
       Rank? preview = Rank.fromStateShared(rankUniqName, stateShared);
