@@ -209,32 +209,11 @@ class ApiTrop{
       onError: (err) async => await onError?.call()
   );
 
-  static Future<Response?> getAllSharedPreviews(
-      { FutureOr<void> Function()? onError,
-        FutureOr<void> Function(List<TropPreviewData>)? onSuccess,
-      }) async => await API.sendRequest(
-      withToken: true,
-      requestSender: (Dio dio) => dio.get(
-          '${API.SERVER_URL}api/trop/shared',
-      ),
-      onSuccess: (Response response, DateTime now) async {
-
-        List<TropPreviewData> sharedTropPreviewDataList = [];
-
-        Map<String, dynamic> rawData = response.data;
-        for(String tropUniqName in rawData.keys)
-          sharedTropPreviewDataList.add(
-              TropPreviewData.fromRespMap(rawData[tropUniqName], tropUniqName)
-          );
-
-        await onSuccess?.call(sharedTropPreviewDataList);
-      },
-      onError: (DioError error) async => onError?.call()
-  );
-
-  static Future<Response?> getShared({
+  static Future<Response?> getTrop({
     required String tropUniqName,
     FutureOr<void> Function(Trop trop)? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<bool> Function()? onServerMaybeWakingUp,
     FutureOr<void> Function(Response? response)? onError,
   }) async => await API.sendRequest(
     withToken: true,
@@ -253,6 +232,8 @@ class ApiTrop{
       }
 
     },
+    onForceLoggedOut: onForceLoggedOut,
+    onServerMaybeWakingUp: onServerMaybeWakingUp,
     onError: (err) async => onError?.call(err.response),
   );
 

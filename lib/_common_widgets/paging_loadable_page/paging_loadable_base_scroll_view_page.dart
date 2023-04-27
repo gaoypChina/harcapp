@@ -166,8 +166,9 @@ class PagingLoadableBaseScrollViewPageState extends State<PagingLoadableBaseScro
         onRefresh: () async {
 
           if(!await isNetworkAvailable()){
-            showAppToast(context, text: 'Brak dostępu do Internetu');
-            refreshController.refreshCompleted();
+            if(mounted) showAppToast(context, text: 'Brak dostępu do Internetu');
+            if(mounted) refreshController.refreshCompleted(); // This is called in `post()` inside.
+            post(() => mounted?setState(() {}):null);
             return;
           }
 
@@ -175,7 +176,8 @@ class PagingLoadableBaseScrollViewPageState extends State<PagingLoadableBaseScro
 
           await handleOnExceedingHeightLoader(allLoadedItems);
 
-          refreshController.refreshCompleted();
+          if(mounted) refreshController.refreshCompleted(); // This is called in `post()` inside.
+          post(() => mounted?setState(() {}):null);
 
         },
         onLoading: onLoading,

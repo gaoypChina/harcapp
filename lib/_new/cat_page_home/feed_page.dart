@@ -3,6 +3,7 @@ import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_widgets/app_custom_footer.dart';
 import 'package:harcapp/_new/cat_page_home/community/community_thumbnail_widget.dart';
 import 'package:harcapp/_new/cat_page_home/super_search_field.dart';
+import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_new/api/community.dart';
 import 'package:harcapp/account/account.dart';
@@ -126,8 +127,9 @@ class FeedPageState extends State<FeedPage>{
           onRefresh: () async {
 
             if(!await isNetworkAvailable()){
-              showAppToast(context, text: 'Brak dostępu do Internetu');
-              refreshController.refreshCompleted();
+              if(mounted) showAppToast(context, text: 'Brak dostępu do Internetu');
+              if(mounted) refreshController.refreshCompleted(); // This is called in `post()` inside.
+              post(() => mounted?setState(() {}):null);
               return;
             }
 
@@ -172,7 +174,8 @@ class FeedPageState extends State<FeedPage>{
                 }
             );
 
-            if(mounted) refreshController.refreshCompleted();
+            if(mounted) refreshController.refreshCompleted(); // This is called in `post()` inside.
+            post(() => mounted?setState(() {}):null);
 
           },
           onLoading: () async {

@@ -8,6 +8,7 @@ import 'package:harcapp/_common_widgets/app_custom_footer.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_new/api/forum.dart';
 import 'package:harcapp/logger.dart';
+import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
@@ -113,13 +114,15 @@ class SearchForumPageState extends State<SearchForumPage>{
       onLoading: () async {
 
         if(!moreToLoad) {
-          refreshController.loadComplete();
+          if(mounted) refreshController.loadComplete(); // This is called in `post()` inside.
+          post(() => mounted?setState(() {}):null);
           return;
         }
 
         if(!await isNetworkAvailable()){
           showAppToast(context, text: 'Brak dostępu do Internetu');
-          refreshController.loadComplete();
+          if(mounted) refreshController.loadComplete(); // This is called in `post()` inside.
+          post(() => mounted?setState(() {}):null);
           return;
         }
 
@@ -152,7 +155,8 @@ class SearchForumPageState extends State<SearchForumPage>{
             }
         );
 
-        refreshController.loadComplete();
+        if(mounted) refreshController.loadComplete(); // This is called in `post()` inside.
+        post(() => mounted?setState(() {}):null);
 
       },
       child: CustomScrollView(

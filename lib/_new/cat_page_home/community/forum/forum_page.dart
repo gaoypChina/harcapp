@@ -198,8 +198,9 @@ class ForumPageState extends State<ForumPage>{
           onRefresh: () async {
 
             if(!await isNetworkAvailable()){
-              showAppToast(context, text: 'Brak dostępu do Internetu');
-              refreshController.refreshCompleted();
+              if(mounted) showAppToast(context, text: 'Brak dostępu do Internetu');
+              if(mounted) refreshController.refreshCompleted(); // This is called in `post()` inside.
+              post(() => mounted?setState(() {}):null);
               return;
             }
 
@@ -241,19 +242,22 @@ class ForumPageState extends State<ForumPage>{
                 }
             );
 
-            refreshController.refreshCompleted();
+            if(mounted) refreshController.refreshCompleted(); // This is called in `post()` inside.
+            post(() => mounted?setState(() {}):null);
 
           },
           onLoading: () async {
 
             if(!moreToLoad) {
-              refreshController.loadComplete();
+              if(mounted) refreshController.loadComplete(); // This is called in `post()` inside.
+              post(() => mounted?setState(() {}):null);
               return;
             }
 
             if(!await isNetworkAvailable()){
-              showAppToast(context, text: 'Brak dostępu do Internetu');
-              refreshController.loadComplete();
+              if(mounted) showAppToast(context, text: 'Brak dostępu do Internetu');
+              if(mounted) refreshController.loadComplete(); // This is called in `post()` inside.
+              post(() => mounted?setState(() {}):null);
               return;
             }
 
@@ -284,7 +288,8 @@ class ForumPageState extends State<ForumPage>{
                 }
             );
 
-            refreshController.loadComplete();
+            if(mounted) refreshController.loadComplete(); // This is called in `post()` inside.
+            post(() => mounted?setState(() {}):null);
 
           },
           child: CustomScrollView(

@@ -284,8 +284,9 @@ class CirclePageState extends State<CirclePage>{
           onRefresh: () async {
 
             if(!await isNetworkAvailable()){
-              showAppToast(context, text: 'Brak dostępu do Internetu');
-              refreshController.refreshCompleted();
+              if(mounted) showAppToast(context, text: 'Brak dostępu do Internetu');
+              if(mounted) refreshController.refreshCompleted(); // This is called in `post()` inside.
+              post(() => mounted?setState(() {}):null);
               return;
             }
 
@@ -338,7 +339,8 @@ class CirclePageState extends State<CirclePage>{
                 }
             );
 
-            refreshController.refreshCompleted();
+            if(mounted) refreshController.refreshCompleted(); // This is called in `post()` inside.
+            post(() => mounted?setState(() {}):null);
 
           },
           onLoading: () async {
@@ -395,7 +397,8 @@ class CirclePageState extends State<CirclePage>{
                 }
             );
 
-            refreshController.loadComplete();
+            if(mounted) refreshController.loadComplete(); // This is called in `post()` inside.
+            post(() => mounted?setState(() {}):null);
 
           },
           child: CustomScrollView(

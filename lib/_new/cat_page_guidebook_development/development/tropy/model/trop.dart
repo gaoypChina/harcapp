@@ -193,13 +193,21 @@ class TropPreviewData{
   String name;
   TropCategory category;
   String? customIconTropName;
+
+  DateTime startDate;
+  DateTime endDate;
+
   DateTime lastUpdateTime;
 
   TropPreviewData({
     required this.uniqName,
     required this.name,
     required this.category,
-    this.customIconTropName,
+    required this.customIconTropName,
+
+    required this.startDate,
+    required this.endDate,
+
     required this.lastUpdateTime,
   });
 
@@ -208,6 +216,8 @@ class TropPreviewData{
     name: respMapData[Trop.paramName]??(throw MissingDecodeParamError(Trop.paramName)),
     customIconTropName: respMapData[Trop.paramCustomIconTropName],
     category: strToTropCategory(respMapData[Trop.paramCategory])??(throw MissingDecodeParamError(Trop.paramCategory)),
+    startDate: DateTime.parse(respMapData[Trop.paramStartDate]??(throw MissingDecodeParamError(Trop.paramStartDate))),
+    endDate: DateTime.parse(respMapData[Trop.paramEndDate]??(throw MissingDecodeParamError(Trop.paramEndDate))),
     lastUpdateTime: DateTime.parse(respMapData[Trop.paramLastUpdateTime]??(throw MissingDecodeParamError(Trop.paramLastUpdateTime))),
   );
   
@@ -636,6 +646,8 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
     name: name,
     customIconTropName: customIconTropName,
     category: category,
+    startDate: startDate,
+    endDate: endDate,
     lastUpdateTime: lastServerUpdateTime!
   );
 

@@ -194,14 +194,16 @@ class PagingLoadablePageViewPageState extends State<PagingLoadablePageViewPage> 
         onRefresh: () async {
 
           if(!await isNetworkAvailable()){
-            showAppToast(context, text: 'Brak dostępu do Internetu');
-            refreshController.refreshCompleted();
+            if(mounted) showAppToast(context, text: 'Brak dostępu do Internetu');
+            if(mounted) refreshController.refreshCompleted(); // This is called in `post()` inside.
+            post(() => mounted?setState(() {}):null);
             return;
           }
 
           await callReload();
 
-          refreshController.refreshCompleted();
+          if(mounted) refreshController.refreshCompleted(); // This is called in `post()` inside.
+          post(() => mounted?setState(() {}):null);
 
         },
         onLoading: onLoading,
