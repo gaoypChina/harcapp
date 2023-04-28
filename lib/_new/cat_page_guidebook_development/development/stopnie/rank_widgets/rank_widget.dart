@@ -9,7 +9,7 @@ import 'package:harcapp/_new/details/app_settings.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/empty_message_widget.dart';
 import 'package:harcapp/_new/api/rank.dart';
-import 'package:harcapp/_new/app_drawer.dart';
+import 'package:harcapp/values/app_values.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/models_common/rank.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/models_common/rank_task.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/rank_widgets/rank_cat_widget.dart';

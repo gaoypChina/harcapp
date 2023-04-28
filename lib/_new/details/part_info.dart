@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_new/details/part_contributors.dart';
 import 'package:harcapp/_new/details/patron_list_widget.dart';
 import 'package:harcapp/_common_classes/common.dart';
+import 'package:harcapp/utils/check_unofficial_apk_update.dart';
+import 'package:harcapp/values/app_values.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:package_info/package_info.dart';
 import 'package:harcapp_core/dimen.dart';
@@ -41,7 +44,15 @@ class PartInfoState extends State<PartInfo>{
 
         ListTile(
           leading: const SizedBox(width: 0),
-          title: Text('Wersja $version', style: AppTextStyle()),
+          title: Text('Wersja $version${unofficialApk?' (apk)':''}', style: AppTextStyle()),
+          trailing: unofficialApk?
+          IconButton(
+            icon: const Icon(MdiIcons.refresh),
+            onPressed: () async {
+              bool updateAvailable = await checkUnofficialApkUpdate(context);
+              if(!updateAvailable) showAppToast(context, text: 'Brak dostępnych aktualizacji');
+            },
+          ):null
         ),
 
         ListTile(

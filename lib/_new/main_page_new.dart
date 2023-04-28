@@ -3,8 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:harcapp/_new/app_bottom_navigator.dart';
 import 'package:harcapp/main.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
+import 'package:harcapp_core/comm_classes/network.dart';
 import 'package:provider/provider.dart';
 
+import '../utils/check_unofficial_apk_update.dart';
+import '../values/app_values.dart';
 import 'cat_page_guidebook_development/_main.dart';
 import 'cat_page_harc_map/_main.dart';
 import 'cat_page_harcthought/_main.dart';
@@ -26,10 +29,17 @@ class MainPageState extends State<MainPage>{
   late int selectedIndex;
   late Widget page;
 
+  Future<void> tryCheckUnofficalApkUpdate() async {
+    if(unofficialApk && await isNetworkAvailable())
+      await checkUnofficialApkUpdate(context);
+  }
+
   @override
   void initState() {
     selectedIndex = 0;
     page = const CatPageHome();
+
+    post(() => tryCheckUnofficalApkUpdate());
 
     super.initState();
   }

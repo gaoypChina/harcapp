@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/common.dart';
+import 'package:harcapp/values/app_values.dart';
+import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/auto_rotate.dart';
 import 'package:harcapp/account/account.dart';
@@ -20,10 +23,9 @@ import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:provider/provider.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'common.dart';
-
-const account = true;
 
 class AppDrawer extends StatelessWidget{
 
@@ -81,15 +83,15 @@ class AccountHeaderIcon extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    if(!account)
-      return IconButton(
-          icon: const Icon(AppDetails.icon),
-          onPressed: () => pushPage(context, builder: (context) => const AppDetails())
-      );
+    // if(!account)
+    //   return IconButton(
+    //       icon: const Icon(AppDetails.icon),
+    //       onPressed: () => pushPage(context, builder: (context) => const AppDetails())
+    //   );
 
     return Consumer<LoginProvider>(
       builder: (context, prov, child) => IconButton(
-        icon: Icon(prov.loggedIn?MdiIcons.accountCircleOutline:MdiIcons.menu),
+        icon: Icon(account && prov.loggedIn?MdiIcons.accountCircleOutline:MdiIcons.menu),
         onPressed: () => AccountHeader.open(context),
       )
     );
@@ -166,81 +168,111 @@ class AccountHeader extends StatelessWidget{
 
         //SizedBox(height: Dimen.ICON_MARG),
 
-        Stack(
-          children: [
-
-            /*
-            Padding(
-              padding: EdgeInsets.only(top: iconSize/2 - AppCard.normMargVal),
-              child:
-            ),
-             */
-
-            SimpleButton(
-              color: backgroundIcon_(context),
-              onTap: (){
-                if(!account) {
-                  AppDetails.open(context);
-                  return;
-                }
-                Navigator.pop(context);
-                AccountPage.open(context);
-              },
-              radius: AppCard.bigRadius,
-              margin: AppCard.normMargin,
-              child: Row(
-                children: [
-
-                  const Padding(
-                    padding: EdgeInsets.all(Dimen.ICON_MARG),
-                    child: account?Icon(MdiIcons.accountCircleOutline):Icon(AppDetails.icon),
-                  ),
-
-                  //SizedBox(width: Dimen.ICON_FOOTPRINT, height: Dimen.ICON_FOOTPRINT),
-
-                  Expanded(
-                    child: Text(
-                      account?(AccountData.name??'Zaloguj'):'Więcej',
-                      style: AppTextStyle(
-                          fontSize: Dimen.TEXT_SIZE_BIG,
-                          fontWeight: weight.halfBold,
-                          color: iconEnab_(context)
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-
-                  Consumer<LoginProvider>(
-                    builder: (context, prov, child){
-
-                      if(account && prov.loggedIn)
-                        return const SyncWidget();
-
-                      return const SizedBox(width: Dimen.ICON_FOOTPRINT);
-
+        SimpleButton(
+          color: Colors.teal[400]!,
+          colorEnd: Colors.green[400]!,
+          onTap: () => showAlertDialog(
+              context,
+              title: 'Podaj HarcAppkę dalej!',
+              content: 'HarcAppka dostępna jest dla każdego harcerza (i nie tylko!).'
+                  '\n\nAby podać apkę dalej, prześlij znajomym adres <b>www.harcapp.web.app</b>, gdzie można pobrać ją na każdą platormę!',
+              actionBuilder: (context) => [
+                AlertDialogButton(
+                    text: 'Przejdź do strony',
+                    onTap: (){
+                      Navigator.pop(context);
+                      launchURL('https://www.harcapp.web.app/download');
+                    }
+                ),
+                AlertDialogButton(
+                    text: 'Kopiuj adres',
+                    onTap: (){
+                      Clipboard.setData(const ClipboardData(text: 'https://www.harcapp.web.app/download'));
+                      showAppToast(context, text: 'Skopiowano');
                     },
-                  )
-                ],
+                ),
+                AlertDialogButton(
+                  text: 'Później',
+                  onTap: () => Navigator.pop(context)
+                ),
+
+              ]
+          ),
+          radius: AppCard.bigRadius,
+          margin: AppCard.normMargin,
+          child: Row(
+            children: [
+
+              const SizedBox(width: Dimen.ICON_FOOTPRINT),
+
+              Expanded(
+                child: Text(
+                  'Podaj apkę dalej!',
+                  style: AppTextStyle(
+                      fontSize: Dimen.TEXT_SIZE_BIG,
+                      fontWeight: weight.halfBold,
+                      color: iconEnab_(context)
+                  ),
+                  textAlign: TextAlign.center,
+                ),
               ),
-            ),
 
-            /*
-            Padding(
-              padding: EdgeInsets.only(left: Dimen.ICON_MARG),
-              child: Icon(MdiIcons.circle, size: iconSize, color: cardEnab_(context)),
-            ),
+              const Padding(
+                padding: EdgeInsets.all(Dimen.ICON_MARG),
+                child: Icon(MdiIcons.handPointingRight),
+              ),
 
-            Padding(
-              padding: EdgeInsets.only(left: Dimen.ICON_MARG),
-              child: Icon(MdiIcons.accountCircle, size: iconSize),
-            ),
-*/
+            ],
+          ),
+        ),
 
-          ],
-        )
+        SimpleButton(
+          color: backgroundIcon_(context),
+          onTap: (){
+            if(!account) {
+              AppDetails.open(context);
+              return;
+            }
+            Navigator.pop(context);
+            AccountPage.open(context);
+          },
+          radius: AppCard.bigRadius,
+          margin: AppCard.normMargin,
+          child: Row(
+            children: [
 
+              const Padding(
+                padding: EdgeInsets.all(Dimen.ICON_MARG),
+                child: account?Icon(MdiIcons.accountCircleOutline):Icon(AppDetails.icon),
+              ),
 
+              //SizedBox(width: Dimen.ICON_FOOTPRINT, height: Dimen.ICON_FOOTPRINT),
 
+              Expanded(
+                child: Text(
+                  account?(AccountData.name??'Zaloguj'):'Ustawienia',
+                  style: AppTextStyle(
+                      fontSize: Dimen.TEXT_SIZE_BIG,
+                      fontWeight: weight.halfBold,
+                      color: iconEnab_(context)
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+
+              Consumer<LoginProvider>(
+                builder: (context, prov, child){
+
+                  if(account && prov.loggedIn)
+                    return const SyncWidget();
+
+                  return const SizedBox(width: Dimen.ICON_FOOTPRINT);
+
+                },
+              )
+            ],
+          ),
+        ),
 
 
       ],

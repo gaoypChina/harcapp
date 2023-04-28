@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/model/trop.dart';
+import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/model/trop_user.dart';
 import 'package:provider/provider.dart';
 
 class NameControllerProvider extends ChangeNotifier{
@@ -107,13 +107,12 @@ class TropTaskEditableData{
   late TextEditingController contentController;
   late DateTime deadline;
 
-  late UserData? assignee;
-  late UserDataNick? assigneeNick;
+  late TropUser? assignee;
   late TextEditingController assigneeController;
 
   bool completed;
 
-  TropTaskEditableData(String content, this.deadline, this.assignee, this.assigneeNick, String? assigneeCustomText, this.completed){
+  TropTaskEditableData(String content, this.deadline, this.assignee, String? assigneeCustomText, this.completed){
     contentController = TextEditingController(text: content);
     assigneeController = TextEditingController(text: assigneeCustomText??'');
   }
@@ -123,7 +122,7 @@ class TropTaskEditableData{
   TropTaskData toTaskData() => TropTaskData(
     content: contentController.text,
     deadline: deadline,
-    assignee: assigneeNick??assignee,
+    assignee: assignee,
     assigneeCustomText: assigneeController.text,
     completed: completed,
   );
@@ -148,7 +147,6 @@ class TasksProvider extends ChangeNotifier{
 
           null,
           null,
-          null,
           false,
         ));
 
@@ -159,13 +157,12 @@ class TasksProvider extends ChangeNotifier{
           t.deadline,
 
           t.assignee,
-          null,
           t.assigneeCustomText,
           t.completed
         ));
 
     if(tasks.isEmpty)
-      tasks.add(TropTaskEditableData('', DateTime.now().add(const Duration(days: 14)), null, null, null, false));
+      tasks.add(TropTaskEditableData('', DateTime.now().add(const Duration(days: 14)), null, null, false));
 
   }
 
@@ -175,15 +172,14 @@ class TasksProvider extends ChangeNotifier{
       DateTime.now().add(const Duration(days: 14)),
       null,
       null,
-      null,
       false,
     ));
     notifyListeners();
   }
 
-  void update(int index, {DateTime? deadline, UserDataNick? assigneeNick, String? assigneeCustomText}){
+  void update(int index, {DateTime? deadline, TropUser? assignee, String? assigneeCustomText}){
     if(deadline != null) tasks[index].deadline = deadline;
-    tasks[index].assigneeNick = assigneeNick;
+    tasks[index].assignee = assignee;
     tasks[index].assigneeController.text = assigneeCustomText??'';
     notifyListeners();
   }

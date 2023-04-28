@@ -15,6 +15,8 @@ import 'package:harcapp/_new/cat_page_home/community/communities_loader.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_loader.dart';
 import 'package:harcapp/account/login_provider.dart';
 import 'package:harcapp/logger.dart';
+import 'package:harcapp/utils/check_unofficial_apk_update.dart';
+import 'package:harcapp/values/app_values.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/color_pack_provider.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
@@ -329,7 +331,6 @@ class App extends StatefulWidget {
   }
 
   static bool get showPatroniteSeasonally{
-
     DateTime date = DateTime.now();
     return date.day > 5 && date.day < 12;
   }

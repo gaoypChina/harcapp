@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_common_classes/date_format.dart';
 import 'package:harcapp/_common_classes/missing_decode_param_error.dart';
 import 'package:harcapp/_common_classes/storage.dart';
@@ -961,7 +960,7 @@ class TropTaskData extends TropTaskBaseData{
   String? lclId;
   String? _summary;
   DateTime deadline;
-  UserData? assignee;
+  TropUser? assignee;
   String? assigneeCustomText;
   bool completed;
 
@@ -1000,7 +999,7 @@ class TropTask extends TropTaskData with SyncableParamGroupMixin, SyncGetRespNod
   static const String paramContent = 'content';
   static const String paramSummary = 'summary';
   static const String paramDeadline = 'deadline';
-  static const String paramAssigneeKey = 'assigneeKey';
+  static const String paramAssigneeNick = 'assigneeNick';
   static const String paramAssigneeCustomText = 'assigneeCustomText';
   static const String paramCompleted = 'completed';
 
@@ -1028,7 +1027,7 @@ class TropTask extends TropTaskData with SyncableParamGroupMixin, SyncGetRespNod
     required String content,
     String? summary,
     required DateTime deadline,
-    UserData? assignee,
+    TropUser? assignee,
     String? assigneeCustomText,
     bool completed = false,
 
@@ -1050,7 +1049,7 @@ class TropTask extends TropTaskData with SyncableParamGroupMixin, SyncGetRespNod
     paramContent: content,
     paramSummary: summary,
     paramDeadline: deadline.toIso8601String(),
-    paramAssigneeKey: assignee?.key,
+    paramAssigneeNick: assignee?.tmpNick,
     paramAssigneeCustomText: assigneeCustomText,
     paramCompleted: completed,
   };
@@ -1060,7 +1059,7 @@ class TropTask extends TropTaskData with SyncableParamGroupMixin, SyncGetRespNod
     content: respMapData[paramContent]??(throw MissingDecodeParamError(paramContent)),
     summary: respMapData[paramSummary],
     deadline: DateTime.tryParse(respMapData[paramDeadline])??(throw MissingDecodeParamError(paramDeadline)),
-    assignee: trop._assignedUsersMap[respMapData[paramAssigneeKey]],
+    assignee: trop._assignedUsersMap[respMapData[paramAssigneeNick]],
     assigneeCustomText: respMapData[paramAssigneeCustomText],
     completed: respMapData[paramCompleted]??false,
     trop: trop,
@@ -1110,7 +1109,7 @@ class TropTask extends TropTaskData with SyncableParamGroupMixin, SyncGetRespNod
 
     SyncableParamSingle(
       this,
-      paramId: paramAssigneeKey,
+      paramId: paramAssigneeNick,
       value: () => assignee?.key,
     ),
 

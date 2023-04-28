@@ -82,7 +82,8 @@ class TropyPageState extends State<TropyPage>{
       TropPreviewData.all.last.uniqName,
 
       onSuccess: (tropPrevsPage){
-        TropPreviewData.addAllToAll(tropPrevsPage);
+        if(reloadAll) TropPreviewData.setAll(tropPrevsPage);
+        else TropPreviewData.addAllToAll(tropPrevsPage);
         moreToLoad = tropPrevsPage.length == Trop.tropPageSize;
         if(mounted) setState((){});
       },
@@ -260,11 +261,12 @@ class TropyPageState extends State<TropyPage>{
                     )),
                   ));
 
-                slivers.add(
-                    SliverList(delegate: SliverChildListDelegate([
-                      const SizedBox(height: Dimen.FLOATING_BUTTON_SIZE + 2*Dimen.FLOATING_BUTTON_MARG)
-                    ]))
-                );
+                if(!moreToLoad)
+                  slivers.add(
+                      SliverList(delegate: SliverChildListDelegate([
+                        const SizedBox(height: Dimen.FLOATING_BUTTON_SIZE + 2*Dimen.FLOATING_BUTTON_MARG)
+                      ]))
+                  );
 
               }
 
