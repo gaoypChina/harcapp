@@ -69,6 +69,8 @@ class ParticipantsPageState extends State<ParticipantsPage>{
   IndivComp get comp => widget.comp;
   List<IndivCompParticip> get particips => comp.loadedParticips;
 
+  late IndivCompParticipsProvider indivCompParticipsProv;
+
   List<IndivCompParticip> participAdmins = [];
   List<IndivCompParticip> participModerators = [];
   List<IndivCompParticip> participObservers = [];
@@ -92,115 +94,124 @@ class ParticipantsPageState extends State<ParticipantsPage>{
     }
   }
 
+  void onParticipantsProviderNotified(){
+    updateUserSets();
+    setState((){});
+  }
+
   @override
   void initState() {
+    indivCompParticipsProv = IndivCompParticipsProvider.of(context);
+    indivCompParticipsProv.addListener(onParticipantsProviderNotified);
     updateUserSets();
     super.initState();
   }
 
   @override
+  void dispose() {
+    indivCompParticipsProv.removeListener(onParticipantsProviderNotified);
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) => Consumer<IndivCompParticipsProvider>(
-      builder: (context, prov, child){
+      builder: (context, prov, child) => UserListManagementLoadablePage<IndivCompParticip>(
+        appBarTitle: 'Uczestnicy (${comp.participCount})',
+        userSets: [
+          UserSet(
+              icon: compRoleToIcon[CompRole.ADMIN]!,
+              name: 'Administratorzy',
+              users: participAdmins,
+              permissions: ParticipantsPage.adminPersmissions
+          ),
 
-        return UserListManagementLoadablePage<IndivCompParticip>(
-          appBarTitle: 'Uczestnicy (${comp.participCount})',
-          userSets: [
-            UserSet(
-                icon: compRoleToIcon[CompRole.ADMIN]!,
-                name: 'Administratorzy',
-                users: participAdmins,
-                permissions: ParticipantsPage.adminPersmissions
+          UserSet(
+              icon: compRoleToIcon[CompRole.MODERATOR]!,
+              name: 'Moderatorzy',
+              users: participModerators,
+              permissions: ParticipantsPage.moderatorPersmissions
+          ),
+
+          UserSet(
+              icon: compRoleToIcon[CompRole.OBSERVER]!,
+              name: 'Pozostali',
+              users: participObservers,
+              permissions: ParticipantsPage.obsPersmissions
+          )
+        ],
+        userTileBuilder: (context, particip) =>
+            ParticipTile(
+                particip: particip,
+                heroTag: particip
             ),
 
-            UserSet(
-                icon: compRoleToIcon[CompRole.MODERATOR]!,
-                name: 'Moderatorzy',
-                users: participModerators,
-                permissions: ParticipantsPage.moderatorPersmissions
-            ),
+        userCount: comp.participCount,
+        callReload: () async {
+          await ApiIndivComp.getParticipants(
+            comp: comp,
+            pageSize: IndivComp.participsPageSize,
+            lastRole: null,
+            lastUserName: null,
+            lastUserKey: null,
+            onSuccess: (participsPage){
+              IndivCompParticip me = comp.getParticip(AccountData.key!)!;
+              participsPage.removeWhere((member) => member.key == me.key);
+              participsPage.insert(0, me);
+              comp.setAllLoadedParticips(participsPage, context: context);
+              updateUserSets();
+              setState((){});
+            },
+            onForceLoggedOut: (){
+              if(!mounted) return true;
+              showAppToast(context, text: forceLoggedOutMessage);
+              setState(() {});
+              return true;
+            },
+            onServerMaybeWakingUp: (){
+              if(!mounted) return true;
+              showServerWakingUpToast(context);
+              return true;
+            },
+            onError: (){
+              if(!mounted) return;
+              showAppToast(context, text: simpleErrorMessage);
+            },
+          );
+          return comp.loadedParticips.length;
+        },
+        callLoadMore: () async {
+          await ApiIndivComp.getParticipants(
+            comp: comp,
+            pageSize: IndivComp.participsPageSize,
+            lastRole: comp.loadedParticips.length==1?null:comp.loadedParticips.last.profile.role,
+            lastUserName: comp.loadedParticips.length==1?null:comp.loadedParticips.last.name,
+            lastUserKey: comp.loadedParticips.length==1?null:comp.loadedParticips.last.key,
+            onSuccess: (participsPage){
+              comp.addLoadedParticips(participsPage, context: context);
+              updateUserSets();
+              if(mounted) setState((){});
+            },
+            onForceLoggedOut: (){
+              if(!mounted) return true;
+              showAppToast(context, text: forceLoggedOutMessage);
+              setState(() {});
+              return true;
+            },
+            onServerMaybeWakingUp: (){
+              if(!mounted) return true;
+              showServerWakingUpToast(context);
+              return true;
+            },
+            onError: (){
+              if(!mounted) return;
+              showAppToast(context, text: simpleErrorMessage);
+            },
+          );
+          return comp.loadedParticips.length;
+        },
+        callLoadOnInit: comp.loadedParticips.length == 1,
 
-            UserSet(
-                icon: compRoleToIcon[CompRole.OBSERVER]!,
-                name: 'Pozostali',
-                users: participObservers,
-                permissions: ParticipantsPage.obsPersmissions
-            )
-          ],
-          userTileBuilder: (context, particip) =>
-              ParticipTile(
-                  particip: particip,
-                  heroTag: particip
-              ),
-
-          userCount: comp.participCount,
-          callReload: () async {
-            await ApiIndivComp.getParticipants(
-              comp: comp,
-              pageSize: IndivComp.participsPageSize,
-              lastRole: null,
-              lastUserName: null,
-              lastUserKey: null,
-              onSuccess: (participsPage){
-                IndivCompParticip me = comp.getParticip(AccountData.key!)!;
-                participsPage.removeWhere((member) => member.key == me.key);
-                participsPage.insert(0, me);
-                comp.setAllLoadedParticips(participsPage, context: context);
-                updateUserSets();
-                setState((){});
-              },
-              onForceLoggedOut: (){
-                if(!mounted) return true;
-                showAppToast(context, text: forceLoggedOutMessage);
-                setState(() {});
-                return true;
-              },
-              onServerMaybeWakingUp: (){
-                if(!mounted) return true;
-                showServerWakingUpToast(context);
-                return true;
-              },
-              onError: (){
-                if(!mounted) return;
-                showAppToast(context, text: simpleErrorMessage);
-              },
-            );
-            return comp.loadedParticips.length;
-          },
-          callLoadMore: () async {
-            await ApiIndivComp.getParticipants(
-              comp: comp,
-              pageSize: IndivComp.participsPageSize,
-              lastRole: comp.loadedParticips.length==1?null:comp.loadedParticips.last.profile.role,
-              lastUserName: comp.loadedParticips.length==1?null:comp.loadedParticips.last.name,
-              lastUserKey: comp.loadedParticips.length==1?null:comp.loadedParticips.last.key,
-              onSuccess: (participsPage){
-                comp.addLoadedParticips(participsPage, context: context);
-                updateUserSets();
-                if(mounted) setState((){});
-              },
-              onForceLoggedOut: (){
-                if(!mounted) return true;
-                showAppToast(context, text: forceLoggedOutMessage);
-                setState(() {});
-                return true;
-              },
-              onServerMaybeWakingUp: (){
-                if(!mounted) return true;
-                showServerWakingUpToast(context);
-                return true;
-              },
-              onError: (){
-                if(!mounted) return;
-                showAppToast(context, text: simpleErrorMessage);
-              },
-            );
-            return comp.loadedParticips.length;
-          },
-          callLoadOnInit: comp.loadedParticips.length == 1,
-
-        );
-
-      }
+      )
   );
 
 }

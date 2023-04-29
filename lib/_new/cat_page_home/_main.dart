@@ -129,7 +129,7 @@ class CatPageHomeState extends State<CatPageHome> with AfterLayoutMixin, TickerP
       onLogin: (_) => post(() => tabToPosition[tabController.index] = innerController.positions.last),
       onEmailConfirmChanged: (_) => post(() => tabToPosition[tabController.index] = innerController.positions.last),
       onRegistered: () => post(() => tabToPosition[tabController.index] = innerController.positions.last),
-      onForceLogout: () => Provider.of<LoginProvider>(context, listen: false).notify()
+      onForceLogout: () => null // loginProv is called in `main.dart`.
     );
 
     AppBottomNavigatorProvider.addOnSelectedListener(onBottomTabTap);

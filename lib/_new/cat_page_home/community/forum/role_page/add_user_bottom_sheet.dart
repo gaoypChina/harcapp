@@ -16,12 +16,14 @@ class AddUserBottomSheet extends StatelessWidget{
 
   final Forum forum;
   final PaletteGenerator? palette;
+  // This is needed, because dialogs are closed in the process and local contexts are disposed.
+  final BuildContext context;
 
-  const AddUserBottomSheet(this.forum, this.palette, {super.key});
+  const AddUserBottomSheet(this.forum, this.palette, {required this.context, super.key});
 
 
   @override
-  Widget build(BuildContext context) => UserListAddNewBottomSheet(
+  Widget build(BuildContext _) => UserListAddNewBottomSheet(
     addUserMess: 'Dodaj ogarniacza',
     addUserWithHarcappAccountMess: 'Dodaj osobę posiadającą konto HarcApp.',
     alreadyAddedMess: 'Już jest w kręgu',
@@ -29,7 +31,7 @@ class AddUserBottomSheet extends StatelessWidget{
 
     participatingUserKeys: forum.loadedManagersMap.keys.toList(),
     backgroundColor: CommunityCoverColors.backgroundColor(context, palette),
-    handleAddingUser: (BuildContext context, UserDataNick userData) async {
+    handleAddingUser: (UserDataNick userData) async {
 
       showLoadingWidget(context, CommunityCoverColors.strongColor(context, palette), 'Dodawanie ogarniacza');
 
@@ -40,7 +42,7 @@ class AddUserBottomSheet extends StatelessWidget{
             forum.setAllLoadedManagers(allManagers, context: context);
             Navigator.pop(context); // Close loading widget.
             Navigator.pop(context);
-            showAppToast(context, text: '${userData.name} ${userData.isMale?'dodany':'dodana'}.');
+            showAppToast(context, text: '${userData.name} ${userData.isMale?'dodany':'dodana'}');
           },
           onForceLoggedOut: (){
             Navigator.pop(context); // Close loading widget.

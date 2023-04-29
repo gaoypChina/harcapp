@@ -49,6 +49,8 @@ class CommunityManagersPageState extends State<CommunityManagersPage>{
   Community get community => widget.community;
   List<CommunityManager> get managers => community.loadedManagers;
 
+  late CommunityManagersProvider communityManagersProv;
+
   List<CommunityManager> managAdmins = [];
   List<CommunityManager> managRegulars = [];
 
@@ -67,10 +69,23 @@ class CommunityManagersPageState extends State<CommunityManagersPage>{
     }
   }
 
+  void onManagersProviderNotified(){
+    updateUserSets();
+    setState((){});
+  }
+
   @override
   void initState() {
+    communityManagersProv = CommunityManagersProvider.of(context);
+    communityManagersProv.addListener(onManagersProviderNotified);
     updateUserSets();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    communityManagersProv.removeListener(onManagersProviderNotified);
+    super.dispose();
   }
 
   @override
@@ -112,7 +127,7 @@ class CommunityManagersPageState extends State<CommunityManagersPage>{
                   icon: const Icon(MdiIcons.plus),
                   onPressed: () => showScrollBottomSheet(
                       context: context,
-                      builder: (context) => AddUserBottomSheet(community)
+                      builder: (_) => AddUserBottomSheet(community, context: context)
                   )
               )
           ],

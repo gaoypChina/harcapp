@@ -15,19 +15,21 @@ import '../model/community_manager.dart';
 class AddUserBottomSheet extends StatelessWidget{
 
   final Community community;
+  // This is needed, because dialogs are closed in the process and local contexts are disposed.
+  final BuildContext context;
 
-  const AddUserBottomSheet(this.community, {super.key});
+  const AddUserBottomSheet(this.community, {required this.context, super.key});
 
 
   @override
-  Widget build(BuildContext context) => UserListAddNewBottomSheet(
+  Widget build(BuildContext _) => UserListAddNewBottomSheet(
     addUserMess: 'Dodaj ogarniacza',
     addUserWithHarcappAccountMess: 'Dodaj osobę posiadającą konto HarcApp.',
     alreadyAddedMess: 'Już jest w kręgu',
     userAlreadyAddedMess: (name) => '$name już jest w kręgu!',
 
     participatingUserKeys: community.loadedManagersMap.keys.toList(),
-    handleAddingUser: (BuildContext context, UserDataNick userData) async {
+    handleAddingUser: (UserDataNick userData) async {
 
       showLoadingWidget(context, iconEnab_(context), 'Dodawanie ogarniacza');
 
@@ -38,7 +40,7 @@ class AddUserBottomSheet extends StatelessWidget{
             community.setAllLoadedManagers(allManagers, context: context);
             Navigator.pop(context); // Close loading widget.
             Navigator.pop(context);
-            showAppToast(context, text: '${userData.name} ${userData.isMale?'dodany':'dodana'}.');
+            showAppToast(context, text: '${userData.name} ${userData.isMale?'dodany':'dodana'}');
           },
           onForceLoggedOut: (){
             Navigator.pop(context); // Close loading widget.

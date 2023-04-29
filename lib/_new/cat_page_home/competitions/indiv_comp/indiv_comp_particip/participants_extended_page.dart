@@ -46,6 +46,7 @@ class ParticipantsExtendedPageState extends State<ParticipantsExtendedPage>{
 
   List<IndivCompParticip> get particips => comp.loadedParticips;
 
+  late IndivCompParticipsProvider indivCompParticipsProv;
   late List<IndivCompParticip> selectedParticips;
 
   List<IndivCompParticip> participAdmins = [];
@@ -71,19 +72,23 @@ class ParticipantsExtendedPageState extends State<ParticipantsExtendedPage>{
     }
   }
 
+  void onParticipProviderNotified(){
+    updateUserSets();
+    setState((){});
+  }
+
   @override
   void initState() {
     updateUserSets();
-    IndivCompParticipsProvider.addOnNotifyListener(onParticipProviderNotified);
+    indivCompParticipsProv = IndivCompParticipsProvider.of(context);
+    indivCompParticipsProv.addListener(onParticipProviderNotified);
     selectedParticips = [];
     super.initState();
   }
 
-  void onParticipProviderNotified() => setState((){});
-
   @override
   void dispose() {
-    IndivCompParticipsProvider.removeOnNotifyListener(onParticipProviderNotified);
+    indivCompParticipsProv.removeListener(onParticipProviderNotified);
     super.dispose();
   }
 
@@ -105,229 +110,225 @@ class ParticipantsExtendedPageState extends State<ParticipantsExtendedPage>{
       comp.addPoints(taskCompl.participKey, taskCompl.points);
     }
 
-    Provider.of<IndivCompProvider>(context, listen: false).notify();
-    Provider.of<IndivCompListProvider>(context, listen: false).notify();
+    IndivCompProvider.notify_(context);
+    IndivCompListProvider.notify_(context);
     
     setState(() {});
   }
 
   @override
   Widget build(BuildContext context) => Consumer<IndivCompParticipsProvider>(
-      builder: (context, prov, child){
+      builder: (context, prov, child) => Stack(
+        children: [
 
-        return Stack(
-          children: [
+          UserListManagementLoadablePage<IndivCompParticip>(
+            appBarTitle: selectedParticips.isEmpty?
+            'Uczestnicy (${particips.length})':
+            'Zaznaczono: ${selectedParticips.length}',
 
-            UserListManagementLoadablePage<IndivCompParticip>(
-              appBarTitle: selectedParticips.isEmpty?
-              'Uczestnicy (${particips.length})':
-              'Zaznaczono: ${selectedParticips.length}',
-
-              userSets: [
-                UserSet(
+            userSets: [
+              UserSet(
                   icon: compRoleToIcon[CompRole.ADMIN]!,
                   name: ParticipantsPage.adminsHeaderTitle,
                   users: participAdmins,
                   permissions: ParticipantsPage.adminPersmissions
-                ),
+              ),
 
-                UserSet(
+              UserSet(
                   icon: compRoleToIcon[CompRole.MODERATOR]!,
                   name: ParticipantsPage.moderatorsHeaderTitle,
                   users: participModerators,
                   permissions: ParticipantsPage.moderatorPersmissions
-                ),
+              ),
 
-                UserSet(
+              UserSet(
                   icon: compRoleToIcon[CompRole.OBSERVER]!,
                   name: ParticipantsPage.obsHeaderTitle,
                   users: participObservers,
                   permissions: ParticipantsPage.obsPersmissions
+              )
+            ],
+
+            appBarLeading: selectedParticips.isEmpty?
+            null:
+            SizedBox(
+              width: Dimen.APPBAR_LEADING_WIDTH,
+              child: IconButton(
+                  icon: const Icon(MdiIcons.close),
+                  onPressed: () => setState(() => selectedParticips.clear())
+              ),
+            ),
+
+            appBarActions: [
+              if(selectedParticips.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(right: 2*Dimen.defMarg),
+                  child: IconButton(
+                      icon: const Icon(MdiIcons.selectMultiple),
+                      onPressed: (){
+                        selectedParticips.clear();
+                        selectedParticips.addAll(particips);
+                        setState(() {});
+                      }
+                  ),
                 )
-              ],
+              else if(comp.myProfile?.role == CompRole.ADMIN)
+                IconButton(
+                    icon: const Icon(MdiIcons.plus),
+                    onPressed: () => showScrollBottomSheet(
+                        context: context,
+                        builder: (_) => AddUserBottomSheet(comp, context: context)
+                    )
+                )
+            ],
 
-              appBarLeading: selectedParticips.isEmpty?
-              null:
-              SizedBox(
-                width: Dimen.APPBAR_LEADING_WIDTH,
-                child: IconButton(
-                    icon: const Icon(MdiIcons.close),
-                    onPressed: () => setState(() => selectedParticips.clear())
-                ),
-              ),
-              
-              appBarActions: [
-                if(selectedParticips.isNotEmpty)
-                  Padding(
-                    padding: const EdgeInsets.only(right: 2*Dimen.defMarg),
-                    child: IconButton(
-                        icon: const Icon(MdiIcons.selectMultiple),
-                        onPressed: (){
-                          selectedParticips.clear();
-                          selectedParticips.addAll(particips);
-                          setState(() {});
-                        }
-                    ),
-                  )
-                else if(comp.myProfile?.role == CompRole.ADMIN)
-                  IconButton(
-                      icon: const Icon(MdiIcons.plus),
-                      onPressed: () => showScrollBottomSheet(
-                          context: context,
-                          builder: (context) => AddUserBottomSheet(comp)
-                      )
-                  )
-              ],
+            userTileBuilder: (context, particip) => ParticipTileExtended(
+              comp,
+              particip,
 
-              userTileBuilder: (context, particip) => ParticipTileExtended(
-                comp,
-                particip,
+              anythingSelected: selectedParticips.isNotEmpty,
+              selected: selectedParticips.contains(particip),
 
-                anythingSelected: selectedParticips.isNotEmpty,
-                selected: selectedParticips.contains(particip),
+              onSelectionTap: (){
+                if(!particip.profile.active&& !selectedParticips.contains(particip))
+                  showAppToast(context, text: 'Pamiętaj, <b>${particip.name}</b> nie uczestniczy we współzawodnictwie. <b>Nie można mu przyznać punktów</b>.');
 
-                onSelectionTap: (){
-                  if(!particip.profile.active&& !selectedParticips.contains(particip))
-                    showAppToast(context, text: 'Pamiętaj, <b>${particip.name}</b> nie uczestniczy we współzawodnictwie. <b>Nie można mu przyznać punktów</b>.');
+                if(selectedParticips.contains(particip))
+                  setState(() => selectedParticips.remove(particip));
+                else
+                  setState(() => selectedParticips.add(particip));
+              },
+              onPointsGranted: onPointsGranted,
+              heroTag: particip,
+            ),
 
-                  if(selectedParticips.contains(particip))
-                    setState(() => selectedParticips.remove(particip));
-                  else
-                    setState(() => selectedParticips.add(particip));
-                },
-                onPointsGranted: onPointsGranted,
-                heroTag: particip,
-              ),
+            headerTrailing: (context, userSet) => IconButton(
+              icon: const Icon(MdiIcons.selectMultiple),
+              onPressed: (){
 
-              headerTrailing: (context, userSet) => IconButton(
-                icon: const Icon(MdiIcons.selectMultiple),
-                onPressed: (){
+                bool allSelected = true;
+                for(IndivCompParticip particip in userSet.users)
+                  if(!selectedParticips.contains(particip)){
+                    allSelected = false;
+                    break;
+                  }
 
-                  bool allSelected = true;
+                if(allSelected)
                   for(IndivCompParticip particip in userSet.users)
-                    if(!selectedParticips.contains(particip)){
-                      allSelected = false;
-                      break;
-                    }
+                    selectedParticips.remove(particip);
+                else
+                  for(IndivCompParticip particip in userSet.users)
+                    if(!selectedParticips.contains(particip)) selectedParticips.add(particip);
 
-                  if(allSelected)
-                    for(IndivCompParticip particip in userSet.users)
-                      selectedParticips.remove(particip);
-                  else
-                    for(IndivCompParticip particip in userSet.users)
-                      if(!selectedParticips.contains(particip)) selectedParticips.add(particip);
-
-                  setState(() {});
-
-                },
-              ),
-
-              bottomNavigationBar: selectedParticips.isEmpty?null:
-              SimpleButton(
-                margin: const EdgeInsets.only(
-                    left: Dimen.defMarg,
-                    right: Dimen.defMarg,
-                    bottom: Dimen.defMarg,
-                ),
-                padding: const EdgeInsets.all(Dimen.SIDE_MARG - Dimen.ICON_MARG),
-                radius: AppCard.bigRadius,
-                onTap: applyPointsToMultipleParticips,
-                elevation: AppCard.bigElevation,
-                color: comp.colors.colorStart,
-                colorEnd: comp.colors.colorEnd,
-                child: TitleShortcutRowWidget(
-                    icon: MdiIcons.plusCircleMultipleOutline,
-                    titleColor: background_(context),
-                    iconColor: background_(context),
-                    title: 'Zalicz zadanie'
-                ),
-
-              ),
-
-
-              userCount: comp.participCount,
-              callReload: () async {
-                await ApiIndivComp.getParticipants(
-                  comp: comp,
-                  pageSize: IndivComp.participsPageSize,
-                  lastRole: null,
-                  lastUserName: null,
-                  lastUserKey: null,
-                  onSuccess: (participsPage){
-                    IndivCompParticip me = comp.getParticip(AccountData.key!)!;
-                    participsPage.removeWhere((member) => member.key == me.key);
-                    participsPage.insert(0, me);
-                    comp.setAllLoadedParticips(participsPage, context: context);
-                    updateUserSets();
-                    selectedParticips.clear();
-                    setState((){});
-                  },
-                  onForceLoggedOut: (){
-                    if(!mounted) return true;
-                    showAppToast(context, text: forceLoggedOutMessage);
-                    setState(() {});
-                    return true;
-                  },
-                  onServerMaybeWakingUp: (){
-                    if(!mounted) return true;
-                    showServerWakingUpToast(context);
-                    return true;
-                  },
-                  onError: (){
-                    if(!mounted) return;
-                    showAppToast(context, text: simpleErrorMessage);
-                  },
-                );
-                return comp.loadedParticips.length;
-              },
-              callLoadMore: () async {
-                await ApiIndivComp.getParticipants(
-                  comp: comp,
-                  pageSize: IndivComp.participsPageSize,
-                  lastRole: comp.loadedParticips.length==1?null:comp.loadedParticips.last.profile.role,
-                  lastUserName: comp.loadedParticips.length==1?null:comp.loadedParticips.last.name,
-                  lastUserKey: comp.loadedParticips.length==1?null:comp.loadedParticips.last.key,
-                  onSuccess: (participsPage){
-                    comp.addLoadedParticips(participsPage, context: context);
-                    updateUserSets();
-                    if(mounted) setState((){});
-                  },
-                  onForceLoggedOut: (){
-                    if(!mounted) return true;
-                    showAppToast(context, text: forceLoggedOutMessage);
-                    setState(() {});
-                    return true;
-                  },
-                  onServerMaybeWakingUp: (){
-                    if(!mounted) return true;
-                    showServerWakingUpToast(context);
-                    return true;
-                  },
-                  onError: (){
-                    if(!mounted) return;
-                    showAppToast(context, text: simpleErrorMessage);
-                  },
-                );
-
-                return comp.loadedParticips.length;
+                setState(() {});
 
               },
-              callLoadOnInit: comp.loadedParticips.length == 1,
+            ),
+
+            bottomNavigationBar: selectedParticips.isEmpty?null:
+            SimpleButton(
+              margin: const EdgeInsets.only(
+                left: Dimen.defMarg,
+                right: Dimen.defMarg,
+                bottom: Dimen.defMarg,
+              ),
+              padding: const EdgeInsets.all(Dimen.SIDE_MARG - Dimen.ICON_MARG),
+              radius: AppCard.bigRadius,
+              onTap: applyPointsToMultipleParticips,
+              elevation: AppCard.bigElevation,
+              color: comp.colors.colorStart,
+              colorEnd: comp.colors.colorEnd,
+              child: TitleShortcutRowWidget(
+                  icon: MdiIcons.plusCircleMultipleOutline,
+                  titleColor: background_(context),
+                  iconColor: background_(context),
+                  title: 'Zalicz zadanie'
+              ),
 
             ),
 
-            if(comp.participCount == 1 && selectedParticips.isEmpty)
-              Positioned(
-                  left: 2*Dimen.SIDE_MARG,
-                  right: 2*Dimen.SIDE_MARG,
-                  bottom: kBottomNavigationBarHeight + 2*Dimen.SIDE_MARG,
-                  child: _HowToAddParticipsInfo()
-              )
 
-          ],
-        );
+            userCount: comp.participCount,
+            callReload: () async {
+              await ApiIndivComp.getParticipants(
+                comp: comp,
+                pageSize: IndivComp.participsPageSize,
+                lastRole: null,
+                lastUserName: null,
+                lastUserKey: null,
+                onSuccess: (participsPage){
+                  IndivCompParticip me = comp.getParticip(AccountData.key!)!;
+                  participsPage.removeWhere((member) => member.key == me.key);
+                  participsPage.insert(0, me);
+                  comp.setAllLoadedParticips(participsPage, context: context);
+                  updateUserSets();
+                  selectedParticips.clear();
+                  setState((){});
+                },
+                onForceLoggedOut: (){
+                  if(!mounted) return true;
+                  showAppToast(context, text: forceLoggedOutMessage);
+                  setState(() {});
+                  return true;
+                },
+                onServerMaybeWakingUp: (){
+                  if(!mounted) return true;
+                  showServerWakingUpToast(context);
+                  return true;
+                },
+                onError: (){
+                  if(!mounted) return;
+                  showAppToast(context, text: simpleErrorMessage);
+                },
+              );
+              return comp.loadedParticips.length;
+            },
+            callLoadMore: () async {
+              await ApiIndivComp.getParticipants(
+                comp: comp,
+                pageSize: IndivComp.participsPageSize,
+                lastRole: comp.loadedParticips.length==1?null:comp.loadedParticips.last.profile.role,
+                lastUserName: comp.loadedParticips.length==1?null:comp.loadedParticips.last.name,
+                lastUserKey: comp.loadedParticips.length==1?null:comp.loadedParticips.last.key,
+                onSuccess: (participsPage){
+                  comp.addLoadedParticips(participsPage, context: context);
+                  updateUserSets();
+                  if(mounted) setState((){});
+                },
+                onForceLoggedOut: (){
+                  if(!mounted) return true;
+                  showAppToast(context, text: forceLoggedOutMessage);
+                  setState(() {});
+                  return true;
+                },
+                onServerMaybeWakingUp: (){
+                  if(!mounted) return true;
+                  showServerWakingUpToast(context);
+                  return true;
+                },
+                onError: (){
+                  if(!mounted) return;
+                  showAppToast(context, text: simpleErrorMessage);
+                },
+              );
 
-      }
+              return comp.loadedParticips.length;
+
+            },
+            callLoadOnInit: comp.loadedParticips.length == 1,
+
+          ),
+
+          if(comp.participCount == 1 && selectedParticips.isEmpty)
+            Positioned(
+                left: 2*Dimen.SIDE_MARG,
+                right: 2*Dimen.SIDE_MARG,
+                bottom: kBottomNavigationBarHeight + 2*Dimen.SIDE_MARG,
+                child: _HowToAddParticipsInfo()
+            )
+
+        ],
+      )
   );
 
   void applyPointsToMultipleParticips(){

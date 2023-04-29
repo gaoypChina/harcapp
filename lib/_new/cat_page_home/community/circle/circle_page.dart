@@ -985,7 +985,7 @@ class MembersWidgetState extends State<MembersWidget>{
             ),
             heroBuilder: (index) => circle.loadedMembers[index],
 
-            onLoadMore: () => loadMoreMembers(),
+            onLoadMore: loadMoreMembers,
             isLoading: isLoading,
             isMoreToLoad: circle.loadedMembers.length < circle.memberCount,
           ),

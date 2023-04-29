@@ -81,7 +81,7 @@ class FeedPageState extends State<FeedPage>{
     communitiesLoader.addListener(communitiesLoaderListener);
 
     loginListener = LoginListener(
-      onForceLogout: () => loginProv.notify()
+      onForceLogout: () => null // loginProv is called in `main.dart`.
     );
 
     AccountData.addLoginListener(loginListener);

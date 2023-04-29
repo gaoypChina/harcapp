@@ -56,30 +56,33 @@ class TropyPageState extends State<TropyPage>{
   bool get moreToLoad => _moreToLoad;
   set moreToLoad(bool value){
     _moreToLoad = value;
-    logger.d('Loaded ${TropPreviewData.all.length} trop previews. Any remaining: $value');
+    logger.d('Loaded ${TropPreviewData.all!.length} trop previews. Any remaining: $value');
   }
+
+  bool get tropPreviewEmpty => TropPreviewData.all?.isEmpty??true;
 
   Future<void> loadTropsPage({bool reloadAll = false}) async {
 
     if(!await isNetworkAvailable()){
       showAppToast(context, text: 'Brak dostępu do Internetu');
-      refreshController.loadComplete();
+      refreshController.loadComplete(); // This is called in `post()` inside.
+      if(mounted) post(() => mounted?setState(() {}):null);
       return;
     }
 
     await ApiTrop.getSharedTropPreviews(
       pageSize: Trop.tropPageSize,
-      lastStartTime: reloadAll || TropPreviewData.all.isEmpty?
+      lastStartTime: reloadAll || tropPreviewEmpty?
       null:
-      TropPreviewData.all.last.startDate.toIso8601String(),
+      TropPreviewData.all!.last.startDate.toIso8601String(),
 
-      lastName: reloadAll || TropPreviewData.all.isEmpty?
+      lastName: reloadAll || tropPreviewEmpty?
       null:
-      TropPreviewData.all.last.name,
+      TropPreviewData.all!.last.name,
 
-      lastTropUniqName: reloadAll || TropPreviewData.all.isEmpty?
+      lastTropUniqName: reloadAll || tropPreviewEmpty?
       null:
-      TropPreviewData.all.last.uniqName,
+      TropPreviewData.all!.last.uniqName,
 
       onSuccess: (tropPrevsPage){
         if(reloadAll) TropPreviewData.setAll(tropPrevsPage);
@@ -109,7 +112,17 @@ class TropyPageState extends State<TropyPage>{
   @override
   void initState() {
     _moreToLoad = true;
-    refreshController = RefreshController();
+
+    bool loggedIn = LoginProvider.of(context).loggedIn;
+    refreshController = RefreshController(
+        initialLoadStatus:
+        loggedIn && TropPreviewData.all == null?
+        LoadStatus.loading:
+        LoadStatus.idle
+    );
+    if(loggedIn && TropPreviewData.all == null)
+      loadTropsPage();
+
     super.initState();
   }
 
@@ -121,7 +134,7 @@ class TropyPageState extends State<TropyPage>{
           enablePullDown: loginProv.loggedIn && !refreshController.isLoading,
           enablePullUp: loginProv.loggedIn && moreToLoad && !refreshController.isRefresh,
           footer: AppCustomFooter(
-              moreToLoad: moreToLoad && TropPreviewData.all.isNotEmpty,
+              moreToLoad: moreToLoad && !tropPreviewEmpty,
               showDotWhenAllLoaded: true
           ),
           header: MaterialClassicHeader(
@@ -163,7 +176,7 @@ class TropyPageState extends State<TropyPage>{
                 )
               ];
 
-              if(Trop.allOwn.isEmpty && Trop.allSharedWithMe.isEmpty)
+              if(Trop.allOwn.isEmpty && tropPreviewEmpty)
                 slivers.add(SliverFillRemaining(
                     hasScrollBody: false,
                     child: Center(
@@ -205,7 +218,7 @@ class TropyPageState extends State<TropyPage>{
                   slivers.add(SliverPadding(
                     padding: const EdgeInsets.all(Dimen.SIDE_MARG),
                     sliver: SliverList(delegate: SliverChildSeparatedBuilderDelegate(
-                            (BuildContext context, int index) => SimpleButton(
+                        (BuildContext context, int index) => SimpleButton(
                           clipBehavior: Clip.none,
                           radius: AppCard.bigRadius,
                           child: TropTile(
@@ -236,7 +249,7 @@ class TropyPageState extends State<TropyPage>{
                     ])),
                   ));
 
-                if(AccountData.loggedIn && TropPreviewData.all.isEmpty)
+                if(AccountData.loggedIn && tropPreviewEmpty)
                   slivers.add(SliverList(delegate: SliverChildListDelegate([
                     const NoTropWidget(),
                   ])));
@@ -248,16 +261,16 @@ class TropyPageState extends State<TropyPage>{
                             clipBehavior: Clip.none,
                             radius: AppCard.bigRadius,
                             child: TropTile(
-                              name: TropPreviewData.all[index].name,
-                              category: TropPreviewData.all[index].category,
-                              zuchTropName: TropPreviewData.all[index].customIconTropName,
+                              name: TropPreviewData.all![index].name,
+                              category: TropPreviewData.all![index].category,
+                              zuchTropName: TropPreviewData.all![index].customIconTropName,
                               // trailing: TropTileProgressWidget(TropPreviewData.all[index].completenessPercent),
                               iconSize: TropIcon.defSize,
                             ),
-                            onTap: () => loadPushTropPage(context, TropPreviewData.all[index])
+                            onTap: () => loadPushTropPage(context, TropPreviewData.all![index])
                         ),
                         separatorBuilder: (BuildContext context, int index) => const SizedBox(height: Dimen.SIDE_MARG),
-                        count: TropPreviewData.all.length
+                        count: TropPreviewData.all!.length
                     )),
                   ));
 
@@ -272,7 +285,7 @@ class TropyPageState extends State<TropyPage>{
 
               return CustomScrollView(
                 physics: const BouncingScrollPhysics(),
-                shrinkWrap: true,
+                shrinkWrap: loginProv.loggedIn,
                 slivers: slivers,
               );
 

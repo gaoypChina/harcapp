@@ -19,6 +19,7 @@ Future<bool> checkUnofficialApkUpdate(BuildContext context) async {
   int versionCode = dataMap['versionCode'];
   String versionName = dataMap['versionName'];
   String apkSource = dataMap['apkSource'];
+  bool shouldMoveToPlayStore = dataMap['shouldMoveToPlayStore'];
 
   PackageInfo info = await PackageInfo.fromPlatform();
 
@@ -29,6 +30,10 @@ Future<bool> checkUnofficialApkUpdate(BuildContext context) async {
       context: context,
       versionName: versionName,
       apkSource: apkSource
+    );
+  else if(shouldMoveToPlayStore)
+    await showMoveToPlayStoreDialog(
+        context: context
     );
 
   updateAlreadyChecked = true;
@@ -47,5 +52,17 @@ Future<void> showUpdateDialog({
     actionBuilder: (context) => [
       AlertDialogButton(text: 'Później', onTap: () => Navigator.pop(context)),
       AlertDialogButton(text: 'Biorę!', onTap: () => launchURL(apkSource)),
+    ]
+);
+
+Future<void> showMoveToPlayStoreDialog({
+  required BuildContext context,
+}) => showAlertDialog(
+    context,
+    title: 'Czas na zmiany!',
+    content: 'Dostępna jest nowa HarcAppka w sklepie Google Play. Obecnie korzystasz z wersji pozasklepowej, która w najbliższym czasie przestanie być wspierana.\n\nTo co, przesiadasz się, by wędrować z HarcApką dalej?',
+    actionBuilder: (context) => [
+      AlertDialogButton(text: 'Później', onTap: () => Navigator.pop(context)),
+      AlertDialogButton(text: 'Biorę!', onTap: () => launchURL('https://play.google.com/store/apps/details?id=zhp.harc.app')),
     ]
 );

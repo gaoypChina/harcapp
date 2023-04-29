@@ -75,6 +75,8 @@ class MembersPageState extends State<MembersPage>{
   PaletteGenerator? get palette => widget.palette;
   List<Member> get members => circle.loadedMembers;
 
+  late CircleMembersProvider circleMembersProv;
+
   List<Member> memberAdmins = [];
   List<Member> memberEditors = [];
   List<Member> memberObservers = [];
@@ -98,137 +100,146 @@ class MembersPageState extends State<MembersPage>{
     }
   }
 
+  void onMembersProviderNotified(){
+    updateUserSets();
+    setState((){});
+  }
+
   @override
   void initState() {
+    circleMembersProv = CircleMembersProvider.of(context);
+    circleMembersProv.addListener(onMembersProviderNotified);
     updateUserSets();
     super.initState();
   }
-  
+
+  @override
+  void dispose() {
+    circleMembersProv.removeListener(onMembersProviderNotified);
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) => Consumer<CircleMembersProvider>(
-      builder: (context, prov, child){
+      builder: (context, prov, child) => UserListManagementLoadablePage<Member>(
+        appBarTitle: 'Członkowie (${circle.memberCount})',
+        userSets: [
+          UserSet(
+              icon: circleRoleToIcon[CircleRole.ADMIN]!,
+              name: MembersPage.adminsHeaderTitle,
+              users: memberAdmins,
+              permissions: MembersPage.adminPersmissions
+          ),
 
-        return UserListManagementLoadablePage<Member>(
-            appBarTitle: 'Członkowie (${circle.memberCount})',
-            userSets: [
-              UserSet(
-                  icon: circleRoleToIcon[CircleRole.ADMIN]!,
-                  name: MembersPage.adminsHeaderTitle,
-                  users: memberAdmins,
-                  permissions: MembersPage.adminPersmissions
-              ),
+          UserSet(
+              icon: circleRoleToIcon[CircleRole.EDITOR]!,
+              name: MembersPage.editorsHeaderTitle,
+              users: memberEditors,
+              permissions: MembersPage.editorPersmissions
+          ),
 
-              UserSet(
-                  icon: circleRoleToIcon[CircleRole.EDITOR]!,
-                  name: MembersPage.editorsHeaderTitle,
-                  users: memberEditors,
-                  permissions: MembersPage.editorPersmissions
-              ),
+          UserSet(
+              icon: circleRoleToIcon[CircleRole.OBSERVER]!,
+              name: MembersPage.observersHeaderTitle,
+              users: memberObservers,
+              permissions: MembersPage.observerPersmissions
+          )
+        ],
+        userTileBuilder: (context, member) => circle.myRole == CircleRole.ADMIN?
+        MemberTileExtended(
+            circle: circle,
+            member: member,
+            palette: palette,
+            heroTag: member
+        ):
+        MemberTile(
+            member: member,
+            palette: palette,
+            heroTag: member
+        ),
 
-              UserSet(
-                  icon: circleRoleToIcon[CircleRole.OBSERVER]!,
-                  name: MembersPage.observersHeaderTitle,
-                  users: memberObservers,
-                  permissions: MembersPage.observerPersmissions
-              )
-            ],
-            userTileBuilder: (context, member) => circle.myRole == CircleRole.ADMIN?
-            MemberTileExtended(
-                circle: circle,
-                member: member,
-                palette: palette,
-                heroTag: member
-            ):
-            MemberTile(
-                member: member,
-                palette: palette,
-                heroTag: member
-            ),
+        strongColor: CommunityCoverColors.strongColor(context, palette),
+        backgroundColor: CommunityCoverColors.backgroundColor(context, palette),
+        appBottomNavColor: CommunityCoverColors.backgroundColor(context, palette),
 
-            strongColor: CommunityCoverColors.strongColor(context, palette),
-            backgroundColor: CommunityCoverColors.backgroundColor(context, palette),
-            appBottomNavColor: CommunityCoverColors.backgroundColor(context, palette),
-
-            appBarActions: [
-              if(circle.myRole == CircleRole.ADMIN)
-                IconButton(
-                    icon: const Icon(MdiIcons.plus),
-                    onPressed: () => showScrollBottomSheet(
-                        context: context,
-                        builder: (context) => AddUserBottomSheet(circle, palette)
-                    )
+        appBarActions: [
+          if(circle.myRole == CircleRole.ADMIN)
+            IconButton(
+                icon: const Icon(MdiIcons.plus),
+                onPressed: () => showScrollBottomSheet(
+                    context: context,
+                    builder: (_) => AddUserBottomSheet(circle, palette, context: context)
                 )
-            ],
+            )
+        ],
 
-            userCount: circle.memberCount,
-            callReload: () async {
-              await ApiCircle.getMembers(
-                circleKey: circle.key,
-                pageSize: Circle.memberPageSize,
-                lastRole: null,
-                lastUserName: null,
-                lastUserKey: null,
-                onSuccess: (membersPage){
-                  Member me = circle.loadedMembersMap[AccountData.key]!;
-                  membersPage.removeWhere((member) => member.key == me.key);
-                  membersPage.insert(0, me);
-                  circle.setAllLoadedMembers(membersPage, context: context);
-                  updateUserSets();
-                  if(mounted) setState((){});
-                },
-                onForceLoggedOut: (){
-                  if(!mounted) return true;
-                  showAppToast(context, text: forceLoggedOutMessage);
-                  setState(() {});
-                  return true;
-                },
-                onServerMaybeWakingUp: (){
-                  if(!mounted) return true;
-                  showServerWakingUpToast(context);
-                  return true;
-                },
-                onError: (){
-                  if(!mounted) return;
-                  showAppToast(context, text: simpleErrorMessage);
-                },
-              );
-              return circle.loadedMembers.length;
+        userCount: circle.memberCount,
+        callReload: () async {
+          await ApiCircle.getMembers(
+            circleKey: circle.key,
+            pageSize: Circle.memberPageSize,
+            lastRole: null,
+            lastUserName: null,
+            lastUserKey: null,
+            onSuccess: (membersPage){
+              Member me = circle.loadedMembersMap[AccountData.key]!;
+              membersPage.removeWhere((member) => member.key == me.key);
+              membersPage.insert(0, me);
+              circle.setAllLoadedMembers(membersPage, context: context);
+              updateUserSets();
+              if(mounted) setState((){});
             },
-            callLoadMore: () async {
-              await ApiCircle.getMembers(
-                circleKey: circle.key,
-                pageSize: Circle.memberPageSize,
-                lastRole: circle.loadedMembers.length==1?null:circle.loadedMembers.last.role,
-                lastUserName: circle.loadedMembers.length==1?null:circle.loadedMembers.last.name,
-                lastUserKey: circle.loadedMembers.length==1?null:circle.loadedMembers.last.key,
-                onSuccess: (membersPage){
-                  circle.addLoadedMembers(membersPage, context: context);
-                  updateUserSets();
-                  setState((){});
-                },
-                onForceLoggedOut: (){
-                  if(!mounted) return true;
-                  showAppToast(context, text: forceLoggedOutMessage);
-                  setState(() {});
-                  return true;
-                },
-                onServerMaybeWakingUp: (){
-                  if(!mounted) return true;
-                  showServerWakingUpToast(context);
-                  return true;
-                },
-                onError: (){
-                  if(!mounted) return;
-                  showAppToast(context, text: simpleErrorMessage);
-                },
-              );
-              return circle.loadedMembers.length;
+            onForceLoggedOut: (){
+              if(!mounted) return true;
+              showAppToast(context, text: forceLoggedOutMessage);
+              setState(() {});
+              return true;
             },
-            callLoadOnInit: circle.loadedMembers.length == 1,
+            onServerMaybeWakingUp: (){
+              if(!mounted) return true;
+              showServerWakingUpToast(context);
+              return true;
+            },
+            onError: (){
+              if(!mounted) return;
+              showAppToast(context, text: simpleErrorMessage);
+            },
+          );
+          return circle.loadedMembers.length;
+        },
+        callLoadMore: () async {
+          await ApiCircle.getMembers(
+            circleKey: circle.key,
+            pageSize: Circle.memberPageSize,
+            lastRole: circle.loadedMembers.length==1?null:circle.loadedMembers.last.role,
+            lastUserName: circle.loadedMembers.length==1?null:circle.loadedMembers.last.name,
+            lastUserKey: circle.loadedMembers.length==1?null:circle.loadedMembers.last.key,
+            onSuccess: (membersPage){
+              circle.addLoadedMembers(membersPage, context: context);
+              updateUserSets();
+              setState((){});
+            },
+            onForceLoggedOut: (){
+              if(!mounted) return true;
+              showAppToast(context, text: forceLoggedOutMessage);
+              setState(() {});
+              return true;
+            },
+            onServerMaybeWakingUp: (){
+              if(!mounted) return true;
+              showServerWakingUpToast(context);
+              return true;
+            },
+            onError: (){
+              if(!mounted) return;
+              showAppToast(context, text: simpleErrorMessage);
+            },
+          );
+          return circle.loadedMembers.length;
+        },
+        callLoadOnInit: circle.loadedMembers.length == 1,
 
-        );
-
-      }
+      )
   );
 
 }

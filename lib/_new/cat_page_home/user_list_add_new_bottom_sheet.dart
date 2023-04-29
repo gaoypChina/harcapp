@@ -15,7 +15,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 class UserListAddNewBottomSheet extends StatelessWidget{
 
   final List<String> participatingUserKeys;
-  final void Function(BuildContext context, UserDataNick userData) handleAddingUser;
+  final void Function(UserDataNick userData) handleAddingUser;
 
   final String addUserMess; // 'Dodaj uczestnika'
   final String addUserWithHarcappAccountMess; // 'Dodaj uczestnika posiadającego konto HarcApp.'
@@ -40,7 +40,7 @@ class UserListAddNewBottomSheet extends StatelessWidget{
       color: backgroundColor,
       title: addUserMess,
       childMargin: EdgeInsets.zero,
-      builder: (context) => Stack(
+      builder: (_) => Stack(
         children: [
 
           Positioned(
@@ -64,7 +64,7 @@ class UserListAddNewBottomSheet extends StatelessWidget{
                   title: addUserMess,
                   icon: MdiIcons.accountOutline,
                   onOpen: () async {
-                    Navigator.pop(context);
+                    Navigator.pop(context); // Close bottom sheet.
 
                     if(!await isNetworkAvailable()){
                       showAppToast(context, text: 'Brak dostępu do Internetu');
@@ -80,7 +80,7 @@ class UserListAddNewBottomSheet extends StatelessWidget{
 
                     if(userData == null) return;
 
-                    handleAddingUser(context, userData);
+                    handleAddingUser(userData);
 
                   },
                 ),
@@ -99,7 +99,7 @@ class UserListAddNewBottomSheet extends StatelessWidget{
                   title: 'Dodaj konto widmo',
                   icon: MdiIcons.alienOutline,
                   onOpen: () async {
-                    Navigator.pop(context);
+                    Navigator.pop(context); // Close bottom sheet
 
                     pushPage(
                         context,
@@ -119,7 +119,7 @@ class UserListAddNewBottomSheet extends StatelessWidget{
                               return;
                             }
 
-                            handleAddingUser(context, shadowUser);
+                            handleAddingUser(shadowUser);
 
                           },
                         )

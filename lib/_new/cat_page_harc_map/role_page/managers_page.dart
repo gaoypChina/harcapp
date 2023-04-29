@@ -49,6 +49,8 @@ class MarkerManagersPageState extends State<MarkerManagersPage>{
   MarkerData get marker => widget.marker;
   List<MarkerManager> get managers => marker.loadedManagers;
 
+  late MarkerManagersProvider markerManagersProv;
+
   List<MarkerManager> managAdmins = [];
   List<MarkerManager> managCommMods = [];
 
@@ -67,10 +69,23 @@ class MarkerManagersPageState extends State<MarkerManagersPage>{
     }
   }
 
+  void onManagersProviderNotified(){
+    updateUserSets();
+    setState((){});
+  }
+
   @override
   void initState() {
+    markerManagersProv = MarkerManagersProvider.of(context);
+    markerManagersProv.addListener(onManagersProviderNotified);
     updateUserSets();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    markerManagersProv.removeListener(onManagersProviderNotified);
+    super.dispose();
   }
 
   @override
@@ -119,7 +134,7 @@ class MarkerManagersPageState extends State<MarkerManagersPage>{
                 icon: const Icon(MdiIcons.plus),
                 onPressed: () => showScrollBottomSheet(
                   context: context,
-                  builder: (context) => AddUserBottomSheet(marker)
+                  builder: (_) => AddUserBottomSheet(marker, context: context)
                 )
               )
           ],

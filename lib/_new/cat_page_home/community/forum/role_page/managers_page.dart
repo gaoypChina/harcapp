@@ -57,6 +57,8 @@ class ManagersPageState extends State<ManagersPage>{
   PaletteGenerator? get palette => widget.palette;
   List<ForumManager> get managers => forum.loadedManagers;
 
+  late ForumManagersProvider forumManagersProv;
+
   List<ForumManager> managAdmins = [];
   List<ForumManager> managEditors = [];
 
@@ -75,10 +77,23 @@ class ManagersPageState extends State<ManagersPage>{
     }
   }
 
+  void onManagersProviderNotified(){
+    updateUserSets();
+    setState((){});
+  }
+
   @override
   void initState() {
+    forumManagersProv = ForumManagersProvider.of(context);
+    forumManagersProv.addListener(onManagersProviderNotified);
     updateUserSets();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    forumManagersProv.removeListener(onManagersProviderNotified);
+    super.dispose();
   }
 
   @override
@@ -123,7 +138,7 @@ class ManagersPageState extends State<ManagersPage>{
                   icon: const Icon(MdiIcons.plus),
                   onPressed: () => showScrollBottomSheet(
                       context: context,
-                      builder: (context) => AddUserBottomSheet(forum, palette)
+                      builder: (_) => AddUserBottomSheet(forum, palette, context: context)
                   )
               )
           ],

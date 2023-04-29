@@ -775,7 +775,7 @@ class ParticipantsWidgetState extends State<ParticipantsWidget>{
 
   late bool isLoading;
 
-  Future<void> loadMoreMembers() async {
+  Future<void> loadMore() async {
     setState(() => isLoading = true);
     if(!await isNetworkAvailable()){
       setState(() => isLoading = false);
@@ -818,7 +818,7 @@ class ParticipantsWidgetState extends State<ParticipantsWidget>{
   @override
   void initState() {
     isLoading = comp.loadedParticips.length == 1 && comp.participCount > 1;
-    if(isLoading) loadMoreMembers();
+    if(isLoading) loadMore();
     super.initState();
   }
 
@@ -834,7 +834,7 @@ class ParticipantsWidgetState extends State<ParticipantsWidget>{
             heroBuilder: (index) => comp.loadedParticips[index],
             onTap: () => ParticipantsWidget.onTap(comp, context),
 
-            onLoadMore: () => loadMoreMembers(),
+            onLoadMore: () => loadMore(),
             isLoading: isLoading,
             isMoreToLoad: comp.loadedParticips.length < comp.participCount,
           ),

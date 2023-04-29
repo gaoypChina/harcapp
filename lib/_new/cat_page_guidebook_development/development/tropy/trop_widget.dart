@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_widgets/border_material.dart';
 import 'package:harcapp/_common_widgets/duration_date_widget.dart';
+import 'package:harcapp/_new/api/trop.dart';
+import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_users_page/trop_users_page.dart';
 import 'package:harcapp/values/app_values.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/model/trop.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_editor_page/_main.dart';
@@ -12,8 +14,10 @@ import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/account_page/account_page.dart';
 import 'package:harcapp/account/account_thumbnail_row_widget.dart';
 import 'package:harcapp/values/colors.dart';
+import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
+import 'package:harcapp_core/comm_classes/network.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
@@ -21,8 +25,10 @@ import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
+import 'model/trop_user.dart';
 
-class TropWidget extends StatelessWidget{
+
+class TropWidget extends StatefulWidget{
 
   final Trop trop;
   final double iconSize;
@@ -34,6 +40,19 @@ class TropWidget extends StatelessWidget{
         this.showBack = true,
         super.key
       });
+
+  @override
+  State<StatefulWidget> createState() => TropWidgetState();
+
+}
+
+class TropWidgetState extends State<TropWidget>{
+
+  Trop get trop => widget.trop;
+  double get iconSize => widget.iconSize;
+  bool get showBack => widget.showBack;
+
+  List<TropUser> get loadedUsers => trop.loadedUsers;
 
   @override
   Widget build(BuildContext context) => Consumer<TropProvider>(
@@ -94,33 +113,10 @@ class TropWidget extends StatelessWidget{
                   ),
 
                   if(account)
-                    Row(
-                      children: [
+                    const SizedBox(height: Dimen.SIDE_MARG),
 
-                        Expanded(child: AccountThumbnailRowWidget(trop.assignedUsers.map((p) => p.name).toList())),
-
-                        if(trop.assignedUsers.length <= 1)
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: SimpleButton.from(
-                                context: context,
-                                color: AppColors.zhpTropColor,
-                                textColor: Colors.white,
-                                icon: MdiIcons.accountPlusOutline,
-                                text: 'Zaproś kumpli',
-                                onTap: (){
-
-                                  if(AccountData.loggedIn)
-                                    showAppToast(context, text: 'Na razie to nie działa!');
-                                  else
-                                    AccountPage.open(context);
-
-                                }
-                            ),
-                          ),
-
-                      ],
-                    ),
+                  if(account)
+                    TropUsersWidget(trop),
 
                   if(trop.aims.isNotEmpty)
                     const SizedBox(height: Dimen.SIDE_MARG),
@@ -185,6 +181,109 @@ class TropWidget extends StatelessWidget{
 
         ],
       )
+  );
+
+}
+
+class TropUsersWidget extends StatefulWidget{
+
+  final Trop trop;
+
+  const TropUsersWidget(this.trop, {super.key});
+
+  @override
+  State<StatefulWidget> createState() => TropUsersWidgetState();
+
+}
+
+class TropUsersWidgetState extends State<TropUsersWidget>{
+
+  Trop get trop => widget.trop;
+  List<TropUser> get loadedUsers => trop.loadedUsers;
+
+  late bool isLoading;
+
+  Future<void> loadMoreUsers() async{
+    setState(() => isLoading = true);
+    if(!await isNetworkAvailable()){
+      setState(() => isLoading = false);
+      return;
+    }
+    await ApiTrop.getUsers(
+      tropUniqName: trop.uniqName,
+      pageSize: Trop.userPageSize,
+      lastRole: loadedUsers.length==1?null:loadedUsers.last.role,
+      lastUserName: loadedUsers.length==1?null:loadedUsers.last.name,
+      lastUserKey: loadedUsers.length==1?null:loadedUsers.last.key,
+      onSuccess: (observersPage){
+        trop.addLoadedUsers(observersPage, context: context);
+        if(mounted) setState((){});
+      },
+      onForceLoggedOut: (){
+        if(!mounted) return true;
+        showAppToast(context, text: forceLoggedOutMessage);
+        setState(() {});
+        return true;
+      },
+      onServerMaybeWakingUp: (){
+        if(!mounted) return true;
+        showServerWakingUpToast(context);
+        return true;
+      },
+      onError: (){
+        if(!mounted) return;
+        showAppToast(context, text: simpleErrorMessage);
+      },
+    );
+    setState(() => isLoading = false);
+  }
+
+  @override
+  void initState() {
+    isLoading = loadedUsers.length == 1;
+    if(isLoading) loadMoreUsers();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) => Row(
+    children: [
+
+      Expanded(child: AccountThumbnailLoadableRowWidget(
+        loadedUsers.map((p) => p.name).toList(),
+        onLoadMore: loadMoreUsers,
+        isLoading: isLoading,
+        isMoreToLoad: loadedUsers.length < trop.userCount,
+        onTap: () => pushPage(
+            context,
+            builder: (context) => TropUsersPage(trop: trop)
+        ),
+      )),
+
+      if(trop.userCount <= 1)
+        Align(
+          alignment: Alignment.centerRight,
+          child: SimpleButton.from(
+              context: context,
+              color: AppColors.zhpTropColor,
+              textColor: Colors.white,
+              icon: MdiIcons.accountPlusOutline,
+              text: 'Zaproś kumpli',
+              onTap: (){
+
+                if(AccountData.loggedIn)
+                  pushPage(
+                      context,
+                      builder: (context) => TropUsersPage(trop: trop)
+                  );
+                else
+                  AccountPage.open(context);
+
+              }
+          ),
+        ),
+
+    ],
   );
 
 }

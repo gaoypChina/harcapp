@@ -169,64 +169,6 @@ class AccountHeader extends StatelessWidget{
         //SizedBox(height: Dimen.ICON_MARG),
 
         SimpleButton(
-          color: Colors.teal[400]!,
-          colorEnd: Colors.green[400]!,
-          onTap: () => showAlertDialog(
-              context,
-              title: 'Podaj HarcAppkę dalej!',
-              content: 'HarcAppka dostępna jest dla każdego harcerza (i nie tylko!).'
-                  '\n\nAby podać apkę dalej, prześlij znajomym adres <b>www.harcapp.web.app</b>, gdzie można pobrać ją na każdą platormę!',
-              actionBuilder: (context) => [
-                AlertDialogButton(
-                    text: 'Przejdź do strony',
-                    onTap: (){
-                      Navigator.pop(context);
-                      launchURL('https://www.harcapp.web.app/download');
-                    }
-                ),
-                AlertDialogButton(
-                    text: 'Kopiuj adres',
-                    onTap: (){
-                      Clipboard.setData(const ClipboardData(text: 'https://www.harcapp.web.app/download'));
-                      showAppToast(context, text: 'Skopiowano');
-                    },
-                ),
-                AlertDialogButton(
-                  text: 'Później',
-                  onTap: () => Navigator.pop(context)
-                ),
-
-              ]
-          ),
-          radius: AppCard.bigRadius,
-          margin: AppCard.normMargin,
-          child: Row(
-            children: [
-
-              const SizedBox(width: Dimen.ICON_FOOTPRINT),
-
-              Expanded(
-                child: Text(
-                  'Podaj apkę dalej!',
-                  style: AppTextStyle(
-                      fontSize: Dimen.TEXT_SIZE_BIG,
-                      fontWeight: weight.halfBold,
-                      color: iconEnab_(context)
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-
-              const Padding(
-                padding: EdgeInsets.all(Dimen.ICON_MARG),
-                child: Icon(MdiIcons.handPointingRight),
-              ),
-
-            ],
-          ),
-        ),
-
-        SimpleButton(
           color: backgroundIcon_(context),
           onTap: (){
             if(!account) {
@@ -274,6 +216,66 @@ class AccountHeader extends StatelessWidget{
           ),
         ),
 
+        SimpleButton(
+          color: Colors.teal[400]!,
+          colorEnd: Colors.green[400]!,
+          onTap: (){
+            Navigator.pop(context);
+            showAlertDialog(
+                context,
+                title: 'Podaj HarcAppkę dalej!',
+                content: 'HarcAppka dostępna jest dla każdego harcerza (i nie tylko!).'
+                    '\n\nAby podać apkę dalej, prześlij znajomym adres <b>www.harcapp.web.app</b>, skąd można pobrać ją na każdą platormę!',
+                actionBuilder: (context) => [
+                  AlertDialogButton(
+                      text: 'Przejdź do strony',
+                      onTap: (){
+                        Navigator.pop(context);
+                        launchURL('https://www.harcapp.web.app/download');
+                      }
+                  ),
+                  AlertDialogButton(
+                    text: 'Kopiuj adres',
+                    onTap: (){
+                      Clipboard.setData(const ClipboardData(text: 'https://www.harcapp.web.app/download'));
+                      showAppToast(context, text: 'Skopiowano');
+                    },
+                  ),
+                  AlertDialogButton(
+                      text: 'Później',
+                      onTap: () => Navigator.pop(context)
+                  ),
+
+                ]
+            );
+          },
+          radius: AppCard.bigRadius,
+          margin: AppCard.normMargin,
+          child: Row(
+            children: [
+
+              const SizedBox(width: Dimen.ICON_FOOTPRINT),
+
+              Expanded(
+                child: Text(
+                  'Podaj apkę dalej!',
+                  style: AppTextStyle(
+                      fontSize: Dimen.TEXT_SIZE_BIG,
+                      fontWeight: weight.halfBold,
+                      color: iconEnab_(context)
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+
+              const Padding(
+                padding: EdgeInsets.all(Dimen.ICON_MARG),
+                child: Icon(MdiIcons.handPointingRight),
+              ),
+
+            ],
+          ),
+        ),
 
       ],
     ),

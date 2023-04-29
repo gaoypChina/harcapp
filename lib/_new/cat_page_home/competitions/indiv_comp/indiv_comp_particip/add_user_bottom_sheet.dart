@@ -13,18 +13,20 @@ import 'package:harcapp/values/consts.dart';
 class AddUserBottomSheet extends StatelessWidget{
 
   final IndivComp comp;
+  // This is needed, because dialogs are closed in the process and local contexts are disposed.
+  final BuildContext context;
 
-  const AddUserBottomSheet(this.comp, {super.key});
+  const AddUserBottomSheet(this.comp, {required this.context, super.key});
 
   @override
-  Widget build(BuildContext context) => UserListAddNewBottomSheet(
+  Widget build(BuildContext _) => UserListAddNewBottomSheet(
     addUserMess: 'Dodaj uczestnika',
     addUserWithHarcappAccountMess: 'Dodaj uczestnika posiadającego konto HarcApp.',
     alreadyAddedMess: 'Już uczestniczy',
     userAlreadyAddedMess: (name) => '$name już uczestniczy we współzawodnictwie!',
 
     participatingUserKeys: comp.loadedParticips.map((p) => p.key).toList(),
-    handleAddingUser: (BuildContext context, UserDataNick userData) async {
+    handleAddingUser: (UserDataNick userData) async {
 
       showLoadingWidget(context, comp.colors.avgColor, 'Dodawanie uczestnika');
 
@@ -35,7 +37,7 @@ class AddUserBottomSheet extends StatelessWidget{
             comp.setAllLoadedParticips(allParticips, context: context);
             Navigator.pop(context); // Close loading widget.
             Navigator.pop(context);
-            showAppToast(context, text: '${userData.name} ${userData.isMale?'dodany':'dodana'}.');
+            showAppToast(context, text: '${userData.name} ${userData.isMale?'dodany':'dodana'}');
           },
           onForceLoggedOut: (){
             Navigator.pop(context); // Close loading widget.

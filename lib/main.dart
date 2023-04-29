@@ -15,8 +15,6 @@ import 'package:harcapp/_new/cat_page_home/community/communities_loader.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_loader.dart';
 import 'package:harcapp/account/login_provider.dart';
 import 'package:harcapp/logger.dart';
-import 'package:harcapp/utils/check_unofficial_apk_update.dart';
-import 'package:harcapp/values/app_values.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/color_pack_provider.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
@@ -226,6 +224,8 @@ void main() async {
             ChangeNotifierProvider(create: (context) => TropProvider()),
             ChangeNotifierProvider(create: (context) => TropListProvider()),
             ChangeNotifierProvider(create: (context) => TropTaskProvider()),
+            ChangeNotifierProvider(create: (context) => TropLoadedUsersProvider()),
+            ChangeNotifierProvider(create: (context) => TropAssignedUsersProvider()),
 
             // ŚPIEWNIK
             ChangeNotifierProvider(create: (context) => AlbumProvider()),
@@ -422,7 +422,7 @@ class AppState extends State<App> with WidgetsBindingObserver {
           await communitiesLoader.run();
         },
         onForceLogout: (){
-          loginProv.notify();
+          post(() => loginProv.notify());
         }
     );
     AccountData.addLoginListener(_loginListener);

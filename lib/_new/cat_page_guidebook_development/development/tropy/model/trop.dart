@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_common_classes/date_format.dart';
 import 'package:harcapp/_common_classes/missing_decode_param_error.dart';
 import 'package:harcapp/_common_classes/storage.dart';
@@ -163,29 +164,47 @@ String tropCategoryToName(TropCategory category){
 
 class TropPreviewData{
 
-  static List<TropPreviewData> all = [];
-  static Map<String, TropPreviewData> allMapByUniqName = {};
+  static List<TropPreviewData>? all;
+  static Map<String, TropPreviewData>? allMapByUniqName;
 
   static addToAll(TropPreviewData t){
-    if(allMapByUniqName[t.uniqName] != null) return;
+    if(all == null){
+      all = [];
+      allMapByUniqName = {};
+    }
+    if(allMapByUniqName![t.uniqName] != null) return;
 
-    all.add(t);
-    allMapByUniqName[t.uniqName] = t;
+    all!.add(t);
+    allMapByUniqName![t.uniqName] = t;
   }
 
   static addAllToAll(List<TropPreviewData> tropPrevs){
+    if(all == null){
+      all = [];
+      allMapByUniqName = {};
+    }
     for(TropPreviewData t in tropPrevs){
-      if(allMapByUniqName[t.uniqName] != null) continue;
+      if(allMapByUniqName![t.uniqName] != null) continue;
 
-      all.add(t);
-      allMapByUniqName[t.uniqName] = t;
+      all!.add(t);
+      allMapByUniqName![t.uniqName] = t;
     }
   }
 
-  static void setAll(List<TropPreviewData> allTropPrevs){
-    all.clear();
-    allMapByUniqName.clear();
+  static void setAll(List<TropPreviewData> allTropPrevs) {
+    if (all == null) {
+      all = [];
+      allMapByUniqName = {};
+    } else {
+      all!.clear();
+      allMapByUniqName!.clear();
+    }
     addAllToAll(allTropPrevs);
+  }
+
+  static forget(){
+    all = null;
+    allMapByUniqName = null;
   }
 
   String uniqName;
@@ -249,6 +268,7 @@ class TropBaseData<T extends TropTaskBaseData>{
 class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetRespNode<TropGetResp>{
 
   static const int tropPageSize = 10;
+  static const int userPageSize = 10;
 
   // Whether the all, allMap, etc. are initialized.
   static bool initialized = false;
@@ -373,6 +393,7 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
   static const String paramLastUpdateTime = 'lastUpdateTime';
   static const String paramAssignedUsers = 'assignedUsers';
   static const String paramLoadedUsers = 'loadedUsers';
+  static const String paramUserCount = 'userCount';
 
   static const int maxLenName = 80;
   static const int maxAimCount = 50;
@@ -400,8 +421,7 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
   List<TropUser> get loadedUsers => _loadedUsers;
   Map<String, TropUser> get loadedUsersMap => _loadedUsersMap;
 
-  // TODO: why can this be null?
-  int? userCount;
+  int userCount;
 
   bool get isCategoryHarc => allHarcTropCategories.contains(category);
 
@@ -444,7 +464,7 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
     required Map<String, TropUser> assignedUsersMap,
     required Map<String, TropUser> loadedUsersMap,
 
-    this.userCount,
+    required this.userCount,
 
     super.notesForLeaders,
     super.exampleSpraws,
@@ -463,6 +483,7 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
     completed = trop.completed;
     completionDate = trop.completionDate;
     tasks = trop.tasks;
+    userCount = trop.userCount;
   }
 
   static Trop create({
@@ -499,6 +520,8 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
         lastServerUpdateTime: lastServerUpdateTime,
         assignedUsersMap: {},
         loadedUsersMap: {},
+
+        userCount: 0
     );
 
     trop.tasks = tasks.map((t) => t.toTask(trop)).toList();
@@ -528,6 +551,7 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
       lastServerUpdateTime: lastServerUpdateTime,
       assignedUsersMap: {},
       loadedUsersMap: {},
+      userCount: respMapData[paramUserCount]??(throw MissingDecodeParamError(paramUserCount))
     );
 
     List<TropTask> tasks = [];
@@ -604,6 +628,11 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
         needsUpdating = true;
       }
 
+      if(!map.containsKey(paramUserCount)) {
+        map[paramUserCount] = 0;
+        needsUpdating = true;
+      }
+
       Trop trop = fromRespMap(map, uniqName, fromServer: false);
 
       if(needsUpdating)
@@ -665,7 +694,9 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
     paramTasks: { for(TropTask task in tasks) task.lclId: task.toJsonMap() },
     paramLastUpdateTime: lastServerUpdateTime?.toIso8601String(),
     paramAssignedUsers: _assignedUsersMap.map((key, value) => MapEntry(key, value.toJsonMap())),
-    paramLoadedUsers : _loadedUsersMap.map((key, value) => MapEntry(key, value.toJsonMap())),
+    paramLoadedUsers: _loadedUsersMap.map((key, value) => MapEntry(key, value.toJsonMap())),
+
+    paramUserCount: userCount
   };
 
   void save({localOnly = false, bool synced = false}){
@@ -710,7 +741,7 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
     }
   }
 
-  // Participants
+  // Assigned users
 
   void addAssignedUsers(List<TropUser> newUsers, {BuildContext? context}){
 
@@ -812,7 +843,7 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
     for(String userKey in userKeys){
       TropUser? removed = _loadedUsersMap.remove(userKey);
       if(removed != null && shrinkTotalCount)
-        userCount = userCount! - 1;
+        userCount -= 1;
     }
 
     if(context == null) return;
@@ -827,7 +858,7 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
       logger.d("A dangerous inconsistency between the objectList and the objectKeyMap occurred!");
 
     if(success && removed != null && shrinkTotalCount)
-      userCount = userCount! - 1;
+      userCount -= 1;
   }
 
   static const String syncClassId = 'trop';
@@ -943,6 +974,20 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
         task.applySyncGetResp(resp.tasks[taskIclId]!);
     }
 
+  }
+
+  @override
+  void saveSyncResult(synced, DateTime? lastSync) {
+    super.saveSyncResult(synced, lastSync);
+    if(_loadedUsers.isEmpty) _loadedUsers.add(TropUser(
+        key: AccountData.key!,
+        name: AccountData.name!,
+        shadow: false,
+        sex: Sex.male,
+        role: TropRole.OWNER,
+        tmpNick: null
+    ));
+    save(localOnly: true, synced: true);
   }
 
 }

@@ -15,19 +15,21 @@ import '../model/trop_user.dart';
 class AddUserBottomSheet extends StatelessWidget{
 
   final Trop trop;
+  // This is needed, because dialogs are closed in the process and local contexts are disposed.
+  final BuildContext context;
 
-  const AddUserBottomSheet(this.trop, {super.key});
+  const AddUserBottomSheet(this.trop, {required this.context, super.key});
 
 
   @override
-  Widget build(BuildContext context) => UserListAddNewBottomSheet(
+  Widget build(BuildContext _) => UserListAddNewBottomSheet(
     addUserMess: 'Dodaj człowieka tropu',
     addUserWithHarcappAccountMess: 'Dodaj osobę posiadającą konto HarcApp.',
     alreadyAddedMess: 'Już jest w kręgu',
     userAlreadyAddedMess: (name) => '$name już jest w kręgu!',
 
     participatingUserKeys: trop.assignedUsersMap.keys.toList(),
-    handleAddingUser: (BuildContext context, UserDataNick userData) async {
+    handleAddingUser: (UserDataNick userData) async {
 
       showLoadingWidget(context, iconEnab_(context), 'Dodawanie człowieka tropu');
 
@@ -38,7 +40,7 @@ class AddUserBottomSheet extends StatelessWidget{
             trop.setAllAssignedUsers(allUsers, context: context);
             Navigator.pop(context); // Close loading widget.
             Navigator.pop(context);
-            showAppToast(context, text: '${userData.name} ${userData.isMale?'dodany':'dodana'}.');
+            showAppToast(context, text: '${userData.name} ${userData.isMale?'dodany':'dodana'}');
           },
           onForceLoggedOut: (){
             Navigator.pop(context); // Close loading widget.
