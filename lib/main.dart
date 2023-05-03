@@ -130,8 +130,6 @@ void main() async {
   else
     appMode = AppMode.appModeDefault;
 
-  appMode = AppMode.appModeWolyn;
-
   await ShaPref.init();
   await initPaths();
   await AccountData.init();
