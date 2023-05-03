@@ -142,17 +142,23 @@ class _FolderSelectTileState<T extends Folder> extends State<_FolderSelectTile<T
   bool Function(T) get isSelected => widget.isSelected;
 
   @override
-  Widget build(BuildContext context) => FolderTile(
-    folder,
-    countString: countString,
-    trailing: Checkbox(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimen.ICON_SIZE)),
-        activeColor: folder.colorsData.avgColor,
-        value: isSelected.call(folder),
-        onChanged: (checked) async {
-          await onCheckedChange.call(folder, checked);
-          setState((){});
-        }
-    )
+  Widget build(BuildContext context) => GestureDetector(
+    onTap: () async {
+      await onCheckedChange.call(folder, !isSelected.call(folder));
+      setState((){});
+    },
+    child: FolderTile(
+      folder,
+      countString: countString,
+      trailing: Checkbox(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimen.ICON_SIZE)),
+          activeColor: folder.colorsData.avgColor,
+          value: isSelected.call(folder),
+          onChanged: (checked) async {
+            await onCheckedChange.call(folder, checked);
+            setState((){});
+          }
+      )
+    ),
   );
 }

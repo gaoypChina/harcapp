@@ -7,7 +7,7 @@ Future<void> openSprawFolderSelector(BuildContext context, String sprawUniqName)
     context,
     title: 'Dodaj sprawność do folderu',
     countString: 'Liczba sprawności:',
-    getAllFolders: () => BaseSprawFolder.allFolders,
+    getAllFolders: () => OwnSprawFolder.ownFolderIds.map((id) => OwnSprawFolder.from(id)).toList(),
     onNewFolderSave: (String name, String iconKey, String colorsKey) => OwnSprawFolder.create(
       name: name,
       colorsKey: colorsKey,

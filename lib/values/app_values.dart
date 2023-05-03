@@ -1,2 +1,2 @@
-const bool account = true;
-const bool unofficialApk = true;
+const bool account = false;
+const bool unofficialApk = false;
