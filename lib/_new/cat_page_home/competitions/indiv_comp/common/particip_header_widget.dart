@@ -22,7 +22,7 @@ class ParticipHeaderWidget extends StatelessWidget{
     trailing: Row(
       children: [
         const SizedBox(width: Dimen.ICON_MARG),
-        Icon(compRoleToIcon[role], color: iconDisab_(context))
+        Icon(compRoleToIcon(role), color: iconDisab_(context))
       ],
     ),
   );

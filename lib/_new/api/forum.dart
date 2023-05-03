@@ -381,12 +381,12 @@ class ApiForum{
       onSuccess: (Response response, DateTime now) async {
         if(onSuccess == null) return;
 
-        List<ForumManager> managers = [];
+        List<ForumManager> addedManagers = [];
         Map managersRespMap = response.data;
         for(MapEntry managerEntry in managersRespMap.entries)
-          managers.add(ForumManager.fromRespMap(managerEntry.value, key: managerEntry.key));
+          addedManagers.add(ForumManager.fromRespMap(managerEntry.value, key: managerEntry.key));
 
-        onSuccess(managers);
+        onSuccess(addedManagers);
       },
       onForceLoggedOut: onForceLoggedOut,
       onServerMaybeWakingUp: onServerMaybeWakingUp,
@@ -420,12 +420,12 @@ class ApiForum{
         onSuccess: (Response response, DateTime now) async {
           if(onSuccess == null) return;
 
-          List<ForumManager> managers = [];
+          List<ForumManager> updatedManagers = [];
           Map managersRespMap = response.data;
           for(MapEntry participEntry in managersRespMap.entries)
-            managers.add(ForumManager.fromRespMap(participEntry.value, key: participEntry.key));
+            updatedManagers.add(ForumManager.fromRespMap(participEntry.value, key: participEntry.key));
 
-          onSuccess(managers);
+          onSuccess(updatedManagers);
         },
         onForceLoggedOut: onForceLoggedOut,
         onServerMaybeWakingUp: onServerMaybeWakingUp,

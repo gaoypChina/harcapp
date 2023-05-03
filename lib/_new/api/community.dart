@@ -286,12 +286,12 @@ class ApiCommunity{
       onSuccess: (Response response, DateTime now) async {
         if(onSuccess == null) return;
 
-        List<CommunityManager> managers = [];
+        List<CommunityManager> addedManagers = [];
         Map managersRespMap = response.data;
         for(MapEntry managEntry in managersRespMap.entries)
-          managers.add(CommunityManager.fromRespMap(managEntry.value, key: managEntry.key));
+          addedManagers.add(CommunityManager.fromRespMap(managEntry.value, key: managEntry.key));
 
-        onSuccess(managers);
+        onSuccess(addedManagers);
       },
       onForceLoggedOut: onForceLoggedOut,
       onServerMaybeWakingUp: onServerMaybeWakingUp,
@@ -325,12 +325,12 @@ class ApiCommunity{
         onSuccess: (Response response, DateTime now) async {
           if(onSuccess == null) return;
 
-          List<CommunityManager> managers = [];
+          List<CommunityManager> updatedManagers = [];
           Map managersRespMap = response.data;
           for(MapEntry managerEntry in managersRespMap.entries)
-            managers.add(CommunityManager.fromRespMap(managerEntry.value, key: managerEntry.key));
+            updatedManagers.add(CommunityManager.fromRespMap(managerEntry.value, key: managerEntry.key));
 
-          onSuccess(managers);
+          onSuccess(updatedManagers);
         },
         onForceLoggedOut: onForceLoggedOut,
         onServerMaybeWakingUp: onServerMaybeWakingUp,

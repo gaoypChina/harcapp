@@ -4,6 +4,7 @@ import 'package:harcapp/_new/cat_page_harc_map/model/marker_data.dart';
 import 'package:harcapp/_new/cat_page_harc_map/model/marker_type.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/logger.dart';
+import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -286,7 +287,8 @@ class Community extends CommunityBasicData{
         circle: null,
         forum: forum,
         managers: [],
-        markers: []
+        markers: [],
+        managerCount: 0
       ), context: context);
   }
 
@@ -309,7 +311,8 @@ class Community extends CommunityBasicData{
           circle: circle,
           forum: null,
           managers: [],
-          markers: circle.community.markers
+          markers: circle.community.markers,
+          managerCount: 0
       ), context: context);
   }
 
@@ -403,7 +406,7 @@ class Community extends CommunityBasicData{
   List<CommunityManager> get loadedManagers => _loadedManagers;
   Map<String, CommunityManager> get loadedManagersMap => _loadedManagersMap;
 
-  // TODO: why can this be null? Correct it also in indivComp, forum, circle.
+  // This is null if user is not a manager of this community.
   int? managerCount;
 
   final Map<String, MarkerData> markersMap;
@@ -444,6 +447,7 @@ class Community extends CommunityBasicData{
 
     for(CommunityManager manager in newManagers) {
       int index = _loadedManagers.indexWhere((managerIter) => managerIter.key == manager.key);
+      if(index == -1) continue;
       _loadedManagers.removeAt(index);
       _loadedManagers.insert(index, manager);
       _loadedManagersMap[manager.key] = manager;
@@ -477,6 +481,14 @@ class Community extends CommunityBasicData{
 
     if(success && removed != null && shrinkTotalCount)
       managerCount = managerCount! - 1;
+  }
+
+  bool isManagerWithinLoaded(CommunityManager manager){
+    if(_loadedManagers.isEmpty) return false;
+    CommunityManager lastLoaded = _loadedManagers.last;
+    return communityRoleToLoadingOrder(manager.role) < communityRoleToLoadingOrder(lastLoaded.role) ||
+        compareText(manager.name, lastLoaded.name) < 0 ||
+        compareText(manager.key, lastLoaded.key) < 0;
   }
 
 

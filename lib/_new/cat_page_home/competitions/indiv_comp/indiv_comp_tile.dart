@@ -107,7 +107,7 @@ class IndivCompTile extends StatelessWidget{
                                     children: [
 
                                       Icon(
-                                        compRoleToIcon[comp.myProfile?.role],
+                                        compRoleToIcon(comp.myProfile!.role),
                                         color: hintEnab_(context),
                                       ),
 

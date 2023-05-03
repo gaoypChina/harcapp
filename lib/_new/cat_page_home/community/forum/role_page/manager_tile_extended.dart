@@ -168,8 +168,8 @@ class ForumManagerTileExtendedState extends State<ForumManagerTileExtended>{
           await ApiForum.updateManagers(
               forumKey: forum.key,
               users: [ForumManagerUpdateBody(manager.key, role: newRole)],
-              onSuccess: (List<ForumManager> allManagers) async {
-                forum.updateLoadedManagers(allManagers, context: context);
+              onSuccess: (List<ForumManager> updatedManagers) async {
+                forum.updateLoadedManagers(updatedManagers, context: context);
                 Navigator.pop(context); // Close loading widget
                 await onSuccess?.call();
               },

@@ -825,51 +825,53 @@ class ParticipantsWidgetState extends State<ParticipantsWidget>{
   @override
   Widget build(BuildContext context) => Padding(
     padding: padding,
-    child: Row(
-      children: [
+    child: Consumer<IndivCompParticipsProvider>(
+      builder: (context, prov, child) => Row(
+        children: [
 
-        Expanded(
-          child: AccountThumbnailLoadableRowWidget(
-            comp.loadedParticips.map((particip) => particip.name).toList(),
-            heroBuilder: (index) => comp.loadedParticips[index],
-            onTap: () => ParticipantsWidget.onTap(comp, context),
+          Expanded(
+            child: AccountThumbnailLoadableRowWidget(
+              comp.loadedParticips.map((particip) => particip.name).toList(),
+              heroBuilder: (index) => comp.loadedParticips[index],
+              onTap: () => ParticipantsWidget.onTap(comp, context),
 
-            onLoadMore: () => loadMore(),
-            isLoading: isLoading,
-            isMoreToLoad: comp.loadedParticips.length < comp.participCount,
+              onLoadMore: () => loadMore(),
+              isLoading: isLoading,
+              isMoreToLoad: comp.loadedParticips.length < comp.participCount,
+            ),
           ),
-        ),
 
-        if(comp.participCount == 1)
-          SimpleButton(
-              color: backgroundIcon_(context),
-              radius: 100,
-              child: Row(
-                children: [
-                  const SizedBox(width: 2*Dimen.ICON_MARG),
+          if(comp.participCount == 1)
+            SimpleButton(
+                color: backgroundIcon_(context),
+                radius: 100,
+                child: Row(
+                  children: [
+                    const SizedBox(width: 2*Dimen.ICON_MARG),
 
-                  Text(
-                    'Dodaj członków',
-                    style: AppTextStyle(
-                        fontWeight: weight.halfBold,
-                        color: textEnab_(context),
-                        fontSize: Dimen.TEXT_SIZE_APPBAR
+                    Text(
+                      'Dodaj członków',
+                      style: AppTextStyle(
+                          fontWeight: weight.halfBold,
+                          color: textEnab_(context),
+                          fontSize: Dimen.TEXT_SIZE_APPBAR
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                    textAlign: TextAlign.center,
-                  ),
 
-                  const SizedBox(width: Dimen.ICON_MARG),
+                    const SizedBox(width: Dimen.ICON_MARG),
 
-                  const AccountThumbnailWidget(
-                    elevated: false,
-                    icon: MdiIcons.accountPlusOutline,
-                  )
-                ],
-              ),
-              onTap: () => ParticipantsWidget.onTap(comp, context)
-          )
+                    const AccountThumbnailWidget(
+                      elevated: false,
+                      icon: MdiIcons.accountPlusOutline,
+                    )
+                  ],
+                ),
+                onTap: () => ParticipantsWidget.onTap(comp, context)
+            )
 
-      ],
+        ],
+      ),
     ),
   );
 
@@ -881,19 +883,17 @@ class LeaveNotAdminDialog extends StatelessWidget{
   const LeaveNotAdminDialog(this.comp, {super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
+  Widget build(BuildContext context) => Column(
+    children: [
 
-        TitleShortcutRowWidget(
-          title: 'Strefa zagrożenia!',
-          titleColor: hintEnab_(context),
-        ),
+      TitleShortcutRowWidget(
+        title: 'Strefa zagrożenia!',
+        titleColor: hintEnab_(context),
+      ),
 
-        LeaveCompButton(comp)
+      LeaveCompButton(comp)
 
-      ],
-    );
-  }
+    ],
+  );
 
 }

@@ -6,6 +6,14 @@ enum ForumRole{
   EDITOR,
 }
 
+int forumRoleToLoadingOrder(ForumRole forumRole){
+  // Smaller is higher
+  switch(forumRole){
+    case ForumRole.ADMIN: return 1;
+    case ForumRole.EDITOR: return 2;
+  }
+}
+
 Map<ForumRole, String> forumRoleToStr = {
   ForumRole.ADMIN: 'ADMIN',
   ForumRole.EDITOR: 'EDITOR',

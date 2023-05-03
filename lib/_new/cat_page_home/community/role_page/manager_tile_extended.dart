@@ -169,8 +169,8 @@ class CommunityManagerTileExtendedState extends State<CommunityManagerTileExtend
           await ApiCommunity.updateManagers(
               communityKey: community.key,
               users: [CommunityManagerUpdateBody(manager.key, role: Optional.of(newRole))],
-              onSuccess: (List<CommunityManager> allManagers) async {
-                community.setAllLoadedManagers(allManagers, context: context);
+              onSuccess: (List<CommunityManager> updatedManagers) async {
+                community.setAllLoadedManagers(updatedManagers, context: context);
                 Navigator.pop(context); // Close loading widget
                 await onSuccess?.call();
               },

@@ -186,7 +186,7 @@ class CompletedTaskDetailsWidgetState extends State<CompletedTaskDetailsWidget>{
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   AccountThumbnailWidget(
-                    icon: compRoleToIcon[CompRole.ADMIN],
+                    icon: compRoleToIcon(CompRole.ADMIN),
                     elevated: false,
                     markIcon: MdiIcons.messageArrowLeft,
                   ),
@@ -248,7 +248,7 @@ class CompletedTaskDetailsWidgetState extends State<CompletedTaskDetailsWidget>{
             textController,
             onAcceptStateChanged: (String complTaskKey, TaskAcceptState acceptState){
 
-              comp.removeCompletedTaskForParticip(context, particip!.key, complTaskKey);
+              comp.removeCompletedTaskForParticip(particip!.key, complTaskKey, context: context);
               if(acceptState==TaskAcceptState.ACCEPTED)
                 showAppToast(context, text: 'Zaakceptowano');
               else if(acceptState==TaskAcceptState.REJECTED)

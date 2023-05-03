@@ -99,12 +99,12 @@ class ApiTrop{
       onSuccess: (Response response, DateTime now) async {
         if(onSuccess == null) return;
 
-        List<TropUser> users = [];
+        List<TropUser> usersPage = [];
         Map usersRespMap = response.data;
         for(MapEntry userEntry in usersRespMap.entries)
-          users.add(TropUser.fromRespMap(userEntry.value, key: userEntry.key));
+          usersPage.add(TropUser.fromRespMap(userEntry.value, key: userEntry.key));
 
-        onSuccess(users);
+        onSuccess(usersPage);
       },
       onForceLoggedOut: onForceLoggedOut,
       onServerMaybeWakingUp: onServerMaybeWakingUp,
@@ -136,12 +136,12 @@ class ApiTrop{
         onSuccess: (Response response, DateTime now) async {
           if(onSuccess == null) return;
 
-          List<TropUser> users = [];
-          Map membersRespMap = response.data;
-          for(MapEntry memEntry in membersRespMap.entries)
-            users.add(TropUser.fromRespMap(memEntry.value, key: memEntry.key));
+          List<TropUser> addedUsers = [];
+          Map usersRespMap = response.data;
+          for(MapEntry memEntry in usersRespMap.entries)
+            addedUsers.add(TropUser.fromRespMap(memEntry.value, key: memEntry.key));
 
-          onSuccess(users);
+          onSuccess(addedUsers);
         },
         onForceLoggedOut: onForceLoggedOut,
         onServerMaybeWakingUp: onServerMaybeWakingUp,
@@ -175,12 +175,12 @@ class ApiTrop{
         onSuccess: (Response response, DateTime now) async {
           if(onSuccess == null) return;
 
-          List<TropUser> users = [];
+          List<TropUser> updatedUsers = [];
           Map usersRespMap = response.data;
           for(MapEntry managerEntry in usersRespMap.entries)
-            users.add(TropUser.fromRespMap(managerEntry.value, key: managerEntry.key));
+            updatedUsers.add(TropUser.fromRespMap(managerEntry.value, key: managerEntry.key));
 
-          onSuccess(users);
+          onSuccess(updatedUsers);
         },
         onForceLoggedOut: onForceLoggedOut,
         onServerMaybeWakingUp: onServerMaybeWakingUp,

@@ -960,72 +960,74 @@ class MembersWidgetState extends State<MembersWidget>{
 
   @override
   void initState() {
-    isLoading = circle.loadedMembers.length == 1;
+    isLoading = circle.loadedMembers.length == 1 && circle.memberCount > 1;
     if(isLoading) loadMoreMembers();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) => Padding(
-    padding: padding,
-    child: Row(
-      children: [
+      padding: padding,
+      child: Consumer<CircleMembersProvider>(
+        builder: (context, prov, child) => Row(
+          children: [
 
-        Expanded(
-          child: AccountThumbnailLoadableRowWidget(
-            circle.loadedMembers.map((m) => m.name).toList(),
-            elevated: CommunityPublishableWidgetTemplate.elevation != 0,
-            color: CommunityCoverColors.backgroundColor(context, palette),
-            borderColor: CommunityCoverColors.backgroundColor(context, palette),
-            backgroundColor: CommunityCoverColors.cardColor(context, palette),
-            padding: const EdgeInsets.symmetric(horizontal: Dimen.defMarg),
-            onTap: () => pushPage(
-              context,
-              builder: (context) => MembersPage(circle: circle, palette: palette)
-            ),
-            heroBuilder: (index) => circle.loadedMembers[index],
+            Expanded(
+              child: AccountThumbnailLoadableRowWidget(
+                circle.loadedMembers.map((m) => m.name).toList(),
+                elevated: CommunityPublishableWidgetTemplate.elevation != 0,
+                color: CommunityCoverColors.backgroundColor(context, palette),
+                borderColor: CommunityCoverColors.backgroundColor(context, palette),
+                backgroundColor: CommunityCoverColors.cardColor(context, palette),
+                padding: const EdgeInsets.symmetric(horizontal: Dimen.defMarg),
+                onTap: () => pushPage(
+                    context,
+                    builder: (context) => MembersPage(circle: circle, palette: palette)
+                ),
+                heroBuilder: (index) => circle.loadedMembers[index],
 
-            onLoadMore: loadMoreMembers,
-            isLoading: isLoading,
-            isMoreToLoad: circle.loadedMembers.length < circle.memberCount,
-          ),
-        ),
-
-        if(circle.memberCount == 1)
-          SimpleButton(
-              color: CommunityCoverColors.backgroundColor(context, palette),
-              radius: 100,
-              child: Row(
-                children: [
-                  const SizedBox(width: 2*Dimen.ICON_MARG),
-
-                  Text(
-                    'Dodaj członków',
-                    style: AppTextStyle(
-                        fontWeight: weight.halfBold,
-                        color: textEnab_(context),
-                        fontSize: Dimen.TEXT_SIZE_APPBAR
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-
-                  const SizedBox(width: Dimen.ICON_MARG),
-
-                  AccountThumbnailWidget(
-                    elevated: false,
-                    color: CommunityCoverColors.cardColor(context, palette),
-                    borderColor: CommunityCoverColors.backgroundColor(context, palette),
-                    icon: MdiIcons.accountPlusOutline,
-                  )
-                ],
+                onLoadMore: loadMoreMembers,
+                isLoading: isLoading,
+                isMoreToLoad: circle.loadedMembers.length < circle.memberCount,
               ),
-              onTap: () => MembersWidget.onTap(circle, palette, context)
-          ),
+            ),
 
-        const SizedBox(width: Dimen.defMarg),
+            if(circle.memberCount == 1)
+              SimpleButton(
+                  color: CommunityCoverColors.backgroundColor(context, palette),
+                  radius: 100,
+                  child: Row(
+                    children: [
+                      const SizedBox(width: 2*Dimen.ICON_MARG),
 
-      ],
-    ),
+                      Text(
+                        'Dodaj członków',
+                        style: AppTextStyle(
+                            fontWeight: weight.halfBold,
+                            color: textEnab_(context),
+                            fontSize: Dimen.TEXT_SIZE_APPBAR
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+
+                      const SizedBox(width: Dimen.ICON_MARG),
+
+                      AccountThumbnailWidget(
+                        elevated: false,
+                        color: CommunityCoverColors.cardColor(context, palette),
+                        borderColor: CommunityCoverColors.backgroundColor(context, palette),
+                        icon: MdiIcons.accountPlusOutline,
+                      )
+                    ],
+                  ),
+                  onTap: () => MembersWidget.onTap(circle, palette, context)
+              ),
+
+            const SizedBox(width: Dimen.defMarg),
+
+          ],
+        ),
+      )
   );
 
 }

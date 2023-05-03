@@ -33,11 +33,25 @@ class AddUserBottomSheet extends StatelessWidget{
 
       showLoadingWidget(context, iconEnab_(context), 'Dodawanie ogarniacza');
 
+      CommunityProvider communityProv = CommunityProvider.of(context);
+      CommunityListProvider communityListProv = CommunityListProvider.of(context);
+      CommunityManagersProvider communityManagersProv = CommunityManagersProvider.of(context);
+
       await ApiCommunity.addManagers(
           communityKey: community.key,
           users: [CommunityManagerBodyNick(userData.key, CommunityRole.REGULAR, userData.nick)],
-          onSuccess: (List<CommunityManager> allManagers){
-            community.setAllLoadedManagers(allManagers, context: context);
+          onSuccess: (List<CommunityManager> addedManagers){
+
+            for(CommunityManager manager in addedManagers)
+              if(community.isManagerWithinLoaded(manager))
+                community.addLoadedManagers([manager], context: null);
+            community.managerCount = community.managerCount! + addedManagers.length;
+            Community.callProvidersWithManagers(
+                communityProv,
+                communityListProv,
+                communityManagersProv
+            );
+
             Navigator.pop(context); // Close loading widget.
             Navigator.pop(context);
             showAppToast(context, text: '${userData.name} ${userData.isMale?'dodany':'dodana'}');

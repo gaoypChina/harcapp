@@ -11,7 +11,6 @@ import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_task_compl.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/rank_disp_type.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/task_accept_state.dart';
-import 'package:intl/intl.dart';
 
 
 import '_api.dart';
@@ -377,7 +376,7 @@ class ApiIndivComp{
           '${API.SERVER_URL}api/indivComp/${comp.key}/participant',
           queryParameters: {
             if(pageSize != null) 'pageSize': pageSize,
-            if(lastRole != null) 'lastRole': compRoleToStr[lastRole],
+            if(lastRole != null) 'lastRole': compRoleToStr(lastRole),
             if(lastUserName != null) 'lastUserName': lastUserName,
             if(lastUserKey != null) 'lastUserKey': lastUserKey,
           }
@@ -411,7 +410,7 @@ class ApiIndivComp{
     for(ParticipBodyNick user in users)
       body.add({
         'userNick': user.nick,
-        'role': compRoleToStr[user.role],
+        'role': compRoleToStr(user.role),
         'active': user.active
       });
 
@@ -424,12 +423,12 @@ class ApiIndivComp{
       onSuccess: (Response response, DateTime now) async {
         if(onSuccess == null) return;
 
-        List<IndivCompParticip> particips = [];
+        List<IndivCompParticip> addedParticips = [];
         Map participsRespMap = response.data;
         for(MapEntry participEntry in participsRespMap.entries)
-          particips.add(IndivCompParticip.fromRespMap(participEntry.value, comp, key: participEntry.key));
+          addedParticips.add(IndivCompParticip.fromRespMap(participEntry.value, comp, key: participEntry.key));
 
-        onSuccess(particips);
+        onSuccess(addedParticips);
       },
       onForceLoggedOut: onForceLoggedOut,
       onServerMaybeWakingUp: onServerMaybeWakingUp,
@@ -451,7 +450,7 @@ class ApiIndivComp{
     for(ParticipBody user in users)
       body.add({
         'userKey': user.key,
-        'role': compRoleToStr[user.role],
+        'role': compRoleToStr(user.role),
         'active': user.active
       });
 
@@ -464,12 +463,12 @@ class ApiIndivComp{
         onSuccess: (Response response, DateTime now) async {
           if(onSuccess == null) return;
 
-          List<IndivCompParticip> particips = [];
+          List<IndivCompParticip> updatedParticips = [];
           Map participsRespMap = response.data;
           for(MapEntry participEntry in participsRespMap.entries)
-            particips.add(IndivCompParticip.fromRespMap(participEntry.value, comp, key: participEntry.key));
+            updatedParticips.add(IndivCompParticip.fromRespMap(participEntry.value, comp, key: participEntry.key));
 
-          onSuccess(particips);
+          onSuccess(updatedParticips);
         },
         onForceLoggedOut: onForceLoggedOut,
         onServerMaybeWakingUp: onServerMaybeWakingUp,
@@ -492,7 +491,8 @@ class ApiIndivComp{
           data: jsonEncode(userKeys)
       ),
       onSuccess: (Response response, DateTime now) async {
-        await onSuccess?.call((response.data as List).cast<String>());
+        List<String> removedKeys = (response.data as List).cast<String>();
+        await onSuccess?.call(removedKeys);
       },
       onForceLoggedOut: onForceLoggedOut,
       onServerMaybeWakingUp: onServerMaybeWakingUp,

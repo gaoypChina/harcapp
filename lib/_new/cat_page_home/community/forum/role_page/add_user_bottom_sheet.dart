@@ -35,11 +35,24 @@ class AddUserBottomSheet extends StatelessWidget{
 
       showLoadingWidget(context, CommunityCoverColors.strongColor(context, palette), 'Dodawanie ogarniacza');
 
+      ForumProvider forumProv = ForumProvider.of(context);
+      ForumListProvider forumListProv = ForumListProvider.of(context);
+      ForumManagersProvider forumManagersProv = ForumManagersProvider.of(context);
+
       await ApiForum.addManagers(
           forumKey: forum.key,
           users: [ForumManagerRespBodyNick(userData.key, ForumRole.EDITOR, userData.nick)],
-          onSuccess: (List<ForumManager> allManagers){
-            forum.setAllLoadedManagers(allManagers, context: context);
+          onSuccess: (List<ForumManager> addedManagers){
+            for(ForumManager manager in addedManagers)
+              if(forum.isManagerWithinLoaded(manager))
+                forum.addLoadedManagers([manager], context: null);
+            forum.managerCount = forum.managerCount! + addedManagers.length;
+            Forum.callProvidersWithManagers(
+                forumProv,
+                forumListProv,
+                forumManagersProv
+            );
+
             Navigator.pop(context); // Close loading widget.
             Navigator.pop(context);
             showAppToast(context, text: '${userData.name} ${userData.isMale?'dodany':'dodana'}');

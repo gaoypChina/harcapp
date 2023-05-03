@@ -8,6 +8,7 @@ import 'package:harcapp/_new/cat_page_harc_map/utils.dart';
 import 'package:harcapp/_new/cat_page_home/community/model/community.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/logger.dart';
+import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:tuple/tuple.dart';
 import 'package:provider/provider.dart';
@@ -56,6 +57,24 @@ class MarkerManagersProvider extends ChangeNotifier{
 }
 
 class MarkerData{
+
+  static callProvidersOf(BuildContext context) =>
+      callProviders(MarkerProvider.of(context), MarkerListProvider.of(context));
+
+  static callProviders(MarkerProvider markerProv, MarkerListProvider markerListProv){
+    markerProv.notify();
+    markerListProv.notify();
+  }
+
+  static callProvidersWithManagersOf(BuildContext context){
+    callProvidersOf(context);
+    MarkerManagersProvider.notify_(context);
+  }
+
+  static callProvidersWithManagers(MarkerProvider markerProv, MarkerListProvider markerListProv, MarkerManagersProvider markerManagersProv){
+    callProviders(markerProv, markerListProv);
+    markerManagersProv.notify();
+  }
 
   static const int managerPageSize = 10;
 
@@ -170,24 +189,6 @@ class MarkerData{
         zoomSource = m;
 
     return zoomSource;
-  }
-
-  static callProvidersOf(BuildContext context) =>
-      callProviders(MarkerProvider.of(context), MarkerListProvider.of(context));
-
-  static callProviders(MarkerProvider markerProv, MarkerListProvider markerListProv){
-    markerProv.notify();
-    markerListProv.notify();
-  }
-
-  static callProvidersWithManagersOf(BuildContext context){
-    callProvidersOf(context);
-    CommunityManagersProvider.notify_(context);
-  }
-
-  static callProvidersWithManagers(MarkerProvider markerProv, MarkerListProvider markerListProv, MarkerManagersProvider markerManagersProv){
-    callProviders(markerProv, markerListProv);
-    markerManagersProv.notify();
   }
 
   static removeAllByPublic(){
@@ -341,7 +342,7 @@ class MarkerData{
   List<MarkerManager> get loadedManagers => _loadedManagers;
   Map<String, MarkerManager> get loadedManagersMap => _loadedManagersMap;
 
-  int? managerCount;
+  int managerCount;
 
   List<Tuple2<CommunityPreviewData, String?>>? communities;
   late bool anyDoubleCommunityCategories;
@@ -514,6 +515,7 @@ class MarkerData{
 
     for(MarkerManager manager in newManagers) {
       int index = _loadedManagers.indexWhere((managerIter) => managerIter.key == manager.key);
+      if(index == -1) continue;
       _loadedManagers.removeAt(index);
       _loadedManagers.insert(index, manager);
       _loadedManagersMap[manager.key] = manager;
@@ -529,7 +531,7 @@ class MarkerData{
     for(String managerKey in managerKeys){
       MarkerManager? removed = _loadedManagersMap.remove(managerKey);
       if(removed != null && shrinkTotalCount)
-        managerCount = managerCount! - 1;
+        managerCount = managerCount - 1;
     }
 
     if(context == null) return;
@@ -544,7 +546,15 @@ class MarkerData{
       logger.d("A dangerous inconsistency between the objectList and the objectKeyMap occurred!");
 
     if(success && removed != null && shrinkTotalCount)
-      managerCount = managerCount! - 1;
+      managerCount = managerCount - 1;
+  }
+
+  bool isManagerWithinLoaded(MarkerManager manager){
+    if(_loadedManagers.isEmpty) return false;
+    MarkerManager lastLoaded = _loadedManagers.last;
+    return markerRoleToLoadingOrder(manager.role) < markerRoleToLoadingOrder(lastLoaded.role) ||
+        compareText(manager.name, lastLoaded.name) < 0 ||
+        compareText(manager.key, lastLoaded.key) < 0;
   }
 
 }

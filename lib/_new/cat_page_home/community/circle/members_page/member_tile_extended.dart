@@ -234,8 +234,8 @@ class MemberTileExtendedState extends State<MemberTileExtended>{
           await ApiCircle.updateMembers(
               circleKey: circle.key,
               users: [MemberUpdateBody(member.key, role: newRole)],
-              onSuccess: (List<Member> allMems) async {
-                circle.updateLoadedMembers(allMems, context: context);
+              onSuccess: (List<Member> updatedMems) async {
+                circle.updateLoadedMembers(updatedMems, context: context);
                 await onSuccess?.call();
 
                 if(!mounted) return;
@@ -404,8 +404,8 @@ class _EditPatrolDialogState extends State<_EditPatrolDialog>{
                                 controller.text
                             )
                         )],
-                        onSuccess: (List<Member> allMems) async {
-                          circle.updateLoadedMembers(allMems, context: context);
+                        onSuccess: (List<Member> updatedMems) async {
+                          circle.updateLoadedMembers(updatedMems, context: context);
                           if(mounted) Navigator.pop(context); // Close loading widget.
                           await onSuccess?.call();
                         },

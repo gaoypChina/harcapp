@@ -172,8 +172,8 @@ class MarkerManagerTileExtendedState extends State<MarkerManagerTileExtended>{
           await ApiHarcMap.updateManagers(
               markerKey: marker.key,
               users: [MarkerManagerUpdateBody(manager.key, role: Optional.of(newRole))],
-              onSuccess: (List<MarkerManager> allManagers){
-                marker.updateLoadedManagers(allManagers, context: context);
+              onSuccess: (List<MarkerManager> updatedManagers){
+                marker.updateLoadedManagers(updatedManagers, context: context);
                 onSuccess?.call();
 
                 if(!mounted) return;

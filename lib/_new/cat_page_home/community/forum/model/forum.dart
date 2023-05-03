@@ -6,6 +6,7 @@ import 'package:harcapp/_new/cat_page_home/community/forum/model/post.dart';
 import 'package:harcapp/_new/cat_page_home/community/model/community.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/logger.dart';
+import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -15,6 +16,14 @@ import 'forum_manager.dart';
 class ForumProvider extends ChangeNotifier{
 
   static ForumProvider of(BuildContext context) => Provider.of<ForumProvider>(context, listen: false);
+  static void notify_(BuildContext context) => of(context).notify();
+
+  void notify() => notifyListeners();
+}
+
+class ForumListProvider extends ChangeNotifier{
+
+  static ForumListProvider of(BuildContext context) => Provider.of<ForumListProvider>(context, listen: false);
   static void notify_(BuildContext context) => of(context).notify();
 
   void notify() => notifyListeners();
@@ -140,6 +149,24 @@ class ForumBasicData{
 
 class Forum extends ForumBasicData{
 
+  static callProvidersOf(BuildContext context) =>
+      callProviders(ForumProvider.of(context), ForumListProvider.of(context));
+
+  static callProviders(ForumProvider forumProv, ForumListProvider forumListProv){
+    forumProv.notify();
+    forumListProv.notify();
+  }
+
+  static callProvidersWithManagersOf(BuildContext context){
+    callProvidersOf(context);
+    ForumManagersProvider.notify_(context);
+  }
+
+  static callProvidersWithManagers(ForumProvider forumProv, ForumListProvider forumListProv, ForumManagersProvider forumManagersProv){
+    callProviders(forumProv, forumListProv);
+    forumManagersProv.notify();
+  }
+
   static const IconData icon = MdiIcons.earth;
   static const IconData iconOff = MdiIcons.earthOff;
 
@@ -168,6 +195,8 @@ class Forum extends ForumBasicData{
   final Map<String, ForumManager> _loadedManagersMap;
   List<ForumManager> get loadedManagers => _loadedManagers;
   Map<String, ForumManager> get loadedManagersMap => _loadedManagersMap;
+
+  // This is null if user is not a manager of this forum.
   int? managerCount;
 
   bool get hasDescription => description != null && description!.isNotEmpty;
@@ -195,8 +224,8 @@ class Forum extends ForumBasicData{
     }
 
     if(context == null) return;
+    callProvidersOf(context);
     ForumLikesProvider.notify_(context);
-    ForumProvider.notify_(context);
 
   }
 
@@ -207,8 +236,8 @@ class Forum extends ForumBasicData{
     _loadedLikesMap.addAll({for (UserData? user in allLikes) user!.key: user});
 
     if(context == null) return;
+    callProvidersOf(context);
     ForumLikesProvider.notify_(context);
-    ForumProvider.notify_(context);
   }
 
   void updateLoadedLikes(List<UserData> newLikes, {BuildContext? context}){
@@ -221,8 +250,8 @@ class Forum extends ForumBasicData{
     }
 
     if(context == null) return;
+    callProvidersOf(context);
     ForumLikesProvider.notify_(context);
-    ForumProvider.notify_(context);
   }
 
   void removeLoadedLikesByKey(List<String> likeKeys, {bool shrinkTotalCount=true, BuildContext? context}){
@@ -235,8 +264,8 @@ class Forum extends ForumBasicData{
     }
 
     if(context == null) return;
+    callProvidersOf(context);
     ForumLikesProvider.notify_(context);
-    ForumProvider.notify_(context);
   }
 
   void removeLoadedLike(UserData likes, {bool shrinkTotalCount=true}){
@@ -260,8 +289,8 @@ class Forum extends ForumBasicData{
     }
 
     if(context == null) return;
+    callProvidersOf(context);
     ForumFollowersProvider.notify_(context);
-    ForumProvider.notify_(context);
 
   }
 
@@ -272,8 +301,8 @@ class Forum extends ForumBasicData{
     _loadedFollowersMap.addAll({for (UserData? user in allFollowers) user!.key: user});
 
     if(context == null) return;
+    callProvidersOf(context);
     ForumFollowersProvider.notify_(context);
-    ForumProvider.notify_(context);
   }
 
   void updateLoadedFollowers(List<UserData> newFollowers, {BuildContext? context}){
@@ -286,8 +315,8 @@ class Forum extends ForumBasicData{
     }
 
     if(context == null) return;
+    callProvidersOf(context);
     ForumFollowersProvider.notify_(context);
-    ForumProvider.notify_(context);
   }
 
   void removeLoadedFollowersByKey(List<String> followerKeys, {bool shrinkTotalCount=true, BuildContext? context}){
@@ -300,8 +329,8 @@ class Forum extends ForumBasicData{
     }
 
     if(context == null) return;
+    callProvidersOf(context);
     ForumFollowersProvider.notify_(context);
-    ForumProvider.notify_(context);
   }
 
   void removeLoadedFollower(UserData follower, {bool shrinkTotalCount=true}){
@@ -325,8 +354,7 @@ class Forum extends ForumBasicData{
     }
 
     if(context == null) return;
-    ForumManagersProvider.notify_(context);
-    ForumProvider.notify_(context);
+    callProvidersWithManagersOf(context);
 
   }
 
@@ -337,22 +365,23 @@ class Forum extends ForumBasicData{
     _loadedManagersMap.addAll({for (ForumManager? manager in allManagers) manager!.key: manager});
 
     if(context == null) return;
-    ForumManagersProvider.notify_(context);
-    ForumProvider.notify_(context);
+    callProvidersWithManagersOf(context);
+
   }
 
   void updateLoadedManagers(List<ForumManager> newManagers, {BuildContext? context}){
 
     for(ForumManager manager in newManagers) {
       int index = _loadedManagers.indexWhere((managerIter) => managerIter.key == manager.key);
+      if(index == -1) continue;
       _loadedManagers.removeAt(index);
       _loadedManagers.insert(index, manager);
       _loadedManagersMap[manager.key] = manager;
     }
 
     if(context == null) return;
-    ForumManagersProvider.notify_(context);
-    ForumProvider.notify_(context);
+    callProvidersWithManagersOf(context);
+
   }
 
   void removeLoadedManagersByKey(List<String> managerKeys, {bool shrinkTotalCount=true, BuildContext? context}){
@@ -365,8 +394,8 @@ class Forum extends ForumBasicData{
     }
 
     if(context == null) return;
-    ForumManagersProvider.notify_(context);
-    ForumProvider.notify_(context);
+    callProvidersWithManagersOf(context);
+
   }
 
   void removeLoadedManager(ForumManager manager, {bool shrinkTotalCount=true}){
@@ -378,6 +407,14 @@ class Forum extends ForumBasicData{
 
     if(success && removed != null && shrinkTotalCount)
       managerCount = managerCount! - 1;
+  }
+
+  bool isManagerWithinLoaded(ForumManager manager){
+    if(_loadedManagers.isEmpty) return false;
+    ForumManager lastLoaded = _loadedManagers.last;
+    return forumRoleToLoadingOrder(manager.role) < forumRoleToLoadingOrder(lastLoaded.role) ||
+        compareText(manager.name, lastLoaded.name) < 0 ||
+        compareText(manager.key, lastLoaded.key) < 0;
   }
 
 
@@ -444,7 +481,7 @@ class Forum extends ForumBasicData{
     required super.followersCnt,
 
     required List<ForumManager> managers,
-    required this.managerCount,
+    this.managerCount,
 
     required List<Post> allPosts,
 

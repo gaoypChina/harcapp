@@ -12,9 +12,11 @@ import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/providers/com
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/providers/indiv_comp_particips_provider.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/logger.dart';
+import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:provider/provider.dart';
 
 import '../../../community/circle/model/circle.dart';
+import '../comp_role.dart';
 import 'indiv_comp_task_compl.dart';
 import 'show_rank_data.dart';
 import 'indiv_comp_profile.dart';
@@ -421,6 +423,7 @@ class IndivComp{
 
     for(IndivCompParticip particip in newParticips) {
       int index = loadedParticips.indexWhere((participIter) => participIter.key == particip.key);
+      if(index == -1) continue;
       loadedParticips.removeAt(index);
       loadedParticips.insert(index, particip);
       _loadedParticipMap[particip.key] = particip;
@@ -443,13 +446,22 @@ class IndivComp{
     callProvidersWithParticipsOf(context);
   }
 
+  bool isParticipWithinLoaded(IndivCompParticip particip){
+    if(loadedParticips.isEmpty) return false;
+    IndivCompParticip lastLoaded = loadedParticips.last;
+    return compRoleToLoadingOrder(particip.profile.role) < compRoleToLoadingOrder(lastLoaded.profile.role) ||
+        compareText(particip.name, lastLoaded.name) < 0 ||
+        compareText(particip.key, lastLoaded.key) < 0;
+  }
+
   void addCompletedTasksForParticip(String participKey, List<IndivCompCompletedTask> completedTasks){
     _loadedParticipMap[participKey]!.profile.addLoadedCompletedTasks(completedTasks);
   }
 
-  void removeCompletedTaskForParticip(BuildContext context, String participKey, String complTaskKey, {bool shrinkTotalCount=true}){
+  void removeCompletedTaskForParticip(String participKey, String complTaskKey, {BuildContext? context, bool shrinkTotalCount=true}){
     _loadedParticipMap[participKey]!.profile.removeCompletedTaskByKey(complTaskKey, shrinkTotalCount: shrinkTotalCount);
 
+    if(context != null)
     Provider.of<ComplTasksProvider>(context, listen: false).notify();
   }
 

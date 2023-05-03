@@ -7,6 +7,15 @@ enum CircleRole{
   OBSERVER
 }
 
+int circleRoleToLoadingOrder(CircleRole role){
+  // Smaller is higher
+  switch(role){
+    case CircleRole.ADMIN: return 1;
+    case CircleRole.EDITOR: return 2;
+    case CircleRole.OBSERVER: return 3;
+  }
+}
+
 Map<CircleRole, String> circleRoleToStr = {
   CircleRole.ADMIN: 'ADMIN',
   CircleRole.EDITOR: 'EDITOR',

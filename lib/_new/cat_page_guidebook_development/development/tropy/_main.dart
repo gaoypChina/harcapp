@@ -16,6 +16,7 @@ import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/tr
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/login_provider.dart';
 import 'package:harcapp/logger.dart';
+import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:harcapp/values/colors.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
@@ -64,7 +65,7 @@ class TropyPageState extends State<TropyPage>{
   Future<void> loadTropsPage({bool reloadAll = false}) async {
 
     if(!await isNetworkAvailable()){
-      showAppToast(context, text: 'Brak dostępu do Internetu');
+      if(mounted) showAppToast(context, text: 'Brak dostępu do Internetu');
       refreshController.loadComplete(); // This is called in `post()` inside.
       if(mounted) post(() => mounted?setState(() {}):null);
       return;
@@ -109,6 +110,8 @@ class TropyPageState extends State<TropyPage>{
 
   }
 
+  late SynchronizerListener syncListener;
+
   @override
   void initState() {
     _moreToLoad = true;
@@ -123,7 +126,22 @@ class TropyPageState extends State<TropyPage>{
     if(loggedIn && TropPreviewData.all == null)
       loadTropsPage();
 
+    syncListener = SynchronizerListener(
+      onEnd: (syncOper){
+        if(syncOper == SyncOper.post && mounted)
+          TropLoadedUsersProvider.notify_(context);
+      }
+    );
+
+    synchronizer.addListener(syncListener);
+
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    synchronizer.removeListener(syncListener);
+    super.dispose();
   }
 
   @override

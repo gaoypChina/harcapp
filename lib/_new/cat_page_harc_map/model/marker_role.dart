@@ -6,6 +6,14 @@ enum MarkerRole{
   COMMUNITY_MODERATOR
 }
 
+int markerRoleToLoadingOrder(MarkerRole markerRole){
+  // Smaller is higher
+  switch(markerRole){
+    case MarkerRole.ADMIN: return 1;
+    case MarkerRole.COMMUNITY_MODERATOR: return 2;
+  }
+}
+
 Map<MarkerRole, String> markerRoleToStr = {
   MarkerRole.ADMIN: 'ADMIN',
   MarkerRole.COMMUNITY_MODERATOR: 'COMMUNITY_MODERATOR',

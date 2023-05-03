@@ -15,6 +15,7 @@ import 'package:harcapp/account/account.dart';
 import 'package:harcapp/logger.dart';
 import 'package:harcapp/sync/syncable.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
+import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:path/path.dart';
@@ -771,6 +772,7 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
 
     for(TropUser user in newUsers) {
       int index = _assignedUsers.indexWhere((userIter) => userIter.key == user.key);
+      if(index == -1) continue;
       _assignedUsers.removeAt(index);
       _assignedUsers.insert(index, user);
       _assignedUsersMap[user.key] = user;
@@ -828,6 +830,7 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
 
     for(TropUser user in newUsers) {
       int index = _loadedUsers.indexWhere((userIter) => userIter.key == user.key);
+      if(index == -1) continue;
       _loadedUsers.removeAt(index);
       _loadedUsers.insert(index, user);
       _loadedUsersMap[user.key] = user;
@@ -860,6 +863,15 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
     if(success && removed != null && shrinkTotalCount)
       userCount -= 1;
   }
+
+  bool isUserWithinLoaded(TropUser user){
+    if(loadedUsers.isEmpty) return false;
+    TropUser lastLoaded = loadedUsers.last;
+    return tropRoleToLoadingOrder(user.role) < tropRoleToLoadingOrder(lastLoaded.role) ||
+        compareText(user.name, lastLoaded.name) < 0 ||
+        compareText(user.key, lastLoaded.key) < 0;
+  }
+
 
   static const String syncClassId = 'trop';
 

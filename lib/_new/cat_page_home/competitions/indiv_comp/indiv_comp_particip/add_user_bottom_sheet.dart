@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
+import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/providers/indiv_comp_particips_provider.dart';
 import 'package:harcapp/_new/cat_page_home/user_list_add_new_bottom_sheet.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/comp_role.dart';
@@ -30,11 +31,24 @@ class AddUserBottomSheet extends StatelessWidget{
 
       showLoadingWidget(context, comp.colors.avgColor, 'Dodawanie uczestnika');
 
+      IndivCompProvider indivCompProv = IndivCompProvider.of(context);
+      IndivCompListProvider indivCompListProv = IndivCompListProvider.of(context);
+      IndivCompParticipsProvider indivCompParticipsProv = IndivCompParticipsProvider.of(context);
+
       await ApiIndivComp.addParticipants(
           comp: comp,
           users: [ParticipBodyNick(userData.key, CompRole.OBSERVER, true, userData.nick)],
-          onSuccess: (List<IndivCompParticip> allParticips){
-            comp.setAllLoadedParticips(allParticips, context: context);
+          onSuccess: (List<IndivCompParticip> addedParticips){
+            for(IndivCompParticip particip in addedParticips)
+              if(comp.isParticipWithinLoaded(particip))
+                comp.addLoadedParticips([particip], context: null);
+            comp.participCount += addedParticips.length;
+            IndivComp.callProvidersWithParticips(
+                indivCompProv,
+                indivCompListProv,
+                indivCompParticipsProv
+            );
+
             Navigator.pop(context); // Close loading widget.
             Navigator.pop(context);
             showAppToast(context, text: '${userData.name} ${userData.isMale?'dodany':'dodana'}');

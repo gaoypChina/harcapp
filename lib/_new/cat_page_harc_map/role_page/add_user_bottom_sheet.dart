@@ -33,11 +33,24 @@ class AddUserBottomSheet extends StatelessWidget{
 
       showLoadingWidget(context, iconEnab_(context), 'Dodawanie ogarniacza');
 
+      MarkerProvider markerProv = MarkerProvider.of(context);
+      MarkerListProvider markerListProv = MarkerListProvider.of(context);
+      MarkerManagersProvider markerManagersProv = MarkerManagersProvider.of(context);
+
       await ApiHarcMap.addManagers(
           markerKey: marker.key,
           users: [MarkerManagerRespBodyNick(userData.key, MarkerRole.COMMUNITY_MODERATOR, userData.nick)],
-          onSuccess: (List<MarkerManager> allManagers){
-            marker.setAllLoadedManagers(allManagers, context: context);
+          onSuccess: (List<MarkerManager> addedManagers){
+            for(MarkerManager manager in addedManagers)
+              if(marker.isManagerWithinLoaded(manager))
+                marker.addLoadedManagers([manager], context: null);
+            marker.managerCount += addedManagers.length;
+            MarkerData.callProvidersWithManagers(
+                markerProv,
+                markerListProv,
+                markerManagersProv
+            );
+
             Navigator.pop(context); // Close loading widget.
             Navigator.pop(context);
             showAppToast(context, text: '${userData.name} ${userData.isMale?'dodany':'dodana'}');

@@ -186,7 +186,7 @@ class ParticipTileExtendedState extends State<ParticipTileExtended>{
                   if(particip.profile.role != CompRole.OBSERVER)
                     ListTile(
                       enabled: !particip.shadow,
-                      leading: Icon(compRoleToIcon[CompRole.OBSERVER]),
+                      leading: Icon(compRoleToIcon(CompRole.OBSERVER)),
                       title: Text('Nadaj rolę uczestnika', style: AppTextStyle()),
                       trailing: IconButton(
                         icon: Icon(MdiIcons.informationOutline, color: iconEnab_(context)),
@@ -194,7 +194,7 @@ class ParticipTileExtendedState extends State<ParticipTileExtended>{
                           Navigator.pop(context);
                           await UserListManagementLoadablePage.openPermissionsDialog(
                             context: context,
-                            icon: compRoleToIcon[CompRole.OBSERVER]!,
+                            icon: compRoleToIcon(CompRole.OBSERVER),
                             title: ParticipantsPage.obsHeaderTitle,
                             permissions: ParticipantsPage.obsPersmissions,
                           );
@@ -220,7 +220,7 @@ class ParticipTileExtendedState extends State<ParticipTileExtended>{
                   if(particip.profile.role != CompRole.MODERATOR)
                     ListTile(
                       enabled: !particip.shadow,
-                      leading: Icon(compRoleToIcon[CompRole.MODERATOR]),
+                      leading: Icon(compRoleToIcon(CompRole.MODERATOR)),
                       title: Text('Nadaj rolę moderatora', style: AppTextStyle()),
                       trailing: IconButton(
                         icon: Icon(MdiIcons.informationOutline, color: iconEnab_(context)),
@@ -228,7 +228,7 @@ class ParticipTileExtendedState extends State<ParticipTileExtended>{
                           Navigator.pop(context);
                           await UserListManagementLoadablePage.openPermissionsDialog(
                             context: context,
-                            icon: compRoleToIcon[CompRole.MODERATOR]!,
+                            icon: compRoleToIcon(CompRole.MODERATOR),
                             title: ParticipantsPage.moderatorsHeaderTitle,
                             permissions: ParticipantsPage.moderatorPersmissions,
                           );
@@ -252,7 +252,7 @@ class ParticipTileExtendedState extends State<ParticipTileExtended>{
                   if(particip.profile.role != CompRole.ADMIN)
                     ListTile(
                       enabled: !particip.shadow,
-                      leading: Icon(compRoleToIcon[CompRole.ADMIN]),
+                      leading: Icon(compRoleToIcon(CompRole.ADMIN)),
                       title: Text('Nadaj rolę administratora', style: AppTextStyle()),
                       trailing: IconButton(
                         icon: Icon(MdiIcons.informationOutline, color: iconEnab_(context)),
@@ -260,7 +260,7 @@ class ParticipTileExtendedState extends State<ParticipTileExtended>{
                           Navigator.pop(context);
                           await UserListManagementLoadablePage.openPermissionsDialog(
                             context: context,
-                            icon: compRoleToIcon[CompRole.ADMIN]!,
+                            icon: compRoleToIcon(CompRole.ADMIN),
                             title: ParticipantsPage.adminsHeaderTitle,
                             permissions: ParticipantsPage.adminPersmissions,
                           );
@@ -317,8 +317,8 @@ class ParticipTileExtendedState extends State<ParticipTileExtended>{
         await ApiIndivComp.updateParticipants(
             comp: comp,
             users: [ParticipBody(particip.key, newRole, newActive)],
-            onSuccess: (List<IndivCompParticip> allParticips) async {
-              comp.updateLoadedParticips(allParticips, context: context);
+            onSuccess: (List<IndivCompParticip> updatedParticips) async {
+              comp.updateLoadedParticips(updatedParticips, context: context);
               Navigator.pop(context); // Close loading widget.
               Navigator.pop(context);
               await onSuccess?.call();

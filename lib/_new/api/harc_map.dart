@@ -282,12 +282,12 @@ class ApiHarcMap{
         onSuccess: (Response response, DateTime now) async {
           if(onSuccess == null) return;
 
-          List<MarkerManager> managers = [];
-          Map membersRespMap = response.data;
-          for(MapEntry memEntry in membersRespMap.entries)
-            managers.add(MarkerManager.fromRespMap(memEntry.value, key: memEntry.key));
+          List<MarkerManager> addedManagers = [];
+          Map managersRespMap = response.data;
+          for(MapEntry memEntry in managersRespMap.entries)
+            addedManagers.add(MarkerManager.fromRespMap(memEntry.value, key: memEntry.key));
 
-          onSuccess(managers);
+          onSuccess(addedManagers);
         },
         onForceLoggedOut: onForceLoggedOut,
         onServerMaybeWakingUp: onServerMaybeWakingUp,
@@ -321,12 +321,12 @@ class ApiHarcMap{
         onSuccess: (Response response, DateTime now) async {
           if(onSuccess == null) return;
 
-          List<MarkerManager> managers = [];
+          List<MarkerManager> updatedManagers = [];
           Map managersRespMap = response.data;
           for(MapEntry managerEntry in managersRespMap.entries)
-            managers.add(MarkerManager.fromRespMap(managerEntry.value, key: managerEntry.key));
+            updatedManagers.add(MarkerManager.fromRespMap(managerEntry.value, key: managerEntry.key));
 
-          onSuccess(managers);
+          onSuccess(updatedManagers);
         },
         onForceLoggedOut: onForceLoggedOut,
         onServerMaybeWakingUp: onServerMaybeWakingUp,

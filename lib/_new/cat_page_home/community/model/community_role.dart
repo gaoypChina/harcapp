@@ -6,6 +6,14 @@ enum CommunityRole{
   REGULAR
 }
 
+int communityRoleToLoadingOrder(CommunityRole communityRole){
+  // Smaller is higher
+  switch(communityRole){
+    case CommunityRole.ADMIN: return 1;
+    case CommunityRole.REGULAR: return 2;
+  }
+}
+
 Map<CommunityRole, String> communityRoleToStr = {
   CommunityRole.ADMIN: 'ADMIN',
   CommunityRole.REGULAR: 'REGULAR',

@@ -7,11 +7,22 @@ enum CompRole{
   OBSERVER
 }
 
-Map<CompRole, String> compRoleToStr = {
-  CompRole.ADMIN: 'ADMIN',
-  CompRole.MODERATOR: 'MODERATOR',
-  CompRole.OBSERVER: 'OBSERVER',
-};
+int compRoleToLoadingOrder(CompRole role){
+  // Smaller is higher
+  switch(role){
+    case CompRole.ADMIN: return 1;
+    case CompRole.MODERATOR: return 2;
+    case CompRole.OBSERVER: return 3;
+  }
+}
+
+String compRoleToStr(CompRole role){
+  switch(role){
+    case CompRole.ADMIN: return 'ADMIN';
+    case CompRole.MODERATOR: return 'MODERATOR';
+    case CompRole.OBSERVER: return 'OBSERVER';
+  }
+}
 
 Map<String, CompRole> strToCompRole = {
   'ADMIN': CompRole.ADMIN,
@@ -19,8 +30,10 @@ Map<String, CompRole> strToCompRole = {
   'OBSERVER': CompRole.OBSERVER,
 };
 
-Map<CompRole, IconData> compRoleToIcon = {
-  CompRole.ADMIN: MdiIcons.shieldAccount,
-  CompRole.MODERATOR: MdiIcons.shieldAccountOutline,
-  CompRole.OBSERVER: MdiIcons.accountCircleOutline,
-};
+IconData compRoleToIcon(CompRole role){
+  switch(role){
+    case CompRole.ADMIN: return MdiIcons.shieldAccount;
+    case CompRole.MODERATOR: return MdiIcons.shieldAccountOutline;
+    case CompRole.OBSERVER: return MdiIcons.accountCircleOutline;
+  }
+}

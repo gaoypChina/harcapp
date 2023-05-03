@@ -7,6 +7,15 @@ enum TropRole{
   OBSERVER
 }
 
+int tropRoleToLoadingOrder(TropRole tropRole){
+  // Smaller is higher
+  switch(tropRole){
+    case TropRole.OWNER: return 1;
+    case TropRole.REGULAR: return 2;
+    case TropRole.OBSERVER: return 3;
+  }
+}
+
 Map<TropRole, String> tropRoleToStr = {
   TropRole.OWNER: 'OWNER',
   TropRole.REGULAR: 'REGULAR',

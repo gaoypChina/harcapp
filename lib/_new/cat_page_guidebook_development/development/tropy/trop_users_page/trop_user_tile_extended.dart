@@ -160,8 +160,10 @@ class TropUserTileExtendedState extends State<TropUserTileExtended>{
           await ApiTrop.updateUsers(
               tropUniqName: trop.uniqName,
               users: [TropUserUpdateBody(user.key, role: Optional.of(newRole))],
-              onSuccess: (List<TropUser> allUsers) async {
-                trop.setAllLoadedUsers(allUsers, context: context);
+              onSuccess: (List<TropUser> updatedUsers) async {
+                trop.updateLoadedUsers(updatedUsers, context: context);
+                trop.updateAssignedUsers(updatedUsers, context: context);
+                trop.save(localOnly: true, synced: true);
                 Navigator.pop(context); // Close loading widget
                 await onSuccess?.call();
               },
@@ -198,6 +200,7 @@ class TropUserTileExtendedState extends State<TropUserTileExtended>{
               userKeys: [user.key],
               onSuccess: (List<String> removedUsers) async {
                 trop.removeLoadedUsersByKey(removedUsers, context: context);
+                trop.save(localOnly: true, synced: true);
 
                 if(!mounted) return;
                 showAppToast(context, text: 'Wyproszono');

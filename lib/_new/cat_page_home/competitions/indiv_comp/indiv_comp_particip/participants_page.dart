@@ -119,21 +119,21 @@ class ParticipantsPageState extends State<ParticipantsPage>{
         appBarTitle: 'Uczestnicy (${comp.participCount})',
         userSets: [
           UserSet(
-              icon: compRoleToIcon[CompRole.ADMIN]!,
+              icon: compRoleToIcon(CompRole.ADMIN),
               name: 'Administratorzy',
               users: participAdmins,
               permissions: ParticipantsPage.adminPersmissions
           ),
 
           UserSet(
-              icon: compRoleToIcon[CompRole.MODERATOR]!,
+              icon: compRoleToIcon(CompRole.MODERATOR),
               name: 'Moderatorzy',
               users: participModerators,
               permissions: ParticipantsPage.moderatorPersmissions
           ),
 
           UserSet(
-              icon: compRoleToIcon[CompRole.OBSERVER]!,
+              icon: compRoleToIcon(CompRole.OBSERVER),
               name: 'Pozostali',
               users: participObservers,
               permissions: ParticipantsPage.obsPersmissions

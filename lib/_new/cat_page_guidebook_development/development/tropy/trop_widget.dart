@@ -188,8 +188,9 @@ class TropWidgetState extends State<TropWidget>{
 class TropUsersWidget extends StatefulWidget{
 
   final Trop trop;
+  final EdgeInsets padding;
 
-  const TropUsersWidget(this.trop, {super.key});
+  const TropUsersWidget(this.trop, {this.padding=EdgeInsets.zero, super.key});
 
   @override
   State<StatefulWidget> createState() => TropUsersWidgetState();
@@ -199,6 +200,8 @@ class TropUsersWidget extends StatefulWidget{
 class TropUsersWidgetState extends State<TropUsersWidget>{
 
   Trop get trop => widget.trop;
+  EdgeInsets get padding => widget.padding;
+
   List<TropUser> get loadedUsers => trop.loadedUsers;
 
   late bool isLoading;
@@ -212,11 +215,12 @@ class TropUsersWidgetState extends State<TropUsersWidget>{
     await ApiTrop.getUsers(
       tropUniqName: trop.uniqName,
       pageSize: Trop.userPageSize,
-      lastRole: loadedUsers.length==1?null:loadedUsers.last.role,
-      lastUserName: loadedUsers.length==1?null:loadedUsers.last.name,
-      lastUserKey: loadedUsers.length==1?null:loadedUsers.last.key,
+      lastRole: loadedUsers.length<=1?null:loadedUsers.last.role,
+      lastUserName: loadedUsers.length<=1?null:loadedUsers.last.name,
+      lastUserKey: loadedUsers.length<=1?null:loadedUsers.last.key,
       onSuccess: (observersPage){
         trop.addLoadedUsers(observersPage, context: context);
+        trop.save(localOnly: true, synced: true);
         if(mounted) setState((){});
       },
       onForceLoggedOut: (){
@@ -240,50 +244,55 @@ class TropUsersWidgetState extends State<TropUsersWidget>{
 
   @override
   void initState() {
-    isLoading = loadedUsers.length == 1;
+    isLoading = loadedUsers.length <= 1 && trop.userCount > 1;
     if(isLoading) loadMoreUsers();
     super.initState();
   }
 
   @override
-  Widget build(BuildContext context) => Row(
-    children: [
+  Widget build(BuildContext context) => Padding(
+      padding: padding,
+      child: Consumer<TropLoadedUsersProvider>(
+          builder: (context, prov, child) => Row(
+            children: [
 
-      Expanded(child: AccountThumbnailLoadableRowWidget(
-        loadedUsers.map((p) => p.name).toList(),
-        onLoadMore: loadMoreUsers,
-        isLoading: isLoading,
-        isMoreToLoad: loadedUsers.length < trop.userCount,
-        onTap: () => pushPage(
-            context,
-            builder: (context) => TropUsersPage(trop: trop)
-        ),
-      )),
+              Expanded(child: AccountThumbnailLoadableRowWidget(
+                loadedUsers.map((p) => p.name).toList(),
+                onLoadMore: loadMoreUsers,
+                isLoading: isLoading,
+                isMoreToLoad: loadedUsers.length < trop.userCount,
+                onTap: () => pushPage(
+                    context,
+                    builder: (context) => TropUsersPage(trop: trop)
+                ),
+              )),
 
-      if(trop.userCount <= 1)
-        Align(
-          alignment: Alignment.centerRight,
-          child: SimpleButton.from(
-              context: context,
-              color: AppColors.zhpTropColor,
-              textColor: Colors.white,
-              icon: MdiIcons.accountPlusOutline,
-              text: 'Zaproś kumpli',
-              onTap: (){
+              if(trop.userCount <= 1)
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: SimpleButton.from(
+                      context: context,
+                      color: AppColors.zhpTropColor,
+                      textColor: Colors.white,
+                      icon: MdiIcons.accountPlusOutline,
+                      text: 'Zaproś kumpli',
+                      onTap: (){
 
-                if(AccountData.loggedIn)
-                  pushPage(
-                      context,
-                      builder: (context) => TropUsersPage(trop: trop)
-                  );
-                else
-                  AccountPage.open(context);
+                        if(AccountData.loggedIn)
+                          pushPage(
+                              context,
+                              builder: (context) => TropUsersPage(trop: trop)
+                          );
+                        else
+                          AccountPage.open(context);
 
-              }
-          ),
-        ),
+                      }
+                  ),
+                ),
 
-    ],
+            ],
+          )
+      )
   );
 
 }

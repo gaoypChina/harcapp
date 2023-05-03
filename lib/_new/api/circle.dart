@@ -330,12 +330,12 @@ class ApiCircle{
       onSuccess: (Response response, DateTime now) async {
         if(onSuccess == null) return;
 
-        List<Member> members = [];
+        List<Member> addedMembers = [];
         Map membersRespMap = response.data;
         for(MapEntry memEntry in membersRespMap.entries)
-          members.add(Member.fromRespMap(memEntry.value, key: memEntry.key));
+          addedMembers.add(Member.fromRespMap(memEntry.value, key: memEntry.key));
 
-        onSuccess(members);
+        onSuccess(addedMembers);
       },
       onForceLoggedOut: onForceLoggedOut,
       onServerMaybeWakingUp: onServerMaybeWakingUp,
@@ -373,12 +373,12 @@ class ApiCircle{
         onSuccess: (Response response, DateTime now) async {
           if(onSuccess == null) return;
 
-          List<Member> particips = [];
-          Map participsRespMap = response.data;
-          for(MapEntry participEntry in participsRespMap.entries)
-            particips.add(Member.fromRespMap(participEntry.value, key: participEntry.key));
+          List<Member> updatedMemebers = [];
+          Map membersRespMap = response.data;
+          for(MapEntry participEntry in membersRespMap.entries)
+            updatedMemebers.add(Member.fromRespMap(participEntry.value, key: participEntry.key));
 
-          onSuccess(particips);
+          onSuccess(updatedMemebers);
         },
         onForceLoggedOut: onForceLoggedOut,
         onServerMaybeWakingUp: onServerMaybeWakingUp,

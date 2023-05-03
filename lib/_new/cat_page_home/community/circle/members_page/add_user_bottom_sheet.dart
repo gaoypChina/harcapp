@@ -35,11 +35,24 @@ class AddUserBottomSheet extends StatelessWidget{
 
       showLoadingWidget(context, CommunityCoverColors.strongColor(context, palette), 'Dodawanie członka');
 
+      CircleProvider circleProv = CircleProvider.of(context);
+      CircleListProvider circleListProv = CircleListProvider.of(context);
+      CircleMembersProvider circleMembersProv = CircleMembersProvider.of(context);
+
       await ApiCircle.addMembers(
           circleKey: circle.key,
           users: [MemberRespBodyNick(userData.key, CircleRole.OBSERVER, null, userData.nick)],
-          onSuccess: (List<Member> allMems){
-            circle.setAllLoadedMembers(allMems, context: context);
+          onSuccess: (List<Member> addedMembers){
+            for(Member member in addedMembers)
+              if(circle.isMemberWithinLoaded(member))
+                circle.addLoadedMembers([member], context: null);
+            circle.memberCount += addedMembers.length;
+            Circle.callProvidersWithMembers(
+                circleProv,
+                circleListProv,
+                circleMembersProv,
+            );
+
             Navigator.pop(context); // Close loading widget.
             Navigator.pop(context);
             showAppToast(context, text: '${userData.name} ${userData.isMale?'dodany':'dodana'}');

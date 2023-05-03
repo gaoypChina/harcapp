@@ -33,11 +33,26 @@ class AddUserBottomSheet extends StatelessWidget{
 
       showLoadingWidget(context, iconEnab_(context), 'Dodawanie człowieka tropu');
 
+      TropProvider tropProv = TropProvider.of(context);
+      TropListProvider tropListProv = TropListProvider.of(context);
+      TropLoadedUsersProvider tropLoadedUsersProv = TropLoadedUsersProvider.of(context);
+
       await ApiTrop.addUsers(
           tropUniqName: trop.uniqName,
           users: [TropUserBodyNick(userData.key, TropRole.REGULAR, userData.nick)],
-          onSuccess: (List<TropUser> allUsers){
-            trop.setAllAssignedUsers(allUsers, context: context);
+          onSuccess: (List<TropUser> addedUsers){
+
+            for(TropUser user in addedUsers)
+              if(trop.isUserWithinLoaded(user))
+                trop.addLoadedUsers([user], context: null);
+            trop.userCount += addedUsers.length;
+            Trop.callProvidersWithLoadedUsers(
+                tropProv,
+                tropListProv,
+                tropLoadedUsersProv
+            );
+            trop.save(localOnly: true, synced: true);
+
             Navigator.pop(context); // Close loading widget.
             Navigator.pop(context);
             showAppToast(context, text: '${userData.name} ${userData.isMale?'dodany':'dodana'}');

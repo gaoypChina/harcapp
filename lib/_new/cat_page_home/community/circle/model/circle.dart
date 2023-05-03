@@ -3,6 +3,7 @@ import 'package:harcapp/_new/api/_api.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/logger.dart';
+import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -15,6 +16,14 @@ import 'member.dart';
 class CircleProvider extends ChangeNotifier{
 
   static CircleProvider of(BuildContext context) => Provider.of<CircleProvider>(context, listen: false);
+  static void notify_(BuildContext context) => of(context).notify();
+
+  void notify() => notifyListeners();
+}
+
+class CircleListProvider extends ChangeNotifier{
+
+  static CircleListProvider of(BuildContext context) => Provider.of<CircleListProvider>(context, listen: false);
   static void notify_(BuildContext context) => of(context).notify();
 
   void notify() => notifyListeners();
@@ -91,6 +100,24 @@ class CircleBasicData{
 
 class Circle extends CircleBasicData{
 
+  static callProvidersOf(BuildContext context) =>
+      callProviders(CircleProvider.of(context), CircleListProvider.of(context));
+
+  static callProviders(CircleProvider circleProv, CircleListProvider circleListProv){
+    circleProv.notify();
+    circleListProv.notify();
+  }
+
+  static callProvidersWithMembersOf(BuildContext context){
+    callProvidersOf(context);
+    CircleMembersProvider.notify_(context);
+  }
+
+  static callProvidersWithMembers(CircleProvider circleProv, CircleListProvider circleListProv, CircleMembersProvider circleMembersProv){
+    callProviders(circleProv, circleListProv);
+    circleMembersProv.notify();
+  }
+
   static const int memberPageSize = 10;
   
   static const IconData icon = MdiIcons.googleCircles;
@@ -127,8 +154,7 @@ class Circle extends CircleBasicData{
     }
 
     if(context == null) return;
-    CircleMembersProvider.notify_(context);
-    CircleProvider.notify_(context);
+    callProvidersWithMembersOf(context);
 
   }
 
@@ -140,22 +166,22 @@ class Circle extends CircleBasicData{
     _loadedMembersMap.addAll({for (Member? mem in allMembers) mem!.key: mem});
 
     if(context == null) return;
-    CircleMembersProvider.notify_(context);
-    CircleProvider.notify_(context);
+    callProvidersWithMembersOf(context);
   }
 
   void updateLoadedMembers(List<Member> newMembers, {BuildContext? context}){
 
     for(Member mem in newMembers) {
       int index = _loadedMembers.indexWhere((memIter) => memIter.key == mem.key);
+      if(index == -1) continue;
       _loadedMembers.removeAt(index);
       _loadedMembers.insert(index, mem);
       _loadedMembersMap[mem.key] = mem;
     }
 
     if(context == null) return;
-    CircleMembersProvider.notify_(context);
-    CircleProvider.notify_(context);
+    callProvidersWithMembersOf(context);
+
   }
 
   void removeLoadedMembersByKey(List<String> memberKeys, {bool shrinkTotalCount=true, BuildContext? context}){
@@ -168,8 +194,8 @@ class Circle extends CircleBasicData{
     }
 
     if(context == null) return;
-    CircleMembersProvider.notify_(context);
-    CircleProvider.notify_(context);
+    callProvidersWithMembersOf(context);
+
   }
   
   void removeLoadedMember(Member member, {bool shrinkTotalCount=true}){
@@ -181,6 +207,14 @@ class Circle extends CircleBasicData{
 
     if(success && removed != null && shrinkTotalCount)
       memberCount -= - 1;
+  }
+
+  bool isMemberWithinLoaded(Member member){
+    if(loadedMembers.isEmpty) return false;
+    Member lastLoaded = loadedMembers.last;
+    return circleRoleToLoadingOrder(member.role) < circleRoleToLoadingOrder(lastLoaded.role) ||
+        compareText(member.name, lastLoaded.name) < 0 ||
+        compareText(member.key, lastLoaded.key) < 0;
   }
 
   late Map<String, _AnnouncementLookup> _announcementsMap;

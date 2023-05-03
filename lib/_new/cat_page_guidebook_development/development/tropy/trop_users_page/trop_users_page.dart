@@ -147,7 +147,7 @@ class TropUsersPageState extends State<TropUsersPage>{
             )
         ],
 
-        userCount: trop.userCount??0,
+        userCount: trop.userCount,
         callReload: () async {
           await ApiTrop.getUsers(
             tropUniqName: trop.uniqName,
@@ -155,11 +155,12 @@ class TropUsersPageState extends State<TropUsersPage>{
             lastRole: null,
             lastUserName: null,
             lastUserKey: null,
-            onSuccess: (observersPage){
-              TropUser me = trop.loadedUsersMap[AccountData.key]??fixTropUser(observersPage);
-              observersPage.removeWhere((manager) => manager.key == me.key);
-              observersPage.insert(0, me);
-              trop.setAllLoadedUsers(observersPage, context: context);
+            onSuccess: (usersPage){
+              TropUser me = trop.loadedUsersMap[AccountData.key]??fixTropUser(usersPage);
+              usersPage.removeWhere((manager) => manager.key == me.key);
+              usersPage.insert(0, me);
+              trop.setAllLoadedUsers(usersPage, context: context);
+              trop.save(localOnly: true, synced: true);
               setState((){});
             },
             onForceLoggedOut: (){
@@ -189,6 +190,7 @@ class TropUsersPageState extends State<TropUsersPage>{
             lastUserKey: loadedUsers.length==1?null:loadedUsers.last.key,
             onSuccess: (observersPage){
               trop.addLoadedUsers(observersPage, context: context);
+              trop.save(localOnly: true, synced: true);
               if(mounted) setState((){});
             },
             onForceLoggedOut: (){
