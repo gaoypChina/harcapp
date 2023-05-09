@@ -62,7 +62,7 @@ class TropyPageState extends State<TropyPage>{
 
   bool get tropPreviewEmpty => TropPreviewData.all?.isEmpty??true;
 
-  Future<void> loadTropsPage({bool reloadAll = false}) async {
+  Future<void> loadTropPreviewsPage({bool reloadAll = false}) async {
 
     if(!await isNetworkAvailable()){
       if(mounted) showAppToast(context, text: 'Brak dostępu do Internetu');
@@ -88,7 +88,15 @@ class TropyPageState extends State<TropyPage>{
       onSuccess: (tropPrevsPage){
         if(reloadAll) TropPreviewData.setAll(tropPrevsPage);
         else TropPreviewData.addAllToAll(tropPrevsPage);
+
+        for(TropPreviewData previewData in tropPrevsPage)
+          previewData.dumpAsPreview();
+
         moreToLoad = tropPrevsPage.length == Trop.tropPageSize;
+        if(!moreToLoad){
+          Trop.removeAbsentPreviewsFromSharedWithMe();
+          TropPreviewData.removeAbsent();
+        }
         if(mounted) setState((){});
       },
       onForceLoggedOut: (){
@@ -111,20 +119,19 @@ class TropyPageState extends State<TropyPage>{
   }
 
   late SynchronizerListener syncListener;
+  late LoginListener loginListener;
 
   @override
   void initState() {
     _moreToLoad = true;
 
     bool loggedIn = LoginProvider.of(context).loggedIn;
+    bool loadInit = loggedIn && !TropPreviewData.hasAny;
     refreshController = RefreshController(
-        initialLoadStatus:
-        loggedIn && TropPreviewData.all == null?
-        LoadStatus.loading:
-        LoadStatus.idle
+        initialRefresh: loadInit
     );
-    if(loggedIn && TropPreviewData.all == null)
-      loadTropsPage();
+    if(loadInit)
+      loadTropPreviewsPage(reloadAll: true);
 
     syncListener = SynchronizerListener(
       onEnd: (syncOper){
@@ -134,6 +141,21 @@ class TropyPageState extends State<TropyPage>{
     );
 
     synchronizer.addListener(syncListener);
+    loginListener = LoginListener(
+      onLogin: (emailConf){
+        if(!emailConf) return;
+        bool loggedIn = LoginProvider.of(context).loggedIn;
+        bool loadInit = loggedIn && !TropPreviewData.hasAny;
+
+        refreshController = RefreshController(
+          initialRefresh: loadInit
+        );
+        if(loadInit)
+          loadTropPreviewsPage(reloadAll: true);
+
+      }
+    );
+    AccountData.addLoginListener(loginListener);
 
     super.initState();
   }
@@ -141,6 +163,8 @@ class TropyPageState extends State<TropyPage>{
   @override
   void dispose() {
     synchronizer.removeListener(syncListener);
+    AccountData.removeLoginListener(loginListener);
+
     super.dispose();
   }
 
@@ -162,7 +186,7 @@ class TropyPageState extends State<TropyPage>{
           controller: refreshController,
           onRefresh: () async {
 
-            await loadTropsPage(reloadAll: true);
+            await loadTropPreviewsPage(reloadAll: true);
 
             if(mounted) refreshController.refreshCompleted();
             post(() => mounted?setState(() {}):null);
@@ -176,7 +200,7 @@ class TropyPageState extends State<TropyPage>{
               return;
             }
 
-            await loadTropsPage();
+            await loadTropPreviewsPage();
 
             if(mounted) refreshController.loadComplete(); // This is called in `post()` inside.
             if(mounted) post(() => mounted?setState(() {}):null);
@@ -223,7 +247,7 @@ class TropyPageState extends State<TropyPage>{
                       padding: const EdgeInsets.only(left: Dimen.SIDE_MARG),
                       sliver: SliverList(delegate: SliverChildListDelegate([
                         const TitleShortcutRowWidget(
-                          title: 'Moje tropy',
+                          title: 'Moje lokalne tropy',
                           textAlign: TextAlign.left,
                         ),
                       ]))));
@@ -261,7 +285,7 @@ class TropyPageState extends State<TropyPage>{
                     padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, top: Dimen.SIDE_MARG),
                     sliver: SliverList(delegate: SliverChildListDelegate([
                       const TitleShortcutRowWidget(
-                        title: 'Udostępnione mi tropy',
+                        title: 'Udostępnione tropy',
                         textAlign: TextAlign.left,
                       ),
                     ])),

@@ -53,6 +53,9 @@ String get getOwnTropFolderPath => _localPath + getMyTropFolderLocalPath;
 String get getSharedTropFolderLocalPath => '/tropy/shared/';
 String get getSharedTropFolderPath => _localPath + getSharedTropFolderLocalPath;
 
+String get getSharedTropPreviewDataFolderLocalPath => '/tropy/preview/';
+String get getSharedTropPreviewDataFolderPath => _localPath + getSharedTropPreviewDataFolderLocalPath;
+
 String get getDuchoweFoldersLocalPath => '/duchowe/';
 String get getDuchoweFoldersPath => _localPath + getDuchoweFoldersLocalPath;
 

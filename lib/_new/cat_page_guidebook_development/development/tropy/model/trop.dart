@@ -168,6 +168,8 @@ class TropPreviewData{
   static List<TropPreviewData>? all;
   static Map<String, TropPreviewData>? allMapByUniqName;
 
+  static bool get hasAny => all != null && all!.isNotEmpty;
+
   static addToAll(TropPreviewData t){
     if(all == null){
       all = [];
@@ -207,7 +209,35 @@ class TropPreviewData{
     all = null;
     allMapByUniqName = null;
   }
+  
+  static removeAbsent(){
+    if(allMapByUniqName == null) return;
+    Directory sharedTropyDir = Directory(getSharedTropPreviewDataFolderPath);
+    for (FileSystemEntity file in sharedTropyDir.listSync(recursive: false))
+      if(!allMapByUniqName!.containsKey(basename(file.path)))
+        file.deleteSync();
+  }
 
+  void dumpAsPreview(){
+    saveStringAsFileToFolder(
+      getSharedTropPreviewDataFolderLocalPath,
+      jsonEncode(toJsonMap()),
+      fileName: uniqName,
+    );
+    logger.i('Dumped trop preview $uniqName');
+  }
+
+  Map toJsonMap() => {
+    Trop.paramName: name,
+    Trop.paramCustomIconTropName: customIconTropName,
+    Trop.paramCategory: tropCategoryToStr(category),
+
+    Trop.paramStartDate: formatDate(startDate),
+    Trop.paramEndDate: formatDate(endDate),
+
+    Trop.paramLastUpdateTime: lastUpdateTime.toIso8601String(),
+  };
+  
   String uniqName;
   String name;
   TropCategory category;
@@ -348,6 +378,16 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
     callProvidersOf(context);
   }
   
+  static removeAbsentPreviewsFromSharedWithMe(){
+    Directory sharedTropyDir = Directory(getSharedTropPreviewDataFolderPath);
+    for (FileSystemEntity file in sharedTropyDir.listSync(recursive: false)) {
+      File tropFile = File(getSharedTropFolderPath + basename(file.path));
+      if(!tropFile.existsSync()) return;
+      if(!allSharedWithMeMapByUniqName.containsKey(basename(file.path)))
+        tropFile.deleteSync();
+    }
+  }
+  
   static Future<void> init() async {
     
     allOwn = [];
@@ -356,25 +396,41 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
     allSharedWithMe = [];
     allSharedWithMeMapByUniqName = {};
     
-    Directory ownTropyDir = Directory(getOwnTropFolderPath);
-    await ownTropyDir.create(recursive: true);
-    for (FileSystemEntity file in ownTropyDir.listSync(recursive: false)) {
+    List<TropPreviewData> allPreviewData = [];
+    
+    Directory ownTropDir = Directory(getOwnTropFolderPath);
+    await ownTropDir.create(recursive: true);
+    for (FileSystemEntity file in ownTropDir.listSync(recursive: false)) {
       Trop? trop = Trop.readOwnFromUniqName(basename(file.path));
       if(trop == null) continue;
       allOwn.add(trop);
       allOwnMapByUniqName[trop.uniqName] = trop;
     }
+    fixNoUserInOwnTrops();
 
-    Directory sharedTropyDir = Directory(getSharedTropFolderPath);
-    await sharedTropyDir.create(recursive: true);
-    for (FileSystemEntity file in sharedTropyDir.listSync(recursive: false)) {
+    Directory sharedTropDir = Directory(getSharedTropFolderPath);
+    await sharedTropDir.create(recursive: true);
+    for (FileSystemEntity file in sharedTropDir.listSync(recursive: false)) {
       Trop? trop = Trop.readSharedFromUniqName(basename(file.path));
       if(trop == null) continue;
       allSharedWithMe.add(trop);
       allSharedWithMeMapByUniqName[trop.uniqName] = trop;
     }
 
-    TropPreviewData.setAll(allSharedWithMe.map((t) => t.toPreviewData()).toList());
+    Directory previewDataTropDir = Directory(getSharedTropPreviewDataFolderPath);
+    await previewDataTropDir.create(recursive: true);
+    for (FileSystemEntity file in previewDataTropDir.listSync(recursive: false)) {
+      Map data = jsonDecode(readFileAsString(file.path));
+      try {
+        TropPreviewData? tropPreviewData = TropPreviewData.fromRespMap(data, basename(file.path));
+        allPreviewData.add(tropPreviewData);
+      } catch (e){
+        logger.e(e);
+        continue;
+      }
+    }
+    
+    TropPreviewData.setAll(allPreviewData);
 
     initialized = true;
   }
@@ -411,16 +467,18 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
   bool completed;
   DateTime? completionDate;
 
-  // The users account should always be either in _loadedUsers or in _assignedUsers.
   final List<TropUser> _assignedUsers;
   final Map<String, TropUser> _assignedUsersMap;
   List<TropUser> get assignedUsers => _assignedUsers;
   Map<String, TropUser> get assignedUsersMap => _assignedUsersMap;
 
+  // The users account should always be either in _loadedUsers if trop is shared.
   final List<TropUser> _loadedUsers;
   final Map<String, TropUser> _loadedUsersMap;
   List<TropUser> get loadedUsers => _loadedUsers;
   Map<String, TropUser> get loadedUsersMap => _loadedUsersMap;
+
+  bool get isShared => _loadedUsers.isNotEmpty;
 
   int userCount;
 
@@ -569,6 +627,15 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
     for(String userKey in (respMapData[paramLoadedUsers]??{}).keys)
       loadedUsers[userKey] = TropUser.fromRespMap(respMapData[paramLoadedUsers][userKey], key: userKey);
     trop.addLoadedUsers(loadedUsers.values.toList());
+
+    // It might happen that server has been restared, but users are still saved locally.
+    // In such case we want to wipe out all users.
+    if(AccountData.loggedIn && !loadedUsers.containsKey(AccountData.key)){
+      trop._loadedUsers.clear();
+      trop._loadedUsersMap.clear();
+      trop._assignedUsers.clear();
+      trop._assignedUsersMap.clear();
+    }
 
     return trop;
   }
@@ -864,6 +931,27 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
       userCount -= 1;
   }
 
+  static void fixNoUserInOwnTrops() {
+    bool anyFixed = false;
+    for(Trop trop in allOwn) {
+      if (AccountData.loggedIn && trop.loadedUsers.isEmpty){
+        trop.addLoadedUsers([
+          TropUser(
+              key: AccountData.key!,
+              name: AccountData.name!,
+              shadow: false,
+              sex: Sex.male,
+              role: TropRole.OWNER,
+              tmpNick: null
+          )
+        ]);
+        trop.save(localOnly: true, synced: false);
+        anyFixed = true;
+      }
+    }
+    if(anyFixed) synchronizer.post();
+  }
+
   bool isUserWithinLoaded(TropUser user){
     if(loadedUsers.isEmpty) return false;
     TropUser lastLoaded = loadedUsers.last;
@@ -986,20 +1074,6 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
         task.applySyncGetResp(resp.tasks[taskIclId]!);
     }
 
-  }
-
-  @override
-  void saveSyncResult(synced, DateTime? lastSync) {
-    super.saveSyncResult(synced, lastSync);
-    if(_loadedUsers.isEmpty) _loadedUsers.add(TropUser(
-        key: AccountData.key!,
-        name: AccountData.name!,
-        shadow: false,
-        sex: Sex.male,
-        role: TropRole.OWNER,
-        tmpNick: null
-    ));
-    save(localOnly: true, synced: true);
   }
 
 }

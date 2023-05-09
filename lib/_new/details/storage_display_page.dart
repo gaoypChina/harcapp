@@ -105,6 +105,12 @@ class StorageDisplayPageState extends State<StorageDisplayPage>{
             onOpen: () => openDialog(context: context, builder: (context) => JSONFolderDisplayer(getSharedTropFolderPath)),
           ),
 
+          _Item(
+            icon: MdiIcons.folderOutline,
+            title: 'folder: <b>${basename(getSharedTropPreviewDataFolderPath)}</b>',
+            onOpen: () => openDialog(context: context, builder: (context) => JSONFolderDisplayer(getSharedTropPreviewDataFolderPath)),
+          ),
+
           const Padding(
             padding: EdgeInsets.only(left: Dimen.ICON_MARG, top: Dimen.ICON_MARG),
             child: TitleShortcutRowWidget(title: 'Artykuły', textAlign: TextAlign.start),

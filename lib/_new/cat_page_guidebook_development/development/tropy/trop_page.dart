@@ -17,9 +17,7 @@ class TropPage extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) => BottomNavScaffold(
-    body: TropWidget(
-        trop
-    )
+    body: TropWidget(trop)
   );
 
 }

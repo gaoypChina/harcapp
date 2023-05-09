@@ -21,6 +21,7 @@ import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp_core_song_widget/providers.dart';
+import 'package:intl/intl.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';
@@ -77,7 +78,8 @@ bool isDuringMonthAndDay({
   required int startDay,
   required int stopDay,
   required int month,
-  int? stopMonth}){
+  int? stopMonth
+}){
   DateTime now = DateTime.now();
   stopMonth = stopMonth??month;
   return now.month >= month && now.month <= stopMonth && now.day >= startDay && now.day <= stopDay;
@@ -98,6 +100,8 @@ void main() async {
 
       throw details.stack!;
     };
+
+  Intl.defaultLocale = 'pl_PL';
 
   var delegate = await LocalizationDelegate.create(
       fallbackLocale: 'pl',
@@ -410,6 +414,7 @@ class AppState extends State<App> with WidgetsBindingObserver {
         onLogin: (emailConf) async {
           if(!emailConf) return;
           await Statistics.commit();
+          Trop.fixNoUserInOwnTrops();
         },
         onRegistered: () async{
           await Statistics.commit();
@@ -418,6 +423,7 @@ class AppState extends State<App> with WidgetsBindingObserver {
         onEmailConfirmChanged: (emailConf) async {
           if(!emailConf) return;
           await Statistics.commit();
+          Trop.fixNoUserInOwnTrops();
           await indivCompLoader.run();
           await communitiesLoader.run();
         },

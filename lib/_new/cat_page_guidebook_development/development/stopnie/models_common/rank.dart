@@ -24,7 +24,6 @@ import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
-import 'package:intl/intl.dart';
 
 import '../data/data_zhp.dart';
 import '../data/data_zhp_old.dart';

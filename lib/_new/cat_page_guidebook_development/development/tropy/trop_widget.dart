@@ -3,6 +3,7 @@ import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_widgets/border_material.dart';
 import 'package:harcapp/_common_widgets/duration_date_widget.dart';
 import 'package:harcapp/_new/api/trop.dart';
+import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/model/trop_role.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_users_page/trop_users_page.dart';
 import 'package:harcapp/values/app_values.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/model/trop.dart';
@@ -66,25 +67,26 @@ class TropWidgetState extends State<TropWidget>{
               centerTitle: true,
               floating: true,
               actions: [
-                IconButton(
-                  icon: const Icon(MdiIcons.pencilOutline),
-                  onPressed: () {
+                if(trop.myRole == TropRole.OWNER)
+                  IconButton(
+                    icon: const Icon(MdiIcons.pencilOutline),
+                    onPressed: () {
 
-                    pushPage(context, builder: (context) => TropEditorPage(
-                        initTrop: trop,
-                        allCategories:
-                        trop.isCategoryHarc?
-                        allHarcTropCategories:
-                        allZuchTropCategories,
-                        onSaved: (updatedTrop){
-                          trop.update(updatedTrop);
-                          showAppToast(context, text: 'Trop poprawiony');
-                          prov.notify();
-                        }
-                    ));
+                      pushPage(context, builder: (context) => TropEditorPage(
+                          initTrop: trop,
+                          allCategories:
+                          trop.isCategoryHarc?
+                          allHarcTropCategories:
+                          allZuchTropCategories,
+                          onSaved: (updatedTrop){
+                            trop.update(updatedTrop);
+                            showAppToast(context, text: 'Trop poprawiony');
+                            prov.notify();
+                          }
+                      ));
 
-                  },
-                )
+                    },
+                  )
               ],
             ),
 
@@ -267,7 +269,7 @@ class TropUsersWidgetState extends State<TropUsersWidget>{
                 ),
               )),
 
-              if(trop.userCount <= 1)
+              if(trop.userCount <= 1 && trop.myRole == TropRole.OWNER)
                 Align(
                   alignment: Alignment.centerRight,
                   child: SimpleButton.from(
