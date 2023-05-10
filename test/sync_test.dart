@@ -148,7 +148,7 @@ void main() {
         ],
         lastServerUpdateTime: null
     );
-    trop.save(localOnly: true);
+    trop.saveOwn(localOnly: true);
     Trop.addOwnToAll(trop);
 
     await synchronizer.post();
@@ -250,7 +250,7 @@ void main() {
     OwnAlbum.all[0].delete(localOnly: true);
     
     Trop.allOwn[0].tasks.removeAt(0);
-    Trop.allOwn[0].save(localOnly: true);
+    Trop.allOwn[0].saveOwn(localOnly: true);
 
     await synchronizer.post();
 

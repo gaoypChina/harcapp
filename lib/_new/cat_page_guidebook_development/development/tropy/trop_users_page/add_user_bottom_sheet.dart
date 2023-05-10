@@ -18,7 +18,9 @@ class AddUserBottomSheet extends StatelessWidget{
   // This is needed, because dialogs are closed in the process and local contexts are disposed.
   final BuildContext context;
 
-  const AddUserBottomSheet(this.trop, {required this.context, super.key});
+  final void Function(bool wasShared)? onUserAdded;
+
+  const AddUserBottomSheet(this.trop, {required this.context, this.onUserAdded, super.key});
 
 
   @override
@@ -40,10 +42,12 @@ class AddUserBottomSheet extends StatelessWidget{
       await ApiTrop.addUsers(
           tropUniqName: trop.uniqName,
           users: [TropUserBodyNick(userData.key, TropRole.REGULAR, userData.nick)],
-          onSuccess: (List<TropUser> addedUsers){
+          onSuccess: (List<TropUser> addedUsers, DateTime lastSyncTime){
+
+            bool wasShared = trop.isShared;
 
             for(TropUser user in addedUsers)
-              if(trop.isUserWithinLoaded(user))
+              if(trop.userCount == 0 || trop.isUserWithinLoaded(user))
                 trop.addLoadedUsers([user], context: null);
             trop.userCount += addedUsers.length;
             Trop.callProvidersWithLoadedUsers(
@@ -51,7 +55,10 @@ class AddUserBottomSheet extends StatelessWidget{
                 tropListProv,
                 tropLoadedUsersProv
             );
-            trop.save(localOnly: true, synced: true);
+            if(wasShared) trop.dumpAsShared();
+            else trop.changedToShared(lastSyncTime);
+
+            onUserAdded?.call(wasShared);
 
             Navigator.pop(context); // Close loading widget.
             Navigator.pop(context);

@@ -34,11 +34,13 @@ class TropWidget extends StatefulWidget{
   final Trop trop;
   final double iconSize;
   final bool showBack;
+  final void Function(bool wasShared)? onUserAdded;
 
   const TropWidget(
       this.trop,
       { this.iconSize = TropIcon.defSize,
         this.showBack = true,
+        this.onUserAdded,
         super.key
       });
 
@@ -52,6 +54,8 @@ class TropWidgetState extends State<TropWidget>{
   Trop get trop => widget.trop;
   double get iconSize => widget.iconSize;
   bool get showBack => widget.showBack;
+
+  void Function(bool wasShared)? get onUserAdded => widget.onUserAdded;
 
   List<TropUser> get loadedUsers => trop.loadedUsers;
 
@@ -67,7 +71,7 @@ class TropWidgetState extends State<TropWidget>{
               centerTitle: true,
               floating: true,
               actions: [
-                if(trop.myRole == TropRole.OWNER)
+                if(!trop.isShared || (trop.isShared && trop.myRole == TropRole.OWNER))
                   IconButton(
                     icon: const Icon(MdiIcons.pencilOutline),
                     onPressed: () {
@@ -118,7 +122,13 @@ class TropWidgetState extends State<TropWidget>{
                     const SizedBox(height: Dimen.SIDE_MARG),
 
                   if(account)
-                    TropUsersWidget(trop),
+                    TropUsersWidget(
+                      trop,
+                      onUserAdded: (wasShared){
+                        if(!wasShared) showAppToast(context, text: 'Trop przeniesiony z <b>lokalnych<b> do <b>udostępnionych</b>');
+                        onUserAdded?.call(wasShared);
+                      },
+                    ),
 
                   if(trop.aims.isNotEmpty)
                     const SizedBox(height: Dimen.SIDE_MARG),
@@ -191,8 +201,9 @@ class TropUsersWidget extends StatefulWidget{
 
   final Trop trop;
   final EdgeInsets padding;
+  final void Function(bool wasShared)? onUserAdded;
 
-  const TropUsersWidget(this.trop, {this.padding=EdgeInsets.zero, super.key});
+  const TropUsersWidget(this.trop, {this.padding=EdgeInsets.zero, this.onUserAdded, super.key});
 
   @override
   State<StatefulWidget> createState() => TropUsersWidgetState();
@@ -203,6 +214,7 @@ class TropUsersWidgetState extends State<TropUsersWidget>{
 
   Trop get trop => widget.trop;
   EdgeInsets get padding => widget.padding;
+  void Function(bool)? get onUserAdded => widget.onUserAdded;
 
   List<TropUser> get loadedUsers => trop.loadedUsers;
 
@@ -222,7 +234,7 @@ class TropUsersWidgetState extends State<TropUsersWidget>{
       lastUserKey: loadedUsers.length<=1?null:loadedUsers.last.key,
       onSuccess: (observersPage){
         trop.addLoadedUsers(observersPage, context: context);
-        trop.save(localOnly: true, synced: true);
+        trop.saveOwn(localOnly: true, synced: true);
         if(mounted) setState((){});
       },
       onForceLoggedOut: (){
@@ -246,7 +258,7 @@ class TropUsersWidgetState extends State<TropUsersWidget>{
 
   @override
   void initState() {
-    isLoading = loadedUsers.length <= 1 && trop.userCount > 1;
+    isLoading = AccountData.loggedIn && loadedUsers.length <= 1 && trop.userCount > 1;
     if(isLoading) loadMoreUsers();
     super.initState();
   }
@@ -263,13 +275,13 @@ class TropUsersWidgetState extends State<TropUsersWidget>{
                 onLoadMore: loadMoreUsers,
                 isLoading: isLoading,
                 isMoreToLoad: loadedUsers.length < trop.userCount,
-                onTap: () => pushPage(
-                    context,
-                    builder: (context) => TropUsersPage(trop: trop)
-                ),
+                  onTap: (){
+                    if(AccountData.loggedIn) openTropUsersPage(context);
+                    else AccountPage.open(context);
+                  }
               )),
 
-              if(trop.userCount <= 1 && trop.myRole == TropRole.OWNER)
+              if(!trop.isShared || (trop.userCount <= 1 && trop.myRole == TropRole.OWNER))
                 Align(
                   alignment: Alignment.centerRight,
                   child: SimpleButton.from(
@@ -279,21 +291,22 @@ class TropUsersWidgetState extends State<TropUsersWidget>{
                       icon: MdiIcons.accountPlusOutline,
                       text: 'Zaproś kumpli',
                       onTap: (){
-
-                        if(AccountData.loggedIn)
-                          pushPage(
-                              context,
-                              builder: (context) => TropUsersPage(trop: trop)
-                          );
-                        else
-                          AccountPage.open(context);
-
+                        if(AccountData.loggedIn) openTropUsersPage(context);
+                        else AccountPage.open(context);
                       }
                   ),
                 ),
 
             ],
           )
+      )
+  );
+
+  void openTropUsersPage(BuildContext context) => pushPage(
+      context,
+      builder: (context) => TropUsersPage(
+        trop: trop,
+        onUserAdded: onUserAdded,
       )
   );
 

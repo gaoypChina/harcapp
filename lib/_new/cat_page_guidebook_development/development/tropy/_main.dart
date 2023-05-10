@@ -53,14 +53,13 @@ class TropyPageState extends State<TropyPage>{
 
   late RefreshController refreshController;
 
-  late bool _moreToLoad;
-  bool get moreToLoad => _moreToLoad;
+  bool get moreToLoad => TropSharedPreviewData.moreToLoad;
   set moreToLoad(bool value){
-    _moreToLoad = value;
-    logger.d('Loaded ${TropPreviewData.all!.length} trop previews. Any remaining: $value');
+    TropSharedPreviewData.moreToLoad = value;
+    logger.d('Loaded ${TropSharedPreviewData.all!.length} trop previews. Any remaining: $value');
   }
 
-  bool get tropPreviewEmpty => TropPreviewData.all?.isEmpty??true;
+  bool get tropPreviewEmpty => TropSharedPreviewData.all?.isEmpty??true;
 
   Future<void> loadTropPreviewsPage({bool reloadAll = false}) async {
 
@@ -75,27 +74,27 @@ class TropyPageState extends State<TropyPage>{
       pageSize: Trop.tropPageSize,
       lastStartTime: reloadAll || tropPreviewEmpty?
       null:
-      TropPreviewData.all!.last.startDate.toIso8601String(),
+      TropSharedPreviewData.all!.last.startDate.toIso8601String(),
 
       lastName: reloadAll || tropPreviewEmpty?
       null:
-      TropPreviewData.all!.last.name,
+      TropSharedPreviewData.all!.last.name,
 
       lastTropUniqName: reloadAll || tropPreviewEmpty?
       null:
-      TropPreviewData.all!.last.uniqName,
+      TropSharedPreviewData.all!.last.uniqName,
 
       onSuccess: (tropPrevsPage){
-        if(reloadAll) TropPreviewData.setAll(tropPrevsPage);
-        else TropPreviewData.addAllToAll(tropPrevsPage);
+        if(reloadAll) TropSharedPreviewData.setAll(tropPrevsPage);
+        else TropSharedPreviewData.addAllToAll(tropPrevsPage);
 
-        for(TropPreviewData previewData in tropPrevsPage)
+        for(TropSharedPreviewData previewData in tropPrevsPage)
           previewData.dumpAsPreview();
 
         moreToLoad = tropPrevsPage.length == Trop.tropPageSize;
         if(!moreToLoad){
-          Trop.removeAbsentPreviewsFromSharedWithMe();
-          TropPreviewData.removeAbsent();
+          Trop.removeAbsentPreviewsFromShared();
+          TropSharedPreviewData.removeAbsent();
         }
         if(mounted) setState((){});
       },
@@ -123,10 +122,9 @@ class TropyPageState extends State<TropyPage>{
 
   @override
   void initState() {
-    _moreToLoad = true;
 
     bool loggedIn = LoginProvider.of(context).loggedIn;
-    bool loadInit = loggedIn && !TropPreviewData.hasAny;
+    bool loadInit = loggedIn && !TropSharedPreviewData.hasAny;
     refreshController = RefreshController(
         initialRefresh: loadInit
     );
@@ -145,7 +143,7 @@ class TropyPageState extends State<TropyPage>{
       onLogin: (emailConf){
         if(!emailConf) return;
         bool loggedIn = LoginProvider.of(context).loggedIn;
-        bool loadInit = loggedIn && !TropPreviewData.hasAny;
+        bool loadInit = loggedIn && !TropSharedPreviewData.hasAny;
 
         refreshController = RefreshController(
           initialRefresh: loadInit
@@ -171,169 +169,168 @@ class TropyPageState extends State<TropyPage>{
   @override
   Widget build(BuildContext context) => BottomNavScaffold(
     body: Consumer2<TropListProvider, LoginProvider>(
-        builder: (context, tropListProv, loginProv, child) => SmartRefresher(
-          physics: const BouncingScrollPhysics(),
-          enablePullDown: loginProv.loggedIn && !refreshController.isLoading,
-          enablePullUp: loginProv.loggedIn && moreToLoad && !refreshController.isRefresh,
-          footer: AppCustomFooter(
-              moreToLoad: moreToLoad && !tropPreviewEmpty,
-              showDotWhenAllLoaded: true
-          ),
-          header: MaterialClassicHeader(
-            backgroundColor: cardEnab_(context),
-            color: AppColors.zhpTropColor,
-          ),
-          controller: refreshController,
-          onRefresh: () async {
+        builder: (context, tropListProv, loginProv, child){
 
-            await loadTropPreviewsPage(reloadAll: true);
+          List<Widget> slivers = [];
+          if(Trop.allOwn.isEmpty && tropPreviewEmpty)
+            slivers.add(SliverFillRemaining(
+                hasScrollBody: false,
+                child: Center(
+                  child: SimpleButton(
+                      radius: AppCard.bigRadius,
+                      onTap: () => openNewTropBottomSheet(
+                          context,
+                          onNewTropSaved: (trop) =>
+                              pushPage(context, builder: (context) => TropPage(trop))
+                      ),
+                      child: const Padding(
+                        padding: EdgeInsets.all(Dimen.SIDE_MARG),
+                        child: EmptyMessageWidget(
+                          icon: Trop.icon,
+                          text: 'Rozpocznij nowy trop!',
+                        ),
+                      )
+                  ),
+                )
+            ));
+          else{
 
-            if(mounted) refreshController.refreshCompleted();
-            post(() => mounted?setState(() {}):null);
+            if(AccountData.loggedIn)
+              slivers.add(SliverPadding(
+                  padding: const EdgeInsets.only(left: Dimen.SIDE_MARG),
+                  sliver: SliverList(delegate: SliverChildListDelegate([
+                    const TitleShortcutRowWidget(
+                      title: 'Moje lokalne tropy',
+                      textAlign: TextAlign.left,
+                    ),
+                  ]))));
 
-          },
-          onLoading: () async {
+            if(Trop.allOwn.isEmpty)
+              slivers.add(SliverList(delegate: SliverChildListDelegate([
+                const NoTropWidget(),
+              ])));
+            else
+              slivers.add(SliverPadding(
+                padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+                sliver: SliverList(delegate: SliverChildSeparatedBuilderDelegate(
+                        (BuildContext context, int index) => SimpleButton(
+                      clipBehavior: Clip.none,
+                      radius: AppCard.bigRadius,
+                      child: TropTile(
+                        name: Trop.allOwn[index].name,
+                        category: Trop.allOwn[index].category,
+                        zuchTropName: Trop.allOwn[index].customIconTropName,
+                        trailing: TropTileProgressWidget(Trop.allOwn[index].completenessPercent),
+                        iconSize: TropIcon.defSize,
+                      ),
+                      onTap: () => pushPage(
+                          context,
+                          builder: (BuildContext context) => TropPage(Trop.allOwn[index])
+                      ),
+                    ),
+                    separatorBuilder: (BuildContext context, int index) => const SizedBox(height: Dimen.SIDE_MARG),
+                    count: Trop.allOwn.length
+                )),
+              ));
 
-            if(!moreToLoad) {
-              refreshController.loadComplete();
-              if(mounted) post(() => mounted?setState(() {}):null);
-              return;
-            }
+            if(AccountData.loggedIn)
+              slivers.add(SliverPadding(
+                padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, top: Dimen.SIDE_MARG),
+                sliver: SliverList(delegate: SliverChildListDelegate([
+                  const TitleShortcutRowWidget(
+                    title: 'Udostępnione tropy',
+                    textAlign: TextAlign.left,
+                  ),
+                ])),
+              ));
 
-            await loadTropPreviewsPage();
+            if(AccountData.loggedIn && tropPreviewEmpty)
+              slivers.add(SliverList(delegate: SliverChildListDelegate([
+                const NoTropWidget(),
+              ])));
+            else if(AccountData.loggedIn)
+              slivers.add(SliverPadding(
+                padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+                sliver: SliverList(delegate: SliverChildSeparatedBuilderDelegate(
+                    (BuildContext context, int index) => SimpleButton(
+                        clipBehavior: Clip.none,
+                        radius: AppCard.bigRadius,
+                        child: TropTile(
+                          name: TropSharedPreviewData.all![index].name,
+                          category: TropSharedPreviewData.all![index].category,
+                          zuchTropName: TropSharedPreviewData.all![index].customIconTropName,
+                          // trailing: TropTileProgressWidget(TropPreviewData.all[index].completenessPercent),
+                          iconSize: TropIcon.defSize,
+                        ),
+                        onTap: () => loadPushTropPage(context, TropSharedPreviewData.all![index])
+                    ),
+                    separatorBuilder: (BuildContext context, int index) => const SizedBox(height: Dimen.SIDE_MARG),
+                    count: TropSharedPreviewData.all!.length
+                )),
+              ));
 
-            if(mounted) refreshController.loadComplete(); // This is called in `post()` inside.
-            if(mounted) post(() => mounted?setState(() {}):null);
+            if(!moreToLoad)
+              slivers.add(
+                  SliverList(delegate: SliverChildListDelegate([
+                    const SizedBox(height: Dimen.FLOATING_BUTTON_SIZE + 2*Dimen.FLOATING_BUTTON_MARG)
+                  ]))
+              );
 
-          },
-          child: Builder(
-            builder: (context){
+          }
 
-              List<Widget> slivers = [
+          return NestedScrollView(
+              floatHeaderSlivers: true,
+              headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [
                 const SliverAppBar(
                   floating: true,
-                  pinned: true,
                   centerTitle: true,
                   title: Text('Tropy'),
                 )
-              ];
-
-              if(Trop.allOwn.isEmpty && tropPreviewEmpty)
-                slivers.add(SliverFillRemaining(
-                    hasScrollBody: false,
-                    child: Center(
-                      child: SimpleButton(
-                          radius: AppCard.bigRadius,
-                          onTap: () => openNewTropBottomSheet(
-                              context,
-                              onNewTropSaved: (trop) =>
-                                  pushPage(context, builder: (context) => TropPage(trop))
-                          ),
-                          child: const Padding(
-                            padding: EdgeInsets.all(Dimen.SIDE_MARG),
-                            child: EmptyMessageWidget(
-                              icon: Trop.icon,
-                              text: 'Rozpocznij nowy trop!',
-                            ),
-                          )
-                      ),
-                    )
-                ));
-
-              else{
-
-                if(AccountData.loggedIn)
-                  slivers.add(SliverPadding(
-                      padding: const EdgeInsets.only(left: Dimen.SIDE_MARG),
-                      sliver: SliverList(delegate: SliverChildListDelegate([
-                        const TitleShortcutRowWidget(
-                          title: 'Moje lokalne tropy',
-                          textAlign: TextAlign.left,
-                        ),
-                      ]))));
-
-                if(Trop.allOwn.isEmpty)
-                  slivers.add(SliverList(delegate: SliverChildListDelegate([
-                    const NoTropWidget(),
-                  ])));
-                else
-                  slivers.add(SliverPadding(
-                    padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-                    sliver: SliverList(delegate: SliverChildSeparatedBuilderDelegate(
-                        (BuildContext context, int index) => SimpleButton(
-                          clipBehavior: Clip.none,
-                          radius: AppCard.bigRadius,
-                          child: TropTile(
-                            name: Trop.allOwn[index].name,
-                            category: Trop.allOwn[index].category,
-                            zuchTropName: Trop.allOwn[index].customIconTropName,
-                            trailing: TropTileProgressWidget(Trop.allOwn[index].completenessPercent),
-                            iconSize: TropIcon.defSize,
-                          ),
-                          onTap: () => pushPage(
-                              context,
-                              builder: (BuildContext context) => TropPage(Trop.allOwn[index])
-                          ),
-                        ),
-                        separatorBuilder: (BuildContext context, int index) => const SizedBox(height: Dimen.SIDE_MARG),
-                        count: Trop.allOwn.length
-                    )),
-                  ));
-
-                if(AccountData.loggedIn)
-                  slivers.add(SliverPadding(
-                    padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, top: Dimen.SIDE_MARG),
-                    sliver: SliverList(delegate: SliverChildListDelegate([
-                      const TitleShortcutRowWidget(
-                        title: 'Udostępnione tropy',
-                        textAlign: TextAlign.left,
-                      ),
-                    ])),
-                  ));
-
-                if(AccountData.loggedIn && tropPreviewEmpty)
-                  slivers.add(SliverList(delegate: SliverChildListDelegate([
-                    const NoTropWidget(),
-                  ])));
-                else if(AccountData.loggedIn)
-                  slivers.add(SliverPadding(
-                    padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-                    sliver: SliverList(delegate: SliverChildSeparatedBuilderDelegate(
-                        (BuildContext context, int index) => SimpleButton(
-                            clipBehavior: Clip.none,
-                            radius: AppCard.bigRadius,
-                            child: TropTile(
-                              name: TropPreviewData.all![index].name,
-                              category: TropPreviewData.all![index].category,
-                              zuchTropName: TropPreviewData.all![index].customIconTropName,
-                              // trailing: TropTileProgressWidget(TropPreviewData.all[index].completenessPercent),
-                              iconSize: TropIcon.defSize,
-                            ),
-                            onTap: () => loadPushTropPage(context, TropPreviewData.all![index])
-                        ),
-                        separatorBuilder: (BuildContext context, int index) => const SizedBox(height: Dimen.SIDE_MARG),
-                        count: TropPreviewData.all!.length
-                    )),
-                  ));
-
-                if(!moreToLoad)
-                  slivers.add(
-                      SliverList(delegate: SliverChildListDelegate([
-                        const SizedBox(height: Dimen.FLOATING_BUTTON_SIZE + 2*Dimen.FLOATING_BUTTON_MARG)
-                      ]))
-                  );
-
-              }
-
-              return CustomScrollView(
+              ],
+              body: SmartRefresher(
                 physics: const BouncingScrollPhysics(),
-                shrinkWrap: loginProv.loggedIn,
-                slivers: slivers,
-              );
+                enablePullDown: loginProv.loggedIn && !refreshController.isLoading,
+                enablePullUp: loginProv.loggedIn && moreToLoad && !refreshController.isRefresh,
+                footer: AppCustomFooter(
+                    moreToLoad: moreToLoad && !tropPreviewEmpty,
+                    showDotWhenAllLoaded: true
+                ),
+                header: MaterialClassicHeader(
+                  backgroundColor: cardEnab_(context),
+                  color: AppColors.zhpTropColor,
+                ),
+                controller: refreshController,
+                onRefresh: () async {
 
-            },
-          ),
-        )
+                  await loadTropPreviewsPage(reloadAll: true);
+
+                  if(mounted) refreshController.refreshCompleted();
+                  post(() => mounted?setState(() {}):null);
+
+                },
+                onLoading: () async {
+
+                  if(!moreToLoad) {
+                    refreshController.loadComplete();
+                    if(mounted) post(() => mounted?setState(() {}):null);
+                    return;
+                  }
+
+                  await loadTropPreviewsPage();
+
+                  if(mounted) refreshController.loadComplete(); // This is called in `post()` inside.
+                  if(mounted) post(() => mounted?setState(() {}):null);
+
+                },
+                child: CustomScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  shrinkWrap: loginProv.loggedIn,
+                  slivers: slivers,
+                ),
+              )
+          );
+
+        }
     ),
     floatingActionButton: ExtendedFloatingButton(
         MdiIcons.plus,
@@ -491,12 +488,12 @@ class TropyPageState extends State<TropyPage>{
       )
   );
 
-  Future<void> loadPushTropPage(BuildContext context, TropPreviewData data) async {
+  Future<void> loadPushTropPage(BuildContext context, TropSharedPreviewData data) async {
 
     Trop? loadSharedTrop;
-    if(Trop.allSharedWithMeMapByUniqName.containsKey(data.uniqName))
-      if(data.lastUpdateTime == Trop.allSharedWithMeMapByUniqName[data.uniqName]!.lastServerUpdateTime)
-        loadSharedTrop =  Trop.allSharedWithMeMapByUniqName[data.uniqName];
+    if(Trop.allSharedMapByUniqName.containsKey(data.uniqName))
+      if(data.lastUpdateTime == Trop.allSharedMapByUniqName[data.uniqName]!.lastServerUpdateTime)
+        loadSharedTrop =  Trop.allSharedMapByUniqName[data.uniqName];
 
     if(loadSharedTrop != null)
       pushPage(context, builder: (context) => TropPage(loadSharedTrop!));
@@ -506,7 +503,7 @@ class TropyPageState extends State<TropyPage>{
           tropUniqName: data.uniqName,
           onSuccess: (Trop trop) async {
             trop.dumpAsShared();
-            Trop.addSharedWithMeToAll(trop, context: context);
+            Trop.addSharedToAll(trop, context: context);
 
             if(!mounted) return;
             await popPage(context);

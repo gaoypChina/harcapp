@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
+import 'package:harcapp/_common_widgets/empty_message_widget.dart';
 import 'package:harcapp/_new/api/trop.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/model/trop.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_users_page/trop_user_tile_extended.dart';
@@ -7,7 +8,10 @@ import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/tr
 import 'package:harcapp/_new/cat_page_home/user_list_managment_loadable_page.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/values/consts.dart';
+import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
+import 'package:harcapp_core/comm_widgets/simple_button.dart';
+import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -39,8 +43,11 @@ class TropUsersPage extends StatefulWidget{
 
   final Trop trop;
 
+  final void Function(bool wasShared)? onUserAdded;
+
   const TropUsersPage({
     required this.trop,
+    this.onUserAdded,
     super.key
   });
 
@@ -53,6 +60,8 @@ class TropUsersPageState extends State<TropUsersPage>{
 
   Trop get trop => widget.trop;
   List<TropUser> get loadedUsers => trop.loadedUsers;
+
+  void Function(bool wasShared)? get onUserAdded => widget.onUserAdded;
 
   late TropLoadedUsersProvider tropLoadedUsersProv;
 
@@ -137,13 +146,10 @@ class TropUsersPageState extends State<TropUsersPage>{
         ),
 
         appBarActions: [
-          if(trop.myRole == TropRole.OWNER)
+          if(!trop.isShared || trop.myRole == TropRole.OWNER)
             IconButton(
                 icon: const Icon(MdiIcons.plus),
-                onPressed: () => showScrollBottomSheet(
-                    context: context,
-                    builder: (_) => AddUserBottomSheet(trop, context: context)
-                )
+                onPressed: () => openAddUserBottomSheet(context),
             )
         ],
 
@@ -160,7 +166,7 @@ class TropUsersPageState extends State<TropUsersPage>{
               usersPage.removeWhere((manager) => manager.key == me.key);
               usersPage.insert(0, me);
               trop.setAllLoadedUsers(usersPage, context: context);
-              trop.save(localOnly: true, synced: true);
+              trop.saveOwn(localOnly: true, synced: true);
               setState((){});
             },
             onForceLoggedOut: (){
@@ -190,7 +196,7 @@ class TropUsersPageState extends State<TropUsersPage>{
             lastUserKey: loadedUsers.length==1?null:loadedUsers.last.key,
             onSuccess: (observersPage){
               trop.addLoadedUsers(observersPage, context: context);
-              trop.save(localOnly: true, synced: true);
+              trop.saveOwn(localOnly: true, synced: true);
               if(mounted) setState((){});
             },
             onForceLoggedOut: (){
@@ -215,6 +221,17 @@ class TropUsersPageState extends State<TropUsersPage>{
         },
         callLoadOnInit: trop.loadedUsers.length == 1,
 
+        emptyWidget: Center(
+          child: SimpleButton(
+            radius: AppCard.bigRadius,
+            padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+            onTap: () => openAddUserBottomSheet(context),
+            child: const EmptyMessageWidget(
+              text: 'Zaproś nowe osoby\ndo tropu',
+              icon: Trop.icon,
+            ),
+          ),
+        )
       )
   );
 
@@ -222,5 +239,14 @@ class TropUsersPageState extends State<TropUsersPage>{
     TropUser me = observersPage.firstWhere((user) => user.key == AccountData.key);
     return me;
   }
+
+  void openAddUserBottomSheet(BuildContext context) => showScrollBottomSheet(
+      context: context,
+      builder: (_) => AddUserBottomSheet(
+          trop,
+          context: context,
+          onUserAdded: onUserAdded
+      )
+  );
 
 }

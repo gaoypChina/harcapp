@@ -6,18 +6,18 @@ import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/tr
 
 class TropPage extends StatelessWidget{
 
-  final Trop _trop;
-
-  Trop get trop => _trop;
+  final Trop trop;
+  final void Function(bool wasShared)? onUserAdded;
 
   const TropPage(
-      this._trop,
-      { super.key
+      this.trop,
+      { this.onUserAdded,
+        super.key
       });
 
   @override
   Widget build(BuildContext context) => BottomNavScaffold(
-    body: TropWidget(trop)
+    body: TropWidget(trop, onUserAdded: onUserAdded)
   );
 
 }

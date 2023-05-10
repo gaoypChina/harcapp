@@ -9,7 +9,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
-import 'package:harcapp_core/comm_widgets/app_text.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_new/cat_page_home/community/community_publishable.dart';
 import 'package:harcapp/_new/cat_page_home/community/forum/model/forum.dart';
@@ -255,16 +254,6 @@ class LoginPartState extends State<LoginPart>{
             onTap: () => pushPage(context, builder: (context) => const AccountReasonPage())
           ),
 
-          const SizedBox(height: Dimen.SIDE_MARG),
-
-          const Center(
-            child: AppText(
-              '<b>Póki co konta testowe nie działają.</b>\nBędą działać jak Główna Kwatera da serwer :)',
-              color: Colors.red,
-              textAlign: TextAlign.center,
-            ),
-          ),
-
           Expanded(
             child: PartTemplate(
                 title: 'Logowanie',
@@ -338,7 +327,6 @@ class LoginPartState extends State<LoginPart>{
                         ),
 
                         const SizedBox(width: Dimen.SIDE_MARG),
-
 
                         Expanded(
                           child: MainButton(

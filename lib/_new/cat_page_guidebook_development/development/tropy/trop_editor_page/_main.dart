@@ -82,6 +82,14 @@ class TropEditorPageState extends State<TropEditorPage>{
                   DateTime endTime = EndTimeProvider.of(context).endTime;
                   List<TropTaskData> tasks = [];
 
+                  if(startTime.isAfter(endTime)){
+                    showAppToast(context, text: 'Trop zaczyna się później niż kończy? Czas działa w drugą stronę...');
+                    return;
+                  } else if(endTime.difference(startTime) < const Duration(days: 3)){
+                    showAppToast(context, text: 'Trop krótszy niż 3 dni? To nie przejdzie');
+                    return;
+                  }
+
                   for(TropTaskEditableData taskTmp in TasksProvider.of(context).tasks) {
 
                     if(taskTmp.isEmpty) continue;
@@ -106,7 +114,7 @@ class TropEditorPageState extends State<TropEditorPage>{
                     initTrop!.endDate = endTime;
                     initTrop!.tasks = tasks.map((t) => t.toTask(initTrop!)).toList();
 
-                    initTrop!.save();
+                    initTrop!.saveOwn();
                     onSaved?.call(initTrop!);
                     Navigator.pop(context);
 
@@ -123,7 +131,7 @@ class TropEditorPageState extends State<TropEditorPage>{
                         tasks: tasks,
                         lastServerUpdateTime: null
                     );
-                    trop.save();
+                    trop.saveOwn();
                     await popPage(context);
                     onSaved?.call(trop);
                   }
@@ -554,7 +562,9 @@ class TropEditorPageState extends State<TropEditorPage>{
 
                                 showLoadingWidget(context, iconEnab_(context), 'Zwijanie tropu...');
 
-                                bool removed = initTrop!.delete(context: context);
+                                bool removed;
+                                if(initTrop!.isShared) removed = initTrop!.deleteShared(context: context);
+                                else removed = initTrop!.deleteOwn(context: context);
 
                                 Navigator.pop(context); // Close loading widget.
                                 if(removed) Navigator.pop(context); // Close edit page.

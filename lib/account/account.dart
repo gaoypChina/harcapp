@@ -460,7 +460,7 @@ class AccountData {
     CommunityPublishable.forget();
     Announcement.forget();
     IndivComp.forget();
-    TropPreviewData.forget();
+    TropSharedPreviewData.forget();
   }
 }
 

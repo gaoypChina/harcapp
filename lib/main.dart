@@ -414,7 +414,7 @@ class AppState extends State<App> with WidgetsBindingObserver {
         onLogin: (emailConf) async {
           if(!emailConf) return;
           await Statistics.commit();
-          Trop.fixNoUserInOwnTrops();
+          // Trop.fixNoUserInOwnTrops();
         },
         onRegistered: () async{
           await Statistics.commit();
@@ -423,7 +423,7 @@ class AppState extends State<App> with WidgetsBindingObserver {
         onEmailConfirmChanged: (emailConf) async {
           if(!emailConf) return;
           await Statistics.commit();
-          Trop.fixNoUserInOwnTrops();
+          // Trop.fixNoUserInOwnTrops();
           await indivCompLoader.run();
           await communitiesLoader.run();
         },

@@ -527,7 +527,7 @@ class ApiSync{
                 tasks: tasks,
                 lastServerUpdateTime: tropResp.lastUpdateTime
             );
-            trop.save(localOnly: true, synced: true);
+            trop.saveOwn(localOnly: true, synced: true);
             Trop.addOwnToAll(trop);
           }else{
             trop.applySyncGetResp(tropResp);

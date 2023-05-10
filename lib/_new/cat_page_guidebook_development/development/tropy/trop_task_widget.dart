@@ -92,7 +92,7 @@ class TropTaskWidgetState extends State<TropTaskWidget>{
                 prov.notify();
                 TropProvider.notify_(context);
                 TropListProvider.notify_(context);
-                trop.save();
+                trop.saveOwn();
               },
               child: Padding(
                 padding: const EdgeInsets.only(top: Dimen.defMarg/2),
@@ -180,7 +180,7 @@ class TropTaskWidgetState extends State<TropTaskWidget>{
                         String? summary = await summarizeTask(context, task: task, index: index);
                         if(summary == null) return;
                         task.summary = summary;
-                        trop.save();
+                        trop.saveOwn();
                         prov.notify();
 
                       }

@@ -38,7 +38,9 @@ class UserListManagementLoadablePage<T extends UserData> extends StatelessWidget
   final bool showIfEmpty;
   final Widget? bottom;
   final Widget? bottomNavigationBar;
-  
+
+  final Widget? emptyWidget;
+
   final int userCount;
   final FutureOr<int> Function() callReload;
   final FutureOr<int> Function() callLoadMore;
@@ -60,6 +62,8 @@ class UserListManagementLoadablePage<T extends UserData> extends StatelessWidget
     this.bottom,
 
     this.bottomNavigationBar,
+
+    this.emptyWidget,
 
     required this.userCount,
     required this.callReload,
@@ -113,6 +117,11 @@ class UserListManagementLoadablePage<T extends UserData> extends StatelessWidget
     callLoadOnInit: callLoadOnInit,
 
     sliverBody: Builder(builder: (context){
+
+      if(userCount == 0 && emptyWidget != null)
+        return SliverFillRemaining(
+          child: emptyWidget!,
+        );
 
       List<Widget> userSetWidgets = [];
 

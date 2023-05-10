@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_common_classes/date_format.dart';
 import 'package:harcapp/_common_classes/missing_decode_param_error.dart';
+import 'package:harcapp/_common_classes/sorted_list.dart';
 import 'package:harcapp/_common_classes/storage.dart';
 import 'package:harcapp/_new/api/sync_resp_body/trop_get_resp.dart';
 import 'package:harcapp/_new/api/sync_resp_body/trop_task_get_resp.dart';
@@ -163,30 +163,49 @@ String tropCategoryToName(TropCategory category){
   }
 }
 
-class TropPreviewData{
+class TropSharedPreviewData{
 
-  static List<TropPreviewData>? all;
-  static Map<String, TropPreviewData>? allMapByUniqName;
+  static SortedList<TropSharedPreviewData>? all;
+  static Map<String, TropSharedPreviewData>? allMapByUniqName;
+
+  static bool moreToLoad = true;
 
   static bool get hasAny => all != null && all!.isNotEmpty;
 
-  static addToAll(TropPreviewData t){
-    if(all == null){
-      all = [];
-      allMapByUniqName = {};
-    }
-    if(allMapByUniqName![t.uniqName] != null) return;
-
-    all!.add(t);
-    allMapByUniqName![t.uniqName] = t;
+  static int comparator(TropSharedPreviewData t1, TropSharedPreviewData t2){
+    int dateResult = compareText(t1.startDate.toIso8601String(), t2.startDate.toIso8601String());
+    if(dateResult != 0) return dateResult;
+    int nameResult = compareText(t1.name, t2.name);
+    if(nameResult != 0) return dateResult;
+    int keyResult = compareText(t1.uniqName, t2.uniqName);
+    return keyResult;
   }
 
-  static addAllToAll(List<TropPreviewData> tropPrevs){
-    if(all == null){
-      all = [];
-      allMapByUniqName = {};
-    }
-    for(TropPreviewData t in tropPrevs){
+  static void init(){
+    all = SortedList(comparator);
+    allMapByUniqName = {};
+  }
+
+  static bool? addToAll(TropSharedPreviewData trop){
+
+    // Returns true if added, false if trop might be in unloaded values.
+
+    if(all == null) init();
+    if(allMapByUniqName![trop.uniqName] != null) return null;
+
+    if(comparator(all!.last, trop) < 0 || !moreToLoad) {
+      all!.add(trop);
+      allMapByUniqName![trop.uniqName] = trop;
+      return true;
+    } else // if(moreToLoad)
+      return false;
+
+  }
+
+  static addAllToAll(List<TropSharedPreviewData> tropPrevs){
+    if(all == null) init();
+
+    for(TropSharedPreviewData t in tropPrevs){
       if(allMapByUniqName![t.uniqName] != null) continue;
 
       all!.add(t);
@@ -194,15 +213,27 @@ class TropPreviewData{
     }
   }
 
-  static void setAll(List<TropPreviewData> allTropPrevs) {
-    if (all == null) {
-      all = [];
-      allMapByUniqName = {};
-    } else {
+  static void setAll(List<TropSharedPreviewData> allTropPrevs) {
+    if (all == null)
+      init();
+    else {
       all!.clear();
       allMapByUniqName!.clear();
     }
     addAllToAll(allTropPrevs);
+  }
+
+  static removeFromAllByKey(String uniqName, {BuildContext? context}){
+    if(all == null) init();
+
+    TropSharedPreviewData? trop = allMapByUniqName![uniqName];
+
+    if(trop == null) return;
+
+    all!.remove(trop);
+    allMapByUniqName!.remove(trop.uniqName);
+
+    if(context == null) return;
   }
 
   static forget(){
@@ -216,6 +247,19 @@ class TropPreviewData{
     for (FileSystemEntity file in sharedTropyDir.listSync(recursive: false))
       if(!allMapByUniqName!.containsKey(basename(file.path)))
         file.deleteSync();
+  }
+
+  bool isWithinLoaded(TropSharedPreviewData trop){
+    if(all == null || all!.isEmpty) return false;
+    TropSharedPreviewData lastLoaded = all!.last;
+
+    int dateResult = compareText(trop.startDate.toIso8601String(), lastLoaded.startDate.toIso8601String());
+    int nameResult = compareText(trop.name, lastLoaded.name);
+    int keyResult = compareText(trop.uniqName, lastLoaded.uniqName);
+
+    return dateResult < 0 || (dateResult == 0 &&
+        nameResult < 0 || (nameResult == 0 &&
+        keyResult < 0));
   }
 
   void dumpAsPreview(){
@@ -248,7 +292,7 @@ class TropPreviewData{
 
   DateTime lastUpdateTime;
 
-  TropPreviewData({
+  TropSharedPreviewData({
     required this.uniqName,
     required this.name,
     required this.category,
@@ -260,7 +304,7 @@ class TropPreviewData{
     required this.lastUpdateTime,
   });
 
-  static TropPreviewData fromRespMap(Map respMapData, String uniqName) => TropPreviewData(
+  static TropSharedPreviewData fromRespMap(Map respMapData, String uniqName) => TropSharedPreviewData(
     uniqName: uniqName,
     name: respMapData[Trop.paramName]??(throw MissingDecodeParamError(Trop.paramName)),
     customIconTropName: respMapData[Trop.paramCustomIconTropName],
@@ -355,35 +399,35 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
     callProvidersOf(context);
   }
 
-  static late List<Trop> allSharedWithMe;
-  static late Map<String, Trop> allSharedWithMeMapByUniqName;
+  static late List<Trop> allShared;
+  static late Map<String, Trop> allSharedMapByUniqName;
 
-  static addSharedWithMeToAll(Trop t, {BuildContext? context}){
-    if(allSharedWithMeMapByUniqName[t.uniqName] != null) return;
+  static addSharedToAll(Trop t, {BuildContext? context}){
+    if(allSharedMapByUniqName[t.uniqName] != null) return;
 
-    allSharedWithMe.add(t);
-    allSharedWithMeMapByUniqName[t.uniqName] = t;
+    allShared.add(t);
+    allSharedMapByUniqName[t.uniqName] = t;
 
     if(context == null) return;
     callProvidersOf(context);
   }
 
-  static removeSharedWithMeFromAll(Trop t, {BuildContext? context}){
-    if(allSharedWithMeMapByUniqName[t.uniqName] == null) return;
+  static removeSharedFromAll(Trop t, {BuildContext? context}){
+    if(allSharedMapByUniqName[t.uniqName] == null) return;
 
-    allSharedWithMe.remove(t);
-    allSharedWithMeMapByUniqName.remove(t.uniqName);
+    allShared.remove(t);
+    allSharedMapByUniqName.remove(t.uniqName);
 
     if(context == null) return;
     callProvidersOf(context);
   }
   
-  static removeAbsentPreviewsFromSharedWithMe(){
+  static removeAbsentPreviewsFromShared(){
     Directory sharedTropyDir = Directory(getSharedTropPreviewDataFolderPath);
     for (FileSystemEntity file in sharedTropyDir.listSync(recursive: false)) {
       File tropFile = File(getSharedTropFolderPath + basename(file.path));
       if(!tropFile.existsSync()) return;
-      if(!allSharedWithMeMapByUniqName.containsKey(basename(file.path)))
+      if(!allSharedMapByUniqName.containsKey(basename(file.path)))
         tropFile.deleteSync();
     }
   }
@@ -393,10 +437,10 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
     allOwn = [];
     allOwnMapByUniqName = {};
     
-    allSharedWithMe = [];
-    allSharedWithMeMapByUniqName = {};
+    allShared = [];
+    allSharedMapByUniqName = {};
     
-    List<TropPreviewData> allPreviewData = [];
+    List<TropSharedPreviewData> allPreviewData = [];
     
     Directory ownTropDir = Directory(getOwnTropFolderPath);
     await ownTropDir.create(recursive: true);
@@ -406,15 +450,14 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
       allOwn.add(trop);
       allOwnMapByUniqName[trop.uniqName] = trop;
     }
-    fixNoUserInOwnTrops();
 
     Directory sharedTropDir = Directory(getSharedTropFolderPath);
     await sharedTropDir.create(recursive: true);
     for (FileSystemEntity file in sharedTropDir.listSync(recursive: false)) {
       Trop? trop = Trop.readSharedFromUniqName(basename(file.path));
       if(trop == null) continue;
-      allSharedWithMe.add(trop);
-      allSharedWithMeMapByUniqName[trop.uniqName] = trop;
+      allShared.add(trop);
+      allSharedMapByUniqName[trop.uniqName] = trop;
     }
 
     Directory previewDataTropDir = Directory(getSharedTropPreviewDataFolderPath);
@@ -422,7 +465,7 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
     for (FileSystemEntity file in previewDataTropDir.listSync(recursive: false)) {
       Map data = jsonDecode(readFileAsString(file.path));
       try {
-        TropPreviewData? tropPreviewData = TropPreviewData.fromRespMap(data, basename(file.path));
+        TropSharedPreviewData? tropPreviewData = TropSharedPreviewData.fromRespMap(data, basename(file.path));
         allPreviewData.add(tropPreviewData);
       } catch (e){
         logger.e(e);
@@ -430,7 +473,7 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
       }
     }
     
-    TropPreviewData.setAll(allPreviewData);
+    TropSharedPreviewData.setAll(allPreviewData);
 
     initialized = true;
   }
@@ -459,7 +502,7 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
 
   final String uniqName;
   // This can be null only when trop is not yet synced.
-  final DateTime? lastServerUpdateTime;
+  DateTime? lastServerUpdateTime;
 
   DateTime startDate;
   DateTime endDate;
@@ -737,7 +780,7 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
     logger.i('Dumped trop $uniqName');
   }
 
-  TropPreviewData toPreviewData() => TropPreviewData(
+  TropSharedPreviewData toPreviewData() => TropSharedPreviewData(
     uniqName: uniqName,
     name: name,
     customIconTropName: customIconTropName,
@@ -767,7 +810,7 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
     paramUserCount: userCount
   };
 
-  void save({localOnly = false, bool synced = false}){
+  void saveOwn({localOnly = false, bool synced = false}){
 
     // Mark removed tasks as removed.
     Trop? oldTrop = readOwnFromUniqName(uniqName, log: false);
@@ -798,7 +841,19 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
 
   }
 
-  bool delete({BuildContext? context}){
+  bool deleteShared({BuildContext? context}){
+    try{
+      File(getSharedTropFolderPath + uniqName).deleteSync();
+      removeSharedFromAll(this, context: context);
+      TropSharedPreviewData.removeFromAllByKey(uniqName);
+      return true;
+    }catch(e){
+      if(context != null) showAppToast(context, text: 'Wystąpił problem z usuwaniem tropu.');
+      return false;
+    }
+  }
+  
+  bool deleteOwn({BuildContext? context}){
     try{
       File(getOwnTropFolderPath + uniqName).deleteSync();
       removeOwnFromAll(this, context: context);
@@ -807,6 +862,15 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
       if(context != null) showAppToast(context, text: 'Wystąpił problem z usuwaniem tropu.');
       return false;
     }
+  }
+
+  void changedToShared(DateTime lastUpdateTime, {BuildContext? context}){
+    lastServerUpdateTime = lastUpdateTime;
+    deleteOwn(); // This call also calls `removeOwnFromAll`;
+    addSharedToAll(this);
+    TropSharedPreviewData.addToAll(toPreviewData());
+    dumpAsShared();
+    if(context != null) callProvidersOf(context);
   }
 
   // Assigned users
@@ -931,33 +995,39 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
       userCount -= 1;
   }
 
-  static void fixNoUserInOwnTrops() {
-    bool anyFixed = false;
-    for(Trop trop in allOwn) {
-      if (AccountData.loggedIn && trop.loadedUsers.isEmpty){
-        trop.addLoadedUsers([
-          TropUser(
-              key: AccountData.key!,
-              name: AccountData.name!,
-              shadow: false,
-              sex: Sex.male,
-              role: TropRole.OWNER,
-              tmpNick: null
-          )
-        ]);
-        trop.save(localOnly: true, synced: false);
-        anyFixed = true;
-      }
-    }
-    if(anyFixed) synchronizer.post();
-  }
+  // static void fixNoUserInOwnTrops() {
+  //   bool anyFixed = false;
+  //   for(Trop trop in allOwn) {
+  //     if (AccountData.loggedIn && trop.loadedUsers.isEmpty){
+  //       trop.addLoadedUsers([
+  //         TropUser(
+  //             key: AccountData.key!,
+  //             name: AccountData.name!,
+  //             shadow: false,
+  //             sex: Sex.male,
+  //             role: TropRole.OWNER,
+  //             tmpNick: null
+  //         )
+  //       ]);
+  //       trop.save(localOnly: true, synced: false);
+  //       anyFixed = true;
+  //     }
+  //   }
+  //   if(anyFixed) synchronizer.post();
+  // }
 
   bool isUserWithinLoaded(TropUser user){
     if(loadedUsers.isEmpty) return false;
     TropUser lastLoaded = loadedUsers.last;
-    return tropRoleToLoadingOrder(user.role) < tropRoleToLoadingOrder(lastLoaded.role) ||
-        compareText(user.name, lastLoaded.name) < 0 ||
-        compareText(user.key, lastLoaded.key) < 0;
+
+    int roleResult = tropRoleToLoadingOrder(user.role) - tropRoleToLoadingOrder(lastLoaded.role);
+    int nameResult = compareText(user.name, lastLoaded.name);
+    int keyResult = compareText(user.key, lastLoaded.key);
+
+    return roleResult < 0 || (roleResult == 0 &&
+        nameResult < 0 && (nameResult == 0 ||
+        keyResult < 0)
+    );
   }
 
 
@@ -1051,6 +1121,8 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
     completed = resp.completed;
     completionDate = resp.completionDate;
 
+    lastServerUpdateTime = resp.lastUpdateTime;
+
     setAllAssignedUsers(resp.assignedUsers.values.toList());
 
     List<String> taskLclIds = resp.tasks.keys.toList();
@@ -1130,7 +1202,7 @@ class TropTask extends TropTaskData with SyncableParamGroupMixin, SyncGetRespNod
   static const String paramContent = 'content';
   static const String paramSummary = 'summary';
   static const String paramDeadline = 'deadline';
-  static const String paramAssigneeNick = 'assigneeNick';
+  static const String paramAssigneeKey = 'assigneeKey';
   static const String paramAssigneeCustomText = 'assigneeCustomText';
   static const String paramCompleted = 'completed';
 
@@ -1180,7 +1252,6 @@ class TropTask extends TropTaskData with SyncableParamGroupMixin, SyncGetRespNod
     paramContent: content,
     paramSummary: summary,
     paramDeadline: deadline.toIso8601String(),
-    paramAssigneeNick: assignee?.tmpNick,
     paramAssigneeCustomText: assigneeCustomText,
     paramCompleted: completed,
   };
@@ -1190,7 +1261,7 @@ class TropTask extends TropTaskData with SyncableParamGroupMixin, SyncGetRespNod
     content: respMapData[paramContent]??(throw MissingDecodeParamError(paramContent)),
     summary: respMapData[paramSummary],
     deadline: DateTime.tryParse(respMapData[paramDeadline])??(throw MissingDecodeParamError(paramDeadline)),
-    assignee: trop._assignedUsersMap[respMapData[paramAssigneeNick]],
+    assignee: trop._assignedUsersMap[respMapData[paramAssigneeKey]],
     assigneeCustomText: respMapData[paramAssigneeCustomText],
     completed: respMapData[paramCompleted]??false,
     trop: trop,
@@ -1240,7 +1311,7 @@ class TropTask extends TropTaskData with SyncableParamGroupMixin, SyncGetRespNod
 
     SyncableParamSingle(
       this,
-      paramId: paramAssigneeNick,
+      paramId: paramAssigneeKey,
       value: () => assignee?.key,
     ),
 

@@ -160,10 +160,11 @@ class TropUserTileExtendedState extends State<TropUserTileExtended>{
           await ApiTrop.updateUsers(
               tropUniqName: trop.uniqName,
               users: [TropUserUpdateBody(user.key, role: Optional.of(newRole))],
-              onSuccess: (List<TropUser> updatedUsers) async {
+              onSuccess: (List<TropUser> updatedUsers, DateTime lastSyncTime) async {
                 trop.updateLoadedUsers(updatedUsers, context: context);
                 trop.updateAssignedUsers(updatedUsers, context: context);
-                trop.save(localOnly: true, synced: true);
+                trop.lastServerUpdateTime = lastSyncTime;
+                trop.saveOwn(localOnly: true, synced: true);
                 Navigator.pop(context); // Close loading widget
                 await onSuccess?.call();
               },
@@ -183,56 +184,53 @@ class TropUserTileExtendedState extends State<TropUserTileExtended>{
         }
     );
 
-  Future<void> showRemoveManagerDialog() async {
+  Future<void> showRemoveManagerDialog() => showRemoveDialog(
+      context: context,
+      isMe: user.key == AccountData.key,
+      loosingAdmin: user.key == AccountData.key,
+      currAdminCount: trop.loadedUsers.where((u) => u.role == TropRole.OWNER).length,
+      removingUserTitleMess: 'Wypraszanie ogarniacza...',
+      removingUserDetailMess: '${user.name} nie będzie mieć dłużej dostępu do zarządzania tropem.\n\nNa pewno chcesz ${user.isMale?'go':'ją'} wyprosić?',
+      handleRemove: () async {
 
-    showRemoveDialog(
-        context: context,
-        isMe: user.key == AccountData.key,
-        loosingAdmin: user.key == AccountData.key,
-        currAdminCount: trop.loadedUsers.where((u) => u.role == TropRole.OWNER).length,
-        removingUserTitleMess: 'Wypraszanie ogarniacza...',
-        removingUserDetailMess: '${user.name} nie będzie mieć dłużej dostępu do zarządzania tropem.\n\nNa pewno chcesz ${user.isMale?'go':'ją'} wyprosić?',
-        handleRemove: () async {
+        showLoadingWidget(context, iconEnab_(context), 'Wypraszanie koordynatora...');
+        await ApiTrop.removeUsers(
+            tropUniqName: trop.uniqName,
+            userKeys: [user.key],
+            onSuccess: (List<String> removedUsers, DateTime lastSyncTime) async {
+              trop.removeLoadedUsersByKey(removedUsers, context: context);
+              trop.lastServerUpdateTime = lastSyncTime;
+              trop.saveOwn(localOnly: true, synced: true);
 
-          showLoadingWidget(context, iconEnab_(context), 'Wypraszanie koordynatora...');
-          await ApiTrop.removeUsers(
-              tropUniqName: trop.uniqName,
-              userKeys: [user.key],
-              onSuccess: (List<String> removedUsers) async {
-                trop.removeLoadedUsersByKey(removedUsers, context: context);
-                trop.save(localOnly: true, synced: true);
+              if(!mounted) return;
+              showAppToast(context, text: 'Wyproszono');
+              await popPage(context);
+            },
+            onForceLoggedOut: () {
+              if(!mounted) return true;
+              showAppToast(context, text: forceLoggedOutMessage);
+              Navigator.pop(context); // Close loading widget.
+              return true;
+            },
+            onServerMaybeWakingUp: () {
+              if(mounted) showServerWakingUpToast(context);
+              return true;
+            },
+            onError: () async {
+              if(!mounted) return;
+              showAppToast(context, text: simpleErrorMessage);
+              await popPage(context);
+            }
+        );
 
-                if(!mounted) return;
-                showAppToast(context, text: 'Wyproszono');
-                await popPage(context);
-              },
-              onForceLoggedOut: () {
-                if(!mounted) return true;
-                showAppToast(context, text: forceLoggedOutMessage);
-                Navigator.pop(context); // Close loading widget.
-                return true;
-              },
-              onServerMaybeWakingUp: () {
-                if(mounted) showServerWakingUpToast(context);
-                return true;
-              },
-              onError: () async {
-                if(!mounted) return;
-                showAppToast(context, text: simpleErrorMessage);
-                await popPage(context);
-              }
-          );
-
-        }
-    );
-
-  }
+      }
+  );
 
   @override
   Widget build(BuildContext context) => TropUserTile(
     user: user,
     onTap: openDetails,
-    heroTag: heroTag,
+    heroTag: heroTag
   );
 
 }

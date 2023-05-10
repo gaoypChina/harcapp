@@ -45,7 +45,7 @@ class ApiTrop{
     required String? lastStartTime,
     required String? lastName,
     required String? lastTropUniqName,
-    FutureOr<void> Function(List<TropPreviewData>)? onSuccess,
+    FutureOr<void> Function(List<TropSharedPreviewData>)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
     FutureOr<bool> Function()? onServerMaybeWakingUp,
     FutureOr<void> Function()? onError,
@@ -63,10 +63,10 @@ class ApiTrop{
       onSuccess: (Response response, DateTime now) async {
         if(onSuccess == null) return;
 
-        List<TropPreviewData> trops = [];
+        List<TropSharedPreviewData> trops = [];
         Map tropPreviewsRespMap = response.data;
         for(String tropUniqName in tropPreviewsRespMap.keys)
-          trops.add(TropPreviewData.fromRespMap(tropPreviewsRespMap[tropUniqName]!, tropUniqName));
+          trops.add(TropSharedPreviewData.fromRespMap(tropPreviewsRespMap[tropUniqName]!, tropUniqName));
 
         onSuccess(trops);
       },
@@ -114,7 +114,7 @@ class ApiTrop{
   static Future<Response?> addUsers({
     required String tropUniqName,
     required List<TropUserBodyNick> users,
-    FutureOr<void> Function(List<TropUser>)? onSuccess,
+    FutureOr<void> Function(List<TropUser>, DateTime lastSyncTime)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
     FutureOr<bool> Function()? onServerMaybeWakingUp,
     FutureOr<void> Function()? onError,
@@ -141,7 +141,8 @@ class ApiTrop{
           for(MapEntry memEntry in usersRespMap.entries)
             addedUsers.add(TropUser.fromRespMap(memEntry.value, key: memEntry.key));
 
-          onSuccess(addedUsers);
+          // on the backend side `now` is set to be same as trop's `lastSyncTime`
+          onSuccess(addedUsers, now);
         },
         onForceLoggedOut: onForceLoggedOut,
         onServerMaybeWakingUp: onServerMaybeWakingUp,
@@ -153,7 +154,7 @@ class ApiTrop{
   static Future<Response?> updateUsers({
     required String tropUniqName,
     required List<TropUserUpdateBody> users,
-    FutureOr<void> Function(List<TropUser>)? onSuccess,
+    FutureOr<void> Function(List<TropUser>, DateTime lastSyncTime)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
     FutureOr<bool> Function()? onServerMaybeWakingUp,
     FutureOr<void> Function()? onError,
@@ -180,7 +181,8 @@ class ApiTrop{
           for(MapEntry managerEntry in usersRespMap.entries)
             updatedUsers.add(TropUser.fromRespMap(managerEntry.value, key: managerEntry.key));
 
-          onSuccess(updatedUsers);
+          // on the backend side `now` is set to be same as trop's `lastSyncTime`
+          onSuccess(updatedUsers, now);
         },
         onForceLoggedOut: onForceLoggedOut,
         onServerMaybeWakingUp: onServerMaybeWakingUp,
@@ -192,7 +194,7 @@ class ApiTrop{
   static Future<Response?> removeUsers({
     required String tropUniqName,
     required List<String> userKeys,
-    FutureOr<void> Function(List<String> removedKeys)? onSuccess,
+    FutureOr<void> Function(List<String> removedKeys, DateTime lastSyncTime)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
     FutureOr<bool> Function()? onServerMaybeWakingUp,
     FutureOr<void> Function()? onError,
@@ -203,7 +205,7 @@ class ApiTrop{
           data: jsonEncode(userKeys)
       ),
       onSuccess: (Response response, DateTime now) async =>
-      await onSuccess?.call((response.data as List).cast<String>()),
+      await onSuccess?.call((response.data as List).cast<String>(), now),
       onForceLoggedOut: onForceLoggedOut,
       onServerMaybeWakingUp: onServerMaybeWakingUp,
       onError: (err) async => await onError?.call()
@@ -227,6 +229,40 @@ class ApiTrop{
       try {
         Trop trop = Trop.fromRespMap(tropRawData, tropUniqName);
         await onSuccess?.call(trop);
+      } catch(e) {
+        await onError?.call(null);
+      }
+
+    },
+    onForceLoggedOut: onForceLoggedOut,
+    onServerMaybeWakingUp: onServerMaybeWakingUp,
+    onError: (err) async => onError?.call(err.response),
+  );
+
+  static Future<Response?> updateTaskAssignee({
+    required String tropUniqName,
+    required String tropTaskUniqName,
+    required String userNick,
+    FutureOr<void> Function(TropUser user, DateTime lastSyncTime)? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<void> Function(Response? response)? onError,
+  }) async => await API.sendRequest(
+    withToken: true,
+    requestSender: (Dio dio) async => await dio.put(
+      '${API.SERVER_URL}api/trop/$tropUniqName/task/$tropTaskUniqName/assignee',
+      queryParameters: {
+        'userNick': userNick
+      }
+    ),
+    onSuccess: (Response response, DateTime now) async {
+
+      Map<String, dynamic> userRawData = response.data;
+
+      try {
+        TropUser user = TropUser.fromRespMap(userRawData);
+        // on the backend side `now` is set to be same as trop's `lastSyncTime`
+        await onSuccess?.call(user, now);
       } catch(e) {
         await onError?.call(null);
       }
