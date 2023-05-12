@@ -3,6 +3,7 @@ import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/border_material.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/model/trop.dart';
+import 'package:harcapp/account/account.dart';
 import 'package:harcapp/values/colors.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
@@ -13,6 +14,8 @@ import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
+
+import 'model/trop_role.dart';
 
 
 class TropTaskContentWidget extends StatelessWidget{
@@ -72,6 +75,12 @@ class TropTaskWidgetState extends State<TropTaskWidget>{
   TropTask get task => widget.task;
   int get index => widget.index;
 
+  bool get tropSelectable{
+    if(!trop.isShared) return true;
+    if(trop.myRole == TropRole.OWNER) return true;
+    return task.assignee?.key == AccountData.key;
+  }
+
   @override
   Widget build(BuildContext context) => Consumer<TropTaskProvider>(
     builder: (context, prov, child) => Column(
@@ -87,13 +96,13 @@ class TropTaskWidgetState extends State<TropTaskWidget>{
                 topRight: Radius.circular(AppCard.bigRadius),
               ),
               color: cardEnab_(context),
-              onTap: () {
+              onTap: tropSelectable?() {
                 setState(() => task.completed = !task.completed);
                 prov.notify();
                 TropProvider.notify_(context);
                 TropListProvider.notify_(context);
                 trop.saveOwn();
-              },
+              }:null,
               child: Padding(
                 padding: const EdgeInsets.only(top: Dimen.defMarg/2),
                 child: Row(
@@ -107,7 +116,11 @@ class TropTaskWidgetState extends State<TropTaskWidget>{
                       style: AppTextStyle(
                           fontSize: Dimen.TEXT_SIZE_BIG,
                           fontWeight: weight.halfBold,
-                          color: task.completed?AppColors.zhpTropColor:iconEnab_(context)
+                          color: !tropSelectable?
+                          iconDisab_(context):
+                          task.completed?
+                          AppColors.zhpTropColor:
+                          iconEnab_(context)
                       ),
                     ),
 
@@ -117,7 +130,9 @@ class TropTaskWidgetState extends State<TropTaskWidget>{
                         child: Checkbox(
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimen.ICON_SIZE)),
                           checkColor: cardEnab_(context),
-                          activeColor: AppColors.zhpTropColor,
+                          activeColor: tropSelectable?
+                          AppColors.zhpTropColor:
+                          iconEnab_(context),
                           onChanged: (value){},
                           value: task.completed,
                         ),

@@ -281,10 +281,11 @@ class TropyPageState extends State<TropyPage>{
           return NestedScrollView(
               floatHeaderSlivers: true,
               headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [
-                const SliverAppBar(
+                SliverAppBar(
                   floating: true,
                   centerTitle: true,
-                  title: Text('Tropy'),
+                  title: const Text('Tropy'),
+                  forceElevated: innerBoxIsScrolled,
                 )
               ],
               body: SmartRefresher(
@@ -365,19 +366,10 @@ class TropyPageState extends State<TropyPage>{
                   leading: const TropIcon(TropCategory.harcZaradnosc, size: 52.0,),
                   title: Text('Nowy trop harcerski', style: AppTextStyle(fontWeight: weight.halfBold)),
                   subtitle: Text('...ale też HS i W', style: AppTextStyle()),
-                  onTap: (){
-                    Navigator.pop(context);
-                    TropProvider tropProvider = TropProvider.of(context);
-                    TropListProvider tropListProvider = TropListProvider.of(context);
-                    pushPage(context, builder: (_) => TropEditorPage(
+                  onTap: () => pushReplacePage(context, builder: (_) => TropEditorPage(
                         allCategories: allHarcTropCategories,
-                        onSaved: (Trop trop){
-                          Trop.addOwnToAll(trop);
-                          Trop.callProviders(tropProvider, tropListProvider);
-                          onNewTropSaved?.call(trop);
-                        }
-                    ));
-                  }
+                        onSaved: onNewTropSaved
+                    ))
               ),
 
               ListTile(
@@ -387,21 +379,13 @@ class TropyPageState extends State<TropyPage>{
                   leading: const TropIcon(TropCategory.zuchObywatelskie, size: 52.0, zuchTropName: 'biale_orly',),
                   title: Text('Nowy trop zuchowy', style: AppTextStyle(fontWeight: weight.halfBold)),
                   subtitle: Text('...z listy gotowców', style: AppTextStyle()),
-                  onTap: (){
-                    Navigator.pop(context);
-                    TropProvider tropProvider = TropProvider.of(context);
-                    TropListProvider tropListProvider = TropListProvider.of(context);
-                    pushPage(context, builder: (context) => TropPredefPage(
+                  onTap: () => pushReplacePage(context, builder: (context) => TropPredefPage(
                       metoShort: 'Z',
                       predefTrops: zuchTrops,
                       allCategories: allZuchTropCategories,
-                      onNewTropSaved: (trop){
-                        Trop.addOwnToAll(trop);
-                        Trop.callProviders(tropProvider, tropListProvider);
-                        onNewTropSaved?.call(trop);
-                      },
-                    ));
-                  }
+                      onNewTropSaved: onNewTropSaved,
+                    ))
+
               ),
 
               const SizedBox(height: Dimen.SIDE_MARG),
@@ -502,7 +486,7 @@ class TropyPageState extends State<TropyPage>{
       await ApiTrop.getTrop(
           tropKey: data.key,
           onSuccess: (Trop trop) async {
-            trop.dumpAsShared();
+            trop.saveShared();
             Trop.addSharedToAll(trop, context: context);
 
             if(!mounted) return;

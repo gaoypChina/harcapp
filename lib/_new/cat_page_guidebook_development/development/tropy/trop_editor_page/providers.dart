@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/model/trop.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/model/trop_user.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
 class NameControllerProvider extends ChangeNotifier{
 
@@ -107,10 +108,10 @@ class TropTaskEditableData{
   String? lclId;
   
   late TextEditingController contentController;
-  late DateTime deadline;
+  DateTime deadline;
 
-  late TropUser? currentAssignee;
-  late TropUserNick? newAssignee;
+  TropUser? currentAssignee;
+  TropUserNick? newAssignee;
   late TextEditingController assigneeController;
 
   TropUser? get assignee => newAssignee??currentAssignee;
@@ -124,8 +125,8 @@ class TropTaskEditableData{
 
   bool get isEmpty => contentController.text.isEmpty;
 
-  TropTaskData toTaskData() => TropTaskData(
-    lclId: lclId,
+  TropTaskData toTaskData({bool setLclIdIfNull = false}) => TropTaskData(
+    lclId: lclId??(setLclIdIfNull?const Uuid().v4():null),
     content: contentController.text,
     deadline: deadline,
     newAssignee: newAssignee,
@@ -143,11 +144,11 @@ class TasksProvider extends ChangeNotifier{
 
   late List<TropTaskEditableData> tasks;
 
-  TasksProvider({Trop? initTrop, TropBaseData? initTropBaseData}){
+  TasksProvider({Trop? initTrop, TropBaseData<TropTaskExampleData>? initTropBaseData}){
 
     tasks = [];
     if(initTropBaseData != null)
-      for(TropTaskBaseData t in initTropBaseData.tasks)
+      for(TropTaskExampleData t in initTropBaseData.tasks)
         tasks.add(TropTaskEditableData(
           null,
           t.content,

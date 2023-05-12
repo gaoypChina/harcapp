@@ -60,6 +60,17 @@ class TropUserNick extends TropUser{
     required this.nick,
   });
 
-
+  static TropUserNick fromUserDataNick(
+      UserDataNick userData,
+      { required TropRole role,
+      })
+  => TropUserNick(
+    key: userData.key,
+    name: userData.name,
+    shadow: userData.shadow,
+    sex: userData.sex,
+    role: role,
+    nick: userData.nick
+  );
 
 }

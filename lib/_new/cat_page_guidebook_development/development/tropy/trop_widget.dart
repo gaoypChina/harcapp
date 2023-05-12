@@ -75,9 +75,7 @@ class TropWidgetState extends State<TropWidget>{
                 if(!trop.isShared || (trop.isShared && trop.myRole == TropRole.OWNER))
                   IconButton(
                     icon: const Icon(MdiIcons.pencilOutline),
-                    onPressed: () {
-
-                      pushPage(context, builder: (context) => TropEditorPage(
+                    onPressed: () => pushPage(context, builder: (context) => TropEditorPage(
                           initTrop: trop,
                           allCategories:
                           trop.isCategoryHarc?
@@ -88,9 +86,7 @@ class TropWidgetState extends State<TropWidget>{
                             showAppToast(context, text: 'Trop poprawiony');
                             prov.notify();
                           }
-                      ));
-
-                    },
+                      ))
                   )
               ],
             ),

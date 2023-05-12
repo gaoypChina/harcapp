@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/border_material.dart';
@@ -8,11 +9,16 @@ import 'package:harcapp/_common_widgets/loading_widget.dart';
 import 'package:harcapp/_new/api/trop.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_editor_page/providers.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_icon.dart';
+import 'package:harcapp/account/account.dart';
+import 'package:harcapp/account/account_page/account_page.dart';
+import 'package:harcapp/account/search_user_dialog.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
+import 'package:harcapp/values/app_values.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/date_to_str.dart';
+import 'package:harcapp_core/comm_classes/network.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/app_text_field_hint.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
@@ -24,6 +30,8 @@ import 'package:optional/optional_internal.dart';
 import 'package:provider/provider.dart';
 
 import '../model/trop.dart';
+import '../model/trop_role.dart';
+import '../model/trop_user.dart';
 
 class TropEditorPage extends StatefulWidget{
 
@@ -114,7 +122,7 @@ class TropEditorPageState extends State<TropEditorPage>{
 
                     if(taskTmp.isEmpty) continue;
 
-                    TropTaskData task = taskTmp.toTaskData();
+                    TropTaskData task = taskTmp.toTaskData(setLclIdIfNull: true);
                     if(task.newAssignee != null) isAnyTaskShared = true;
                     tasks.add(task);
                   }
@@ -135,9 +143,12 @@ class TropEditorPageState extends State<TropEditorPage>{
 
                   String? customIconTropName = initTropBaseData?.customIconTropName;
 
+                  TropProvider tropProvider = TropProvider.of(context);
+                  TropListProvider tropListProvider = TropListProvider.of(context);
+
                   if(editMode) {
 
-                    if(initTrop!.isShared){
+                    if(initTrop!.isShared || isAnyTaskShared){
                       ApiTrop.update(
                           trop: initTrop!,
 
@@ -161,12 +172,12 @@ class TropEditorPageState extends State<TropEditorPage>{
                           null:
                           aims,
 
-                          dateStart:
+                          startDate:
                           initTrop!.startDate == startTime?
                           null:
                           startTime,
 
-                          dateEnd:
+                          endDate:
                           initTrop!.endDate == endTime?
                           null:
                           endTime,
@@ -176,10 +187,13 @@ class TropEditorPageState extends State<TropEditorPage>{
 
                           tasks: tasks,
 
-                          onSuccess: (community) async {
+                          onSuccess: (trop) async {
+                            if(!initTrop!.isShared)
+                              trop.changedToShared(trop.lastServerUpdateTime!);
                             await popPage(context); // Close loading widget.
                             await popPage(context);
-                            onSaved?.call(community);
+                            onSaved?.call(trop);
+                            Trop.callProviders(tropProvider, tropListProvider);
                           },
                           onForceLoggedOut: () async {
                             if(!mounted) return true;
@@ -195,6 +209,7 @@ class TropEditorPageState extends State<TropEditorPage>{
                           },
                           onError: (_) async {
                             await popPage(context); // Close loading widget.
+                            if(mounted) showAppToast(context, text: simpleErrorMessage);
                             onError?.call();
                           }
                       );
@@ -206,11 +221,13 @@ class TropEditorPageState extends State<TropEditorPage>{
                       initTrop!.endDate = endTime;
                       initTrop!.tasks = tasks.map((t) => t.toTask(initTrop!)).toList();
                       initTrop!.saveOwn();
-                    }
+                      synchronizer.post();
 
-                    onSaved?.call(initTrop!);
-                    Trop.callProvidersOf(context);
-                    Navigator.pop(context);
+                      await popPage(context); // Close loading widget.
+                      await popPage(context);
+                      onSaved?.call(initTrop!);
+                      Trop.callProviders(tropProvider, tropListProvider);
+                    }
 
                   } else {
 
@@ -220,16 +237,19 @@ class TropEditorPageState extends State<TropEditorPage>{
                           customIconTropName: customIconTropName,
                           category: category,
                           aims: aims,
-                          dateStart: startTime,
-                          dateEnd: endTime,
+                          startDate: startTime,
+                          endDate: endTime,
                           completed: false,
                           completionDate: null,
                           tasks: tasks,
 
                           onSuccess: (trop) async {
+                            trop.saveShared();
+                            Trop.addSharedToAll(trop);
                             await popPage(context); // Close loading widget.
                             await popPage(context);
                             onSaved?.call(trop);
+                            Trop.callProviders(tropProvider, tropListProvider);
                           },
                           onForceLoggedOut: () async {
                             if(!mounted) return true;
@@ -245,6 +265,7 @@ class TropEditorPageState extends State<TropEditorPage>{
                           },
                           onError: (_) async {
                             await popPage(context); // Close loading widget.
+                            if(mounted) showAppToast(context, text: simpleErrorMessage);
                             onError?.call();
                           }
                       );
@@ -262,14 +283,15 @@ class TropEditorPageState extends State<TropEditorPage>{
                           lastServerUpdateTime: null
                       );
                       trop.saveOwn();
+                      Trop.addOwnToAll(trop);
+                      synchronizer.post();
                       await popPage(context); // Close loading widget.
                       await popPage(context);
                       onSaved?.call(trop);
+                      Trop.callProviders(tropProvider, tropListProvider);
                     }
 
                   }
-
-                  synchronizer.post();
 
                 },
               )
@@ -573,7 +595,10 @@ class TropEditorPageState extends State<TropEditorPage>{
 
                                   Expanded(child: Align(
                                     alignment: Alignment.centerLeft,
-                                    child: AssigneeButton(prov.tasks[index]),
+                                    child: AssigneeButton(
+                                      prov.tasks[index],
+                                      onAssigneeSelected: (_) => setState(() {}),
+                                    ),
                                   )),
 
                                   SimpleButton.from(
@@ -722,8 +747,9 @@ class TropEditorPageState extends State<TropEditorPage>{
 class AssigneeButton extends StatelessWidget{
 
   final TropTaskEditableData task;
+  final void Function(TropUserNick)? onAssigneeSelected;
 
-  const AssigneeButton(this.task, {super.key});
+  const AssigneeButton(this.task, {this.onAssigneeSelected, super.key});
 
   String? get assigneeName{
     if(task.assignee != null)
@@ -742,7 +768,7 @@ class AssigneeButton extends StatelessWidget{
     icon: assigneeName==null?MdiIcons.pencilOutline:MdiIcons.accountCircleOutline,
     textColor: task.assignee==null&&task.assigneeController.text.isEmpty?
     iconDisab_(context):
-    textEnab_(context),
+    iconEnab_(context),
     margin: EdgeInsets.zero,
     onTap: () => openAssigneeTypeChooserBottomSheet(context)
   );
@@ -778,16 +804,44 @@ class AssigneeButton extends StatelessWidget{
                 },
               ),
 
-              ListTile(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(AppCard.bigRadius),
-                ),
-                leading: const Icon(MdiIcons.accountCircleOutline),
-                title: Text('Wybierz konto HarcApp', style: AppTextStyle()),
-                onTap: (){
-                  showAppToast(context, text: 'Na razie to nie działa!');
-                },
-              )
+              if(account)
+                ListTile(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(AppCard.bigRadius),
+                  ),
+                  leading: const Icon(MdiIcons.accountCircleOutline),
+                  title: Text('Wybierz konto HarcApp', style: AppTextStyle()),
+                  onTap: () async {
+
+                    if(!AccountData.loggedIn){
+                      AccountPage.open(context);
+                      return;
+                    }
+
+
+                    if(!await isNetworkAvailable()){
+                      showAppToast(context, text: 'Brak dostępu do Internetu');
+                      return;
+                    }
+
+                    Navigator.pop(context); // Hide bottom sheet.
+
+                    UserDataNick? userData = await openSearchUserDialog(
+                        context,
+                        title: 'Dodaj ogarniacza zadania',
+                        illegalAttemptMessage: 'Że niby chcesz dodać kogoś po raz drugi?'
+                    );
+
+                    if(userData == null)
+                      return;
+
+                    if(userData.key != task.currentAssignee?.key)
+                      task.newAssignee = TropUserNick.fromUserDataNick(userData, role: TropRole.REGULAR);
+
+                    onAssigneeSelected?.call(task.newAssignee!);
+
+                  },
+                )
 
             ],
           )

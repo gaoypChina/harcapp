@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:harcapp/_common_classes/date_format.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/model/trop.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/model/trop_role.dart';
+import 'package:harcapp/sync/syncable.dart';
 import 'package:optional/optional_internal.dart';
 import 'package:webfeed/util/iterable.dart';
 
@@ -229,7 +231,7 @@ class ApiTrop{
       Map<String, dynamic> tropRawData = response.data;
 
       try {
-        Trop trop = Trop.fromRespMap(tropRawData, tropKey);
+        Trop trop = Trop.fromRespMap(tropRawData, key: tropKey, isShared: true);
         await onSuccess?.call(trop);
       } catch(e) {
         await onError?.call(null);
@@ -280,8 +282,8 @@ class ApiTrop{
     required String? customIconTropName,
     required TropCategory category,
     required List<String> aims,
-    required DateTime dateStart,
-    required DateTime dateEnd,
+    required DateTime startDate,
+    required DateTime endDate,
     required bool? completed,
     required DateTime? completionDate,
     required List<TropTaskData> tasks,
@@ -300,15 +302,18 @@ class ApiTrop{
       withToken: true,
       requestSender: (Dio dio) async => await dio.post(
           '${API.SERVER_URL}api/trop',
+          options: Options(headers: {
+            HttpHeaders.contentTypeHeader: 'application/json',
+          }),
           data: {
             'name': name,
             if(customIconTropName != null) 'customIconTropName': customIconTropName,
             'category': tropCategoryToStr(category),
             'aims': aims,
-            'dateStart': formatDate(dateStart),
-            'dateEnd': formatDate(dateEnd),
+            'startDate': formatDate(startDate),
+            'endDate': formatDate(endDate),
             if(completed != null) 'completed': completed,
-            if(completionDate != null) 'completionDate': completionDate,
+            if(completionDate != null) 'completionDate': formatDate(completionDate),
             'tasks': tasksMap
           }
       ),
@@ -317,7 +322,7 @@ class ApiTrop{
         Map<String, dynamic> tropData = response.data;
 
         try {
-          Trop trop = Trop.fromRespMap(tropData, tropData['lclId']);
+          Trop trop = Trop.fromRespMap(tropData, isShared: true);
           // on the backend side `now` is set to be same as trop's `lastSyncTime`
           await onSuccess?.call(trop);
         } catch(e) {
@@ -337,8 +342,8 @@ class ApiTrop{
     required Optional<String>? customIconTropName,
     required TropCategory? category,
     required List<String>? aims,
-    required DateTime? dateStart,
-    required DateTime? dateEnd,
+    required DateTime? startDate,
+    required DateTime? endDate,
     required bool? completed,
     required Optional<DateTime>? completionDate,
     required List<TropTaskData>? tasks,
@@ -350,29 +355,42 @@ class ApiTrop{
   }) async {
 
     Map tasksMap = {};
-    if(tasks != null)
-      for(TropTaskData task in tasks) {
+    if(tasks != null) {
+      for (TropTaskData task in tasks) {
         TropTask? currentTask = trop.tasks.where((t) => t.lclId == task.lclId).firstOrNull;
 
-        if(currentTask == null)
-          tasksMap[task.lclId] = task.toCreateReqData(withLclId: false);
-        else
-          tasksMap[task.lclId] = task.toUpdateData(currentTask: currentTask, withLclId: false);
+        if (currentTask == null) {
+          Map taskReqData = task.toCreateReqData(withLclId: false);
+          if(taskReqData.isNotEmpty) tasksMap[task.lclId] = taskReqData;
+        }else {
+          Map taskReqData = task.toUpdateData(currentTask: currentTask, withLclId: false);
+          if(taskReqData.isNotEmpty) tasksMap[task.lclId] = taskReqData;
+        }
       }
 
+      for (TropTask currentTask in trop.tasks){
+        TropTaskData? task = tasks.where((t) => t.lclId == currentTask.lclId).firstOrNull;
+        if(task == null) tasksMap[currentTask.lclId] = {RemoveSyncItem.removeReqParam: true};
+      }
+
+    }
     await API.sendRequest(
       withToken: true,
-      requestSender: (Dio dio) async => await dio.post(
-          '${API.SERVER_URL}api/trop',
+      requestSender: (Dio dio) async => await dio.put(
+          '${API.SERVER_URL}api/trop/${trop.key!}',
+          options: Options(headers: {
+            HttpHeaders.contentTypeHeader: 'application/json',
+          }),
           data: {
             if(name != null) 'name': name,
-            if(customIconTropName != null) 'customIconTropName': customIconTropName,
+            if(customIconTropName != null) 'customIconTropName': customIconTropName.orElseNull,
             if(category != null) 'category': tropCategoryToStr(category),
             if(aims != null) 'aims': aims,
-            if(dateStart != null) 'dateStart': formatDate(dateStart),
-            if(dateEnd != null) 'dateEnd': formatDate(dateEnd),
+            if(startDate != null) 'startDate': formatDate(startDate),
+            if(endDate != null) 'endDate': formatDate(endDate),
             if(completed != null) 'completed': completed,
-            if(completionDate != null) 'completionDate': completionDate.orElseNull,
+            if(completionDate != null) 'completionDate': completionDate.isPresent?
+            formatDate(completionDate.value):null,
             'tasks': tasksMap
           }
       ),
@@ -381,7 +399,7 @@ class ApiTrop{
         Map<String, dynamic> tropData = response.data;
 
         try {
-          Trop trop = Trop.fromRespMap(tropData, tropData['lclId']);
+          Trop trop = Trop.fromRespMap(tropData, isShared: true);
           // on the backend side `now` is set to be same as trop's `lastSyncTime`
           await onSuccess?.call(trop);
         } catch(e) {

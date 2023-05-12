@@ -449,6 +449,7 @@ class SyncableParamGroup with SyncableParamGroupMixin {
 
 mixin RemoveSyncItem<T> on SyncableParam{
 
+  static const String removeReqParam = 'remove';
   static const String removedRespCode = 'removed';
   static const String paramSep = '@';
 

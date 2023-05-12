@@ -61,7 +61,7 @@ class AddUserBottomSheet extends StatelessWidget{
                 tropListProv,
                 tropLoadedUsersProv
             );
-            if(wasShared) trop.dumpAsShared();
+            if(wasShared) trop.saveShared();
             else trop.changedToShared(lastSyncTime);
 
             onUserAdded?.call(wasShared);

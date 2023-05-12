@@ -87,7 +87,7 @@ class ApiSync{
         currReqMap = currReqMap[currParam];
       }
 
-      currReqMap['remove'] = true;
+      currReqMap[RemoveSyncItem.removeReqParam] = true;
 
     }
 
@@ -109,7 +109,9 @@ class ApiSync{
         Map<String, dynamic>? rankZhpSim2022 = response.data[RankZHPSim2022.syncClassId];
         Map<String, dynamic>? trops = response.data[Trop.syncClassId];
 
-        Map<String, dynamic>? extraTrops = response.data["extra"][Trop.syncClassId];
+        Map<String, dynamic>? extraTrops;
+        if((response.data as Map).containsKey("extra"))
+          extraTrops = response.data["extra"][Trop.syncClassId];
 
         DateTime? syncedTime = DateTime.tryParse(response.data['time']);
 
