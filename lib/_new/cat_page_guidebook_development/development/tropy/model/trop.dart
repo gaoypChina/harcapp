@@ -166,24 +166,25 @@ String tropCategoryToName(TropCategory category){
 class TropSharedPreviewData{
 
   static SortedList<TropSharedPreviewData>? all;
-  static Map<String, TropSharedPreviewData>? allMapByUniqName;
+  static Map<String, TropSharedPreviewData>? allMapByKey;
 
   static bool moreToLoad = true;
 
   static bool get hasAny => all != null && all!.isNotEmpty;
 
   static int comparator(TropSharedPreviewData t1, TropSharedPreviewData t2){
-    int dateResult = compareText(t1.startDate.toIso8601String(), t2.startDate.toIso8601String());
+    // This is called with a "minus" because we want this in descending order.
+    int dateResult = -compareText(t1.startDate.toIso8601String(), t2.startDate.toIso8601String());
     if(dateResult != 0) return dateResult;
     int nameResult = compareText(t1.name, t2.name);
     if(nameResult != 0) return dateResult;
-    int keyResult = compareText(t1.uniqName, t2.uniqName);
+    int keyResult = compareText(t1.key, t2.key);
     return keyResult;
   }
 
   static void init(){
     all = SortedList(comparator);
-    allMapByUniqName = {};
+    allMapByKey = {};
   }
 
   static bool? addToAll(TropSharedPreviewData trop){
@@ -191,11 +192,11 @@ class TropSharedPreviewData{
     // Returns true if added, false if trop might be in unloaded values.
 
     if(all == null) init();
-    if(allMapByUniqName![trop.uniqName] != null) return null;
+    if(allMapByKey![trop.key] != null) return null;
 
     if(comparator(all!.last, trop) < 0 || !moreToLoad) {
       all!.add(trop);
-      allMapByUniqName![trop.uniqName] = trop;
+      allMapByKey![trop.key] = trop;
       return true;
     } else // if(moreToLoad)
       return false;
@@ -206,10 +207,10 @@ class TropSharedPreviewData{
     if(all == null) init();
 
     for(TropSharedPreviewData t in tropPrevs){
-      if(allMapByUniqName![t.uniqName] != null) continue;
+      if(allMapByKey![t.key] != null) continue;
 
       all!.add(t);
-      allMapByUniqName![t.uniqName] = t;
+      allMapByKey![t.key] = t;
     }
   }
 
@@ -218,7 +219,7 @@ class TropSharedPreviewData{
       init();
     else {
       all!.clear();
-      allMapByUniqName!.clear();
+      allMapByKey!.clear();
     }
     addAllToAll(allTropPrevs);
   }
@@ -226,26 +227,26 @@ class TropSharedPreviewData{
   static removeFromAllByKey(String uniqName, {BuildContext? context}){
     if(all == null) init();
 
-    TropSharedPreviewData? trop = allMapByUniqName![uniqName];
+    TropSharedPreviewData? trop = allMapByKey![uniqName];
 
     if(trop == null) return;
 
     all!.remove(trop);
-    allMapByUniqName!.remove(trop.uniqName);
+    allMapByKey!.remove(trop.key);
 
     if(context == null) return;
   }
 
   static forget(){
     all = null;
-    allMapByUniqName = null;
+    allMapByKey = null;
   }
   
   static removeAbsent(){
-    if(allMapByUniqName == null) return;
+    if(allMapByKey == null) return;
     Directory sharedTropyDir = Directory(getSharedTropPreviewDataFolderPath);
     for (FileSystemEntity file in sharedTropyDir.listSync(recursive: false))
-      if(!allMapByUniqName!.containsKey(basename(file.path)))
+      if(!allMapByKey!.containsKey(basename(file.path)))
         file.deleteSync();
   }
 
@@ -255,7 +256,7 @@ class TropSharedPreviewData{
 
     int dateResult = compareText(trop.startDate.toIso8601String(), lastLoaded.startDate.toIso8601String());
     int nameResult = compareText(trop.name, lastLoaded.name);
-    int keyResult = compareText(trop.uniqName, lastLoaded.uniqName);
+    int keyResult = compareText(trop.key, lastLoaded.key);
 
     return dateResult < 0 || (dateResult == 0 &&
         nameResult < 0 || (nameResult == 0 &&
@@ -266,12 +267,13 @@ class TropSharedPreviewData{
     saveStringAsFileToFolder(
       getSharedTropPreviewDataFolderLocalPath,
       jsonEncode(toJsonMap()),
-      fileName: uniqName,
+      fileName: key,
     );
-    logger.i('Dumped trop preview $uniqName');
+    logger.i('Dumped trop preview $key');
   }
 
   Map toJsonMap() => {
+    Trop.paramKey: key,
     Trop.paramName: name,
     Trop.paramCustomIconTropName: customIconTropName,
     Trop.paramCategory: tropCategoryToStr(category),
@@ -282,7 +284,7 @@ class TropSharedPreviewData{
     Trop.paramLastUpdateTime: lastUpdateTime.toIso8601String(),
   };
   
-  String uniqName;
+  String key;
   String name;
   TropCategory category;
   String? customIconTropName;
@@ -293,7 +295,7 @@ class TropSharedPreviewData{
   DateTime lastUpdateTime;
 
   TropSharedPreviewData({
-    required this.uniqName,
+    required this.key,
     required this.name,
     required this.category,
     required this.customIconTropName,
@@ -304,8 +306,8 @@ class TropSharedPreviewData{
     required this.lastUpdateTime,
   });
 
-  static TropSharedPreviewData fromRespMap(Map respMapData, String uniqName) => TropSharedPreviewData(
-    uniqName: uniqName,
+  static TropSharedPreviewData fromRespMap(Map respMapData, String key) => TropSharedPreviewData(
+    key: key,
     name: respMapData[Trop.paramName]??(throw MissingDecodeParamError(Trop.paramName)),
     customIconTropName: respMapData[Trop.paramCustomIconTropName],
     category: strToTropCategory(respMapData[Trop.paramCategory])??(throw MissingDecodeParamError(Trop.paramCategory)),
@@ -316,7 +318,7 @@ class TropSharedPreviewData{
   
 }
 
-class TropBaseData<T extends TropTaskBaseData>{
+class TropBaseData<T>{
 
   String name;
   TropCategory category;
@@ -377,46 +379,46 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
   }
 
   static late List<Trop> allOwn;
-  static late Map<String, Trop> allOwnMapByUniqName;
+  static late Map<String, Trop> allOwnMapByLclId;
 
   static addOwnToAll(Trop t, {BuildContext? context}){
-    if(allOwnMapByUniqName[t.uniqName] != null) return;
+    if(allOwnMapByLclId[t.lclId] != null) return;
 
     allOwn.add(t);
-    allOwnMapByUniqName[t.uniqName] = t;
+    allOwnMapByLclId[t.lclId!] = t;
 
     if(context == null) return;
     callProvidersOf(context);
   }
 
   static removeOwnFromAll(Trop t, {BuildContext? context}){
-    if(allOwnMapByUniqName[t.uniqName] == null) return;
+    if(allOwnMapByLclId[t.lclId] == null) return;
 
     allOwn.remove(t);
-    allOwnMapByUniqName.remove(t.uniqName);
+    allOwnMapByLclId.remove(t.lclId);
 
     if(context == null) return;
     callProvidersOf(context);
   }
 
   static late List<Trop> allShared;
-  static late Map<String, Trop> allSharedMapByUniqName;
+  static late Map<String, Trop> allSharedMapByKey;
 
   static addSharedToAll(Trop t, {BuildContext? context}){
-    if(allSharedMapByUniqName[t.uniqName] != null) return;
+    if(allSharedMapByKey[t.key!] != null) return;
 
     allShared.add(t);
-    allSharedMapByUniqName[t.uniqName] = t;
+    allSharedMapByKey[t.key!] = t;
 
     if(context == null) return;
     callProvidersOf(context);
   }
 
   static removeSharedFromAll(Trop t, {BuildContext? context}){
-    if(allSharedMapByUniqName[t.uniqName] == null) return;
+    if(allSharedMapByKey[t.lclId] == null) return;
 
     allShared.remove(t);
-    allSharedMapByUniqName.remove(t.uniqName);
+    allSharedMapByKey.remove(t.lclId);
 
     if(context == null) return;
     callProvidersOf(context);
@@ -427,7 +429,7 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
     for (FileSystemEntity file in sharedTropyDir.listSync(recursive: false)) {
       File tropFile = File(getSharedTropFolderPath + basename(file.path));
       if(!tropFile.existsSync()) return;
-      if(!allSharedMapByUniqName.containsKey(basename(file.path)))
+      if(!allSharedMapByKey.containsKey(basename(file.path)))
         tropFile.deleteSync();
     }
   }
@@ -435,20 +437,20 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
   static Future<void> init() async {
     
     allOwn = [];
-    allOwnMapByUniqName = {};
+    allOwnMapByLclId = {};
     
     allShared = [];
-    allSharedMapByUniqName = {};
+    allSharedMapByKey = {};
     
     List<TropSharedPreviewData> allPreviewData = [];
     
     Directory ownTropDir = Directory(getOwnTropFolderPath);
     await ownTropDir.create(recursive: true);
     for (FileSystemEntity file in ownTropDir.listSync(recursive: false)) {
-      Trop? trop = Trop.readOwnFromUniqName(basename(file.path));
+      Trop? trop = Trop.readOwnFromLclId(basename(file.path));
       if(trop == null) continue;
       allOwn.add(trop);
-      allOwnMapByUniqName[trop.uniqName] = trop;
+      allOwnMapByLclId[trop.lclId!] = trop;
     }
 
     Directory sharedTropDir = Directory(getSharedTropFolderPath);
@@ -457,7 +459,7 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
       Trop? trop = Trop.readSharedFromUniqName(basename(file.path));
       if(trop == null) continue;
       allShared.add(trop);
-      allSharedMapByUniqName[trop.uniqName] = trop;
+      allSharedMapByKey[trop.key!] = trop;
     }
 
     Directory previewDataTropDir = Directory(getSharedTropPreviewDataFolderPath);
@@ -480,7 +482,8 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
 
   static const IconData icon = MdiIcons.signDirectionPlus;
 
-  static const String paramUniqName = 'uniqName';
+  static const String paramLclId = 'lclId';
+  static const String paramKey = '_key';
   static const String paramName = 'name';
   static const String paramCustomIconTropName = 'customIconTropName';
   static const String paramCategory = 'category';
@@ -500,7 +503,9 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
   static const int maxLenAim = 200;
   static const int maxTaskCount = 50;
 
-  final String uniqName;
+  // TODO: split this into LocalTrop and SharedTrop
+  final String? lclId;
+  String? key;
   // This can be null only when trop is not yet synced.
   DateTime? lastServerUpdateTime;
 
@@ -549,7 +554,8 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
   }
 
   Trop({
-    required this.uniqName,
+    this.lclId,
+    this.key,
     required super.name,
     super.customIconTropName,
     required super.category,
@@ -570,7 +576,8 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
 
     super.notesForLeaders,
     super.exampleSpraws,
-  }): _assignedUsersMap = assignedUsersMap,
+  }): assert(lclId != null || key != null),
+      _assignedUsersMap = assignedUsersMap,
       _assignedUsers = assignedUsersMap.values.toList(),
       _loadedUsersMap = loadedUsersMap,
       _loadedUsers = loadedUsersMap.values.toList();
@@ -606,7 +613,7 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
   }){
 
     Trop trop = Trop(
-        uniqName: uniqName??const Uuid().v4(),
+        lclId: uniqName??const Uuid().v4(),
         name: name,
         customIconTropName: customIconTropName,
         category: category,
@@ -630,14 +637,19 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
     return trop;
   }
 
-  static Trop fromRespMap(Map respMapData, String uniqName, {bool fromServer = true}){
+  static Trop fromRespMap(Map respMapData, String lclId, {bool fromServer = true}){
 
     DateTime? lastServerUpdateTime = DateTime.tryParse(respMapData[paramLastUpdateTime]??'');
     if(fromServer && lastServerUpdateTime == null)
       throw MissingDecodeParamError(paramLastUpdateTime);
 
+    String? key = respMapData[paramKey];
+    if(fromServer && key == null)
+      throw MissingDecodeParamError(paramKey);
+
     Trop trop = Trop(
-      uniqName: uniqName,
+      lclId: lclId,
+      key: key,
       name: respMapData[paramName]??(throw MissingDecodeParamError(paramName)),
       customIconTropName: respMapData[paramCustomIconTropName],
       category: strToTropCategory(respMapData[paramCategory])??(throw MissingDecodeParamError(paramCategory)),
@@ -683,7 +695,7 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
     return trop;
   }
 
-  static Trop? readOwnFromUniqName(String uniqName, {bool log = true}){
+  static Trop? readOwnFromLclId(String uniqName, {bool log = true}){
     try {
       String tropData = readFileAsString(getOwnTropFolderPath + uniqName);
       Map map = jsonDecode(tropData);
@@ -715,8 +727,8 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
       if(map[paramTasks] is List) {
         Map convertedTasks = {};
         for(Map taskMap in map[paramTasks]){
-          String taskLclId = taskMap[paramUniqName];
-          taskMap.remove(paramUniqName);
+          String taskLclId = taskMap[paramLclId];
+          taskMap.remove(paramLclId);
           convertedTasks[taskLclId] = taskMap;
         }
 
@@ -775,13 +787,13 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
     saveStringAsFileToFolder(
       getSharedTropFolderLocalPath,
       jsonEncode(toJsonMap()),
-      fileName: uniqName,
+      fileName: lclId,
     );
-    logger.i('Dumped trop $uniqName');
+    logger.i('Dumped trop $lclId');
   }
 
   TropSharedPreviewData toPreviewData() => TropSharedPreviewData(
-    uniqName: uniqName,
+    key: key!,
     name: name,
     customIconTropName: customIconTropName,
     category: category,
@@ -791,6 +803,7 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
   );
 
   Map toJsonMap() => {
+    paramKey: key,
     paramName: name,
     paramCustomIconTropName: customIconTropName,
     paramCategory: tropCategoryToStr(category),
@@ -810,11 +823,11 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
     paramUserCount: userCount
   };
 
-  void saveOwn({localOnly = false, bool synced = false}){
+  void saveOwn({localOnly = false, bool? synced = false}){
 
     // Mark removed tasks as removed.
-    Trop? oldTrop = readOwnFromUniqName(uniqName, log: false);
-    if(oldTrop != null && !synced) {
+    Trop? oldTrop = readOwnFromLclId(lclId!, log: false);
+    if(oldTrop != null && synced == false) {
       Set<String> oldTaskLclIds = Set.from(oldTrop.tasks.map((t) => t.lclId).toList());
       Set<String> taskLclIds = Set.from(tasks.map((t) => t.lclId).toList());
 
@@ -827,14 +840,15 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
     saveStringAsFileToFolder(
       getMyTropFolderLocalPath,
       jsonEncode(toJsonMap()),
-      fileName: uniqName,
+      fileName: lclId,
     );
 
     // This can be more nuanced - specific params that have been changed can be
     // selectively unsynced.
-    setAllSyncState(
-        synced ? SyncableParamSingleMixin.stateSynced :
-        SyncableParamSingleMixin.stateNotSynced);
+    if(synced != null)
+      setAllSyncState(
+          synced == true ? SyncableParamSingleMixin.stateSynced :
+          SyncableParamSingleMixin.stateNotSynced);
 
     if(!localOnly)
       synchronizer.post();
@@ -843,9 +857,9 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
 
   bool deleteShared({BuildContext? context}){
     try{
-      File(getSharedTropFolderPath + uniqName).deleteSync();
+      File(getSharedTropFolderPath + key!).deleteSync();
       removeSharedFromAll(this, context: context);
-      TropSharedPreviewData.removeFromAllByKey(uniqName);
+      TropSharedPreviewData.removeFromAllByKey(key!);
       return true;
     }catch(e){
       if(context != null) showAppToast(context, text: 'Wystąpił problem z usuwaniem tropu.');
@@ -855,7 +869,7 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
   
   bool deleteOwn({BuildContext? context}){
     try{
-      File(getOwnTropFolderPath + uniqName).deleteSync();
+      File(getOwnTropFolderPath + lclId!).deleteSync();
       removeOwnFromAll(this, context: context);
       return true;
     }catch(e){
@@ -1040,7 +1054,7 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
   SyncableParam? get parentParam => SyncGetRespNode.tropNodes;
 
   @override
-  String get paramId => uniqName;
+  String get paramId => lclId!;
 
   SyncableParamSingle get syncParamName => SyncableParamSingle(
     this,
@@ -1111,6 +1125,7 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
 
   @override
   FutureOr<void> applySyncGetResp(TropGetResp resp) {
+    key = resp.key;
     name = resp.name;
     customIconTropName = resp.customIconTropName;
     category = resp.category;
@@ -1148,35 +1163,47 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
 
   }
 
+  static void handleExtrasAfterSync(Map extra){
+    
+    Map lclIdToKey = extra["lclIdToKey"];
+    
+    for(String lclId in lclIdToKey.keys){
+      allOwnMapByLclId[lclId]!.key = lclIdToKey[lclId];
+      allOwnMapByLclId[lclId]!.saveOwn(localOnly: true, synced: true);
+    }
+    
+  }
+  
 }
 
-class TropTaskBaseData{
+class TropTaskExampleData{
 
   String content;
 
-  TropTaskBaseData({required this.content});
+  TropTaskExampleData({required this.content});
 
 }
 
-class TropTaskData extends TropTaskBaseData{
+abstract class TropTaskBaseData{
 
   String? lclId;
+  String content;
   String? _summary;
   DateTime deadline;
-  TropUser? assignee;
   String? assigneeCustomText;
   bool completed;
 
-  TropTaskData({
+  // TropUser? get assignee;
+
+  TropTaskBaseData({
     this.lclId,
-    required super.content,
+    required this.content,
     String? summary,
     required this.deadline,
-    this.assignee,
     this.assigneeCustomText,
     this.completed = false,
   }):
-    _summary = summary;
+        _summary = summary;
 
   String? get summary => _summary;
   set summary(String? value){
@@ -1184,19 +1211,58 @@ class TropTaskData extends TropTaskBaseData{
     else _summary = value;
   }
 
+}
+
+class TropTaskData extends TropTaskBaseData{
+
+  TropUser? currentAssignee;
+  TropUserNick? newAssignee;
+
+  TropTaskData({
+    super.lclId,
+    required super.content,
+    super.summary,
+    required super.deadline,
+    this.currentAssignee,
+    this.newAssignee,
+    super.assigneeCustomText,
+    super.completed = false,
+  });
+
   TropTask toTask(Trop trop) => TropTask.create(
       lclId: lclId,
       content: content,
       deadline: deadline,
-      assignee: assignee,
+      assignee: newAssignee??currentAssignee,
       assigneeCustomText: assigneeCustomText,
       completed: completed,
       trop: trop
   );
 
+  Map toCreateReqData({bool withLclId = false}) => {
+    if(withLclId) 'lclId': lclId,
+    'content': content,
+    if(summary != null) 'summary': summary,
+    'deadline': deadline,
+    if(assigneeCustomText != null) 'assigneeCustomText': assigneeCustomText,
+    if(newAssignee != null) 'assigneeKey': newAssignee!.nick,
+    'completed': completed,
+  };
+
+  Map toUpdateData({required TropTask currentTask, bool withLclId = false}) => {
+    if(withLclId) 'lclId': lclId,
+    if(currentTask.content != content) 'content': content,
+    if(currentTask.summary != summary) 'summary': summary,
+    if(currentTask.deadline != deadline) 'deadline': deadline,
+    if(currentTask.assigneeCustomText != assigneeCustomText) 'assigneeCustomText': assigneeCustomText,
+    if(newAssignee != null) 'assigneeKey': newAssignee!.nick
+    else if(currentTask.assignee != null && currentAssignee == null) 'assigneeKey': null,
+    if(currentTask.completed != completed) 'completed': completed,
+  };
+
 }
 
-class TropTask extends TropTaskData with SyncableParamGroupMixin, SyncGetRespNode<TropTaskGetResp>, RemoveSyncItem{
+class TropTask extends TropTaskBaseData with SyncableParamGroupMixin, SyncGetRespNode<TropTaskGetResp>, RemoveSyncItem{
 
   static const String paramLclId = 'lclId';
   static const String paramContent = 'content';
@@ -1209,16 +1275,20 @@ class TropTask extends TropTaskData with SyncableParamGroupMixin, SyncGetRespNod
   static const int maxLenContent = 320;
   static const int maxLenSummary = 640;
 
+  @override
   final String lclId;
 
   final Trop trop;
+
+  @override
+  TropUser? assignee;
 
   TropTask({
     required this.lclId,
     required super.content,
     super.summary,
     required super.deadline,
-    super.assignee,
+    this.assignee,
     super.assigneeCustomText,
     super.completed = false,
 

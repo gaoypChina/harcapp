@@ -104,15 +104,20 @@ class AimControllersProvider extends ChangeNotifier{
 
 class TropTaskEditableData{
 
+  String? lclId;
+  
   late TextEditingController contentController;
   late DateTime deadline;
 
-  late TropUser? assignee;
+  late TropUser? currentAssignee;
+  late TropUserNick? newAssignee;
   late TextEditingController assigneeController;
+
+  TropUser? get assignee => newAssignee??currentAssignee;
 
   bool completed;
 
-  TropTaskEditableData(String content, this.deadline, this.assignee, String? assigneeCustomText, this.completed){
+  TropTaskEditableData(this.lclId, String content, this.deadline, this.currentAssignee, String? assigneeCustomText, this.completed){
     contentController = TextEditingController(text: content);
     assigneeController = TextEditingController(text: assigneeCustomText??'');
   }
@@ -120,9 +125,11 @@ class TropTaskEditableData{
   bool get isEmpty => contentController.text.isEmpty;
 
   TropTaskData toTaskData() => TropTaskData(
+    lclId: lclId,
     content: contentController.text,
     deadline: deadline,
-    assignee: assignee,
+    newAssignee: newAssignee,
+    currentAssignee: currentAssignee,
     assigneeCustomText: assigneeController.text,
     completed: completed,
   );
@@ -142,6 +149,7 @@ class TasksProvider extends ChangeNotifier{
     if(initTropBaseData != null)
       for(TropTaskBaseData t in initTropBaseData.tasks)
         tasks.add(TropTaskEditableData(
+          null,
           t.content,
           DateTime.now().add(const Duration(days: 14)),
 
@@ -153,6 +161,7 @@ class TasksProvider extends ChangeNotifier{
     else if(initTrop != null)
       for(TropTask t in initTrop.tasks)
         tasks.add(TropTaskEditableData(
+          t.lclId,
           t.content,
           t.deadline,
 
@@ -162,12 +171,13 @@ class TasksProvider extends ChangeNotifier{
         ));
 
     if(tasks.isEmpty)
-      tasks.add(TropTaskEditableData('', DateTime.now().add(const Duration(days: 14)), null, null, false));
+      tasks.add(TropTaskEditableData(null, '', DateTime.now().add(const Duration(days: 14)), null, null, false));
 
   }
 
   void add(){
     tasks.add(TropTaskEditableData(
+      null,
       '',
       DateTime.now().add(const Duration(days: 14)),
       null,
@@ -177,9 +187,9 @@ class TasksProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  void update(int index, {DateTime? deadline, TropUser? assignee, String? assigneeCustomText}){
+  void update(int index, {DateTime? deadline, TropUserNick? assignee, String? assigneeCustomText}){
     if(deadline != null) tasks[index].deadline = deadline;
-    tasks[index].assignee = assignee;
+    tasks[index].newAssignee = assignee;
     tasks[index].assigneeController.text = assigneeCustomText??'';
     notifyListeners();
   }

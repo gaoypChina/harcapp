@@ -3,6 +3,7 @@ import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_new/api/trop.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/model/trop.dart';
 import 'package:harcapp/_new/cat_page_home/user_list_add_new_bottom_sheet.dart';
+import 'package:harcapp/logger.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/loading_widget.dart';
@@ -33,6 +34,11 @@ class AddUserBottomSheet extends StatelessWidget{
     participatingUserKeys: trop.assignedUsersMap.keys.toList(),
     handleAddingUser: (UserDataNick userData) async {
 
+      if(trop.key == null) {
+        logger.e("Registered a failed attempt to call `addUsers` on trop with no trop key.");
+        return;
+      }
+
       showLoadingWidget(context, iconEnab_(context), 'Dodawanie człowieka tropu');
 
       TropProvider tropProv = TropProvider.of(context);
@@ -40,7 +46,7 @@ class AddUserBottomSheet extends StatelessWidget{
       TropLoadedUsersProvider tropLoadedUsersProv = TropLoadedUsersProvider.of(context);
 
       await ApiTrop.addUsers(
-          tropUniqName: trop.uniqName,
+          tropKey: trop.key!,
           users: [TropUserBodyNick(userData.key, TropRole.REGULAR, userData.nick)],
           onSuccess: (List<TropUser> addedUsers, DateTime lastSyncTime){
 

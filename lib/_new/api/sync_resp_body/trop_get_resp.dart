@@ -8,6 +8,9 @@ class TropGetResp extends SyncGetResp{
 
   static const String collName = 'trop';
 
+  static String paramKey = '_key';
+  final String key;
+
   static String paramName = 'name';
   final String name;
 
@@ -45,6 +48,7 @@ class TropGetResp extends SyncGetResp{
   final DateTime lastUpdateTime;
 
   const TropGetResp({
+    required this.key,
     required this.name,
     required this.customIconTropName,
     required this.category,
@@ -82,6 +86,7 @@ class TropGetResp extends SyncGetResp{
 
 
     return TropGetResp(
+        key: respMapData[paramKey]??(throw InvalidResponseError(paramKey)),
         name: respMapData[paramName]??(throw InvalidResponseError(paramName)),
         customIconTropName: respMapData[paramCustomIconTropName],
         category: strToTropCategory(respMapData[paramCategory])??(throw InvalidResponseError(paramCategory)),

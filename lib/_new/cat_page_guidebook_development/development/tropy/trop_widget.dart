@@ -5,6 +5,7 @@ import 'package:harcapp/_common_widgets/duration_date_widget.dart';
 import 'package:harcapp/_new/api/trop.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/model/trop_role.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_users_page/trop_users_page.dart';
+import 'package:harcapp/logger.dart';
 import 'package:harcapp/values/app_values.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/model/trop.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_editor_page/_main.dart';
@@ -221,13 +222,17 @@ class TropUsersWidgetState extends State<TropUsersWidget>{
   late bool isLoading;
 
   Future<void> loadMoreUsers() async{
+    if(trop.key == null){
+      logger.e("Registered a failed attempt to call `getUsers` on trop with no trop key.");
+      return;
+    }
     setState(() => isLoading = true);
     if(!await isNetworkAvailable()){
       setState(() => isLoading = false);
       return;
     }
     await ApiTrop.getUsers(
-      tropUniqName: trop.uniqName,
+      tropKey: trop.key!,
       pageSize: Trop.userPageSize,
       lastRole: loadedUsers.length<=1?null:loadedUsers.last.role,
       lastUserName: loadedUsers.length<=1?null:loadedUsers.last.name,

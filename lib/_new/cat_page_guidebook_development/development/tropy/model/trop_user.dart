@@ -46,3 +46,20 @@ class TropUser extends UserData{
   UserData toUserData() => UserData(key: key, name: name, shadow: shadow, sex: sex);
 
 }
+
+class TropUserNick extends TropUser{
+
+  String? nick;
+
+  TropUserNick({
+    required super.key,
+    required super.name,
+    required super.shadow,
+    required super.sex,
+    required super.role,
+    required this.nick,
+  });
+
+
+
+}

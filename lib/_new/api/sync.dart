@@ -51,6 +51,9 @@ class ApiSync{
             Map<String, dynamic>? rankDefs,
             Map<String, dynamic>? rankZhpSim2022,
             Map<String, dynamic>? trops,
+
+            Map? extraTrops,
+
             DateTime? syncedTime)? onSuccess,
         FutureOr<void> Function(Response? response)? onError,
       }) async {
@@ -105,7 +108,9 @@ class ApiSync{
         Map<String, dynamic>? rankDefs = response.data[RankDef.syncClassId];
         Map<String, dynamic>? rankZhpSim2022 = response.data[RankZHPSim2022.syncClassId];
         Map<String, dynamic>? trops = response.data[Trop.syncClassId];
-        
+
+        Map<String, dynamic>? extraTrops = response.data["extra"][Trop.syncClassId];
+
         DateTime? syncedTime = DateTime.tryParse(response.data['time']);
 
         logger.i('Sync post response:\n${prettyJson(response.data)}');
@@ -123,6 +128,9 @@ class ApiSync{
           rankDefs,
           rankZhpSim2022,
           trops,
+
+          extraTrops,
+
           syncedTime,
         );
       },
@@ -149,6 +157,9 @@ class ApiSync{
           Map? rankDefs,
           Map? rankZhpSim2022, 
           Map? trops,
+
+          Map? extraTrops,
+
           DateTime? syncedTime
       ) async {
 
@@ -196,8 +207,11 @@ class ApiSync{
         
         if(trops != null)
           for(String uniqName in trops.keys)
-            Trop.allOwnMapByUniqName[uniqName]!.saveSyncResult(trops[uniqName], syncedTime);
-        
+            Trop.allOwnMapByLclId[uniqName]!.saveSyncResult(trops[uniqName], syncedTime);
+
+        if(extraTrops != null)
+          Trop.handleExtrasAfterSync(extraTrops);
+
         SynchronizerEngine.lastSyncTimeLocal = syncedTime;
 
         await onSuccess?.call();
@@ -497,22 +511,9 @@ class ApiSync{
         }
 
         for(String tropUniqName in trops.keys){
-          Trop? trop = Trop.allOwnMapByUniqName[tropUniqName];
+          Trop? trop = Trop.allOwnMapByLclId[tropUniqName];
           TropGetResp? tropResp = trops[tropUniqName]!;
           if(trop == null){
-            List<TropTaskData> tasks = [];
-            for(String taskLclId in tropResp.tasks.keys){
-              TropTaskGetResp taskBody = tropResp.tasks[taskLclId]!;
-              tasks.add(TropTaskData(
-                lclId: taskLclId,
-                content: taskBody.content,
-                summary: taskBody.summary,
-                deadline: taskBody.deadline,
-                assignee: tropResp.assignedUsers[taskBody.assigneeKey],
-                assigneeCustomText: taskBody.assigneeCustomText,
-                completed: taskBody.completed
-              ));
-            }
 
             trop = Trop.create(
                 uniqName: tropUniqName,
@@ -524,9 +525,27 @@ class ApiSync{
                 endDate: tropResp.endDate,
                 completed: tropResp.completed,
                 completionTime: tropResp.completionDate,
-                tasks: tasks,
+                tasks: [],
                 lastServerUpdateTime: tropResp.lastUpdateTime
             );
+
+            List<TropTask> tasks = [];
+            for(String taskLclId in tropResp.tasks.keys){
+              TropTaskGetResp taskBody = tropResp.tasks[taskLclId]!;
+              tasks.add(TropTask(
+                lclId: taskLclId,
+                content: taskBody.content,
+                summary: taskBody.summary,
+                deadline: taskBody.deadline,
+                assignee: tropResp.assignedUsers[taskBody.assigneeKey],
+                assigneeCustomText: taskBody.assigneeCustomText,
+                completed: taskBody.completed,
+                trop: trop,
+              ));
+            }
+
+            trop.tasks = tasks;
+
             trop.saveOwn(localOnly: true, synced: true);
             Trop.addOwnToAll(trop);
           }else{

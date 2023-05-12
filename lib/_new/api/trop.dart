@@ -2,9 +2,11 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:harcapp/_common_classes/date_format.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/model/trop.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/model/trop_role.dart';
 import 'package:optional/optional_internal.dart';
+import 'package:webfeed/util/iterable.dart';
 
 import '../cat_page_guidebook_development/development/tropy/model/trop_user.dart';
 import '_api.dart';
@@ -44,7 +46,7 @@ class ApiTrop{
     required int? pageSize,
     required String? lastStartTime,
     required String? lastName,
-    required String? lastTropUniqName,
+    required String? lastTropKey,
     FutureOr<void> Function(List<TropSharedPreviewData>)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
     FutureOr<bool> Function()? onServerMaybeWakingUp,
@@ -57,7 +59,7 @@ class ApiTrop{
             if(pageSize != null) 'pageSize': pageSize,
             if(lastStartTime != null) 'lastStartTime': lastStartTime,
             if(lastName != null) 'lastName': lastName,
-            if(lastTropUniqName != null) 'lastTropUniqName': lastTropUniqName,
+            if(lastTropKey != null) 'lastTropKey': lastTropKey,
           }
       ),
       onSuccess: (Response response, DateTime now) async {
@@ -76,7 +78,7 @@ class ApiTrop{
   );
 
   static Future<Response?> getUsers({
-    required String tropUniqName,
+    required String tropKey,
     required int? pageSize,
     required TropRole? lastRole,
     required String? lastUserName,
@@ -88,7 +90,7 @@ class ApiTrop{
   }) => API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.get(
-          '${API.SERVER_URL}api/trop/$tropUniqName/user',
+          '${API.SERVER_URL}api/trop/$tropKey/user',
           queryParameters: {
             if(pageSize != null) 'pageSize': pageSize,
             if(lastRole != null) 'lastRole': tropRoleToStr[lastRole],
@@ -112,7 +114,7 @@ class ApiTrop{
   );
 
   static Future<Response?> addUsers({
-    required String tropUniqName,
+    required String tropKey,
     required List<TropUserBodyNick> users,
     FutureOr<void> Function(List<TropUser>, DateTime lastSyncTime)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
@@ -130,7 +132,7 @@ class ApiTrop{
     return API.sendRequest(
         withToken: true,
         requestSender: (Dio dio) => dio.post(
-            '${API.SERVER_URL}api/trop/$tropUniqName/user',
+            '${API.SERVER_URL}api/trop/$tropKey/user',
             data: jsonEncode(body)
         ),
         onSuccess: (Response response, DateTime now) async {
@@ -152,7 +154,7 @@ class ApiTrop{
   }
 
   static Future<Response?> updateUsers({
-    required String tropUniqName,
+    required String tropKey,
     required List<TropUserUpdateBody> users,
     FutureOr<void> Function(List<TropUser>, DateTime lastSyncTime)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
@@ -170,7 +172,7 @@ class ApiTrop{
     return API.sendRequest(
         withToken: true,
         requestSender: (Dio dio) => dio.put(
-            '${API.SERVER_URL}api/trop/$tropUniqName/user',
+            '${API.SERVER_URL}api/trop/$tropKey/user',
             data: jsonEncode(body)
         ),
         onSuccess: (Response response, DateTime now) async {
@@ -192,7 +194,7 @@ class ApiTrop{
   }
 
   static Future<Response?> removeUsers({
-    required String tropUniqName,
+    required String tropKey,
     required List<String> userKeys,
     FutureOr<void> Function(List<String> removedKeys, DateTime lastSyncTime)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
@@ -201,7 +203,7 @@ class ApiTrop{
   }) => API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.delete(
-          '${API.SERVER_URL}api/trop/$tropUniqName/user',
+          '${API.SERVER_URL}api/trop/$tropKey/user',
           data: jsonEncode(userKeys)
       ),
       onSuccess: (Response response, DateTime now) async =>
@@ -212,7 +214,7 @@ class ApiTrop{
   );
 
   static Future<Response?> getTrop({
-    required String tropUniqName,
+    required String tropKey,
     FutureOr<void> Function(Trop trop)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
     FutureOr<bool> Function()? onServerMaybeWakingUp,
@@ -220,14 +222,14 @@ class ApiTrop{
   }) async => await API.sendRequest(
     withToken: true,
     requestSender: (Dio dio) async => await dio.get(
-      '${API.SERVER_URL}api/trop/$tropUniqName',
+      '${API.SERVER_URL}api/trop/$tropKey',
     ),
     onSuccess: (Response response, DateTime now) async {
 
       Map<String, dynamic> tropRawData = response.data;
 
       try {
-        Trop trop = Trop.fromRespMap(tropRawData, tropUniqName);
+        Trop trop = Trop.fromRespMap(tropRawData, tropKey);
         await onSuccess?.call(trop);
       } catch(e) {
         await onError?.call(null);
@@ -240,8 +242,8 @@ class ApiTrop{
   );
 
   static Future<Response?> updateTaskAssignee({
-    required String tropUniqName,
-    required String tropTaskUniqName,
+    required String tropKey,
+    required String tropTaskLclId,
     required String userNick,
     FutureOr<void> Function(TropUser user, DateTime lastSyncTime)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
@@ -250,7 +252,7 @@ class ApiTrop{
   }) async => await API.sendRequest(
     withToken: true,
     requestSender: (Dio dio) async => await dio.put(
-      '${API.SERVER_URL}api/trop/$tropUniqName/task/$tropTaskUniqName/assignee',
+      '${API.SERVER_URL}api/trop/$tropKey/task/$tropTaskLclId/assignee',
       queryParameters: {
         'userNick': userNick
       }
@@ -272,5 +274,125 @@ class ApiTrop{
     onServerMaybeWakingUp: onServerMaybeWakingUp,
     onError: (err) async => onError?.call(err.response),
   );
+
+  static Future<Response?> create({
+    required String name,
+    required String? customIconTropName,
+    required TropCategory category,
+    required List<String> aims,
+    required DateTime dateStart,
+    required DateTime dateEnd,
+    required bool? completed,
+    required DateTime? completionDate,
+    required List<TropTaskData> tasks,
+
+    FutureOr<void> Function(Trop trop)? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<void> Function(Response? response)? onError,
+  }) async {
+
+    Map tasksMap = {};
+    for(TropTaskData task in tasks)
+      tasksMap[task.lclId] = task.toCreateReqData(withLclId: false);
+
+    await API.sendRequest(
+      withToken: true,
+      requestSender: (Dio dio) async => await dio.post(
+          '${API.SERVER_URL}api/trop',
+          data: {
+            'name': name,
+            if(customIconTropName != null) 'customIconTropName': customIconTropName,
+            'category': tropCategoryToStr(category),
+            'aims': aims,
+            'dateStart': formatDate(dateStart),
+            'dateEnd': formatDate(dateEnd),
+            if(completed != null) 'completed': completed,
+            if(completionDate != null) 'completionDate': completionDate,
+            'tasks': tasksMap
+          }
+      ),
+      onSuccess: (Response response, DateTime now) async {
+
+        Map<String, dynamic> tropData = response.data;
+
+        try {
+          Trop trop = Trop.fromRespMap(tropData, tropData['lclId']);
+          // on the backend side `now` is set to be same as trop's `lastSyncTime`
+          await onSuccess?.call(trop);
+        } catch(e) {
+          await onError?.call(null);
+        }
+
+      },
+      onForceLoggedOut: onForceLoggedOut,
+      onServerMaybeWakingUp: onServerMaybeWakingUp,
+      onError: (err) async => onError?.call(err.response),
+    );
+  }
+
+  static Future<Response?> update({
+    required Trop trop,
+    required String? name,
+    required Optional<String>? customIconTropName,
+    required TropCategory? category,
+    required List<String>? aims,
+    required DateTime? dateStart,
+    required DateTime? dateEnd,
+    required bool? completed,
+    required Optional<DateTime>? completionDate,
+    required List<TropTaskData>? tasks,
+
+    FutureOr<void> Function(Trop trop)? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<void> Function(Response? response)? onError,
+  }) async {
+
+    Map tasksMap = {};
+    if(tasks != null)
+      for(TropTaskData task in tasks) {
+        TropTask? currentTask = trop.tasks.where((t) => t.lclId == task.lclId).firstOrNull;
+
+        if(currentTask == null)
+          tasksMap[task.lclId] = task.toCreateReqData(withLclId: false);
+        else
+          tasksMap[task.lclId] = task.toUpdateData(currentTask: currentTask, withLclId: false);
+      }
+
+    await API.sendRequest(
+      withToken: true,
+      requestSender: (Dio dio) async => await dio.post(
+          '${API.SERVER_URL}api/trop',
+          data: {
+            if(name != null) 'name': name,
+            if(customIconTropName != null) 'customIconTropName': customIconTropName,
+            if(category != null) 'category': tropCategoryToStr(category),
+            if(aims != null) 'aims': aims,
+            if(dateStart != null) 'dateStart': formatDate(dateStart),
+            if(dateEnd != null) 'dateEnd': formatDate(dateEnd),
+            if(completed != null) 'completed': completed,
+            if(completionDate != null) 'completionDate': completionDate.orElseNull,
+            'tasks': tasksMap
+          }
+      ),
+      onSuccess: (Response response, DateTime now) async {
+
+        Map<String, dynamic> tropData = response.data;
+
+        try {
+          Trop trop = Trop.fromRespMap(tropData, tropData['lclId']);
+          // on the backend side `now` is set to be same as trop's `lastSyncTime`
+          await onSuccess?.call(trop);
+        } catch(e) {
+          await onError?.call(null);
+        }
+
+      },
+      onForceLoggedOut: onForceLoggedOut,
+      onServerMaybeWakingUp: onServerMaybeWakingUp,
+      onError: (err) async => onError?.call(err.response),
+    );
+  }
 
 }

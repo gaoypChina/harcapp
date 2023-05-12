@@ -132,18 +132,18 @@ class CommunityEditorPageState extends State<CommunityEditorPage>{
 
                             name:
                             initCommunity!.name == name?
-                            const Optional.empty():
-                            Optional.of(name),
+                            null:
+                            name,
 
                             iconKey:
                             initCommunity!.iconKey == iconKey?
-                            const Optional.empty():
-                            Optional.of(iconKey),
+                            null:
+                            iconKey,
 
                             category:
                             initCommunity!.category == category?
-                            const Optional.empty():
-                            Optional.of(category),
+                            null:
+                            category,
 
                             contact:
                             initCommunity!.contact == contact?

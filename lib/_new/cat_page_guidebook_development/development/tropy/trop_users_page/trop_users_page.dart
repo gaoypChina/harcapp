@@ -7,6 +7,7 @@ import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/tr
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_users_page/trop_user_tile.dart';
 import 'package:harcapp/_new/cat_page_home/user_list_managment_loadable_page.dart';
 import 'package:harcapp/account/account.dart';
+import 'package:harcapp/logger.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
@@ -155,8 +156,14 @@ class TropUsersPageState extends State<TropUsersPage>{
 
         userCount: trop.userCount,
         callReload: () async {
+
+          if(trop.key == null){
+            logger.e("Registered a failed attempt to call `removeUsers` on trop with no trop key.");
+            return trop.assignedUsers.length + trop.loadedUsers.length;
+          }
+
           await ApiTrop.getUsers(
-            tropUniqName: trop.uniqName,
+            tropKey: trop.key!,
             pageSize: Trop.userPageSize,
             lastRole: null,
             lastUserName: null,
@@ -188,8 +195,14 @@ class TropUsersPageState extends State<TropUsersPage>{
           return trop.assignedUsers.length + trop.loadedUsers.length;
         },
         callLoadMore: () async {
+
+          if(trop.key == null){
+            logger.e("Registered a failed attempt to call `getUsers` on trop with no trop key.");
+            return trop.assignedUsers.length + trop.loadedUsers.length;
+          }
+
           await ApiTrop.getUsers(
-            tropUniqName: trop.uniqName,
+            tropKey: trop.key!,
             pageSize: Trop.userPageSize,
             lastRole: loadedUsers.length==1?null:loadedUsers.last.role,
             lastUserName: loadedUsers.length==1?null:loadedUsers.last.name,

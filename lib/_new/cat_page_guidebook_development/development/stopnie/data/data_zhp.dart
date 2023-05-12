@@ -593,7 +593,7 @@ class TropSelectedListWidgetState extends State<TropSelectedListWidget>{
           if(extText == null)
             trop = null;
           else if(extText.length > TropSelectedListWidget.samplePrefix.length)
-            trop = Trop.readOwnFromUniqName(extText.substring(TropSelectedListWidget.samplePrefix.length));
+            trop = Trop.readOwnFromLclId(extText.substring(TropSelectedListWidget.samplePrefix.length));
           else if(!extText.startsWith(TropSelectedListWidget.samplePrefix) && !extText.startsWith(TropSelectedListWidget.customPrefix) && extText.isNotEmpty) {
             // This is a temporary solution.
             trop = null;
@@ -612,7 +612,7 @@ class TropSelectedListWidgetState extends State<TropSelectedListWidget>{
 
                 if(selectedTrop == null) return;
 
-                RankZHPSim2022Templ.setExtText(rankId, code, index, SprawSelectedListWidget.samplePrefix + selectedTrop.uniqName);
+                RankZHPSim2022Templ.setExtText(rankId, code, index, SprawSelectedListWidget.samplePrefix + selectedTrop.lclId!);
                 setState(() {});
               },
               onNoteTap: (){

@@ -166,9 +166,9 @@ class ApiCommunity{
 
   static Future<Response?> update({
     required String circleKey,
-    Optional<String> name = const Optional.empty(),
-    Optional<String> iconKey = const Optional.empty(),
-    Optional<CommunityCategory> category = const Optional.empty(),
+    String? name,
+    String? iconKey,
+    CommunityCategory? category,
     Optional<Tuple2<CommonContactData?, CommonContactData?>> contact = const Optional.empty(),
 
     FutureOr<void> Function(Community community)? onSuccess,
@@ -178,9 +178,9 @@ class ApiCommunity{
   }) async{
 
     Map<String, dynamic> reqMap = {};
-    if(name.isPresent) reqMap['name'] = name.value.trim();
-    if(iconKey.isPresent) reqMap['iconKey'] = iconKey.value;
-    if(category.isPresent) reqMap['category'] = commCatToString(category.value);
+    if(name != null) reqMap['name'] = name.trim();
+    if(iconKey != null) reqMap['iconKey'] = iconKey;
+    if(category != null) reqMap['category'] = commCatToString(category);
     if(contact.isPresent){
       CommonContactData? oldContact = contact.value.item1;
       CommonContactData? newContact = contact.value.item2;

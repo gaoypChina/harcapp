@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 
 class TropTaskPredefContentWidget extends StatelessWidget{
 
-  final TropTaskBaseData task;
+  final TropTaskExampleData task;
   final int index;
   final int? maxLines;
 
@@ -49,7 +49,7 @@ class TropTaskPredefContentWidget extends StatelessWidget{
 class TropTaskPredefWidget extends StatefulWidget{
 
   final TropBaseData trop;
-  final TropTaskBaseData task;
+  final TropTaskExampleData task;
   final int index;
 
   const TropTaskPredefWidget(this.trop, this.task, {required this.index, super.key});
@@ -62,7 +62,7 @@ class TropTaskPredefWidget extends StatefulWidget{
 class TropTaskPredefWidgetState extends State<TropTaskPredefWidget>{
 
   TropBaseData get trop => widget.trop;
-  TropTaskBaseData get task => widget.task;
+  TropTaskExampleData get task => widget.task;
   int get index => widget.index;
 
   @override

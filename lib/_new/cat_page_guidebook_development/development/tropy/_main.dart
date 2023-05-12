@@ -80,9 +80,9 @@ class TropyPageState extends State<TropyPage>{
       null:
       TropSharedPreviewData.all!.last.name,
 
-      lastTropUniqName: reloadAll || tropPreviewEmpty?
+      lastTropKey: reloadAll || tropPreviewEmpty?
       null:
-      TropSharedPreviewData.all!.last.uniqName,
+      TropSharedPreviewData.all!.last.key,
 
       onSuccess: (tropPrevsPage){
         if(reloadAll) TropSharedPreviewData.setAll(tropPrevsPage);
@@ -491,16 +491,16 @@ class TropyPageState extends State<TropyPage>{
   Future<void> loadPushTropPage(BuildContext context, TropSharedPreviewData data) async {
 
     Trop? loadSharedTrop;
-    if(Trop.allSharedMapByUniqName.containsKey(data.uniqName))
-      if(data.lastUpdateTime == Trop.allSharedMapByUniqName[data.uniqName]!.lastServerUpdateTime)
-        loadSharedTrop =  Trop.allSharedMapByUniqName[data.uniqName];
+    if(Trop.allSharedMapByKey.containsKey(data.key))
+      if(data.lastUpdateTime == Trop.allSharedMapByKey[data.key]!.lastServerUpdateTime)
+        loadSharedTrop =  Trop.allSharedMapByKey[data.key];
 
     if(loadSharedTrop != null)
       pushPage(context, builder: (context) => TropPage(loadSharedTrop!));
     else {
       showLoadingWidget(context, AppColors.zhpTropColor, 'Otwieranie...');
       await ApiTrop.getTrop(
-          tropUniqName: data.uniqName,
+          tropKey: data.key,
           onSuccess: (Trop trop) async {
             trop.dumpAsShared();
             Trop.addSharedToAll(trop, context: context);

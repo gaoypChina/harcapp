@@ -217,7 +217,7 @@ void main() {
     assert(OwnAlbum.all[0].iconKey == CommonIconData.all.keys.toList()[20]);
 
     assert(Trop.allOwn.length == 1);
-    assert(Trop.allOwn[0].uniqName == trop.uniqName);
+    assert(Trop.allOwn[0].lclId == trop.lclId);
     assert(Trop.allOwn[0].name == trop.name);
     assert(Trop.allOwn[0].customIconTropName == trop.customIconTropName);
     assert(Trop.allOwn[0].category == trop.category);
@@ -287,7 +287,7 @@ void main() {
     assert(OwnAlbum.all[0].offSongs[3].lclId == OffSong.allOfficial[23].lclId);
 
     assert(Trop.allOwn.length == 1);
-    assert(Trop.allOwn[0].uniqName == trop.uniqName);
+    assert(Trop.allOwn[0].lclId == trop.lclId);
     assert(Trop.allOwn[0].name == trop.name);
     assert(Trop.allOwn[0].customIconTropName == trop.customIconTropName);
     assert(Trop.allOwn[0].category == trop.category);

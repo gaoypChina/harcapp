@@ -10,6 +10,7 @@ import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/tr
 import 'package:harcapp/_new/cat_page_home/user_list_managment_loadable_page.dart';
 import 'package:harcapp/_new/cat_page_home/user_tile_dialogs.dart';
 import 'package:harcapp/account/account.dart';
+import 'package:harcapp/logger.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
@@ -157,8 +158,13 @@ class TropUserTileExtendedState extends State<TropUserTileExtended>{
 
           showLoadingWidget(context, iconEnab_(context), 'Ostatnia prosta...');
 
+          if(trop.key == null){
+            logger.e("Registered a failed attempt to call `updateUsers` on trop with no trop key.");
+            return;
+          }
+
           await ApiTrop.updateUsers(
-              tropUniqName: trop.uniqName,
+              tropKey: trop.key!,
               users: [TropUserUpdateBody(user.key, role: Optional.of(newRole))],
               onSuccess: (List<TropUser> updatedUsers, DateTime lastSyncTime) async {
                 trop.updateLoadedUsers(updatedUsers, context: context);
@@ -193,9 +199,14 @@ class TropUserTileExtendedState extends State<TropUserTileExtended>{
       removingUserDetailMess: '${user.name} nie będzie mieć dłużej dostępu do zarządzania tropem.\n\nNa pewno chcesz ${user.isMale?'go':'ją'} wyprosić?',
       handleRemove: () async {
 
+        if(trop.key == null){
+          logger.e("Registered a failed attempt to call `removeUsers` on trop with no trop key.");
+          return;
+        }
+
         showLoadingWidget(context, iconEnab_(context), 'Wypraszanie koordynatora...');
         await ApiTrop.removeUsers(
-            tropUniqName: trop.uniqName,
+            tropKey: trop.key!,
             userKeys: [user.key],
             onSuccess: (List<String> removedUsers, DateTime lastSyncTime) async {
               trop.removeLoadedUsersByKey(removedUsers, context: context);

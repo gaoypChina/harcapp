@@ -5,9 +5,11 @@ import 'package:harcapp/_common_widgets/border_material.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_common_widgets/loading_widget.dart';
+import 'package:harcapp/_new/api/trop.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_editor_page/providers.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_icon.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
+import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/date_to_str.dart';
@@ -18,6 +20,7 @@ import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:optional/optional_internal.dart';
 import 'package:provider/provider.dart';
 
 import '../model/trop.dart';
@@ -28,8 +31,20 @@ class TropEditorPage extends StatefulWidget{
   final TropBaseData? initTropBaseData;
   final List<TropCategory> allCategories;
   final void Function(Trop)? onSaved;
+  final void Function()? onForceLoggedOut;
+  final void Function()? onDeleted;
+  final void Function()? onError;
 
-  const TropEditorPage({this.initTrop, this.initTropBaseData, required this.allCategories, this.onSaved, super.key}):
+  const TropEditorPage({
+    this.initTrop,
+    this.initTropBaseData,
+    required this.allCategories,
+    this.onSaved,
+    this.onForceLoggedOut,
+    this.onDeleted,
+    this.onError,
+    super.key
+  }):
     assert(!(initTrop != null && initTropBaseData != null));
 
   @override
@@ -43,6 +58,9 @@ class TropEditorPageState extends State<TropEditorPage>{
   TropBaseData? get initTropBaseData => widget.initTropBaseData;
   List<TropCategory> get allCategories => widget.allCategories;
   void Function(Trop)? get onSaved => widget.onSaved;
+  void Function()? get onForceLoggedOut => widget.onForceLoggedOut;
+  void Function()? get onDeleted => widget.onDeleted;
+  void Function()? get onError => widget.onDeleted;
 
   bool get editMode => initTrop != null; // If initTropBaseData is passed, it means the trop was not used before.
 
@@ -90,11 +108,14 @@ class TropEditorPageState extends State<TropEditorPage>{
                     return;
                   }
 
+                  bool isAnyTaskShared = false;
+
                   for(TropTaskEditableData taskTmp in TasksProvider.of(context).tasks) {
 
                     if(taskTmp.isEmpty) continue;
 
                     TropTaskData task = taskTmp.toTaskData();
+                    if(task.newAssignee != null) isAnyTaskShared = true;
                     tasks.add(task);
                   }
 
@@ -106,34 +127,146 @@ class TropEditorPageState extends State<TropEditorPage>{
                     return;
                   }
 
-                  if(editMode) {
-                    initTrop!.name = name;
-                    initTrop!.category = category;
-                    initTrop!.aims = aims;
-                    initTrop!.startDate = startTime;
-                    initTrop!.endDate = endTime;
-                    initTrop!.tasks = tasks.map((t) => t.toTask(initTrop!)).toList();
+                  showLoadingWidget(
+                      context,
+                      accent_(context),
+                      initTrop == null? 'Tworzenie tropu...': 'Poprawianie...'
+                  );
 
-                    initTrop!.saveOwn();
+                  String? customIconTropName = initTropBaseData?.customIconTropName;
+
+                  if(editMode) {
+
+                    if(initTrop!.isShared){
+                      ApiTrop.update(
+                          trop: initTrop!,
+
+                          name:
+                          initTrop!.name == name?
+                          null:
+                          name,
+
+                          customIconTropName:
+                          initTrop!.customIconTropName == customIconTropName?
+                          const Optional.empty():
+                          Optional.ofNullable(customIconTropName),
+
+                          category:
+                          initTrop!.category == category?
+                          null:
+                          category,
+
+                          aims:
+                          initTrop!.aims == aims?
+                          null:
+                          aims,
+
+                          dateStart:
+                          initTrop!.startDate == startTime?
+                          null:
+                          startTime,
+
+                          dateEnd:
+                          initTrop!.endDate == endTime?
+                          null:
+                          endTime,
+
+                          completed: null,
+                          completionDate: null,
+
+                          tasks: tasks,
+
+                          onSuccess: (community) async {
+                            await popPage(context); // Close loading widget.
+                            await popPage(context);
+                            onSaved?.call(community);
+                          },
+                          onForceLoggedOut: () async {
+                            if(!mounted) return true;
+                            showAppToast(context, text: forceLoggedOutMessage);
+                            await popPage(context); // Close loading widget.
+                            onForceLoggedOut?.call();
+                            return true;
+                          },
+                          onServerMaybeWakingUp: () async {
+                            if(mounted) showServerWakingUpToast(context);
+                            await popPage(context); // Close loading widget.
+                            return true;
+                          },
+                          onError: (_) async {
+                            await popPage(context); // Close loading widget.
+                            onError?.call();
+                          }
+                      );
+                    } else {
+                      initTrop!.name = name;
+                      initTrop!.category = category;
+                      initTrop!.aims = aims;
+                      initTrop!.startDate = startTime;
+                      initTrop!.endDate = endTime;
+                      initTrop!.tasks = tasks.map((t) => t.toTask(initTrop!)).toList();
+                      initTrop!.saveOwn();
+                    }
+
                     onSaved?.call(initTrop!);
+                    Trop.callProvidersOf(context);
                     Navigator.pop(context);
 
                   } else {
-                    Trop trop = Trop.create(
-                        name: name,
-                        customIconTropName: initTropBaseData?.customIconTropName,
-                        category: category,
-                        aims: aims,
-                        startDate: startTime,
-                        endDate: endTime,
-                        completed: false,
-                        completionTime: null,
-                        tasks: tasks,
-                        lastServerUpdateTime: null
-                    );
-                    trop.saveOwn();
-                    await popPage(context);
-                    onSaved?.call(trop);
+
+                    if(isAnyTaskShared){
+                      ApiTrop.create(
+                          name: name,
+                          customIconTropName: customIconTropName,
+                          category: category,
+                          aims: aims,
+                          dateStart: startTime,
+                          dateEnd: endTime,
+                          completed: false,
+                          completionDate: null,
+                          tasks: tasks,
+
+                          onSuccess: (trop) async {
+                            await popPage(context); // Close loading widget.
+                            await popPage(context);
+                            onSaved?.call(trop);
+                          },
+                          onForceLoggedOut: () async {
+                            if(!mounted) return true;
+                            showAppToast(context, text: forceLoggedOutMessage);
+                            await popPage(context); // Close loading widget.
+                            onForceLoggedOut?.call();
+                            return true;
+                          },
+                          onServerMaybeWakingUp: () async {
+                            if(mounted) showServerWakingUpToast(context);
+                            await popPage(context); // Close loading widget.
+                            return true;
+                          },
+                          onError: (_) async {
+                            await popPage(context); // Close loading widget.
+                            onError?.call();
+                          }
+                      );
+                    } else {
+                      Trop trop = Trop.create(
+                          name: name,
+                          customIconTropName: initTropBaseData?.customIconTropName,
+                          category: category,
+                          aims: aims,
+                          startDate: startTime,
+                          endDate: endTime,
+                          completed: false,
+                          completionTime: null,
+                          tasks: tasks,
+                          lastServerUpdateTime: null
+                      );
+                      trop.saveOwn();
+                      await popPage(context); // Close loading widget.
+                      await popPage(context);
+                      onSaved?.call(trop);
+                    }
+
                   }
 
                   synchronizer.post();
@@ -637,7 +770,8 @@ class AssigneeButton extends StatelessWidget{
                   );
 
                   if(newText != null) {
-                    task.assignee = null;
+                    task.currentAssignee = null;
+                    task.newAssignee = null;
                     task.assigneeController.text = newText;
                     tasksProvider.notify();
                   }
