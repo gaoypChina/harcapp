@@ -141,6 +141,8 @@ class TropEditorPageState extends State<TropEditorPage>{
                       initTrop == null? 'Tworzenie tropu...': 'Poprawianie...'
                   );
 
+                  tasks.sort((t1, t2) => t1.deadline.millisecondsSinceEpoch - t2.deadline.millisecondsSinceEpoch);
+
                   String? customIconTropName = initTropBaseData?.customIconTropName;
 
                   TropProvider tropProvider = TropProvider.of(context);

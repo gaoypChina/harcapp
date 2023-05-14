@@ -21,7 +21,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:path/path.dart';
 import 'package:uuid/uuid.dart';
 import 'package:provider/provider.dart';
-import 'package:webfeed/util/iterable.dart';
+import 'package:collection/collection.dart';
 
 class TropProvider extends ChangeNotifier{
   static TropProvider of(BuildContext context) => Provider.of<TropProvider>(context, listen: false);
@@ -633,7 +633,7 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
         userCount: 0
     );
 
-    trop.tasks = tasks.map((t) => t.toTask(trop)).toList();
+    trop.tasks.addAll(tasks.map((t) => t.toTask(trop)).toList());
     return trop;
   }
 
