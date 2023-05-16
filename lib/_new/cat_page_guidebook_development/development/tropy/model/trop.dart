@@ -644,11 +644,11 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
       throw MissingDecodeParamError(paramLastUpdateTime);
 
 
-    String? validLclId = respMapData[paramLclId];
+    String? validLclId = lclId??respMapData[paramLclId];
     if(!isShared && validLclId == null)
       throw MissingDecodeParamError(paramLclId);
 
-    String? validKey = respMapData[paramKey];
+    String? validKey = key??respMapData[paramKey];
     if(isShared && validKey == null)
       throw MissingDecodeParamError(paramKey);
 

@@ -44,7 +44,7 @@ class AddUserBottomSheet extends StatelessWidget{
             for(MarkerManager manager in addedManagers)
               if(marker.isManagerWithinLoaded(manager))
                 marker.addLoadedManagers([manager], context: null);
-            marker.managerCount += addedManagers.length;
+            marker.managerCount = marker.managerCount! + addedManagers.length;
             MarkerData.callProvidersWithManagers(
                 markerProv,
                 markerListProv,

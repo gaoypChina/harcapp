@@ -342,7 +342,8 @@ class MarkerData{
   List<MarkerManager> get loadedManagers => _loadedManagers;
   Map<String, MarkerManager> get loadedManagersMap => _loadedManagersMap;
 
-  int managerCount;
+  // Null if user is not logged in. In such case he does not see the managers.
+  int? managerCount;
 
   List<Tuple2<CommunityPreviewData, String?>>? communities;
   late bool anyDoubleCommunityCategories;
@@ -531,7 +532,7 @@ class MarkerData{
     for(String managerKey in managerKeys){
       MarkerManager? removed = _loadedManagersMap.remove(managerKey);
       if(removed != null && shrinkTotalCount)
-        managerCount = managerCount - 1;
+        managerCount = managerCount! - 1;
     }
 
     if(context == null) return;
@@ -546,7 +547,7 @@ class MarkerData{
       logger.d("A dangerous inconsistency between the objectList and the objectKeyMap occurred!");
 
     if(success && removed != null && shrinkTotalCount)
-      managerCount = managerCount - 1;
+      managerCount = managerCount! - 1;
   }
 
   bool isManagerWithinLoaded(MarkerManager manager){
