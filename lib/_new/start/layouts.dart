@@ -124,7 +124,8 @@ class _HarcAppState extends State<_HarcApp> with TickerProviderStateMixin{
 class HarcAppRotatedBackground extends StatefulWidget{
 
   final Color color;
-  const HarcAppRotatedBackground(this.color, {super.key});
+  final double sizeFactor;
+  const HarcAppRotatedBackground(this.color, {this.sizeFactor = 0.8, super.key});
 
   @override
   State<StatefulWidget> createState() => HarcAppRotatedBackgroundState();
@@ -152,7 +153,7 @@ class HarcAppRotatedBackgroundState extends State<HarcAppRotatedBackground>{
   @override
   Widget build(BuildContext context) {
 
-    double bgIconSize = MediaQuery.of(context).size.width*.8;
+    double bgIconSize = MediaQuery.of(context).size.shortestSide*widget.sizeFactor;
 
     return Positioned(
       bottom: -1*bgIconSize*0.167,
@@ -713,58 +714,50 @@ class PowstanieWielkopolskieLayoutState extends State<DefaultLayout>{
           Column(
               children:[
 
-                Expanded(
-                  child: Column(
-                    children: [
+                const SizedBox(height: 32.0),
 
-                      const SizedBox(height: 32.0),
+                Center(
+                  child: SvgPicture.asset(
+                    'assets/images/start/powstanie_wielkopolskie_orzel.svg',
+                    width: MediaQuery.of(context).size.shortestSide/2,
+                    color: Colors.red[700]!,
+                  ),
+                ),
 
-                      Center(
-                        child: SvgPicture.asset(
-                          'assets/images/start/powstanie_wielkopolskie_orzel.svg',
-                          width: MediaQuery.of(context).size.shortestSide/2,
-                          color: Colors.red[700]!,
-                        ),
-                      ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                      top: 32,
+                      left: 32,
+                      right: 32
+                  ),
+                  child: Text(
+                    '16 lutego 1919 A.D.',
+                    style: GoogleFonts.cinzelDecorative(
+                        fontSize: QuoteWidgetState.textSize,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.red[700]!,
+                        height: 1.3
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
 
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          top: 32,
-                          left: 32,
-                          right: 32
-                        ),
-                        child: Text(
-                          '16 lutego 1919 A.D.',
-                          style: GoogleFonts.cinzelDecorative(
-                              fontSize: QuoteWidgetState.textSize,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.red[700]!,
-                              height: 1.3
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            top: 16,
-                            left: 32,
-                            right: 32,
-                        ),
-                        child: Text(
-                          'Zwycięstwo Powstania Wielkopolskiego',
-                          style: GoogleFonts.cinzelDecorative(
-                              fontSize: QuoteWidgetState.textSize,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.red[700]!,
-                              height: 1.3
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-
-                    ],
-                  )
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: 16,
+                    left: 32,
+                    right: 32,
+                  ),
+                  child: Text(
+                    'Zwycięstwo Powstania Wielkopolskiego',
+                    style: GoogleFonts.cinzelDecorative(
+                        fontSize: QuoteWidgetState.textSize,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.red[700]!,
+                        height: 1.3
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
 
                 Expanded(
