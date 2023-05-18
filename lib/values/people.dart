@@ -49,6 +49,7 @@ List<Person> allPeople = [
   FRANCISZEK_TOMASZCZYK,
   GRZEGORZ_BOROWIEC,
   GRZEGORZ_FRANKOW,
+  GRZEGORZ_PAWLAK,
   GRZEGORZ_ZAWADZKI,
   HANNA_CISAKOWSKA,
   HANNA_CZAJKOWSKA,
@@ -63,7 +64,9 @@ List<Person> allPeople = [
   JADWIGA_GORSKA,
   JADWIGA_SZEWCZYK,
   JAGIENKA_KULCZYCKA,
+  JAKUB_DEBICKI,
   JAKUB_EJDUK,
+  JAKUB_KLEPACZ,
   JAKUB_KLUCZKOWSKI,
   JAKUB_MLYNSKI,
   JAKUB_SKUCHA,
@@ -97,6 +100,7 @@ List<Person> allPeople = [
   KAJETAN_RUSZKOWSKI,
   KAJETAN_WITKOWSKI,
   KAJETAN_WYGNANSKI,
+  KAROLINA_CZARNECKA,
   KAROLINA_MARCINKOWSKA,
   KAMIL_GORNIK,
   KAMIL_ORGANISTA,
@@ -440,6 +444,10 @@ const Person GRZEGORZ_FRANKOW = Person(
     org: Org.zhp,
     email: ['grzegorz.frankow@zhp.net.pl']
 );
+const Person GRZEGORZ_PAWLAK = Person(
+  name: 'Grzegorz Pawlak',
+  email: ['grzegorz.pawlakk@gmail.com']
+);
 const Person GRZEGORZ_ZAWADZKI = Person(
     name: 'Grzegorz Zawadzki',
     druzyna: '8. DSH "Ignis"',
@@ -528,12 +536,28 @@ const Person JAGIENKA_KULCZYCKA = Person(
   org: Org.zhp,
   email: ['jagienkakulczycka@gmail.com', 'kulczyckajagienka@gmail.com'],
 );
+const Person JAKUB_DEBICKI = Person(
+    name: 'Jakub Dębicki',
+    druzyna: '8. Drużyna Wędrownicza „Kuźnia Płomienia”',
+    hufiec: huf_zhp_lask,
+    stopH: StopHarc.zhpCwik,
+    org: Org.zhp,
+    email: ['j.debicki@icloud.com']
+);
 const Person JAKUB_EJDUK = Person(
     name: 'Jakub Ejduk',
     stopI: 'pwd.',
     stopH: StopHarc.zhpHOc,
     hufiec: huf_zhp_warszawa_praga_pn,
     org: Org.zhp
+);
+const Person JAKUB_KLEPACZ = Person(
+    name: 'Jakub Klepacz',
+    druzyna: '7 ŁDW "Chaos"',
+    hufiec: huf_zhp_lodz_gorna,
+    stopH: StopHarc.zhpHOc,
+    org: Org.zhp,
+    email: ['jakub.klepacz@zhp.net.pl']
 );
 const Person JAKUB_KLUCZKOWSKI = Person(
     name: 'Jakub Kluczkowski',
@@ -648,6 +672,12 @@ const Person KACPER_KOZLUK = Person(
 const Person KACPER_SMOLKA = Person(name: 'Kacper Smółka', org: Org.zhp, email: ['kacper.smolka@zhp.net.pl ']);
 const Person KACPER_SWITKIEWICZ = Person(name: 'Kacper Świtkiewicz', stopH: StopHarc.dhc, org: Org.zhp);
 const Person KACPER_SZCZENSY = Person(name: 'Kacper Szczęsny', stopH: StopHarc.zhpWywiadowca, org: Org.zhp);
+const Person KACPER_SZYMANKIEWICZ = Person(
+  name: 'Kacper Szymankiewicz',
+  druzyna: '15. Dąbrowska Drużyna Starszoharcerska "Niezłomni" im. Rotmistrza Witolda Pileckiego',
+  hufiec: huf_zhp_dabrowa_gornicza,
+  email: ['kacper.szymankiewicz@zhp.net.pl']
+);
 const Person KACPER_TOMCZYK = Person(
   name: 'Kacper Tomczyk',
   druzyna: '77. Wrzesińska Drużyna Wędrownicza "Huragan"',
@@ -690,6 +720,14 @@ const Person KAJETAN_WYGNANSKI = Person(
   hufiec: huf_zhp_pruszkow,
   stopH: StopHarc.zhpOdkrywca,
   org: Org.zhp,
+);
+const Person KAROLINA_CZARNECKA = Person(
+    name: 'Karolina Czarnecka',
+    druzyna: '',
+    hufiec: '',
+    stopH: StopHarc.dhd,
+    org: Org.zhr_o,
+    email: ['karolinaczarnecka2007@gmail.com']
 );
 const Person KAROLINA_MARCINKOWSKA = Person(name: 'Karolina Marcinkowska');
 const Person KAMIL_GORNIK = Person(
@@ -1208,7 +1246,6 @@ const Person WERONIKA_ZAWIERUCHA = Person(
     name: 'Weronika Zawierucha',
     druzyna: '43. ZDHS Parasol',
     hufiec: huf_zhp_zgierz,
-
     stopH: StopHarc.zhpPionierka,
     org: Org.zhp,
     email: ['zawieruchaweronika570@gmail.com']
@@ -1230,6 +1267,13 @@ const Person WINCENTY_DIETRYCH = Person(name: 'Wincenty Dietrych', stopH: StopHa
 const Person WOJCIECH_GRUSZCZYNSKI = Person(name: 'Wojciech Gruszczyński', stopH: StopHarc.zhpCwik,
   druzyna: '35. Poznańska Drużyna Harcerska',
   org: Org.zhp,
+);
+const Person WOJCIECH_GODECKI = Person(
+  name: 'Wojciech Godecki',
+  stopI: 'hm.',
+  druzyna: '"Złota Ósemka" im. Zawiszy Czarnego',
+  hufiec: huf_zhp_dabrowa_gornicza,
+  email: ['wojciech.godecki@zhp.net.pl']
 );
 const Person WOJCIECH_TURSKI = Person(name: 'Wojciech Turski', stopH: StopHarc.zhpCwik, org: Org.zhp);
 const Person WOJCIECH_WALACH = Person(

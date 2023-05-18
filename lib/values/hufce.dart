@@ -204,6 +204,7 @@ const String huf_zhp_brodnica = 'Hufiec ZHP Brodnica';
 const String huf_zhp_bydgoszcz_miasto = 'Hufiec ZHP Bydgoszcz-Miasto';
 const String huf_zhp_chrzanow = 'Hufiec ZHP Chrzanów';
 const String huf_zhp_czestochowa = 'Hufiec ZHP Częstochowa';
+const String huf_zhp_dabrowa_gornicza = 'Hufiec ZHP Dąbrowa Górnicza';
 const String huf_zhp_doliny_liwca = 'Hufiec ZHP Doliny Liwca im. Edmunda Zarzyckiego';
 const String huf_zhp_gdansk_srodmiesie = 'Hufiec ZHP Gdańsk-Śródmieście';
 const String huf_zhp_glowno = 'Hufiec ZHP Głowno';
