@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/border_material.dart';
+import 'package:harcapp/_new/api/trop.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/model/trop.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/values/colors.dart';
+import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/date_to_str.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/app_text_field_hint.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -75,10 +78,19 @@ class TropTaskWidgetState extends State<TropTaskWidget>{
   TropTask get task => widget.task;
   int get index => widget.index;
 
-  bool get tropSelectable{
+  bool get tropTaskEditable{
+    if(taskCompletedChanging) return false;
     if(!trop.isShared) return true;
     if(trop.myRole == TropRole.OWNER) return true;
     return task.assignee?.key == AccountData.key;
+  }
+
+  late bool taskCompletedChanging;
+
+  @override
+  void initState() {
+    taskCompletedChanging = false;
+    super.initState();
   }
 
   @override
@@ -96,12 +108,41 @@ class TropTaskWidgetState extends State<TropTaskWidget>{
                 topRight: Radius.circular(AppCard.bigRadius),
               ),
               color: cardEnab_(context),
-              onTap: tropSelectable?() {
-                setState(() => task.completed = !task.completed);
-                prov.notify();
-                TropProvider.notify_(context);
-                TropListProvider.notify_(context);
-                trop.saveOwn();
+              onTap: tropTaskEditable?() async {
+                if(trop.isShared){
+                  setState(() => taskCompletedChanging = true);
+                  await ApiTrop.updateTaskCompleted(
+                    trop: trop,
+                    tropTaskLclId: task.lclId,
+                    completed: !task.completed,
+                    onSuccess: (completed, _){
+                      setState(() => task.completed = completed);
+                      trop.saveShared();
+                    },
+                    onForceLoggedOut: (){
+                      if(!mounted) return true;
+                      showAppToast(context, text: forceLoggedOutMessage);
+                      setState(() {});
+                      return true;
+                    },
+                    onServerMaybeWakingUp: (){
+                      if(!mounted) return true;
+                      showServerWakingUpToast(context);
+                      return true;
+                    },
+                    onError: (_){
+                      if(!mounted) return;
+                      showAppToast(context, text: simpleErrorMessage);
+                    },
+                  );
+                  setState(() => taskCompletedChanging = false);
+                } else {
+                  setState(() => task.completed = !task.completed);
+                  prov.notify();
+                  TropProvider.notify_(context);
+                  TropListProvider.notify_(context);
+                  trop.saveOwn();
+                }
               }:null,
               child: Padding(
                 padding: const EdgeInsets.only(top: Dimen.defMarg/2),
@@ -116,7 +157,7 @@ class TropTaskWidgetState extends State<TropTaskWidget>{
                       style: AppTextStyle(
                           fontSize: Dimen.TEXT_SIZE_BIG,
                           fontWeight: weight.halfBold,
-                          color: !tropSelectable?
+                          color: !tropTaskEditable?
                           iconDisab_(context):
                           task.completed?
                           AppColors.zhpTropColor:
@@ -130,7 +171,7 @@ class TropTaskWidgetState extends State<TropTaskWidget>{
                         child: Checkbox(
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimen.ICON_SIZE)),
                           checkColor: cardEnab_(context),
-                          activeColor: tropSelectable?
+                          activeColor: tropTaskEditable?
                           AppColors.zhpTropColor:
                           iconEnab_(context),
                           onChanged: (value){},
@@ -163,6 +204,42 @@ class TropTaskWidgetState extends State<TropTaskWidget>{
                 child: task.completed?
                 BorderMaterial(
                     child: SimpleButton(
+                      onTap: tropTaskEditable?() async {
+                        String? summary = await summarizeTask(context, task: task, index: index);
+                        if (summary == null) return;
+                        if (trop.isShared) {
+                          setState(() => taskCompletedChanging = true);
+                          await ApiTrop.updateTaskSummary(
+                            trop: trop,
+                            tropTaskLclId: task.lclId,
+                            summary: summary,
+                            onSuccess: (summary, _){
+                              setState(() => task.summary = summary);
+                              trop.saveShared();
+                            },
+                            onForceLoggedOut: (){
+                              if(!mounted) return true;
+                              showAppToast(context, text: forceLoggedOutMessage);
+                              setState(() {});
+                              return true;
+                            },
+                            onServerMaybeWakingUp: (){
+                              if(!mounted) return true;
+                              showServerWakingUpToast(context);
+                              return true;
+                            },
+                            onError: (_){
+                              if(!mounted) return;
+                              showAppToast(context, text: simpleErrorMessage);
+                            },
+                          );
+                          setState(() => taskCompletedChanging = false);
+                        } else {
+                          setState(() => task.summary = summary);
+                          trop.saveOwn();
+                          prov.notify();
+                        }
+                      }: null,
                       child: Padding(
                         padding: const EdgeInsets.all(Dimen.ICON_MARG),
                         child: Column(
@@ -189,16 +266,7 @@ class TropTaskWidgetState extends State<TropTaskWidget>{
                             )
                           ],
                         ),
-                      ),
-                      onTap: () async {
-
-                        String? summary = await summarizeTask(context, task: task, index: index);
-                        if(summary == null) return;
-                        task.summary = summary;
-                        trop.saveOwn();
-                        prov.notify();
-
-                      }
+                      )
                     )
                 ):
                 Container(),

@@ -134,8 +134,6 @@ void main() async {
   else
     appMode = AppMode.appModeDefault;
 
-  appMode = AppMode.appModePowstanieWielkopolskie;
-
   await ShaPref.init();
   await initPaths();
   await AccountData.init();

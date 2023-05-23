@@ -244,7 +244,7 @@ class ApiTrop{
   );
 
   static Future<Response?> updateTaskAssignee({
-    required String tropKey,
+    required Trop trop,
     required String tropTaskLclId,
     required String userNick,
     FutureOr<void> Function(TropUser user, DateTime lastSyncTime)? onSuccess,
@@ -254,7 +254,7 @@ class ApiTrop{
   }) async => await API.sendRequest(
     withToken: true,
     requestSender: (Dio dio) async => await dio.put(
-      '${API.SERVER_URL}api/trop/$tropKey/task/$tropTaskLclId/assignee',
+      '${API.SERVER_URL}api/trop/${trop.key}/task/$tropTaskLclId/assignee',
       queryParameters: {
         'userNick': userNick
       }
@@ -265,12 +265,70 @@ class ApiTrop{
 
       try {
         TropUser user = TropUser.fromRespMap(userRawData);
+        trop.lastServerUpdateTime = now;
+        trop.saveShared();
         // on the backend side `now` is set to be same as trop's `lastSyncTime`
         await onSuccess?.call(user, now);
       } catch(e) {
         await onError?.call(null);
       }
 
+    },
+    onForceLoggedOut: onForceLoggedOut,
+    onServerMaybeWakingUp: onServerMaybeWakingUp,
+    onError: (err) async => onError?.call(err.response),
+  );
+
+  static Future<Response?> updateTaskCompleted({
+    required Trop trop,
+    required String tropTaskLclId,
+    required bool completed,
+    FutureOr<void> Function(bool completed, DateTime lastSyncTime)? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<void> Function(Response? response)? onError,
+  }) async => await API.sendRequest(
+    withToken: true,
+    requestSender: (Dio dio) async => await dio.put(
+        '${API.SERVER_URL}api/trop/${trop.key}/task/$tropTaskLclId/completed',
+        queryParameters: {
+          'completed': completed
+        }
+    ),
+    onSuccess: (Response response, DateTime now) async {
+      bool completed = response.data;
+      trop.lastServerUpdateTime = now;
+      trop.saveShared();
+      // on the backend side `now` is set to be same as trop's `lastSyncTime`
+      await onSuccess?.call(completed, now);
+    },
+    onForceLoggedOut: onForceLoggedOut,
+    onServerMaybeWakingUp: onServerMaybeWakingUp,
+    onError: (err) async => onError?.call(err.response),
+  );
+
+  static Future<Response?> updateTaskSummary({
+    required Trop trop,
+    required String tropTaskLclId,
+    required String summary,
+    FutureOr<void> Function(String summary, DateTime lastSyncTime)? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<void> Function(Response? response)? onError,
+  }) async => await API.sendRequest(
+    withToken: true,
+    requestSender: (Dio dio) async => await dio.put(
+        '${API.SERVER_URL}api/trop/${trop.key}/task/$tropTaskLclId/summary',
+        queryParameters: {
+          'summary': summary
+        }
+    ),
+    onSuccess: (Response response, DateTime now) async {
+      String summary = response.data;
+      trop.lastServerUpdateTime = now;
+      trop.saveShared();
+      // on the backend side `now` is set to be same as trop's `lastSyncTime`
+      await onSuccess?.call(summary, now);
     },
     onForceLoggedOut: onForceLoggedOut,
     onServerMaybeWakingUp: onServerMaybeWakingUp,
@@ -335,6 +393,23 @@ class ApiTrop{
       onError: (err) async => onError?.call(err.response),
     );
   }
+
+  static Future<Response?> delete({
+    required String tropKey,
+    FutureOr<void> Function()? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<void> Function()? onError,
+  }) => API.sendRequest(
+      withToken: true,
+      requestSender: (Dio dio) => dio.delete(
+          '${API.SERVER_URL}api/trop/$tropKey'
+      ),
+      onSuccess: (Response response, DateTime now) async => await onSuccess?.call(),
+      onForceLoggedOut: onForceLoggedOut,
+      onServerMaybeWakingUp: onServerMaybeWakingUp,
+      onError: (DioError err) async => await onError?.call()
+  );
 
   static Future<Response?> update({
     required Trop trop,
@@ -412,5 +487,23 @@ class ApiTrop{
       onError: (err) async => onError?.call(err.response),
     );
   }
+
+
+  static Future<Response?> leave({
+    required String tropKey,
+    FutureOr<void> Function()? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<void> Function()? onError,
+  }) => API.sendRequest(
+      withToken: true,
+      requestSender: (Dio dio) => dio.delete(
+        '${API.SERVER_URL}api/trop/$tropKey/leave',
+      ),
+      onSuccess: (Response response, DateTime now) async => await onSuccess?.call(),
+      onForceLoggedOut: onForceLoggedOut,
+      onServerMaybeWakingUp: onServerMaybeWakingUp,
+      onError: (err) async => await onError?.call()
+  );
 
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
+import 'package:harcapp/_common_classes/carefully_leave_group_with_admins.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/border_material.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
@@ -71,6 +72,11 @@ class TropEditorPageState extends State<TropEditorPage>{
   void Function()? get onError => widget.onDeleted;
 
   bool get editMode => initTrop != null; // If initTropBaseData is passed, it means the trop was not used before.
+
+  bool get showDeleteButton{
+    if(!editMode) return false;
+    return !initTrop!.isShared || initTrop!.myRole == TropRole.OWNER;
+  }
 
   @override
   Widget build(BuildContext context) => MultiProvider(
@@ -682,60 +688,32 @@ class TropEditorPageState extends State<TropEditorPage>{
                   ),
                 ),
 
-                if(editMode)
+                if(showDeleteButton)
                   const SizedBox(height: Dimen.SIDE_MARG),
 
-                if(editMode)
+                if(showDeleteButton)
                   Icon(MdiIcons.circleMedium, color: hintEnab_(context)),
 
-                if(editMode)
+                if(showDeleteButton)
                   const SizedBox(height: Dimen.SIDE_MARG),
 
-                if(editMode)
+                if(showDeleteButton)
                   const TitleShortcutRowWidget(
                     title: 'Ostrożnie!',
                     titleColor: Colors.red,
                     textAlign: TextAlign.left,
                   ),
 
-                if(editMode)
-                  SimpleButton.from(
-                    color: Colors.red,
-                    context: context,
-                    icon: MdiIcons.trashCanOutline,
-                    text: 'Usuń trop',
-                    textColor: Colors.white,
-                    margin: EdgeInsets.zero,
-                    onTap: () => showAlertDialog(
-                        context,
-                        title: 'Zastanów się dobrze...',
-                        content: 'Trop <b>przestanie istnieć</b>.\n\nNa pewno chcesz go <b>usunąć</b>?',
-                        actionBuilder: (_) => [
+                if(showDeleteButton && !initTrop!.isShared)
+                  RemoveOwnTropButton(initTrop!)
+                else if(showDeleteButton && initTrop!.isShared)
+                  RemoveSharedTropButton(initTrop!),
 
-                          AlertDialogButton(text: 'Jednak nie', onTap: () => Navigator.pop(context)),
+                if(showDeleteButton && initTrop!.isShared)
+                  const SizedBox(height: Dimen.SIDE_MARG),
 
-                          AlertDialogButton(
-                              text: 'Tak',
-                              onTap: () async {
-
-                                Navigator.pop(context); // Close alert dialog.
-
-                                showLoadingWidget(context, iconEnab_(context), 'Zwijanie tropu...');
-
-                                bool removed;
-                                if(initTrop!.isShared) removed = initTrop!.deleteShared(context: context);
-                                else removed = initTrop!.deleteOwn(context: context);
-
-                                Navigator.pop(context); // Close loading widget.
-                                if(removed) Navigator.pop(context); // Close edit page.
-                                if(removed) Navigator.pop(context); // Close trop page.
-                                showAppToast(context, text: 'Usunięto trop');
-                              }
-                          )
-                        ]
-                    ),
-                  ),
-
+                if(showDeleteButton && initTrop!.isShared)
+                  LeaveSharedTropButton(initTrop!),
               ]))
           )
 
@@ -956,3 +934,163 @@ void openCategoryBottomSheet(
         )
     )
 );
+
+class RemoveOwnTropButton extends StatelessWidget{
+
+  final Trop trop;
+
+  const RemoveOwnTropButton(this.trop, {super.key});
+
+  @override
+  Widget build(BuildContext context) => SimpleButton.from(
+    color: Colors.red,
+    context: context,
+    icon: MdiIcons.trashCanOutline,
+    text: 'Usuń trop',
+    textColor: Colors.white,
+    margin: EdgeInsets.zero,
+    onTap: () => showAlertDialog(
+        context,
+        title: 'Zastanów się dobrze...',
+        content: 'Trop <b>przestanie istnieć</b>.\n\nNa pewno chcesz go <b>usunąć</b>?',
+        actionBuilder: (_) => [
+
+          AlertDialogButton(text: 'Jednak nie', onTap: () => Navigator.pop(context)),
+
+          AlertDialogButton(
+              text: 'Tak',
+              onTap: () async {
+
+                Navigator.pop(context); // Close alert dialog.
+
+                showLoadingWidget(context, iconEnab_(context), 'Zwijanie tropu...');
+
+                bool removed = trop.deleteOwn(context: context);
+
+                Navigator.pop(context); // Close loading widget.
+                if(removed) Navigator.pop(context); // Close edit page.
+                if(removed) Navigator.pop(context); // Close trop page.
+                showAppToast(context, text: 'Usunięto trop');
+              }
+          )
+        ]
+    ),
+  );
+  
+}
+
+class RemoveSharedTropButton extends StatelessWidget{
+
+  final Trop trop;
+
+  const RemoveSharedTropButton(this.trop, {super.key});
+
+  @override
+  Widget build(BuildContext context) => SimpleButton.from(
+    color: Colors.red,
+    context: context,
+    icon: MdiIcons.trashCanOutline,
+    text: 'Rozwiąż trop',
+    textColor: Colors.white,
+    margin: EdgeInsets.zero,
+    onTap: () => showAlertDialog(
+        context,
+        title: 'Zastanów się dobrze...',
+        content: 'Trop <b>przestanie istnieć</b>.\n\nNa pewno chcesz go <b>rozwiązać</b>?',
+        actionBuilder: (_) => [
+
+          AlertDialogButton(text: 'Jednak nie', onTap: () => Navigator.pop(context)),
+
+          AlertDialogButton(
+              text: 'Tak',
+              onTap: () async {
+
+                Navigator.pop(context); // Close alert dialog.
+
+                showLoadingWidget(context, iconEnab_(context), 'Zwijanie tropu...');
+
+                ApiTrop.delete(
+                  tropKey: trop.key!,
+                  onSuccess: (){
+                    trop.deleteShared(context: context);
+                    Navigator.pop(context); // Close loading widget.
+                    Navigator.pop(context); // Close edit page.
+                    Navigator.pop(context); // Close trop page.
+                    showAppToast(context, text: 'Usunięto trop');
+                  },
+                  onServerMaybeWakingUp: () async {
+                    showServerWakingUpToast(context);
+                    await popPage(context); // Close loading widget.
+                    Navigator.pop(context);
+
+                    return true;
+                  },
+                  onForceLoggedOut: (){
+                    showAppToast(context, text: forceLoggedOutMessage);
+                    Navigator.pop(context); // Close loading widget.
+                    return true;
+                  },
+                  onError: () async {
+                    showAppToast(context, text: simpleErrorMessage);
+                    await popPage(context); // Close loading widget.
+                  }
+                );
+
+              }
+          )
+        ]
+    ),
+  );
+
+}
+
+class LeaveSharedTropButton extends StatelessWidget{
+
+  final Trop trop;
+
+  final void Function()? onLeft;
+  final void Function()? onError;
+
+  const LeaveSharedTropButton(this.trop, {this.onLeft, this.onError, super.key});
+
+  @override
+  Widget build(BuildContext context) => SimpleButton.from(
+    color: Colors.red,
+    context: context,
+    icon: MdiIcons.exitRun,
+    text: 'Opuść trop',
+    textColor: Colors.white,
+    margin: EdgeInsets.zero,
+    onTap: () => carefullyLeaveGroupWithAdmins(
+        context: context,
+        allAdminCount: trop.userOwnerCount,
+        amIAdmin: trop.myRole == TropRole.OWNER,
+        cannotLeaveContent: 'Jesteś ostatnim właścicielem tropu i zamierzasz go opuścić!\n\nTak nie wolno.',
+        requestLeave: () => ApiTrop.leave(
+            tropKey: trop.key!,
+            onSuccess: () async {
+              showAppToast(context, text: 'Krąg opuszczony');
+              await popPage(context); // Close loading widget.
+              Navigator.pop(context);
+
+              onLeft?.call();
+            },
+            onServerMaybeWakingUp: () async {
+              showServerWakingUpToast(context);
+              await popPage(context); // Close loading widget.
+              Navigator.pop(context);
+
+              return true;
+            },
+            onError: () async {
+              showAppToast(context, text: simpleErrorMessage);
+              await popPage(context); // Close loading widget.
+              Navigator.pop(context);
+
+              onError?.call();
+            }
+        ),
+      )
+  );
+
+}

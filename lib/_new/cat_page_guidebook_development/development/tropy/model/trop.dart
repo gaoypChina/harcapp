@@ -497,6 +497,7 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
   static const String paramAssignedUsers = 'assignedUsers';
   static const String paramLoadedUsers = 'loadedUsers';
   static const String paramUserCount = 'userCount';
+  static const String paramUserOwnerCount = 'userOwnerCount';
 
   static const int maxLenName = 80;
   static const int maxAimCount = 50;
@@ -529,6 +530,7 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
   bool get isShared => _loadedUsers.isNotEmpty;
 
   int userCount;
+  int userOwnerCount;
 
   bool get isCategoryHarc => allHarcTropCategories.contains(category);
 
@@ -573,6 +575,7 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
     required Map<String, TropUser> loadedUsersMap,
 
     required this.userCount,
+    required this.userOwnerCount,
 
     super.notesForLeaders,
     super.exampleSpraws,
@@ -630,7 +633,8 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
         assignedUsersMap: {},
         loadedUsersMap: {},
 
-        userCount: 0
+        userCount: 0,
+        userOwnerCount: 0,
     );
 
     trop.tasks.addAll(tasks.map((t) => t.toTask(trop)).toList());
@@ -670,7 +674,8 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
       lastServerUpdateTime: lastServerUpdateTime,
       assignedUsersMap: {},
       loadedUsersMap: {},
-      userCount: respMapData[paramUserCount]??(throw MissingDecodeParamError(paramUserCount))
+      userCount: respMapData[paramUserCount]??(throw MissingDecodeParamError(paramUserCount)),
+      userOwnerCount: respMapData[paramUserOwnerCount]??(throw MissingDecodeParamError(paramUserOwnerCount)),
     );
 
     Map<String, TropUser> assignedUsers = {};
@@ -826,7 +831,8 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
     paramAssignedUsers: _assignedUsersMap.map((key, value) => MapEntry(key, value.toJsonMap())),
     paramLoadedUsers: _loadedUsersMap.map((key, value) => MapEntry(key, value.toJsonMap())),
 
-    paramUserCount: userCount
+    paramUserCount: userCount,
+    paramUserOwnerCount: userOwnerCount
   };
 
   void saveOwn({localOnly = false, bool? synced = false}){

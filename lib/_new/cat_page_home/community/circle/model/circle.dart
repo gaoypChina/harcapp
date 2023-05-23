@@ -141,6 +141,8 @@ class Circle extends CircleBasicData{
   List<Member> get loadedMembers => _loadedMembers;
   Map<String, Member> get loadedMembersMap => _loadedMembersMap;
 
+  int memberAdminCount;
+
   List<IndivCompBasicData> bindedIndivComps;
 
   bool get hasDescription => description != null && description!.isNotEmpty;
@@ -399,6 +401,7 @@ class Circle extends CircleBasicData{
 
     required List<Member> members,
     required super.memberCount,
+    required this.memberAdminCount,
 
     required List<Announcement> allAnnouncements,
     required this.pinnedCount,
@@ -453,7 +456,8 @@ class Circle extends CircleBasicData{
       shareCode: respMap["shareCode"],
       shareCodeSearchable: respMap["shareCodeSearchable"],
       members: (respMap['members']??(throw InvalidResponseError('members'))).map<Member>((data) => Member.fromRespMap(data)).toList(),
-      memberCount: respMap['memberCount']??(throw InvalidResponseError('colorsKey')),
+      memberCount: respMap['memberCount']??(throw InvalidResponseError('memberCount')),
+      memberAdminCount: respMap['memberAdminCount']??(throw InvalidResponseError('memberAdminCount')),
       allAnnouncements: [],
       pinnedCount: pinnedCount,
       pinnedAnnouncements: [],

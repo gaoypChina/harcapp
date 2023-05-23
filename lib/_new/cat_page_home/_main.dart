@@ -758,6 +758,7 @@ class NotLoggedInPartCommunitiesWidget extends StatelessWidget{
                       colorsKey: CommonColorData.defColorsKey,
                       members: [],
                       memberCount: 0,
+                      memberAdminCount: 0,
                       allAnnouncements: [],
                       pinnedCount: 0,
                       pinnedAnnouncements: [],
