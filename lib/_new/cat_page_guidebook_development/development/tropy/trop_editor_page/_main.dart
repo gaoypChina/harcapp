@@ -37,7 +37,7 @@ import '../model/trop_user.dart';
 class TropEditorPage extends StatefulWidget{
 
   final Trop? initTrop;
-  final TropBaseData? initTropBaseData;
+  final TropExampleData? initTropBaseData;
   final List<TropCategory> allCategories;
   final void Function(Trop)? onSaved;
   final void Function()? onForceLoggedOut;
@@ -64,7 +64,7 @@ class TropEditorPage extends StatefulWidget{
 class TropEditorPageState extends State<TropEditorPage>{
 
   Trop? get initTrop => widget.initTrop;
-  TropBaseData? get initTropBaseData => widget.initTropBaseData;
+  TropExampleData? get initTropBaseData => widget.initTropBaseData;
   List<TropCategory> get allCategories => widget.allCategories;
   void Function(Trop)? get onSaved => widget.onSaved;
   void Function()? get onForceLoggedOut => widget.onForceLoggedOut;
@@ -1061,7 +1061,12 @@ class LeaveSharedTropButton extends StatelessWidget{
     text: 'Opuść trop',
     textColor: Colors.white,
     margin: EdgeInsets.zero,
-    onTap: () => carefullyLeaveGroupWithAdmins(
+    onTap: (){
+
+      TropProvider tropProvider = TropProvider.of(context);
+      TropListProvider tropListProvider = TropListProvider.of(context);
+
+      carefullyLeaveGroupWithAdmins(
         context: context,
         allAdminCount: trop.userOwnerCount,
         amIAdmin: trop.myRole == TropRole.OWNER,
@@ -1069,7 +1074,13 @@ class LeaveSharedTropButton extends StatelessWidget{
         requestLeave: () => ApiTrop.leave(
             tropKey: trop.key!,
             onSuccess: () async {
-              showAppToast(context, text: 'Krąg opuszczony');
+              showAppToast(context, text: 'Trop opuszczony');
+
+              trop.deleteShared();
+              TropSharedPreviewData.removeFromAllByKey(trop.key!);
+              Trop.removeSharedFromAll(trop);
+              Trop.callProviders(tropProvider, tropListProvider);
+
               await popPage(context); // Close loading widget.
               Navigator.pop(context);
 
@@ -1090,7 +1101,9 @@ class LeaveSharedTropButton extends StatelessWidget{
               onError?.call();
             }
         ),
-      )
+      );
+
+    }
   );
 
 }

@@ -10,7 +10,7 @@ import '../trop_tile.dart';
 
 class TropPredefSearchPage extends StatelessWidget{
 
-  final List<TropBaseData> predefTrops;
+  final List<TropExampleData> predefTrops;
   final void Function(int)? onSelected;
 
   const TropPredefSearchPage({

@@ -195,14 +195,16 @@ void main() async {
             ChangeNotifierProvider(create: (context) => CommunityPublishableListProvider()),
 
             // CIRCLES
-            ChangeNotifierProvider(create: (context) => CircleMembersProvider()),
             ChangeNotifierProvider(create: (context) => CircleProvider()),
+            ChangeNotifierProvider(create: (context) => CircleListProvider()),
+            ChangeNotifierProvider(create: (context) => CircleMembersProvider()),
             ChangeNotifierProvider(create: (context) => AnnouncementProvider()),
             ChangeNotifierProvider(create: (context) => AnnouncementListProvider()),
             ChangeNotifierProvider(create: (context) => BindedIndivCompsProvider()),
 
             // FORUM
             ChangeNotifierProvider(create: (context) => ForumProvider()),
+            ChangeNotifierProvider(create: (context) => ForumListProvider()),
             ChangeNotifierProvider(create: (context) => ForumManagersProvider()),
             ChangeNotifierProvider(create: (context) => ForumFollowersProvider()),
             ChangeNotifierProvider(create: (context) => ForumLikesProvider()),

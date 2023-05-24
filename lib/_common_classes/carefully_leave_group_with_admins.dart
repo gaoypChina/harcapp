@@ -14,7 +14,7 @@ Future<void> carefullyLeaveGroupWithAdmins({
 
   String leavingMessage = 'Opuszczanie lokalu...',
 
-  bool closeLoadingAndAlertDialog = true,
+  bool closeLoadingDialog = true,
   required Future<void> Function() requestLeave,
 }) async {
 
@@ -50,31 +50,9 @@ Future<void> carefullyLeaveGroupWithAdmins({
 
                 await requestLeave();
 
-                // await ApiCircle.leave(
-                //     circleKey: circle!.key,
-                //     onSuccess: () async {
-                //       Community.removeCircle(circle!, context: context);
-                //       showAppToast(context, text: 'Krąg opuszczony');
-                //       await popPage(context); // Close loading widget.
-                //
-                //       onLeft?.call();
-                //     },
-                //     onServerMaybeWakingUp: () {
-                //       showServerWakingUpToast(context);
-                //       return true;
-                //     },
-                //     onError: () async {
-                //       showAppToast(context, text: simpleErrorMessage);
-                //       await popPage(context); // Close loading widget.
-                //
-                //       onError?.call();
-                //     }
-                // );
-
-                if(closeLoadingAndAlertDialog) {
+                if(closeLoadingDialog)
                   await popPage(context); // Close loading widget.
-                  Navigator.pop(context);
-                }
+                
               }
           )
         ]

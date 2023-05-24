@@ -88,8 +88,8 @@ class TropyPageState extends State<TropyPage>{
         if(reloadAll) TropSharedPreviewData.setAll(tropPrevsPage);
         else TropSharedPreviewData.addAllToAll(tropPrevsPage);
 
-        for(TropSharedPreviewData previewData in tropPrevsPage)
-          previewData.dumpAsPreview();
+        // for(TropSharedPreviewData previewData in tropPrevsPage)
+        //   previewData.dumpAsPreview();
 
         moreToLoad = tropPrevsPage.length == Trop.tropPageSize;
         if(!moreToLoad){
@@ -213,7 +213,7 @@ class TropyPageState extends State<TropyPage>{
               slivers.add(SliverPadding(
                 padding: const EdgeInsets.all(Dimen.SIDE_MARG),
                 sliver: SliverList(delegate: SliverChildSeparatedBuilderDelegate(
-                        (BuildContext context, int index) => SimpleButton(
+                    (BuildContext context, int index) => SimpleButton(
                       clipBehavior: Clip.none,
                       radius: AppCard.bigRadius,
                       child: TropTile(

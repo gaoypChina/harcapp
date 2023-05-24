@@ -1,8 +1,8 @@
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/model/trop.dart';
 
-List<TropBaseData> zuchTrops = [
+List<TropExampleData> zuchTrops = [
 
-  TropBaseData(
+  TropExampleData(
       name: 'Aktorzy',
       category: TropCategory.zuchArtystyczne,
       customIconTropName: 'aktorzy',
@@ -20,7 +20,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nMożliwości realizacji tropu jest wiele. Zbiórki mogą być kolejno zabawą w teatr pantomimy, teatr cieni, teatr lalek, operę itp. Można też zorganizować zuchowy teatr i prowadzić go przez kilka zbiórek, od pierwszej próby do premiery. W miarę możliwości warto zorganizować spotkanie z aktorami teatru czy lokalnej trupy, którzy opowiedzą o swoim zawodzie. Należy pamiętać o tym, aby nie kreować wybranych zuchów na „gwiazdy”. Trop nie ma być formą rywalizacji pomiędzy zuchami. Jego celem jest wzmocnienie współpracy zuchów w gromadzie. Zbiórka powinna być dla wszystkich wspaniałą zabawą, podczas której każde dziecko będzie pełniło ważną funkcję.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Artyści',
       category: TropCategory.zuchArtystyczne,
       customIconTropName: 'artysci',
@@ -36,7 +36,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nMożna go zaplanować na przykład jako spotkania zuchów z poszczególnymi muzami (na każdej zbiórce inna muza). Może być także wykorzystany jako wprowadzenie do innego tropu artystycznego (pogłębiającego znajomość wybranej dziedziny sztuki).'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Muzykolodzy',
       category: TropCategory.zuchArtystyczne,
       customIconTropName: 'muzykolodzy',
@@ -56,7 +56,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nZuchy mogą specjalizować się w jednym tylko rodzaju muzyki (np. muzyce kameralnej, jazzie, rapie, rocku) lub poznać ich więcej. Warto pamiętać przy tym o muzyce dawnej. Na zbiórkach należy stworzyć zuchom możliwość obejrzenia różnych instrumentów i „pogrania” na nich, a także umożliwić im spotkanie z muzykiem. '
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Poeci',
       category: TropCategory.zuchArtystyczne,
       customIconTropName: 'poeci',
@@ -76,7 +76,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nPodczas realizacji tropu można wykorzystać karty z obrazkami (np. z gry „Dixit”) lub kostki „Story Cubes”.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Producenci filmów animowanych',
       category: TropCategory.zuchArtystyczne,
       customIconTropName: 'producenci_filmow_animowanych',
@@ -100,7 +100,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nTrop jest przeznaczony dla starszych zuchów, mających już wprawne ręce i zdolnych do dłuższego skupienia uwagi. Można go realizować o każdej porze roku.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Tancerze',
       category: TropCategory.zuchArtystyczne,
       customIconTropName: 'tancerze',
@@ -119,7 +119,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nZbiórki można poświęcić tylko jednemu rodzajowi tańca, np. ludowemu (wtedy zuchy poznają tańce różnych regionów) lub nauczyć zuchy różnych jego rodzajów. Rzecz jasna, w zbiórkach musi uczestniczyć osoba, która umie tańczyć i potrafi nauczyć tańca zuchy.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Twórcy rękodzieła',
       category: TropCategory.zuchArtystyczne,
       customIconTropName: 'tworcy_rekodziela',
@@ -141,7 +141,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nNiektóre rękodzieła (np. pocztówki) można wykorzystać przy okazji akcji zarobkowej. Inne prace (np. z koszulek lub resztek tkanin) mogą przydać się w kolejnym planowanym tropie (np. podczas zabawy w Indian czy poszukiwaczy nieznanego lądu). Pracami mistrzów rękodzieła można również udekorować zuchówkę.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Zaczarowana paleta',
       category: TropCategory.zuchArtystyczne,
       customIconTropName: 'zaczarowana_paleta',
@@ -161,7 +161,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nPodczas działań plastycznych należy zabezpieczyć otoczenie i mundury zuchów przed zabrudzeniem, a także umożliwić dzieciom umycie rąk po pracy.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Czarodzieje',
       category: TropCategory.zuchBajkowe,
       customIconTropName: 'czarodzieje',
@@ -181,7 +181,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nBohaterem wszystkich zbiórek może być Pan Twardowski, Malutka Czarownica, Harry Potter lub inna tajemnicza postać. Razem z nią zuchy będą przeżywać czarodziejskie przygody. Ostatnią zbiórkę warto zrealizować w dniu wróżb i czarów, jakim są andrzejki.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Elfy',
       category: TropCategory.zuchBajkowe,
       customIconTropName: 'elfy',
@@ -208,7 +208,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nRealizacja tropu wymaga od kadry przygotowania z zakresu przyrodoznawstwa. Trop przeznaczony jest dla wszystkich zuchów – młodszych i starszych. Najlepiej realizować go w okresie wiosenno-letnim i na kolonii zuchowej – zbiórek nie można przeprowadzać w czterech ścianach.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Fantaści',
       category: TropCategory.zuchBajkowe,
       customIconTropName: 'fantasci',
@@ -231,7 +231,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nZdobywanie tropu można zaplanować na niepogodę. Zuchówka lub inne pomieszczenie będzie wspaniałą bazą dla fantastów.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Gumisie',
       category: TropCategory.zuchBajkowe,
       customIconTropName: 'gumisie',
@@ -254,7 +254,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nKanwą kolejnych zbiórek mogą być przygody sympatycznych bohaterów serialu. Trop nadaje się na każdą porę roku, może być fabułą kolonii i zimowiska. Atrakcyjniejszy jest dla zuchów młodszych.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Krasnoludki',
       category: TropCategory.zuchBajkowe,
       customIconTropName: 'krasnoludki',
@@ -277,7 +277,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nTrop jest atrakcyjny przede wszystkim dla młodszych zuchów. Najdogodniejszą porą do jego zdobywania jest wiosna.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Kubuś Puchatek',
       category: TropCategory.zuchBajkowe,
       customIconTropName: 'kubus_puchatek',
@@ -301,7 +301,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nTrop można zdobywać przez cały rok.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Mały książę',
       category: TropCategory.zuchBajkowe,
       customIconTropName: 'maly_ksiaze',
@@ -322,7 +322,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nTrop przeznaczony jest dla starszych zuchów. Może być zdobywany przez cały rok.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Mistrzowie emocji',
       category: TropCategory.zuchBajkowe,
       customIconTropName: 'mistrzowie_emocji',
@@ -349,7 +349,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nTrop nadaje się dla wszystkich zuchów, można go realizować o każdej porze roku.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Mowgli',
       category: TropCategory.zuchBajkowe,
       customIconTropName: 'mowgli',
@@ -370,7 +370,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nTrop jest przeznaczony raczej dla starszych zuchów. Powinien być zdobywany latem, w lesie, np. podczas kolonii zuchowej. Gromady, które mają blisko do lasu, mogą zaplanować jego realizację w ciągu roku (wiosną, jesienią).'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Muminki',
       category: TropCategory.zuchBajkowe,
       customIconTropName: 'muminki',
@@ -392,7 +392,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nFabułę tropu można zbudować na podstawie jednego zdarzenia (rozdziału książki) lub ułożyć ją tak, by każda zbiórka była osobną przygodą. Lektura przygód Muminków dostarcza też pomysłów na obrzędy, np. związane z nazwami szóstek, powitaniem lub pożegnaniem zuchów na zbiórce.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Narnijczycy',
       category: TropCategory.zuchBajkowe,
       customIconTropName: 'narnijczycy',
@@ -416,7 +416,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nTrop nadaje się na każdą porę roku, ale najlepiej zdobywać go na przełomie zimy i wiosny, zgodnie z akcją powieści.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Pan Kleks',
       category: TropCategory.zuchBajkowe,
       customIconTropName: 'pan_kleks',
@@ -440,7 +440,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nBogata obrzędowość wynika wprost z książki (np. nadanie wszystkim zuchom wstępującym do Akademii imion na literę A lub przyklejanie piegów).'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Pan Samochodzik',
       category: TropCategory.zuchBajkowe,
       customIconTropName: 'pan_samochodzik',
@@ -462,7 +462,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nTrop jest przeznaczony raczej dla starszych zuchów, które lepiej poradzą sobie z rozwiązywaniem logicznych zagadek i łączeniem faktów.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Piotruś Pan',
       category: TropCategory.zuchBajkowe,
       customIconTropName: 'piotrus_pan',
@@ -484,7 +484,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nPrzygody Piotrusia Pana mogą być pomysłem na przekazanie zuchów do drużyny harcerskiej (powrót z Nibylandii do dorosłości).'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Plastuś',
       category: TropCategory.zuchBajkowe,
       customIconTropName: 'plastus',
@@ -507,7 +507,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nTrop jest atrakcyjny dla młodszych zuchów, które dopiero zaczynają szkolną przygodę.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Przyjaciele bajek',
       category: TropCategory.zuchBajkowe,
       customIconTropName: 'przyjaciele_bajek',
@@ -526,7 +526,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nTrop może być realizowany podczas zbiórek i na kolonii zuchowej. Inspiracją do jego podjęcia może stać się pojawienie się nowej ekranizacji lub książkowego wydania bajki.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Przyjaciele Madagaskaru',
       category: TropCategory.zuchBajkowe,
       customIconTropName: 'przyjaciele_madagaskaru',
@@ -550,7 +550,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nTrop sprawdzi się w czasie letniego biwaku i kolonii. Zainteresuje zuchy młodsze i starsze, zarówno dziewczynki, jak i chłopców.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Robin Hood',
       category: TropCategory.zuchBajkowe,
       customIconTropName: 'robin_hood',
@@ -571,7 +571,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nNajdogodniej realizować trop późną wiosną, latem lub wczesną jesienią, kiedy na dworze jest ciepło i pogoda sprzyja organizowaniu zbiórek w lesie lub parku.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Robinsonowie',
       category: TropCategory.zuchBajkowe,
       customIconTropName: 'robinsonowie',
@@ -595,7 +595,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nRealizacja tropu przybliża zuchom wiele „harcerskich” umiejętności, jest więc dobrym przygotowaniem dla zuchów, które wkrótce przejdą do drużyny harcerskiej.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Rycerze Jedi',
       category: TropCategory.zuchBajkowe,
       customIconTropName: 'rycerze_jedi',
@@ -617,7 +617,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nFantastyczny świat „Gwiezdnych Wojen”, do którego przenoszą się zuchy podczas zabawy, pozwala na stworzenie ciekawej fabuły opartej na bajkowych przygodach bohaterów oraz stanowi źródło inspiracji do tworzenia obrzędowości (np. pozdrowienie „Niech moc będzie z tobą”).'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Smerfy',
       category: TropCategory.zuchBajkowe,
       customIconTropName: 'smerfy',
@@ -640,7 +640,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nTrop przeznaczony jest raczej dla młodszych zuchów. Można go realizować o każdej porze roku, ale świetne warunki do tego stwarza kolonia zuchowa.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Staś i Nel',
       category: TropCategory.zuchBajkowe,
       customIconTropName: 'stas_i_nel',
@@ -664,7 +664,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nKadra drużyny musi się solidnie H. Sienkiewicza „W pustyni i w zdobytymi z innych źródeł.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Afrykańczycy',
       category: TropCategory.zuchKulturoznawcze,
       customIconTropName: 'afrykanczycy',
@@ -689,7 +689,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nTrop można realizować zarówno podczas roku szkolnego, jak i na kolonii.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Ateńczycy',
       category: TropCategory.zuchKulturoznawcze,
       customIconTropName: 'atenczycy',
@@ -711,7 +711,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nTrop przeznaczony jest dla starszych zuchów. Można go realizować niezależnie od pogody, dobrze sprawdza się na kolonii zuchowej. Jego realizacja wymaga przygotowania się i wiedzy o historii i kulturze starożytnej Grecji.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Benedyktyni',
       category: TropCategory.zuchKulturoznawcze,
       customIconTropName: 'benedyktyni',
@@ -733,7 +733,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nTrop nadaje się do realizacji o każdej porze roku. Wymaga od kadry drużyny rzetelnego przygotowania.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Egipcjanie',
       category: TropCategory.zuchKulturoznawcze,
       customIconTropName: 'egipcjanie',
@@ -755,7 +755,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nAby udała się zabawa w Egipcjan, kadra musi wcześniej rzetelnie się przygotować. Trop przeznaczony jest raczej dla zuchów starszych.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Eskimosi',
       category: TropCategory.zuchKulturoznawcze,
       customIconTropName: 'eskimosi',
@@ -776,7 +776,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nNależy zwracać uwagę na ubiór dzieci – to dobra okazja, aby zuchy nauczyły się ubierać odpowiednio do zimowych warunków. Trop można zdobywać tylko w zimie − Eskimosi nie mogą bawić się w sali! Konieczny jest śnieg i dużo miejsca na organizowanie zabaw, gier i ćwiczeń.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Etnografowie',
       category: TropCategory.zuchKulturoznawcze,
       customIconTropName: 'etnografowie',
@@ -796,7 +796,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nEtnograficzne spostrzeżenia można utrwalać na zdjęciach lub w „Kronice kulturalnej regionu”. Efekty pracy zuchów warto przedstawić podczas festiwalu, który będzie dobrym podsumowaniem tropu i może zainteresować działaniami gromady rodziców i zaproszonych przedstawicieli różnych instytucji.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Indianie',
       category: TropCategory.zuchKulturoznawcze,
       customIconTropName: 'indianie',
@@ -821,7 +821,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nPrzed opracowaniem tropu warto wybrać konkretne indiańskie plemię i zajrzeć do literatury, by nie tworzyć lub nie utrwalać błędnych wyobrażeń i stereotypów.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Japończycy',
       category: TropCategory.zuchKulturoznawcze,
       customIconTropName: 'japonczycy',
@@ -845,7 +845,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nTrop przeznaczony jest raczej dla starszych zuchów. Nadaje się do realizacji zarówno w ciągu roku, jak i na kolonii.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Jaskiniowcy',
       category: TropCategory.zuchKulturoznawcze,
       customIconTropName: 'jaskiniowcy',
@@ -870,7 +870,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nNajlepiej realizować trop na kolonii, gdzie jest możliwość codziennego obcowania z naturą, poznawania zwyczajów zwierząt, długich gier terenowych oraz majsterki. Trop przeznaczony jest raczej dla zuchów starszych.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Kowboje',
       category: TropCategory.zuchKulturoznawcze,
       customIconTropName: 'kowboje',
@@ -895,7 +895,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nTrop jest przeznaczony dla wszystkich zuchów. Najlepiej realizować go wiosną i latem.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Poszukiwacze nieznanego lądu',
       category: TropCategory.zuchKulturoznawcze,
       customIconTropName: 'poszukiwacze_nieznanego_ladu',
@@ -918,7 +918,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nTrop może być realizowany w ciągu roku i na kolonii zuchowej.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Rycerze',
       category: TropCategory.zuchKulturoznawcze,
       customIconTropName: 'rycerze',
@@ -945,7 +945,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nTrop przeznaczony jest dla starszych zuchów. Życie giermków i rycerzy, ich obyczaje i zajęcia stanowią ciekawy temat zabaw nie tylko dla chłopców. Jeśli trop będzie realizowany w ciągu roku, lepiej unikać okresów, kiedy pogoda uniemożliwia wyjście z zuchówki.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Słowianie',
       category: TropCategory.zuchKulturoznawcze,
       customIconTropName: 'slowianie',
@@ -971,7 +971,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nTrop jest przeznaczony raczej dla starszych zuchów.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Spartanie',
       category: TropCategory.zuchKulturoznawcze,
       customIconTropName: 'spartanie',
@@ -989,7 +989,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nRealizacja tropu wymaga od kadry znajomości historii i kultury starożytnej Grecji.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Szlachcice',
       category: TropCategory.zuchKulturoznawcze,
       customIconTropName: 'szlachcice',
@@ -1012,7 +1012,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nKluczem do udanej zabawy jest dobre poznanie przez kadrę epoki staropolskiej, ówczesnych wydarzeń historycznych, obyczajów i kultury. Trop przeznaczony jest dla zuchów młodszych i starszych, można go realizować o każdej porze roku.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Wikingowie',
       category: TropCategory.zuchKulturoznawcze,
       customIconTropName: 'wikingowie',
@@ -1033,7 +1033,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nRealizacja tropu wymaga od kadry rzetelnego przygotowania się. Trop jest przeznaczony jest dla starszych zuchów. Bardziej spodoba się chłopcom, ale z powodzeniem może być realizowany w gromadzie koedukacyjnej.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Żak (Nawojka)',
       category: TropCategory.zuchKulturoznawcze,
       customIconTropName: 'zak',
@@ -1058,7 +1058,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nTrop ma podwójną nazwę: dla dziewczynek „Nawojka”, dla chłopców „Żak”. Przeznaczony jest dla gromad, w których są starsze zuchy.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Ambasadorzy przyjaźni',
       category: TropCategory.zuchObywatelskie,
       customIconTropName: 'ambasadorzy_przyjazni',
@@ -1077,7 +1077,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nPrzygotowując się do zbiórek, warto zwrócić się do Biura Rzecznika Praw Dziecka z prośbą o bezpłatne materiały na temat praw dzieci. W celu skontaktowania się ze skautami można skorzystać z pomocy pełnomocnika ds. zagranicznych chorągwi. Koniecznie należy to zrobić jeszcze przed rozpoczęciem tropu! Odpowiedź instytucji, do której zuchy przekazały swoje postanowienia i decyzje, będzie dla zuchów sygnałem, że ich działania są potrzebne i zostały dostrzeżone. Zadbaj o nią i przedstaw ją zuchom, nawet jeśli nadejdzie już po realizacji tropu.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Białe Orły',
       category: TropCategory.zuchObywatelskie,
       customIconTropName: 'biale_orly',
@@ -1097,7 +1097,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nTrop przeznaczony jest dla wszystkich zuchów. Można go realizować o każdej porze roku, ale kadra gromady musi się do niego przygotować (znać historię Polski wraz z jej społecznymi aspektami).'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Europejczycy',
       category: TropCategory.zuchObywatelskie,
       customIconTropName: 'europejczycy',
@@ -1121,7 +1121,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nTrop wymaga od kadry gromady rzetelnej wiedzy o Europie i Unii Europejskiej. Przeznaczony jest dla zuchów młodszych i starszych, można go zdobywać niezależnie od pory roku.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Harcownicy Króla Jana',
       category: TropCategory.zuchObywatelskie,
       customIconTropName: 'harcownicy_krola_jana',
@@ -1141,7 +1141,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nPodczas zbiórek zuchy używają imion i tytułów szlacheckich, wykonują zdobienia z czasów baroku itp.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Miłośnicy Niepodległej (Piłsudczycy)',
       category: TropCategory.zuchObywatelskie,
       customIconTropName: 'milosnicy_niepodleglej',
@@ -1166,7 +1166,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nNależy zwrócić uwagę na dostosowanie przekazu historycznego do poziomu zuchów. Dzieciom może być trudno wyobrazić sobie pojęcie niepodległości lub to, że Polska przez wiele lat nie istniała jako państwo. Dlatego ważne jest dobre podsumowanie cyklu zbiórek, podczas którego zuchy uświadomią sobie, że w tej chwili mamy inną sytuację i inne sposoby wyrażania patriotyzmu niż w okresie, kiedy Polska odzyskiwała niepodległość.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Miś Wojtek',
       category: TropCategory.zuchObywatelskie,
       customIconTropName: 'mis_wojtek',
@@ -1191,7 +1191,7 @@ List<TropBaseData> zuchTrops = [
   ),
 
   // TODO: podmienić ikonkę
-  TropBaseData(
+  TropExampleData(
       name: 'Młodzi obywatele',
       category: TropCategory.zuchObywatelskie,
       customIconTropName: 'mlodzi_obywatele',
@@ -1212,7 +1212,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nPożyteczne prace należy dostosować do rozwoju psychofizycznego zuchów. Zwykle nie wykonają one zadań, które wymagają szczególnej dokładności czy schludności. Jednak każdy może dać z siebie coś dla innych – nawet dzieci! Przykładami pożytecznych prac mogą być: wykonanie i ustawienie w zuchówce koszy na segregację odpadów, spotkanie ze starszymi osobami, posprzątanie trawnika, pomoc dla schroniska dla zwierząt, pomoc kolegom z klasy lub podwórka w odrabianiu lekcji. Młodsze zuchy skupią się na najbliższym otoczeniu, a starsze popatrzą szerzej – czym zajmuje się prezydent miasta, jakie mamy prawa i obowiązki jako obywatele itp.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Niewidzialna ręka',
       category: TropCategory.zuchObywatelskie,
       customIconTropName: 'niewidzialna_reka',
@@ -1234,7 +1234,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nTrop powinien być realizowany w każdej gromadzie. Pora roku nie odgrywa tu roli.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Podróżnicy po Polsce',
       category: TropCategory.zuchObywatelskie,
       customIconTropName: 'podroznicy_po_polsce',
@@ -1257,7 +1257,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nTrop można realizować zarówno na kolonii zuchowej, jak i w trakcie całorocznej pracy gromady. Warto sięgnąć po niego po realizacji tropów dotyczących małych ojczyzn (np. „Przewodnicy po wsi/mieście/dzielnicy”, „Znawcy regionu”).'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Pomocnicy Świętego Mikołaja',
       category: TropCategory.zuchObywatelskie,
       customIconTropName: 'pomocnicy_swietego_mikolaja',
@@ -1276,7 +1276,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nTrzeba postarać się, aby zuchy uświadomiły sobie, jak miło jest obdarowywać kogoś bliskiego niech poczują wspaniały smak dawania, braterstwa i empatii, rodzinnej i ciepłej atmosfery oraz radości z oczekiwania na Boże Narodzenie. Trop dodatkowo wspiera budowanie więzi rodzinnych i społecznych (np. poprzez uczestnictwo w kiermaszu, przekazanie Betlejemskiego Światła Pokoju i wspólne kolędowanie).'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Przewodnicy po wsi/mieście/dzielnicy',
       category: TropCategory.zuchObywatelskie,
       customIconTropName: 'przewodnicy_po_miescie',
@@ -1298,7 +1298,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nTrop można zrealizować nawet w okresie jesienno-zimowym.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Słoneczka (Wilczki)',
       category: TropCategory.zuchObywatelskie,
       customIconTropName: 'sloneczka',
@@ -1322,7 +1322,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nZ uwagi na duży bagaż informacji historycznych trop jest przeznaczony dla starszych zuchów.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Zawiszacy',
       category: TropCategory.zuchObywatelskie,
       customIconTropName: 'zawiszacy',
@@ -1347,7 +1347,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nPrzystępując do realizacji tropu, kadra powinna poszerzyć swoją wiedzę historyczną na temat Szarych Szeregów oraz udziału harcerzy w Powstaniu Warszawskim.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Znawcy legend',
       category: TropCategory.zuchObywatelskie,
       customIconTropName: 'znawcy_legend',
@@ -1367,7 +1367,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nRealizacja tropu może uwzględnić rozmaite formy pracy, np. zwiad, majsterkę (związaną ze strojami i gotowaniem), teatr zuchowy. Można go poszerzyć o poznawanie gwary czy dialektu regionalnego oraz inne formy pasujące do legendy. Na zbiórkach zuchy mogą odwiedzić związane z nią miejsca, a także lokalne muzea i skanseny.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Znawcy regionu',
       category: TropCategory.zuchObywatelskie,
       customIconTropName: 'znawcy_regionu',
@@ -1392,7 +1392,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nTrop najlepiej realizować na kolonii, wiosną lub wczesną jesienią, by móc odwiedzić różne charakterystyczne miejsca w regionie.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Ekoludki',
       category: TropCategory.zuchPrzyrodnicze,
       customIconTropName: 'ekoludki',
@@ -1416,7 +1416,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nTrop wspomaga postawę empatii w stosunku do żywych stworzeń. Umożliwia zrozumienie zależności między światem dzikiej przyrody a działalnością człowieka. Wiele działań Klubu Zielonych Detektywów Ekoludka to pożyteczne prace, które wzmacniają wychowanie do postawy służby w przyszłości i wprowadzają pozytywne zmiany w otoczeniu.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Leśnicy',
       category: TropCategory.zuchPrzyrodnicze,
       customIconTropName: 'lesnicy',
@@ -1438,7 +1438,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nTrop można realizować o każdej porze roku, jednak ważne jest, aby wszystkie zbiórki odbywały się na powietrzu. Dobrą okazją będzie Międzynarodowy Dzień Lasów obchodzony 21 marca.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Ogrodnicy',
       category: TropCategory.zuchPrzyrodnicze,
       customIconTropName: 'ogrodnicy',
@@ -1460,7 +1460,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nPrzed rozpoczęciem zbiórek (np. na początku roku harcerskiego) należy dowiedzieć się, jakie są możliwości uprawy zuchowego ogródka (najlepiej przy szkole lub przy zuchówce). Również odpowiednio wcześniej warto zainteresować środowisko harcerskie lub inne organizacje ideą uprawy wspólnego ogrodu społecznego.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Ornitolodzy',
       category: TropCategory.zuchPrzyrodnicze,
       customIconTropName: 'ornitolodzy',
@@ -1481,7 +1481,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nTrop jest przeznaczony dla starszych zuchów. Można go realizować cały rok. Wiosną widać ruch ptaków i podlotki. Zimą większy nacisk można położyć na dokarmianie ptaków (koniecznie należy przekazać zuchom odpowiednie informacje na ten temat). Przed realizacją tropu warto dowiedzieć się, gdzie i w jaki sposób zgłaszać znalezienie rannych ptaków – czy pomocą im zajmuje się w okolicy ptasi azyl, schronisko czy odpowiednie stowarzyszenie.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Przyjaciele zwierząt',
       category: TropCategory.zuchPrzyrodnicze,
       customIconTropName: 'przyjaciele_zwierzat',
@@ -1500,7 +1500,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nTrop nadaje się zarówno dla gromad wiejskich, jak i miejskich. Dostarcza sporo wiadomości z zakresu hodowli i pielęgnacji zwierząt, a jednocześnie pozwala na kształtowanie właściwego do nich stosunku. Może być okazją do zainteresowania zuchów losem bezpańskich psów i kotów. Trzeba jednak ostrzec dzieci przed niebezpieczeństwem chorób odzwierzęcych.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Przyrodnicy',
       category: TropCategory.zuchPrzyrodnicze,
       customIconTropName: 'przyrodnicy',
@@ -1528,7 +1528,7 @@ List<TropBaseData> zuchTrops = [
   ),
 
   // TODO: wyszukać wszędzie słowo "eko" i zastanowić co zrobić z tym bełkotem.
-  TropBaseData(
+  TropExampleData(
       name: 'Wodnik Szuwarek',
       category: TropCategory.zuchPrzyrodnicze,
       customIconTropName: 'wodnik_szuwarek',
@@ -1548,7 +1548,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nTrop najlepiej zdobywać wiosną lub jesienią, gdyż jest to najwłaściwszy czas na obserwacje przyrodnicze.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Ludzie zimy',
       category: TropCategory.zuchSportoweITurystyczne,
       customIconTropName: 'ludzie_zimy',
@@ -1573,7 +1573,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nNależy zwracać uwagę na właściwy ubiór zuchów (podczas zbiórek na śniegu można zrezygnować z umundurowania). Trop „Ludzi zimy” jest przeznaczony do realizacji podczas zimowisk lub ewentualnie miesięcy zimowych. Wszystkie zbiórki powinny odbywać się na świeżym powietrzu.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Łaziki',
       category: TropCategory.zuchSportoweITurystyczne,
       customIconTropName: 'laziki',
@@ -1596,7 +1596,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nPrzy okazji tropu „Łazików” zuchy mogą zdobyć odznakę PTTK „Siedmiomilowe buty” oraz inne odznaki turystyczne (GOT, OTP, odznaki regionalne itp.).'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Mistrzowie gier podwórkowych',
       category: TropCategory.zuchSportoweITurystyczne,
       customIconTropName: 'mistrzowie_gier_podworkowych',
@@ -1615,7 +1615,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nPodczas realizacji tropu zuchy mają możliwość spotkania się ze starszym pokoleniem (np. dziadkami) i znalezienia z nim wspólnych tematów. Trop wspiera postawę fair play.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Olimpijczycy',
       category: TropCategory.zuchSportoweITurystyczne,
       customIconTropName: 'olimpijczycy',
@@ -1637,7 +1637,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nTrop mogą realizować zarówno zuchy młodsze, jak i starsze, podczas kolonii zuchowej lub w ciągu roku. Na każdej zbiórce należy poświęcić czas na rozgrzewkę i ćwiczenia w danej dyscyplinie.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Sportowcy',
       category: TropCategory.zuchSportoweITurystyczne,
       customIconTropName: 'sportowcy',
@@ -1660,7 +1660,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nPodczas treningów zuchy poznają przepisy dotyczące wybranej gry, a przerwy w treningach można wykorzystać na poznanie historii tej dyscypliny sportowej. Drużynowy lub przyboczny może przyjąć rolę trenera wybranej dyscypliny.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Trenerzy',
       category: TropCategory.zuchSportoweITurystyczne,
       customIconTropName: 'trenerzy',
@@ -1680,7 +1680,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nPodczas realizacji tropu warto spotkać się z trenerami kilku dyscyplin, tak by trening realizowany był pod okiem profesjonalisty. Jeśli nie jest to możliwe – kadra gromady powinna się bardzo dobrze przygotować pod kątem dostosowania ćwiczeń do wieku i możliwości zuchów!'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Archeolodzy',
       category: TropCategory.zuchZawodowe,
       customIconTropName: 'archeolodzy',
@@ -1703,7 +1703,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nTrop jest przeznaczony dla starszych zuchów. Można go realizować tylko wtedy, kiedy pogoda pozwala na zorganizowanie zbiórek na powietrzu. Zuchy będą prowadzić badania archeologiczne, tzw. powierzchniówki, więc przynajmniej jedna zbiórka musi być przeprowadzona w terenie. Należy przy tym zadbać, aby nie ucierpiało środowisko naturalne (np. wybrać teren, na którym nie występują siedliska wyjątkowych roślin czy zwierząt). Po tej zbiórce należy zamaskować ślady swojej działalności, zakopać wszystkie dziury itp.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Bankierzy',
       category: TropCategory.zuchZawodowe,
       customIconTropName: 'bankierzy',
@@ -1727,7 +1727,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nTrop może być realizowany przez cały rok przez wszystkie zuchy, chociaż bardziej zainteresuje starsze zuchy.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Chemicy',
       category: TropCategory.zuchZawodowe,
       customIconTropName: 'chemicy',
@@ -1750,7 +1750,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nTrop jest przeznaczony dla zuchów starszych. Zbiórki odbywają się przeważnie w pomieszczeniu. Można go z powodzeniem zrealizować na kolonii, na której są warunki, aby zuchy poznały różne środki czystości.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Detektywi',
       category: TropCategory.zuchZawodowe,
       customIconTropName: 'detektywi',
@@ -1772,7 +1772,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nTrop jest przeznaczony dla zuchów w każdym wieku, bowiem praca detektywa może zafascynować wszystkich.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Dietetycy',
       category: TropCategory.zuchZawodowe,
       customIconTropName: 'dietetycy',
@@ -1796,7 +1796,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nTrop jest przeznaczony dla młodszych i starszych zuchów. Może być zdobywany niezależnie od pory roku. Ciekawą okazją do jego realizacji jest Europejski Dzień Zdrowego Jedzenia i Gotowania (obchodzony 8 listopada).'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Dziennikarze',
       category: TropCategory.zuchZawodowe,
       customIconTropName: 'dziennikarze',
@@ -1814,7 +1814,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nTrop uczy także śmiałości, odwagi i otwartości. Nadaje się dla zuchów starszych, które dobrze władają już językiem − potrafią pisać i tworzyć dłuższe wypowiedzi.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Fizycy',
       category: TropCategory.zuchZawodowe,
       customIconTropName: 'fizycy',
@@ -1840,7 +1840,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nTrop jest przeznaczony dla zuchów w każdym wieku, przy czym poziom zdobywanych informacji i organizowanych doświadczeń powinien być dostosowany do ich poziomu rozwoju.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Górnicy',
       category: TropCategory.zuchZawodowe,
       customIconTropName: 'gornicy',
@@ -1860,7 +1860,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nRealizacja tropu wymaga od drużynowego zagłębienia tematyki górniczej. Trop będzie atrakcyjniejszy dla starszych zuchów. Najlepiej realizować go tam, gdzie jest możliwość wycieczki do kopalni i spotkań z prawdziwymi górnikami.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Inżynierowie',
       category: TropCategory.zuchZawodowe,
       customIconTropName: 'inzynierowie',
@@ -1882,7 +1882,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nTrop można zdobywać o każdej porze roku, nadaje się dla zuchów młodszych i starszych (jednak proponowane prace muszą być dostosowane do ich możliwości).'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Kolejarze',
       category: TropCategory.zuchZawodowe,
       customIconTropName: 'kolejarze',
@@ -1906,7 +1906,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nTrop można realizować o każdej porze roku.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Kosmonauci',
       category: TropCategory.zuchZawodowe,
       customIconTropName: 'kosmonauci',
@@ -1931,7 +1931,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nTrop można zdobywać o każdej porze roku. Lepiej sprawdzi się w przypadku starszych zuchów.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Kuchciki',
       category: TropCategory.zuchZawodowe,
       customIconTropName: 'kuchciki',
@@ -1953,7 +1953,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nTrop jest przeznaczony raczej dla zuchów starszych, które potrafią już sprawnie posługiwać się nożem i innymi przyborami kuchennymi. Nadaje się do realizacji na kolonii zuchowej.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Lekarze',
       category: TropCategory.zuchZawodowe,
       customIconTropName: 'lekarze',
@@ -1977,7 +1977,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nTrop zainteresuje młodsze i starsze zuchy. Zbiórki można odbywać zarówno w pomieszczeniu, jak i na powietrzu, niezależnie od pory roku.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Listonosze',
       category: TropCategory.zuchZawodowe,
       customIconTropName: 'listonosze',
@@ -2000,7 +2000,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nTrop może być zdobywany o każdej porze roku.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Lotnicy',
       category: TropCategory.zuchZawodowe,
       customIconTropName: 'lotnicy',
@@ -2022,7 +2022,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nDo realizacji tropu trzeba się starannie przygotować, uzupełnić wiedzę, sprawdzić możliwości zorganizowania wycieczek i spotkań z profesjonalistami. Trop można zdobywać przez cały rok.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Marynarze',
       category: TropCategory.zuchZawodowe,
       customIconTropName: 'marynarze',
@@ -2046,7 +2046,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nTrop świetnie nadaje się na kolonię zuchową, szczególnie nad morzem. Marynarską przygodę warto połączyć z nauką pływania.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Mistrzowie krawiectwa',
       category: TropCategory.zuchZawodowe,
       customIconTropName: 'mistrzowie_krawiectwa',
@@ -2066,7 +2066,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nTrop nadaje się dla starszych zuchów. Polecany jest do realizacji podczas jesieni, zimy i wczesnej wiosny.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Młodzi naukowcy',
       category: TropCategory.zuchZawodowe,
       customIconTropName: 'mlodzi_naukowcy',
@@ -2089,7 +2089,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nTrop można realizować o każdej porze roku.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Oceanografowie',
       category: TropCategory.zuchZawodowe,
       customIconTropName: 'oceanografowie',
@@ -2118,7 +2118,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nTrop wymaga od kadry dobrego przygotowania merytorycznego. Przeznaczony jest dla wszystkich zuchów, chociaż bardziej zainteresuje starsze dzieci. Najlepiej realizować go podczas kolonii zuchowej nad morzem.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Okuliści',
       category: TropCategory.zuchZawodowe,
       customIconTropName: 'okulisci',
@@ -2142,7 +2142,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nDo realizacji tropu kadra gromady musi dobrze przygotować się merytorycznie. Trop skierowany jest do wszystkich zuchów, ale starszym dzieciom łatwiej będzie zrozumieć procesy zachodzące w ludzkim organizmie. Trop można realizować o każdej porze roku.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Polarnicy',
       category: TropCategory.zuchZawodowe,
       customIconTropName: 'polarnicy',
@@ -2165,7 +2165,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nTrop najlepiej realizować w gromadach, w których większość stanowią zuchy starsze, które bawiły się już w „Eskimosów” lub zrealizowały trop „Ludzi zimy”. Trop „Polarników” można zdobywać tylko zimą, kiedy jest możliwość „prowadzenia badań” na świeżym powietrzu. Należy zwracać uwagę na właściwe ubranie zuchów i bezpieczne zachowanie na śniegu.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Policjanci',
       category: TropCategory.zuchZawodowe,
       customIconTropName: 'policjanci',
@@ -2188,7 +2188,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nTrop można zdobywać o każdej porze roku.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Przedsiębiorcy',
       category: TropCategory.zuchZawodowe,
       customIconTropName: 'przedsiebiorcy',
@@ -2210,7 +2210,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nNadaje się na deszczowe dni, gdyż zbiórki mogą odbywać się w pomieszczeniu.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Radiowcy',
       category: TropCategory.zuchZawodowe,
       customIconTropName: 'radiowcy',
@@ -2230,7 +2230,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nNależy pamiętać, aby wykorzystywać w audycjach nie tylko mowę i muzykę, ale też różnego rodzaju odgłosy (np. zamykanie drzwi, tupot nóg, oklaski, westchnienia, odgłosy natury).'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Ratownicy',
       category: TropCategory.zuchZawodowe,
       customIconTropName: 'ratownicy',
@@ -2254,7 +2254,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nTrop przeznaczony jest dla wszystkich zuchów. Może być zdobywany niezależnie od pory roku.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Rolnicy',
       category: TropCategory.zuchZawodowe,
       customIconTropName: 'rolnicy',
@@ -2274,7 +2274,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nZuchy mogą zdobywać trop na kolonii lub na zbiórkach, zwłaszcza w przypadku gromad działających również w czasie wakacji.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Sprzedawcy',
       category: TropCategory.zuchZawodowe,
       customIconTropName: 'sprzedawcy',
@@ -2297,7 +2297,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nTrop można realizować o każdej porze roku, również w miesiącach zimowych.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Strażacy',
       category: TropCategory.zuchZawodowe,
       customIconTropName: 'strazacy',
@@ -2319,7 +2319,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nPodczas zabawy w strażaków zuchy powinny poznać numer telefonu do straży pożarnej, dowiedzieć się, jak powiadamiać o pożarze i jak udzielać pierwszej pomocy w przypadku oparzeń. Należy również podkreślić, że strażak nie tylko gasi pożary, ale pomaga też w sytuacjach awaryjnych, klęskach żywiołowych, wypadkach samochodowych itp.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Zegarmistrzowie',
       category: TropCategory.zuchZawodowe,
       customIconTropName: 'zegarmistrzowie',
@@ -2342,7 +2342,7 @@ List<TropBaseData> zuchTrops = [
           '\n\nTrop przeznaczony jest dla starszych zuchów, które mają już odpowiednio rozwiniętą wyobraźnię. Nadaje się do realizacji na zbiórkach i na kolonii.'
   ),
 
-  TropBaseData(
+  TropExampleData(
       name: 'Żołnierze',
       category: TropCategory.zuchZawodowe,
       customIconTropName: 'zolnierze',

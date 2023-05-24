@@ -12,7 +12,7 @@ import 'trop_task_predef_widget.dart';
 
 class TropPredefWidget extends StatelessWidget{
 
-  final TropBaseData trop;
+  final TropExampleData trop;
 
   const TropPredefWidget(this.trop, {super.key});
 

@@ -33,7 +33,7 @@ class LeaveCircleButton extends StatelessWidget{
         allAdminCount: circle!.memberAdminCount,
         amIAdmin: circle!.myRole == CircleRole.ADMIN,
         cannotLeaveContent: 'Jesteś ostatnim administratorem kręgu i zamierzasz je opuścić!\n\nTak nie wolno.',
-        closeLoadingAndAlertDialog: false,
+        closeLoadingDialog: false,
         requestLeave: () => ApiCircle.leave(
             circleKey: circle!.key,
             onSuccess: () async {

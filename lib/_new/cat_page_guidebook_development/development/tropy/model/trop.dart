@@ -165,6 +165,8 @@ String tropCategoryToName(TropCategory category){
 
 class TropSharedPreviewData{
 
+  static const String paramCompletenessPercent = 'completenessPercent';
+  
   static SortedList<TropSharedPreviewData>? all;
   static Map<String, TropSharedPreviewData>? allMapByKey;
 
@@ -224,10 +226,10 @@ class TropSharedPreviewData{
     addAllToAll(allTropPrevs);
   }
 
-  static removeFromAllByKey(String uniqName, {BuildContext? context}){
+  static removeFromAllByKey(String lclId, {BuildContext? context}){
     if(all == null) init();
 
-    TropSharedPreviewData? trop = allMapByKey![uniqName];
+    TropSharedPreviewData? trop = allMapByKey![lclId];
 
     if(trop == null) return;
 
@@ -244,10 +246,18 @@ class TropSharedPreviewData{
   
   static removeAbsent(){
     if(allMapByKey == null) return;
+    List<String> removed = [];
     Directory sharedTropyDir = Directory(getSharedTropPreviewDataFolderPath);
-    for (FileSystemEntity file in sharedTropyDir.listSync(recursive: false))
-      if(!allMapByKey!.containsKey(basename(file.path)))
+    for (FileSystemEntity file in sharedTropyDir.listSync(recursive: false)) {
+      String tropKey = basename(file.path);
+      if (!allMapByKey!.containsKey(tropKey)) {
         file.deleteSync();
+        removed.add(tropKey);
+        removeFromAllByKey(tropKey);
+      }
+    }
+    logger.i('Called: `TropSharedPreviewData.removeAbsent()` and removed following files: [${removed.join(', ')}]');
+
   }
 
   bool isWithinLoaded(TropSharedPreviewData trop){
@@ -263,14 +273,14 @@ class TropSharedPreviewData{
         keyResult < 0));
   }
 
-  void dumpAsPreview(){
-    saveStringAsFileToFolder(
-      getSharedTropPreviewDataFolderLocalPath,
-      jsonEncode(toJsonMap()),
-      fileName: key,
-    );
-    logger.i('Dumped trop preview $key');
-  }
+  // void dumpAsPreview(){
+  //   saveStringAsFileToFolder(
+  //     getSharedTropPreviewDataFolderLocalPath,
+  //     jsonEncode(toJsonMap()),
+  //     fileName: key,
+  //   );
+  //   logger.i('Dumped trop preview $key');
+  // }
 
   Map toJsonMap() => {
     Trop.paramKey: key,
@@ -291,6 +301,8 @@ class TropSharedPreviewData{
 
   DateTime startDate;
   DateTime endDate;
+  
+  int completenessPercent;
 
   DateTime lastUpdateTime;
 
@@ -302,6 +314,8 @@ class TropSharedPreviewData{
 
     required this.startDate,
     required this.endDate,
+    
+    required this.completenessPercent,
 
     required this.lastUpdateTime,
   });
@@ -313,12 +327,31 @@ class TropSharedPreviewData{
     category: strToTropCategory(respMapData[Trop.paramCategory])??(throw MissingDecodeParamError(Trop.paramCategory)),
     startDate: DateTime.parse(respMapData[Trop.paramStartDate]??(throw MissingDecodeParamError(Trop.paramStartDate))),
     endDate: DateTime.parse(respMapData[Trop.paramEndDate]??(throw MissingDecodeParamError(Trop.paramEndDate))),
+
+    completenessPercent: respMapData[paramCompletenessPercent]??(throw MissingDecodeParamError(paramCompletenessPercent)),
+    
     lastUpdateTime: DateTime.parse(respMapData[Trop.paramLastUpdateTime]??(throw MissingDecodeParamError(Trop.paramLastUpdateTime))),
   );
   
 }
 
-class TropBaseData<T extends TropTaskExampleData>{
+class TropBaseData{
+
+  String name;
+  TropCategory category;
+  String? customIconTropName;
+  int completenessPercent;
+
+  TropBaseData({
+    required this.name,
+    required this.category,
+    this.customIconTropName,
+    required this.completenessPercent,
+  });
+
+}
+
+class TropExampleData<T extends TropTaskExampleData>{
 
   String name;
   TropCategory category;
@@ -328,7 +361,7 @@ class TropBaseData<T extends TropTaskExampleData>{
   String? notesForLeaders;
   List<String>? exampleSpraws;
 
-  TropBaseData({
+  TropExampleData({
     required this.name,
     required this.category,
     this.customIconTropName,
@@ -342,7 +375,7 @@ class TropBaseData<T extends TropTaskExampleData>{
 
 }
 
-class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetRespNode<TropGetResp>{
+class Trop extends TropExampleData<TropTask> with SyncableParamGroupMixin, SyncGetRespNode<TropGetResp>{
 
   static const int tropPageSize = 10;
   static const int userPageSize = 10;
@@ -426,12 +459,16 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
   
   static removeAbsentPreviewsFromShared(){
     Directory sharedTropyDir = Directory(getSharedTropPreviewDataFolderPath);
+    List<String> removed = [];
     for (FileSystemEntity file in sharedTropyDir.listSync(recursive: false)) {
       File tropFile = File(getSharedTropFolderPath + basename(file.path));
       if(!tropFile.existsSync()) return;
-      if(!allSharedMapByKey.containsKey(basename(file.path)))
+      if(!allSharedMapByKey.containsKey(basename(file.path))) {
         tropFile.deleteSync();
+        removed.add(basename(file.path));
+      }
     }
+    logger.i('Called: `Trop.removeAbsentPreviewsFromShared` and removed following files: ${removed.join(', ')}');
   }
   
   static Future<void> init() async {
@@ -442,7 +479,7 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
     allShared = [];
     allSharedMapByKey = {};
     
-    List<TropSharedPreviewData> allPreviewData = [];
+    // List<TropSharedPreviewData> allPreviewData = [];
     
     Directory ownTropDir = Directory(getOwnTropFolderPath);
     await ownTropDir.create(recursive: true);
@@ -462,20 +499,20 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
       allSharedMapByKey[trop.key!] = trop;
     }
 
-    Directory previewDataTropDir = Directory(getSharedTropPreviewDataFolderPath);
-    await previewDataTropDir.create(recursive: true);
-    for (FileSystemEntity file in previewDataTropDir.listSync(recursive: false)) {
-      Map data = jsonDecode(readFileAsString(file.path));
-      try {
-        TropSharedPreviewData? tropPreviewData = TropSharedPreviewData.fromRespMap(data, basename(file.path));
-        allPreviewData.add(tropPreviewData);
-      } catch (e){
-        logger.e(e);
-        continue;
-      }
-    }
-    
-    TropSharedPreviewData.setAll(allPreviewData);
+    // Directory previewDataTropDir = Directory(getSharedTropPreviewDataFolderPath);
+    // await previewDataTropDir.create(recursive: true);
+    // for (FileSystemEntity file in previewDataTropDir.listSync(recursive: false)) {
+    //   Map data = jsonDecode(readFileAsString(file.path));
+    //   try {
+    //     TropSharedPreviewData? tropPreviewData = TropSharedPreviewData.fromRespMap(data, basename(file.path));
+    //     allPreviewData.add(tropPreviewData);
+    //   } catch (e){
+    //     logger.e(e);
+    //     continue;
+    //   }
+    // }
+    //
+    // TropSharedPreviewData.setAll(allPreviewData);
 
     initialized = true;
   }
@@ -768,6 +805,11 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
         needsUpdating = true;
       }
 
+      if(!map.containsKey(paramUserOwnerCount)) {
+        map[paramUserOwnerCount] = 0;
+        needsUpdating = true;
+      }
+
       Trop trop = fromRespMap(map, lclId: lclId, isShared: false);
 
       if(needsUpdating)
@@ -810,6 +852,7 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
     category: category,
     startDate: startDate,
     endDate: endDate,
+    completenessPercent: completenessPercent,
     lastUpdateTime: lastServerUpdateTime!
   );
 

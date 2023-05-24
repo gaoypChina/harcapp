@@ -10,7 +10,7 @@ class NameControllerProvider extends ChangeNotifier{
 
   TextEditingController nameController;
 
-  NameControllerProvider({Trop? initTrop, TropBaseData? initTropBaseData}):
+  NameControllerProvider({Trop? initTrop, TropExampleData? initTropBaseData}):
         nameController = TextEditingController(text: initTrop?.name??initTropBaseData?.name??'');
 
 }
@@ -21,7 +21,7 @@ class TropCategoryProvider extends ChangeNotifier{
 
   TropCategory _category;
 
-  TropCategoryProvider({Trop? initTrop, TropBaseData? initTropBaseData}):
+  TropCategoryProvider({Trop? initTrop, TropExampleData? initTropBaseData}):
         _category = initTrop?.category??initTropBaseData?.category??TropCategory.harcZaradnosc;
 
   TropCategory get category => _category;
@@ -72,7 +72,7 @@ class AimControllersProvider extends ChangeNotifier{
 
   List<TextEditingController> aimControllers;
 
-  AimControllersProvider({Trop? initTrop, TropBaseData? initTropBaseData}):
+  AimControllersProvider({Trop? initTrop, TropExampleData? initTropBaseData}):
         aimControllers = (initTrop?.aims??initTropBaseData?.aims??['']).map((a) => TextEditingController(text: a)).toList();
 
   List<String> getAims(){
@@ -144,7 +144,7 @@ class TasksProvider extends ChangeNotifier{
 
   late List<TropTaskEditableData> tasks;
 
-  TasksProvider({Trop? initTrop, TropBaseData<TropTaskExampleData>? initTropBaseData}){
+  TasksProvider({Trop? initTrop, TropExampleData<TropTaskExampleData>? initTropBaseData}){
 
     tasks = [];
     if(initTropBaseData != null)

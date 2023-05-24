@@ -21,7 +21,7 @@ import 'package:harcapp/_common_widgets/floating_container.dart';
 class TropPredefPage extends StatefulWidget{
 
   final String metoShort;
-  final List<TropBaseData> predefTrops;
+  final List<TropExampleData> predefTrops;
   final List<TropCategory> allCategories;
   final void Function(Trop)? onNewTropSaved;
 
@@ -41,7 +41,7 @@ class TropPredefPage extends StatefulWidget{
 class TropPredefPageState extends State<TropPredefPage> with TickerProviderStateMixin{
 
   String get metoShort => widget.metoShort;
-  List<TropBaseData> get predefTrops => widget.predefTrops;
+  List<TropExampleData> get predefTrops => widget.predefTrops;
   List<TropCategory> get allCategories => widget.allCategories;
   void Function(Trop)? get onNewTropSaved => widget.onNewTropSaved;
 

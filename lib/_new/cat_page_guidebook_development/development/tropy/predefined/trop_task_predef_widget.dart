@@ -48,7 +48,7 @@ class TropTaskPredefContentWidget extends StatelessWidget{
 
 class TropTaskPredefWidget extends StatefulWidget{
 
-  final TropBaseData trop;
+  final TropExampleData trop;
   final TropTaskExampleData task;
   final int index;
 
@@ -61,7 +61,7 @@ class TropTaskPredefWidget extends StatefulWidget{
 
 class TropTaskPredefWidgetState extends State<TropTaskPredefWidget>{
 
-  TropBaseData get trop => widget.trop;
+  TropExampleData get trop => widget.trop;
   TropTaskExampleData get task => widget.task;
   int get index => widget.index;
 

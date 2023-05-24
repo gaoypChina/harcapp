@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_widgets/border_material.dart';
+import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_common_widgets/duration_date_widget.dart';
 import 'package:harcapp/_new/api/trop.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/model/trop_role.dart';
@@ -74,7 +75,7 @@ class TropWidgetState extends State<TropWidget>{
               actions: [
                 if(!trop.isShared || (trop.isShared && trop.myRole == TropRole.OWNER))
                   IconButton(
-                    icon: const Icon(MdiIcons.pencilOutline),
+                    icon: const Icon(MdiIcons.cogOutline),
                     onPressed: () => pushPage(context, builder: (context) => TropEditorPage(
                           initTrop: trop,
                           allCategories:
@@ -87,6 +88,25 @@ class TropWidgetState extends State<TropWidget>{
                             prov.notify();
                           }
                       ))
+                  )
+                else if(trop.isShared)
+                  IconButton(
+                      icon: const Icon(MdiIcons.cogOutline),
+                      onPressed: () => showScrollBottomSheet(
+                          context: context,
+                          builder: (context) => BottomSheetDef(
+                            builder: (context) => Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+
+                                const TitleShortcutRowWidget(title: 'Strefa zagrożenia'),
+
+                                LeaveSharedTropButton(trop)
+
+                              ],
+                            )
+                          )
+                      )
                   )
               ],
             ),
