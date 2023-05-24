@@ -163,12 +163,46 @@ String tropCategoryToName(TropCategory category){
   }
 }
 
-class TropSharedPreviewData{
+abstract class TropBaseData{
+
+  String? get key;
+  String name;
+  TropCategory category;
+  String? customIconTropName;
+
+  DateTime startDate;
+  DateTime endDate;
+
+  int get completenessPercent;
+
+  DateTime? get lastUpdateTime;
+
+  TropBaseData({
+    required this.name,
+    required this.category,
+    this.customIconTropName,
+
+    required this.startDate,
+    required this.endDate,
+  });
+
+}
+
+class TropSharedPreviewData extends TropBaseData{
 
   static const String paramCompletenessPercent = 'completenessPercent';
   
   static SortedList<TropSharedPreviewData>? all;
   static Map<String, TropSharedPreviewData>? allMapByKey;
+
+  @override
+  String key;
+  
+  @override
+  int completenessPercent;
+
+  @override
+  DateTime lastUpdateTime;
 
   static bool moreToLoad = true;
 
@@ -293,27 +327,15 @@ class TropSharedPreviewData{
 
     Trop.paramLastUpdateTime: lastUpdateTime.toIso8601String(),
   };
-  
-  String key;
-  String name;
-  TropCategory category;
-  String? customIconTropName;
-
-  DateTime startDate;
-  DateTime endDate;
-  
-  int completenessPercent;
-
-  DateTime lastUpdateTime;
 
   TropSharedPreviewData({
     required this.key,
-    required this.name,
-    required this.category,
-    required this.customIconTropName,
+    required super.name,
+    required super.category,
+    required super.customIconTropName,
 
-    required this.startDate,
-    required this.endDate,
+    required super.startDate,
+    required super.endDate,
     
     required this.completenessPercent,
 
@@ -335,29 +357,13 @@ class TropSharedPreviewData{
   
 }
 
-class TropBaseData{
-
-  String name;
-  TropCategory category;
-  String? customIconTropName;
-  int completenessPercent;
-
-  TropBaseData({
-    required this.name,
-    required this.category,
-    this.customIconTropName,
-    required this.completenessPercent,
-  });
-
-}
-
-class TropExampleData<T extends TropTaskExampleData>{
+class TropExampleData{
 
   String name;
   TropCategory category;
   String? customIconTropName;
   List<String> aims;
-  List<T> tasks;
+  List<TropTaskExampleData> tasks;
   String? notesForLeaders;
   List<String>? exampleSpraws;
 
@@ -375,7 +381,7 @@ class TropExampleData<T extends TropTaskExampleData>{
 
 }
 
-class Trop extends TropExampleData<TropTask> with SyncableParamGroupMixin, SyncGetRespNode<TropGetResp>{
+class Trop extends TropBaseData with SyncableParamGroupMixin, SyncGetRespNode<TropGetResp>{
 
   static const int tropPageSize = 10;
   static const int userPageSize = 10;
@@ -543,15 +549,18 @@ class Trop extends TropExampleData<TropTask> with SyncableParamGroupMixin, SyncG
 
   // TODO: split this into LocalTrop and SharedTrop
   final String? lclId;
+  
+  @override
   String? key;
-  // This can be null only when trop is not yet synced.
-  DateTime? lastServerUpdateTime;
 
-  DateTime startDate;
-  DateTime endDate;
-
+  List<String> aims;
+  List<TropTask> tasks;
+  
   bool completed;
   DateTime? completionDate;
+
+  @override
+  DateTime? lastUpdateTime;
 
   final List<TropUser> _assignedUsers;
   final Map<String, TropUser> _assignedUsersMap;
@@ -563,7 +572,7 @@ class Trop extends TropExampleData<TropTask> with SyncableParamGroupMixin, SyncG
   final Map<String, TropUser> _loadedUsersMap;
   List<TropUser> get loadedUsers => _loadedUsers;
   Map<String, TropUser> get loadedUsersMap => _loadedUsersMap;
-
+  
   bool get isShared => _loadedUsers.isNotEmpty;
 
   int userCount;
@@ -571,6 +580,7 @@ class Trop extends TropExampleData<TropTask> with SyncableParamGroupMixin, SyncG
 
   bool get isCategoryHarc => allHarcTropCategories.contains(category);
 
+  @override
   int get completenessPercent{
     int completedCount = 0;
     for(TropTask task in tasks)
@@ -594,28 +604,28 @@ class Trop extends TropExampleData<TropTask> with SyncableParamGroupMixin, SyncG
 
   Trop({
     this.lclId,
-    this.key,
+    required this.key,
     required super.name,
     super.customIconTropName,
     required super.category,
-    required super.aims,
+    required this.aims,
 
-    required this.startDate,
-    required this.endDate,
+    required super.startDate,
+    required super.endDate,
 
     required this.completed,
     required this.completionDate,
 
-    required super.tasks,
-    required this.lastServerUpdateTime,
+    required this.tasks,
+    required this.lastUpdateTime, // last server update time
     required Map<String, TropUser> assignedUsersMap,
     required Map<String, TropUser> loadedUsersMap,
 
     required this.userCount,
     required this.userOwnerCount,
 
-    super.notesForLeaders,
-    super.exampleSpraws,
+    // this.notesForLeaders,
+    // this.exampleSpraws,
   }): assert(lclId != null || key != null),
       _assignedUsersMap = assignedUsersMap,
       _assignedUsers = assignedUsersMap.values.toList(),
@@ -635,7 +645,7 @@ class Trop extends TropExampleData<TropTask> with SyncableParamGroupMixin, SyncG
     userCount = trop.userCount;
   }
 
-  static Trop create({
+  static Trop createOwn({
     String? uniqName,
     required String name,
     required String? customIconTropName,
@@ -649,11 +659,12 @@ class Trop extends TropExampleData<TropTask> with SyncableParamGroupMixin, SyncG
     required DateTime? completionTime,
 
     required List<TropTaskData> tasks,
-    required DateTime? lastServerUpdateTime,
+    required DateTime? lastUpdateTime,
   }){
 
     Trop trop = Trop(
         lclId: uniqName??const Uuid().v4(),
+        key: null,
         name: name,
         customIconTropName: customIconTropName,
         category: category,
@@ -666,7 +677,7 @@ class Trop extends TropExampleData<TropTask> with SyncableParamGroupMixin, SyncG
         completionDate: completionTime,
 
         tasks: [],
-        lastServerUpdateTime: lastServerUpdateTime,
+        lastUpdateTime: lastUpdateTime,
         assignedUsersMap: {},
         loadedUsersMap: {},
 
@@ -683,7 +694,6 @@ class Trop extends TropExampleData<TropTask> with SyncableParamGroupMixin, SyncG
     DateTime? lastServerUpdateTime = DateTime.tryParse(respMapData[paramLastUpdateTime]??'');
     if(isShared && lastServerUpdateTime == null)
       throw MissingDecodeParamError(paramLastUpdateTime);
-
 
     String? validLclId = lclId??respMapData[paramLclId];
     if(!isShared && validLclId == null)
@@ -708,7 +718,7 @@ class Trop extends TropExampleData<TropTask> with SyncableParamGroupMixin, SyncG
       completionDate: DateTime.tryParse(respMapData[paramCompletionTime]??''),
 
       tasks: [],
-      lastServerUpdateTime: lastServerUpdateTime,
+      lastUpdateTime: lastServerUpdateTime,
       assignedUsersMap: {},
       loadedUsersMap: {},
       userCount: respMapData[paramUserCount]??(throw MissingDecodeParamError(paramUserCount)),
@@ -853,7 +863,7 @@ class Trop extends TropExampleData<TropTask> with SyncableParamGroupMixin, SyncG
     startDate: startDate,
     endDate: endDate,
     completenessPercent: completenessPercent,
-    lastUpdateTime: lastServerUpdateTime!
+    lastUpdateTime: lastUpdateTime!
   );
 
   Map toJsonMap() => {
@@ -870,12 +880,12 @@ class Trop extends TropExampleData<TropTask> with SyncableParamGroupMixin, SyncG
     paramCompletionTime: completionDate?.toIso8601String(),
 
     paramTasks: { for(TropTask task in tasks) task.lclId: task.toJsonMap() },
-    paramLastUpdateTime: lastServerUpdateTime?.toIso8601String(),
+    paramLastUpdateTime: lastUpdateTime?.toIso8601String(),
     paramAssignedUsers: _assignedUsersMap.map((key, value) => MapEntry(key, value.toJsonMap())),
     paramLoadedUsers: _loadedUsersMap.map((key, value) => MapEntry(key, value.toJsonMap())),
 
     paramUserCount: userCount,
-    paramUserOwnerCount: userOwnerCount
+    paramUserOwnerCount: userOwnerCount,
   };
 
   void saveOwn({localOnly = false, bool? synced = false}){
@@ -934,7 +944,7 @@ class Trop extends TropExampleData<TropTask> with SyncableParamGroupMixin, SyncG
   }
 
   void changedToShared(DateTime lastUpdateTime, {BuildContext? context}){
-    lastServerUpdateTime = lastUpdateTime;
+    this.lastUpdateTime = lastUpdateTime;
     deleteOwn(); // This call also calls `removeOwnFromAll`;
     addSharedToAll(this);
     TropSharedPreviewData.addToAll(toPreviewData());
@@ -1191,7 +1201,7 @@ class Trop extends TropExampleData<TropTask> with SyncableParamGroupMixin, SyncG
     completed = resp.completed;
     completionDate = resp.completionDate;
 
-    lastServerUpdateTime = resp.lastUpdateTime;
+    lastUpdateTime = resp.lastUpdateTime;
 
     setAllAssignedUsers(resp.assignedUsers.values.toList());
 

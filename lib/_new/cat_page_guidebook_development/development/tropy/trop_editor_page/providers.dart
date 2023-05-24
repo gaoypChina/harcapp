@@ -144,7 +144,7 @@ class TasksProvider extends ChangeNotifier{
 
   late List<TropTaskEditableData> tasks;
 
-  TasksProvider({Trop? initTrop, TropExampleData<TropTaskExampleData>? initTropBaseData}){
+  TasksProvider({Trop? initTrop, TropExampleData? initTropBaseData}){
 
     tasks = [];
     if(initTropBaseData != null)

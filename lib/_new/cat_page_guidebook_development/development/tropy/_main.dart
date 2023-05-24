@@ -7,22 +7,18 @@ import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_common_widgets/empty_message_widget.dart';
 import 'package:harcapp/_common_widgets/extended_floating_button.dart';
-import 'package:harcapp/_common_widgets/loading_widget.dart';
-import 'package:harcapp/_new/api/trop.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/ideas/trop_ideas_page.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/predefined/data_z.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_icon.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_page.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/login_provider.dart';
-import 'package:harcapp/logger.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:harcapp/values/colors.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
-import 'package:harcapp_core/comm_classes/network.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
@@ -35,9 +31,11 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'ideas/data_h.dart';
 import 'ideas/data_hs.dart';
 import 'ideas/data_w.dart';
+import 'open_trop_dialog.dart';
 import 'predefined/trop_predef_page.dart';
 import 'model/trop.dart';
 import 'trop_editor_page/_main.dart';
+import 'trop_shared_previews_loader.dart';
 import 'trop_tile.dart';
 
 class TropyPage extends StatefulWidget{
@@ -53,69 +51,11 @@ class TropyPageState extends State<TropyPage>{
 
   late RefreshController refreshController;
 
+  late TropSharedPreviewsLoaderListener tropSharedPreviewsLoaderListener;
+
   bool get moreToLoad => TropSharedPreviewData.moreToLoad;
-  set moreToLoad(bool value){
-    TropSharedPreviewData.moreToLoad = value;
-    logger.d('Loaded ${TropSharedPreviewData.all!.length} trop previews. Any remaining: $value');
-  }
 
   bool get tropPreviewEmpty => TropSharedPreviewData.all?.isEmpty??true;
-
-  Future<void> loadTropPreviewsPage({bool reloadAll = false}) async {
-
-    if(!await isNetworkAvailable()){
-      if(mounted) showAppToast(context, text: 'Brak dostępu do Internetu');
-      refreshController.loadComplete(); // This is called in `post()` inside.
-      if(mounted) post(() => mounted?setState(() {}):null);
-      return;
-    }
-
-    await ApiTrop.getSharedTropPreviews(
-      pageSize: Trop.tropPageSize,
-      lastStartTime: reloadAll || tropPreviewEmpty?
-      null:
-      TropSharedPreviewData.all!.last.startDate.toIso8601String(),
-
-      lastName: reloadAll || tropPreviewEmpty?
-      null:
-      TropSharedPreviewData.all!.last.name,
-
-      lastTropKey: reloadAll || tropPreviewEmpty?
-      null:
-      TropSharedPreviewData.all!.last.key,
-
-      onSuccess: (tropPrevsPage){
-        if(reloadAll) TropSharedPreviewData.setAll(tropPrevsPage);
-        else TropSharedPreviewData.addAllToAll(tropPrevsPage);
-
-        // for(TropSharedPreviewData previewData in tropPrevsPage)
-        //   previewData.dumpAsPreview();
-
-        moreToLoad = tropPrevsPage.length == Trop.tropPageSize;
-        if(!moreToLoad){
-          Trop.removeAbsentPreviewsFromShared();
-          TropSharedPreviewData.removeAbsent();
-        }
-        if(mounted) setState((){});
-      },
-      onForceLoggedOut: (){
-        if(!mounted) return true;
-        showAppToast(context, text: forceLoggedOutMessage);
-        setState(() {});
-        return true;
-      },
-      onServerMaybeWakingUp: (){
-        if(!mounted) return true;
-        showServerWakingUpToast(context);
-        return true;
-      },
-      onError: (){
-        if(!mounted) return;
-        showAppToast(context, text: simpleErrorMessage);
-      },
-    );
-
-  }
 
   late SynchronizerListener syncListener;
   late LoginListener loginListener;
@@ -126,10 +66,47 @@ class TropyPageState extends State<TropyPage>{
     bool loggedIn = LoginProvider.of(context).loggedIn;
     bool loadInit = loggedIn && !TropSharedPreviewData.hasAny;
     refreshController = RefreshController(
-        initialRefresh: loadInit
+        initialRefresh: loadInit,
+        initialRefreshStatus:
+        loadInit || tropSharedPreviewsLoader.running?
+        RefreshStatus.refreshing:
+        RefreshStatus.idle
     );
     if(loadInit)
-      loadTropPreviewsPage(reloadAll: true);
+      tropSharedPreviewsLoader.run(reloadAll: true);
+
+    tropSharedPreviewsLoaderListener = TropSharedPreviewsLoaderListener(
+        onSuccess: (){
+          TropListProvider.notify_(context);
+          if(mounted) setState((){});
+        },
+        onForceLoggedOut: (){
+          if(!mounted) return;
+          showAppToast(context, text: forceLoggedOutMessage);
+          setState(() {});
+          return;
+        },
+        onServerMaybeWakingUp: (){
+          if(!mounted) return;
+          showServerWakingUpToast(context);
+          return;
+        },
+        onError: (_){
+          if(!mounted) return;
+          showAppToast(context, text: simpleErrorMessage);
+        },
+        onNoInternet: (){
+          if(mounted) showAppToast(context, text: 'Brak dostępu do Internetu');
+          refreshController.loadComplete(); // This is called in `post()` inside.
+          if(mounted) post(() => mounted?setState(() {}):null);
+        },
+        onEnd: (_, __){
+          refreshController.loadComplete();
+          refreshController.refreshCompleted();
+          if(mounted) post(() => mounted?setState(() {}):null);
+        }
+    );
+    tropSharedPreviewsLoader.addListener(tropSharedPreviewsLoaderListener);
 
     syncListener = SynchronizerListener(
       onEnd: (syncOper){
@@ -149,7 +126,7 @@ class TropyPageState extends State<TropyPage>{
           initialRefresh: loadInit
         );
         if(loadInit)
-          loadTropPreviewsPage(reloadAll: true);
+          tropSharedPreviewsLoader.run(reloadAll: true);
 
       }
     );
@@ -160,6 +137,7 @@ class TropyPageState extends State<TropyPage>{
 
   @override
   void dispose() {
+    tropSharedPreviewsLoader.removeListener(tropSharedPreviewsLoaderListener);
     synchronizer.removeListener(syncListener);
     AccountData.removeLoginListener(loginListener);
 
@@ -220,7 +198,7 @@ class TropyPageState extends State<TropyPage>{
                         name: Trop.allOwn[index].name,
                         category: Trop.allOwn[index].category,
                         zuchTropName: Trop.allOwn[index].customIconTropName,
-                        trailing: TropTileProgressWidget(Trop.allOwn[index].completenessPercent),
+                        completenessPercent: Trop.allOwn[index].completenessPercent,
                         iconSize: TropIcon.defSize,
                       ),
                       onTap: () => pushPage(
@@ -259,7 +237,7 @@ class TropyPageState extends State<TropyPage>{
                           name: TropSharedPreviewData.all![index].name,
                           category: TropSharedPreviewData.all![index].category,
                           zuchTropName: TropSharedPreviewData.all![index].customIconTropName,
-                          // trailing: TropTileProgressWidget(TropPreviewData.all[index].completenessPercent),
+                          completenessPercent: TropSharedPreviewData.all![index].completenessPercent,
                           iconSize: TropIcon.defSize,
                         ),
                         onTap: () => loadPushTropPage(context, TropSharedPreviewData.all![index])
@@ -293,8 +271,8 @@ class TropyPageState extends State<TropyPage>{
                 enablePullDown: loginProv.loggedIn && !refreshController.isLoading,
                 enablePullUp: loginProv.loggedIn && moreToLoad && !refreshController.isRefresh,
                 footer: AppCustomFooter(
-                    moreToLoad: moreToLoad && !tropPreviewEmpty,
-                    showDotWhenAllLoaded: true
+                  moreToLoad: moreToLoad && !tropPreviewEmpty,
+                  showDotWhenAllLoaded: true
                 ),
                 header: MaterialClassicHeader(
                   backgroundColor: cardEnab_(context),
@@ -302,12 +280,7 @@ class TropyPageState extends State<TropyPage>{
                 ),
                 controller: refreshController,
                 onRefresh: () async {
-
-                  await loadTropPreviewsPage(reloadAll: true);
-
-                  if(mounted) refreshController.refreshCompleted();
-                  post(() => mounted?setState(() {}):null);
-
+                  await tropSharedPreviewsLoader.run(awaitFinish: true, reloadAll: true);
                 },
                 onLoading: () async {
 
@@ -317,10 +290,7 @@ class TropyPageState extends State<TropyPage>{
                     return;
                   }
 
-                  await loadTropPreviewsPage();
-
-                  if(mounted) refreshController.loadComplete(); // This is called in `post()` inside.
-                  if(mounted) post(() => mounted?setState(() {}):null);
+                  await tropSharedPreviewsLoader.run(awaitFinish: true);
 
                 },
                 child: CustomScrollView(
@@ -349,7 +319,7 @@ class TropyPageState extends State<TropyPage>{
 
   Future<void> openNewTropBottomSheet(
       BuildContext context,
-      { void Function(Trop)? onNewTropSaved}
+      { void Function(Trop)? onNewTropSaved }
       ) => showScrollBottomSheet(
       context: context,
       builder: (context) => BottomSheetDef(
@@ -471,36 +441,6 @@ class TropyPageState extends State<TropyPage>{
           )
       )
   );
-
-  Future<void> loadPushTropPage(BuildContext context, TropSharedPreviewData data) async {
-
-    Trop? loadSharedTrop;
-    if(Trop.allSharedMapByKey.containsKey(data.key))
-      if(data.lastUpdateTime == Trop.allSharedMapByKey[data.key]!.lastServerUpdateTime)
-        loadSharedTrop =  Trop.allSharedMapByKey[data.key];
-
-    if(loadSharedTrop != null)
-      pushPage(context, builder: (context) => TropPage(loadSharedTrop!));
-    else {
-      showLoadingWidget(context, AppColors.zhpTropColor, 'Otwieranie...');
-      await ApiTrop.getTrop(
-          tropKey: data.key,
-          onSuccess: (Trop trop) async {
-            trop.saveShared();
-            Trop.addSharedToAll(trop, context: context);
-
-            if(!mounted) return;
-            await popPage(context);
-            pushPage(context, builder: (context) => TropPage(trop));
-          },
-          onError: (_) async {
-            if(!mounted) return;
-            await popPage(context);
-            showAppToast(context, text: simpleErrorMessage);
-          }
-      );
-    }
-  }
 
 }
 

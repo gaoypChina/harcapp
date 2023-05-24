@@ -46,6 +46,7 @@ class TropPredefSearchPage extends StatelessWidget{
                   name: predefTrops[index].name,
                   category: predefTrops[index].category,
                   zuchTropName: predefTrops[index].customIconTropName,
+                  completenessPercent: null,
                   iconSize: 52.0,
                   withHero: false,
                 ),

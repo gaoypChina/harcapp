@@ -121,6 +121,7 @@ class TropIdeaWidget extends StatelessWidget{
       TropTile(
         name: data.name,
         category: data.category,
+        completenessPercent: null,
       ),
 
       const SizedBox(height: Dimen.SIDE_MARG),

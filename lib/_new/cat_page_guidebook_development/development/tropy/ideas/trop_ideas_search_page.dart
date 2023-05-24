@@ -45,6 +45,7 @@ class TropIdeasSearchPage extends StatelessWidget{
                 child: TropTile(
                   name: ideas[index].name,
                   category: ideas[index].category,
+                  completenessPercent: null,
                   iconSize: 52.0,
                   withHero: false,
                 ),

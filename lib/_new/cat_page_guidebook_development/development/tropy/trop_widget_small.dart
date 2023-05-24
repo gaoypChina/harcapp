@@ -17,7 +17,7 @@ class TropWidgetSmall extends StatelessWidget{
 
   static const double marginVal = 8.0;
 
-  final Trop trop;
+  final TropBaseData trop;
   final bool showProgress;
   final bool clickable;
   final double elevation;
@@ -34,7 +34,7 @@ class TropWidgetSmall extends StatelessWidget{
         super.key
       });
 
-  Trop get heroTag => trop;
+  TropBaseData get heroTag => trop;
 
   @override
   Widget build(BuildContext context) => SizedBox(
@@ -45,11 +45,20 @@ class TropWidgetSmall extends StatelessWidget{
       child: SimpleButton(
           color: backgroundColor??cardEnab_(context),
           onLongPress: onLongPress,
-          onTap: clickable?() => openTropDialog(
-              context,
-              trop,
-              //heroTag: heroTag,
-          ):null,
+          onTap: clickable?(){
+
+            if(trop is Trop)
+              openTropDialog(
+                context,
+                trop as Trop
+              );
+            else if(trop is TropSharedPreviewData)
+              loadOpenTropDialog(
+                context,
+                trop as TropSharedPreviewData
+              );
+
+          }:null,
           radius: AppCard.bigRadius,
           elevation: elevation,
           padding: EdgeInsets.zero,

@@ -197,7 +197,7 @@ class TropEditorPageState extends State<TropEditorPage>{
 
                           onSuccess: (trop) async {
                             if(!initTrop!.isShared)
-                              trop.changedToShared(trop.lastServerUpdateTime!);
+                              trop.changedToShared(trop.lastUpdateTime!);
                             await popPage(context); // Close loading widget.
                             await popPage(context);
                             onSaved?.call(trop);
@@ -278,7 +278,7 @@ class TropEditorPageState extends State<TropEditorPage>{
                           }
                       );
                     } else {
-                      Trop trop = Trop.create(
+                      Trop trop = Trop.createOwn(
                           name: name,
                           customIconTropName: initTropBaseData?.customIconTropName,
                           category: category,
@@ -288,7 +288,7 @@ class TropEditorPageState extends State<TropEditorPage>{
                           completed: false,
                           completionTime: null,
                           tasks: tasks,
-                          lastServerUpdateTime: null
+                          lastUpdateTime: null
                       );
                       trop.saveOwn();
                       Trop.addOwnToAll(trop);

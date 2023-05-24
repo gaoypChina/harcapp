@@ -13,8 +13,9 @@ class TropTile extends StatelessWidget{
   final String name;
   final TropCategory category;
   final String? zuchTropName;
+  final int? completenessPercent;
   final double iconSize;
-  final Widget? trailing;
+  // final Widget? trailing;
   final EdgeInsets padding;
   final bool withHero;
 
@@ -22,8 +23,9 @@ class TropTile extends StatelessWidget{
     required this.name,
     required this.category,
     this.zuchTropName,
+    required this.completenessPercent,
     this.iconSize = TropIcon.tileSize,
-    this.trailing,
+    // this.trailing,
     this.padding = EdgeInsets.zero,
     this.withHero = true,
     super.key
@@ -73,7 +75,9 @@ class TropTile extends StatelessWidget{
               ),
             ),
 
-            if(trailing != null) trailing!
+            if(completenessPercent != null)
+              TropTileProgressWidget(completenessPercent!),
+            // if(trailing != null) trailing!
 
           ],
         ),

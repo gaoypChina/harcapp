@@ -117,6 +117,10 @@ class TropTaskWidgetState extends State<TropTaskWidget>{
                     completed: !task.completed,
                     onSuccess: (completed, _){
                       setState(() => task.completed = completed);
+                      TropProvider.notify_(context);
+                      TropListProvider.notify_(context);
+                      TropSharedPreviewData.allMapByKey![trop.key]!.completenessPercent =
+                          trop.completenessPercent;
                       trop.saveShared();
                     },
                     onForceLoggedOut: (){

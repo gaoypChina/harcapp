@@ -169,7 +169,7 @@ class TropUserTileExtendedState extends State<TropUserTileExtended>{
               onSuccess: (List<TropUser> updatedUsers, DateTime lastSyncTime) async {
                 trop.updateLoadedUsers(updatedUsers, context: context);
                 trop.updateAssignedUsers(updatedUsers, context: context);
-                trop.lastServerUpdateTime = lastSyncTime;
+                trop.lastUpdateTime = lastSyncTime;
                 trop.saveOwn(localOnly: true, synced: true);
                 Navigator.pop(context); // Close loading widget
                 await onSuccess?.call();
@@ -210,7 +210,7 @@ class TropUserTileExtendedState extends State<TropUserTileExtended>{
             userKeys: [user.key],
             onSuccess: (List<String> removedUsers, DateTime lastSyncTime) async {
               trop.removeLoadedUsersByKey(removedUsers, context: context);
-              trop.lastServerUpdateTime = lastSyncTime;
+              trop.lastUpdateTime = lastSyncTime;
               trop.saveOwn(localOnly: true, synced: true);
 
               if(!mounted) return;

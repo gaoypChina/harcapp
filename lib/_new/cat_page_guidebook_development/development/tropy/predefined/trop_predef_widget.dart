@@ -20,7 +20,12 @@ class TropPredefWidget extends StatelessWidget{
   Widget build(BuildContext context) => Column(
     children: [
 
-      TropTile(name: trop.name, category: trop.category, zuchTropName: trop.customIconTropName),
+      TropTile(
+        name: trop.name,
+        category: trop.category,
+        zuchTropName: trop.customIconTropName,
+        completenessPercent: null,
+      ),
 
       const SizedBox(height: Dimen.SIDE_MARG),
 

@@ -517,7 +517,7 @@ class ApiSync{
           TropGetResp? tropResp = trops[tropUniqName]!;
           if(trop == null){
 
-            trop = Trop.create(
+            trop = Trop.createOwn(
                 uniqName: tropUniqName,
                 name: tropResp.name,
                 customIconTropName: tropResp.customIconTropName,
@@ -528,7 +528,7 @@ class ApiSync{
                 completed: tropResp.completed,
                 completionTime: tropResp.completionDate,
                 tasks: [],
-                lastServerUpdateTime: tropResp.lastUpdateTime
+                lastUpdateTime: tropResp.lastUpdateTime
             );
 
             List<TropTask> tasks = [];

@@ -704,7 +704,7 @@ class TropSelectedListWidgetState extends State<TropSelectedListWidget>{
                       category: trop.category,
                       zuchTropName: trop.customIconTropName,
                       padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
-                      trailing: TropTileProgressWidget(trop.completenessPercent),
+                      completenessPercent: trop.completenessPercent,
                     ),
                   )
                 )

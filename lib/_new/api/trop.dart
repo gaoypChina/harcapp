@@ -265,7 +265,7 @@ class ApiTrop{
 
       try {
         TropUser user = TropUser.fromRespMap(userRawData);
-        trop.lastServerUpdateTime = now;
+        trop.lastUpdateTime = now;
         trop.saveShared();
         // on the backend side `now` is set to be same as trop's `lastSyncTime`
         await onSuccess?.call(user, now);
@@ -297,7 +297,7 @@ class ApiTrop{
     ),
     onSuccess: (Response response, DateTime now) async {
       bool completed = response.data;
-      trop.lastServerUpdateTime = now;
+      trop.lastUpdateTime = now;
       trop.saveShared();
       // on the backend side `now` is set to be same as trop's `lastSyncTime`
       await onSuccess?.call(completed, now);
@@ -325,7 +325,7 @@ class ApiTrop{
     ),
     onSuccess: (Response response, DateTime now) async {
       String summary = response.data;
-      trop.lastServerUpdateTime = now;
+      trop.lastUpdateTime = now;
       trop.saveShared();
       // on the backend side `now` is set to be same as trop's `lastSyncTime`
       await onSuccess?.call(summary, now);

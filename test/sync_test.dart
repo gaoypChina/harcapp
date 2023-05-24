@@ -118,7 +118,7 @@ void main() {
     album2.save(localOnly: true);
     OwnAlbum.addToAll(album2);
     
-    Trop trop = Trop.create(
+    Trop trop = Trop.createOwn(
         name: 'Mój super trop',
         category: TropCategory.harcNatura,
         customIconTropName: null,
@@ -146,7 +146,7 @@ void main() {
             completed: true,
           ),
         ],
-        lastServerUpdateTime: null
+        lastUpdateTime: null
     );
     trop.saveOwn(localOnly: true);
     Trop.addOwnToAll(trop);

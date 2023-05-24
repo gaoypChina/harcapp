@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:harcapp/_app_common/common_color_data.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/org/org_handler.dart';
@@ -7,10 +8,16 @@ import 'package:harcapp/_common_widgets/gradient_icon.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/_main.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/model/trop.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_icon.dart';
+import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_shared_previews_loader.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_widget_small.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
+import 'package:harcapp/values/colors.dart';
+import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/providers.dart';
+import 'package:harcapp_core/comm_classes/common.dart';
+import 'package:harcapp_core/comm_widgets/app_card.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp_core/comm_widgets/gradient_widget.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
@@ -200,7 +207,7 @@ class DevelopmentSubpageState extends State<DevelopmentSubpage>{
                           context,
                           builder: (context) => const TropyPage()
                       ),
-                      child: TropyPreviewList(),
+                      child: const TropyPreviewList(),
                     )
 
                   ],
@@ -474,15 +481,79 @@ class SprawPreviewCircle extends StatelessWidget{
 
 }
 
-class TropyPreviewList extends StatelessWidget{
+class TropyPreviewList extends StatefulWidget{
 
   const TropyPreviewList({super.key});
+
+  @override
+  State<StatefulWidget> createState() => TropyPreviewListState();
+
+}
+
+class TropyPreviewListState extends State<TropyPreviewList>{
+
+  List<TropBaseData> get trops{
+    List<TropBaseData> result = [];
+    result.addAll(Trop.allOwn);
+    if(TropSharedPreviewData.all != null)
+      result.addAll(TropSharedPreviewData.all!.toList());
+
+    return result;
+  }
+
+  int get tropCount => Trop.allOwn.length + (TropSharedPreviewData.all?.length??0);
+
+  late TropSharedPreviewsLoaderListener tropSharedPreviewsLoaderListener;
+
+  @override
+  void initState() {
+    tropSharedPreviewsLoaderListener = TropSharedPreviewsLoaderListener(
+        onSuccess: (){
+          TropListProvider.notify_(context);
+          if(mounted) setState((){});
+        },
+        onForceLoggedOut: (){
+          if(!mounted) return;
+          showAppToast(context, text: forceLoggedOutMessage);
+          setState(() {});
+          return;
+        },
+        onServerMaybeWakingUp: (){
+          if(!mounted) return;
+          showServerWakingUpToast(context);
+          return;
+        },
+        onError: (_){
+          if(!mounted) return;
+          showAppToast(context, text: simpleErrorMessage);
+        },
+        onNoInternet: (){
+          if(mounted) showAppToast(context, text: 'Brak dostępu do Internetu');
+          if(mounted) post(() => mounted?setState(() {}):null);
+        },
+        onEnd: (_, __){
+          if(mounted) setState(() {});
+        }
+    );
+    tropSharedPreviewsLoader.addListener(tropSharedPreviewsLoaderListener);
+    if(!TropSharedPreviewData.hasAny) tropSharedPreviewsLoader.run();
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    tropSharedPreviewsLoader.removeListener(tropSharedPreviewsLoaderListener);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) => Consumer2<TropProvider, TropListProvider>(
     builder: (context, tropProv, tropProvList, child){
 
-      if(Trop.allOwn.isEmpty)
+      List<TropBaseData> trops = this.trops;
+
+      if(trops.isEmpty)
         return const SizedBox(
           height: TropIcon.defSize + Dimen.defMarg,
           child: TropyPreviewEmptyWidget(),
@@ -490,21 +561,61 @@ class TropyPreviewList extends StatelessWidget{
 
       return SizedBox(
         height: TropWidgetSmall.height + Dimen.defMarg,
-        child: ListView.separated(
-          padding: const EdgeInsets.only(
-            left: Dimen.defMarg,
-            right: Dimen.defMarg,
-            bottom: Dimen.defMarg,
+        child: NotificationListener<ScrollEndNotification>(
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+
+                ListView.separated(
+                  padding: const EdgeInsets.only(
+                    left: Dimen.defMarg,
+                    right: Dimen.defMarg,
+                    bottom: Dimen.defMarg,
+                  ),
+                  itemBuilder: (context, index) => TropWidgetSmall(
+                    trops[index],
+                    elevation: 0,
+                  ),
+                  separatorBuilder: (context, index) => const SizedBox(width: Dimen.defMarg),
+                  itemCount: tropCount,
+                  scrollDirection: Axis.horizontal,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                ),
+
+                if(tropSharedPreviewsLoader.running)
+                  Padding(
+                    padding: const EdgeInsets.only(left: Dimen.SIDE_MARG),
+                    child: SizedBox(
+                      height: TropWidgetSmall.height,
+                      width: TropWidgetSmall.width,
+                      child: Material(
+                        borderRadius: BorderRadius.circular(AppCard.bigRadius),
+                        child: const Center(
+                          child: SpinKitChasingDots(
+                            size: Dimen.ICON_SIZE,
+                            color: AppColors.zhpTropColor,
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+
+              ],
+            ),
           ),
-          itemBuilder: (context, index) => TropWidgetSmall(
-            Trop.allOwn[index],
-            elevation: 0,
-          ),
-          separatorBuilder: (context, index) => const SizedBox(width: Dimen.defMarg),
-          itemCount: Trop.allOwn.length,
-          scrollDirection: Axis.horizontal,
-          shrinkWrap: true,
-          physics: const BouncingScrollPhysics(),
+          onNotification: (scrollEnd) {
+            final metrics = scrollEnd.metrics;
+            if (!metrics.atEdge) return true;
+            if(metrics.pixels == 0) return true;
+
+            tropSharedPreviewsLoader.run();
+            setState(() {});
+
+            return true;
+          },
         ),
       );
 

@@ -83,6 +83,7 @@ class TropSelectorState extends State<TropSelector>{
                 name: searchedTrops[index].name,
                 category: searchedTrops[index].category,
                 zuchTropName: searchedTrops[index].customIconTropName,
+                completenessPercent: Trop.allOwn[index].completenessPercent,
               ),
             ),
           ),

@@ -101,6 +101,8 @@ class TropWidgetState extends State<TropWidget>{
 
                                 const TitleShortcutRowWidget(title: 'Strefa zagrożenia'),
 
+                                const SizedBox(height: Dimen.SIDE_MARG),
+
                                 LeaveSharedTropButton(trop)
 
                               ],
@@ -131,7 +133,7 @@ class TropWidgetState extends State<TropWidget>{
                     name: trop.name,
                     category: trop.category,
                     zuchTropName: trop.customIconTropName,
-                    trailing: TropTileProgressWidget(trop.completenessPercent),
+                    completenessPercent: trop.completenessPercent,
                     iconSize: iconSize,
                   ),
 
@@ -180,27 +182,27 @@ class TropWidgetState extends State<TropWidget>{
                     physics: const NeverScrollableScrollPhysics(),
                   ),
 
-                  if(trop.hasNotesForLeaders)
-                    const SizedBox(height: Dimen.SIDE_MARG),
-
-                  if(trop.hasNotesForLeaders)
-                    const TitleShortcutRowWidget(
-                      title: 'Wskazówki dla drużynowego',
-                      textAlign: TextAlign.left,
-                    ),
-
-                  if(trop.hasNotesForLeaders)
-                    BorderMaterial(
-                      child: Padding(
-                          padding: const EdgeInsets.all(Dimen.ICON_MARG),
-                          child: Text(
-                            trop.notesForLeaders!,
-                            style: AppTextStyle(
-                                fontSize: Dimen.TEXT_SIZE_BIG
-                            ),
-                          )
-                      ),
-                    ),
+                  // if(trop.hasNotesForLeaders)
+                  //   const SizedBox(height: Dimen.SIDE_MARG),
+                  //
+                  // if(trop.hasNotesForLeaders)
+                  //   const TitleShortcutRowWidget(
+                  //     title: 'Wskazówki dla drużynowego',
+                  //     textAlign: TextAlign.left,
+                  //   ),
+                  //
+                  // if(trop.hasNotesForLeaders)
+                  //   BorderMaterial(
+                  //     child: Padding(
+                  //         padding: const EdgeInsets.all(Dimen.ICON_MARG),
+                  //         child: Text(
+                  //           trop.notesForLeaders!,
+                  //           style: AppTextStyle(
+                  //               fontSize: Dimen.TEXT_SIZE_BIG
+                  //           ),
+                  //         )
+                  //     ),
+                  //   ),
 
                 ],
               )
