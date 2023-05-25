@@ -221,7 +221,7 @@ class CirclePageState extends State<CirclePage>{
     moreAwaitingToLoad = circle.awaitingAnnouncements.length == Circle.announcementPageSize;
 
     loginListener = LoginListener(
-        onForceLogout: () => Navigator.pop(context)
+        onLogout: (force) => Navigator.pop(context)
     );
     AccountData.addLoginListener(loginListener);
 

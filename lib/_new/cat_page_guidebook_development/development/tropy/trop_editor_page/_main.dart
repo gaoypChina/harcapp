@@ -1009,10 +1009,14 @@ class RemoveSharedTropButton extends StatelessWidget{
 
                 showLoadingWidget(context, iconEnab_(context), 'Zwijanie tropu...');
 
+                TropListProvider tropListProv = TropListProvider.of(context);
+
                 ApiTrop.delete(
                   tropKey: trop.key!,
                   onSuccess: (){
                     trop.deleteShared(context: context);
+                    TropSharedPreviewData.removeFromAllByKey(trop.key!);
+                    tropListProv.notify();
                     Navigator.pop(context); // Close loading widget.
                     Navigator.pop(context); // Close edit page.
                     Navigator.pop(context); // Close trop page.

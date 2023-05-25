@@ -282,6 +282,7 @@ class TropSharedPreviewData extends TropBaseData{
     if(allMapByKey == null) return;
     List<String> removed = [];
     Directory sharedTropyDir = Directory(getSharedTropPreviewDataFolderPath);
+    sharedTropyDir.createSync(recursive: true);
     for (FileSystemEntity file in sharedTropyDir.listSync(recursive: false)) {
       String tropKey = basename(file.path);
       if (!allMapByKey!.containsKey(tropKey)) {
@@ -466,6 +467,7 @@ class Trop extends TropBaseData with SyncableParamGroupMixin, SyncGetRespNode<Tr
   static removeAbsentPreviewsFromShared(){
     Directory sharedTropyDir = Directory(getSharedTropPreviewDataFolderPath);
     List<String> removed = [];
+    sharedTropyDir.createSync(recursive: true);
     for (FileSystemEntity file in sharedTropyDir.listSync(recursive: false)) {
       File tropFile = File(getSharedTropFolderPath + basename(file.path));
       if(!tropFile.existsSync()) return;

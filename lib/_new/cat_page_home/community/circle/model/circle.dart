@@ -384,7 +384,7 @@ class Circle extends CircleBasicData{
 
     if(me == null){
       AccountData.forgetAccount();
-      AccountData.callOnForceLogout();
+      AccountData.callOnLogout(true);
       return null;
     }
 

@@ -126,7 +126,7 @@ class TropTaskWidgetState extends State<TropTaskWidget>{
                     onForceLoggedOut: (){
                       if(!mounted) return true;
                       showAppToast(context, text: forceLoggedOutMessage);
-                      setState(() {});
+                      Navigator.pop(context);
                       return true;
                     },
                     onServerMaybeWakingUp: (){

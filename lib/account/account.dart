@@ -9,6 +9,7 @@ import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_
 
 import '../_app_common/accounts/user_data.dart';
 import '../_new/cat_page_home/community/circle/model/announcement.dart';
+import 'ms_oauth.dart';
 
 //bool isLoggedIn = null; //true - logged in. false - not logged in. null - logging in;
 
@@ -17,9 +18,9 @@ class LoginListener{
   final void Function(bool)? onLogin;
   final void Function()? onRegistered;
   final void Function(bool)? onEmailConfirmChanged;
-  final void Function()? onForceLogout;
+  final void Function(bool)? onLogout;
 
-  const LoginListener({this.onLogin, this.onRegistered, this.onEmailConfirmChanged, this.onForceLogout});
+  const LoginListener({this.onLogin, this.onRegistered, this.onEmailConfirmChanged, this.onLogout});
 
 }
 
@@ -45,9 +46,9 @@ class AccountData {
       listener!.onEmailConfirmChanged?.call(emailConfirmed);
   }
 
-  static void callOnForceLogout(){
+  static void callOnLogout(bool force){
     for(LoginListener? listener in _listeners)
-      listener!.onForceLogout?.call();
+      listener!.onLogout?.call(force);
   }
 
   static String? _lastConfLoginEmail;
@@ -443,6 +444,8 @@ class AccountData {
   
   static Future<void> forgetAccount({bool forgetLastServerTime = false}) async {
     if(forgetLastServerTime) await AccountData.removeLastServerTime();
+
+    await ZhpAccAuth.logout();
 
     await AccountData.removeKey();
     await AccountData.removeEmail();

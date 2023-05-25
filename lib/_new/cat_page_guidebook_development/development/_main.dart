@@ -10,6 +10,8 @@ import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/mo
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_icon.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_shared_previews_loader.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_widget_small.dart';
+import 'package:harcapp/account/account.dart';
+import 'package:harcapp/account/login_provider.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:harcapp/values/colors.dart';
 import 'package:harcapp/values/consts.dart';
@@ -504,6 +506,7 @@ class TropyPreviewListState extends State<TropyPreviewList>{
   int get tropCount => Trop.allOwn.length + (TropSharedPreviewData.all?.length??0);
 
   late TropSharedPreviewsLoaderListener tropSharedPreviewsLoaderListener;
+  late LoginListener loginListener;
 
   @override
   void initState() {
@@ -536,7 +539,22 @@ class TropyPreviewListState extends State<TropyPreviewList>{
         }
     );
     tropSharedPreviewsLoader.addListener(tropSharedPreviewsLoaderListener);
-    if(!TropSharedPreviewData.hasAny) tropSharedPreviewsLoader.run();
+    if(!TropSharedPreviewData.hasAny && AccountData.loggedIn) tropSharedPreviewsLoader.run();
+
+    loginListener = LoginListener(
+        onLogin: (emailConf){
+          if(!emailConf) return;
+          bool loggedIn = LoginProvider.of(context).loggedIn;
+
+          if(loggedIn && !TropSharedPreviewData.hasAny && AccountData.loggedIn)
+            tropSharedPreviewsLoader.run(reloadAll: true);
+
+        },
+        onLogout: (force){
+          TropListProvider.notify_(context);
+        }
+    );
+    AccountData.addLoginListener(loginListener);
 
     super.initState();
   }
@@ -544,6 +562,7 @@ class TropyPreviewListState extends State<TropyPreviewList>{
   @override
   void dispose() {
     tropSharedPreviewsLoader.removeListener(tropSharedPreviewsLoaderListener);
+    AccountData.removeLoginListener(loginListener);
     super.dispose();
   }
 
@@ -611,7 +630,8 @@ class TropyPreviewListState extends State<TropyPreviewList>{
             if (!metrics.atEdge) return true;
             if(metrics.pixels == 0) return true;
 
-            tropSharedPreviewsLoader.run();
+            if(AccountData.loggedIn)
+              tropSharedPreviewsLoader.run();
             setState(() {});
 
             return true;

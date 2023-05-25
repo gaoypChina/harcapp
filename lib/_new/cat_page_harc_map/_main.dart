@@ -244,9 +244,10 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
         SamplePointsOptimizer.clear();
         tryGetMarkers(publicOnly: !AccountData.loggedIn);
       },
-      onForceLogout: (){
-        MarkerData.clear();
-        SamplePointsOptimizer.clear();
+      onLogout: (force){
+        // The following commented are handled in `main` loginListener.
+        // MarkerData.clear();
+        // SamplePointsOptimizer.clear();
         tryGetMarkers(publicOnly: !AccountData.loggedIn);
       }
     );

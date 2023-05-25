@@ -84,7 +84,7 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
     changeShareCodeProcessing = false;
     refreshController = RefreshController();
     loginListener = LoginListener(
-      onForceLogout: () => Navigator.pop(context)
+      onLogout: (force) => Navigator.pop(context)
     );
     AccountData.addLoginListener(loginListener);
     super.initState();

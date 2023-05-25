@@ -560,7 +560,6 @@ class DeleteAccountDialogState extends State<DeleteAccountDialog>{
                               onSuccess: () async {
                                 String? email = AccountData.email;
                                 await AccountData.forgetAccount();
-                                await ZhpAccAuth.logout();
                                 loginProv.notify();
 
                                 if (!mounted) return;

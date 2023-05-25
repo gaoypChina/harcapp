@@ -135,7 +135,7 @@ class ForumPageState extends State<ForumPage>{
     _moreToLoad = forum.allPosts.length == Forum.postPageSize;
 
     loginListener = LoginListener(
-        onForceLogout: () => Navigator.pop(context)
+        onLogout: (force) => Navigator.pop(context)
     );
     AccountData.addLoginListener(loginListener);
 

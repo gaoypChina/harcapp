@@ -7,7 +7,6 @@ import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_new/api/community.dart';
 import 'package:harcapp/account/account.dart';
-import 'package:harcapp/account/login_provider.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
@@ -56,9 +55,6 @@ class FeedPageState extends State<FeedPage>{
 
   late CommunityLoaderListener communitiesLoaderListener;
 
-  late LoginListener loginListener;
-  late LoginProvider loginProv;
-
   @override
   void initState() {
     communitiesLoaderListener = CommunityLoaderListener(
@@ -72,21 +68,12 @@ class FeedPageState extends State<FeedPage>{
       },
       onForceLoggedOut: (){
         if(mounted) setState((){});
-        loginProv.notify();
         return true;
       },
       onError: (_){ if(mounted) setState((){}); },
       onEnd: (_, __){ if(mounted) setState((){}); },
     );
     communitiesLoader.addListener(communitiesLoaderListener);
-
-    loginListener = LoginListener(
-      onForceLogout: () => null // loginProv is called in `main.dart`.
-    );
-
-    AccountData.addLoginListener(loginListener);
-
-    loginProv = LoginProvider.of(context);
 
     refreshController = RefreshController(
         initialRefresh: Community.all == null ||
@@ -102,7 +89,6 @@ class FeedPageState extends State<FeedPage>{
   @override
   void dispose(){
     communitiesLoader.removeListener(communitiesLoaderListener);
-    AccountData.removeLoginListener(loginListener);
 
     refreshController.dispose();
     super.dispose();
@@ -162,7 +148,6 @@ class FeedPageState extends State<FeedPage>{
                 },
                 onForceLoggedOut: (){
                   if(!mounted) return true;
-                  loginProv.notify();
                   showAppToast(context, text: forceLoggedOutMessage);
                   setState(() {});
                   return true;
@@ -226,7 +211,6 @@ class FeedPageState extends State<FeedPage>{
                 },
                 onForceLoggedOut: (){
                   if(!mounted) return true;
-                  loginProv.notify();
                   showAppToast(context, text: forceLoggedOutMessage);
                   setState(() {});
                   return true;

@@ -72,7 +72,7 @@ class TropyPageState extends State<TropyPage>{
         RefreshStatus.refreshing:
         RefreshStatus.idle
     );
-    if(loadInit)
+    if(loadInit && AccountData.loggedIn)
       tropSharedPreviewsLoader.run(reloadAll: true);
 
     tropSharedPreviewsLoaderListener = TropSharedPreviewsLoaderListener(
@@ -120,7 +120,7 @@ class TropyPageState extends State<TropyPage>{
       onLogin: (emailConf){
         if(!emailConf) return;
         bool loggedIn = LoginProvider.of(context).loggedIn;
-        bool loadInit = loggedIn && !TropSharedPreviewData.hasAny;
+        bool loadInit = loggedIn && !TropSharedPreviewData.hasAny && AccountData.loggedIn;
 
         refreshController = RefreshController(
           initialRefresh: loadInit

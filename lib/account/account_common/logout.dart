@@ -160,12 +160,10 @@ class LogoutDialogState extends State<LogoutDialog> with TickerProviderStateMixi
                         text: 'Tak',
                         enabled: state == _STATE_OK || state == _STATE_FAILED,
                         onTap: () async {
-                          await ZhpAccAuth.logout();
                           await ApiRegLog.logout(
                               onSuccess: () async {
-                                await AccountData.forgetAccount();
-                                if(mounted) showAppToast(context, text: 'Wylogowano');
                                 widget.onLoggedOut?.call();
+                                if(mounted) showAppToast(context, text: 'Wylogowano');
                                 if(mounted) Navigator.pop(context);
                               },
                               onServerMaybeWakingUp: () {

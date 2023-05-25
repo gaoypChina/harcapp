@@ -109,9 +109,8 @@ class AllCommunitiesPageState extends State<AllCommunitiesPage>{
           if(!mounted) return;
           setState(() {});
         },
-        onForceLogout: (){
+        onLogout: (force){
           if(!mounted) return;
-          LoginProvider.notify_(context);
           setState((){});
         }
     );

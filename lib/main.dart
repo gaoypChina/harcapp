@@ -36,6 +36,7 @@ import '_new/cat_page_guidebook_development/development/_sprawnosci/providers.da
 import '_new/cat_page_guidebook_development/development/stopnie/models_common/rank.dart';
 import '_new/cat_page_guidebook_development/development/stopnie/models_common/rank_task.dart';
 import '_new/cat_page_guidebook_development/guidebook/szyfry/providers.dart';
+import '_new/cat_page_harc_map/sample_points_optimizer.dart';
 import '_new/cat_page_harcthought/apel_ewan/apel_ewan_own_folder.dart';
 import '_new/cat_page_harcthought/apel_ewan/providers.dart';
 import '_new/cat_page_harcthought/articles/providers.dart';
@@ -429,8 +430,13 @@ class AppState extends State<App> with WidgetsBindingObserver {
           await indivCompLoader.run();
           await communitiesLoader.run();
         },
-        onForceLogout: (){
+        onLogout: (force){
           post(() => loginProv.notify());
+
+          // HarcMap
+          MarkerData.clear();
+          SamplePointsOptimizer.clear();
+
         }
     );
     AccountData.addLoginListener(_loginListener);

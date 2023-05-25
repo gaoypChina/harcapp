@@ -104,8 +104,8 @@ class API{
 
       } else if (e.response?.statusCode == jwtInvalidHttpStatus) {
 
-        if(!jwtTokenRefreshed && e.response?.data is Map && e.response?.data['error'] == "jwt_expired"){
-          debugPrint("Jwt expired. Attempting a token refresh...");
+        if(!jwtTokenRefreshed && e.response?.data is Map && e.response?.data['error'] == 'jwt_expired'){
+          debugPrint('Jwt expired. Attempting a token refresh...');
 
           Response response;
           try {
@@ -164,9 +164,8 @@ class API{
       SyncableParamSingleMixin.stateNotSynced
     );
     SynchronizerEngine.lastSyncTimeLocal = null;
-    await ZhpAccAuth.logout();
     await AccountData.forgetAccount();
-    AccountData.callOnForceLogout();
+    AccountData.callOnLogout(true);
   }
 
   // INNE

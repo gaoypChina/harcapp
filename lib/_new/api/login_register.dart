@@ -376,7 +376,11 @@ class ApiRegLog{
   }) async => API.sendRequest(
     withToken: true,
     requestSender: (Dio dio) async => await dio.get('${API.SERVER_URL}api/user/logout'),
-    onSuccess: (Response response, DateTime now) async => await onSuccess?.call(),
+    onSuccess: (Response response, DateTime now) async{
+      await AccountData.forgetAccount();
+      AccountData.callOnLogout(false);
+      await onSuccess?.call();
+    },
     onForceLoggedOut: () async {
       await onSuccess?.call();
       return true;
