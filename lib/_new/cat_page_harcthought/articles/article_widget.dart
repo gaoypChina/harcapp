@@ -477,7 +477,7 @@ class ArticleWidgetState extends State<ArticleWidget> {
             builder: (context, prov, child){
               bool liked = prov.contains(article);
               return FloatingActionButton(
-                backgroundColor: dominantColor,
+                backgroundColor: dominantColor??iconEnab_(context),
                 onPressed: showRateButton?() {
                   if(liked){
                     showAppToast(context, text: 'Usunięto z polubionych');
@@ -492,7 +492,7 @@ class ArticleWidgetState extends State<ArticleWidget> {
                     liked?
                     MdiIcons.heart:
                     MdiIcons.heartOutline,
-                    color: antiDominantColor
+                    color: antiDominantColor??background_(context)
                 ),
               );
             },
