@@ -336,7 +336,7 @@ class ItemData{
   const ItemData({
     required this.name,
     this.fullName,
-    this.tag: const [],
+    this.tag = const [],
     required this.imgSrc,
     required this.dateBirth,
     required this.dateDeath,

@@ -1,11 +1,7 @@
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
-import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_new/cat_page_harcthought/apel_ewan/apel_ewan.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
-import 'package:webfeed/util/iterable.dart';
-
-import 'apel_ewan_page.dart';
 
 class ApelEwanThumbnailWidget extends StatelessWidget{
 

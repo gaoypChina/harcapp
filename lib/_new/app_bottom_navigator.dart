@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import '../main.dart';
-import 'app_drawer.dart';
 
 class AppBottomNavigatorProvider extends ChangeNotifier{
 
@@ -90,9 +89,8 @@ class AppBottomNavigator extends StatelessWidget{
         case AppBottomNavItem.guidebook: return 1;
         case AppBottomNavItem.harcThought: return 2;
         case AppBottomNavItem.strefaDucha: return 3;
+        default: return 1;
       }
-
-    return 1;
   }
 
   static AppBottomNavItem indexToBottomNavBarItem(int index){

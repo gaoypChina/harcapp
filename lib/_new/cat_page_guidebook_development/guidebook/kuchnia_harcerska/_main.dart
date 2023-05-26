@@ -72,7 +72,7 @@ class KuchniaHarcerskaFragmentState extends State<KuchniaHarcerskaFragment> with
                                   child: Text(
                                       '${prov.meals!.length}',
                                       textAlign: TextAlign.center,
-                                      style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_SMALL, color: accentIcon_(context), fontWeight: weight.bold)
+                                      style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_SMALL, color: background_(context), fontWeight: weight.bold)
                                   ),
                                 )
                             ),

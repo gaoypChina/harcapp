@@ -344,6 +344,9 @@ abstract class Rank<TData extends RankData, TResp extends RankGetResp, TState ex
 
     switch(org){
       case Org.zhp:
+      case Org.zhp_n_l:
+      case Org.sh:
+      case Org.hrp:
         if(newSim)
           if(!zuch) {
             if (rankZhp6.inProgress|| rankZhp6.completed) return rankZhp6;
@@ -379,6 +382,7 @@ abstract class Rank<TData extends RankData, TResp extends RankGetResp, TState ex
             return rankZhpOldZuch1;
         }
         break;
+      case Org.zhr_o:
       case Org.zhr_c:
         if(!zuch) {
           if (rankZhrHarcC5.inProgress|| rankZhrHarcC5.completed)

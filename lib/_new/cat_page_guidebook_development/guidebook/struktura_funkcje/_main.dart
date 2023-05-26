@@ -287,7 +287,7 @@ class StructCard extends StatelessWidget{
   final String? auth;
   final List<Funkcja>? funkcje;
 
-  const StructCard(this.title, {this.enabled:true, this.context, this.description, this.auth, this.funkcje});
+  const StructCard(this.title, {this.enabled = true, this.context, this.description, this.auth, this.funkcje, super.key});
 
   @override
   Widget build(BuildContext context) {

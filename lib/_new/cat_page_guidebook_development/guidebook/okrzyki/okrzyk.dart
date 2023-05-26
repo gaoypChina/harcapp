@@ -10,7 +10,7 @@ class Okrzyk{
   final List<SoundElement> soundElements;
   final bool official;
 
-  const Okrzyk(this.title, this.soundElements, {this.official:true});
+  const Okrzyk(this.title, this.soundElements, {this.official = true});
 
   static Okrzyk decode(String code, bool official){
 

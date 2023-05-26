@@ -64,7 +64,7 @@ class TropyPageState extends State<TropyPage>{
   void initState() {
 
     bool loggedIn = LoginProvider.of(context).loggedIn;
-    bool loadInit = loggedIn && !TropSharedPreviewData.hasAny;
+    bool loadInit = loggedIn && !TropSharedPreviewData.hasAny && TropSharedPreviewData.moreToLoad;
     refreshController = RefreshController(
         initialRefresh: loadInit,
         initialRefreshStatus:

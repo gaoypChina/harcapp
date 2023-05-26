@@ -202,7 +202,7 @@ class Product{
 
     this.vitamins,
     this.other,
-    {this.unitManager: const UnitManager()}
+    {this.unitManager = const UnitManager()}
   );
 
   String get fileName => 'assets/images/kuch/$_fileName.svg';
@@ -239,8 +239,8 @@ class UnitManager{
   }
 
   const UnitManager({
-    this.defUnit: Unit.g,
-    this.waterExpandFactor: 1,
+    this.defUnit = Unit.g,
+    this.waterExpandFactor = 1,
     this.gInMl,
     this.gInItem,
     this.gInSlice,

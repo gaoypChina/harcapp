@@ -72,14 +72,16 @@ class AnimStageManager{
 
 }
 
-abstract class PageTemplateInterface{
+mixin class PageTemplateInterface{
 
   static const _horizCnt = 4;
 
   double initGridSize(double width) => width/_horizCnt;
   double initPlayerOffset(double width) => (initGridSize(width) - PlayerWidget.size)/2;
 
-  bool get mounted;
+  bool get mounted {
+    throw UnimplementedError();
+  }
 
   Future<bool> wait(Duration duration) async{
     await Future.delayed(duration);

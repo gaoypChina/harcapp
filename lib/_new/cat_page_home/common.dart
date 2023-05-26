@@ -224,7 +224,7 @@ class ShareCodeDialogState extends State<ShareCodeDialog>{
                                   textAlign: TextAlign.center,
                                 ):GestureDetector(
                                   onLongPress: (){
-                                    Clipboard.setData(ClipboardData(text: shareCode));
+                                    Clipboard.setData(ClipboardData(text: shareCode!));
                                     showAppToast(context, text: 'Skopiowano');
                                   },
                                   child: Text(

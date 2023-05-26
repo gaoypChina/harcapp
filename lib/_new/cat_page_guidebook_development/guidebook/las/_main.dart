@@ -166,9 +166,9 @@ class Item extends StatelessWidget{
         ),
       ),
 
-      if(data.background_kora!=null)
+      if(data.backgroundKora!=null)
         SimpleButton(
-            onTap: data.background_kora!.author==null?null:() => showAppToast(context, text: data.background_kora!.author??''),
+            onTap: data.backgroundKora!.author==null?null:() => showAppToast(context, text: data.backgroundKora!.author??''),
             radius: AppCard.bigRadius,
             margin: const EdgeInsets.only(
                 left: Dimen.SIDE_MARG,
@@ -188,7 +188,7 @@ class Item extends StatelessWidget{
                             child: Container(
                               decoration: BoxDecoration(
                                 image: DecorationImage(
-                                  image: AssetImage('assets/images/leaf_kora/${data.background_kora!.path}.webp'),
+                                  image: AssetImage('assets/images/leaf_kora/${data.backgroundKora!.path}.webp'),
                                   fit: BoxFit.cover,
                                 ),
                               ),
@@ -247,7 +247,7 @@ class Item extends StatelessWidget{
                         right: Dimen.ICON_MARG,
                         bottom: Dimen.ICON_MARG
                     ),
-                    child: Text('Źródło: ${data.desc_source}', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_TINY, color: AppColors.textHintEnab), textAlign: TextAlign.end,),
+                    child: Text('Źródło: ${data.descSource}', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_TINY, color: AppColors.textHintEnab), textAlign: TextAlign.end,),
                   ),
 
                 ],

@@ -156,7 +156,7 @@ abstract class SyncableParam{
 
 }
 
-abstract class SyncableParamSingleMixin implements SyncableParam{
+mixin SyncableParamSingleMixin implements SyncableParam{
 
   static bool logSyncStateChanges = true;
 
@@ -312,7 +312,7 @@ class SyncableParamSingle with SyncableParamSingleMixin{
 
 }
 
-abstract class SyncableParamGroupMixin implements SyncableParam{
+mixin SyncableParamGroupMixin implements SyncableParam{
 
   @override
   bool get isSynced{

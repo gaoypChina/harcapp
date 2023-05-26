@@ -1,8 +1,7 @@
-
 import 'package:flutter/material.dart';
 import 'package:harcapp_core/comm_classes/primitive_wrapper.dart';
 
-showTabBottomSheet({required BuildContext context, required WidgetBuilder builder, Color color: Colors.white, Widget Function(BuildContext, BottomSheetState)? sideBuilder}) {
+showTabBottomSheet({required BuildContext context, required WidgetBuilder builder, Color color = Colors.white, Widget Function(BuildContext, BottomSheetState)? sideBuilder}) {
 
   PrimitiveWrapper<bool> exceedsHeight = PrimitiveWrapper(true);
   BottomSheet _bottomSheet = BottomSheet(builder: builder, exceedsHeight: exceedsHeight, color: color, sideBuilder: sideBuilder,);
@@ -29,7 +28,7 @@ class BottomSheet extends StatefulWidget{
     _state.notify();
   }
 
-  BottomSheet({required this.builder, required this.exceedsHeight, this.color: Colors.white, this.sideBuilder});
+  BottomSheet({required this.builder, required this.exceedsHeight, this.color = Colors.white, this.sideBuilder});
 
   @override
   State<StatefulWidget> createState() {

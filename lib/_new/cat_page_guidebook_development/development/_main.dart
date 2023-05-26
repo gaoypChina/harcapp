@@ -539,7 +539,8 @@ class TropyPreviewListState extends State<TropyPreviewList>{
         }
     );
     tropSharedPreviewsLoader.addListener(tropSharedPreviewsLoaderListener);
-    if(!TropSharedPreviewData.hasAny && AccountData.loggedIn) tropSharedPreviewsLoader.run();
+    if(!TropSharedPreviewData.hasAny && AccountData.loggedIn && TropSharedPreviewData.moreToLoad)
+      tropSharedPreviewsLoader.run();
 
     loginListener = LoginListener(
         onLogin: (emailConf){
@@ -606,11 +607,12 @@ class TropyPreviewListState extends State<TropyPreviewList>{
 
                 if(tropSharedPreviewsLoader.running)
                   Padding(
-                    padding: const EdgeInsets.only(left: Dimen.SIDE_MARG),
+                    padding: const EdgeInsets.only(left: Dimen.defMarg),
                     child: SizedBox(
                       height: TropWidgetSmall.height,
                       width: TropWidgetSmall.width,
                       child: Material(
+                        color: cardEnab_(context),
                         borderRadius: BorderRadius.circular(AppCard.bigRadius),
                         child: const Center(
                           child: SpinKitChasingDots(

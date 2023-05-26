@@ -216,7 +216,7 @@ class SongWidget extends StatelessWidget{
 
     onYTLinkLongPress: () async {
       showAppToast(context, text: 'Skopiowano link.');
-      await Clipboard.setData(ClipboardData(text: song.youtubeLink));
+      await Clipboard.setData(ClipboardData(text: song.youtubeLink!));
     },
 
     onMinusTap: (BuildContext context, bool changedSize){

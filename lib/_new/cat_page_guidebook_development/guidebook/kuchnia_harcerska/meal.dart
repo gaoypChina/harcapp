@@ -431,7 +431,7 @@ class Meal{
   const Meal(this.name, this.ingredients, this.equipment, this.prepSteps, this.tags, this.fire, this.water,
       this.kcal100, this.proteins100, this.carbohyd100, this.fat100, this.vitamins, this.other, this.totalMass);
 
-  static Meal create(String name, List<Ingredient> ingredients, Map<Equipment, int> equipment, List<String> prepSteps, {List<String> tags: const [], bool fire: false, bool water: false}){
+  static Meal create(String name, List<Ingredient> ingredients, Map<Equipment, int> equipment, List<String> prepSteps, {List<String> tags = const [], bool fire = false, bool water = false}){
 
     double kcal100 = 0, proteins100 = 0, carbohyd100 = 0, fat100 = 0;
     List<String> vitamines = [];

@@ -29,7 +29,7 @@ class SongElementOld{
   }
 
   void setText(String text){this._text.set(text);}
-  String? getText({bool withTabs: false}){
+  String? getText({bool withTabs = false}){
     if(withTabs)
       return "\t" + _text.get()!.replaceAll('\n', '\n\t');
     else

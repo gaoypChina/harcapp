@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import './glass_container.dart';
 
-class GlassAppBar extends StatelessWidget with PreferredSizeWidget {
+class GlassAppBar extends StatelessWidget implements PreferredSizeWidget {
   GlassAppBar({
     this.leading,
     this.title,

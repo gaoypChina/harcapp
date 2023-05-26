@@ -8,7 +8,7 @@ class GlowWidget extends StatefulWidget{
 
   final double size;
   final IconData? icon;
-  const GlowWidget({this.size: defSize, this.icon});
+  const GlowWidget({this.size = defSize, this.icon, super.key});
 
   @override
   State<StatefulWidget> createState() => _GlowWidgetState();

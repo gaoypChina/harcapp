@@ -2,7 +2,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/services.dart';
-import 'package:open_file_safe/open_file_safe.dart';
+import 'package:open_file_safe_plus/open_file_safe_plus.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -151,5 +151,5 @@ Future<OpenResult> openAsset(String assetPath) async {
 
   file.writeAsBytesSync(list);
 
-  return OpenFile.open(file.path);
+  return OpenFilePlus.open(file.path);
 }

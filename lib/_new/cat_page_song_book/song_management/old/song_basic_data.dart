@@ -33,7 +33,7 @@ class SongBasicData1{
       this.tagsAsString,
     );
 
-  static SongBasicData1 parse(String filePath, String code, {bool official: true}){
+  static SongBasicData1 parse(String filePath, String code, {bool official = true}){
 
     String fileName = basename(filePath);
 
@@ -42,17 +42,17 @@ class SongBasicData1{
     List<String> lines = parts[0].split("\n");
 
     if(lines.length<6)
-      throw new Exception("Wystąpił błąd kodowania: " + fileName);
+      throw Exception('Wystąpił błąd kodowania: $fileName');
 
     String title = lines[0];
     int version = int.parse(lines[1]);
 
     String author = lines[2];
-    if (author.length == 0)
+    if (author.isEmpty)
       author = '';
 
     String performer = lines[3];
-    if (performer.length == 0)
+    if (performer.isEmpty)
       performer = '';
 
     String moderator = lines[4];

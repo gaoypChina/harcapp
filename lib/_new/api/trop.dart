@@ -8,7 +8,6 @@ import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/mo
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/model/trop_role.dart';
 import 'package:harcapp/sync/syncable.dart';
 import 'package:optional/optional_internal.dart';
-import 'package:webfeed/util/iterable.dart';
 
 import '../cat_page_guidebook_development/development/tropy/model/trop_user.dart';
 import '_api.dart';

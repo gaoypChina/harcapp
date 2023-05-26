@@ -30,7 +30,7 @@ class TagsWidget extends StatelessWidget{
   final Article? article;
   final bool dense;
 
-  const TagsWidget(this.article, {this.dense: false});
+  const TagsWidget(this.article, {this.dense = false});
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +101,7 @@ class DateWidget extends StatelessWidget{
   final Article? article;
   final bool dense;
 
-  const DateWidget(this.article, {this.dense: false});
+  const DateWidget(this.article, {this.dense = false});
 
   @override
   Widget build(BuildContext context) {
@@ -144,12 +144,13 @@ class AuthorWidget extends StatelessWidget{
   final bool dense;
   final void Function()? onTap;
 
-  const AuthorWidget(this.article, {this.dense=false, this.onTap});
+  const AuthorWidget(this.article, {this.dense=false, this.onTap, super.key});
 
   @override
   Widget build(BuildContext context) {
 
     Widget child = Material(
+      color: Colors.transparent,
       child: Row(
         children: [
 
@@ -168,7 +169,6 @@ class AuthorWidget extends StatelessWidget{
           ),
         ],
       ),
-      color: Colors.transparent,
     );
 
     return Hero(
@@ -178,10 +178,10 @@ class AuthorWidget extends StatelessWidget{
       child:
       SimpleButton(
         margin: EdgeInsets.zero,
-        padding: EdgeInsets.all(Dimen.ICON_MARG),
+        padding: const EdgeInsets.all(Dimen.ICON_MARG),
         radius: AppCard.bigRadius,
-        child: child,
         onTap: onTap,
+        child: child,
       ),
     );
   }

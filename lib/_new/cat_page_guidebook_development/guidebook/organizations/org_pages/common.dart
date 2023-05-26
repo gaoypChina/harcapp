@@ -21,11 +21,11 @@ class Item extends StatelessWidget{
   const Item(
       this.title,
       this.content,
-      { this.inCard:false,
+      { this.inCard = false,
         this.titleColor,
         this.textColor,
         this.cardColor,
-        this.titleSize:Dimen.TEXT_SIZE_BIG,
+        this.titleSize = Dimen.TEXT_SIZE_BIG,
         this.titleTrailing,
         this.titleLeading,
       });

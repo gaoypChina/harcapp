@@ -28,12 +28,12 @@ class ItemData{
   final int? zar;
   final int? plomien;
   final int? czas;
-  final String desc_source;
-  final Graphics? background_kora;
+  final String descSource;
+  final Graphics? backgroundKora;
 
   bool get hasParams => cieplo!=null && zar!=null && plomien!=null && czas!=null;
 
-  ItemData(this.graphics, this.background, this.name, this.description, this.tags, {required this.cieplo, required this.zar, required this.plomien, required this.czas, this.desc_source: 'drzewapolski.pl', this.background_kora});
+  ItemData(this.graphics, this.background, this.name, this.description, this.tags, {required this.cieplo, required this.zar, required this.plomien, required this.czas, this.descSource = 'drzewapolski.pl', this.backgroundKora});
 }
 
 List<ItemData> items = [
@@ -47,7 +47,7 @@ List<ItemData> items = [
       'Wysokość brzozy brodawkowatej dochodzi do 25 m, przy średnicach do ok. 60 cm; często także w postaci karłowatej. Pień do wysokości ok. 12-15 m wolny od gałęzi, cylindryczny, niekiedy zniekształcony przy odziomku; na niekorzystnych siedliskach także skrzywiony. Kora mlecznobiała, dająca się oddzierać cienkimi poprzecznymi pasmami, wiekiem pstra, spękana w dolnej części pnia, gruba i czarnawa. Młode pędy pokryte brodawkami. Liście skrętoległe, pojedyncze, podwójnie ząbkowane, jajowato zakończone lub trójkątne. Długość liścia do 7 cm, szerokość ok. 3 cm, kolor zielony - na jesieni żółty. Kwiatostany w postaci długich kotek. Nasiona to orzeszki ok. 3 mm, dookoła błoniasto oskrzydlone.',
       ['Czarno-biała kora'],
       cieplo: 3, zar: 1, plomien: 4, czas: 1,
-      background_kora: Graphics('brzoza', auth_unsplash + ' @worldsbetweenlines')
+      backgroundKora: Graphics('brzoza', auth_unsplash + ' @worldsbetweenlines')
   ),
 
   ItemData(
@@ -60,7 +60,7 @@ List<ItemData> items = [
       'Buk zwyczajny to drzewo wysokości do 40 metrów. Pień prosty a u starszych gatunków z grubymi żebrami. Kora cienka, jasnoszara. Liście owalne lub eliptyczne, skrętoległe długości 10-15 cm. Początkowo intensywnie zielone potem delikatnie matowo zielone. Owoce to tzw. bukiew - zdrewniała torebka, po dojrzeniu otwiera się 4 klapami uwalniając jeden lub dwa trójkanciaste orzeszki koloru brązowawego.',
       ['Szara kora', 'Cienka kora', 'Owalne liście'],
       cieplo: 3, zar: 3, plomien: 1, czas: 2,
-      background_kora: Graphics('buk', auth_vtinvasives)
+      backgroundKora: Graphics('buk', auth_vtinvasives)
     //background_kora: Graphics('buk', auth_unsplash + ' @grynykha')
   ),
 
@@ -127,7 +127,7 @@ List<ItemData> items = [
       'Grusza to drzewo do 20 m wysokości. Korona piramidalna a u starszych drzew kopulasta. Korowina szaroczarna z wiekiem spękana i złuszczająca się w postaci w miarę regularnych prostokątów. Liście ułożone skrętolegle, małe do 4 cm, owalne, z początku delikatnie owłosione jasnozielone, następnie nagie i zielone. Kwiaty w baldachokształtnych gronach, płatki białe w liczbie 5 sztuk. Owoc barwy zielonej, żółtej lub czerwonej gruszkowatego kształtu na długim ogonku. Owoce odmian sadowniczych są dużo większe od pozostałych. W środku owoc zawiera kilka płaskich nasion (pestek).',
       ['Kora spękana'],
       cieplo: null, zar: null, plomien: null, czas: null,
-      background_kora: Graphics('grusza', '')
+      backgroundKora: Graphics('grusza', '')
   ),
 
   ItemData(
@@ -144,7 +144,7 @@ List<ItemData> items = [
       'Jarząb pospolity jest drzewem wysokości do 7-9 metrów. Kolorowe owoce mają kształt kulek i są zebrane w kępy rosnące na całym drzewie bardzo obficie. Są jednym z głównych pokarmów wielu ptaków. Wiszą na drzewie bardzo długo, bo od lata, aż do końca zimy. Liście są lekko podłużne, a jesienią zyskują czerwono – brązowej barwy. Gałęzie układają się luźno, a w okresie kwitnienia pojawiają się na nich kwiaty o białym kolorze i zapachu migdałowym.',
       ['Owoce niejadalne', 'Owoce drobne', 'Owoce czerwone'],
       cieplo: null, zar: null, plomien: null, czas: null,
-      desc_source: 'swiatkwiatow.pl'
+      descSource: 'swiatkwiatow.pl'
   ),
 
   ItemData(
@@ -212,7 +212,7 @@ List<ItemData> items = [
       'Leszczyna to drzewo do 25 m wysokości, o prostym pniu i bardzo regularnej koronie. Bardzo wytrzymała na mrozy, suszę i zanieczyszczenia miejskie. Do bujnego rozwoju wymaga gleb raczej żyznych i gliniastych. Często spotykana w Pn. Zach. Polsce w parkach i ogrodach a nawet w miastach jako drzewo alejowe.',
       [],
       cieplo: null, zar: null, plomien: null, czas: null,
-      background_kora: Graphics('leszczyna', '')
+      backgroundKora: Graphics('leszczyna', '')
   ),
 
   ItemData(
@@ -272,7 +272,7 @@ List<ItemData> items = [
       'Sosna pospolita może osiągać wysokość do 45 metrów, ma prosty, równy pień zakończony parasolowatą lub stożkową koroną. Gałązki i górna część pnia pokryta jest czerwono-żółtą korą, łuszczącą się warstwami, natomiast dolna część pnia ma korę grubą, wielobocznie popękaną, wewnątrz czerwoną. Szpilki sinozielone, sztywne o długości 4 do 7 centymetrów, osadzone po dwie, wokół gałązek. Szyszki ma osadzone pojedynczo lub po dwie, trzy, stojące długości do 7 cm, niedojrzałe zielone, później brunatnieją i pękają uwalniając uskrzydlone nasiona.',
       ['Kora łuszcząca', 'Drzewo iglaste', 'Igły podwójne'],
       cieplo: 3, zar: 1, plomien: 0, czas: 1,
-      background_kora: Graphics('sosna', '')
+      backgroundKora: Graphics('sosna', '')
   ),
 
   ItemData(
@@ -294,7 +294,7 @@ List<ItemData> items = [
       'Śliwa jest drzewem dorastającymi nawet do 10 metrów wysokości, choć istnieją także odmiany o wiele niższe, a wtedy nazywane są  krzewami. Należą do rodziny różowatych. Owoce śliw jada się zazwyczaj na surowo choć spektrum ich zastosowania jest znacznie szersze.',
       ['Owoce jadalne'],
       cieplo: null, zar: null, plomien: null, czas: null,
-    background_kora: Graphics('sliwa', 'fajnyogrod.pl'),
+    backgroundKora: Graphics('sliwa', 'fajnyogrod.pl'),
   ),
 
   ItemData(
@@ -306,7 +306,7 @@ List<ItemData> items = [
       'Roślina ma pokrój krzaczasty, ciemnozielone liście, białe lub różowe kwiaty i czerwone owoce o smaku zależnym od odmiany ale zawsze przyjemnym. Wśród odmian truskawek rozróżnia się powtarzające i niepowtarzające owocowanie. Truskawki powtarzające są częściej polecane ze względu na długość owocowania: od czerwca do końca września a nawet dłużej.',
       ['Owoce jadalne'],
       cieplo: null, zar: null, plomien: null, czas: null,
-      desc_source: 'ogrodnik-amator.pl'
+      descSource: 'ogrodnik-amator.pl'
   ),
 
   ItemData(

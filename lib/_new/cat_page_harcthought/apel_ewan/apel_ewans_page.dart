@@ -29,18 +29,15 @@ import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:open_file_safe/open_file_safe.dart';
+import 'package:open_file_safe_plus/open_file_safe_plus.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 import 'package:provider/provider.dart';
-import 'package:tuple/tuple.dart';
 
 import 'apel_ewan_own_folder_items_view.dart';
-import 'apel_ewan_folder_viewer_page.dart';
-import 'apel_ewan_grid_view.dart';
 import 'apel_ewan_grid_view_searchable.dart';
 import 'apel_ewan_own_folder.dart';
 
@@ -509,7 +506,7 @@ class _PrintBottomSheetState extends State<_PrintBottomSheet>{
       final file = File(join(output.path, 'Zbiór apeli ewangelicznych - ${folder.name}.pdf'));
       file.writeAsBytesSync(await pdf.save());
 
-      OpenResult result = await OpenFile.open(file.path);
+      OpenResult result = await OpenFilePlus.open(file.path);
       return result;
 
     }
@@ -668,7 +665,7 @@ class _PrintBottomSheetState extends State<_PrintBottomSheet>{
     final file = File(join(output.path, 'Zbiór apeli ewangelicznych - ${folder.name}.pdf'));
     file.writeAsBytesSync(await pdf.save());
 
-    OpenResult result = await OpenFile.open(file.path);
+    OpenResult result = await OpenFilePlus.open(file.path);
     return result;
 
   }

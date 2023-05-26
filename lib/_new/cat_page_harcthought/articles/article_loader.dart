@@ -1,4 +1,3 @@
-
 import 'dart:async';
 import 'dart:io';
 
@@ -11,8 +10,8 @@ import 'package:harcapp/_common_classes/storage.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
 import 'package:html_unescape/html_unescape.dart';
 import 'package:tuple/tuple.dart';
-import 'package:webfeed/domain/atom_feed.dart';
-import 'package:webfeed/domain/atom_item.dart';
+import 'package:webfeed_revised/domain/atom_feed.dart';
+import 'package:webfeed_revised/domain/atom_item.dart';
 
 import 'article_core.dart';
 import 'common.dart';

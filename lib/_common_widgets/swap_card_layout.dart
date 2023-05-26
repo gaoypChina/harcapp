@@ -325,7 +325,7 @@ class CardController {
   bool get swipable => _swipable;
   set swipable(value) => _swipable = value;
 
-  CardController({bool swipable:true}){_swipable = swipable;}
+  CardController({bool swipable = true}){_swipable = swipable;}
 
   void triggerLeft() {
     if (_listener != null) {

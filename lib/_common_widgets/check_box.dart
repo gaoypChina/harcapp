@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 
-import '../_common_classes/color_pack.dart';
-
 class CheckBox extends StatelessWidget{
 
   final bool? value;
@@ -15,7 +13,7 @@ class CheckBox extends StatelessWidget{
   final bool enabled;
   final bool tristate;
 
-  const CheckBox({this.value, this.onChanged, this.checkColor, this.activeColor, this.unselectedWidgetColor, this.enabled: true, this.tristate: false});
+  const CheckBox({this.value, this.onChanged, this.checkColor, this.activeColor, this.unselectedWidgetColor, this.enabled = true, this.tristate = false});
 
   @override
   Widget build(BuildContext context) {

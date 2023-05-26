@@ -12,12 +12,17 @@ import 'package:harcapp_core/comm_classes/date_to_str.dart';
 import 'package:path/path.dart';
 import 'package:semaphore/semaphore.dart';
 import 'package:tuple/tuple.dart';
-import 'package:webfeed/domain/atom_item.dart';
+import 'package:webfeed_revised/domain/atom_item.dart';
 import 'package:xml/xml.dart';
 import 'package:http/http.dart' show get;
 import 'package:image/image.dart' as img;
 
 import 'common.dart';
+
+enum ArticleSource{
+  HarcApp,
+  Azymut,
+}
 
 abstract class Article{
 
@@ -334,7 +339,7 @@ class ArticleAzymut extends Article{
               String? desc;
               for (XmlElement element in element.findElements('figure').first.children as Iterable<XmlElement>) {
                 if (element.name.local == 'img') imageLink = getAttrValue(element, 'src');
-                if (element.name.local == 'figcaption') desc = element.children[0].text;
+                if (element.name.local == 'figcaption') desc = element.children[0].value;
               }
               if(imageLink != null)
                 artElements.add(Picture(link: imageLink, desc: desc));
@@ -350,7 +355,7 @@ class ArticleAzymut extends Article{
               String? desc;
               for (XmlElement element in element.findElements('figure').first.children as Iterable<XmlElement>) {
                 if (element.name.local == 'img') imageLink = getAttrValue(element, 'src');
-                if (element.name.local == 'figcaption') desc = element.children[0].text;
+                if (element.name.local == 'figcaption') desc = element.children[0].value;
               }
               if(imageLink != null)
                 artElements.add(Picture(link: imageLink, desc: desc));

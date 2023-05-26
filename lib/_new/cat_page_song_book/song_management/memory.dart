@@ -52,7 +52,7 @@ class MemoryBuilder{
   );
 }
 
-class Memory extends SyncableParamGroupMixin with SyncGetRespNode<MemoryGetResp>, RemoveSyncItem{
+class Memory with SyncableParamGroupMixin, SyncGetRespNode<MemoryGetResp>, RemoveSyncItem{
 
   static const fontNameMap = {
     0: 'Annie',

@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';
 class ExtendedSliverAppBar extends StatefulWidget{
 
   final int? initIndex;
-  final TextTheme? textTheme;
+  final TextStyle? textStyle;
 
   final Color? backgroundColor;
   final bool floating;
@@ -31,7 +31,7 @@ class ExtendedSliverAppBar extends StatefulWidget{
 
   const ExtendedSliverAppBar({
     this.initIndex=0,
-    this.textTheme,
+    this.textStyle,
 
     this.backgroundColor,
     this.floating = false,
@@ -59,9 +59,9 @@ class ExtendedSliverAppBar extends StatefulWidget{
 class ExtendedSliverAppBarState extends State<ExtendedSliverAppBar> with TickerProviderStateMixin{
 
   static final double _appBarHeight = AppBar().preferredSize.height;
-  static final double _tabBarHeight = TabBar(tabs: []).preferredSize.height;
+  static final double _tabBarHeight = const TabBar(tabs: []).preferredSize.height;
 
-  TextTheme? get textTheme => widget.textTheme;
+  TextStyle? get textStyle => widget.textStyle;
 
   Color? get backgroundColor => widget.backgroundColor;
   bool get floating => widget.floating;
@@ -99,7 +99,7 @@ class ExtendedSliverAppBarState extends State<ExtendedSliverAppBar> with TickerP
     return ChangeNotifierProvider(
       create: (context) => _StretchProvider(_appBarHeight + _tabBarHeight),
       child: SliverAppBar(
-        textTheme: textTheme,
+        titleTextStyle: textStyle,
         floating: floating,
         pinned: pinned,
         forceElevated: forceElevated,
