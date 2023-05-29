@@ -124,7 +124,7 @@ class AccountPageState extends State<AccountPage> with TickerProviderStateMixin{
         physics: const BouncingScrollPhysics(),
         controller: controller,
         tabs: const [
-          Tab(icon: Icon(MdiIcons.accountCog)),
+          Tab(icon: Icon(MdiIcons.accountEditOutline)),
           Tab(icon: Icon(MdiIcons.broadcast))
         ],
       ),
@@ -144,13 +144,17 @@ class AccountPageState extends State<AccountPage> with TickerProviderStateMixin{
 
                     AccountSettingsPart(
                         padding: EdgeInsets.only(
-                            top: AccountData.convertableToMicrosoft?(MicrosoftLoginButton.height + Dimen.SIDE_MARG):0
+                            top: AccountData.convertableToMicrosoft?
+                            (MicrosoftLoginButton.height + Dimen.SIDE_MARG):
+                            Dimen.SIDE_MARG
                         )
                     ),
 
                     AccountNickPart(
                         padding: EdgeInsets.only(
-                            top: AccountData.convertableToMicrosoft?(MicrosoftLoginButton.height + Dimen.SIDE_MARG):0
+                            top: AccountData.convertableToMicrosoft?
+                            (MicrosoftLoginButton.height + Dimen.SIDE_MARG):
+                            Dimen.SIDE_MARG,
                         )
                     ),
 

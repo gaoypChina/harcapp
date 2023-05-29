@@ -106,7 +106,7 @@ class ParticipantsExtendedPageState extends State<ParticipantsExtendedPage>{
     comp.handleRanks(idRank);
 
     for(IndivCompCompletedTask taskCompl in taskComplList) {
-      comp.myProfile?.addLoadedCompletedTask(taskCompl);
+      comp.myProfile?.addLoadedCompletedTask(taskCompl, increaseTotalCount: true);
       comp.addPoints(taskCompl.participKey, taskCompl.points);
     }
 

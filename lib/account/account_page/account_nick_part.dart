@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_text.dart';
-import 'package:harcapp/_new/account_test_widget.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_new/api/user.dart';
 import 'package:harcapp/account/account.dart';
@@ -21,8 +20,6 @@ import 'package:provider/provider.dart';
 
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-
-import '../account_start/input_field_controller.dart';
 
 
 class AccountNickPart extends StatefulWidget{

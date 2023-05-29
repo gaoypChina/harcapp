@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_common_classes/common.dart';
+import 'package:harcapp/_common_widgets/paging_loadable_page/paging_loadable_base_scroll_view_page.dart';
 import 'package:harcapp/_new/api/user.dart';
 import 'package:harcapp/account/account_common/sex_input_field.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
-import 'package:harcapp_core/comm_classes/network.dart';
 import 'package:harcapp_core/comm_widgets/animated_child_slider.dart';
 import 'package:harcapp_core/comm_widgets/app_button.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
@@ -20,7 +20,6 @@ import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import '../_common_widgets/bottom_nav_scaffold.dart';
 import '../_common_widgets/empty_message_widget.dart';
 import 'account.dart';
 import 'account_tile.dart';
@@ -48,7 +47,9 @@ class ShadowUserManagerPageState extends State<ShadowUserManagerPage>{
 
   late RefreshController refreshController;
 
-  List<UserDataNick> get shadowUsers => AccountData.shadowUsers;
+  List<UserDataNick> get loadedShadowUsers => AccountData.loadedShadowUsers;
+
+  bool get moreToLoad => AccountData.shadowUserCount > loadedShadowUsers.length;
 
   @override
   void initState() {
@@ -59,140 +60,279 @@ class ShadowUserManagerPageState extends State<ShadowUserManagerPage>{
   }
 
   @override
-  Widget build(BuildContext context) => BottomNavScaffold(
-      body: SmartRefresher(
-        enablePullDown: true,
-        physics: const BouncingScrollPhysics(),
-        header: MaterialClassicHeader(backgroundColor: cardEnab_(context), color: accent_(context)),
-        controller: refreshController,
-        onRefresh: () async {
-
-          if(!await isNetworkAvailable()){
-            showAppToast(context, text: 'Brak dostępu do Internetu');
-            refreshController.refreshCompleted();
-            return;
+  Widget build(BuildContext context) => PagingLoadableBaseScrollViewPage(
+    appBarTitle: 'Moi użytkownicy widmo',
+    appBarActions: [
+      IconButton(
+        icon: const Icon(MdiIcons.plus),
+        onPressed: () => openDialog(
+          context: context,
+          builder: (context) => AddShadowUserDialog(
+            onSuccess: (user) async => setState((){})
+          )
+        )
+      )
+    ],
+    totalItemsCount: AccountData.shadowUserCount,
+    loadedItemsCount: loadedShadowUsers.length,
+    callReload: () async {
+      await ApiUser.getShadowUsers(
+        pageSize: AccountData.shadowUsersPageSize,
+        lastUserName: null,
+        lastUserKey: null,
+        onSuccess: (List<UserDataNick> users) async {
+          await AccountData.setLoadedShadowUsers(users);
+          setState((){});
+        }
+      );
+      return loadedShadowUsers.length;
+    },
+    callLoadMore: () async {
+      await ApiUser.getShadowUsers(
+          pageSize: AccountData.shadowUsersPageSize,
+          lastUserName: loadedShadowUsers.isEmpty?null:loadedShadowUsers.last.name,
+          lastUserKey: loadedShadowUsers.isEmpty?null:loadedShadowUsers.last.key,
+          onSuccess: (List<UserDataNick> users) async {
+            await AccountData.addLoadedShadowUsers(users);
+            setState((){});
           }
+      );
+      return loadedShadowUsers.length;
+    },
+    callLoadOnInit: false,
+    sliverBody: Builder(builder: (context){
 
-          await ApiUser.getAllShadows(
-            onSuccess: (List<UserDataNick> users) async {
-              AccountData.shadowUsers = users;
-              setState((){});
-            }
-          );
-          refreshController.refreshCompleted();
-        },
-        child: CustomScrollView(
-          physics: const BouncingScrollPhysics(),
-          slivers: [
+      if(loadedShadowUsers.isEmpty)
+        return SliverFillRemaining(
+          hasScrollBody: false,
+          child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
 
-            SliverAppBar(
-              title: const Text('Moi użytkownicy widmo'),
-              centerTitle: true,
-              floating: true,
-              pinned: shadowUsers.isEmpty,
-              actions: [
-                IconButton(
-                    icon: const Icon(MdiIcons.plus),
-                    onPressed: () => openDialog(
-                        context: context,
-                        builder: (context) => AddShadowUserDialog(
-                          onSuccess: (user) async => setState((){})
-                        )
-                    )
-                )
-              ],
-            ),
-
-            if(shadowUsers.isEmpty)
-              SliverFillRemaining(
-                hasScrollBody: false,
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-
-                      Expanded(
-                        child: Center(
-                          child: SimpleButton(
-                              radius: AppCard.bigRadius,
-                              padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-                              child: const EmptyMessageWidget(
-                                icon: MdiIcons.alienOutline,
-                                text: 'Kliknij, by stworzyć pierwsze\nkonto widmo',
-                              ),
-                              onTap: (){
-                                openDialog(
-                                    context: context,
-                                    builder: (context) => AddShadowUserDialog(
-                                      onSuccess: (user) => setState((){}),
-                                    )
-                                );
-                              }
-                          ),
-                        )
-                      ),
-
-                      Padding(
+                Expanded(
+                  child: Center(
+                    child: SimpleButton(
+                        radius: AppCard.bigRadius,
                         padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: backgroundIcon_(context),
-                              width: 8,
+                        child: const EmptyMessageWidget(
+                          icon: MdiIcons.alienOutline,
+                          text: 'Kliknij, by stworzyć pierwsze\nkonto widmo',
+                        ),
+                        onTap: (){
+                          openDialog(
+                              context: context,
+                              builder: (context) => AddShadowUserDialog(
+                                onSuccess: (user) => setState((){}),
+                              )
+                          );
+                        }
+                    ),
+                  )
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: backgroundIcon_(context),
+                        width: 8,
+                      ),
+                      borderRadius: BorderRadius.circular(AppCard.bigRadius),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Text(
+                            'O co chodzi?',
+                            style: AppTextStyle(
+                                fontSize: Dimen.TEXT_SIZE_BIG,
+                                color: hintEnab_(context),
+                                fontWeight: weight.bold
                             ),
-                            borderRadius: BorderRadius.circular(AppCard.bigRadius),
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                Text(
-                                  'O co chodzi?',
-                                  style: AppTextStyle(
-                                      fontSize: Dimen.TEXT_SIZE_BIG,
-                                      color: hintEnab_(context),
-                                      fontWeight: weight.bold
-                                  ),
-                                ),
 
-                                const SizedBox(height: Dimen.SIDE_MARG),
+                          const SizedBox(height: Dimen.SIDE_MARG),
 
-                                Text(
-                                  ShadowUserManagerPage.shadowAccountExplanation,
-                                  style: AppTextStyle(
-                                    fontSize: Dimen.TEXT_SIZE_BIG,
-                                    color: hintEnab_(context),
-                                  ),
-                                )
-                              ],
+                          Text(
+                            ShadowUserManagerPage.shadowAccountExplanation,
+                            style: AppTextStyle(
+                              fontSize: Dimen.TEXT_SIZE_BIG,
+                              color: hintEnab_(context),
                             ),
                           )
-                        ),
-                      )
-
-                    ]
-                ),
-              )
-            else
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) => ShadowUserTile(
-                    shadowUsers[index],
-                    onTap: onTap,
-                    onRemoved: () => setState((){}),
-                    onEdited: () => setState((){}),
-                    subtitle: itemSubtitleBuilder?.call(shadowUsers[index]),
-                    key: ValueKey(shadowUsers[index].hashCode),
+                        ],
+                      ),
+                    )
                   ),
-                  childCount: shadowUsers.length,
-                ),
-              )
+                )
 
-          ],
-        ),
-      )
+              ]
+          ),
+        );
+      else
+        return SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (context, index) => ShadowUserTile(
+              loadedShadowUsers[index],
+              onTap: onTap,
+              onRemoved: () => setState((){}),
+              onEdited: () => setState((){}),
+              subtitle: itemSubtitleBuilder?.call(loadedShadowUsers[index]),
+              key: ValueKey(loadedShadowUsers[index].hashCode),
+            ),
+            childCount: loadedShadowUsers.length,
+          ),
+        );
+
+    })
   );
+
+  // @override
+  // Widget build(BuildContext context) => BottomNavScaffold(
+  //     body: SmartRefresher(
+  //       enablePullDown: !refreshController.isLoading,
+  //       enablePullUp: !refreshController.isRefresh && moreToLoad,
+  //       physics: const BouncingScrollPhysics(),
+  //       header: MaterialClassicHeader(backgroundColor: cardEnab_(context), color: accent_(context)),
+  //       controller: refreshController,
+  //       onRefresh: () async {
+  //
+  //         if(!await isNetworkAvailable()){
+  //           showAppToast(context, text: 'Brak dostępu do Internetu');
+  //           refreshController.refreshCompleted();
+  //           return;
+  //         }
+  //
+  //         await ApiUser.getShadowUsers(
+  //           pageSize: AccountData.shadowUsersPageSize,
+  //           lastUserName: loadedShadowUsers.last.name,
+  //           lastUserKey: loadedShadowUsers.last.key,
+  //           onSuccess: (List<UserDataNick> users) async {
+  //             AccountData.setLoadedShadowUsers(users);
+  //             setState((){});
+  //           }
+  //         );
+  //         refreshController.refreshCompleted();
+  //       },
+  //       onLoading: () async {
+  //
+  //       },
+  //       child: CustomScrollView(
+  //         physics: const BouncingScrollPhysics(),
+  //         slivers: [
+  //
+  //           SliverAppBar(
+  //             title: const Text('Moi użytkownicy widmo'),
+  //             centerTitle: true,
+  //             floating: true,
+  //             pinned: loadedShadowUsers.isEmpty,
+  //             actions: [
+  //               IconButton(
+  //                   icon: const Icon(MdiIcons.plus),
+  //                   onPressed: () => openDialog(
+  //                       context: context,
+  //                       builder: (context) => AddShadowUserDialog(
+  //                         onSuccess: (user) async => setState((){})
+  //                       )
+  //                   )
+  //               )
+  //             ],
+  //           ),
+  //
+  //           if(loadedShadowUsers.isEmpty)
+  //             SliverFillRemaining(
+  //               hasScrollBody: false,
+  //               child: Column(
+  //                   crossAxisAlignment: CrossAxisAlignment.stretch,
+  //                   mainAxisAlignment: MainAxisAlignment.center,
+  //                   children: [
+  //
+  //                     Expanded(
+  //                       child: Center(
+  //                         child: SimpleButton(
+  //                             radius: AppCard.bigRadius,
+  //                             padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+  //                             child: const EmptyMessageWidget(
+  //                               icon: MdiIcons.alienOutline,
+  //                               text: 'Kliknij, by stworzyć pierwsze\nkonto widmo',
+  //                             ),
+  //                             onTap: (){
+  //                               openDialog(
+  //                                   context: context,
+  //                                   builder: (context) => AddShadowUserDialog(
+  //                                     onSuccess: (user) => setState((){}),
+  //                                   )
+  //                               );
+  //                             }
+  //                         ),
+  //                       )
+  //                     ),
+  //
+  //                     Padding(
+  //                       padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+  //                       child: Container(
+  //                         decoration: BoxDecoration(
+  //                           border: Border.all(
+  //                             color: backgroundIcon_(context),
+  //                             width: 8,
+  //                           ),
+  //                           borderRadius: BorderRadius.circular(AppCard.bigRadius),
+  //                         ),
+  //                         child: Padding(
+  //                           padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+  //                           child: Column(
+  //                             crossAxisAlignment: CrossAxisAlignment.stretch,
+  //                             children: [
+  //                               Text(
+  //                                 'O co chodzi?',
+  //                                 style: AppTextStyle(
+  //                                     fontSize: Dimen.TEXT_SIZE_BIG,
+  //                                     color: hintEnab_(context),
+  //                                     fontWeight: weight.bold
+  //                                 ),
+  //                               ),
+  //
+  //                               const SizedBox(height: Dimen.SIDE_MARG),
+  //
+  //                               Text(
+  //                                 ShadowUserManagerPage.shadowAccountExplanation,
+  //                                 style: AppTextStyle(
+  //                                   fontSize: Dimen.TEXT_SIZE_BIG,
+  //                                   color: hintEnab_(context),
+  //                                 ),
+  //                               )
+  //                             ],
+  //                           ),
+  //                         )
+  //                       ),
+  //                     )
+  //
+  //                   ]
+  //               ),
+  //             )
+  //           else
+  //             SliverList(
+  //               delegate: SliverChildBuilderDelegate(
+  //                 (context, index) => ShadowUserTile(
+  //                   loadedShadowUsers[index],
+  //                   onTap: onTap,
+  //                   onRemoved: () => setState((){}),
+  //                   onEdited: () => setState((){}),
+  //                   subtitle: itemSubtitleBuilder?.call(loadedShadowUsers[index]),
+  //                   key: ValueKey(loadedShadowUsers[index].hashCode),
+  //                 ),
+  //                 childCount: loadedShadowUsers.length,
+  //               ),
+  //             )
+  //
+  //         ],
+  //       ),
+  //     )
+  // );
 
 
 }
@@ -275,8 +415,9 @@ class ShadowUserTileState extends State<ShadowUserTile>{
             setState(() => processingRemove = true);
             ApiUser.deleteShadow(
                 shadowUser.key,
-                onSuccess: (bool? removed){
+                onSuccess: (bool? removed) async {
                   AccountData.removeShadowUser(shadowUser);
+                  await AccountData.writeShadowUserCount(AccountData.shadowUserCount - 1);
                   setState(() {});
                   onRemoved?.call();
                 },
@@ -409,7 +550,8 @@ class AddShadowUserDialogState extends State<AddShadowUserDialog>{
                                           name,
                                           sex,
                                           onSuccess: (UserDataNick user) async {
-                                            await AccountData.addShadowUser(user);
+                                            await AccountData.addLoadedShadowUser(user);
+                                            await AccountData.writeShadowUserCount(AccountData.shadowUserCount + 1);
                                             Navigator.pop(context);
                                             await onSuccess?.call(user);
                                           },

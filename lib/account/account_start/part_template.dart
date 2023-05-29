@@ -35,7 +35,7 @@ class PartTemplate extends StatelessWidget {
   Widget build(BuildContext context) {
 
     Widget backgroundWidget = Padding(
-      padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+      padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
       child: GradientWidget(
           colorStart: cardEnab_(context)!,
           colorEnd: background_(context).withAlpha(0),

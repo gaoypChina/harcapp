@@ -454,8 +454,8 @@ class IndivComp{
         compareText(particip.key, lastLoaded.key) < 0;
   }
 
-  void addCompletedTasksForParticip(String participKey, List<IndivCompCompletedTask> completedTasks){
-    _loadedParticipMap[participKey]!.profile.addLoadedCompletedTasks(completedTasks);
+  void addCompletedTasksForParticip(String participKey, List<IndivCompCompletedTask> completedTasks, {required bool increaseTotalCount}){
+    _loadedParticipMap[participKey]!.profile.addLoadedCompletedTasks(completedTasks, increaseTotalCount: increaseTotalCount);
   }
 
   void removeCompletedTaskForParticip(String participKey, String complTaskKey, {BuildContext? context, bool shrinkTotalCount=true}){

@@ -116,6 +116,7 @@ class PagingLoadableBaseScrollViewPageState extends State<PagingLoadableBaseScro
     final innerBox = innerScrollViewKey.currentContext?.findRenderObject() as RenderSliver;
     double innerHeight = innerBox.geometry!.maxPaintExtent;
 
+    print('allLoadedItems: $allLoadedItems, totalItemsCount: $totalItemsCount');
     if(allLoadedItems >= totalItemsCount)
       return;
 
@@ -137,9 +138,9 @@ class PagingLoadableBaseScrollViewPageState extends State<PagingLoadableBaseScro
       return;
     }
 
-    int loadedCompletedTasks = await callLoadMore.call();
+    int loadedItems = await callLoadMore.call();
 
-    await handleOnExceedingHeightLoader(loadedCompletedTasks);
+    await handleOnExceedingHeightLoader(loadedItems);
 
     refreshController.loadComplete();
 

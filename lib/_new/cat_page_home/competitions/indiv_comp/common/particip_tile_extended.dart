@@ -165,7 +165,7 @@ class ParticipTileExtendedState extends State<ParticipTileExtended>{
 
                     initLoadedCompletedTasks: comp.getParticip(particip.key)!.profile.loadedCompletedTasks,
                     onCompletedTasksPageLoaded: (completedTasksPage){
-                      comp.addCompletedTasksForParticip(particip.key, completedTasksPage);
+                      comp.addCompletedTasksForParticip(particip.key, completedTasksPage, increaseTotalCount: false);
                     }
                   ));
                 }

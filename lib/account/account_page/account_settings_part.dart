@@ -396,6 +396,8 @@ class AccountSettingsPartState extends State<AccountSettingsPart>{
           )
       ),
 
+      const SizedBox(height: Dimen.SIDE_MARG),
+
       PartTemplate(
           title: 'Strefa zagrożenia',
           heroTag: null,

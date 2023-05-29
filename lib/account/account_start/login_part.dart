@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
@@ -240,18 +241,25 @@ class LoginPartState extends State<LoginPart>{
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
 
-          SimpleButton(
-            radius: AppCard.bigRadius,
-            padding: const EdgeInsets.all(Dimen.ICON_MARG),
-            margin: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
-            color: cardEnab_(context),
-            child: SizedBox(
-              height: Dimen.ICON_SIZE,
-              child: Center(
-                child: Text('Po co mi jakieś konto?', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold, color: hintEnab_(context)), textAlign: TextAlign.center),
+          KeyboardVisibilityBuilder(
+            builder: (context, isKeyboardVisible) => isKeyboardVisible?
+            Container():
+            Padding(
+              padding: const EdgeInsets.only(bottom: Dimen.SIDE_MARG),
+              child: SimpleButton(
+                  radius: AppCard.bigRadius,
+                  padding: const EdgeInsets.all(Dimen.ICON_MARG),
+                  margin: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+                  color: cardEnab_(context),
+                  child: SizedBox(
+                    height: Dimen.ICON_SIZE,
+                    child: Center(
+                      child: Text('Po co mi jakieś konto?', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold, color: hintEnab_(context)), textAlign: TextAlign.center),
+                    ),
+                  ),
+                  onTap: () => pushPage(context, builder: (context) => const AccountReasonPage())
               ),
-            ),
-            onTap: () => pushPage(context, builder: (context) => const AccountReasonPage())
+            )
           ),
 
           Expanded(

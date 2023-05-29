@@ -16,13 +16,22 @@ class ApiUser{
   static const int PASS_MAX_LENGTH = 32;
   static const int NAME_MAX_LENGTH = 54;
 
-  static Future<Response?> getAllShadows({
+  static Future<Response?> getShadowUsers({
+    required int? pageSize,
+    required String? lastUserName,
+    required String? lastUserKey,
+
     FutureOr<void> Function(List<UserDataNick> users)? onSuccess,
     FutureOr<void> Function()? onError,
   }) async => await API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.get(
         '${API.SERVER_URL}api/user/shadow',
+        queryParameters: {
+          if(pageSize != null) 'pageSize': pageSize,
+          if(lastUserName != null) 'lastUserName': lastUserName,
+          if(lastUserKey != null) 'lastUserKey': lastUserKey,
+        }
       ),
       onSuccess: (Response response, DateTime now) async {
         List<UserDataNick> users = [];

@@ -315,7 +315,7 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
                     comp,
                     onReqSent: (List<IndivCompCompletedTask> complTasks){
                       IndivCompCompletedTask complTask = complTasks[0];
-                      comp.myProfile!.addLoadedCompletedTask(complTask);
+                      comp.myProfile!.addLoadedCompletedTask(complTask, increaseTotalCount: true);
                       comp.myProfile!.addLoadedPendingCompletedTask(complTask);
                       indivCompProv.notify();
                       setState(() {});
@@ -323,7 +323,7 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
                     onGranted: (List<IndivCompCompletedTask> complTasks, Map<String, ShowRankData> idRank){
 
                       for(IndivCompCompletedTask complTask in complTasks) {
-                        comp.getParticip(complTask.participKey)?.profile.addLoadedCompletedTask(complTask);
+                        comp.getParticip(complTask.participKey)?.profile.addLoadedCompletedTask(complTask, increaseTotalCount: true);
                         comp.addPoints(complTask.participKey, complTask.points);
                       }
 
@@ -422,7 +422,7 @@ class CompHeaderWidget extends StatelessWidget{
                   padding: const EdgeInsets.all(Dimen.defMarg),
                   margin: EdgeInsets.zero,
                   onTap: () => comp.myProfile?.completedTasksCount == 0?
-                      showAppToast(context, text: 'Brak zrealizowanych zadań.'):
+                      showAppToast(context, text: 'Brak zrealizowanych zadań'):
                       pushPage(context, builder: (context) => CompletedTasksPage(
                           comp,
                           title: 'Moje zadania',

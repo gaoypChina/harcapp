@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:harcapp/_new/api/_api.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/model/trop.dart';
 import 'package:harcapp/_new/cat_page_home/community/community_publishable.dart';
 import 'package:harcapp/_new/cat_page_home/community/model/community.dart';
@@ -25,6 +26,8 @@ class LoginListener{
 }
 
 class AccountData {
+
+  static const int shadowUsersPageSize = 10;
 
   static final List<LoginListener> _listeners = [];
 
@@ -67,8 +70,9 @@ class AccountData {
   static String? _nickEditable;
   static String? _microsoftAcc;
   static String? _regularAcc;
-  static List<UserDataNick>? _shadowUsers;
-  static Map<String, UserDataNick>? _shadowUserMap;
+  static int? _shadowUserCount;
+  static List<UserDataNick>? _loadedShadowUsers;
+  static Map<String, UserDataNick>? _loadedShadowUserMap;
 
 
   static const String _keyLastConfLoginEmail = 'acc_last_conf_login_email';
@@ -87,6 +91,7 @@ class AccountData {
   static const String _keyNickEditable = 'acc_nick_editable';
   static const String _keyMicrosoftAcc = 'acc_microsoft_acc';
   static const String _keyRegularAcc = 'acc_regular_acc';
+  static const String _keyShadowUserCount = 'acc_shadow_users_count';
   static const String _keyShadowUsers = 'acc_shadow_users';
 
   static bool get loggedIn => jwt != null;
@@ -110,32 +115,33 @@ class AccountData {
     _regularAcc = await storage.read(key: _keyRegularAcc);
 
     String? shadowUserData = await storage.read(key: _keyShadowUsers);
-    if(shadowUserData != null)
-      initShadowUsers(
-          (jsonDecode(shadowUserData) as List).cast<Map<String, dynamic>>()
-      );
+    initShadowUsers(
+        (jsonDecode(shadowUserData??'[]') as List).cast<Map<String, dynamic>>()
+    );
+    _shadowUserCount = int.tryParse(await storage.read(key: _keyShadowUserCount)??'0');
   }
 
   static Future<void> saveLoginData(String? email, Response response) async {
-    await AccountData.writeKey(response.data['key']);
-    await AccountData.writeJwt(response.data['jwt']);
-    await AccountData.writeRefreshToken(response.data['refreshToken']);
+    await AccountData.writeKey(response.data['key']??(throw InvalidResponseError('key')));
+    await AccountData.writeJwt(response.data['jwt']??(throw InvalidResponseError('jwt')));
+    await AccountData.writeRefreshToken(response.data['refreshToken']??(throw InvalidResponseError('refreshToken')));
     await AccountData.writeEmail(email);
     await AccountData.writeLastConfLoginEmail(email);
-    await AccountData.writeEmailConf(response.data['emailConfirmed']);
-    await AccountData.writeName(response.data['name']);
-    await AccountData.writeNick(response.data['nick']);
-    await AccountData.writeNickSearchable(response.data['nickSearchable']);
-    await AccountData.writeSex(boolToSex[response.data['sex']]);
+    await AccountData.writeEmailConf(response.data['emailConfirmed']??(throw InvalidResponseError('emailConfirmed')));
+    await AccountData.writeName(response.data['name']??(throw InvalidResponseError('name')));
+    await AccountData.writeNick(response.data['nick']??(throw InvalidResponseError('nick')));
+    await AccountData.writeNickSearchable(response.data['nickSearchable']??(throw InvalidResponseError('nickSearchable')));
+    await AccountData.writeSex(boolToSex[response.data['sex']??(throw InvalidResponseError('sex'))]);
 
-    await AccountData.writeNameEditable(response.data['nameEditable']);
-    await AccountData.writeNickEditable(response.data['nickEditable']);
-    await AccountData.writeMicrosoftAcc(response.data['microsoftLogin']);
-    await AccountData.writeRegularAcc(response.data['regularLogin']);
+    await AccountData.writeNameEditable(response.data['nameEditable']??(throw InvalidResponseError('nameEditable')));
+    await AccountData.writeNickEditable(response.data['nickEditable']??(throw InvalidResponseError('nickEditable')));
+    await AccountData.writeMicrosoftAcc(response.data['microsoftLogin']??(throw InvalidResponseError('microsoftLogin')));
+    await AccountData.writeRegularAcc(response.data['regularLogin']??(throw InvalidResponseError('regularLogin')));
 
     initShadowUsers(
-        (response.data['shadowUsers'] as List).cast<Map<String, dynamic>>()
+        ((response.data['shadowUsers']??(throw InvalidResponseError('shadowUsers'))) as List).cast<Map<String, dynamic>>()
     );
+    await AccountData.writeShadowUserCount(response.data['shadowUserCount']??(throw InvalidResponseError('shadowUserCount')));
 
   }
 
@@ -248,10 +254,7 @@ class AccountData {
 
   static Future<void> writeEmailConf(bool value) async {
     _emailConf = value?'true':'false';
-    if (value == null)
-      return await removeEmailConf();
-    else
-      return await const FlutterSecureStorage().write(key: _keyEmailConf, value: value?'true':'false');
+    return await const FlutterSecureStorage().write(key: _keyEmailConf, value: value?'true':'false');
   }
 
 
@@ -296,10 +299,7 @@ class AccountData {
 
   static Future<void> writeNickSearchable(bool value) async {
     _nickSearchable = value?'true':'false';
-    if (value == null)
-      return await removeNickSearchable();
-    else
-      return await const FlutterSecureStorage().write(key: _keyNickSearchable, value: value?'true':'false');
+    return await const FlutterSecureStorage().write(key: _keyNickSearchable, value: value?'true':'false');
   }
 
 
@@ -328,10 +328,7 @@ class AccountData {
 
   static Future<void> writeNameEditable(bool value) async {
     _nameEditable = value?'true':'false';
-    if (value == null)
-      return await removeNameEditable();
-    else
-      return await const FlutterSecureStorage().write(key: _keyNameEditable, value: value?'true':'false');
+    return await const FlutterSecureStorage().write(key: _keyNameEditable, value: value?'true':'false');
   }
 
 
@@ -344,10 +341,7 @@ class AccountData {
 
   static Future<void> writeNickEditable(bool value) async {
     _nickEditable = value?'true':'false';
-    if (value == null)
-      return await removeNickEditable();
-    else
-      return await const FlutterSecureStorage().write(key: _keyNickEditable, value: value?'true':'false');
+    return await const FlutterSecureStorage().write(key: _keyNickEditable, value: value?'true':'false');
   }
 
 
@@ -360,10 +354,7 @@ class AccountData {
 
   static Future<void> writeMicrosoftAcc(bool value) async {
     _microsoftAcc = value?'true':'false';
-    if (value == null)
-      return await removeMicrosoftAcc();
-    else
-      return await const FlutterSecureStorage().write(key: _keyMicrosoftAcc, value: value?'true':'false');
+    return await const FlutterSecureStorage().write(key: _keyMicrosoftAcc, value: value?'true':'false');
   }
 
 
@@ -376,26 +367,23 @@ class AccountData {
 
   static Future<void> writeRegularAcc(bool value) async {
     _regularAcc = value?'true':'false';
-    if (value == null)
-      return await removeRegularAcc();
-    else
-      return await const FlutterSecureStorage().write(key: _keyRegularAcc, value: value?'true':'false');
+    return await const FlutterSecureStorage().write(key: _keyRegularAcc, value: value?'true':'false');
   }
 
 
-  static List<UserDataNick> get shadowUsers => _shadowUsers!;
-  static set shadowUsers(List<UserDataNick> value){
+  static List<UserDataNick> get loadedShadowUsers => _loadedShadowUsers!;
+  static set loadedShadowUsers(List<UserDataNick> value){
     value.sort((user1, user2) => user1.name.toLowerCase().compareTo(user2.name.toLowerCase()));
-    _shadowUsers = value;
-    _shadowUserMap = {for(UserDataNick user in value) user.key: user};
+    _loadedShadowUsers = value;
+    _loadedShadowUserMap = {for(UserDataNick user in value) user.key: user};
     writeShadowUsers(value);
   }
 
-  static Map<String, UserDataNick>? get shadowUserMap => _shadowUserMap;
+  static Map<String, UserDataNick>? get loadedShadowUserMap => _loadedShadowUserMap;
 
   static Future<void> removeShadowUsers() async {
-    _shadowUsers = null;
-    _shadowUserMap = null;
+    _loadedShadowUsers = null;
+    _loadedShadowUserMap = null;
     await const FlutterSecureStorage().delete(key: _keyShadowUsers);
   }
 
@@ -405,43 +393,72 @@ class AccountData {
     for(UserDataNick user in value)
       shadowUser.add(user.toJsonMap());
 
-    if (value == null)
-      return await removeRegularAcc();
-    else
-      return await const FlutterSecureStorage().write(key: _keyShadowUsers, value: jsonEncode(shadowUser));
+    return await const FlutterSecureStorage().write(key: _keyShadowUsers, value: jsonEncode(shadowUser));
   }
 
-  static Future<void> addShadowUser(UserDataNick value) async {
-    List<UserDataNick> shadowUsers = _shadowUsers!;
+  static Future<void> addLoadedShadowUser(UserDataNick value) async {
+    List<UserDataNick> shadowUsers = _loadedShadowUsers??[];
     shadowUsers.add(value);
-    _shadowUsers = shadowUsers;
+    _loadedShadowUsers = shadowUsers;
+    _loadedShadowUserMap = {for(UserDataNick user in _loadedShadowUsers!) user.key: user};
+    await writeShadowUsers(_loadedShadowUsers!);
+  }
+
+  static Future<void> addLoadedShadowUsers(List<UserDataNick> value) async {
+    List<UserDataNick> shadowUsers = _loadedShadowUsers??[];
+    shadowUsers.addAll(value);
+    _loadedShadowUsers = shadowUsers;
+    _loadedShadowUserMap = {for(UserDataNick user in value) user.key: user};
+    await writeShadowUsers(_loadedShadowUsers!);
+  }
+
+  static Future<void> setLoadedShadowUsers(List<UserDataNick> value) async {
+    _loadedShadowUsers = value;
+    _loadedShadowUserMap = {for(UserDataNick user in _loadedShadowUsers!) user.key: user};
+    await writeShadowUsers(_loadedShadowUsers!);
   }
 
   static Future<void> updateShadowUser(UserDataNick value) async {
-    List<UserDataNick> shadowUsers = _shadowUsers!;
-    UserDataNick? oldUser = _shadowUserMap![value.key];
+    List<UserDataNick> shadowUsers = _loadedShadowUsers!;
+    UserDataNick? oldUser = _loadedShadowUserMap![value.key];
     shadowUsers.remove(oldUser);
     shadowUsers.add(value);
-    AccountData.shadowUsers = shadowUsers;
+    AccountData.loadedShadowUsers = shadowUsers;
+    _loadedShadowUserMap = {for(UserDataNick user in _loadedShadowUsers!) user.key: user};
+    await writeShadowUsers(_loadedShadowUsers!);
   }
 
   static Future<void> removeShadowUser(UserDataNick value) async {
-    List<UserDataNick> shadowUsers = _shadowUsers!;
+    List<UserDataNick> shadowUsers = _loadedShadowUsers!;
     shadowUsers.remove(value);
-    _shadowUsers = shadowUsers;
+    _loadedShadowUsers = shadowUsers;
+    _loadedShadowUserMap = {for(UserDataNick user in _loadedShadowUsers!) user.key: user};
+    await writeShadowUsers(_loadedShadowUsers!);
   }
 
   static void initShadowUsers(List<Map<String, dynamic>> shadowUserData){
-
-    List<UserDataNick> shadowUsers = [];
-
-    for(Map map in shadowUserData)
-      shadowUsers.add(UserDataNick.fromRespMap(map, map['nick']));
-
-    AccountData.shadowUsers = shadowUsers;
-    
+    _loadedShadowUsers = [];
+    _loadedShadowUserMap = {};
+    addLoadedShadowUsers([for(Map map in shadowUserData) UserDataNick.fromRespMap(map, map['nick']) ]);
   }
-  
+
+
+  static int get shadowUserCount => _shadowUserCount!;
+
+  static Future<void> removeShadowUserCount() async {
+    _shadowUserCount = null;
+    await const FlutterSecureStorage().delete(key: _keyShadowUserCount);
+  }
+
+  static Future<void> writeShadowUserCount(int value) async {
+    _shadowUserCount = value;
+    return await const FlutterSecureStorage().write(
+        key: _keyShadowUserCount,
+        value: value.toString()
+    );
+  }
+
+
   static Future<void> forgetAccount({bool forgetLastServerTime = false}) async {
     if(forgetLastServerTime) await AccountData.removeLastServerTime();
 
@@ -458,6 +475,7 @@ class AccountData {
     await AccountData.removeMicrosoftAcc();
     await AccountData.removeRegularAcc();
     await AccountData.removeShadowUsers();
+    await AccountData.removeShadowUserCount();
 
     Community.forget();
     CommunityPublishable.forget();

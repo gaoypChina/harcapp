@@ -30,9 +30,11 @@ class IndivCompProfile{
   final List<IndivCompCompletedTask> loadedCompletedTasks;
   final Map<String, IndivCompCompletedTask> loadedCompletedTaskMap;
 
-  void addLoadedCompletedTask(IndivCompCompletedTask completedTask){
+  void addLoadedCompletedTask(IndivCompCompletedTask completedTask, {required bool increaseTotalCount}){
     loadedCompletedTasks.add(completedTask);
     loadedCompletedTaskMap[completedTask.key] = completedTask;
+
+    if(!increaseTotalCount) return;
 
     switch(completedTask.acceptState){
       case TaskAcceptState.ACCEPTED:
@@ -50,12 +52,12 @@ class IndivCompProfile{
   void setAllLoadedCompletedTasks(List<IndivCompCompletedTask> completedTasks){
     loadedCompletedTasks.clear();
     loadedCompletedTaskMap.clear();
-    addLoadedCompletedTasks(completedTasks);
+    addLoadedCompletedTasks(completedTasks, increaseTotalCount: false);
   }
 
-  void addLoadedCompletedTasks(List<IndivCompCompletedTask> completedTasks){
+  void addLoadedCompletedTasks(List<IndivCompCompletedTask> completedTasks, {required bool increaseTotalCount}){
     for(IndivCompCompletedTask completedTask in completedTasks)
-      addLoadedCompletedTask(completedTask);
+      addLoadedCompletedTask(completedTask, increaseTotalCount: increaseTotalCount);
   }
 
   void removeCompletedTaskByKey(String complTaskKey, {bool shrinkTotalCount=true}){
