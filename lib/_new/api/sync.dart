@@ -1,7 +1,10 @@
 import 'dart:async';
+import 'dart:isolate';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:harcapp/_common_classes/org/org_handler.dart';
+import 'package:harcapp/_common_classes/sha_pref.dart';
 import 'package:harcapp/_new/api/sync_resp_body/album/own_album_resp.dart';
 import 'package:harcapp/_new/api/sync_resp_body/album/to_learn_album_resp.dart';
 import 'package:harcapp/_new/api/sync_resp_body/off_song_get_resp.dart';
@@ -32,10 +35,88 @@ import '../details/app_settings_resp.dart';
 import '_api.dart';
 
 
+class PostReqMapArgs{
+
+  final bool? dumpReplaceExisting;
+  final List<SyncableParam> allSyncables;
+  final List<String> removeSyncItems;
+  final Map<String, dynamic> shaPrefMap;
+  final SendPort sendPort;
+
+  const PostReqMapArgs(
+    this.dumpReplaceExisting,
+    this.allSyncables,
+    this.removeSyncItems,
+    this.shaPrefMap,
+    this.sendPort,
+  );
+
+}
+
+
 class ApiSync{
 
   static const String url = 'api/sync/';
-  
+
+  static Future<Map<String, dynamic>> buildPostReqMap(PostReqMapArgs args) async {
+
+    ShaPref.setCustomMethods(
+        customGetBoolOrNull: (String key) => args.shaPrefMap[key],
+        customSetBool: (String key, bool value) => args.shaPrefMap[key] = value,
+        customGetStringOrNull: (String key) => args.shaPrefMap[key],
+        customSetString: (String key, String value) => args.shaPrefMap[key] = value,
+        customGetStringListOrNull: (String key) => args.shaPrefMap[key],
+        customSetStringList: (String key, List<String> value) {  },
+        customGetIntOrNull: (String key) => args.shaPrefMap[key],
+        customSetInt: (String key, int value) => args.shaPrefMap[key] = value,
+        customGetDoubleOrNull: (String key) => args.shaPrefMap[key],
+        customSetDouble: (String key, double value) => args.shaPrefMap[key] = value,
+        customGetDateTimeOrNull: (String key) => args.shaPrefMap[key],
+        customSetDateTime: (String key, DateTime? value) => args.shaPrefMap[key] = value,
+        customExists: (String key) => args.shaPrefMap.containsKey(key),
+        customRemove: (String key) => args.shaPrefMap.remove(key),
+        customClear: () => args.shaPrefMap.clear()
+    );
+
+    // args.sendPort.send(call);
+
+    Map<String, dynamic> reqMap = {};
+    if(args.dumpReplaceExisting??false)
+      reqMap['dumpReplaceExisting'] = true;
+
+    for(SyncableParam param in args.allSyncables){
+      try {
+        reqMap[param.paramId] = await param.buildPostReq(
+            setSyncStateInProgress: true,
+            includeDefaults: args.dumpReplaceExisting ?? false);
+      } on NothingToSyncException{
+        continue;
+      }
+    }
+
+    for(String removeSyncItemName in args.removeSyncItems){
+
+      List<String> paramIds = removeSyncItemName.split(RemoveSyncItem.paramSep);
+      String currParam;
+      Map<dynamic, dynamic> currReqMap = reqMap;
+      while(paramIds.isNotEmpty){
+        currParam = paramIds.first;
+        paramIds.removeAt(0);
+
+        if(currReqMap[currParam] == null)
+          currReqMap[currParam] = {};
+
+        currReqMap = currReqMap[currParam];
+      }
+
+      currReqMap[RemoveSyncItem.removeReqParam] = true;
+
+    }
+
+    return reqMap;
+
+  }
+
   static Future<Response?> post(
         {bool? dumpReplaceExisting,
         FutureOr<void> Function(
@@ -57,6 +138,22 @@ class ApiSync{
             DateTime? syncedTime)? onSuccess,
         FutureOr<void> Function(Response? response)? onError,
       }) async {
+
+    ReceivePort receivePort = ReceivePort();
+    receivePort.listen((dynamic message) {
+      //do whatever you want to do with message!
+    });
+
+    Map<String, dynamic> _reqMap = await compute(
+        buildPostReqMap,
+        PostReqMapArgs(
+            dumpReplaceExisting,
+            SyncGetRespNode.all,
+            RemoveSyncItem.all!,
+            ShaPref.toMap(),
+            receivePort.sendPort
+        )
+    );
 
     Map<String, dynamic> reqMap = {};
     if(dumpReplaceExisting??false)

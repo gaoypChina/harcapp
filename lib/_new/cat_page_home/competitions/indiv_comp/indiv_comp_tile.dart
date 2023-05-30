@@ -82,7 +82,7 @@ class IndivCompTile extends StatelessWidget{
                       children: [
 
                         SizedBox(
-                            height: PointsIcon.defSize,
+                            height: 36.0,
                             child: Align(
                               alignment: Alignment.centerLeft,
                               child: Text(

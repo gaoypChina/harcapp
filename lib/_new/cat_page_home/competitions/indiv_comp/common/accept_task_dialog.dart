@@ -171,7 +171,7 @@ void openAcceptTaskDialog(
             onSuccess: (
                 List<IndivCompCompletedTask> taskComplList,
                 Map<String, ShowRankData> idRank
-                ){
+              ){
               onPointsGranted?.call(taskComplList, idRank);
               Navigator.pop(context);
             },
