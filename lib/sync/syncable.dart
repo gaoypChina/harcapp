@@ -36,19 +36,19 @@ mixin SyncGetRespNode<T extends SyncGetResp> on SyncableParam{
   static SyncableParam get offSongNodes => SyncableParamGroup(
     null,
     paramId: OffSong.syncClassId,
-    childParams: OffSong.allOfficial,
+    childParams: OffSong.initialized?OffSong.allOfficial:[],
   );
 
   static SyncableParam get ownSongNodes => SyncableParamGroup(
     null,
     paramId: OwnSong.syncClassId,
-    childParams: OwnSong.allOwn,
+    childParams: OwnSong.initialized?OwnSong.allOwn:[],
   );
 
   static SyncableParam get ownAlbumNodes => SyncableParamGroup(
       null,
       paramId: OwnAlbum.syncClassId,
-      childParams: OwnAlbum.all,
+      childParams: OwnAlbum.initialized?OwnAlbum.all:[],
   );
 
   static SyncableParam get rankDefNodes => SyncableParamGroup(
@@ -72,7 +72,7 @@ mixin SyncGetRespNode<T extends SyncGetResp> on SyncableParam{
   static SyncableParam get tropNodes => SyncableParamGroup(
       null,
       paramId: Trop.syncClassId,
-      childParams: Trop.allOwn
+      childParams: Trop.initialized?Trop.allOwn:[]
   );
 
   static List<SyncableParam> get all => [

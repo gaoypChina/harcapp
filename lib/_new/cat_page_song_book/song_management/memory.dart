@@ -14,7 +14,7 @@ import 'package:harcapp_core/dimen.dart';
 import 'package:uuid/uuid.dart';
 
 class MemoryBuilder{
-  String songFileName;
+  Song song;
   DateTime? date;
   String? place;
   String? desc;
@@ -22,7 +22,7 @@ class MemoryBuilder{
   bool published;
 
   MemoryBuilder(
-    this.songFileName,
+    this.song,
     this.date,
     this.place,
     this.desc,
@@ -31,7 +31,7 @@ class MemoryBuilder{
   );
 
   static MemoryBuilder from(Memory memory) => MemoryBuilder(
-      memory.songLclId,
+      memory.song,
       memory.date,
       memory.place,
       memory.desc,
@@ -39,11 +39,11 @@ class MemoryBuilder{
       memory.published
   );
 
-  static MemoryBuilder empty(Song song) => MemoryBuilder(song.lclId, DateTime.now(), '', '', 1, false);
+  static MemoryBuilder empty(Song song) => MemoryBuilder(song, DateTime.now(), '', '', 1, false);
 
   Memory build(String fileName) => Memory(
     fileName,
-    songFileName,
+    song,
     date,
     place,
     desc,
@@ -137,26 +137,29 @@ class Memory with SyncableParamGroupMixin, SyncGetRespNode<MemoryGetResp>, Remov
       );
 
   final String lclId;
-  String songLclId;
+  Song song;
   DateTime? date;
   String? place;
   String? desc;
   int fontIndex;
   bool published;
 
-  Memory(this.lclId, this.songLclId, this.date, this.place, this.desc, this.fontIndex, this.published);
+  Memory(this.lclId, this.song, this.date, this.place, this.desc, this.fontIndex, this.published);
+
+  static _songLclIdToSong(songLclId) => Song.allMap[songLclId]??(throw Exception('Song $songLclId not found'));
 
   static Memory fromRespMap(Map respMap){
 
     String lclId = respMap[paramLclId];
     String songLclId = respMap[paramSongLclId]??'!';
+    Song song = _songLclIdToSong(songLclId);
     DateTime date = DateTime.parse(respMap[Memory.paramDate]);
     String place = respMap[paramPlace]??'';
     String desc = respMap[paramDesc]??'';
     int fontIndex = respMap[paramFontKey]??0;
     bool published = respMap[paramPublished]??false;
 
-    return Memory(lclId, songLclId, date, place, desc, fontIndex, published);
+    return Memory(lclId, song, date, place, desc, fontIndex, published);
 
   }
 
@@ -185,7 +188,9 @@ class Memory with SyncableParamGroupMixin, SyncGetRespNode<MemoryGetResp>, Remov
         fileName: lclId,
     );
 
-    Memory memory = Memory(lclId, songLclId, date, place, desc, fontIndex, published);
+    Song song = _songLclIdToSong(songLclId);
+
+    Memory memory = Memory(lclId, song, date, place, desc, fontIndex, published);
     memory.setAllSyncState(SyncableParamSingleMixin.stateNotSynced);
     if(!localOnly)
       synchronizer.post();
@@ -211,7 +216,7 @@ class Memory with SyncableParamGroupMixin, SyncGetRespNode<MemoryGetResp>, Remov
 
     Map<String, dynamic> map = jsonDecode(code);
 
-    String songFileName = map[paramSongLclId];
+    String songLclId = map[paramSongLclId];
     DateTime? date;
     try{
       date = DateTime.tryParse(map[paramDate]);
@@ -225,7 +230,7 @@ class Memory with SyncableParamGroupMixin, SyncGetRespNode<MemoryGetResp>, Remov
 
     return Memory(
         lclId,
-        songFileName,
+        _songLclIdToSong(songLclId),
         date,
         place,
         desc,
@@ -239,7 +244,7 @@ class Memory with SyncableParamGroupMixin, SyncGetRespNode<MemoryGetResp>, Remov
 
     saveStringAsFileToFolder(
         getSongMemoriesFolderLocalPath,
-        encode(songLclId, date!, place, desc, fontIndex, published),
+        encode(song.lclId, date!, place, desc, fontIndex, published),
         fileName: lclId
     );
 
@@ -258,7 +263,6 @@ class Memory with SyncableParamGroupMixin, SyncGetRespNode<MemoryGetResp>, Remov
   }
 
   void update({
-    required String? songLclId,
     required DateTime? date,
     required String? place,
     required String? desc,
@@ -266,7 +270,6 @@ class Memory with SyncableParamGroupMixin, SyncGetRespNode<MemoryGetResp>, Remov
     required bool? published,
     bool localOnly=false})
   {
-    if(songLclId != null) this.songLclId = songLclId;
     if(date != null) this.date = date;
     if(place != null) this.place = place;
     if(desc != null) this.desc = desc;
@@ -288,7 +291,7 @@ class Memory with SyncableParamGroupMixin, SyncGetRespNode<MemoryGetResp>, Remov
   int get hashCode => lclId.hashCode;
 
   @override
-  SyncableParam get parentParam => Song.allMap[songLclId]!.syncParamMemories;
+  SyncableParam get parentParam => song.syncParamMemories;
 
   @override
   String get paramId => lclId;

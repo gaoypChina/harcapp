@@ -66,7 +66,7 @@ class ApiHarcMap{
   }) async => await API.sendRequest(
     withToken: !publicOnly,
     requestSender: (Dio dio) => dio.get(
-        '${API.SERVER_URL}api/harcMap${publicOnly?'/public':''}',
+        '${API.baseUrl}api/harcMap${publicOnly?'/public':''}',
         queryParameters: {
           'northLat': northLat,
           'southLat': southLat,
@@ -115,7 +115,7 @@ class ApiHarcMap{
   }) => API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) async => dio.post(
-          '${API.SERVER_URL}api/harcMap',
+          '${API.baseUrl}api/harcMap',
           options: Options(headers: {
             HttpHeaders.contentTypeHeader: 'application/json',
           }),
@@ -178,7 +178,7 @@ class ApiHarcMap{
     return await API.sendRequest(
         withToken: true,
         requestSender: (Dio dio) async => dio.put(
-            '${API.SERVER_URL}api/harcMap/$markerKey',
+            '${API.baseUrl}api/harcMap/$markerKey',
             options: Options(headers: {
               HttpHeaders.contentTypeHeader: 'application/json',
             }),
@@ -207,7 +207,7 @@ class ApiHarcMap{
     return await API.sendRequest(
         withToken: true,
         requestSender: (Dio dio) async => dio.delete(
-            '${API.SERVER_URL}api/harcMap/$markerKey',
+            '${API.baseUrl}api/harcMap/$markerKey',
         ),
         onSuccess: (Response response, DateTime now) => onSuccess?.call(),
         onForceLoggedOut: onForceLoggedOut,
@@ -232,7 +232,7 @@ class ApiHarcMap{
     return API.sendRequest(
         withToken: true,
         requestSender: (Dio dio) => dio.get(
-            '${API.SERVER_URL}api/harcMap/$markerKey/manager',
+            '${API.baseUrl}api/harcMap/$markerKey/manager',
             queryParameters: {
               if(pageSize != null) 'pageSize': pageSize,
               if(lastRole != null) 'lastRole': markerRoleToStr[lastRole],
@@ -276,7 +276,7 @@ class ApiHarcMap{
     return API.sendRequest(
         withToken: true,
         requestSender: (Dio dio) => dio.post(
-            '${API.SERVER_URL}api/harcMap/$markerKey/manager',
+            '${API.baseUrl}api/harcMap/$markerKey/manager',
             data: jsonEncode(body)
         ),
         onSuccess: (Response response, DateTime now) async {
@@ -315,7 +315,7 @@ class ApiHarcMap{
     return API.sendRequest(
         withToken: true,
         requestSender: (Dio dio) => dio.put(
-            '${API.SERVER_URL}api/harcMap/$markerKey/manager',
+            '${API.baseUrl}api/harcMap/$markerKey/manager',
             data: jsonEncode(body)
         ),
         onSuccess: (Response response, DateTime now) async {
@@ -345,7 +345,7 @@ class ApiHarcMap{
   }) => API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.delete(
-          '${API.SERVER_URL}api/harcMap/$markerKey/manager',
+          '${API.baseUrl}api/harcMap/$markerKey/manager',
           data: jsonEncode(userKeys)
       ),
       onSuccess: (Response response, DateTime now) =>
@@ -365,7 +365,7 @@ class ApiHarcMap{
   }) => API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) async => dio.get(
-          '${API.SERVER_URL}api/harcMap/$markerKey/communities',
+          '${API.baseUrl}api/harcMap/$markerKey/communities',
       ),
       onSuccess: (Response response, DateTime now) async {
         List<Tuple2<CommunityPreviewData, String?>> communities = [];

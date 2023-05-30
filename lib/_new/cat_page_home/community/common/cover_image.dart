@@ -30,10 +30,10 @@ class CoverImageWidget extends StatelessWidget{
       NoImagePlaceholder(loading: true, isSample: coverImage.dataType == CommunityCoverImageDataType.sample),
 
       errorBuilder: (BuildContext context, Object object, StackTrace? stackTrace){
-        if(coverImage.url != null && coverImage.url!.contains(IMAGE_DB_SERVER_IP.replaceAll("https://", "")))
+        if(coverImage.url != null && coverImage.url!.contains(imageDbUrl.replaceAll("https://", "")))
           isNetworkAvailable().then((hasNetwork){
             if(hasNetwork)
-              Dio().get(IMAGE_DB_SERVER_IP).onError((e, __) => Response(requestOptions: RequestOptions(path: '')));
+              Dio().get(imageDbUrl).onError((e, __) => Response(requestOptions: RequestOptions(path: '')));
           });
 
         return NoImagePlaceholder(loading: false, isSample: coverImage.dataType == CommunityCoverImageDataType.sample);

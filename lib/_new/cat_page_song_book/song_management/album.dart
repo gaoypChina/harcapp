@@ -531,10 +531,18 @@ class ToLearnAlbum extends SelectableAlbum<ToLearnAlbumGetResp>{
   static bool initialized = false;
   static late ToLearnAlbum loaded;
 
+  // This unfortunately must be a variable, because isolates cannot read storage
+  // so it's impossible to check the `isNotSet()` method inside an isolate.
+  late bool existsInStorage;
+
   static void init(){
     ToLearnAlbum? album = ToLearnAlbum.read(Song.all);
-    if(album == null) ToLearnAlbum.loaded = ToLearnAlbum([], []);
-    else ToLearnAlbum.loaded = album;
+    bool existsInStorage = album != null;
+    if(existsInStorage) ToLearnAlbum.loaded = album;
+    else ToLearnAlbum.loaded = ToLearnAlbum([], []);
+
+    ToLearnAlbum.loaded.existsInStorage = existsInStorage;
+
     ToLearnAlbum.initialized = true;
   }
 
@@ -585,7 +593,7 @@ class ToLearnAlbum extends SelectableAlbum<ToLearnAlbumGetResp>{
   }
 
   @override
-  bool isNotSet() => readFileAsStringOrNull(getToLearnAlbumPath) == null;
+  bool isNotSet() => !existsInStorage;
 
   void update(SelectableAlbum album) {
     offSongs = album.offSongs;
@@ -598,6 +606,8 @@ class ToLearnAlbum extends SelectableAlbum<ToLearnAlbumGetResp>{
         getToLearnAlbumPath,
         jsonEncode(toJsonMap()),
     );
+
+    existsInStorage = true;
 
     // TODO add selective sync. In this situaltion it is feasable to use e.g.:
     // syncParams: [Album.paramOffSongs, Album.paramOwnSongs];

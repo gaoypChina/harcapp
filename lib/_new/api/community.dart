@@ -61,7 +61,7 @@ class ApiCommunity{
   }) async => await API.sendRequest(
     withToken: true,
     requestSender: (Dio dio) => dio.get(
-      '${API.SERVER_URL}api/community/search',
+      '${API.baseUrl}api/community/search',
       queryParameters: {
         "phrase": phrase,
         "sort": sort==ForumSearchSort.likes?
@@ -92,7 +92,7 @@ class ApiCommunity{
   }) async => await API.sendRequest(
     withToken: true,
     requestSender: (Dio dio) => dio.get(
-        '${API.SERVER_URL}api/community',
+        '${API.baseUrl}api/community',
     ),
     onSuccess: (Response response, DateTime now) async {
       List<Community> communityList = [];
@@ -115,7 +115,7 @@ class ApiCommunity{
   }) async => await API.sendRequest(
     withToken: true,
     requestSender: (Dio dio) => dio.get(
-        '${API.SERVER_URL}api/community/$communityKey',
+        '${API.baseUrl}api/community/$communityKey',
     ),
     onSuccess: (Response response, DateTime now) async {
       Community community = Community.fromRespMap(response.data);
@@ -147,7 +147,7 @@ class ApiCommunity{
     return API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.post(
-          '${API.SERVER_URL}api/community',
+          '${API.baseUrl}api/community',
           options: Options(headers: {
             HttpHeaders.contentTypeHeader: 'application/json',
           }),
@@ -190,7 +190,7 @@ class ApiCommunity{
     return API.sendRequest(
         withToken: true,
         requestSender: (Dio dio) => dio.put(
-            '${API.SERVER_URL}api/community/$circleKey',
+            '${API.baseUrl}api/community/$circleKey',
             options: Options(headers: {
               HttpHeaders.contentTypeHeader: 'application/json',
             }),
@@ -217,7 +217,7 @@ class ApiCommunity{
   }) => API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.delete(
-        '${API.SERVER_URL}api/community/$communityKey'
+        '${API.baseUrl}api/community/$communityKey'
       ),
       onSuccess: (Response response, DateTime now) async => await onSuccess?.call(),
       onForceLoggedOut: onForceLoggedOut,
@@ -238,7 +238,7 @@ class ApiCommunity{
   }) => API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.get(
-          '${API.SERVER_URL}api/community/$communityKey/manager',
+          '${API.baseUrl}api/community/$communityKey/manager',
           queryParameters: {
             if(pageSize != null) 'pageSize': pageSize,
             if(lastRole != null) 'lastRole': communityRoleToStr[lastRole],
@@ -280,7 +280,7 @@ class ApiCommunity{
     return API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.post(
-          '${API.SERVER_URL}api/community/$communityKey/manager',
+          '${API.baseUrl}api/community/$communityKey/manager',
           data: jsonEncode(body)
       ),
       onSuccess: (Response response, DateTime now) async {
@@ -319,7 +319,7 @@ class ApiCommunity{
     return API.sendRequest(
         withToken: true,
         requestSender: (Dio dio) => dio.put(
-            '${API.SERVER_URL}api/community/$communityKey/manager',
+            '${API.baseUrl}api/community/$communityKey/manager',
             data: jsonEncode(body)
         ),
         onSuccess: (Response response, DateTime now) async {
@@ -349,7 +349,7 @@ class ApiCommunity{
   }) => API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.delete(
-          '${API.SERVER_URL}api/community/$communityKey/manager',
+          '${API.baseUrl}api/community/$communityKey/manager',
           data: jsonEncode(userKeys)
       ),
       onSuccess: (Response response, DateTime now) async =>
@@ -368,7 +368,7 @@ class ApiCommunity{
   }) => API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.delete(
-        '${API.SERVER_URL}api/community/$communityKey/leave',
+        '${API.baseUrl}api/community/$communityKey/leave',
       ),
       onSuccess: (Response response, DateTime now) async => await onSuccess?.call(),
       onForceLoggedOut: onForceLoggedOut,
@@ -387,7 +387,7 @@ class ApiCommunity{
   }) => API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.get(
-          '${API.SERVER_URL}api/community/feed',
+          '${API.baseUrl}api/community/feed',
           queryParameters: {
             if(page != null) 'page': page,
             if(pageSize != null) 'pageSize': pageSize,

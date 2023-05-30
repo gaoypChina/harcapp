@@ -373,6 +373,25 @@ class ShaPref{
   //GET SET
   //GET SET
 
+  static FutureOr<void> set(String key, dynamic value){
+    if(value == null)
+      ShaPref.remove(key);
+    else if(value is bool)
+      ShaPref.setBool(key, value);
+    else if(value is String)
+      ShaPref.setString(key, value);
+    else if(value is List<String>)
+      ShaPref.setStringList(key, value);
+    else if(value is Map)
+      ShaPref.setMap(key, value);
+    else if(value is int)
+      ShaPref.setInt(key, value);
+    else if(value is double)
+      ShaPref.setDouble(key, value);
+    else if(value is DateTime)
+      ShaPref.setDateTime(key, value);
+  }
+
   static bool? Function(String key)? customGetBoolOrNull;
   static bool? getBoolOrNull(String key) {
     try {

@@ -27,6 +27,8 @@ import 'package:harcapp/_new/cat_page_song_book/song_management/own_song.dart';
 import 'package:harcapp/sync/syncable.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:pretty_json/pretty_json.dart';
+import 'package:intl/intl.dart';
+import 'package:tuple/tuple.dart';
 
 import '../../_common_classes/org/org_entity_resp.dart';
 import '../cat_page_song_book/settings/song_book_settings.dart';
@@ -34,13 +36,12 @@ import '../details/app_settings.dart';
 import '../details/app_settings_resp.dart';
 import '_api.dart';
 
-
 class PostReqMapArgs{
 
   final bool? dumpReplaceExisting;
-  final List<SyncableParam> allSyncables;
-  final List<String> removeSyncItems;
-  final Map<String, dynamic> shaPrefMap;
+  final List<SyncableParam>? allSyncables;
+  final List<String>? removeSyncItems;
+  final Map<String, dynamic>? shaPrefMap;
   final SendPort sendPort;
 
   const PostReqMapArgs(
@@ -60,23 +61,48 @@ class ApiSync{
 
   static Future<Map<String, dynamic>> buildPostReqMap(PostReqMapArgs args) async {
 
-    ShaPref.setCustomMethods(
-        customGetBoolOrNull: (String key) => args.shaPrefMap[key],
-        customSetBool: (String key, bool value) => args.shaPrefMap[key] = value,
-        customGetStringOrNull: (String key) => args.shaPrefMap[key],
-        customSetString: (String key, String value) => args.shaPrefMap[key] = value,
-        customGetStringListOrNull: (String key) => args.shaPrefMap[key],
-        customSetStringList: (String key, List<String> value) {  },
-        customGetIntOrNull: (String key) => args.shaPrefMap[key],
-        customSetInt: (String key, int value) => args.shaPrefMap[key] = value,
-        customGetDoubleOrNull: (String key) => args.shaPrefMap[key],
-        customSetDouble: (String key, double value) => args.shaPrefMap[key] = value,
-        customGetDateTimeOrNull: (String key) => args.shaPrefMap[key],
-        customSetDateTime: (String key, DateTime? value) => args.shaPrefMap[key] = value,
-        customExists: (String key) => args.shaPrefMap.containsKey(key),
-        customRemove: (String key) => args.shaPrefMap.remove(key),
-        customClear: () => args.shaPrefMap.clear()
-    );
+    Intl.defaultLocale = 'pl_PL';
+    Map<String, dynamic>? shaPrefMap = args.shaPrefMap;
+
+    if(shaPrefMap != null)
+      ShaPref.setCustomMethods(
+          customGetBoolOrNull: (String key) => shaPrefMap[key],
+          customSetBool: (String key, bool value){
+            shaPrefMap[key] = value;
+            args.sendPort.send(Tuple2(key, value));
+          },
+          customGetStringOrNull: (String key) => shaPrefMap[key],
+          customSetString: (String key, String value){
+            shaPrefMap[key] = value;
+            args.sendPort.send(Tuple2(key, value));
+          },
+          customGetStringListOrNull: (String key) => shaPrefMap[key],
+          customSetStringList: (String key, List<String> value){
+            shaPrefMap[key] = value;
+            args.sendPort.send(Tuple2(key, value));
+          },
+          customGetIntOrNull: (String key) => shaPrefMap[key],
+          customSetInt: (String key, int value){
+            shaPrefMap[key] = value;
+            args.sendPort.send(Tuple2(key, value));
+          },
+          customGetDoubleOrNull: (String key) => shaPrefMap[key],
+          customSetDouble: (String key, double value){
+            shaPrefMap[key] = value;
+            args.sendPort.send(Tuple2(key, value));
+          },
+          customGetDateTimeOrNull: (String key) => shaPrefMap[key],
+          customSetDateTime: (String key, DateTime? value){
+            shaPrefMap[key] = value;
+            args.sendPort.send(Tuple2(key, value));
+          },
+          customExists: (String key) => shaPrefMap.containsKey(key),
+          customRemove: (String key){
+            shaPrefMap.remove(key);
+            args.sendPort.send(Tuple2(key, null));
+          },
+          customClear: () => shaPrefMap.clear()
+      );
 
     // args.sendPort.send(call);
 
@@ -84,7 +110,7 @@ class ApiSync{
     if(args.dumpReplaceExisting??false)
       reqMap['dumpReplaceExisting'] = true;
 
-    for(SyncableParam param in args.allSyncables){
+    for(SyncableParam param in args.allSyncables??SyncGetRespNode.all){
       try {
         reqMap[param.paramId] = await param.buildPostReq(
             setSyncStateInProgress: true,
@@ -94,7 +120,7 @@ class ApiSync{
       }
     }
 
-    for(String removeSyncItemName in args.removeSyncItems){
+    for(String removeSyncItemName in args.removeSyncItems??RemoveSyncItem.all!){
 
       List<String> paramIds = removeSyncItemName.split(RemoveSyncItem.paramSep);
       String currParam;
@@ -141,10 +167,15 @@ class ApiSync{
 
     ReceivePort receivePort = ReceivePort();
     receivePort.listen((dynamic message) {
-      //do whatever you want to do with message!
+      if(message is Tuple2){
+        String key = message.item1;
+        dynamic value = message.item2;
+        if(value == null) ShaPref.remove(key);
+        else ShaPref.set(key, value);
+      }
     });
 
-    Map<String, dynamic> _reqMap = await compute(
+    Map<String, dynamic> reqMap = await compute(
         buildPostReqMap,
         PostReqMapArgs(
             dumpReplaceExisting,
@@ -155,44 +186,46 @@ class ApiSync{
         )
     );
 
-    Map<String, dynamic> reqMap = {};
-    if(dumpReplaceExisting??false)
-      reqMap['dumpReplaceExisting'] = true;
-
-    for(SyncableParam param in SyncGetRespNode.all){
-      try {
-        reqMap[param.paramId] = await param.buildPostReq(
-            setSyncStateInProgress: true,
-            includeDefaults: dumpReplaceExisting ?? false);
-      } on NothingToSyncException{
-        continue;
-      }
-    }
-
-    for(String removeSyncItemName in RemoveSyncItem.all!){
-
-      List<String> paramIds = removeSyncItemName.split(RemoveSyncItem.paramSep);
-      String currParam;
-      Map<dynamic, dynamic> currReqMap = reqMap;
-      while(paramIds.isNotEmpty){
-        currParam = paramIds.first;
-        paramIds.removeAt(0);
-
-        if(currReqMap[currParam] == null)
-          currReqMap[currParam] = {};
-
-        currReqMap = currReqMap[currParam];
-      }
-
-      currReqMap[RemoveSyncItem.removeReqParam] = true;
-
-    }
+    // Map<String, dynamic> reqMap = {};
+    // if(dumpReplaceExisting??false)
+    //   reqMap['dumpReplaceExisting'] = true;
+    //
+    // for(SyncableParam param in SyncGetRespNode.all){
+    //   try {
+    //     reqMap[param.paramId] = await param.buildPostReq(
+    //         setSyncStateInProgress: true,
+    //         includeDefaults: dumpReplaceExisting ?? false);
+    //   } on NothingToSyncException{
+    //     continue;
+    //   }
+    // }
+    //
+    // for(String removeSyncItemName in RemoveSyncItem.all!){
+    //
+    //   List<String> paramIds = removeSyncItemName.split(RemoveSyncItem.paramSep);
+    //   String currParam;
+    //   Map<dynamic, dynamic> currReqMap = reqMap;
+    //   while(paramIds.isNotEmpty){
+    //     currParam = paramIds.first;
+    //     paramIds.removeAt(0);
+    //
+    //     if(currReqMap[currParam] == null)
+    //       currReqMap[currParam] = {};
+    //
+    //     currReqMap = currReqMap[currParam];
+    //   }
+    //
+    //   currReqMap[RemoveSyncItem.removeReqParam] = true;
+    //
+    // }
+    //
+    // assert(const DeepCollectionEquality().equals(_reqMap, reqMap));
 
     logger.i('Sync post request:\n${prettyJson(reqMap)}');
 
     return await API.sendRequest(
       withToken: true,
-      requestSender: (Dio dio) async => await dio.post(API.SERVER_URL + url, data: reqMap),
+      requestSender: (Dio dio) async => await dio.post(API.baseUrl + url, data: reqMap),
       onSuccess: (Response response, DateTime now) async {
         dynamic orgHandler = response.data[OrgHandler.syncClassId];
         Map<String, dynamic>? appSettings = response.data[AppSettings.syncClassId];
@@ -341,7 +374,7 @@ class ApiSync{
     
     return await API.sendRequest(
         withToken: true,
-        requestSender: (Dio dio) async => await dio.get(API.SERVER_URL + url),
+        requestSender: (Dio dio) async => await dio.get(API.baseUrl + url),
         onSuccess: (Response response, DateTime now) async {
 
           dynamic orgData = response.data[OrgEntityResp.collName];
@@ -663,7 +696,7 @@ class ApiSync{
     FutureOr<void> Function(Response?)? onError
   }) async => await API.sendRequest(
         withToken: true,
-        requestSender: (Dio dio) async => await dio.get('${API.SERVER_URL}${url}last_sync'),
+        requestSender: (Dio dio) async => await dio.get('${API.baseUrl}${url}last_sync'),
         onSuccess: (Response response, DateTime now) async {
           DateTime? lastSync = DateTime.tryParse(response.data);
           await onSuccess?.call(lastSync);

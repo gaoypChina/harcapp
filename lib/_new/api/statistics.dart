@@ -54,7 +54,7 @@ class ApiStatistics{
     return await API.sendRequest(
         withToken: true,
         requestSender: (Dio dio) async => dio.post(
-            '${API.SERVER_URL}api/statistics/observation',
+            '${API.baseUrl}api/statistics/observation',
             options: Options(headers: {
               HttpHeaders.contentTypeHeader: 'application/json',
             }),

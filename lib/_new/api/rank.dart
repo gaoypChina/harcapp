@@ -73,7 +73,7 @@ class ApiRank{
       }) async => await API.sendRequest(
     withToken: true,
     requestSender: (Dio dio) => dio.post(
-      '${API.SERVER_URL}api/rank/share/$uniqName',
+      '${API.baseUrl}api/rank/share/$uniqName',
       options: Options(headers: {
         HttpHeaders.contentTypeHeader: 'application/json',
       }),
@@ -102,7 +102,7 @@ class ApiRank{
       }) async => await API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.get(
-        '${API.SERVER_URL}api/rank/share/$uniqName',
+        '${API.baseUrl}api/rank/share/$uniqName',
         options: Options(headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
         }),
@@ -126,7 +126,7 @@ class ApiRank{
       }) async => await API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.get(
-          '${API.SERVER_URL}api/rank/shared',
+          '${API.baseUrl}api/rank/shared',
       ),
       onSuccess: (Response response, DateTime now) async {
 
@@ -148,7 +148,7 @@ class ApiRank{
   }) async => await API.sendRequest(
     withToken: true,
     requestSender: (Dio dio) async => await dio.get(
-      '${API.SERVER_URL}api/rank/shared/$key',
+      '${API.baseUrl}api/rank/shared/$key',
     ),
     onSuccess: (Response response, DateTime now) async {
 

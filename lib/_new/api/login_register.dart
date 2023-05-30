@@ -143,7 +143,7 @@ class ApiRegLog{
     return await API.sendRequest(
       withToken: false,
       requestSender: (Dio dio) => dio.post(
-          '${API.SERVER_URL}api/user/authenticate',
+          '${API.baseUrl}api/user/authenticate',
           data: FormData.fromMap({LOGIN_REQ_EMAIL: email, LOGIN_REQ_PASSWORD: password})
       ),
       onSuccess: (Response response, DateTime now) async {
@@ -242,7 +242,7 @@ class ApiRegLog{
   ) async => await API.sendRequest(
     withToken: false,
     requestSender: (Dio dio) => dio.post(
-        '${API.SERVER_URL}api/user/authenticateMicrosoft',
+        '${API.baseUrl}api/user/authenticateMicrosoft',
         data: FormData.fromMap({'azureToken': azureToken})
     ),
     onSuccess: (Response response, DateTime now) async {
@@ -375,7 +375,7 @@ class ApiRegLog{
     FutureOr<void> Function()? onError,
   }) async => API.sendRequest(
     withToken: true,
-    requestSender: (Dio dio) async => await dio.get('${API.SERVER_URL}api/user/logout'),
+    requestSender: (Dio dio) async => await dio.get('${API.baseUrl}api/user/logout'),
     onSuccess: (Response response, DateTime now) async{
       await AccountData.forgetAccount();
       AccountData.callOnLogout(false);
@@ -451,7 +451,7 @@ class ApiRegLog{
 
     return await API.sendRequest(
       requestSender: (Dio dio) => dio.post(
-          '${API.SERVER_URL}api/user/register',
+          '${API.baseUrl}api/user/register',
           data: FormData.fromMap({
             REGISTER_REQ_EMAIL: email,
             REGISTER_REQ_NAME: name,
@@ -527,7 +527,7 @@ class ApiRegLog{
 
     return await API.sendRequest(
       requestSender: (Dio dio) => dio.post(
-          '${API.SERVER_URL}api/user/registerMicrosoft',
+          '${API.baseUrl}api/user/registerMicrosoft',
           data: FormData.fromMap({
             REGISTER_MICROSOFT_REQ_AZURE_TOKEN: azureToken,
             REGISTER_MICROSOFT_REQ_SEX: sexToBool[sex!],
@@ -570,7 +570,7 @@ class ApiRegLog{
     return await API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) async => dio.post(
-        '${API.SERVER_URL}api/user/mergeMicrosoft',
+        '${API.baseUrl}api/user/mergeMicrosoft',
         data: FormData.fromMap({
           'azureToken': azureToken,
         }),
@@ -606,7 +606,7 @@ class ApiRegLog{
 
     return await API.sendRequest(
       requestSender: (Dio dio) async => dio.post(
-        '${API.SERVER_URL}api/user/sendPassResetKey',
+        '${API.baseUrl}api/user/sendPassResetKey',
         data: FormData.fromMap({
           SEND_PASS_RESET_KEY_EMAIL: email,
         }),
@@ -659,7 +659,7 @@ class ApiRegLog{
 
     return await API.sendRequest(
       requestSender: (Dio dio) async => await dio.post(
-          '${API.SERVER_URL}api/user/resetPass',
+          '${API.baseUrl}api/user/resetPass',
           data: FormData.fromMap({
             RESET_PASSWORD_REQ_EMAIL:email,
             RESET_PASSWORD_REQ_PASS_RESET_KEY:resetPassKey,
@@ -683,7 +683,7 @@ class ApiRegLog{
     }) async => await API.sendRequest(
     withToken: true,
     requestSender: (Dio dio) => dio.post(
-        '${API.SERVER_URL}api/account/validate_password',
+        '${API.baseUrl}api/account/validate_password',
         data: FormData.fromMap({
           VALIDATE_PASSWORD_PASSWORD: password,
         })
@@ -709,7 +709,7 @@ class ApiRegLog{
     FutureOr<void> Function()? onError,
   }) async => await API.sendRequest(
     withToken: true,
-    requestSender: (Dio dio) async => dio.get('${API.SERVER_URL}api/user/resendEmailConfKey'),
+    requestSender: (Dio dio) async => dio.get('${API.baseUrl}api/user/resendEmailConfKey'),
     onSuccess: (Response response, DateTime now) async => await onSuccess?.call(),
     onServerMaybeWakingUp: onServerMaybeWakingUp,
     onError: (_) async => await onError?.call(),
@@ -739,7 +739,7 @@ class ApiRegLog{
     return await API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) async => dio.post(
-          '${API.SERVER_URL}api/user/confEmail',
+          '${API.baseUrl}api/user/confEmail',
           data: FormData.fromMap({CONF_EMAIL_CONF_KEY: confKey})
       ),
       onSuccess: (Response response, DateTime now) async {
@@ -765,7 +765,7 @@ class ApiRegLog{
       await API.sendRequest(
         withToken: true,
         //token: token,
-        requestSender: (Dio dio) async => await dio.get('${API.SERVER_URL}api/user/confEmail'),
+        requestSender: (Dio dio) async => await dio.get('${API.baseUrl}api/user/confEmail'),
         onSuccess: (Response response, DateTime now) => onSuccess?.call(response.data??(throw InvalidResponseError(''))),
         onServerMaybeWakingUp: onServerMaybeWakingUp,
         onError: (err) => onError?.call(err.response),

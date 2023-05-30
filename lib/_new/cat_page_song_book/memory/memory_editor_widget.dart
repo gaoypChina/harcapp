@@ -137,7 +137,6 @@ class MemoryEditorWidgetState extends State<MemoryEditorWidget> with TickerProvi
                       }
                       else
                         initMemory!.update(
-                          songLclId: song.lclId,
                           date: memoryBuilder.date,
                           place: memoryBuilder.place,
                           desc: memoryBuilder.desc,

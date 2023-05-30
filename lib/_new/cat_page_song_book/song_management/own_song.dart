@@ -99,16 +99,19 @@ class OwnSong extends Song<OwnSongGetResp>{
 
   String _code;
 
+  // @override
+  // String get code{
+  //   if(isSaved){
+  //     Map ownSongsMap = jsonDecode(readFileAsStringOrNull(getOldOwnSongFilePath)??'{}');
+  //     Map? map = ownSongsMap[lclId];
+  //     if(map == null) throw Exception();
+  //     return jsonEncode(map);
+  //   }
+  //   return _code;
+  // }
+
   @override
-  String get code{
-    if(isSaved){
-      Map ownSongsMap = jsonDecode(readFileAsStringOrNull(getOldOwnSongFilePath)??'{}');
-      Map? map = ownSongsMap[lclId];
-      if(map == null) throw Exception();
-      return jsonEncode(map);
-    }
-    return _code;
-  }
+  String get code => _code;
 
   bool isSaved;
 
@@ -141,13 +144,12 @@ class OwnSong extends Song<OwnSongGetResp>{
     else
       allOwnSongsMap = {};
 
-    Map jsonMap = jsonDecode(code);
+    Map jsonMap = jsonDecode(_code);
 
     allOwnSongsMap[lclId] = jsonMap;
     allOwnSngsJsonStr = jsonEncode(allOwnSongsMap);
     saveStringAsFile(getOldOwnSongFilePath, allOwnSngsJsonStr);
 
-    _code = '';
     isSaved = true;
 
     setAllSyncState(
@@ -183,10 +185,11 @@ class OwnSong extends Song<OwnSongGetResp>{
 
       songStuff.hasExplanationPrimWrap,
 
-      code: '',
+      code: jsonEncode(respMap),
       isSaved: true
     );
   }
+
   static Future<OwnSong> fromRespMapNotSaved(String lclId, Map respMap, {String? code}) async {
     SongDataEntity songStuff = await Song.fromRespMap(lclId, respMap);
     return OwnSong(
@@ -232,6 +235,7 @@ class OwnSong extends Song<OwnSongGetResp>{
     memoryList = song.memoryList;
     memoryMap = song.memoryMap;
     hasExplanationPrimWrap = song.hasExplanationPrimWrap;
+    _code = song.code;
   }
 
   // static Future<OwnSong> saveOwnSong(String code, {String? lclId}) async {

@@ -57,7 +57,7 @@ class ApiForum{
   }) async => await API.sendRequest(
     withToken: true,
     requestSender: (Dio dio) => dio.get(
-        '${API.SERVER_URL}api/forum',
+        '${API.baseUrl}api/forum',
     ),
     onSuccess: (Response response, DateTime now) async {
       List<Forum> forumList = [];
@@ -84,7 +84,7 @@ class ApiForum{
   }) async => await API.sendRequest(
     withToken: true,
     requestSender: (Dio dio) => dio.get(
-        '${API.SERVER_URL}api/forum/$forumKey',
+        '${API.baseUrl}api/forum/$forumKey',
     ),
     onSuccess: (Response response, DateTime now) async {
       Forum forum = Forum.fromRespMap(response.data, community);
@@ -111,7 +111,7 @@ class ApiForum{
     return API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) async => dio.post(
-          '${API.SERVER_URL}api/forum',
+          '${API.baseUrl}api/forum',
           options: Options(headers: {
             HttpHeaders.contentTypeHeader: 'application/json',
           }),
@@ -143,7 +143,7 @@ class ApiForum{
   }) => API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.delete(
-        '${API.SERVER_URL}api/forum/$forumKey'
+        '${API.baseUrl}api/forum/$forumKey'
       ),
       onSuccess: (Response response, DateTime now) async => await onSuccess?.call(),
       onForceLoggedOut: onForceLoggedOut,
@@ -172,7 +172,7 @@ class ApiForum{
     return API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.put(
-        '${API.SERVER_URL}api/forum/$forumKey',
+        '${API.baseUrl}api/forum/$forumKey',
         options: Options(headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
         }),
@@ -200,7 +200,7 @@ class ApiForum{
   }) => API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.put(
-          '${API.SERVER_URL}api/forum/$forumKey/like',
+          '${API.baseUrl}api/forum/$forumKey/like',
           options: Options(headers: {
             HttpHeaders.contentTypeHeader: 'application/json',
           }),
@@ -229,7 +229,7 @@ class ApiForum{
     return API.sendRequest(
         withToken: true,
         requestSender: (Dio dio) => dio.get(
-            '${API.SERVER_URL}api/forum/$forumKey/like',
+            '${API.baseUrl}api/forum/$forumKey/like',
             queryParameters: {
               if(pageSize != null) 'pageSize': pageSize,
               if(lastUserName != null) 'lastUserName': lastUserName,
@@ -265,7 +265,7 @@ class ApiForum{
     return API.sendRequest(
         withToken: true,
         requestSender: (Dio dio) => dio.put(
-            '${API.SERVER_URL}api/forum/$forumKey/follow',
+            '${API.baseUrl}api/forum/$forumKey/follow',
             options: Options(headers: {
               HttpHeaders.contentTypeHeader: 'application/json',
             }),
@@ -296,7 +296,7 @@ class ApiForum{
     return API.sendRequest(
         withToken: true,
         requestSender: (Dio dio) => dio.get(
-            '${API.SERVER_URL}api/forum/$forumKey/follower',
+            '${API.baseUrl}api/forum/$forumKey/follower',
             queryParameters: {
               if(pageSize != null) 'pageSize': pageSize,
               if(lastUserName != null) 'lastUserName': lastUserName,
@@ -333,7 +333,7 @@ class ApiForum{
   }) => API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.get(
-          '${API.SERVER_URL}api/forum/$forumKey/manager',
+          '${API.baseUrl}api/forum/$forumKey/manager',
           queryParameters: {
             if(pageSize != null) 'pageSize': pageSize,
             if(lastRole != null) 'lastRole': forumRoleToStr[lastRole],
@@ -375,7 +375,7 @@ class ApiForum{
     return API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.post(
-          '${API.SERVER_URL}api/forum/$forumKey/manager',
+          '${API.baseUrl}api/forum/$forumKey/manager',
           data: jsonEncode(body)
       ),
       onSuccess: (Response response, DateTime now) async {
@@ -414,7 +414,7 @@ class ApiForum{
     return API.sendRequest(
         withToken: true,
         requestSender: (Dio dio) => dio.put(
-            '${API.SERVER_URL}api/forum/$forumKey/manager',
+            '${API.baseUrl}api/forum/$forumKey/manager',
             data: jsonEncode(body)
         ),
         onSuccess: (Response response, DateTime now) async {
@@ -444,7 +444,7 @@ class ApiForum{
   }) => API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.delete(
-          '${API.SERVER_URL}api/forum/$forumKey/manager',
+          '${API.baseUrl}api/forum/$forumKey/manager',
           data: jsonEncode(userKeys)
       ),
       onSuccess: (Response response, DateTime now) async =>
@@ -466,7 +466,7 @@ class ApiForum{
   }) => API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.get(
-          '${API.SERVER_URL}api/forum/$forumKey/post',
+          '${API.baseUrl}api/forum/$forumKey/post',
           queryParameters: {
             if(page != null) 'page': page,
             if(pageSize != null) 'pageSize': pageSize,
@@ -500,7 +500,7 @@ class ApiForum{
   }) => API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) async => dio.post(
-        '${API.SERVER_URL}api/forum/$forumKey/post',
+        '${API.baseUrl}api/forum/$forumKey/post',
         options: Options(headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
         }),
@@ -535,7 +535,7 @@ class ApiForum{
   }) => API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) async => dio.put(
-        '${API.SERVER_URL}api/post/${post.key}',
+        '${API.baseUrl}api/post/${post.key}',
         options: Options(headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
         }),
@@ -569,7 +569,7 @@ class ApiForum{
   }) => API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.delete(
-        '${API.SERVER_URL}api/post/$postKey',
+        '${API.baseUrl}api/post/$postKey',
       ),
       onSuccess: (Response response, DateTime now) async =>
           await onSuccess?.call(),

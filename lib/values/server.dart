@@ -2,15 +2,16 @@
 // const String SERVER_IP = 'https://harcapp-api-harcapp-test-n3o2k7i8ch5.cloud.okteto.net';
 // const String? SERVER_PORT = null;
 
-const String IMAGE_DB_SERVER_IP = 'https://imagedb-imagedb-1-n3o2k7i8ch5.cloud.okteto.net';
+const String imageDbUrl = 'https://imagedb-imagedb-1-n3o2k7i8ch5.cloud.okteto.net';
 
-const String SERVER_IP = 'https://harcapp-api-beta-production-1-n3o2k7i8ch5.cloud.okteto.net';
-const String? SERVER_PORT = null;
+// If this is not null then it will be used instead of `backendUrl`.
+String? testBackendUrl;
+
+const String backendUrl = 'https://harcapp-api-beta-production-1-n3o2k7i8ch5.cloud.okteto.net';
 
 /* A to jeżeli zdecyzujesz się uruchomić serwer lokalnie. */
 
-// const String SERVER_IP = 'http://0.0.0.0';
-// const String SERVER_PORT = '8080';
+// const String backendUrl = 'http://0.0.0.0:8080';
 
 /*
 !!! WAŻNE !!!

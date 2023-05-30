@@ -55,7 +55,7 @@ class ApiTrop{
   }) => API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.get(
-          '${API.SERVER_URL}api/trop/shared',
+          '${API.baseUrl}api/trop/shared',
           queryParameters: {
             if(pageSize != null) 'pageSize': pageSize,
             if(lastStartTime != null) 'lastStartTime': lastStartTime,
@@ -91,7 +91,7 @@ class ApiTrop{
   }) => API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.get(
-          '${API.SERVER_URL}api/trop/$tropKey/user',
+          '${API.baseUrl}api/trop/$tropKey/user',
           queryParameters: {
             if(pageSize != null) 'pageSize': pageSize,
             if(lastRole != null) 'lastRole': tropRoleToStr[lastRole],
@@ -133,7 +133,7 @@ class ApiTrop{
     return API.sendRequest(
         withToken: true,
         requestSender: (Dio dio) => dio.post(
-            '${API.SERVER_URL}api/trop/$tropKey/user',
+            '${API.baseUrl}api/trop/$tropKey/user',
             data: jsonEncode(body)
         ),
         onSuccess: (Response response, DateTime now) async {
@@ -173,7 +173,7 @@ class ApiTrop{
     return API.sendRequest(
         withToken: true,
         requestSender: (Dio dio) => dio.put(
-            '${API.SERVER_URL}api/trop/$tropKey/user',
+            '${API.baseUrl}api/trop/$tropKey/user',
             data: jsonEncode(body)
         ),
         onSuccess: (Response response, DateTime now) async {
@@ -204,7 +204,7 @@ class ApiTrop{
   }) => API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.delete(
-          '${API.SERVER_URL}api/trop/$tropKey/user',
+          '${API.baseUrl}api/trop/$tropKey/user',
           data: jsonEncode(userKeys)
       ),
       onSuccess: (Response response, DateTime now) async =>
@@ -223,7 +223,7 @@ class ApiTrop{
   }) async => await API.sendRequest(
     withToken: true,
     requestSender: (Dio dio) async => await dio.get(
-      '${API.SERVER_URL}api/trop/$tropKey',
+      '${API.baseUrl}api/trop/$tropKey',
     ),
     onSuccess: (Response response, DateTime now) async {
 
@@ -253,7 +253,7 @@ class ApiTrop{
   }) async => await API.sendRequest(
     withToken: true,
     requestSender: (Dio dio) async => await dio.put(
-      '${API.SERVER_URL}api/trop/${trop.key}/task/$tropTaskLclId/assignee',
+      '${API.baseUrl}api/trop/${trop.key}/task/$tropTaskLclId/assignee',
       queryParameters: {
         'userNick': userNick
       }
@@ -289,7 +289,7 @@ class ApiTrop{
   }) async => await API.sendRequest(
     withToken: true,
     requestSender: (Dio dio) async => await dio.put(
-        '${API.SERVER_URL}api/trop/${trop.key}/task/$tropTaskLclId/completed',
+        '${API.baseUrl}api/trop/${trop.key}/task/$tropTaskLclId/completed',
         queryParameters: {
           'completed': completed
         }
@@ -317,7 +317,7 @@ class ApiTrop{
   }) async => await API.sendRequest(
     withToken: true,
     requestSender: (Dio dio) async => await dio.put(
-        '${API.SERVER_URL}api/trop/${trop.key}/task/$tropTaskLclId/summary',
+        '${API.baseUrl}api/trop/${trop.key}/task/$tropTaskLclId/summary',
         queryParameters: {
           'summary': summary
         }
@@ -355,10 +355,10 @@ class ApiTrop{
     for(TropTaskData task in tasks)
       tasksMap[task.lclId] = task.toCreateReqData(withLclId: false);
 
-    await API.sendRequest(
+    return await API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) async => await dio.post(
-          '${API.SERVER_URL}api/trop',
+          '${API.baseUrl}api/trop',
           options: Options(headers: {
             HttpHeaders.contentTypeHeader: 'application/json',
           }),
@@ -402,7 +402,7 @@ class ApiTrop{
   }) => API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.delete(
-          '${API.SERVER_URL}api/trop/$tropKey'
+          '${API.baseUrl}api/trop/$tropKey'
       ),
       onSuccess: (Response response, DateTime now) async => await onSuccess?.call(),
       onForceLoggedOut: onForceLoggedOut,
@@ -448,10 +448,10 @@ class ApiTrop{
       }
 
     }
-    await API.sendRequest(
+    return await API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) async => await dio.put(
-          '${API.SERVER_URL}api/trop/${trop.key!}',
+          '${API.baseUrl}api/trop/${trop.key!}',
           options: Options(headers: {
             HttpHeaders.contentTypeHeader: 'application/json',
           }),
@@ -497,7 +497,7 @@ class ApiTrop{
   }) => API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.delete(
-        '${API.SERVER_URL}api/trop/$tropKey/leave',
+        '${API.baseUrl}api/trop/$tropKey/leave',
       ),
       onSuccess: (Response response, DateTime now) async => await onSuccess?.call(),
       onForceLoggedOut: onForceLoggedOut,

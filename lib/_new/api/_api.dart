@@ -32,7 +32,7 @@ class InvalidResponseError extends Error{
 
 class API{
 
-  static const String SERVER_URL = '$SERVER_IP${SERVER_PORT==null?'':':$SERVER_PORT'}/';
+  static String baseUrl = '${testBackendUrl??backendUrl}/';
 
   static void saveErrorMessage(DioError e) async => saveStringAsFileToFolder(
       getApiErrorFolderLocalPath,
@@ -93,13 +93,13 @@ class API{
       if (e.response?.statusCode == 400 && e.response?.data is Map && e.response?.data?['error'] == "image_db_sleeping"){
         finish = await onImageDBWakingUp?.call();
         if(await isNetworkAvailable())
-          Dio().get(IMAGE_DB_SERVER_IP).onError((e, __) => Response(requestOptions: RequestOptions(path: '')));
+          Dio().get(imageDbUrl).onError((e, __) => Response(requestOptions: RequestOptions(path: '')));
       }
 
       if (e.response?.statusCode == 503 || e.response?.statusCode == 502) {
         finish = await onServerMaybeWakingUp?.call();
         if(await isNetworkAvailable())
-          Dio().get(SERVER_URL).onError((e, __) => Response(requestOptions: RequestOptions(path: '')));
+          Dio().get(baseUrl).onError((e, __) => Response(requestOptions: RequestOptions(path: '')));
 
       } else if (e.response?.statusCode == jwtInvalidHttpStatus) {
 
@@ -108,7 +108,7 @@ class API{
 
           Response response;
           try {
-            response = await Dio().get('${SERVER_URL}api/refreshToken/${AccountData.refreshToken}');
+            response = await Dio().get('${baseUrl}api/refreshToken/${AccountData.refreshToken}');
           } on DioError catch (e){
             saveErrorMessage(e);
             if (e.response?.statusCode == jwtInvalidHttpStatus && e.response?.data is Map && e.response?.data?['error'] == "refresh_token_expired") {
@@ -178,7 +178,7 @@ class API{
     await sendRequest(
         withToken: false,
         requestSender: (Dio dio) async => await dio.post(
-            '${SERVER_URL}api/song/get_memories',
+            '${baseUrl}api/song/get_memories',
             data: {'song_file_name': songFileName}
         ),
         onSuccess: (Response response, DateTime now) async {
@@ -205,7 +205,7 @@ class API{
     await sendRequest(
         withToken: true,
         requestSender: (Dio dio) async => await dio.get(
-            '${SERVER_URL}api/song/recommended',
+            '${baseUrl}api/song/recommended',
         ),
         onSuccess: (Response response, DateTime now) async {
 

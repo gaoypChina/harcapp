@@ -111,7 +111,7 @@ class ApiIndivComp{
   }) async => await API.sendRequest(
     withToken: true,
     requestSender: (Dio dio) => dio.get(
-        '${API.SERVER_URL}api/indivComp',
+        '${API.baseUrl}api/indivComp',
     ),
     onSuccess: (Response response, DateTime now) async {
       List<IndivComp> compList = [];
@@ -134,7 +134,7 @@ class ApiIndivComp{
   }) async => await API.sendRequest(
     withToken: true,
     requestSender: (Dio dio) => dio.get(
-        '${API.SERVER_URL}api/indivComp/$compKey',
+        '${API.baseUrl}api/indivComp/$compKey',
     ),
     onSuccess: (Response response, DateTime now) async {
       IndivComp comp = IndivComp.fromRespMap(response.data);
@@ -180,7 +180,7 @@ class ApiIndivComp{
     return API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.post(
-          '${API.SERVER_URL}api/indivComp',
+          '${API.baseUrl}api/indivComp',
           options: Options(headers: {
             HttpHeaders.contentTypeHeader: 'application/json',
           }),
@@ -206,7 +206,7 @@ class ApiIndivComp{
   }) => API.sendRequest(
     withToken: true,
     requestSender: (Dio dio) => dio.delete(
-      '${API.SERVER_URL}api/indivComp/$compKey',
+      '${API.baseUrl}api/indivComp/$compKey',
     ),
     onSuccess: (Response response, DateTime now) async => await onSuccess?.call(),
     onForceLoggedOut: onForceLoggedOut,
@@ -223,7 +223,7 @@ class ApiIndivComp{
   }) => API.sendRequest(
     withToken: true,
     requestSender: (Dio dio) => dio.get(
-      '${API.SERVER_URL}api/indivComp/$compKey/shareCode',
+      '${API.baseUrl}api/indivComp/$compKey/shareCode',
     ),
     onSuccess: (Response response, DateTime now) async => await onSuccess?.call(response.data),
     onForceLoggedOut: onForceLoggedOut,
@@ -241,7 +241,7 @@ class ApiIndivComp{
   }) => API.sendRequest(
     withToken: true,
     requestSender: (Dio dio) => dio.post(
-      '${API.SERVER_URL}api/indivComp/$compKey/shareCodeSearchable',
+      '${API.baseUrl}api/indivComp/$compKey/shareCodeSearchable',
       data: FormData.fromMap({'searchable': searchable}),
     ),
     onSuccess: (Response response, DateTime now) async => await onSuccess?.call(response.data['shareCodeSearchable']??false),
@@ -259,7 +259,7 @@ class ApiIndivComp{
   }) => API.sendRequest(
     withToken: true,
     requestSender: (Dio dio) => dio.get(
-      '${API.SERVER_URL}api/indivComp/joinByShareCode/$searchCode',
+      '${API.baseUrl}api/indivComp/joinByShareCode/$searchCode',
       options: Options(headers: {
         HttpHeaders.contentTypeHeader: 'application/json',
       }),
@@ -319,7 +319,7 @@ class ApiIndivComp{
     return API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.put(
-          '${API.SERVER_URL}api/indivComp/$key',
+          '${API.baseUrl}api/indivComp/$key',
           options: Options(headers: {
             HttpHeaders.contentTypeHeader: 'application/json',
           }),
@@ -347,7 +347,7 @@ class ApiIndivComp{
   }) => API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.get(
-          '${API.SERVER_URL}api/indivComp/${comp.key}/participant/$participKey',
+          '${API.baseUrl}api/indivComp/${comp.key}/participant/$participKey',
       ),
       onSuccess: (Response response, DateTime now) async {
         if(onSuccess == null) return;
@@ -373,7 +373,7 @@ class ApiIndivComp{
   }) => API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.get(
-          '${API.SERVER_URL}api/indivComp/${comp.key}/participant',
+          '${API.baseUrl}api/indivComp/${comp.key}/participant',
           queryParameters: {
             if(pageSize != null) 'pageSize': pageSize,
             if(lastRole != null) 'lastRole': compRoleToStr(lastRole),
@@ -417,7 +417,7 @@ class ApiIndivComp{
     return API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.post(
-          '${API.SERVER_URL}api/indivComp/${comp.key}/participant',
+          '${API.baseUrl}api/indivComp/${comp.key}/participant',
           data: jsonEncode(body)
       ),
       onSuccess: (Response response, DateTime now) async {
@@ -457,7 +457,7 @@ class ApiIndivComp{
     return API.sendRequest(
         withToken: true,
         requestSender: (Dio dio) => dio.put(
-            '${API.SERVER_URL}api/indivComp/${comp.key}/participant',
+            '${API.baseUrl}api/indivComp/${comp.key}/participant',
             data: jsonEncode(body)
         ),
         onSuccess: (Response response, DateTime now) async {
@@ -487,7 +487,7 @@ class ApiIndivComp{
   }) => API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.delete(
-          '${API.SERVER_URL}api/indivComp/$compKey/participant',
+          '${API.baseUrl}api/indivComp/$compKey/participant',
           data: jsonEncode(userKeys)
       ),
       onSuccess: (Response response, DateTime now) async {
@@ -508,7 +508,7 @@ class ApiIndivComp{
   }) => API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.delete(
-        '${API.SERVER_URL}api/indivComp/$compKey/leave',
+        '${API.baseUrl}api/indivComp/$compKey/leave',
       ),
       onSuccess: (Response response, DateTime now) async {
         await onSuccess?.call();
@@ -542,7 +542,7 @@ class ApiIndivComp{
     return await API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.get(
-          '${API.SERVER_URL}api/indivComp/${comp.key}/completedTask',
+          '${API.baseUrl}api/indivComp/${comp.key}/completedTask',
           queryParameters: {
             'pageSize': pageSize,
             if(lastReqTime != null) 'lastReqTime': lastReqTime.toIso8601String(),
@@ -588,7 +588,7 @@ class ApiIndivComp{
   }) => API.sendRequest(
     withToken: true,
     requestSender: (Dio dio) => dio.post(
-        '${API.SERVER_URL}api/indivComp/completedTask',
+        '${API.baseUrl}api/indivComp/completedTask',
         data: FormData.fromMap({
           if(taskKey != null) 'taskKey': taskKey,
           if(userKeys != null) 'userKeys': userKeys,
@@ -630,7 +630,7 @@ class ApiIndivComp{
   }) => API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.put(
-        '${API.SERVER_URL}api/indivComp/completedTask/$complTaskKey',
+        '${API.baseUrl}api/indivComp/completedTask/$complTaskKey',
         data: FormData.fromMap({
           'acceptState': acceptState.name,
           'revComment': revComment
@@ -652,7 +652,7 @@ class ApiIndivComp{
   }) => API.sendRequest(
     withToken: true,
     requestSender: (Dio dio) => dio.delete(
-        '${API.SERVER_URL}api/indivComp/completedTask/$complTaskKey'
+        '${API.baseUrl}api/indivComp/completedTask/$complTaskKey'
     ),
     onSuccess: (Response response, DateTime now) async => await onSuccess?.call(response.data),
     onForceLoggedOut: onForceLoggedOut,

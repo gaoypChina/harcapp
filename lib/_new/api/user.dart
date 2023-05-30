@@ -26,7 +26,7 @@ class ApiUser{
   }) async => await API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.get(
-        '${API.SERVER_URL}api/user/shadow',
+        '${API.baseUrl}api/user/shadow',
         queryParameters: {
           if(pageSize != null) 'pageSize': pageSize,
           if(lastUserName != null) 'lastUserName': lastUserName,
@@ -53,7 +53,7 @@ class ApiUser{
       }) async => await API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.post(
-        '${API.SERVER_URL}api/user/shadow',
+        '${API.baseUrl}api/user/shadow',
         data: FormData.fromMap({
           CREATE_SHADOW_REQ_NAME: name,
           CREATE_SHADOW_REQ_SEX: sexToBool[sex!]
@@ -74,7 +74,7 @@ class ApiUser{
       }) async => await API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.put(
-          '${API.SERVER_URL}api/user/shadow/${user!.key}',
+          '${API.baseUrl}api/user/shadow/${user!.key}',
           data: FormData.fromMap({
             UPDATE_SHADOW_REQ_NAME: name,
             UPDATE_SHADOW_REQ_SEX: sexToBool[sex!]
@@ -92,7 +92,7 @@ class ApiUser{
       }) async => await API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.delete(
-          '${API.SERVER_URL}api/user/shadow',
+          '${API.baseUrl}api/user/shadow',
           data: FormData.fromMap({
             DELETE_SHADOW_REQ_KEY: key,
           })
@@ -108,7 +108,7 @@ class ApiUser{
       }) async => await API.sendRequest(
     withToken: true,
     requestSender: (Dio dio) => dio.get(
-      '${API.SERVER_URL}api/user/search/$nick',
+      '${API.baseUrl}api/user/search/$nick',
     ),
     onSuccess: (Response response, DateTime now) async => await onSuccess?.call(UserDataNick.fromRespMap(response.data, nick)),
     onError: (DioError error) async {
@@ -128,7 +128,7 @@ class ApiUser{
       }) async => await API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.delete(
-          '${API.SERVER_URL}api/user',
+          '${API.baseUrl}api/user',
           data: FormData.fromMap({
             if(validPass != null) 'validPass': validPass,
             if(validAzureToken != null) 'validAzureToken': validAzureToken,
@@ -203,7 +203,7 @@ class ApiUser{
         if(validPass!=null) map[UPDATE_REQ_VALID_PASS] = validPass;
 
         return await dio.post(
-            '${API.SERVER_URL}api/user',
+            '${API.baseUrl}api/user',
             data: FormData.fromMap(map)
         );
       },
@@ -223,7 +223,7 @@ class ApiUser{
   static Future<Response?> resetNick({FutureOr<void> Function(String? nick)? onSuccess, FutureOr<void> Function(Response? response)? onError}) async => await API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.get(
-          '${API.SERVER_URL}api/user/nick'
+          '${API.baseUrl}api/user/nick'
       ),
       onSuccess: (Response response, DateTime now) async => await onSuccess?.call(response.data['nick']),
       onError: (DioError error) async => await onError!(error.response)
@@ -233,7 +233,7 @@ class ApiUser{
   static Future<Response?> nickSearchable({required searchable, FutureOr<void> Function(bool? searchable)? onSuccess, FutureOr<void> Function(Response? response)? onError}) async => await API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.post(
-          '${API.SERVER_URL}api/user/nickSearchable',
+          '${API.baseUrl}api/user/nickSearchable',
           data: FormData.fromMap({UPDATE_REQ_NICK_SEARCHABLE: searchable})
       ),
       onSuccess: (Response response, DateTime now) async => await onSuccess?.call(response.data['nickSearchable']),

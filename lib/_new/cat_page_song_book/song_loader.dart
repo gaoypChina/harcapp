@@ -175,9 +175,7 @@ class SongLoader extends SingleComputer<String, SingleComputerListener<String>>{
       try {
         Memory memory = Memory.read(basename(file.path));
 
-        Song? song = OffSong.allOfficialMap[memory.songLclId];
-        if (song == null) continue;
-        song.addMemory(memory);
+        memory.song.addMemory(memory);
         allMemories.add(memory);
         allMemoriesMap[memory.lclId] = memory;
       } catch (e) {
