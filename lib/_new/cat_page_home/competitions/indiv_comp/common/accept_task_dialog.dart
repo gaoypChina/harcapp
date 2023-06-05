@@ -134,6 +134,7 @@ class AcceptTaskWidgetState extends State<AcceptTaskWidget>{
                   hintStyle: AppTextStyle(color: hintEnab_(context)),
                   hintTop: 'Wiadomość',
                   controller: controller,
+                  textCapitalization: TextCapitalization.sentences,
                   maxLines: null,
                 ),
               ),

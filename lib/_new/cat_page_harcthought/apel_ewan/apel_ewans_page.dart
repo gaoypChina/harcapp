@@ -29,11 +29,12 @@ import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:open_file_safe_plus/open_file_safe_plus.dart';
+import 'package:open_file/open_file.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
+import 'package:permission_handler/permission_handler.dart';
 import 'package:printing/printing.dart';
 import 'package:provider/provider.dart';
 
@@ -438,12 +439,15 @@ class _PrintBottomSheetState extends State<_PrintBottomSheet>{
           SimpleButton(
             onTap: () async {
               showAppToast(context, text: 'Generowanie pliku...');
-              await popPage(context);
               OpenResult result = await generatePdf(withNotes: showNotes);
-              if(result.type == ResultType.noAppToOpen) {
+              if(!mounted) return;
+              if(result.type == ResultType.noAppToOpen)
                 showAppToast(context, text: 'Nie znaleziono aplikacji do otwarcia pliku PDF');
-                logger.d(result.message);
-              }
+              else if(result.type != ResultType.done)
+                showAppToast(context, text: 'Nie udało się otworzyć pliku');
+
+              logger.d(result.message);
+              await popPage(context);
             },
 
             radius: AppCard.bigRadius,
@@ -506,8 +510,9 @@ class _PrintBottomSheetState extends State<_PrintBottomSheet>{
       final file = File(join(output.path, 'Zbiór apeli ewangelicznych - ${folder.name}.pdf'));
       file.writeAsBytesSync(await pdf.save());
 
-      OpenResult result = await OpenFilePlus.open(file.path);
-      return result;
+      if (await Permission.manageExternalStorage.request().isGranted)
+        return await OpenFile.open(file.path);
+      return OpenResult(type: ResultType.permissionDenied);
 
     }
 
@@ -665,8 +670,9 @@ class _PrintBottomSheetState extends State<_PrintBottomSheet>{
     final file = File(join(output.path, 'Zbiór apeli ewangelicznych - ${folder.name}.pdf'));
     file.writeAsBytesSync(await pdf.save());
 
-    OpenResult result = await OpenFilePlus.open(file.path);
-    return result;
+    if (await Permission.manageExternalStorage.request().isGranted)
+      return await OpenFile.open(file.path);
+    return OpenResult(type: ResultType.permissionDenied);
 
   }
 

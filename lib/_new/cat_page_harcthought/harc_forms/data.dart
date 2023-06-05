@@ -105,7 +105,7 @@ List<HarcForm> allForms = [
       colorEnd: Colors.lightGreen
   ),
 
-  HarcForm(
+  const HarcForm(
       filename: 'sad_nad_sprawa',
       title: 'Sąd nad sprawą',
       icon: MdiIcons.gavel,
@@ -113,6 +113,26 @@ List<HarcForm> allForms = [
       tags: [tagFormaZespolowa, tagArgumentacja],
       colorStart: Colors.deepPurple,
       colorEnd: Colors.blue
+  ),
+
+  const HarcForm(
+      filename: 'wieza_kubeczkow',
+      title: 'Wieża kubeczków',
+      icon: MdiIcons.beerOutline,
+      meto: [metoZ, metoH, metoHS],
+      tags: [tagFormaZespolowa],
+      colorStart: Colors.grey,
+      colorEnd: Colors.orange
+  ),
+
+  const HarcForm(
+      filename: 'odkladanie_miotly',
+      title: 'Odkładanie miotły',
+      icon: MdiIcons.broom,
+      meto: [metoZ, metoH, metoHS],
+      tags: [tagFormaZespolowa],
+      colorStart: Colors.orange,
+      colorEnd: Colors.brown
   ),
 
 ];

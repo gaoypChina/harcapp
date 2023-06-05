@@ -144,7 +144,7 @@ class _TagWrapWidget extends StatelessWidget{
         children.add(const SizedBox(width: Dimen.ICON_MARG));
     }
     
-    return Wrap(children: children, spacing: Dimen.defMarg, runSpacing: Dimen.defMarg);
+    return Wrap(spacing: Dimen.defMarg, runSpacing: Dimen.defMarg, children: children);
     
   }
   

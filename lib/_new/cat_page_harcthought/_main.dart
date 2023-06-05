@@ -8,6 +8,8 @@ import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/games/_main_page.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/games/data.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/games/game_widget.dart';
+import 'package:harcapp/_new/cat_page_harcthought/konspekty/data.dart';
+import 'package:harcapp/_new/cat_page_harcthought/konspekty/konspekts_page.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
@@ -53,6 +55,8 @@ import 'gawedy/gaweda.dart';
 import 'harc_forms/data.dart';
 import 'harc_forms/harc_form.dart';
 import 'harc_forms/harc_forms_page.dart';
+import 'konspekty/konspekt.dart';
+import 'konspekty/konspekt_thumbnail_widget.dart';
 
 class CatPageHarcThought extends StatefulWidget{
 
@@ -254,6 +258,20 @@ class CatPageHarcThoughtState extends State<CatPageHarcThought> with TickerProvi
             ),
 
             FormsScrollView(allForms),
+
+            const SizedBox(height: Dimen.SIDE_MARG),
+
+            Padding(
+              padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
+              child: TitleShortcutRowWidget(
+                iconColor: textEnab_(context),
+                title: 'Inspiracje na konspekty',
+                textAlign: TextAlign.start,
+                onOpen: () => pushPage(context, builder: (context) => KonspektsPage(allKonspekts)),
+              ),
+            ),
+
+            KonspektsScrollView(allKonspekts),
 
             const SizedBox(height: Dimen.SIDE_MARG),
 
@@ -641,6 +659,37 @@ class FormsScrollView extends StatelessWidget{
         scrollDirection: Axis.horizontal,
         itemCount: shuffForms.length,
         itemBuilder: (context, index) => FormThumbnailWidget(shuffForms[index]),
+        separatorBuilder: (BuildContext context, int index) =>
+        const SizedBox(width: Dimen.ICON_MARG),
+      ),
+    );
+  }
+
+}
+
+class KonspektsScrollView extends StatelessWidget{
+
+  static const double height = 140;
+
+  final List<Konspekt> konspkets;
+
+  const KonspektsScrollView(this.konspkets, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+
+    List<Konspekt> shuffKonspekts = List.of(konspkets);
+    konspkets.shuffle(Random(DateTime.now().day));
+
+    return SizedBox(
+      height: height,
+      child: ListView.separated(
+        padding: const EdgeInsets.only(
+            left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
+        physics: const BouncingScrollPhysics(),
+        scrollDirection: Axis.horizontal,
+        itemCount: shuffKonspekts.length,
+        itemBuilder: (context, index) => KonspektThumbnailWidget(shuffKonspekts[index]),
         separatorBuilder: (BuildContext context, int index) =>
         const SizedBox(width: Dimen.ICON_MARG),
       ),

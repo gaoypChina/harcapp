@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:harcapp/_new/cat_page_harc_map/model/marker_data.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:tuple/tuple.dart';
 
 class HarcMapUtils{
 
@@ -20,13 +19,12 @@ class HarcMapUtils{
 
   static const double minZoomMargFactor = 1.001;
 
-  // TODO: Replace with multiple return
-  static Tuple2<int, int> getDistanceDeltas(double zoom){
+  static (int, int) getDistanceDeltas(double zoom){
     num samplesInWorldAtZoom = pow(2, zoom.floor()).toInt() * HarcMapUtils.maxMarkersOnTileWidth;
     int worldSamplingLatDistDelta = HarcMapUtils.maxLatDistSpan ~/ samplesInWorldAtZoom;
     int worldSamplingLngDistDelta = HarcMapUtils.maxLngDistSpan ~/ samplesInWorldAtZoom;
 
-    return Tuple2(worldSamplingLatDistDelta, worldSamplingLngDistDelta);
+    return (worldSamplingLatDistDelta, worldSamplingLngDistDelta);
   }
 
   static double distance(double lat1, double lng1, double lat2, double lng2) {
@@ -72,7 +70,7 @@ class HarcMapUtils{
     return lng + (180 / pi) * (marginFactor * meters.toDouble() / earthRadius) / cos((pi/180.0)*lat);
   }
 
-  static Tuple2<double, Tuple4<double, double, double, double>> getMinZoomData(
+  static (double, (double, double, double, double)) getMinZoomData(
     double lat,
     double lng,
     MarkerData zoomSource,
@@ -102,10 +100,9 @@ class HarcMapUtils{
     // Same as: distanceToMinZoomAppearance(distance_(zoomSource, lat, lng));
     double minZoomAppearance = sqrt(deltaX*deltaX + deltaY*deltaY);
 
-    // TODO: Return multiple values from function in Dart 3
-    return Tuple2(
+    return (
         minZoomAppearance,
-        Tuple4(minZoomNorthLat, minZoomSouthLat, minZoomWestLng, minZoomEastLng)
+        (minZoomNorthLat, minZoomSouthLat, minZoomWestLng, minZoomEastLng)
     );
   }
 

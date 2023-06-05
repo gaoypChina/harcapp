@@ -420,14 +420,7 @@ class MarkerData{
 
     if(visibility == MarkerVisibility.COMMUNITY_CIRCLE_MEMBERS_ONLY){
       MarkerData zoomSource = findZoomSource(lat, lng);
-      Tuple2<double, Tuple4<double, double, double, double>> resp = HarcMapUtils.getMinZoomData(lat, lng, zoomSource);
-      minZoomAppearance = resp.item1;
-      Tuple4<double, double, double, double> bounds = resp.item2;
-
-      minZoomNorthLat = bounds.item1;
-      minZoomSouthLat = bounds.item2;
-      minZoomWestLng = bounds.item3;
-      minZoomEastLng = bounds.item4;
+      (minZoomAppearance, (minZoomNorthLat, minZoomSouthLat, minZoomWestLng, minZoomEastLng)) = HarcMapUtils.getMinZoomData(lat, lng, zoomSource);
     }
 
     return MarkerData(

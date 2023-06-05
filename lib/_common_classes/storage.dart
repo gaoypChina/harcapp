@@ -2,9 +2,10 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/services.dart';
-import 'package:open_file_safe_plus/open_file_safe_plus.dart';
+import 'package:open_file/open_file.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 late String _localPath;
 Future<void> initPaths() async{
@@ -151,5 +152,8 @@ Future<OpenResult> openAsset(String assetPath) async {
 
   file.writeAsBytesSync(list);
 
-  return OpenFilePlus.open(file.path);
+  if (await Permission.manageExternalStorage.request().isGranted)
+    return OpenFile.open(file.path);
+  return OpenResult(type: ResultType.permissionDenied);
+
 }

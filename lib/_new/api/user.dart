@@ -207,13 +207,17 @@ class ApiUser{
             data: FormData.fromMap(map)
         );
       },
-      onSuccess: (Response response, DateTime now) async =>
+      onSuccess: (Response response, DateTime now) async {
+        Map responseMap = response.data;
+        String? refreshToken = responseMap['refreshToken'];
+        if(refreshToken != null) AccountData.writeRefreshToken(refreshToken);
         await onSuccess?.call(
           response.data[UPDATE_REQ_EMAIL],
           response.data[UPDATE_REQ_JWT],
           response.data[UPDATE_REQ_NAME],
           strToSex[response.data[UPDATE_REQ_SEX]],
-        ),
+        );
+      },
       onError: (err) async => onError?.call(err.response),
     );
 

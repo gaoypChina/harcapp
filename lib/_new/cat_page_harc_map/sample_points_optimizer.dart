@@ -5,7 +5,6 @@ import 'package:flutter_map/flutter_map.dart' hide Polygon;
 import 'package:harcapp/_common_classes/polygon.dart';
 import 'package:harcapp/logger.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:tuple/tuple.dart';
 import 'package:polybool/polybool.dart';
 
 import 'model/marker_data.dart';
@@ -68,8 +67,7 @@ class SamplePointsOptimizer{
     return cached[zoom]![sample.latitude]![sample.longitude] != null;
   }
 
-  // TODO: return multiple values
-  static Tuple3<List<LatLng>, List<List<bool>>, bool> createSamplePoints(
+  static (List<LatLng>, List<List<bool>>, bool) createSamplePoints(
       double northLat,
       double southLat,
       double westLng,
@@ -82,17 +80,15 @@ class SamplePointsOptimizer{
       }
   ){
 
-    if(northLat == double.nan) return const Tuple3([], [], true);
-    if(southLat == double.nan) return const Tuple3([], [], true);
-    if(westLng == double.nan) return const Tuple3([], [], true);
-    if(eastLng == double.nan) return const Tuple3([], [], true);
-    if(zoom == double.nan) return const Tuple3([], [], true);
+    if(northLat.isNaN) return const ([], [], true);
+    if(southLat.isNaN) return const ([], [], true);
+    if(westLng.isNaN) return const ([], [], true);
+    if(eastLng.isNaN) return const ([], [], true);
+    if(zoom.isNaN) return const ([], [], true);
 
     SphericalMercator mercator = const SphericalMercator();
 
-    Tuple2<int, int> distDeltas = HarcMapUtils.getDistanceDeltas(zoom);
-    int latDistDelta = distDeltas.item1;
-    int lngDistDelta = distDeltas.item2;
+    var (latDistDelta, lngDistDelta) = HarcMapUtils.getDistanceDeltas(zoom);
 
     CustomPoint startPoint = mercator.project(LatLng(southLat, westLng));
     CustomPoint endPoint = mercator.project(LatLng(northLat, eastLng));
@@ -152,65 +148,9 @@ class SamplePointsOptimizer{
       }
     }
 
-    return Tuple3(samples, rectDecompMatrix, nothingSkipped);
+    return (samples, rectDecompMatrix, nothingSkipped);
 
   }
-
-  // static List<LatLng> emptySpaceSamplePoints(
-  //     double northLat,
-  //     double southLat,
-  //     double westLng,
-  //     double eastLng,
-  //
-  //     double zoom,
-  //
-  //     List<LatLng> samplingPoints,
-  // ){
-  //
-  //   Set<MarkerData> markersInBounds = MarkerData.findMarkersInBounds(
-  //       northLat: northLat,
-  //       southLat: southLat,
-  //       westLng: westLng,
-  //       eastLng: eastLng,
-  //
-  //       zoom: zoom
-  //   );
-  //
-  //   logger.d('LoadedPointsCache :: Marker count found in bounds: ${markersInBounds.length}');
-  //
-  //   // cachedZoom == null means that caching is disabled.
-  //   if(markersInBounds.isEmpty || cachedZoom == null)
-  //     return [];
-  //
-  //   Tuple2<int, int> distDeltas = HarcMapUtils.getDistanceDeltas(zoom);
-  //   int latDistDelta = distDeltas.item1;
-  //   int lngDistDelta = distDeltas.item2;
-  //
-  //   Tuple2<int, int> cachedDistDeltas = HarcMapUtils.getDistanceDeltas(cachedZoom!);
-  //   int cachedLatDistDelta = cachedDistDeltas.item1;
-  //   int cachedLngDistDelta = cachedDistDeltas.item2;
-  //
-  //   List<LatLng> samplePointsWithPotentialMarkers = [];
-  //   for(MarkerData marker in markersInBounds){
-  //
-  //     int startLat = marker.latDist - cachedLatDistDelta - (marker.latDist % latDistDelta);
-  //     int endLat = marker.latDist + 2*cachedLatDistDelta - (marker.latDist % latDistDelta);
-  //     for(int y = startLat; y <= endLat; y += latDistDelta){
-  //       int startLng = marker.lngDist - cachedLngDistDelta - (marker.lngDist % lngDistDelta);
-  //       int endLng = marker.lngDist + 2*cachedLngDistDelta - (marker.lngDist % lngDistDelta);
-  //       for(int x = startLng; x <= endLng; x += lngDistDelta)
-  //         samplePointsWithPotentialMarkers.add(const SphericalMercator().unproject(CustomPoint(x, y)));
-  //     }
-  //   }
-  //
-  //   List<LatLng> emptySpaceSamplingPoints = [];
-  //   for(LatLng latLng in samplingPoints)
-  //     if(!samplePointsWithPotentialMarkers.contains(latLng))
-  //       emptySpaceSamplingPoints.add(latLng);
-  //
-  //   return emptySpaceSamplingPoints;
-  //
-  // }
 
   static List<LatLng> otherMarkersUncertaintySamplePoints(
       double northLat,
@@ -243,9 +183,7 @@ class SamplePointsOptimizer{
     if(markersInBounds.isEmpty || cachedZoom == null)
       return [];
 
-    Tuple2<int, int> distDeltas = HarcMapUtils.getDistanceDeltas(zoom);
-    int latDistDelta = distDeltas.item1;
-    int lngDistDelta = distDeltas.item2;
+    var (latDistDelta, lngDistDelta) = HarcMapUtils.getDistanceDeltas(zoom);
 
     List<LatLng> samplePointsWithPotentialMarkers = [];
     for(MarkerData marker in markersInBounds){

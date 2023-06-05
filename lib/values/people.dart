@@ -81,6 +81,7 @@ List<Person> allPeople = [
   JOANNA_RACZKO,
   JULIA_BIENIEK,
   JULIA_GRODZKA,
+  JULIA_JAROSZ,
   JULIA_KARAS,
   JULIA_PILCH,
   JULIA_SIUDMAK,
@@ -622,6 +623,15 @@ const Person JULIA_BIENIEK = Person(
     druzyna: '254. Warszawska Drużyna Harcerska im. Janka Bytnara "Rudego" Matecznik',
     org: Org.zhp,
     email: ['juliamariabieniek@gmail.com']
+);
+const Person JULIA_JAROSZ = Person(
+  name: 'Julia Jarosz',
+  druzyna: '72. WDH "Knieja"',
+  hufiec: huf_zhp_warszawa_praga_pn,
+  stopI: 'pwd.',
+  stopH: StopHarc.zhpHOd,
+  org: Org.zhp,
+  email: ['julia.jarosz@zhp.net.pl']
 );
 const Person JULIA_GRODZKA = Person(
     name: 'Julka Grodzka',

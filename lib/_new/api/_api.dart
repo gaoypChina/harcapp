@@ -3,6 +3,8 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:harcapp/_common_classes/single_computer/single_computer.dart';
+import 'package:harcapp/_common_classes/single_computer/single_computer_listener.dart';
 import 'package:harcapp/_common_classes/storage.dart';
 import 'package:harcapp/_common_classes/time_settings.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/memory.dart';
@@ -27,6 +29,37 @@ class InvalidResponseError extends Error{
 
   @override
   String toString() => 'InvalidResponseError. Missing param: $paramName.';
+
+}
+
+RefreshTokenHandler refreshTokenHandler = RefreshTokenHandler();
+class RefreshTokenHandler extends SingleComputer<DioError, SingleComputerListener<DioError>>{
+
+  @override
+  String get computerName => 'RefreshTokenHandler';
+
+  @override
+  Future<void> perform() async {
+
+    debugPrint('Jwt expired. Attempting a token refresh...');
+
+    Response response;
+    try {
+      response = await Dio().get(
+          '${API.baseUrl}api/refreshToken/${AccountData.refreshToken}',
+          queryParameters: {
+            'jwt': AccountData.jwt
+          }
+      );
+
+      await AccountData.writeJwt(response.data['jwt']);
+      await AccountData.writeRefreshToken(response.data['refreshToken']);
+
+    } on DioError catch (e){
+      await callError(e);
+    }
+
+  }
 
 }
 
@@ -88,6 +121,7 @@ class API{
       return response;
     } on DioError catch (e) {
       debugPrint('HarcApp API: ${e.requestOptions.method} ${e.requestOptions.path} :: error! :: ${e.message} :: ${e.response?.data?.toString()}');
+      if(e.response?.statusCode != jwtInvalidHttpStatus) saveErrorMessage(e);
       bool? finish;
 
       if (e.response?.statusCode == 400 && e.response?.data is Map && e.response?.data?['error'] == "image_db_sleeping"){
@@ -104,49 +138,50 @@ class API{
       } else if (e.response?.statusCode == jwtInvalidHttpStatus) {
 
         if(!jwtTokenRefreshed && e.response?.data is Map && e.response?.data['error'] == 'jwt_expired'){
-          debugPrint('Jwt expired. Attempting a token refresh...');
 
-          Response response;
-          try {
-            response = await Dio().get('${baseUrl}api/refreshToken/${AccountData.refreshToken}');
-          } on DioError catch (e){
-            saveErrorMessage(e);
-            if (e.response?.statusCode == jwtInvalidHttpStatus && e.response?.data is Map && e.response?.data?['error'] == "refresh_token_expired") {
-              await handleForgetAccount();
-              finish = await onForceLoggedOut?.call();
+          Response? response;
+
+          SingleComputerListener<DioError> listener = SingleComputerListener(
+            onEnd: (DioError? error, _) async {
+
+              if(error == null)
+                response = await sendRequest(
+                    withToken: withToken,
+                    requestSender: requestSender,
+                    onSuccess: onSuccess,
+                    onEmailNotConf: onEmailNotConf,
+                    onForceLoggedOut: onForceLoggedOut,
+                    onServerMaybeWakingUp: onServerMaybeWakingUp,
+                    onImageDBWakingUp: onImageDBWakingUp,
+                    onError: onError,
+
+                    saveServerTime: saveServerTime,
+                    jwtTokenRefreshed: true
+                );
+              else{
+                response = error.response;
+                saveErrorMessage(error);
+                if (error.response?.statusCode == jwtInvalidHttpStatus) {
+                  await handleForgetAccount();
+                  finish = await onForceLoggedOut?.call();
+                }
+                if(finish??false) return;
+                await onError?.call(error);
+              }
+
             }
-            if(finish??false)
-              return e.response;
-            await onError?.call(e);
-            return e.response;
-          }
-
-          await AccountData.writeJwt(response.data['jwt']);
-          await AccountData.writeRefreshToken(response.data['refreshToken']);
-          
-          return sendRequest(
-              withToken: withToken,
-              requestSender: requestSender,
-              onSuccess: onSuccess,
-              onEmailNotConf: onEmailNotConf,
-              onForceLoggedOut: onForceLoggedOut,
-              onServerMaybeWakingUp: onServerMaybeWakingUp,
-              onImageDBWakingUp: onImageDBWakingUp,
-              onError: onError,
-
-              saveServerTime: saveServerTime,
-              jwtTokenRefreshed: true
           );
+          refreshTokenHandler.addListener(listener);
+          await refreshTokenHandler.run(awaitFinish: true);
+          refreshTokenHandler.removeListener(listener);
+
+          return response;
+
         }
 
-        await handleForgetAccount();
-
-        finish = await onForceLoggedOut?.call();
       } else if(e.response?.statusCode == HttpStatus.unauthorized){
         finish = await onEmailNotConf?.call();
       }
-
-      saveErrorMessage(e);
 
       if(finish??false)
         return e.response;

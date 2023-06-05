@@ -73,7 +73,7 @@ abstract class SingleComputer<TErr, TListener extends SingleComputerListener<TEr
 
       for(TListener listener in listeners)
         if(!_listenersToRemove.contains(listener))
-          listener.onEnd?.call(null, false);
+          await listener.onEnd?.call(null, false);
 
       _removeListeners();
 
@@ -91,7 +91,7 @@ abstract class SingleComputer<TErr, TListener extends SingleComputerListener<TEr
 
     for(TListener listener in listeners)
       if (!_listenersToRemove.contains(listener))
-        listener.onStart?.call();
+        await listener.onStart?.call();
 
     _removeListeners();
 
@@ -130,7 +130,7 @@ abstract class SingleComputer<TErr, TListener extends SingleComputerListener<TEr
     checkRunningSemaphore.release();
 
     for(TListener listener in listeners)
-      listener.onEnd?.call(_errorCalled, forceFinished);
+      await listener.onEnd?.call(_errorCalled, forceFinished);
 
     _errorCalled = null;
 

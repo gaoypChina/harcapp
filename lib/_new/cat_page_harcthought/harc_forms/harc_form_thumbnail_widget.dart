@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_widgets/gradient_icon.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
@@ -67,10 +68,7 @@ class FormThumbnailWidget extends StatelessWidget{
             colorEnd: form.colorEnd.withOpacity(.25),
             radius: AppCard.bigRadius,
             child: InkWell(
-                onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => HarcFormWidget(form))
-                ),
+                onTap: () => pushPage(context, builder: (context) => HarcFormWidget(form)),
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Row(
@@ -120,7 +118,7 @@ class FormThumbnailWidget extends StatelessWidget{
                                   ),
                                 ));
 
-                              return Row(children: children, mainAxisAlignment: MainAxisAlignment.end);
+                              return Row(mainAxisAlignment: MainAxisAlignment.end, children: children);
 
                             })
 

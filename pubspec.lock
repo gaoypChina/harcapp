@@ -181,10 +181,10 @@ packages:
     dependency: transitive
     description:
       name: code_builder
-      sha256: "0d43dd1288fd145de1ecc9a3948ad4a6d5a82f0a14c4fdd0892260787d975cbe"
+      sha256: "4ad01d6e56db961d29661561effde45e519939fdaeb46c351275b182eac70189"
       url: "https://pub.dev"
     source: hosted
-    version: "4.4.0"
+    version: "4.5.0"
   collection:
     dependency: transitive
     description:
@@ -799,10 +799,10 @@ packages:
     dependency: transitive
     description:
       name: image_picker_android
-      sha256: c2f3c66400649bd132f721c88218945d6406f693092b2f741b79ae9cdb046e59
+      sha256: "80dd8979b54353c6beea42aac82a1ef6d9ae7eb3a4c0d17f87789de9a292e59f"
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.6+16"
+    version: "0.8.6+17"
   image_picker_for_web:
     dependency: transitive
     description:
@@ -1027,14 +1027,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.3.1"
-  open_file_safe_plus:
+  open_file:
     dependency: "direct main"
     description:
-      name: open_file_safe_plus
-      sha256: "25ff2eecc588713dcc74708520569ac3f4dc3ace15007682a5a7c74ffbcd527d"
+      name: open_file
+      sha256: c85fbdc6ea2f44adcd999a74821a1436e620f9dfc167cda1ad0c9fb243616257
       url: "https://pub.dev"
     source: hosted
-    version: "0.0.2"
+    version: "3.3.1"
   optional:
     dependency: "direct main"
     description:
