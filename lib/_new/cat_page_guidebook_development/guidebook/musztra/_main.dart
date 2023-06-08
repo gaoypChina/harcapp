@@ -306,7 +306,7 @@ class MusztraFragmentState extends State<MusztraFragment> with ModuleStatsMixin{
           'Szyk jest to ustalone regulaminem ustawienie harcerzy w celu wykonania wspólnych działań.'
               '\n\nRodzaje szyków:'
               '\n• Zbiórkowy - szereg, dwuszereg, trójszereg itd.,'
-              '\n• Marszowy - rząd, kolumna dwójkowa, kolumna trójkowa itd.'
+              '\n• Marszowy - rząd, kolumna dwójkowa, kolumna trójkowa itd..'
       ),
       Item('Elementy szyku:',
           '• <b>Front</b> - kierunek ustawienia harcerzy,'

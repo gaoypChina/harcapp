@@ -187,7 +187,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                       tasks: [
                         'Wykonałem(-am) co najmniej jedno z poniższych zadań:'
                             '\n\na) Prawidłowo wykonałem(-am) musztrę z laską skautową.'
-                            '\n\nb) Prawidłowo zachowałem(-am) się podczas musztry zespołowej, pełniąc funkcję sztandarowego, wykonując chwyty sztandarem, oddając honory itd.'
+                            '\n\nb) Prawidłowo zachowałem(-am) się podczas musztry zespołowej, pełniąc funkcję sztandarowego, wykonując chwyty sztandarem, oddając honory itd..'
                             '\n\nc) Przygotowałem(-am) poczet sztandarowy do wystąpienia i dowodziłem(-am) nim podczas uroczystego wydarzenia.',
                         'Kierowałem(-am) apelem jednostki większej niż drużyna (szczepu, rajdu, turnieju zastępów, hufca).',
                         'Wykonałem(-am) jedno z poniższych zadań:'
@@ -2521,7 +2521,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                         'Zdobyłem(-am) co najmniej 3 szczyty powyżej 1300 m n.p.m. w tym co najmniej jeden zimą i co najmniej jeden powyżej 1500 m n.p.m.',
                         'Zdobyłem(-am) 3 szczyty górskie w warunkach zimowych. Zapoznałem(-am) się z komunikatem lawinowym przed wyruszeniem na wędrówkę, jeśli była taka potrzeba, oraz dobrałem(-am) właściwy sprzęt turystyczny.',
                         'Wykonałem(-am) jedno z poniższych zadań:'
-                            '\n\na) Uczestniczyłem(-am) w festiwalu górskim lub spotkaniu, np. Przeglądzie Filmów Górskich, Kolosach, itd.'
+                            '\n\na) Uczestniczyłem(-am) w festiwalu górskim lub spotkaniu, np. Przeglądzie Filmów Górskich, Kolosach, itd..'
                             '\n\nb) Zorganizowałem(-am) spotkanie z taternikiem/alpinistą/himalaistą dla wędrowników z mojego środowiska.'
                       ]),
                 ]
@@ -2909,7 +2909,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                       comment:'Próbuje różnych rodzajów wyrazu artystycznego tworząc przedmioty lub prace ubarwiające życie w drużynie, w domu lub w szkole.',
                       tasks: [
                         'Wykonałem(-am) co najmniej 3 ozdobne strony do kroniki (np. stronę tytułową, wpisy zawierające ozdobne inicjały, rysunki itp.) trzema różnymi stylami i technikami lub trzy ilustracje na potrzeby drużyny, do swojego śpiewnika czy na potrzeby szkoły lub domu.',
-                        'Wykonałem(-am) drobne przedmioty ozdobne z prostych materiałów (karton, tworzywo leśne, sznurek owoce itp.) - na przykład zdobnictwo obozowe, rekwizyty do zbiórki, ozdoby na choinkę itd.',
+                        'Wykonałem(-am) drobne przedmioty ozdobne z prostych materiałów (karton, tworzywo leśne, sznurek owoce itp.) - na przykład zdobnictwo obozowe, rekwizyty do zbiórki, ozdoby na choinkę itd..',
                         'Umiem posługiwać się farbami, wykorzystując resztki farb do końca zrealizowałem jedno z poniższych zadań:'
                             '\n\na) Wykonałem(-am) ozdobny napis właściwie zestawiając kolory'
                             '\n\nb) Namalowałem(-am) obraz wypróbowując różne metody nakładania farby (mokry pędzel/suchy pędzel, kawałek kartonu/gąbka lub dowolne inne).'
@@ -4691,7 +4691,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                       tasks: [
                         'Zaprezentowałem(-am) i objaśniłem(-am) swojemu zastępowi albo rówieśnikom spoza drużyny kilka chwytów, kopnięć, bloków (min. 10 przykładów) charakterystycznych dla mojego stylu walki.',
                         'Wykonałem(-am) 3 dowolne pady (ćwiczyłem(-am) je pod okiem instruktora/nauczyciela), dodatkowo przeszedłem/przeszłam test sprawnościowy: 20 pompek na kościach, 40 brzuszków, 10 podciągnięć.',
-                        'Skompletowałem(-am) strój i akcesoria potrzebne do ćwiczeń (np. gi, dobok, ochraniacze, rękawiczki). Nauczyłem(-am) się o niego dbać, np. prawidłowo składać, zakładać, itd.',
+                        'Skompletowałem(-am) strój i akcesoria potrzebne do ćwiczeń (np. gi, dobok, ochraniacze, rękawiczki). Nauczyłem(-am) się o niego dbać, np. prawidłowo składać, zakładać, itd..',
                         'Przez okres próby regularnie ćwiczyłem(-am) min. raz w tygodniu. Wykonywałem(-am) odpowiednią rozgrzewkę przed treningami oraz rozciąganie po treningu. Przed treningiem wyciszałem(-am) swój umysł, poświęcając się treningowi.'
                       ]),
 
@@ -4770,7 +4770,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                         '"Wykonałem(-am) jedno z poniższych zadań:'
                             '\n\na) Razem z zastępem/rówieśnikami braliśmy udział w wydarzeniu sportowym związanym z biegami,'
                             '\n\nb) Wziąłem(wzięłam) udział w biegach drużynowych lub w biegach bazujących na współpracy z innymi uczestnikami, np. Runmagedon.',
-                        'Zgromadziłem(-am) profesjonalny sprzęt, np. odpowiednie buty biegowe, plecak do biegania, itd.'
+                        'Zgromadziłem(-am) profesjonalny sprzęt, np. odpowiednie buty biegowe, plecak do biegania, itd..'
                       ]),
 
                   SprawData(
@@ -5752,7 +5752,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                       level: 4,
                       comment: 'Potrafi dowodzić wioślarzami i wydawać komendy. Wie, jak podjąć człowieka, który wypadł za burtę. Przekazuje umiejętności wiosłowania młodszym.',
                       tasks: [
-                        'Dowodziłem(-am) wioślarzami na szalupie. Poprawnie wydawałem(-am) komendy wioślarzom i sternikowi (wiosła, wiosła basta, naprzód, prawa naprzód, lewa wstecz) itd.',
+                        'Dowodziłem(-am) wioślarzami na szalupie. Poprawnie wydawałem(-am) komendy wioślarzom i sternikowi (wiosła, wiosła basta, naprzód, prawa naprzód, lewa wstecz) itd..',
                         'Wiosłowałem(-am) sposobem rybackim "z ręki" jednym wiosłem.',
                         'Wykonałem(-am) na łodzi wiosłowej podejście do człowieka za burtą. Podjąłem(-ęłam) człowieka na pokład.',
                         'Zorganizowałem(-am) naukę wiosłowania pagajem z burty, jednym i dwoma wiosłami w dulkach, piórkowania, śrubkowania, wiosłowania na pych.',
@@ -7386,7 +7386,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                       level: 4,
                       comment:'Nazywa zabawy źrebiąt. Poznaje zasady planowania sesji treningowych oraz zalety i wady wczesnego szkolenia źrebiąt. Prezentuje zasady postępowania przy źrebiętach.',
                       tasks: [
-                        'Obserwując zabawy źrebiąt na pastwisku, wskazałem(-am) i nazwałem(-am) zabawy źrebiąt np. przyszczypywanie, skakanie, podskoki, wspinanie się itd.',
+                        'Obserwując zabawy źrebiąt na pastwisku, wskazałem(-am) i nazwałem(-am) zabawy źrebiąt np. przyszczypywanie, skakanie, podskoki, wspinanie się itd..',
                         'Poznałem(-am) zasady planowania sesji imprintingowych, dowiedziałem(-am) się, co w której sesji można wprowadzić, oraz ile powinna trwać taka sesja. Pod opieką specjalisty zaplanowałem(-am) jedną sesję treningową.',
                         'Przedstawiłem(-am) w dowolnej formie zalety i wady wczesnego szkolenia źrebiąt.',
                         'Pod opieką specjalisty zaprezentowałem(-am) zastępowi zasady bezpiecznego podstępowania przy źrebakach, pokazałem(-am), jak prawidłowo przyuczać do zakładania kantara, jak odczulać na dotyk człowieka, jak prowadzić na uwiązie oraz jak odczulić źrebię na różne przedmioty, np. folia, parasolka.',

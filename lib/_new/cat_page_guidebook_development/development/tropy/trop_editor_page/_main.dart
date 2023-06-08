@@ -7,14 +7,18 @@ import 'package:harcapp/_common_widgets/border_material.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_common_widgets/loading_widget.dart';
+import 'package:harcapp/_common_widgets/paging_loadable_page/paging_loadable_base_scroll_view_page.dart';
 import 'package:harcapp/_new/api/trop.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_editor_page/providers.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_icon.dart';
+import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_users_page/trop_user_tile.dart';
+import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_users_page/trop_users_page.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/account_page/account_page.dart';
 import 'package:harcapp/account/search_user_dialog.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:harcapp/values/app_values.dart';
+import 'package:harcapp/values/colors.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
@@ -112,7 +116,7 @@ class TropEditorPageState extends State<TropEditorPage>{
                   List<String> aims = AimControllersProvider.of(context).getAims();
                   DateTime startTime = StartTimeProvider.of(context).startTime;
                   DateTime endTime = EndTimeProvider.of(context).endTime;
-                  List<TropTaskData> tasks = [];
+                  List<TropTaskEditableData> tasks = [];
 
                   if(startTime.isAfter(endTime)){
                     showAppToast(context, text: 'Trop zaczyna się później niż kończy? Czas działa w drugą stronę...');
@@ -124,12 +128,11 @@ class TropEditorPageState extends State<TropEditorPage>{
 
                   bool isAnyTaskShared = false;
 
-                  for(TropTaskEditableData taskTmp in TasksProvider.of(context).tasks) {
+                  for(TropTaskEditableData task in TasksProvider.of(context).tasks) {
 
-                    if(taskTmp.isEmpty) continue;
+                    if(task.isEmpty) continue;
 
-                    TropTaskData task = taskTmp.toTaskData(setLclIdIfNull: true);
-                    if(task.newAssignee != null) isAnyTaskShared = true;
+                    if(task.newAssigneeByNick != null || task.newAssigneeByKey != null) isAnyTaskShared = true;
                     tasks.add(task);
                   }
 
@@ -198,6 +201,9 @@ class TropEditorPageState extends State<TropEditorPage>{
                           onSuccess: (trop) async {
                             if(!initTrop!.isShared)
                               trop.changedToShared(trop.lastUpdateTime!);
+                            TropSharedPreviewData? prevData = TropSharedPreviewData.allMapByKey![trop.key];
+                            if(prevData != null)
+                              prevData.lastUpdateTime = trop.lastUpdateTime!;
                             await popPage(context); // Close loading widget.
                             await popPage(context);
                             onSaved?.call(trop);
@@ -227,7 +233,7 @@ class TropEditorPageState extends State<TropEditorPage>{
                       initTrop!.aims = aims;
                       initTrop!.startDate = startTime;
                       initTrop!.endDate = endTime;
-                      initTrop!.tasks = tasks.map((t) => t.toTask(initTrop!)).toList();
+                      initTrop!.tasks = tasks.map((t) => t.toTaskData(setLclIdIfNull: true).toTask(initTrop!)).toList();
                       initTrop!.saveOwn();
                       synchronizer.post();
 
@@ -254,6 +260,7 @@ class TropEditorPageState extends State<TropEditorPage>{
                           onSuccess: (trop) async {
                             trop.saveShared();
                             Trop.addSharedToAll(trop);
+                            TropSharedPreviewData.addToAll(trop.toPreviewData());
                             await popPage(context); // Close loading widget.
                             await popPage(context);
                             onSaved?.call(trop);
@@ -287,7 +294,7 @@ class TropEditorPageState extends State<TropEditorPage>{
                           endDate: endTime,
                           completed: false,
                           completionTime: null,
-                          tasks: tasks,
+                          tasks: tasks.map((t) => t.toTaskData(setLclIdIfNull: true)).toList(),
                           lastUpdateTime: null
                       );
                       trop.saveOwn();
@@ -604,6 +611,7 @@ class TropEditorPageState extends State<TropEditorPage>{
                                   Expanded(child: Align(
                                     alignment: Alignment.centerLeft,
                                     child: AssigneeButton(
+                                      initTrop,
                                       prov.tasks[index],
                                       onAssigneeSelected: (_) => setState(() {}),
                                     ),
@@ -726,10 +734,11 @@ class TropEditorPageState extends State<TropEditorPage>{
 
 class AssigneeButton extends StatelessWidget{
 
+  final Trop? trop;
   final TropTaskEditableData task;
-  final void Function(TropUserNick)? onAssigneeSelected;
+  final void Function(TropUser?)? onAssigneeSelected;
 
-  const AssigneeButton(this.task, {this.onAssigneeSelected, super.key});
+  const AssigneeButton(this.trop, this.task, {this.onAssigneeSelected, super.key});
 
   String? get assigneeName{
     if(task.assignee != null)
@@ -777,7 +786,9 @@ class AssigneeButton extends StatelessWidget{
 
                   if(newText != null) {
                     task.currentAssignee = null;
-                    task.newAssignee = null;
+                    task.newAssigneeByNick = null;
+                    task.newAssigneeByKey = null;
+                    task.removed = true;
                     task.assigneeController.text = newText;
                     tasksProvider.notify();
                   }
@@ -785,12 +796,21 @@ class AssigneeButton extends StatelessWidget{
               ),
 
               if(account)
+                const SizedBox(height: Dimen.ICON_MARG),
+
+              if(account)
+                ListTile(
+                  leading: const SizedBox(width: 0),
+                  title: Text('Wybierz kogoś z kontem HarcApp', style: AppTextStyle(color: hintEnab_(context))),
+                ),
+
+              if(account && trop != null)
                 ListTile(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(AppCard.bigRadius),
                   ),
-                  leading: const Icon(MdiIcons.accountCircleOutline),
-                  title: Text('Wybierz konto HarcApp', style: AppTextStyle()),
+                  leading: const Icon(MdiIcons.accountReactivateOutline),
+                  title: Text('Ktoś z ludzi tropu', style: AppTextStyle()),
                   onTap: () async {
 
                     if(!AccountData.loggedIn){
@@ -798,6 +818,60 @@ class AssigneeButton extends StatelessWidget{
                       return;
                     }
 
+                    if(!await isNetworkAvailable()){
+                      showAppToast(context, text: 'Brak dostępu do Internetu');
+                      return;
+                    }
+
+                    Navigator.pop(context); // Hide bottom sheet.
+
+                    TropUser? tropUser;
+
+                    await openDialog(
+                        context: context,
+                        builder: (context) => Padding(
+                          padding: const EdgeInsets.all(Dimen.defMarg),
+                          child: Material(
+                            clipBehavior: Clip.hardEdge,
+                            color: background_(context),
+                            borderRadius: BorderRadius.circular(AppCard.bigRadius),
+                            child: LoadableUserSelector(
+                                trop!,
+                                onUserSelected: (user){
+                                  tropUser = user;
+                                  Navigator.pop(context);
+                                }
+                            ),
+                          ),
+                        )
+                    );
+
+                    if(tropUser == null)
+                      return;
+
+                    if(tropUser!.key != task.currentAssignee?.key) {
+                      task.newAssigneeByNick = null;
+                      task.newAssigneeByKey = tropUser;
+                      task.removed = false;
+                    }
+                    onAssigneeSelected?.call(task.newAssigneeByKey!);
+
+                  },
+                ),
+
+              if(account)
+                ListTile(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(AppCard.bigRadius),
+                  ),
+                  leading: const Icon(MdiIcons.accountCircleOutline),
+                  title: Text('Ktoś spoza tropu', style: AppTextStyle()),
+                  onTap: () async {
+
+                    if(!AccountData.loggedIn){
+                      AccountPage.open(context);
+                      return;
+                    }
 
                     if(!await isNetworkAvailable()){
                       showAppToast(context, text: 'Brak dostępu do Internetu');
@@ -815,13 +889,46 @@ class AssigneeButton extends StatelessWidget{
                     if(userData == null)
                       return;
 
-                    if(userData.key != task.currentAssignee?.key)
-                      task.newAssignee = TropUserNick.fromUserDataNick(userData, role: TropRole.REGULAR);
-
-                    onAssigneeSelected?.call(task.newAssignee!);
+                    if(userData.key != task.currentAssignee?.key) {
+                      task.newAssigneeByNick = TropUserNick.fromUserDataNick(userData, role: TropRole.REGULAR);
+                      task.newAssigneeByKey = null;
+                      task.removed = false;
+                    }
+                    onAssigneeSelected?.call(task.newAssigneeByNick!);
 
                   },
-                )
+                ),
+
+              if(account && task.currentAssignee != null)
+                const SizedBox(height: Dimen.ICON_MARG),
+
+              if(account && task.currentAssignee != null)
+                ListTile(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(AppCard.bigRadius),
+                  ),
+                  leading: const Icon(MdiIcons.close, color: Colors.red),
+                  title: Text('Odsuń od zadania', style: AppTextStyle(color: Colors.red)),
+                  onTap: () async {
+
+                    if(!AccountData.loggedIn){
+                      AccountPage.open(context);
+                      return;
+                    }
+
+                    if(!await isNetworkAvailable()){
+                      showAppToast(context, text: 'Brak dostępu do Internetu');
+                      return;
+                    }
+
+                    task.newAssigneeByNick = null;
+                    task.newAssigneeByKey = null;
+                    task.removed = true;
+                    task.assigneeController.clear();
+                    onAssigneeSelected?.call(null);
+                    Navigator.pop(context);
+                  },
+                ),
 
             ],
           )
@@ -1110,4 +1217,63 @@ class LeaveSharedTropButton extends StatelessWidget{
     }
   );
 
+}
+
+class LoadableUserSelector extends StatefulWidget{
+
+  final Trop trop;
+  final void Function(TropUser)? onUserSelected;
+
+  const LoadableUserSelector(this.trop, {required this.onUserSelected, super.key});
+  
+  @override
+  State<StatefulWidget> createState() => LoadableUserSelectorState();
+
+}
+
+class LoadableUserSelectorState extends State<LoadableUserSelector>{
+
+  Trop get trop => widget.trop;
+  void Function(TropUser)? get onUserSelected => widget.onUserSelected;
+  
+  @override
+  Widget build(BuildContext context) => PagingLoadableBaseScrollViewPage(
+    appBarTitle: 'Wybierz ogarniacza',
+    appBarLeading: IconButton(
+      icon: const Icon(MdiIcons.arrowLeft),
+      onPressed: () => Navigator.pop(context),
+    ),
+
+    loadingIndicatorColor: AppColors.zhpTropColor,
+
+    totalItemsCount: trop.userCount,
+    loadedItemsCount: trop.loadedUsers.length,
+    callReload: () => TropUsersPage.reloadTropUsers(
+      context: context,
+      trop: trop,
+      isMounted: () => mounted,
+      setState: () => setState((){}),
+    ),
+    callLoadMore: () => TropUsersPage.loadMoreTropUsers(
+      context: context,
+      trop: trop,
+      isMounted: () => mounted,
+      setState: () => setState((){}),
+    ),
+    callLoadOnInit: trop.loadedUsers.length == 1,
+
+    sliverBody: Builder(builder: (context){
+
+      return SliverList(delegate: SliverChildBuilderDelegate(
+          (context, index) => TropUserTile(
+            user: trop.loadedUsers[index],
+            onTap: () => onUserSelected?.call(trop.loadedUsers[index]),
+          ),
+          childCount: trop.loadedUsers.length
+      ));
+
+    }),
+
+  );
+  
 }

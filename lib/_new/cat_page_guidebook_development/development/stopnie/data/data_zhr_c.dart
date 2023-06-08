@@ -141,7 +141,7 @@ RankDefData rankZhrZuchC2Data = RankDefData(
                   RankTaskData(text: 'Jest pożyteczny, wyręcza rodziców w drobnych pracach domowych, pomaga rodzeństwu.'),
                   RankTaskData(text: 'Sam dba o swoje rzeczy.'),
                   RankTaskData(text: 'Potrafi unikać przeziębienia.'),
-                  RankTaskData(text: 'Jeździ na rowerze, wrotkach lub łyżwach itp.'),
+                  RankTaskData(text: 'Jeździ na rowerze, wrotkach lub łyżwach itp..'),
                 ]
             ),
           ]
@@ -381,7 +381,7 @@ RankZHRCData rankZhrHarcC1Data = RankZHRCData.from(
         RankGroupData(
             title: 'Rozwój fizyczny',
             taskData: [
-              RankTaskData(text: 'Poprawił swoją sprawność fizyczną w wybranym zakresie – np. nauczył się wspinać / jeździć na rowerze (zdobył kartę rowerową) / szybciej biega / nauczył się pływać (zdobył kartę pływacką) itp.'),
+              RankTaskData(text: 'Poprawił swoją sprawność fizyczną w wybranym zakresie – np. nauczył się wspinać / jeździć na rowerze (zdobył kartę rowerową) / szybciej biega / nauczył się pływać (zdobył kartę pływacką) itp..'),
             ]
         )
       ],
@@ -698,7 +698,7 @@ RankZHRCData rankZhrHarcC2Data = RankZHRCData.from(
                 '\n\nTrzynastolatek bywa samokrytyczny, zwłaszcza jeśli chodzi o negatywne cechy swojego charakteru. Zwraca uwagę na to, iż jest leniwy, samolubny, zbyt często wpada w złość. Potrafi powiedzieć, że sam siebie nienawidzi.'
                 '\n\nDla czternastoletniego chłopca charakterystyczna jest niespożyta energia, wigor, werwa i ciągłe podekscytowanie. Ogromne zasoby energii połączone z optymistycznym entuzjazmem i dobrą wolą sprawiają, że gotowi są oni podjąć każde wyzwanie. Przyjaciele są im niezbędni, grupa rówieśnicza staje się bardziej atrakcyjna, życie bardziej przyjemne i zabawne. Nie ma rzeczy niemożliwych do zrealizowania. Niestety zmienia się stosunek do rodziców, są z nich niezadowoleni za to, jacy są. W tym wieku chłopiec stara się wciąż odnaleźć siebie, być bardziej niezależny –czuje, że jest przez innych postrzegany wyłącznie jako syn, a nie jako ktoś, kto ma własną osobowość, własne pragnienia i własne cele. Czternastolatek czuje się zbyt uzależniony, zbyt blisko związany z rodzicami i uważa, że ich zachowanie kompromituje właśnie jego.'
                 '\n\nDla większości czternastolatków jest to okres najszybszego wzrostu. Ciało staje się bardziej muskularne, zanika występujący wcześniej nadmiar tkanki tłuszczowej, sylwetka coraz bardziej upodabnia się do sylwetki dorosłego mężczyzny. Głos staje się mniej piskliwy i grubszy (mogą się wstydzić zmian głosu).'
-                '\n\nCzternastolatki starają się odnaleźć własną filozofię życia, gromadzą informacje, wymieniają poglądy, dyskutują na temat płci i seksu. Niestety zbyt często podejmują samodzielne decyzje i robią rzeczy, do których nie są jeszcze w pełni przygotowani. Dlatego ważne jest, aby z nimi rozmawiać na te tematy, podsuwać artykuły, literaturę itp.'
+                '\n\nCzternastolatki starają się odnaleźć własną filozofię życia, gromadzą informacje, wymieniają poglądy, dyskutują na temat płci i seksu. Niestety zbyt często podejmują samodzielne decyzje i robią rzeczy, do których nie są jeszcze w pełni przygotowani. Dlatego ważne jest, aby z nimi rozmawiać na te tematy, podsuwać artykuły, literaturę itp..'
                 '\n\nCzternastolatki mają chwilę „wszechogarniającego szczęścia” i „gorsze dni”. Najwięcej radości sprawiają im życie towarzyskie –randki, spotkania z przyjaciółmi. „Gorsze dni” zdarzają się rzadko, jest jednak ciężko samemu sobie z nimi poradzić. Takie wewnętrzne problemy, przerastające siły chłopca, mogą uzewnętrzniać się atakiem gwałtownej złości lub rozpaczliwego płaczu. Kiedy dojdzie do takiej sytuacji rodzice / przełożeni powinni jak najszybciej odkryć jej przyczynę. Aby stan się nie pogłębił a młodzieniec nie padł w depresję i przygnębienie.',
               checkable: false,
             )
@@ -841,7 +841,7 @@ RankZHRCData rankZhrHarcC3Data = RankZHRCData.from(
         RankGroupData(
             title: 'Łączność',
             taskData: [
-              RankTaskData(text: 'Nawiązał w warunkach terenowych łączność przy pomocy sygnałów świetlnych, dymnych, itp. Posłużył się CB-radiem. Przekazał informację za pomocą faksu'),
+              RankTaskData(text: 'Nawiązał w warunkach terenowych łączność przy pomocy sygnałów świetlnych, dymnych, itp.. Posłużył się CB-radiem. Przekazał informację za pomocą faksu'),
               RankTaskData(text: 'Sprawnie korzysta z komputera i Internetu – np. potrafi korzystać z pakietu MS Office, poczty elektronicznej, umie tworzyć prezentacje multimedialne, montować filmy,itp.'),
               RankTaskData(text: 'Potrafi opowiedzieć o zagrożeniach płynących z nadmiernego korzystania z komputera, telewizji.'),
             ]
@@ -889,7 +889,7 @@ RankZHRCData rankZhrHarcC3Data = RankZHRCData.from(
                 RankTaskData(text: 'Świadomie uczestniczy w obchodach świąt narodowych. Uczestniczył w przygotowaniu drużyny do uczczenia narodowego święta.'),
                 RankTaskData(text: 'W swoim środowisku działania (drużynie, szkole, na podwórku) stara się szerzyć dumę z bycia Polakiem (opowie na spotkaniu, co uważa za najbardziej chlubne w dziejach Polski; zorganizuje wystawę o najwybitniejszych Polakach). Pamięta o Polakach mieszkających poza granicami Kraju (w porozumieniu z drużynowym zrealizuje zadanie podtrzymujące więź z Polakami poza granicami Kraju; brał udział w służbie na rzecz Polaków mieszkających w dawnych Kresach RP). Stara się aktywnie pracować na rzecz Ojczyzny (zorganizował akcję ochrony przyrody lub akcję ekologiczną, brał udział w samorządzie szkolnym, pełnił w nim funkcję).'),
                 RankTaskData(text: 'Zna główne partie polityczne działające w Polsce. Potrafi scharakteryzować wyniki ostatnich wyborów parlamentarnych i prezydenckich.'),
-                RankTaskData(text: 'W swoim środowisku działania spieszy z pomocą słabszym. Aktywnie poszukuje pól służby i stara się je realizować razem z przyjaciółmi z drużyny (zorganizował grupę wolontariuszy -w tym spoza ZHR) do pomocy słabszym uczniom lub dzieciom z Domu Dziecka. Uczestniczył w akcji propagującej życie bez uzależnień: od palenia papierosów, alkoholu, narkotyków, gier komputerowych itp. Podjął się kilkumiesięcznej służby indywidualnej (pomaga sąsiadce, osobie starszej, w wydawalni posiłków, itp.)'),
+                RankTaskData(text: 'W swoim środowisku działania spieszy z pomocą słabszym. Aktywnie poszukuje pól służby i stara się je realizować razem z przyjaciółmi z drużyny (zorganizował grupę wolontariuszy -w tym spoza ZHR) do pomocy słabszym uczniom lub dzieciom z Domu Dziecka. Uczestniczył w akcji propagującej życie bez uzależnień: od palenia papierosów, alkoholu, narkotyków, gier komputerowych itp.. Podjął się kilkumiesięcznej służby indywidualnej (pomaga sąsiadce, osobie starszej, w wydawalni posiłków, itp.)'),
               ]
           ),
         ]

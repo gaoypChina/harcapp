@@ -263,4 +263,68 @@ void main() {
 
   });
 
+
+  test('polygonContainsPoly', () async {
+
+      Polygon polyOut = Polygon(regions: [
+        [
+          Coordinate(10, 10),
+          Coordinate(10, 0),
+          Coordinate(0, 0),
+          Coordinate(0, 10),
+        ]
+      ]);
+
+      Polygon polyIn = Polygon(regions: [
+        [
+          Coordinate(9, 9),
+          Coordinate(9, 1),
+          Coordinate(1, 1),
+          Coordinate(1, 9),
+        ]
+      ]);
+
+      assert(polyOut.containsPoly(polyIn));
+
+  });
+
+  test('polygonContainsPoly_Pertruding', () async {
+
+    Polygon polyOut = Polygon(regions: [
+      [
+        Coordinate(10, 10),
+        Coordinate(10, 0),
+        Coordinate(0, 0),
+        Coordinate(0, 10),
+      ]
+    ]);
+
+    Polygon polyIn = Polygon(regions: [
+      [
+        Coordinate(9, 9),
+        Coordinate(9, -1),
+        Coordinate(1, -1),
+        Coordinate(1, 9),
+      ]
+    ]);
+
+    assert(!polyOut.containsPoly(polyIn));
+
+  });
+
+  test('polygonContainsPoly_Self', () async {
+
+    Polygon poly = Polygon(regions: [
+      [
+        Coordinate(10, 10),
+        Coordinate(10, 0),
+        Coordinate(0, 0),
+        Coordinate(0, 10),
+      ]
+    ]);
+
+    assert(poly.containsPoly(poly));
+
+  });
+
 }

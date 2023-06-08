@@ -331,7 +331,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                       tasks: [
                         'Potrafi przygotować się, skompletować ekwipunek i biwakować w każdych warunkach terenowych.',
                         'Umie w warunkach polowych wysuszyć ubranie i obuwie.',
-                        'Potrafi wybrać dobre miejsce do biwakowania, uwzględniając dostępność wody, odległość od skupisk ludzkich, osłonięcie od wiatru itd.',
+                        'Potrafi wybrać dobre miejsce do biwakowania, uwzględniając dostępność wody, odległość od skupisk ludzkich, osłonięcie od wiatru itd..',
                         'Posiada sprawność **Strażnika Ognia ze ścieżki „Rozpalanie ognia”.'
                       ]
                   ),
@@ -390,7 +390,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                         'Umie przygotować kompletną listę zadań kwatermistrzowskich związanych z organizacją biwaku lub wędrówki, takich jak dojazd, aprowizacja, noclegi. Każde z tych zadań potrafi wykonać samodzielnie.',
                         'Umie zamówić usługę lub dokonać zakupu przez internet, wykonać przelew i wypłacić pieniądze z bankomatu.',
                         'Wie, do czego służy książka inwentarzowa i finansowa, i umie prawidłowo dokonać w nich wpisu.',
-                        'Potrafi opisywać faktury oraz przypisać wydatki do odpowiednich kategorii: materiały, żywność, wyposażenie itd.'
+                        'Potrafi opisywać faktury oraz przypisać wydatki do odpowiednich kategorii: materiały, żywność, wyposażenie itd..'
                       ]
                   ),
 
@@ -1286,7 +1286,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                       level: 2,
                       tasks: [
                         'Umie przygotować się i poradzić sobie w czasie kilkudniowego spływu kajakowego, w tym zabezpieczyć bagaż przed przemoczeniem.',
-                        'Potrafi pokonać przeszkody na rzece takie jak zwalone drzewa, płycizny, mosty, bystry nurt itp.',
+                        'Potrafi pokonać przeszkody na rzece takie jak zwalone drzewa, płycizny, mosty, bystry nurt itp..',
                         'Umie wejść do kajaka z wody, nie wywracając go.',
                         'Potrafi poradzić sobie w razie wywrotki i wypadnięcia z kajaka.',
                         'Umie zacumować kajak we wskazanym miejscu, zadbać o sprzęt i go zabezpieczyć (np. wylać wodę z kajaka i go osuszyć).',
@@ -1429,7 +1429,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                       title: 'Organizator Sportowy',
                       level: 3,
                       tasks: [
-                        'Potrafi zorganizować i przeprowadzić rozgrywki w wybranej dyscyplinie sportu zespołowego: przygotować boisko i sprzęt sportowy, załogę sędziowską, nagrody, regulamin, zorganizować zapisy, podsumować wyniki itd.',
+                        'Potrafi zorganizować i przeprowadzić rozgrywki w wybranej dyscyplinie sportu zespołowego: przygotować boisko i sprzęt sportowy, załogę sędziowską, nagrody, regulamin, zorganizować zapisy, podsumować wyniki itd..',
                         'Zna zasady działania lig i turniejów w swojej dyscyplinie sportowej (np. sposób wyłaniania drużyn w turniejach, zasady losowania grup, zasady poruszania się zawodników między ligą narodową a klubową lub okna transferowe).',
                         'Umie zadbać o bezpieczeństwo graczy i widzów podczas zawodów.'
                       ]
@@ -2117,8 +2117,8 @@ SprawBook sprawBookZHRC = SprawBookData(
                       title: 'Migawka',
                       level: 1,
                       tasks: [
-                        'Potrafi wykonać element wyposażenia pokoju, mieszkania lub namiotu (np. świecznik, przybornik, pudełko).',
-                        'Umie zorganizować miejsce do wygodne majsterkowania, dbając o porządek i bezpieczeństwo',
+                        'Umie przygotować relację z wydarzenia w formie zestawu najwyżej 10 zdjęć, w taki sposób, by ze zdjęć można było się dowiedzieć, kto uczestniczył w wydarzeniu i na czym ono polegało.',
+                        'Potrafi zrobić ciekawe zdjęcie na zadany temat lub inspirując się abstrakcyjnym hasłem (np. „wzrok”, „fale”, „przyjaźń” itp.).',
                       ]
                   ),
 
@@ -2129,7 +2129,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                       tasks: [
                         'Umie zrobić serię zdjęć portretowych (np. harcerzom swojej drużyny). Potrafi zadbać przy tym o odpowiednie dobranie parametrów (np. tła, światła i głębi ostrości) aparatu, aby zdjęcia były spójne wizualnie.',
                         'Umie dobrać odpowiedni tryb aparatu do fotografowanej sceny: np. pejzaż, ruch, sport, portret, portret zbiorowy, scenę na ulicy.',
-                        'Potrafi dokonać podstawowej obróbki zdjęć w wybranym programie graficznym, posługując się takimi parametrami jak kontrast, jasność, ostrość, kadrowanie, nasycenie kolorów itp.',
+                        'Potrafi dokonać podstawowej obróbki zdjęć w wybranym programie graficznym, posługując się takimi parametrami jak kontrast, jasność, ostrość, kadrowanie, nasycenie kolorów itp..',
                         'Umie przygotować swoje zdjęcia do publikacji w Internecie oraz do druku. Potrafi sporządzić wydruk swoich fotografii.',
                       ]
                   ),
@@ -2236,7 +2236,7 @@ SprawBook sprawBookZHRC = SprawBookData(
                       title: 'Hodowca',
                       level: 2,
                       tasks: [
-                        'Potrafi samodzielnie zaopiekować się zwierzęciem przez kilka tygodni: właściwie odmierzyć, przygotować i podać karmę, dbać o czystość i higienę itd.',
+                        'Potrafi samodzielnie zaopiekować się zwierzęciem przez kilka tygodni: właściwie odmierzyć, przygotować i podać karmę, dbać o czystość i higienę itd..',
                         'Umie wykonać skomplikowaną czynność związaną z regularną opieką nad zwierzęciem (np. przyciąć szpony, wykąpać lub wyczyścić akwarium).',
                         'Potrafi opisać, jak tryb życia zwierzęcia (np. pory czuwania i odpoczynku, sposób zdobywania pokarmu i środowisko bytowania) wpływa na opiekę nad nim.',
                       ]

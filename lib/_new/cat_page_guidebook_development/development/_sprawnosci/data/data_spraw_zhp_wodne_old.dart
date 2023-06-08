@@ -431,7 +431,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   level: 3,
                                   tasks: [
                                         'Korzysta z mapy, orientuje ją według kierunku północnego i według kształtu terenu.',
-                                        'W czasie rejsów korzysta z przewodników i opisów dróg wodnych, wejść do portów itp.',
+                                        'W czasie rejsów korzysta z przewodników i opisów dróg wodnych, wejść do portów itp..',
                                         'Obliczył drogę na mapie turystycznej oraz znając swoją prędkość obliczyć czas dotarcia do celu.',
                                         'Orientuje się na podstawie położenia słońca i gwiazd.',
                                         'Zna przynajmniej jeden popularny akwen żeglarski w Polsce (Wielkie Jeziora Mazurskie, Pętlę Wielkopolską, Jeziorak, Jezioro Zegrzyńskie, Zalew Soliński itp) i potrafi podać jego charakterystykę.',
@@ -853,7 +853,7 @@ SprawBook sprawBookZHPWodneOld = SprawBookData(
                                   //iconRes: 'spraw_wod_h_oryl',
                                   level: 4,
                                   tasks: [
-                                        'Dowodził wioślarzami na szalupie (do wyboru z w/w – dostępnych lokalnie). Poprawnie wydawał komendy wioślarzom i sternikowi (wiosła, wiosła basta, naprzód, prawa naprzód, lewa wstecz) itd.',
+                                        'Dowodził wioślarzami na szalupie (do wyboru z w/w – dostępnych lokalnie). Poprawnie wydawał komendy wioślarzom i sternikowi (wiosła, wiosła basta, naprzód, prawa naprzód, lewa wstecz) itd..',
                                         'Wiosłował sposobem rybackim "z ręki" jednym wiosłem.',
                                         'Wykonał na łodzi wiosłowej podejście do człowieka za burtą. Podjął człowieka na pokład.',
                                         'Zorganizował naukę wiosłowania pagajem z burty, jednym i dwoma wiosłami w dulkach, piórkowania, śrubkowania, wiosłowania na pych.',

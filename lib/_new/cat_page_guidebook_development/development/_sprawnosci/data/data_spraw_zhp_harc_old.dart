@@ -86,7 +86,7 @@ SprawBook sprawBookZHPOld = SprawBookData(
                         'Doskonale orientuje się w życiu artystycznym i kulturalnym swojego regionu i Polski.',
                         'Animuje działalność artystyczną w swoim środowisku harcerskim.',
                         'Brał udział w warsztatach specjalistycznych, doskonalących umiejętności w wybranej przez siebie dziedzinie artystycznej.',
-                        'Odniósł sukces na festiwalu, przeglądzie, konkursie, wystawie itp.',
+                        'Odniósł sukces na festiwalu, przeglądzie, konkursie, wystawie itp..',
                         'Wyznaczył sobie dodatkowe zadania mistrzowskie.',
                       ]),
                 ]
@@ -354,7 +354,7 @@ SprawBook sprawBookZHPOld = SprawBookData(
                       tasks: [
                         'Pobożnie i aktywnie uczestniczy w nabożeństwie lub mszy św, stanowiąc wzór dla innych.',
                         'Potrafi posługiwać się kalendarzem liturgicznym. Wie, kiedy obchodzi się podstawowe święta i jakie nabożeństwa są odprawiane w ciągu roku liturgicznego.',
-                        'Pomagał w przygotowaniu nabożeństwa mszy św., tzn. komentarze do czytań, procesję z darami, dobrać odpowiednie pieśni, ułożyć modlitwę wiernych itp.',
+                        'Pomagał w przygotowaniu nabożeństwa mszy św., tzn. komentarze do czytań, procesję z darami, dobrać odpowiednie pieśni, ułożyć modlitwę wiernych itp..',
                         'Nauczył chętnych harcerzy z drużyny odpowiedniego zachowania na nabożeństwie mszy.',
                         'Uczestniczył w budowaniu ołtarza polowego na obozie drużyny. Zadbał o urządzenie miejsca wokół niego, tak by atmosfera sprzyjała wyciszeniu i modlitwie.',
                       ]
@@ -758,7 +758,7 @@ SprawBook sprawBookZHPOld = SprawBookData(
                         'Poznał pracę redakcji gazety lub wydawnictwa książkowego.',
                         'Rozróżnił rodzaje czcionek drukarskich i typy edytorów komputerowych, stosując je w swojej gazecie lub publikacjach książkowych.',
                         'Złożył na komputerze gazetę lub inną publikację.',
-                        'Rozprowadzał wydawnictwa przygotowane przez drużynę, hufiec, szkołę, dom kultury itp.',
+                        'Rozprowadzał wydawnictwa przygotowane przez drużynę, hufiec, szkołę, dom kultury itp..',
                       ]),
                 ]
             ),

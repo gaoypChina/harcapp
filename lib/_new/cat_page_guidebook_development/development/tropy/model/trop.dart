@@ -1282,7 +1282,8 @@ abstract class TropTaskBaseData extends TropTaskExampleData{
 class TropTaskData extends TropTaskBaseData{
 
   TropUser? currentAssignee;
-  TropUserNick? newAssignee;
+  TropUserNick? newAssigneeByNick;
+  TropUser? newAssigneeByKey;
 
   TropTaskData({
     super.lclId,
@@ -1290,7 +1291,8 @@ class TropTaskData extends TropTaskBaseData{
     super.summary,
     required super.deadline,
     this.currentAssignee,
-    this.newAssignee,
+    this.newAssigneeByNick,
+    this.newAssigneeByKey,
     super.assigneeCustomText,
     super.completed = false,
   });
@@ -1299,7 +1301,7 @@ class TropTaskData extends TropTaskBaseData{
       lclId: lclId,
       content: content,
       deadline: deadline,
-      assignee: newAssignee??currentAssignee,
+      assignee: newAssigneeByNick??newAssigneeByKey??currentAssignee,
       assigneeCustomText: assigneeCustomText,
       completed: completed,
       trop: trop
@@ -1311,7 +1313,8 @@ class TropTaskData extends TropTaskBaseData{
     if(summary != null) 'summary': summary,
     'deadline': formatDate(deadline),
     if(assigneeCustomText != null) 'assigneeCustomText': assigneeCustomText,
-    if(newAssignee != null) 'assigneeNick': newAssignee!.nick,
+    if(newAssigneeByNick != null) 'assigneeNick': newAssigneeByNick!.nick,
+    if(newAssigneeByKey != null) 'assigneeKey': newAssigneeByKey!.key,
     'completed': completed,
   };
 
@@ -1321,8 +1324,13 @@ class TropTaskData extends TropTaskBaseData{
     if(currentTask.summary != summary) 'summary': summary,
     if(currentTask.deadline != deadline) 'deadline': formatDate(deadline),
     if(currentTask.assigneeCustomText != assigneeCustomText) 'assigneeCustomText': assigneeCustomText,
-    if(newAssignee != null) 'assigneeNick': newAssignee!.nick
+
+    if(newAssigneeByNick != null) 'assigneeNick': newAssigneeByNick!.nick
     else if(currentTask.assignee != null && currentAssignee == null) 'assigneeNick': null,
+
+    if(newAssigneeByKey != null) 'assigneeKey': newAssigneeByKey!.key
+    else if(currentTask.assignee != null && currentAssignee == null) 'assigneeKey': null,
+
     if(currentTask.completed != completed) 'completed': completed,
   };
 
@@ -1346,7 +1354,6 @@ class TropTask extends TropTaskBaseData with SyncableParamGroupMixin, SyncGetRes
 
   final Trop trop;
 
-  @override
   TropUser? assignee;
 
   TropTask({

@@ -849,6 +849,12 @@ const Person MACIEJ_BATKO = Person(name: 'Maciej Batko', stopH: StopHarc.dhc,
   druzyna: '117. Elbląskiej Męskiej Drużyny Harcerskiej "Mato"',
   email: ['maciej.batko@uczen11.elblag.pl', 'maciemaciek160@gmail.com', 'maciut2007@gmail.com']
 );
+const Person MACIEJ_CHUSTECKI = Person(
+  name: 'Maciej Chustecki',
+  stopH: StopHarc.zhrMlodzik,
+  druzyna: '15. samodzielny zastęp "Burza"',
+  org: Org.zhr_o
+);
 const Person MACIEJ_GRZELAZKA = Person(
     name: 'Maciej Grzelązka ',
     druzyna: '314. "Pierścienia"',

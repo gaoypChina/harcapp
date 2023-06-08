@@ -42,6 +42,86 @@ class TropUsersPage extends StatefulWidget{
     'Pilne obserwowanie jak idzie realizacja tropu'
   ];
 
+  static TropUser fixTropUser(List<TropUser> observersPage){
+    TropUser me = observersPage.firstWhere((user) => user.key == AccountData.key);
+    return me;
+  }
+  
+  static Future<int> reloadTropUsers({
+    required BuildContext context,
+    required Trop trop,
+    required void Function() setState,
+    required bool Function() isMounted,
+  }) async {
+    await ApiTrop.getUsers(
+      tropKey: trop.key!,
+      pageSize: Trop.userPageSize,
+      lastRole: null,
+      lastUserName: null,
+      lastUserKey: null,
+      onSuccess: (usersPage){
+        TropUser me = trop.loadedUsersMap[AccountData.key]??fixTropUser(usersPage);
+        usersPage.removeWhere((manager) => manager.key == me.key);
+        usersPage.insert(0, me);
+        trop.setAllLoadedUsers(usersPage, context: context);
+        trop.saveOwn(localOnly: true, synced: true);
+        setState();
+      },
+      onForceLoggedOut: (){
+        if(!isMounted()) return true;
+        showAppToast(context, text: forceLoggedOutMessage);
+        setState();
+        return true;
+      },
+      onServerMaybeWakingUp: (){
+        if(!isMounted()) return true;
+        showServerWakingUpToast(context);
+        return true;
+      },
+      onError: (){
+        if(!isMounted()) return;
+        showAppToast(context, text: simpleErrorMessage);
+      },
+    );
+    return trop.loadedUsers.length;
+  }
+  
+  static Future<int> loadMoreTropUsers({
+    required BuildContext context,
+    required Trop trop,
+    required void Function() setState,
+    required bool Function() isMounted,
+  }) async {
+    await ApiTrop.getUsers(
+      tropKey: trop.key!,
+      pageSize: Trop.userPageSize,
+      lastRole: trop.loadedUsers.length==1?null:trop.loadedUsers.last.role,
+      lastUserName: trop.loadedUsers.length==1?null:trop.loadedUsers.last.name,
+      lastUserKey: trop.loadedUsers.length==1?null:trop.loadedUsers.last.key,
+      onSuccess: (observersPage){
+        trop.addLoadedUsers(observersPage, context: context);
+        trop.saveOwn(localOnly: true, synced: true);
+        if(isMounted()) setState();
+      },
+      onForceLoggedOut: (){
+        if(!isMounted()) return true;
+        showAppToast(context, text: forceLoggedOutMessage);
+        setState();
+        return true;
+      },
+      onServerMaybeWakingUp: (){
+        if(!isMounted()) return true;
+        showServerWakingUpToast(context);
+        return true;
+      },
+      onError: (){
+        if(!isMounted()) return;
+        showAppToast(context, text: simpleErrorMessage);
+      },
+    );
+    return trop.loadedUsers.length;
+  }
+  
   final Trop trop;
 
   final void Function(bool wasShared)? onUserAdded;
@@ -58,7 +138,7 @@ class TropUsersPage extends StatefulWidget{
 }
 
 class TropUsersPageState extends State<TropUsersPage>{
-
+  
   Trop get trop => widget.trop;
   List<TropUser> get loadedUsers => trop.loadedUsers;
 
@@ -158,78 +238,31 @@ class TropUsersPageState extends State<TropUsersPage>{
         callReload: () async {
 
           if(trop.key == null){
-            logger.e("Registered a failed attempt to call `removeUsers` on trop with no trop key.");
+            logger.e("Registered a failed attempt to call `getUsers` on trop with no trop key.");
             return trop.assignedUsers.length + trop.loadedUsers.length;
           }
 
-          await ApiTrop.getUsers(
-            tropKey: trop.key!,
-            pageSize: Trop.userPageSize,
-            lastRole: null,
-            lastUserName: null,
-            lastUserKey: null,
-            onSuccess: (usersPage){
-              TropUser me = trop.loadedUsersMap[AccountData.key]??fixTropUser(usersPage);
-              usersPage.removeWhere((manager) => manager.key == me.key);
-              usersPage.insert(0, me);
-              trop.setAllLoadedUsers(usersPage, context: context);
-              trop.saveOwn(localOnly: true, synced: true);
-              setState((){});
-            },
-            onForceLoggedOut: (){
-              if(!mounted) return true;
-              showAppToast(context, text: forceLoggedOutMessage);
-              setState(() {});
-              return true;
-            },
-            onServerMaybeWakingUp: (){
-              if(!mounted) return true;
-              showServerWakingUpToast(context);
-              return true;
-            },
-            onError: (){
-              if(!mounted) return;
-              showAppToast(context, text: simpleErrorMessage);
-            },
+          return await TropUsersPage.reloadTropUsers(
+            context: context,
+            trop: trop,
+            isMounted: () => mounted,
+            setState: () => setState((){}),
           );
-          return trop.assignedUsers.length + trop.loadedUsers.length;
+          
         },
         callLoadMore: () async {
 
           if(trop.key == null){
             logger.e("Registered a failed attempt to call `getUsers` on trop with no trop key.");
-            return trop.assignedUsers.length + trop.loadedUsers.length;
+            return trop.loadedUsers.length;
           }
 
-          await ApiTrop.getUsers(
-            tropKey: trop.key!,
-            pageSize: Trop.userPageSize,
-            lastRole: loadedUsers.length==1?null:loadedUsers.last.role,
-            lastUserName: loadedUsers.length==1?null:loadedUsers.last.name,
-            lastUserKey: loadedUsers.length==1?null:loadedUsers.last.key,
-            onSuccess: (observersPage){
-              trop.addLoadedUsers(observersPage, context: context);
-              trop.saveOwn(localOnly: true, synced: true);
-              if(mounted) setState((){});
-            },
-            onForceLoggedOut: (){
-              if(!mounted) return true;
-              showAppToast(context, text: forceLoggedOutMessage);
-              setState(() {});
-              return true;
-            },
-            onServerMaybeWakingUp: (){
-              if(!mounted) return true;
-              showServerWakingUpToast(context);
-              return true;
-            },
-            onError: (){
-              if(!mounted) return;
-              showAppToast(context, text: simpleErrorMessage);
-            },
+          return await TropUsersPage.loadMoreTropUsers(
+            context: context,
+            trop: trop,
+            isMounted: () => mounted,
+            setState: () => setState((){})
           );
-
-          return trop.loadedUsers.length;
 
         },
         callLoadOnInit: trop.loadedUsers.length == 1,
@@ -247,11 +280,6 @@ class TropUsersPageState extends State<TropUsersPage>{
         )
       )
   );
-
-  TropUser fixTropUser(List<TropUser> observersPage){
-    TropUser me = observersPage.firstWhere((user) => user.key == AccountData.key);
-    return me;
-  }
 
   void openAddUserBottomSheet(BuildContext context) => showScrollBottomSheet(
       context: context,

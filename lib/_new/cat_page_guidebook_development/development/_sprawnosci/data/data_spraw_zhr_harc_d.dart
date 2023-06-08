@@ -472,7 +472,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                         'Przeczyta „List do dzieci «Tra Pochi Giorno»” lub inny dokument papieski.',
                         'Zna przesłania poszczególnych pielgrzymek Jana Pawła II do ojczyzny.',
                         'Zorganizuje zbiórkę, spotkanie o Janie Pawle II wykorzystując multimedia (np. film o papieżu, projekcję zdjęć, nagrań, pieśni).',
-                        'Zna ciekawostki związane z życiem Jana Pawła II: symbolikę herbu papieskiego, anegdoty, sławne powiedzenia, itd. Opowie o ich znaczeniu i roli, jaką odegrały.',
+                        'Zna ciekawostki związane z życiem Jana Pawła II: symbolikę herbu papieskiego, anegdoty, sławne powiedzenia, itd.. Opowie o ich znaczeniu i roli, jaką odegrały.',
                       ]
                   ),
 
@@ -704,7 +704,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                         'Wykona drzewo genealogiczne postaci ważnej dla Polski, uzupełni je w miarę możliwości wizerunkami.',
                         'Odwiedzi miejsce związane z historycznym wydarzeniem.',
                         'Na obozie, biwaku, wcieli się w jedną z postaci historycznych, swoim zachowaniem, strojem oddając klimat tamtych czasów.',
-                        'W czasie zbiórki opowie historię związaną z jakimś starym przedmiotem: kronika, proporzec, itp.',
+                        'W czasie zbiórki opowie historię związaną z jakimś starym przedmiotem: kronika, proporzec, itp..',
                         'Przeczyta książkę o tematyce historycznej.',
                       ]
                   ),
@@ -747,7 +747,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                       title: 'Mała historyczka',
                       level: 1,
                       tasks: [
-                        'Wie na czym polega praca historyka, gromadzi pomoce przydatne w pracy historyka (np. atlas, itp.)',
+                        'Wie na czym polega praca historyka, gromadzi pomoce przydatne w pracy historyka (np. atlas, itp.).',
                         'Umie zaznaczyć na osi czasu poszczególne wydarzenia. Prawidłowo przelicza lata na wieki.',
                         'Umie ustalić datę powstania prostych przedmiotów (monet, książek, itp.).',
                         'Narysuje lub wykona inną techniką dowolny herb  i umie opowiedzieć o nim.',
@@ -764,7 +764,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                         'Umie określać w przybliżeniu w jakiej epoce historycznej powstały wskazane budynki czy przedmioty.',
                         'Opracuje drzewo genealogiczne rodziny z uwzględnieniem różnych śródeł (rozmowa z rodziną, napisy na grobach, akty urodzenia, itp.).',
                         'Zna 10 podstawowych herbów i opowie o ich symbolice.',
-                        'Umie przeprowadzić analizę tekstu historycznego (treść, język, styl). Opowie, czego tekst dotyczył, kto jest autorem, itp.',
+                        'Umie przeprowadzić analizę tekstu historycznego (treść, język, styl). Opowie, czego tekst dotyczył, kto jest autorem, itp..',
                         'Ceni stare przedmioty (w domu, harcówce, itp.) czerpie z nich wiedzę, którą wykorzystuje w pracy np. zastępu (stare kroniki, zdjęcia, nagrania, proporce, księgi, itp.).',
                       ]
                   ),
@@ -3068,7 +3068,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                       level: 4,
                       tasks: [
                         'Zdobędzie wyższe kwalifikacje w ratownictwie (kurs instruktorski, kurs II stopnia, kurs ratownika WOPR, itd.).',
-                        'Współpracuje z placówką ratownictwa w swoim otoczeniu, np. przy organizacji pokazów ratownictwa, itd.',
+                        'Współpracuje z placówką ratownictwa w swoim otoczeniu, np. przy organizacji pokazów ratownictwa, itd..',
                         'Propaguje szkolenia ratownicze w swoim środowisku harcerskim, udokumentuje swoją pracę.',
                         'Nawiąże współpracę z HOPR.',
                       ]
@@ -3142,7 +3142,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                         'Stworzy projekt promocji zdrowia dla niewielkiej grupy dziewcząt (drużyna, szczep, klasa, itd.) zawierający fachowe poradnictwo'
                             'z zakresu zdrowego wizerunku, doboru ćwiczeń, kosmetyków, prawidłowego odżywiania się. Skorzysta z pomocy profesjonalisty.',
                         'Zapozna się z zasadami ubioru i makijażu maskującego defekty urody.',
-                        'W wybranej formie włączy się w program związany z profilaktyką uzależnień, promocją zdrowia, walką z zaburzeniami odżywiania, itd.',
+                        'W wybranej formie włączy się w program związany z profilaktyką uzależnień, promocją zdrowia, walką z zaburzeniami odżywiania, itd..',
                       ]
                   ),
 
@@ -5436,7 +5436,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                       title: 'Internetowa podróżniczka',
                       level: 1,
                       tasks: [
-                        'Zna podstawowe pojęcia używane w języku internautów: www, domena, chat, portal, linux, serwer, itd.',
+                        'Zna podstawowe pojęcia używane w języku internautów: www, domena, chat, portal, linux, serwer, itd..',
                         'Umie założyć konto e-mail na dowolnym serwisie internetowym.',
                         'Umie korzystać z wyszukiwarki internetowej'
                             'Przedstawi swoją opinię na temat stron ZHR, zaprezentuje wartościowe strony innym, by oni też wiedzieli, gdzie zaglądać.',
@@ -5826,7 +5826,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                         'Weźmie udział w tygodniowym rejsie śródlądowym lub morskim.',
                         'Zna podstawowe zasady polskiego ceremoniału morskiego, zwyczaje morskie, pieśni żeglarskie.',
                         'Potrafi wymienić podstawowe żaglowce polskie i ich osiągnięcia.',
-                        'Zorganizuje imprezę propagującą żeglarstwo, np. regaty, koncert piosenki żeglarskiej, itd.',
+                        'Zorganizuje imprezę propagującą żeglarstwo, np. regaty, koncert piosenki żeglarskiej, itd..',
                       ]
                   ),
 

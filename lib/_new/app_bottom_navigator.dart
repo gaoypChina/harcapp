@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:harcapp/values/app_values.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
@@ -67,8 +68,9 @@ class AppBottomNavigator extends StatelessWidget{
   final Color? selectedItemColor;
   final Color? unselectedItemColor;
   final double? elevation;
+  final bool hideOnKeyboardVisible;
 
-  const AppBottomNavigator({this.background, this.selectedItemColor, this.unselectedItemColor, this.elevation, super.key});
+  const AppBottomNavigator({this.background, this.selectedItemColor, this.unselectedItemColor, this.elevation, this.hideOnKeyboardVisible = true, super.key});
 
   static int bottomNavBarToIndex(AppBottomNavItem item){
 
@@ -118,73 +120,84 @@ class AppBottomNavigator extends StatelessWidget{
   }
 
   @override
-  Widget build(BuildContext context) => Hero(
-    tag: heroTag,
-    child: PhysicalModel(
-      elevation: elevation??AppCard.bigElevation,
-      color: Colors.transparent,
-      child: Consumer<AppBottomNavigatorProvider>(
-          builder: (context, prov, child) => BottomNavigationBar(
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            selectedItemColor: selectedItemColor??iconEnab_(context),
-            selectedIconTheme: IconThemeData(color: selectedItemColor??iconEnab_(context)),
-            unselectedIconTheme: IconThemeData(color: unselectedItemColor??iconDisab_(context)),
-            showUnselectedLabels: false,
-            currentIndex: bottomNavBarToIndex(prov.selectedIndex),
-            onTap: (index){
-              prov.selectedIndex = indexToBottomNavBarItem(index);
-              for(void Function(int) listener in prov._listeners)
-                listener(index);
+  Widget build(BuildContext context){
 
-              appNavigatorObserver.callNavBarChanged();
-            },
-            items: [
+    Widget widget = Hero(
+      tag: heroTag,
+      child: PhysicalModel(
+        elevation: elevation??AppCard.bigElevation,
+        color: Colors.transparent,
+        child: Consumer<AppBottomNavigatorProvider>(
+            builder: (context, prov, child) => BottomNavigationBar(
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              selectedItemColor: selectedItemColor??iconEnab_(context),
+              selectedIconTheme: IconThemeData(color: selectedItemColor??iconEnab_(context)),
+              unselectedIconTheme: IconThemeData(color: unselectedItemColor??iconDisab_(context)),
+              showUnselectedLabels: false,
+              currentIndex: bottomNavBarToIndex(prov.selectedIndex),
+              onTap: (index){
+                prov.selectedIndex = indexToBottomNavBarItem(index);
+                for(void Function(int) listener in prov._listeners)
+                  listener(index);
 
-              if(account)
+                appNavigatorObserver.callNavBarChanged();
+              },
+              items: [
+
+                if(account)
+                  BottomNavigationBarItem(
+                      backgroundColor: prov.background??background??background_(context),
+                      icon: const Icon(MdiIcons.accountCircleOutline),
+                      //activeIcon: Icon(MdiIcons.accountCircle),
+                      label: 'Skromny ja'
+                  ),
+
+                if(account)
+                  BottomNavigationBarItem(
+                      backgroundColor: background??background_(context),
+                      icon: const Icon(MdiIcons.mapLegend),
+                      //activeIcon: Icon(MdiIcons.map),
+                      label: 'Harc mapa'
+                  ),
+
                 BottomNavigationBarItem(
                     backgroundColor: prov.background??background??background_(context),
-                    icon: const Icon(MdiIcons.accountCircleOutline),
-                    //activeIcon: Icon(MdiIcons.accountCircle),
-                    label: 'Skromny ja'
+                    icon: const Icon(MdiIcons.music),
+                    label: 'Śpiewnik'
                 ),
-
-              if(account)
                 BottomNavigationBarItem(
-                    backgroundColor: background??background_(context),
-                    icon: const Icon(MdiIcons.mapLegend),
-                    //activeIcon: Icon(MdiIcons.map),
-                    label: 'Harc mapa'
+                    backgroundColor: prov.background??background??background_(context),
+                    icon: const Icon(MdiIcons.notebookOutline),
+                    //activeIcon: Icon(MdiIcons.notebook),
+                    label: 'Tajniki'
                 ),
+                BottomNavigationBarItem(
+                    backgroundColor: prov.background??background??background_(context),
+                    icon: const Icon(MdiIcons.lightbulbOutline),
+                    //activeIcon: Icon(MdiIcons.lightbulb),
+                    label: 'Harc myśl'
+                ),
+                BottomNavigationBarItem(
+                    backgroundColor: prov.background??background??background_(context),
+                    icon: const Icon(MdiIcons.candle),
+                    label: 'Strefa ducha'
+                )
+              ],
 
-              BottomNavigationBarItem(
-                  backgroundColor: prov.background??background??background_(context),
-                  icon: const Icon(MdiIcons.music),
-                  label: 'Śpiewnik'
-              ),
-              BottomNavigationBarItem(
-                  backgroundColor: prov.background??background??background_(context),
-                  icon: const Icon(MdiIcons.notebookOutline),
-                  //activeIcon: Icon(MdiIcons.notebook),
-                  label: 'Tajniki'
-              ),
-              BottomNavigationBarItem(
-                  backgroundColor: prov.background??background??background_(context),
-                  icon: const Icon(MdiIcons.lightbulbOutline),
-                  //activeIcon: Icon(MdiIcons.lightbulb),
-                  label: 'Harc myśl'
-              ),
-              BottomNavigationBarItem(
-                  backgroundColor: prov.background??background??background_(context),
-                  icon: const Icon(MdiIcons.candle),
-                  label: 'Strefa ducha'
-              )
-            ],
+            )
 
-          )
-
+        ),
       ),
-    ),
-  );
+    );
+
+    if(hideOnKeyboardVisible)
+      return KeyboardVisibilityBuilder(
+        builder: (context, visible) => visible?Container(height: 0):widget,
+      );
+
+    return widget;
+
+  }
 
 }

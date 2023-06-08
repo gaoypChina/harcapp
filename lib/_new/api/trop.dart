@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:harcapp/_common_classes/date_format.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/model/trop.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/model/trop_role.dart';
+import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_editor_page/providers.dart';
 import 'package:harcapp/sync/syncable.dart';
 import 'package:optional/optional_internal.dart';
 
@@ -343,7 +344,7 @@ class ApiTrop{
     required DateTime endDate,
     required bool? completed,
     required DateTime? completionDate,
-    required List<TropTaskData> tasks,
+    required List<TropTaskEditableData> tasks,
 
     FutureOr<void> Function(Trop trop)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
@@ -352,7 +353,7 @@ class ApiTrop{
   }) async {
 
     Map tasksMap = {};
-    for(TropTaskData task in tasks)
+    for(TropTaskEditableData task in tasks)
       tasksMap[task.lclId] = task.toCreateReqData(withLclId: false);
 
     return await API.sendRequest(
@@ -407,7 +408,7 @@ class ApiTrop{
       onSuccess: (Response response, DateTime now) async => await onSuccess?.call(),
       onForceLoggedOut: onForceLoggedOut,
       onServerMaybeWakingUp: onServerMaybeWakingUp,
-      onError: (DioError err) async => await onError?.call()
+      onError: (DioException err) async => await onError?.call()
   );
 
   static Future<Response?> update({
@@ -420,7 +421,7 @@ class ApiTrop{
     required DateTime? endDate,
     required bool? completed,
     required Optional<DateTime>? completionDate,
-    required List<TropTaskData>? tasks,
+    required List<TropTaskEditableData>? tasks,
 
     FutureOr<void> Function(Trop trop)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
@@ -430,20 +431,20 @@ class ApiTrop{
 
     Map tasksMap = {};
     if(tasks != null) {
-      for (TropTaskData task in tasks) {
+      for (TropTaskEditableData task in tasks) {
         TropTask? currentTask = trop.tasks.where((t) => t.lclId == task.lclId).firstOrNull;
 
         if (currentTask == null) {
           Map taskReqData = task.toCreateReqData(withLclId: false);
           if(taskReqData.isNotEmpty) tasksMap[task.lclId] = taskReqData;
-        }else {
+        }else{
           Map taskReqData = task.toUpdateData(currentTask: currentTask, withLclId: false);
           if(taskReqData.isNotEmpty) tasksMap[task.lclId] = taskReqData;
         }
       }
 
       for (TropTask currentTask in trop.tasks){
-        TropTaskData? task = tasks.where((t) => t.lclId == currentTask.lclId).firstOrNull;
+        TropTaskEditableData? task = tasks.where((t) => t.lclId == currentTask.lclId).firstOrNull;
         if(task == null) tasksMap[currentTask.lclId] = {RemoveSyncItem.removeReqParam: true};
       }
 

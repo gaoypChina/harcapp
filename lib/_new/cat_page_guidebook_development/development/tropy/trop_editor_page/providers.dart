@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:harcapp/_common_classes/date_format.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/model/trop.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/model/trop_user.dart';
 import 'package:provider/provider.dart';
@@ -111,14 +112,19 @@ class TropTaskEditableData{
   DateTime deadline;
 
   TropUser? currentAssignee;
-  TropUserNick? newAssignee;
+  TropUserNick? newAssigneeByNick;
+  TropUser? newAssigneeByKey;
+  bool removed;
+
   late TextEditingController assigneeController;
 
-  TropUser? get assignee => newAssignee??currentAssignee;
+  TropUser? get assignee => newAssigneeByNick??newAssigneeByKey??(removed?null:currentAssignee);
 
   bool completed;
 
-  TropTaskEditableData(this.lclId, String content, this.deadline, this.currentAssignee, String? assigneeCustomText, this.completed){
+  TropTaskEditableData(this.lclId, String content, this.deadline, this.currentAssignee, String? assigneeCustomText, this.completed)
+  :removed = false
+  {
     contentController = TextEditingController(text: content);
     assigneeController = TextEditingController(text: assigneeCustomText??'');
   }
@@ -129,11 +135,38 @@ class TropTaskEditableData{
     lclId: lclId??(setLclIdIfNull?const Uuid().v4():null),
     content: contentController.text,
     deadline: deadline,
-    newAssignee: newAssignee,
+    newAssigneeByNick: newAssigneeByNick,
+    newAssigneeByKey: newAssigneeByKey,
     currentAssignee: currentAssignee,
     assigneeCustomText: assigneeController.text,
     completed: completed,
   );
+
+
+  Map toCreateReqData({bool withLclId = false}) => {
+    if(withLclId) 'lclId': lclId,
+    'content': contentController.text,
+    'deadline': formatDate(deadline),
+    if(assigneeController.text.isNotEmpty) 'assigneeCustomText': assigneeController.text,
+    if(newAssigneeByNick != null) 'assigneeNick': newAssigneeByNick!.nick,
+    if(newAssigneeByKey != null) 'assigneeKey': newAssigneeByKey!.key,
+    'completed': completed,
+  };
+
+  Map toUpdateData({required TropTask currentTask, bool withLclId = false}) => {
+    if(withLclId) 'lclId': lclId,
+    if(currentTask.content != contentController.text) 'content': contentController.text,
+    if(currentTask.deadline != deadline) 'deadline': formatDate(deadline),
+    if(currentTask.assigneeCustomText != assigneeController.text) 'assigneeCustomText': assigneeController.text,
+
+    if(newAssigneeByNick != null) 'assigneeNick': newAssigneeByNick!.nick
+    else if(currentTask.assignee != null && removed) 'assigneeNick': null,
+
+    if(newAssigneeByKey != null) 'assigneeKey': newAssigneeByKey!.key
+    else if(currentTask.assignee != null && removed) 'assigneeKey': null,
+
+    if(currentTask.completed != completed) 'completed': completed,
+  };
 
 }
 
@@ -188,9 +221,10 @@ class TasksProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  void update(int index, {DateTime? deadline, TropUserNick? assignee, String? assigneeCustomText}){
+  void update(int index, {DateTime? deadline, TropUserNick? assigneeByNick, TropUser? assigneeByKey, String? assigneeCustomText}){
     if(deadline != null) tasks[index].deadline = deadline;
-    tasks[index].newAssignee = assignee;
+    tasks[index].newAssigneeByNick = assigneeByNick;
+    tasks[index].newAssigneeByKey = assigneeByKey;
     tasks[index].assigneeController.text = assigneeCustomText??'';
     notifyListeners();
   }

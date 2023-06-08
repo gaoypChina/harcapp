@@ -6,44 +6,111 @@ import 'package:harcapp/_common_classes/polygon.dart';
 import 'package:harcapp/logger.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:polybool/polybool.dart';
+import 'package:tuple/tuple.dart';
 
 import 'model/marker_data.dart';
 import 'utils.dart';
 
 class SamplePointsOptimizer{
 
+  // This variable stores areas of the map that are already seen by the user and
+  // that turned out to be empty. If a user zooms into such an area, it will not be sampled.
   static Polygon seenMap = const Polygon(regions: []);
+
+  // This variable stores the area of a already loaded map layer for each zoom
+  // level of a public map (loaded when not logged in).
+  // When reading, if the zoom level should be rounded up.
+  // When writing, if the zoom level should be rounded down.
+  static Map<int, Polygon> seenPublicMap = {};
 
   static double? cachedZoom;
 
-  static HashMap<double, HashMap<double, HashMap<double, bool>>> cached = HashMap();
+  static HashMap<int, HashMap<double, HashMap<double, bool>>> cached = HashMap();
 
   static addSeenMapFragment({
-    required northDist,
-    required southDist,
-    required westDist,
-    required eastDist,
-  }) => seenMap = seenMap.union(Polygon(regions: [[
+    required double northDist,
+    required double southDist,
+    required double westDist,
+    required double eastDist,
+  }){
+
+    Polygon newArea = Polygon(regions: [[
+      Coordinate(westDist, northDist),
+      Coordinate(eastDist, northDist),
+      Coordinate(eastDist, southDist),
+      Coordinate(westDist, southDist),
+    ]]);
+
+    try {
+      seenMap = seenMap.union(newArea);
+    } catch (e){
+      // For some reason this sometime throws an error. It's a library implementation problem.
+      logger.e("SamplePointsOptimizer :: addSeenMapFragment :: ${e.toString()}");
+    }
+  }
+
+  static addSeenPublicMapFragment({
+    required double northDist,
+    required double southDist,
+    required double westDist,
+    required double eastDist,
+    required double zoom,
+  }){
+
+    Polygon newArea = Polygon(regions: [[
+      Coordinate(westDist, northDist),
+      Coordinate(eastDist, northDist),
+      Coordinate(eastDist, southDist),
+      Coordinate(westDist, southDist),
+    ]]);
+
+    int _zoom = zoom.floor();
+
+    for(int itZoom = _zoom; itZoom>0; itZoom--){
+      if(seenPublicMap[itZoom] == null)
+        seenPublicMap[itZoom] = const Polygon(regions: []);
+
+      try {
+        seenPublicMap[itZoom.floor()] = seenPublicMap[itZoom.floor()]!.union(newArea);
+      } catch (e){
+        // For some reason this sometime throws an error. It's a library implementation problem.
+        logger.e("SamplePointsOptimizer :: addSeenMapFragment :: ${e.toString()}");
+      }
+    }
+  }
+
+  static bool isPublicMapSeen({
+    required double northDist,
+    required double southDist,
+    required double westDist,
+    required double eastDist,
+    required double zoom,
+  }){
+    if(seenPublicMap[zoom.ceil()] == null) return false;
+
+    return seenPublicMap[zoom.ceil()]!.containsPoly(Polygon(regions: [[
       Coordinate(westDist, northDist),
       Coordinate(eastDist, northDist),
       Coordinate(eastDist, southDist),
       Coordinate(westDist, southDist),
     ]]));
+  }
 
   static void cacheSamplePoints(
       List<LatLng> samples,
       double zoom,
   ){
     cachedZoom = zoom;
+    int zoomToLookup = zoom.floor();
+
+    if(cached[zoomToLookup] == null)
+      cached[zoomToLookup] = HashMap();
 
     for(LatLng sample in samples) {
-      if(cached[zoom] == null)
-        cached[zoom] = HashMap();
+      if(cached[zoomToLookup]![sample.latitude] == null)
+        cached[zoomToLookup]![sample.latitude] = HashMap();
 
-      if(cached[zoom]![sample.latitude] == null)
-        cached[zoom]![sample.latitude] = HashMap();
-
-      cached[zoom]![sample.latitude]![sample.longitude] = true;
+      cached[zoomToLookup]![sample.latitude]![sample.longitude] = true;
     }
 
     int count = 0;
@@ -59,12 +126,14 @@ class SamplePointsOptimizer{
       LatLng sample,
       double zoom,
   ){
-    if(cached[zoom] == null)
+    int zoomToLookup = zoom.floor();
+
+    if(cached[zoomToLookup] == null)
       return false;
-    if(cached[zoom]![sample.latitude] == null)
+    if(cached[zoomToLookup]![sample.latitude] == null)
       return false;
 
-    return cached[zoom]![sample.latitude]![sample.longitude] != null;
+    return cached[zoomToLookup]![sample.latitude]![sample.longitude] != null;
   }
 
   static (List<LatLng>, List<List<bool>>, bool) createSamplePoints(
@@ -111,13 +180,13 @@ class SamplePointsOptimizer{
         growable: false
     );
 
+    // Samples around currently found markers.
     List<LatLng> uncertaintySamples = otherMarkersUncertaintySamplePoints(
       northLat,
       southLat,
       westLng,
       eastLng,
       zoom,
-      samples,
     );
 
     bool nothingSkipped = true;
@@ -130,12 +199,16 @@ class SamplePointsOptimizer{
 
         LatLng sample = mercator.unproject(CustomPoint(x, y));
 
-        if(!uncertaintySamples.contains(sample)) {
-          if (skipCached && SamplePointsOptimizer.isSamplePointCached(sample, zoom)) {
-            nothingSkipped = false;
-            continue;
-          }
+        // If already cached, skip.
+        if (skipCached && SamplePointsOptimizer.isSamplePointCached(sample, zoom)) {
+          nothingSkipped = false;
+          continue;
+        }
 
+        // If sample is not uncertain...
+        if(!uncertaintySamples.contains(sample)) {
+
+          // If sample is in the seen part of the map, skip.
           if (inUnseenMapOnly && seenMap.isNotEmpty && seenMap.contains(x.toDouble(), y.toDouble())) {
             nothingSkipped = false;
             continue;
@@ -158,17 +231,15 @@ class SamplePointsOptimizer{
       double westLng,
       double eastLng,
 
-      double zoom,
-
-      List<LatLng> samplingPoints,
+      double zoom
   ){
 
     CustomPoint nothWestPoint = const SphericalMercator().project(LatLng(northLat, westLng));
-    int northLatDist = nothWestPoint.y.toInt();
-    int westLngDist = nothWestPoint.x.toInt();
+    double northLatDist = nothWestPoint.y.toDouble();
+    double westLngDist = nothWestPoint.x.toDouble();
     CustomPoint southEastPoint = const SphericalMercator().project(LatLng(southLat, eastLng));
-    int southLatDist = southEastPoint.y.toInt();
-    int eastLngDist = southEastPoint.x.toInt();
+    double southLatDist = southEastPoint.y.toDouble();
+    double eastLngDist = southEastPoint.x.toDouble();
 
     Set<MarkerData> markersInBounds = MarkerData.findMarkersInBounds(
         northLat: northLat,
@@ -186,25 +257,31 @@ class SamplePointsOptimizer{
     var (latDistDelta, lngDistDelta) = HarcMapUtils.getDistanceDeltas(zoom);
 
     List<LatLng> samplePointsWithPotentialMarkers = [];
+    Set<Tuple2<double, double>> duplicationSet = {};
     for(MarkerData marker in markersInBounds){
 
-      int closestGridPointLatDist = marker.latDist - (marker.latDist % latDistDelta);
-      int startLatDist = closestGridPointLatDist - marker.otherMarkersUncertaintyDist + (marker.otherMarkersUncertaintyDist % latDistDelta);
-      int endLatDist = marker.latDist + marker.otherMarkersUncertaintyDist;
+      // Closest sampling point, left of marker.
+      double closestGridPointLatDist = marker.latDist - (marker.latDist % latDistDelta);
+      double startLatDist = closestGridPointLatDist - marker.otherMarkersUncertaintyDist + (marker.otherMarkersUncertaintyDist % latDistDelta) + latDistDelta;
+      double endLatDist = marker.latDist + marker.otherMarkersUncertaintyDist;
 
       startLatDist = max(startLatDist, southLatDist);
       endLatDist = min(endLatDist, northLatDist);
 
-      for(int y = startLatDist; y <= endLatDist; y += latDistDelta){
-        int closestGridPointLngDist = marker.lngDist - (marker.lngDist % lngDistDelta);
-        int startLngDist = closestGridPointLngDist - marker.otherMarkersUncertaintyDist + (marker.otherMarkersUncertaintyDist % lngDistDelta);
-        int endLngDist = marker.lngDist + marker.otherMarkersUncertaintyDist;
+      for(double y = startLatDist; y <= endLatDist; y += latDistDelta){
+        // Closest sampling point, below marker.
+        double closestGridPointLngDist = marker.lngDist - (marker.lngDist % lngDistDelta);
+        double startLngDist = closestGridPointLngDist - marker.otherMarkersUncertaintyDist + (marker.otherMarkersUncertaintyDist % lngDistDelta) + lngDistDelta;
+        double endLngDist = marker.lngDist + marker.otherMarkersUncertaintyDist;
 
         startLngDist = max(startLngDist, westLngDist);
         endLngDist = min(endLngDist, eastLngDist);
 
-        for(int x = startLngDist; x <= endLngDist; x += lngDistDelta)
+        for(double x = startLngDist; x <= endLngDist; x += lngDistDelta) {
+          if(duplicationSet.contains(Tuple2(x, y))) continue;
           samplePointsWithPotentialMarkers.add(const SphericalMercator().unproject(CustomPoint(x, y)));
+          duplicationSet.add(Tuple2(x, y));
+        }
 
       }
     }
@@ -213,6 +290,10 @@ class SamplePointsOptimizer{
 
   }
 
-  static clear() => cached.clear();
+  static clear(){
+    cached.clear();
+    seenMap = const Polygon(regions: []);
+    seenPublicMap.clear();
+  }
 
 }

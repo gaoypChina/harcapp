@@ -362,7 +362,7 @@ RankZHRDData rankZhrHarcD0SData = RankZHRDData.from(
     doswiadczenieItems: [
       const RankTaskData(text: 'Systematycznie uczestniczy w pracy środowiska harcerskiego.'),
       const RankTaskData(text: 'Współpracuje ze środowiskiem starszoharcerskim lub instruktorskim.'),
-      const RankTaskData(text: 'Wzięła udział w przedsięwzięciu harcerskim typu rajd, zlot itp.'),
+      const RankTaskData(text: 'Wzięła udział w przedsięwzięciu harcerskim typu rajd, zlot itp..'),
     ],
     catData: null
 );
@@ -915,7 +915,7 @@ RankZHRDData rankZhrHarcD3Data = RankZHRDData.from(
         title: _GROUP_TITLE_WIEDZA_O_POLSCE,
         taskData: [
           RankTaskData(text: 'Śledzi bieżące wydarzenia polityczne i społeczne.'),
-          RankTaskData(text: 'Pogłębia swoją wiedzę o historii i kulturze, zwłaszcza swojego regionu – jego specyfice, działaczach, środowisku artystycznym, wydarzeniach historycznych itp.'),
+          RankTaskData(text: 'Pogłębia swoją wiedzę o historii i kulturze, zwłaszcza swojego regionu – jego specyfice, działaczach, środowisku artystycznym, wydarzeniach historycznych itp..'),
         ],
       ),
     ],
@@ -1027,7 +1027,7 @@ RankZHRDData rankZhrHarcD3SData = RankZHRDData.from(
         title: _GROUP_TITLE_WIEDZA_O_POLSCE,
         taskData: [
           RankTaskData(text: 'Śledzi bieżące wydarzenia polityczne i społeczne.'),
-          RankTaskData(text: 'Pogłębia swoją wiedzę o historii i kulturze, zwłaszcza swojego regionu – jego specyfice, działaczach, środowisku artystycznym, wydarzeniach historycznych itp.'),
+          RankTaskData(text: 'Pogłębia swoją wiedzę o historii i kulturze, zwłaszcza swojego regionu – jego specyfice, działaczach, środowisku artystycznym, wydarzeniach historycznych itp..'),
         ],
       ),
     ],
@@ -1118,7 +1118,7 @@ RankZHRDData rankZhrHarcD4Data = RankZHRDData.from(
                 ),
                 RankTaskData(text:
                 'Szacunek dla otaczającego świata, świadomość aktualnych zagrożeń i poszukiwanie wiedzy o ich źródłach.',
-                    description: 'Wędrowniczka dostrzega związek między swoimi codziennymi działaniami a ich globalnym wpływem na środowisko. Stara się wcielać w życie zasady życia w harmonii z przyrodą, buduje w sobie dobre odruchy oszczędzania zasobów planety, z których korzysta. Jej troska o środowisko naturalne przejawia się w codziennej rutynie dbania o zasoby: oszczędzaniu energii, jedzenia, wody itp.'
+                    description: 'Wędrowniczka dostrzega związek między swoimi codziennymi działaniami a ich globalnym wpływem na środowisko. Stara się wcielać w życie zasady życia w harmonii z przyrodą, buduje w sobie dobre odruchy oszczędzania zasobów planety, z których korzysta. Jej troska o środowisko naturalne przejawia się w codziennej rutynie dbania o zasoby: oszczędzaniu energii, jedzenia, wody itp..'
                 ),
                 RankTaskData(text:
                 'Świadomość aktualnych wyzwań stojących przed Polską, poszukiwanie swojego miejsca w życiu obywatelskim i kulturalnym.',
@@ -1301,7 +1301,7 @@ RankZHRDData rankZhrHarcD4SData = RankZHRDData.from(
                 RankTaskData(text:
                 'Odwaga w podejmowaniu zadań.',
                     description: 'Starsza wędrowniczka wkracza w świat harcerskiej idei, postaw, działań i wyzwań. Poznaje smak harcerskich wyzwań, podchodzi do nich pogodnie, uczy się przezwyciężać trudności, stawiać wyzwania przed sobą samą. Uczy się dokonywania właściwych wyborów, zachowując odpowiednie proporcje pomiędzy działaniem w środowisku harcerskim a innymi sferami życia.'
-                        '\n\nIstotne jest również zrozumienie sensu prostoty i niejednokrotnie rezygnacji z wygód, z których korzystamy w życiu codziennym, na rzecz możliwości doświadczenia i odkrycia czegoś nowego. Spartańskie warunki obozu czy materac zamiast wygodnego łóżka w czasie biwaku, trudy wędrówki, ograniczenie na kilka dni używania telefonu komórkowego itp.'
+                        '\n\nIstotne jest również zrozumienie sensu prostoty i niejednokrotnie rezygnacji z wygód, z których korzystamy w życiu codziennym, na rzecz możliwości doświadczenia i odkrycia czegoś nowego. Spartańskie warunki obozu czy materac zamiast wygodnego łóżka w czasie biwaku, trudy wędrówki, ograniczenie na kilka dni używania telefonu komórkowego itp..'
                 )
               ]
           ),
@@ -1398,7 +1398,7 @@ RankZHRDData rankZhrHarcD4SData = RankZHRDData.from(
                 ),
                 RankTaskData(text:
                 'Umiejętności samarytańskie.',
-                    description: 'Starsza wędrowniczka posiada umiejętność niesienia pierwszej pomocy w podstawowym zakresie. Wie, jak się zachować w czasie wypadku samochodowego, którego jest świadkiem, co zrobić, gdy ktoś zasłabnie, dostanie ataku serca/epilepsji/hipoglikemii itp. Wie, jak odpowiedzialnie i prawidłowo nieść pierwszą pomoc przedmedyczną.'
+                    description: 'Starsza wędrowniczka posiada umiejętność niesienia pierwszej pomocy w podstawowym zakresie. Wie, jak się zachować w czasie wypadku samochodowego, którego jest świadkiem, co zrobić, gdy ktoś zasłabnie, dostanie ataku serca/epilepsji/hipoglikemii itp.. Wie, jak odpowiedzialnie i prawidłowo nieść pierwszą pomoc przedmedyczną.'
                 ),
                 RankTaskData(text:
                 'Umiejętności obozowe, terenoznawcze, przyrodnicze.',

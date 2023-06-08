@@ -30,7 +30,7 @@ class MainPageState extends State<MainPage>{
   late Widget page;
 
   Future<void> tryCheckUnofficalApkUpdate() async {
-    if(unofficialApk && await isNetworkAvailable())
+    if(unofficialApk && await isNetworkAvailable() && mounted)
       await checkUnofficialApkUpdate(context);
   }
 

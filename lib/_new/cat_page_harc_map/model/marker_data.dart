@@ -321,9 +321,9 @@ class MarkerData{
   String? name;
   CommonContactData? contact;
   double lat;
-  late int latDist;
+  late double latDist;
   double lng;
-  late int lngDist;
+  late double lngDist;
   MarkerType type;
   MarkerVisibility visibility;
   double minZoomAppearance;
@@ -387,8 +387,8 @@ class MarkerData{
       _loadedManagersMap = {for (MarkerManager m in managers) m.key: m}
   {
     CustomPoint latLngPoint = const SphericalMercator().project(LatLng(lat, lng));
-    lngDist = latLngPoint.x.toInt();
-    latDist = latLngPoint.y.toInt();
+    lngDist = latLngPoint.x.toDouble();
+    latDist = latLngPoint.y.toDouble();
 
     anyDoubleCommunityCategories = false;
     for(int counts in communitiesBasicData.values)

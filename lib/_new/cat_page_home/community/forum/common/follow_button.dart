@@ -65,12 +65,14 @@ class ForumFollowButtonState extends State<ForumFollowButton>{
       onTap: processing?null:() async {
 
         setState(() => processing = true);
+        ForumProvider forumProv = ForumProvider.of(context);
+        CommunityProvider communityProv = CommunityProvider.of(context);
+        CommunityListProvider communityListProv = CommunityListProvider.of(context);
+
         await ApiForum.followForum(
           forumKey: forum.key,
           follow: !forum.followed,
           onSuccess: (followed){
-            if(!mounted) return;
-
             if(forum.followed && !followed)
               forum.followersCnt -= 1;
             else if(!forum.followed && followed)
@@ -82,14 +84,17 @@ class ForumFollowButtonState extends State<ForumFollowButton>{
               Community.addToAllByForum(forum, context: context);
             else
               Community.removeForum(forum, context: context);
-            
+
+            forumProv.notify();
+            Community.callProviders(communityProv, communityListProv);
+
+            onChanged?.call(followed);
+
+            if(!mounted) return;
             setState((){});
-            ForumProvider.notify_(context);
-            CommunityListProvider.notify_(context);
             if(followed) showAppToast(context, text: 'Obserwujesz forum ${forum.name}');
             else showAppToast(context, text: 'Już nie obserwujesz forum ${forum.name}');
 
-            onChanged?.call(followed);
           },
           onError: () => mounted?showAppToast(context, text: simpleErrorMessage):null,
           onServerMaybeWakingUp: () {

@@ -57,11 +57,11 @@ class ForumLikeButtonState extends State<ForumLikeButton>{
       onTap: processing?null:() async {
 
         setState(() => processing = true);
+        ForumProvider forumProv = ForumProvider.of(context);
         await ApiForum.likeForum(
             forumKey: forum.key,
             like: !forum.liked,
             onSuccess: (liked){
-              if(!mounted) return;
 
               if(forum.liked && !liked)
                 forum.likeCnt -= 1;
@@ -70,12 +70,16 @@ class ForumLikeButtonState extends State<ForumLikeButton>{
 
               forum.liked = liked;
 
+              forumProv.notify();
+
+              onChanged?.call(liked);
+
+              if(!mounted) return;
               setState((){});
-              ForumProvider.notify_(context);
+
               if(liked) showAppToast(context, text: 'Polubiłeś forum ${forum.name}');
               else showAppToast(context, text: 'Już nie lubisz forum ${forum.name}');
 
-              onChanged?.call(liked);
             },
             onError: () => mounted?showAppToast(context, text: simpleErrorMessage):null,
             onServerMaybeWakingUp: () {

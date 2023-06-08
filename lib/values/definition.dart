@@ -139,7 +139,7 @@ const List<Definition> allDefinitions = [
   Definition('Syndrom Bambiego', 'Zjawisko infantylizacji i idealizacji przyrody, w szczególności zwierząt uznawanych za "urocze". Dzika natura postrzegana jest jedynie jako dobra, bezradna i przyjazna, pomijane są zaś pozostałe jej cechy, takie jak śmierć, selekcja i agresja. Występuje głównie wśród społeczności wielkomiejskiej.'),
   Definition('System wartości', 'Zespół wartości uporządkowany według ich stopnia ważności dla jednostki lub zbiorowości. Tworzy trwałą, uporządkowaną, hierarchiczną strukturę.'),
   Definition('Tolerancja', 'Przyzwolenie na zachowania lub zjawiska uznane za niesłuszne lub złe, często w imię ważniejszego celu.'),
-  Definition('Tożsamość narodowa', 'Zespół cech nadających narodowi unikalną tożsamość, odróżniającą go od innych narodów. Oparta jest na kategoriach takich jak historia, wartości, kultura strategiczna itd.'),
+  Definition('Tożsamość narodowa', 'Zespół cech nadających narodowi unikalną tożsamość, odróżniającą go od innych narodów. Oparta jest na kategoriach takich jak historia, wartości, kultura strategiczna itd..'),
   Definition('Tradycja', 'Przekazywane pokoleniowo treści kultury, takie jak: obyczaje, poglądy, wierzenia, sposoby myślenia i zachowania, normy społeczne, uznane przez daną zbiorowość za ważne dla jej współczesności i przyszłości.'),
   Definition('Technototalitaryzm', 'Ustrój totalitarny sprawowany na społeczeństwie za pomocą osiągnięć technologicznych.'),
   Definition('Transcendencja', 'Istnienie rzeczywistości poznania poza umysłem poznającym, bądź bytu absolutnego poza rzeczywistością poznającego.'),

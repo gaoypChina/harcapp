@@ -12,6 +12,7 @@ import 'package:harcapp/_common_widgets/extended_floating_button.dart';
 import 'package:harcapp/_common_widgets/search_field.dart';
 import 'package:harcapp/_new/app_bottom_navigator.dart';
 import 'package:harcapp/_new/cat_page_harc_map/utils.dart';
+import 'package:harcapp/_new/cat_page_home/community/communities_loader.dart';
 import 'package:harcapp/_new/cat_page_home/community/model/community.dart';
 import 'package:harcapp/_new/details/app_settings.dart';
 import 'package:harcapp/account/account.dart';
@@ -30,6 +31,7 @@ import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:polybool/polybool.dart' as pb;
 import 'package:provider/provider.dart';
 import 'package:semaphore/semaphore.dart';
 
@@ -49,10 +51,12 @@ class CreateSamplePointsArgs{
   final double zoom;
   final bool skipCached;
   final bool inUnseenMapOnly;
-  final HashMap<double, HashMap<double, HashMap<double, bool>>> cached;
+  final HashMap<int, HashMap<double, HashMap<double, bool>>> cached;
   final double? cachedZoom;
+  final pb.Polygon seenMap;
+  final List<MarkerData> allMarkers;
 
-  const CreateSamplePointsArgs(this.northLat, this.southLat, this.westLng, this.eastLng, this.zoom, this.skipCached, this.inUnseenMapOnly, this.cached, this.cachedZoom);
+  const CreateSamplePointsArgs(this.northLat, this.southLat, this.westLng, this.eastLng, this.zoom, this.skipCached, this.inUnseenMapOnly, this.cached, this.cachedZoom, this.seenMap, this.allMarkers);
 }
 
 (List<LatLng>, List<List<bool>>, bool) createSamplePoints(
@@ -61,6 +65,8 @@ class CreateSamplePointsArgs{
 
   SamplePointsOptimizer.cached = args.cached;
   SamplePointsOptimizer.cachedZoom = args.cachedZoom;
+  SamplePointsOptimizer.seenMap = args.seenMap;
+  MarkerData.addAllToAll(args.allMarkers);
 
   return SamplePointsOptimizer.createSamplePoints(
       args.northLat,
@@ -97,7 +103,7 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
 
   static const Duration requestDuration = Duration(milliseconds: 1100);
 
-  static late int requestIndex = 0;
+  static int requestIndex = 0;
 
   static const double maxLatSpan = 85.0;
   static const double maxLngSpan = 180.0;
@@ -106,9 +112,8 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
   static double lastZoom = 5;
 
   @override
-  void afterFirstLayout(BuildContext context) {
+  void afterFirstLayout(BuildContext context) =>
     post(() => Provider.of<ColorPackProvider>(context, listen: false).colorPack = ColorPackHarcMap());
-  }
 
   late LoginListener loginListener;
 
@@ -120,6 +125,12 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
   late Semaphore markerLoaderSemaphore;
   late int markerLoaderIndex;
   late bool markersLoading;
+
+  late List<AppMarker> markersToDisplay;
+  List<AppMarker> calculateMarkersToDisplay() => (MarkerData.all??[])
+      .where((marker) => zoom > marker.minZoomAppearance)
+      .map((m) => AppMarker(marker: m))
+      .toList();
 
   Future<int> markerLoadingStarted() async {
     await markerLoaderSemaphore.acquire();
@@ -137,15 +148,7 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
   }
 
   Future<void> tryGetMarkers({required bool publicOnly}) async {
-    if(!await isNetworkAvailable())
-      return;
-
-    int thisRequestIndex = ++requestIndex;
-
-    await Future.delayed(requestDuration);
-
-    if(requestIndex != thisRequestIndex) return;
-    else requestIndex = 0;
+    if(!await isNetworkAvailable()) return;
 
     double thisNorthBound = northBound;
     double thisSouthBound = southBound;
@@ -153,95 +156,149 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
     double thisEastBound = eastBound;
     double thisZoom = zoom;
 
-    var (requestSamples, rectDecompMatrix, noSamplesSkipped) = await compute(
-        createSamplePoints,
-        CreateSamplePointsArgs(
+    CustomPoint northWestDist = const SphericalMercator().project(LatLng(northBound, westBound));
+    CustomPoint southEastDist = const SphericalMercator().project(LatLng(southBound, eastBound));
+
+    double boundExtensionRation = publicOnly?1:.5;
+
+    if(publicOnly) {
+      bool fragmentAlreadySeen = SamplePointsOptimizer.isPublicMapSeen(
+          northDist: northWestDist.y.toDouble(),
+          southDist: southEastDist.y.toDouble(),
+          westDist: northWestDist.x.toDouble(),
+          eastDist: southEastDist.x.toDouble(),
+          zoom: thisZoom
+      );
+      if(fragmentAlreadySeen){
+        logger.d('Public map fragment already seen.');
+        return;
+      }
+    } else {
+      var (requestSamples, _, _) = await compute(
+          createSamplePoints,
+          CreateSamplePointsArgs(
             thisNorthBound,
             thisSouthBound,
             thisWestBound,
             thisEastBound,
 
             thisZoom,
-            true, // skipCached
-            true, // inUnseenMapOnly,
+            true,
+            // skipCached
+            true,
+            // inUnseenMapOnly,
 
             SamplePointsOptimizer.cached,
-            SamplePointsOptimizer.cachedZoom
-        )
-    );
+            SamplePointsOptimizer.cachedZoom,
+            SamplePointsOptimizer.seenMap,
+            MarkerData.all ?? [],
+          )
+      );
 
-    lastRequestedSamples = requestSamples;
+      lastRequestedSamples = requestSamples;
 
-    if(requestSamples.isEmpty)
-      // This means everything we want to sample for markers is already cached.
-      return;
+      if(requestSamples.isEmpty)
+        // This means everything we want to sample for markers is already cached.
+        return;
+    }
+
+    int thisRequestIndex = ++requestIndex;
+
+    await Future.delayed(requestDuration);
+
+    // It means that another request has been made in the meantime.
+    if(requestIndex != thisRequestIndex) return;
+    else requestIndex = 0;
 
     int thisMarkerLoaderIndex = await markerLoadingStarted();
-
-    CustomPoint northWestDist = const SphericalMercator().project(LatLng(northBound, westBound));
-    CustomPoint southEastDist = const SphericalMercator().project(LatLng(southBound, eastBound));
 
     int latDist = northWestDist.y.toInt() - southEastDist.y.toInt();
     int lngDist = southEastDist.x.toInt() - northWestDist.x.toInt();
 
-    CustomPoint extendedNorthWestDist = CustomPoint(northWestDist.x - lngDist, northWestDist.y + latDist);
-    CustomPoint extendedSouthEastDist = CustomPoint(southEastDist.x + lngDist, southEastDist.y - latDist);
-
-    LatLng extendedNorthWest = const SphericalMercator().unproject(extendedNorthWestDist);
-    LatLng extendedSouthEast = const SphericalMercator().unproject(extendedSouthEastDist);
-
-    double extendedNorthBound = extendedNorthWest.latitude;
-    double extendedSouthBound = extendedSouthEast.latitude;
-    double extendedWestBound = extendedNorthWest.longitude;
-    double extendedEastBound = extendedSouthEast.longitude;
-    double extendedZoom = thisZoom;
-
-    (requestSamples, rectDecompMatrix, noSamplesSkipped) = await compute(
-        createSamplePoints,
-        CreateSamplePointsArgs(
-          extendedNorthBound,
-          extendedSouthBound,
-          extendedWestBound,
-          extendedEastBound,
-
-          thisZoom,
-          true, // skipCached
-          true, // inUnseenMapOnly
-
-          SamplePointsOptimizer.cached,
-          SamplePointsOptimizer.cachedZoom
-        )
+    CustomPoint reqNorthWestDist = CustomPoint(
+        northWestDist.x - boundExtensionRation*lngDist,
+        northWestDist.y + boundExtensionRation*latDist
     );
+    CustomPoint reqSouthEastDist = CustomPoint(
+        southEastDist.x + boundExtensionRation*lngDist,
+        southEastDist.y - boundExtensionRation*latDist
+    );
+
+    LatLng reqNorthWest = const SphericalMercator().unproject(reqNorthWestDist);
+    LatLng reqSouthEast = const SphericalMercator().unproject(reqSouthEastDist);
+
+    double reqNorthBound = reqNorthWest.latitude;
+    double reqSouthBound = reqSouthEast.latitude;
+    double reqWestBound = reqNorthWest.longitude;
+    double reqEastBound = reqSouthEast.longitude;
+    // If public only, we want to request a ceil zoom level in order to store the seen public map.
+    // If not public, we want to request a floor zoom level in order to match the sampling points.
+    double reqZoom = publicOnly?thisZoom.ceilToDouble():thisZoom;
+
+    // The following variables are only used if publicOnly is false.
+    late List<LatLng> requestSamples;
+    late List<List<bool>> rectDecompMatrix;
+    late bool noSamplesSkipped;
+
+    if(!publicOnly)
+      (requestSamples, rectDecompMatrix, noSamplesSkipped) = await compute(
+          createSamplePoints,
+          CreateSamplePointsArgs(
+            reqNorthBound,
+            reqSouthBound,
+            reqWestBound,
+            reqEastBound,
+
+            reqZoom,
+            true, // skipCached
+            true, // inUnseenMapOnly
+
+            SamplePointsOptimizer.cached,
+            SamplePointsOptimizer.cachedZoom,
+            SamplePointsOptimizer.seenMap,
+            MarkerData.all??[],
+          )
+      );
+
+    if(AppSettings.devMode && mounted && !publicOnly)
+      showAppToast(context, text: 'Requested ${requestSamples.length} samples');
 
     await ApiHarcMap.getAllMarkers(
         publicOnly: publicOnly,
 
-        northLat: extendedNorthBound,
-        southLat: extendedSouthBound,
-        westLng: extendedWestBound,
-        eastLng: extendedEastBound,
-        zoom: extendedZoom,
+        northLat: reqNorthBound,
+        southLat: reqSouthBound,
+        westLng: reqWestBound,
+        eastLng: reqEastBound,
+        zoom: reqZoom,
 
-        samples: noSamplesSkipped?null:rectDecompMatrix,
+        samples: publicOnly || noSamplesSkipped?null:rectDecompMatrix,
 
         onSuccess: (markers) {
           markers = MarkerData.addAllToAll(markers);
+          markersToDisplay = calculateMarkersToDisplay();
           if(mounted) setState(() {});
 
-          if(publicOnly) return;
+          if(publicOnly){
+            SamplePointsOptimizer.addSeenPublicMapFragment(
+              northDist: reqNorthWestDist.y.toDouble(),
+              southDist: reqSouthEastDist.y.toDouble(),
+              westDist: reqNorthWestDist.x.toDouble(),
+              eastDist: reqSouthEastDist.x.toDouble(),
+              zoom: reqZoom
+            );
+            return;
+          }
           SamplePointsOptimizer.cacheSamplePoints(
             requestSamples,
-            extendedZoom,
+            reqZoom,
           );
 
-          // CustomPoint northWestDist = const SphericalMercator().project(LatLng(thisNorthBound, thisWestBound));
-          // CustomPoint southEastDist = const SphericalMercator().project(LatLng(thisSouthBound, thisEastBound));
-
           SamplePointsOptimizer.addSeenMapFragment(
-            northDist: extendedNorthWestDist.y,
-            southDist: extendedSouthEastDist.y,
-            westDist: extendedNorthWestDist.x,
-            eastDist: extendedSouthEastDist.x,
+            northDist: reqNorthWestDist.y.toDouble(),
+            southDist: reqSouthEastDist.y.toDouble(),
+            westDist: reqNorthWestDist.x.toDouble(),
+            eastDist: reqSouthEastDist.x.toDouble(),
           );
 
           for(MarkerData marker in markers){
@@ -252,24 +309,21 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
           }
 
           otherMarkersUncertaintySamples = SamplePointsOptimizer.otherMarkersUncertaintySamplePoints(
-              extendedNorthBound,
-              extendedSouthBound,
-              extendedWestBound,
-              extendedEastBound,
-              extendedZoom,
-
-              requestSamples
+              reqNorthBound,
+              reqSouthBound,
+              reqWestBound,
+              reqEastBound,
+              reqZoom,
           );
 
           logger.d(
               'Loaded area:'
-              '\nZ: ${extendedZoom.toStringAsFixed(3)}'
-              '\nN: ${extendedNorthBound.toStringAsFixed(3)}'
-              '\nS: ${extendedSouthBound.toStringAsFixed(3)}'
-              '\nW: ${extendedWestBound.toStringAsFixed(3)}'
-              '\nE: ${extendedEastBound.toStringAsFixed(3)}'
+              '\nZ: ${reqZoom.toStringAsFixed(3)}'
+              '\nN: ${reqNorthBound.toStringAsFixed(3)}'
+              '\nS: ${reqSouthBound.toStringAsFixed(3)}'
+              '\nW: ${reqWestBound.toStringAsFixed(3)}'
+              '\nE: ${reqEastBound.toStringAsFixed(3)}'
               '\nFound markers: ${markers.length}'
-
           );
 
         },
@@ -296,6 +350,7 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
     markersLoading = false;
 
     mapController = MapController();
+    markersToDisplay = calculateMarkersToDisplay();
 
     loginListener = LoginListener(
       onLogin: (emailConf) async {
@@ -403,7 +458,10 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
                 if(event is MapEventMoveEnd || event is MapEventDoubleTapZoomEnd)
                   tryGetMarkers(publicOnly: !AccountData.loggedIn);
 
-                MapEventChangedProvider.notify_(context);
+                markersToDisplay = calculateMarkersToDisplay();
+                if(mounted) post(() => setState((){}));
+
+                // MapEventChangedProvider.notify_(context);
               },
             ),
             mapController: mapController,
@@ -416,18 +474,16 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
                 userAgentPackageName: 'dev.fleaflet.flutter_map.example',
               ),
               if(MarkerData.all != null)
-                MarkerLayer(rotate: true, markers: MarkerData.all!
-                  .where((marker) => zoom > marker.minZoomAppearance)
-                  .map((m) => AppMarker(marker: m))
-                  .toList()
-                ),
+                MarkerLayer(rotate: true, markers: markersToDisplay),
 
               if(AppSettings.devMode)
                 IgnorePointer(
                   child: SamplingPointsLayerWidget(
-                      lastRequestedSamples,
-                      otherMarkersUncertaintySamples,
-                      mapController
+                    markersToDisplay.hashCode,
+
+                    lastRequestedSamples,
+                    otherMarkersUncertaintySamples,
+                    mapController
                   ),
                 ),
 
@@ -437,22 +493,34 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
                   child: Container(
                     color: background_(context).withOpacity(.7),
                     child: Consumer<MapEventChangedProvider>(
-                      builder: (context, prov, child) => Text(
-                        'X: ${const SphericalMercator().project(LatLng(mapController.center.latitude, mapController.center.longitude)).x.toStringAsFixed(3)}\n'
-                        'Y: ${const SphericalMercator().project(LatLng(mapController.center.latitude, mapController.center.longitude)).y.toStringAsFixed(3)}\n'
-                        '\n'
-                        'Z: ${zoom.toStringAsFixed(3)}\n'
-                        'N: ${northBound.toStringAsFixed(3)}\n'
-                        'S: ${southBound.toStringAsFixed(3)}\n'
-                        'W: ${westBound.toStringAsFixed(3)}\n'
-                        'E: ${eastBound.toStringAsFixed(3)}\n'
-                        '\n'
-                        'ΔLat: ${(northBound - southBound).toStringAsFixed(3)}\n'
-                        'ΔLng: ${(eastBound - westBound).toStringAsFixed(3)}'
-                      ),
+                      builder: (context, prov, child){
+
+                        CustomPoint center = const SphericalMercator().project(LatLng(mapController.center.latitude, mapController.center.longitude));
+                        var (latDistDelta, lngDistDelta) = HarcMapUtils.getDistanceDeltas(zoom);
+
+                        return Text(
+                            'cntr X: ${center.x.toStringAsFixed(3)}\n'
+                            'cntr Y: ${center.y.toStringAsFixed(3)}\n'
+                            '\n'
+                            'Z: ${zoom.toStringAsFixed(3)}\n'
+                            'N: ${northBound.toStringAsFixed(3)}\n'
+                            'S: ${southBound.toStringAsFixed(3)}\n'
+                            'W: ${westBound.toStringAsFixed(3)}\n'
+                            'E: ${eastBound.toStringAsFixed(3)}\n'
+                            '\n'
+                            'ΔscrnLat: ${(northBound - southBound).toStringAsFixed(3)}\n'
+                            'ΔscrnLng: ${(eastBound - westBound).toStringAsFixed(3)}\n'
+                            '\n'
+                            'ΔlatDist: $latDistDelta\n'
+                            'ΔlngDist: $lngDistDelta'
+                        );
+                      },
                     ),
                   ),
                 ),
+
+              if(AppSettings.devMode && !AccountData.loggedIn)
+                SeenPublicMapLayerWidget(zoom.ceil())
 
             ],
           ),
@@ -515,7 +583,7 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
                   onTap: () => AccountPage.open(context)
               );
 
-            if(Community.all == null)
+            if(Community.all == null && communitiesLoader.running)
               return FloatingActionButton(
                   backgroundColor: background_(context),
                   child: SpinKitChasingDots(
@@ -523,6 +591,13 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
                     size: Dimen.ICON_SIZE,
                   ),
                   onPressed: () => showAppToast(context, text: 'Ładowanie środowisk...')
+              );
+
+            if(Community.all == null && !communitiesLoader.running)
+              return FloatingActionButton(
+                  backgroundColor: background_(context),
+                  child: const Icon(MdiIcons.alertCircleOutline),
+                  onPressed: () => showAppToast(context, text: 'Problem z ładowaniem')
               );
 
             return FloatingActionButton(
@@ -596,11 +671,13 @@ class MapEventChangedProvider extends ChangeNotifier{
 
 class SamplingPointsLayerWidget extends StatefulWidget{
 
+  final int markersToDisplayHash;
   final List<LatLng>? lastRequestedSamples;
   final List<LatLng>? otherMarkersUncertaintySamples;
   final MapController mapController;
 
   const SamplingPointsLayerWidget(
+      this.markersToDisplayHash,
       this.lastRequestedSamples,
       this.otherMarkersUncertaintySamples,
       this.mapController,
@@ -613,6 +690,7 @@ class SamplingPointsLayerWidget extends StatefulWidget{
 
 class SamplingPointsLayerWidgetState extends State<SamplingPointsLayerWidget>{
 
+  int get markersToDisplayHash => widget.markersToDisplayHash;
   List<LatLng>? get lastRequestedSamples => widget.lastRequestedSamples;
   List<LatLng>? get otherMarkersUncertaintySamples => widget.otherMarkersUncertaintySamples;
   MapController get mapController => widget.mapController;
@@ -641,7 +719,7 @@ class SamplingPointsLayerWidgetState extends State<SamplingPointsLayerWidget>{
 
   late int lastMapViewHash;
 
-  int calculateLastMapViewHash() => northLat.hashCode + southLat.hashCode + westLng.hashCode + eastLng.hashCode + zoom.hashCode;
+  int calculateLastMapViewHash() => markersToDisplayHash + northLat.hashCode + southLat.hashCode + westLng.hashCode + eastLng.hashCode + zoom.hashCode;
 
   List<Marker> calculateMarkers() => SamplePointsOptimizer.createSamplePoints(
       northLat,
@@ -688,6 +766,25 @@ class SamplingPointsLayerWidgetState extends State<SamplingPointsLayerWidget>{
   @override
   Widget build(BuildContext context) => MarkerLayer(
       markers: markers
+  );
+
+}
+
+class SeenPublicMapLayerWidget extends StatelessWidget{
+
+  final int zoom;
+
+  const SeenPublicMapLayerWidget(this.zoom, {super.key});
+
+  @override
+  Widget build(BuildContext context) => PolygonLayer(
+      polygons: (SamplePointsOptimizer.seenPublicMap[zoom]?.regions??[]).map((coordinates) => Polygon(
+          points: coordinates.map((coord) => const SphericalMercator().unproject(CustomPoint(coord.x, coord.y))).toList(),
+          isFilled: true,
+          color: Colors.blue.withOpacity(.2),
+          borderColor: Colors.blue.withOpacity(.5),
+          borderStrokeWidth: 1.0
+      )).toList()
   );
 
 }

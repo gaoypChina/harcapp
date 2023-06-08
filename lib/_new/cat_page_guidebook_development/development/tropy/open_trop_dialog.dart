@@ -33,7 +33,7 @@ Future<void> _loadHandleTrop(BuildContext context, TropSharedPreviewData data, {
   Trop? loadSharedTrop;
   if(Trop.allSharedMapByKey.containsKey(data.key))
     if(data.lastUpdateTime == Trop.allSharedMapByKey[data.key]!.lastUpdateTime)
-      loadSharedTrop =  Trop.allSharedMapByKey[data.key];
+      loadSharedTrop = Trop.allSharedMapByKey[data.key];
 
   if(loadSharedTrop != null)
     pushPage(context, builder: (context) => TropPage(loadSharedTrop!));

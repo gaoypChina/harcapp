@@ -91,7 +91,7 @@ List<TropIdea> harcHTropIdeas = const [
     name: 'Cyberbezpieczeństwo',
     category: TropCategory.harcZaradnosc,
     intro: 'Wirtualne pieniądze, wirtualne zakupy – czy to wygoda, bezpieczeństwo i anonimowość? A może ryzyko, utrata prywatności i mnóstwo zagrożeń? Z pewnością jedno i drugie. Zatem jak bezpiecznie korzystać ze zdobyczy nowoczesnych technologii?',
-    plan: 'Dowiedzcie się, jak bezpiecznie korzystać z wirtualnych pieniędzy; uwzględnijcie bezpieczeństwo tożsamości, haseł i kont, zakupy przez Internet, wiarygodność stron w Internecie itp. Jakie kłopoty najczęściej spotykają nieuważnych użytkowników?'
+    plan: 'Dowiedzcie się, jak bezpiecznie korzystać z wirtualnych pieniędzy; uwzględnijcie bezpieczeństwo tożsamości, haseł i kont, zakupy przez Internet, wiarygodność stron w Internecie itp.. Jakie kłopoty najczęściej spotykają nieuważnych użytkowników?'
         '\n\nSpytajcie osób w swoim otoczeniu, w jaki sposób one korzystają z Internetu – z jakich usług, przy zachowaniu jakich środków bezpieczeństwa? Czy kiedykolwiek zdarzyła im się w związku z tym niebezpieczna sytuacja? Jak można było temu zapobiec?'
         '\n\nPrzygotujcie zestawienie najważniejszych zasad bezpieczeństwa w tym zakresie.',
     todo: 'Korzystając ze zdobytej wiedzy przeprowadźcie kampanię promującą zasady cyberbezpieczeństwa w swojej społeczności – wśród znajomych, rodziny, sąsiadów.'
@@ -316,7 +316,7 @@ List<TropIdea> harcHTropIdeas = const [
     todo: 'Proponowany podział zadań w zastępie:'
         '\n\n• Zapoznaj się z przepisami ruchu drogowego i zasadami jazdy na rowerze. Przeprowadź zbiórkę na ten temat w formie gry terenowej.'
         '\n\n• Zorganizuj zbiórkę w terenie z rowerami. Odwiedź miejsce, w którym będzie można przygotować rower na wycieczkę/ zawody kolarskie – przedstaw w praktyce zasady konserwacji roweru oraz podstawowe naprawy, które można wykonać w terenie samodzielnie. Podczas tej zbiorki powinna Wam towarzyszyć osoba dorosła.'
-        '\n\n• Zaproś specjalistę na zbiórkę w terenie (nie musi to być zawodowy kolarz, wystarczy pasjonat tego sportu np. rodzic kogoś z Was lub nauczyciel WF), by mógł opowiedzieć o zawodach kolarskich, zaprezentować w praktyce i przygotować do różnych technik jazdy po różnym terenie, przedstawić i omówić sprzęt kolarski, zwyczaje kolarzy itp.'
+        '\n\n• Zaproś specjalistę na zbiórkę w terenie (nie musi to być zawodowy kolarz, wystarczy pasjonat tego sportu np. rodzic kogoś z Was lub nauczyciel WF), by mógł opowiedzieć o zawodach kolarskich, zaprezentować w praktyce i przygotować do różnych technik jazdy po różnym terenie, przedstawić i omówić sprzęt kolarski, zwyczaje kolarzy itp..'
         '\n\n• Znajdź zawody kolarskie (lub inną imprezę rowerową), w których będziecie mogli wziąć udział i dopilnuj, aby cały zastęp się zapisał oraz skompletował potrzebny sprzęt kolarski do zawodów.'
         '\n\n• Na podstawie zebranej wiedzy i umiejętności stwórz harmonogram ćwiczeń przygotowujących do zawodów kolarskich Wasz zastęp – przygotuj tabelkę, w której każdy członek zastępu będzie zaznaczał np. naklejką, że wykonał ćwiczenia w danym tygodniu. Przypominaj kolegom, żeby nie przekraczali liczby wyznaczonych ćwiczeń tak, aby nikt się nie przećwiczył i nie doznał kontuzji.'
         '\n\n• Weźcie udział w zawodach kolarskich, a zdobyte umiejętności i wiedzę zaprezentujcie poprzez zorganizowanie wycieczki rowerowej z drużyną. Pamiętajcie, aby poinformować drużynowego i Waszych opiekunów o Waszych planach. Może ktoś z nich będzie chętny, aby dołączyć do Was podczas zawodów?',
@@ -345,7 +345,7 @@ List<TropIdea> harcHTropIdeas = const [
         '\n\n• Stwórz jadłospis na najbliższy biwak na podstawie zdobytych informacji i przygotujcie zastępem trzy zdrowe posiłki (o różnych porach dnia). Skonsultujcie go z drużynowym lub przybocznym i pamiętajcie o bezpieczeństwie podczas gotowania.'
         '\n\n• Porozmawiaj o wprowadzeniu do drużyny zdrowych nawyków żywieniowych podczas zbiórek i wyjazdów, zaproponuj zdrowe zamienniki dotychczas używanych produktów w drużynie np. w formie plakatu do harcówki.'
         '\n\n• Przeprowadź podczas biwaku zaprawę poranną/ ćwiczenia fizyczne, opowiadając o wpływie każdego ćwiczenia na nasze ciało.'
-        '\n\n• Zorganizuj „zdrowego Master Chefa” w drużynie – konkurs na najlepiej skomponowane zdrowe danie, rozpoznawanie produktów tylko za pomocą węchu i smaku, wspólna degustacja najbardziej nieznanych zdrowych produktów itp.',
+        '\n\n• Zorganizuj „zdrowego Master Chefa” w drużynie – konkurs na najlepiej skomponowane zdrowe danie, rozpoznawanie produktów tylko za pomocą węchu i smaku, wspólna degustacja najbardziej nieznanych zdrowych produktów itp..',
     summary: 'Czy wiedza na temat zdrowego żywienia jest potrzebna współczesnemu człowiekowi? Czy świadomy wybór produktów wpływa na nasze zdrowie? Dlaczego ruch jest podstawą piramidy żywieniowej? Podsumowanie działań zrealizujcie na łonie natury w dowolnej aktywnej formie np. olimpiady sportowej lub gry terenowej.',
   ),
 

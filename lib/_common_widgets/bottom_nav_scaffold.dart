@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:harcapp/_new/app_bottom_navigator.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_scaffold.dart';
@@ -64,9 +65,8 @@ class BottomNavScaffoldState extends State<BottomNavScaffold>{
           if(widget.bottomNavigationBar != null)
             widget.bottomNavigationBar!,
 
-          AppBottomNavigator(
-            background: widget.appBottomNavColor,
-          ),
+          AppBottomNavigator(background: widget.appBottomNavColor)
+
         ],
       ),
     );

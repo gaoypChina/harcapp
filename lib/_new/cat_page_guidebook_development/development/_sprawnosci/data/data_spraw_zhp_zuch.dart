@@ -1739,7 +1739,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   'Bezpiecznie jeżdżę na rowerze. Znam podstawowe przepisy ruchu drogowego.',
                   'Znam rodzaje znaków drogowych i potrafię rozpoznać niektóre z nich.',
                   'Bawiłem(-am) się z kolegami w wyścig kolarski.',
-                  'Urządziłem(-am) rowerowy tor przeszkód - jazda po ósemce, slalom itp.',
+                  'Urządziłem(-am) rowerowy tor przeszkód - jazda po ósemce, slalom itp..',
                   'Konserwuję swój rower i potrafię naprawić drobne uszkodzenia.',
                   'Potrafię przygotować rower do bezpiecznej jazdy.',
                   'Potrafię udzielić pierwszej pomocy przy skaleczeniu.',
