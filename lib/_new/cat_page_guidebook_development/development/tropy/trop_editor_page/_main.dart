@@ -201,6 +201,7 @@ class TropEditorPageState extends State<TropEditorPage>{
                           onSuccess: (trop) async {
                             if(!initTrop!.isShared)
                               trop.changedToShared(trop.lastUpdateTime!);
+                            initTrop!.update(trop);
                             TropSharedPreviewData? prevData = TropSharedPreviewData.allMapByKey![trop.key];
                             if(prevData != null)
                               prevData.lastUpdateTime = trop.lastUpdateTime!;

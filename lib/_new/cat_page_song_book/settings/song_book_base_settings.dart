@@ -7,7 +7,7 @@ import '../../../_common_classes/sha_pref.dart';
 class SongBookBaseSetting extends SongBookSettTempl{
 
   @override
-  bool get alwaysOnScreen => ShaPref.getBool(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_ALWAYS_ON_SCREEN, false);
+  bool get alwaysOnScreen => ShaPref.getBool(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_ALWAYS_ON_SCREEN, true);
   @override
   set alwaysOnScreen(bool value) => ShaPref.setBool(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_ALWAYS_ON_SCREEN, value);
 

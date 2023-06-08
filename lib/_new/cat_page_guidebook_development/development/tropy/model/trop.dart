@@ -455,15 +455,26 @@ class Trop extends TropBaseData with SyncableParamGroupMixin, SyncGetRespNode<Tr
   }
 
   static removeSharedFromAll(Trop t, {BuildContext? context}){
-    if(allSharedMapByKey[t.lclId] == null) return;
+    if(allSharedMapByKey[t.key] == null) return;
 
     allShared.remove(t);
-    allSharedMapByKey.remove(t.lclId);
+    allSharedMapByKey.remove(t.key);
 
     if(context == null) return;
     callProvidersOf(context);
   }
-  
+
+  static removeSharedFromAllByKey(String key, {BuildContext? context}){
+    Trop? trop = allSharedMapByKey[key];
+    if(trop == null) return;
+
+    allShared.remove(trop);
+    allSharedMapByKey.remove(trop.key);
+
+    if(context == null) return;
+    callProvidersOf(context);
+  }
+
   static removeAbsentPreviewsFromShared(){
     Directory sharedTropyDir = Directory(getSharedTropPreviewDataFolderPath);
     List<String> removed = [];
@@ -645,6 +656,7 @@ class Trop extends TropBaseData with SyncableParamGroupMixin, SyncGetRespNode<Tr
     completionDate = trop.completionDate;
     tasks = trop.tasks;
     userCount = trop.userCount;
+    lastUpdateTime = trop.lastUpdateTime;
   }
 
   static Trop createOwn({

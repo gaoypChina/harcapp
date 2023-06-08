@@ -83,7 +83,6 @@ class TropWidgetState extends State<TropWidget>{
                           allHarcTropCategories:
                           allZuchTropCategories,
                           onSaved: (updatedTrop){
-                            trop.update(updatedTrop);
                             showAppToast(context, text: 'Trop poprawiony');
                             prov.notify();
                           }

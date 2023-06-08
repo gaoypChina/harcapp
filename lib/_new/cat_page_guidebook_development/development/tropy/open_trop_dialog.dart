@@ -43,7 +43,11 @@ Future<void> _loadHandleTrop(BuildContext context, TropSharedPreviewData data, {
         tropKey: data.key,
         onSuccess: (Trop trop) async {
           trop.saveShared();
+          Trop.removeSharedFromAllByKey(trop.key!);
           Trop.addSharedToAll(trop, context: context);
+          TropSharedPreviewData? prevData = TropSharedPreviewData.allMapByKey![trop.key];
+          if(prevData != null)
+            prevData.lastUpdateTime = trop.lastUpdateTime!;
 
           await popPage(context);
           if(dialog) openDialog(context: context, builder: (context) => TropPage(trop));

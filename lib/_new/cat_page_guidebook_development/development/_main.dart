@@ -573,7 +573,7 @@ class TropyPreviewListState extends State<TropyPreviewList>{
 
       List<TropBaseData> trops = this.trops;
 
-      if(trops.isEmpty)
+      if(trops.isEmpty && !tropSharedPreviewsLoader.running)
         return const SizedBox(
           height: TropIcon.defSize + Dimen.defMarg,
           child: TropyPreviewEmptyWidget(),
