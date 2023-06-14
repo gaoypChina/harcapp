@@ -150,7 +150,7 @@ class GeneralPartState extends State<GeneralPart>{
 
       if(initCommunity == null)
         Text(
-          'Zawiązać krąg lub założyć forum będziesz ${AccountData.sex == Sex.male?'mógł':'mogła'} po stworzeniu środowiska',
+          'Krąg lub forum założysz po stworzeniu środowiska',
           style: AppTextStyle(
             fontSize: Dimen.TEXT_SIZE_APPBAR,
             fontWeight: weight.halfBold,

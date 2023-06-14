@@ -106,7 +106,7 @@ class SearchForumPageState extends State<SearchForumPage>{
       enablePullDown: false,
       enablePullUp: searchedCommunities != null && !refreshController.isRefresh,
       footer: AppCustomFooter(
-          moreToLoad: moreToLoad && searchedCommunities!.isNotEmpty,
+          moreToLoad: moreToLoad && searchedCommunities != null && searchedCommunities!.isNotEmpty,
           showDotWhenAllLoaded: true
       ),
       physics: const BouncingScrollPhysics(),

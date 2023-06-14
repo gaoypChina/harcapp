@@ -449,7 +449,7 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
                               left: Dimen.ICON_MARG,
                               right: Dimen.ICON_MARG,
                             ),
-                            child: Icon(MdiIcons.mapMarkerOutline, color: Colors.black),
+                            child: Icon(MdiIcons.mapMarkerOutline),
                           ),
                         ),
                       ),
