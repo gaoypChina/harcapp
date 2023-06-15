@@ -75,7 +75,7 @@ class TropWidgetState extends State<TropWidget>{
               actions: [
                 if(!trop.isShared || (trop.isShared && trop.myRole == TropRole.OWNER))
                   IconButton(
-                    icon: const Icon(MdiIcons.cogOutline),
+                    icon: Icon(MdiIcons.cogOutline),
                     onPressed: () => pushPage(context, builder: (context) => TropEditorPage(
                           initTrop: trop,
                           allCategories:
@@ -90,7 +90,7 @@ class TropWidgetState extends State<TropWidget>{
                   )
                 else if(trop.isShared)
                   IconButton(
-                      icon: const Icon(MdiIcons.cogOutline),
+                      icon: Icon(MdiIcons.cogOutline),
                       onPressed: () => showScrollBottomSheet(
                           context: context,
                           builder: (context) => BottomSheetDef(

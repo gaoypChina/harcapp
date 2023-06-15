@@ -86,7 +86,7 @@ class TropPredefPageState extends State<TropPredefPage> with TickerProviderState
             ),
             actions: [
               IconButton(
-                icon: const Icon(MdiIcons.magnify),
+                icon: Icon(MdiIcons.magnify),
                 onPressed: () => pushPage(
                     context,
                     builder: (context) => TropPredefSearchPage(

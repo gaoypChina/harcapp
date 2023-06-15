@@ -145,7 +145,7 @@ class CompletedTaskDetailsWidgetState extends State<CompletedTaskDetailsWidget>{
                       ),
                     )
                   else if(particip == null)
-                    const AccountThumbnailWidget(
+                    AccountThumbnailWidget(
                       icon: MdiIcons.alertCircleOutline,
                       elevated: false,
                       markIcon: MdiIcons.messageArrowRight,

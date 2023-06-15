@@ -99,7 +99,7 @@ class ArticleCardWidgetState extends State<ArticleCardWidget>{
                           builder: (context, prov, child) =>
                           article.isLiked?
                           IconButton(
-                              icon: const Icon(MdiIcons.heartOutline, color: ColorPackBlack.ICON_DISABLED),
+                              icon: Icon(MdiIcons.heartOutline, color: ColorPackBlack.ICON_DISABLED),
                               onPressed: () => showAppToast(context, text: 'Artykuł polubiony')
                           ): Container(),
                         ),
@@ -107,7 +107,7 @@ class ArticleCardWidgetState extends State<ArticleCardWidget>{
                           builder: (context, prov, child) =>
                           article.isSeen?
                           IconButton(
-                              icon: const Icon(MdiIcons.eyeOutline, color: ColorPackBlack.ICON_DISABLED),
+                              icon: Icon(MdiIcons.eyeOutline, color: ColorPackBlack.ICON_DISABLED),
                               onPressed: () => showAppToast(context, text: 'Artykuł przeczytany')
                           ): Container(),
                         ),

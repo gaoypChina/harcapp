@@ -133,7 +133,7 @@ class SlownikFragmentState extends State<SlownikFragment> with ModuleStatsMixin{
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Icon(MdiIcons.circleSmall, size: Dimen.TEXT_SIZE_BIG),
+                              Icon(MdiIcons.circleSmall, size: Dimen.TEXT_SIZE_BIG),
                               const SizedBox(width: Dimen.defMarg),
                               Expanded(child: WordWidget(langData2.word, weight.halfBold)),
                             ],
@@ -143,7 +143,7 @@ class SlownikFragmentState extends State<SlownikFragment> with ModuleStatsMixin{
                             children: langData2.alt.map((word) => Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Icon(MdiIcons.circleSmall, size: Dimen.TEXT_SIZE_BIG),
+                                Icon(MdiIcons.circleSmall, size: Dimen.TEXT_SIZE_BIG),
                                 const SizedBox(width: Dimen.defMarg),
                                 Expanded(child: WordWidget(word, weight.halfBold)),
                               ],
@@ -165,7 +165,7 @@ class SlownikFragmentState extends State<SlownikFragment> with ModuleStatsMixin{
       ),
       floatingActionButton: FloatingActionButton.extended(
           onPressed: () => chooseLangs(),
-          icon: const Icon(MdiIcons.translate),
+          icon: Icon(MdiIcons.translate),
           label: Text('${langAbbr[lang1]} - ${langAbbr[lang2]}', style: AppTextStyle(fontWeight: weight.halfBold))
       )
     );
@@ -344,7 +344,7 @@ class LangsPickerState extends State<LangsPicker>{
         ),
 
         IconButton(
-            icon: const Icon(MdiIcons.swapHorizontal),
+            icon: Icon(MdiIcons.swapHorizontal),
             onPressed: (){
               setState(() {
                 Lang? langTmp = langFrom;

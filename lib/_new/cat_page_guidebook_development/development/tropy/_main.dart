@@ -161,8 +161,8 @@ class TropyPageState extends State<TropyPage>{
                           onNewTropSaved: (trop) =>
                               pushPage(context, builder: (context) => TropPage(trop))
                       ),
-                      child: const Padding(
-                        padding: EdgeInsets.all(Dimen.SIDE_MARG),
+                      child: Padding(
+                        padding: const EdgeInsets.all(Dimen.SIDE_MARG),
                         child: EmptyMessageWidget(
                           icon: Trop.icon,
                           text: 'Rozpocznij nowy trop!',
@@ -375,7 +375,7 @@ class TropyPageState extends State<TropyPage>{
                       width: 48.0,
                     ),
                   ),
-                  trailing: const Icon(MdiIcons.lightbulbOutline),
+                  trailing: Icon(MdiIcons.lightbulbOutline),
                   title: Text('Pomysły i inspiracje', style: AppTextStyle(fontWeight: weight.halfBold)),
                   subtitle: Text('...na trop harcerski', style: AppTextStyle()),
                   onTap: (){
@@ -400,7 +400,7 @@ class TropyPageState extends State<TropyPage>{
                       width: 48.0,
                     ),
                   ),
-                  trailing: const Icon(MdiIcons.lightbulbOutline),
+                  trailing: Icon(MdiIcons.lightbulbOutline),
                   title: Text('Pomysły i inspiracje', style: AppTextStyle(fontWeight: weight.halfBold)),
                   subtitle: Text('...na trop starszoharcerski', style: AppTextStyle()),
                   onTap: (){
@@ -425,7 +425,7 @@ class TropyPageState extends State<TropyPage>{
                       width: 48.0,
                     ),
                   ),
-                  trailing: const Icon(MdiIcons.lightbulbOutline),
+                  trailing: Icon(MdiIcons.lightbulbOutline),
                   title: Text('Pomysły i inspiracje', style: AppTextStyle(fontWeight: weight.halfBold)),
                   subtitle: Text('...na trop wędrowniczy', style: AppTextStyle()),
                   onTap: (){

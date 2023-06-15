@@ -190,7 +190,7 @@ class ItemWidgetState extends State<ItemWidget>{
                   child: AnimatedOpacity(
                     duration: const Duration(milliseconds: 200),
                     opacity: source.display?0:1,
-                    child: const Icon(MdiIcons.eyeOffOutline, color: Colors.white54, size: 48.0),
+                    child: Icon(MdiIcons.eyeOffOutline, color: Colors.white54, size: 48.0),
                   ),
                 ),
               )

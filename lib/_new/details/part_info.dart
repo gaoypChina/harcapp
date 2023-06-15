@@ -47,7 +47,7 @@ class PartInfoState extends State<PartInfo>{
           title: Text('Wersja $version${unofficialApk?' (apk)':''}', style: AppTextStyle()),
           trailing: unofficialApk?
           IconButton(
-            icon: const Icon(MdiIcons.refresh),
+            icon: Icon(MdiIcons.refresh),
             onPressed: () async {
               bool updateAvailable = await checkUnofficialApkUpdate(context);
               if(!updateAvailable) showAppToast(context, text: 'Brak dostępnych aktualizacji');
@@ -57,7 +57,7 @@ class PartInfoState extends State<PartInfo>{
 
         ListTile(
           isThreeLine: true,
-            leading: const Icon(MdiIcons.emailOutline),
+            leading: Icon(MdiIcons.emailOutline),
             title: Text('Kontakt', style: AppTextStyle()),
             subtitle: Text('harcapp@gmail.com', style: AppTextStyle()),
         ),
@@ -69,9 +69,9 @@ class PartInfoState extends State<PartInfo>{
         ),
 
         ListTile(
-          leading: const Icon(MdiIcons.newspaperVariantOutline),
+          leading: Icon(MdiIcons.newspaperVariantOutline),
           title: Text('Co nowego?', style: AppTextStyle()),
-          trailing: const Icon(MdiIcons.arrowRight),
+          trailing: Icon(MdiIcons.arrowRight),
           onTap: () => openDialog(
               context: context,
               builder: (context) => const AppCard(
@@ -94,14 +94,14 @@ class PartInfoState extends State<PartInfo>{
           ),
           title: Text('Zostań patronem', style: AppTextStyle(color: Colors.deepOrange, fontWeight: weight.halfBold)),
           subtitle: Text('HarcAppka powstaje w wolnym czasie. Możesz pomóc zostając jej patronem!', style: AppTextStyle()),
-          trailing: const Icon(MdiIcons.arrowRight),
+          trailing: Icon(MdiIcons.arrowRight),
           onTap: () => launchURL('https://patronite.pl/harcapp'),
         ),
 
         ListTile(
           leading: const SizedBox(),
           title: Text('Lista patronów', style: AppTextStyle()),
-          trailing: const Icon(MdiIcons.arrowRight),
+          trailing: Icon(MdiIcons.arrowRight),
           onTap: () => openDialog(
               context: context,
               builder: (context) => AppCard(
@@ -114,9 +114,9 @@ class PartInfoState extends State<PartInfo>{
         ),
 
         ListTile(
-          leading: const Icon(MdiIcons.medalOutline),
+          leading: Icon(MdiIcons.medalOutline),
           title: Text('Osoby zasłużone', style: AppTextStyle()),
-          trailing: const Icon(MdiIcons.arrowRight),
+          trailing: Icon(MdiIcons.arrowRight),
           onTap: () => openDialog(
               context: context,
               builder: (context) => const PartContributors()
@@ -126,7 +126,7 @@ class PartInfoState extends State<PartInfo>{
         const ListTile(),
 
         ListTile(
-            leading: const Icon(MdiIcons.flagCheckered),
+            leading: Icon(MdiIcons.flagCheckered),
             title: Text('Oto jak się zaczęło!', style: AppTextStyle()),
         ),
 

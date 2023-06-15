@@ -75,7 +75,7 @@ class LasFragmentState extends State<LasFragment> with TickerProviderStateMixin,
                 forceElevated: innerBoxIsScrolled,
                 actions: <Widget>[
                   IconButton(
-                    icon: const Icon(MdiIcons.magnify),
+                    icon: Icon(MdiIcons.magnify),
                     onPressed: () => pushPage(
                       context,
                       builder: (context) => SearchPage(

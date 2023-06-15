@@ -121,7 +121,7 @@ class KonspektWidgetState extends State<KonspektWidget> with ModuleStatsMixin{
                   (context, index) => Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Icon(MdiIcons.circleMedium, size: Dimen.TEXT_SIZE_BIG),
+                      Icon(MdiIcons.circleMedium, size: Dimen.TEXT_SIZE_BIG),
                       const SizedBox(width: Dimen.defMarg),
                       Expanded(child: AppText(konspekt.aims[index], size: Dimen.TEXT_SIZE_BIG))
                     ],

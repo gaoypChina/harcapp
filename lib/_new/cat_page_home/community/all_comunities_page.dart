@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_new/cat_page_home/community/start_widgets/communities_preview_message_widget.dart';
 import 'package:harcapp/_new/cat_page_home/community/start_widgets/communities_preview_widget.dart';
-import 'package:harcapp/account/login_provider.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_new/cat_page_home/community/search_forum_page.dart';
 import 'package:harcapp/account/account.dart';
@@ -156,10 +155,10 @@ class AllCommunitiesPageState extends State<AllCommunitiesPage>{
     ])));
 
     if(!networkAvailable)
-      slivers.add(const SliverFillRemaining(
+      slivers.add(SliverFillRemaining(
           hasScrollBody: false,
           child: Padding(
-            padding: EdgeInsets.all(Dimen.SIDE_MARG),
+            padding: const EdgeInsets.all(Dimen.SIDE_MARG),
             child: CommunitiesPreviewMessageWidget(
               text: 'Brak połączenia\nz siecią',
               icon: Community.icon,
@@ -181,10 +180,10 @@ class AllCommunitiesPageState extends State<AllCommunitiesPage>{
             )
         ));
       else if(communitiesLoader.running)
-        slivers.add(const SliverFillRemaining(
+        slivers.add(SliverFillRemaining(
             hasScrollBody: false,
             child: Padding(
-              padding: EdgeInsets.all(Dimen.SIDE_MARG),
+              padding: const EdgeInsets.all(Dimen.SIDE_MARG),
               child: CommunitiesPreviewMessageWidget(
                 icon: MdiIcons.refresh,
                 text: 'Ładowanie środowisk...',
@@ -192,10 +191,10 @@ class AllCommunitiesPageState extends State<AllCommunitiesPage>{
             )
         ));
       else if(Community.all == null)
-        slivers.add(const SliverFillRemaining(
+        slivers.add(SliverFillRemaining(
             hasScrollBody: false,
             child: Padding(
-              padding: EdgeInsets.all(Dimen.SIDE_MARG),
+              padding: const EdgeInsets.all(Dimen.SIDE_MARG),
               child: CommunitiesPreviewMessageWidget(
                   icon: MdiIcons.closeOutline,
                   text: 'Mamy problem'
@@ -338,7 +337,7 @@ class NewCommunityButton extends StatelessWidget{
 
                   const SizedBox(width: (height - 72.0)/2),
 
-                  const Icon(
+                  Icon(
                     MdiIcons.plus,
                     size: 72.0,
                   ),
@@ -377,7 +376,7 @@ class NewCommunityButton extends StatelessWidget{
     else if(type == JoinOrCreateType.searchForum)
       pushPage(
         context,
-        builder: (context) => SearchForumPage(),
+        builder: (context) => const SearchForumPage(),
       );
     else if(type == JoinOrCreateType.newCommunity)
       pushPage(

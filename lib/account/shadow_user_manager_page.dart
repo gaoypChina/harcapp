@@ -64,7 +64,7 @@ class ShadowUserManagerPageState extends State<ShadowUserManagerPage>{
     appBarTitle: 'Moi użytkownicy widmo',
     appBarActions: [
       IconButton(
-        icon: const Icon(MdiIcons.plus),
+        icon: Icon(MdiIcons.plus),
         onPressed: () => openDialog(
           context: context,
           builder: (context) => AddShadowUserDialog(
@@ -115,7 +115,7 @@ class ShadowUserManagerPageState extends State<ShadowUserManagerPage>{
                     child: SimpleButton(
                         radius: AppCard.bigRadius,
                         padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-                        child: const EmptyMessageWidget(
+                        child: EmptyMessageWidget(
                           icon: MdiIcons.alienOutline,
                           text: 'Kliknij, by stworzyć pierwsze\nkonto widmo',
                         ),
@@ -191,150 +191,6 @@ class ShadowUserManagerPageState extends State<ShadowUserManagerPage>{
     })
   );
 
-  // @override
-  // Widget build(BuildContext context) => BottomNavScaffold(
-  //     body: SmartRefresher(
-  //       enablePullDown: !refreshController.isLoading,
-  //       enablePullUp: !refreshController.isRefresh && moreToLoad,
-  //       physics: const BouncingScrollPhysics(),
-  //       header: MaterialClassicHeader(backgroundColor: cardEnab_(context), color: accent_(context)),
-  //       controller: refreshController,
-  //       onRefresh: () async {
-  //
-  //         if(!await isNetworkAvailable()){
-  //           showAppToast(context, text: 'Brak dostępu do Internetu');
-  //           refreshController.refreshCompleted();
-  //           return;
-  //         }
-  //
-  //         await ApiUser.getShadowUsers(
-  //           pageSize: AccountData.shadowUsersPageSize,
-  //           lastUserName: loadedShadowUsers.last.name,
-  //           lastUserKey: loadedShadowUsers.last.key,
-  //           onSuccess: (List<UserDataNick> users) async {
-  //             AccountData.setLoadedShadowUsers(users);
-  //             setState((){});
-  //           }
-  //         );
-  //         refreshController.refreshCompleted();
-  //       },
-  //       onLoading: () async {
-  //
-  //       },
-  //       child: CustomScrollView(
-  //         physics: const BouncingScrollPhysics(),
-  //         slivers: [
-  //
-  //           SliverAppBar(
-  //             title: const Text('Moi użytkownicy widmo'),
-  //             centerTitle: true,
-  //             floating: true,
-  //             pinned: loadedShadowUsers.isEmpty,
-  //             actions: [
-  //               IconButton(
-  //                   icon: const Icon(MdiIcons.plus),
-  //                   onPressed: () => openDialog(
-  //                       context: context,
-  //                       builder: (context) => AddShadowUserDialog(
-  //                         onSuccess: (user) async => setState((){})
-  //                       )
-  //                   )
-  //               )
-  //             ],
-  //           ),
-  //
-  //           if(loadedShadowUsers.isEmpty)
-  //             SliverFillRemaining(
-  //               hasScrollBody: false,
-  //               child: Column(
-  //                   crossAxisAlignment: CrossAxisAlignment.stretch,
-  //                   mainAxisAlignment: MainAxisAlignment.center,
-  //                   children: [
-  //
-  //                     Expanded(
-  //                       child: Center(
-  //                         child: SimpleButton(
-  //                             radius: AppCard.bigRadius,
-  //                             padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-  //                             child: const EmptyMessageWidget(
-  //                               icon: MdiIcons.alienOutline,
-  //                               text: 'Kliknij, by stworzyć pierwsze\nkonto widmo',
-  //                             ),
-  //                             onTap: (){
-  //                               openDialog(
-  //                                   context: context,
-  //                                   builder: (context) => AddShadowUserDialog(
-  //                                     onSuccess: (user) => setState((){}),
-  //                                   )
-  //                               );
-  //                             }
-  //                         ),
-  //                       )
-  //                     ),
-  //
-  //                     Padding(
-  //                       padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-  //                       child: Container(
-  //                         decoration: BoxDecoration(
-  //                           border: Border.all(
-  //                             color: backgroundIcon_(context),
-  //                             width: 8,
-  //                           ),
-  //                           borderRadius: BorderRadius.circular(AppCard.bigRadius),
-  //                         ),
-  //                         child: Padding(
-  //                           padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-  //                           child: Column(
-  //                             crossAxisAlignment: CrossAxisAlignment.stretch,
-  //                             children: [
-  //                               Text(
-  //                                 'O co chodzi?',
-  //                                 style: AppTextStyle(
-  //                                     fontSize: Dimen.TEXT_SIZE_BIG,
-  //                                     color: hintEnab_(context),
-  //                                     fontWeight: weight.bold
-  //                                 ),
-  //                               ),
-  //
-  //                               const SizedBox(height: Dimen.SIDE_MARG),
-  //
-  //                               Text(
-  //                                 ShadowUserManagerPage.shadowAccountExplanation,
-  //                                 style: AppTextStyle(
-  //                                   fontSize: Dimen.TEXT_SIZE_BIG,
-  //                                   color: hintEnab_(context),
-  //                                 ),
-  //                               )
-  //                             ],
-  //                           ),
-  //                         )
-  //                       ),
-  //                     )
-  //
-  //                   ]
-  //               ),
-  //             )
-  //           else
-  //             SliverList(
-  //               delegate: SliverChildBuilderDelegate(
-  //                 (context, index) => ShadowUserTile(
-  //                   loadedShadowUsers[index],
-  //                   onTap: onTap,
-  //                   onRemoved: () => setState((){}),
-  //                   onEdited: () => setState((){}),
-  //                   subtitle: itemSubtitleBuilder?.call(loadedShadowUsers[index]),
-  //                   key: ValueKey(loadedShadowUsers[index].hashCode),
-  //                 ),
-  //                 childCount: loadedShadowUsers.length,
-  //               ),
-  //             )
-  //
-  //         ],
-  //       ),
-  //     )
-  // );
-
-
 }
 
 class ShadowUserTile extends StatefulWidget{
@@ -388,7 +244,7 @@ class ShadowUserTileState extends State<ShadowUserTile>{
             SpinKitChasingDots(
               size: Dimen.ICON_SIZE,
               color: iconEnab_(context)
-            ):const Icon(MdiIcons.pencilOutline),
+            ):Icon(MdiIcons.pencilOutline),
             onPressed: processing?null:(){
               openDialog(
                   context: context,
@@ -409,7 +265,7 @@ class ShadowUserTileState extends State<ShadowUserTile>{
           SpinKitChasingDots(
               size: Dimen.ICON_SIZE,
               color: iconEnab_(context)
-          ):const Icon(MdiIcons.close),
+          ):Icon(MdiIcons.close),
           onTap: () => showAppToast(context, text: 'Przytrzymaj, by usunąć'),
           onLongPress: processing?null:(){
             setState(() => processingRemove = true);

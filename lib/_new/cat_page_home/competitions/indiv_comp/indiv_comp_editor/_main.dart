@@ -107,7 +107,7 @@ class IndivCompEditorPageState extends State<IndivCompEditorPage>{
                 pinned: true,
                 actions: [
                   IconButton(
-                      icon: const Icon(MdiIcons.check),
+                      icon: Icon(MdiIcons.check),
                       onPressed: ()async{
 
                         ColorKeyProvider colorKeyProv = ColorKeyProvider.of(context);
@@ -229,12 +229,12 @@ class IndivCompEditorPageState extends State<IndivCompEditorPage>{
                         TabBar(
                           physics: const BouncingScrollPhysics(),
                           tabs: [
-                            const Tab(icon: Icon(MdiIcons.eyeOutline)),
-                            const Tab(icon: Icon(MdiIcons.paletteOutline)),
-                            const Tab(icon: Icon(MdiIcons.flare)),
-                            const Tab(icon: Icon(MdiIcons.cubeOutline)),
-                            const Tab(icon: Icon(MdiIcons.trophyOutline)),
-                            if(editMode) const Tab(icon: Icon(MdiIcons.alertCircleOutline, color: Colors.red)),
+                            Tab(icon: Icon(MdiIcons.eyeOutline)),
+                            Tab(icon: Icon(MdiIcons.paletteOutline)),
+                            Tab(icon: Icon(MdiIcons.flare)),
+                            Tab(icon: Icon(MdiIcons.cubeOutline)),
+                            Tab(icon: Icon(MdiIcons.trophyOutline)),
+                            if(editMode) Tab(icon: Icon(MdiIcons.alertCircleOutline, color: Colors.red)),
                           ],
                           indicator: AppTabBarIncdicator(context: context, color: colorKeyProv.avgColor),
                         ),

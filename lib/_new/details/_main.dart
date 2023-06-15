@@ -13,7 +13,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 class AppDetails extends StatefulWidget{
 
-  static const IconData icon = MdiIcons.tuneVariant; //MdiIcons.dotsGrid;
+  static IconData icon = MdiIcons.tuneVariant; //MdiIcons.dotsGrid;
   static open(BuildContext context) => Navigator.push(context, MaterialPageRoute(builder: (context) => const AppDetails()));
 
   final int initPage;

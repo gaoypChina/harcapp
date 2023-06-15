@@ -95,7 +95,7 @@ class AddOkrzykPageState extends State<AddOkrzykPage> {
         actions: <Widget>[
 
           IconButton(
-              icon: const Icon(MdiIcons.qrcodeScan),
+              icon: Icon(MdiIcons.qrcodeScan),
               onPressed: ()async{
 
                 if(await Permission.camera.request().isGranted){
@@ -194,7 +194,7 @@ class AddOkrzykPageState extends State<AddOkrzykPage> {
       ),
 
       floatingActionButton: FloatingActionButton(
-        child: const Icon(MdiIcons.plus),
+        child: Icon(MdiIcons.plus),
         onPressed: () => setState((){
           elements.add(ItemCard.from(this));
           scrollListView = true;
@@ -342,7 +342,7 @@ class ItemCard extends StatelessWidget{
         const SizedBox(width: Dimen.ICON_MARG),
 
         IconButton(
-          icon: const Icon(MdiIcons.playOutline),
+          icon: Icon(MdiIcons.playOutline),
           padding: const EdgeInsets.only(
             left: Dimen.ICON_MARG,
             right: Dimen.ICON_MARG,

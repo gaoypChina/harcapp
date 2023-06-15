@@ -135,7 +135,7 @@ class SharedRanksPageState extends State<SharedRanksPage>{
                   radius: AppCard.bigRadius,
                   padding: const EdgeInsets.all(Dimen.SIDE_MARG),
                   onTap: () => AccountPage.open(context),
-                  child: const EmptyMessageWidget(
+                  child: EmptyMessageWidget(
                     icon: MdiIcons.accountCircleOutline,
                     text: 'Zaloguj się,\nby przejrzeć\nudostępnione stopnie',
                   ),
@@ -143,7 +143,7 @@ class SharedRanksPageState extends State<SharedRanksPage>{
               ),
             )
           else if(loading && selSharedRanks == null)
-            const SliverFillRemaining(
+            SliverFillRemaining(
               hasScrollBody: false,
               child: Center(
                 child: EmptyMessageWidget(
@@ -153,7 +153,7 @@ class SharedRanksPageState extends State<SharedRanksPage>{
               ),
             )
           else if(!loading && selSharedRanks == null)
-              const SliverFillRemaining(
+              SliverFillRemaining(
                 hasScrollBody: false,
                 child: Center(
                   child: EmptyMessageWidget(
@@ -163,7 +163,7 @@ class SharedRanksPageState extends State<SharedRanksPage>{
                 ),
               )
             else if(selSharedRanks!.isEmpty)
-                const SliverFillRemaining(
+                SliverFillRemaining(
                   hasScrollBody: false,
                   child: Center(
                     child: EmptyMessageWidget(

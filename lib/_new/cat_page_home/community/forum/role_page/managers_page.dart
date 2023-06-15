@@ -135,7 +135,7 @@ class ManagersPageState extends State<ManagersPage>{
           appBarActions: [
             if(forum.myRole == ForumRole.ADMIN)
               IconButton(
-                  icon: const Icon(MdiIcons.plus),
+                  icon: Icon(MdiIcons.plus),
                   onPressed: () => showScrollBottomSheet(
                       context: context,
                       builder: (_) => AddUserBottomSheet(forum, palette, context: context)

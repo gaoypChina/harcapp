@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:harcapp/_common_classes/sliver_child_builder_separated_delegate.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_common_widgets/pola_button.dart';
@@ -13,6 +14,8 @@ import 'product_widget.dart';
 class ProductsPage extends StatefulWidget{
 
   static const double BOTTOM_CARD_HEIGHT = 58;
+
+  const ProductsPage({super.key});
 
   @override
   State<StatefulWidget> createState() => ProductsPageState();
@@ -33,7 +36,7 @@ class ProductsPageState extends State<ProductsPage>{
 
     return BottomNavScaffold(
       body: CustomScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         slivers: [
           SliverAppBar(
             backgroundColor: background_(context),
@@ -58,30 +61,15 @@ class ProductsPageState extends State<ProductsPage>{
             ),
           ),
 
-          SliverList(
-            delegate: SliverChildListDelegate([SizedBox(height: Dimen.ICON_MARG)]),
-          ),
-
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-                (BuildContext context, int index) {
-                  if (index.isEven)
-                    return ProductWidget(items[index]);
-
-                  return SizedBox(height: 4*Dimen.ICON_MARG);
-                },
-                semanticIndexCallback: (Widget widget, int localIndex) {
-                  if (localIndex.isEven)
-                    return localIndex ~/ 2;
-
-                  return null;
-                },
-                childCount: items.length
+          SliverPadding(
+            padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+            sliver: SliverList(
+              delegate: SliverChildSeparatedBuilderDelegate(
+                (BuildContext context, int index) => ProductWidget(items[index]),
+                separatorBuilder: (BuildContext context, int index) => const SizedBox(height: Dimen.SIDE_MARG),
+                count: items.length,
+              ),
             ),
-          ),
-
-          SliverList(
-            delegate: SliverChildListDelegate([SizedBox(height: Dimen.ICON_MARG)]),
           ),
 
         ],

@@ -136,7 +136,7 @@ class AlbumEditorPageState extends State<AlbumEditorPage> with TickerProviderSta
             ),
             actions: <Widget>[
               IconButton(
-                icon: const Icon(MdiIcons.check),
+                icon: Icon(MdiIcons.check),
                 onPressed: (){
                   if(textEditingController.text.isEmpty){
                     showAppToast(context, text: 'Podaj nazwę $albumu_');
@@ -181,7 +181,7 @@ class AlbumEditorPageState extends State<AlbumEditorPage> with TickerProviderSta
                     controller: tabController,
                     indicatorColor: prov.avgColor,
                     physics: const BouncingScrollPhysics(),
-                    tabs: const [
+                    tabs: [
                       Tab(icon: Icon(MdiIcons.musicBoxMultipleOutline)),
                       Tab(icon: Icon(MdiIcons.paletteOutline)),
                     ],

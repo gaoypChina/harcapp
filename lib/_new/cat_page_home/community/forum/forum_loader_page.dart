@@ -69,7 +69,7 @@ class ForumLoaderPageState extends State<ForumLoaderPage>{
       centerTitle: true,
       elevation: 0,
     ),
-    body: const Center(
+    body: Center(
       child: EmptyMessageWidget(
         icon: Forum.icon,
         text: 'Ładowanie forum...',

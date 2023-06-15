@@ -44,7 +44,7 @@ class SaveSongButtonState extends State<SaveSongButton>{
   Widget build(BuildContext context) {
 
     return IconButton(
-      icon: const Icon(MdiIcons.check),
+      icon: Icon(MdiIcons.check),
       onPressed: isSaving?null:()async{
 
         CurrentItemProvider currentItemProv = CurrentItemProvider.of(context);

@@ -148,7 +148,7 @@ class _JoinCircleButtonState extends State<_JoinCircleButton>{
           icon:
           processing?
           SpinKitChasingDots(color: iconEnab_(context), size: Dimen.ICON_SIZE):
-          const Icon(MdiIcons.arrowRight),
+          Icon(MdiIcons.arrowRight),
 
           onPressed: () async {
             if(controller.text.isEmpty){

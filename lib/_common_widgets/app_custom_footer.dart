@@ -36,7 +36,7 @@ class AppCustomFooter extends StatelessWidget{
         body = Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(MdiIcons.arrowUp),
+            Icon(MdiIcons.arrowUp),
             const SizedBox(width: Dimen.ICON_MARG),
             Text(
                 'Przeciągnij, by załadować kolejne',

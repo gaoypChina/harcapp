@@ -70,7 +70,7 @@ class CommunityPage extends StatelessWidget{
                 const SizedBox(height: Dimen.defMarg),
 
                 if(community.markers.isNotEmpty)
-                  CommunityMarkersWidget(community.markers, customPointer: const Icon(MdiIcons.mapMarkerCircle, color: Colors.black)),
+                  CommunityMarkersWidget(community.markers, customPointer: Icon(MdiIcons.mapMarkerCircle, color: Colors.black)),
 
                 if(community.markers.isNotEmpty)
                   const SizedBox(height: Dimen.defMarg),
@@ -229,7 +229,7 @@ class CommunityPage extends StatelessWidget{
         //               child: Row(
         //                 children: [
         //                   const SizedBox(width: Dimen.SIDE_MARG - Dimen.ICON_MARG),
-        //                   const Icon(MdiIcons.googleCircles),
+        //                   Icon(MdiIcons.googleCircles),
         //                   const SizedBox(width: Dimen.SIDE_MARG),
         //                   Expanded(
         //                     child: Column(

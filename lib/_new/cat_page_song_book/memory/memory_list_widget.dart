@@ -92,7 +92,7 @@ class MemoryListWidgetState extends State<MemoryListWidget>{
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(MdiIcons.plus),
+                  Icon(MdiIcons.plus),
                   const SizedBox(width: Dimen.ICON_MARG),
                   Text(
                       'Wspomnienie',

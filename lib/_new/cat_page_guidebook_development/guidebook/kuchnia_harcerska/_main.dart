@@ -58,7 +58,7 @@ class KuchniaHarcerskaFragmentState extends State<KuchniaHarcerskaFragment> with
                 Consumer<SelectedMealsProvider>(
                     builder: (context, prov, child) => AnimatedOpacity(
                       duration: const Duration(milliseconds: 300),
-                      opacity: prov.meals!.isEmpty?0:1,
+                      opacity: prov.meals.isEmpty?0:1,
                       child: IconButton(
                         icon: Stack(
                           children: [
@@ -70,7 +70,7 @@ class KuchniaHarcerskaFragmentState extends State<KuchniaHarcerskaFragment> with
                                   padding: const EdgeInsets.all(1.5),
                                   color: accent_(context),
                                   child: Text(
-                                      '${prov.meals!.length}',
+                                      '${prov.meals.length}',
                                       textAlign: TextAlign.center,
                                       style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_SMALL, color: background_(context), fontWeight: weight.bold)
                                   ),
@@ -84,7 +84,7 @@ class KuchniaHarcerskaFragmentState extends State<KuchniaHarcerskaFragment> with
                 ),
 
                 IconButton(
-                  icon: const Icon(MdiIcons.magnify),
+                  icon: Icon(MdiIcons.magnify),
                   onPressed: (){
 
                     Navigator.push(
@@ -119,14 +119,19 @@ class KuchniaHarcerskaFragmentState extends State<KuchniaHarcerskaFragment> with
           physics: const BouncingScrollPhysics(),
           children: Meal.all.map((meal) => MealWidget(
               meal,
+              padding: const EdgeInsets.only(
+                top: Dimen.SIDE_MARG,
+                left: Dimen.SIDE_MARG,
+                right: Dimen.SIDE_MARG,
+                bottom: 2*Dimen.FLOATING_BUTTON_MARG + Dimen.FLOATING_BUTTON_SIZE
+              ),
               onSelectedChanged: (meal, selected){}
-          )
-          ).toList(),
+          ),).toList(),
         ),
       ),
       floatingActionButton: FloatingActionButton(
-          child: const Icon(MdiIcons.formatListBulleted),
-          onPressed: () => pushPage(context, builder: (context) => ProductsPage())
+          child: Icon(MdiIcons.formatListBulleted, color: Colors.black),
+          onPressed: () => pushPage(context, builder: (context) => const ProductsPage())
       ),
     ),
   );

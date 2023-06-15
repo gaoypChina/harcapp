@@ -103,7 +103,7 @@ class TropEditorPageState extends State<TropEditorPage>{
             floating: true,
             actions: [
               IconButton(
-                icon: const Icon(MdiIcons.check),
+                icon: Icon(MdiIcons.check),
                 onPressed: () async {
 
                   String name = NameControllerProvider.of(context).nameController.text;
@@ -773,7 +773,7 @@ class AssigneeButton extends StatelessWidget{
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(AppCard.bigRadius),
                 ),
-                leading: const Icon(MdiIcons.formTextbox),
+                leading: Icon(MdiIcons.formTextbox),
                 title: Text('Wpisz ręcznie', style: AppTextStyle()),
                 onTap: () async {
 
@@ -810,7 +810,7 @@ class AssigneeButton extends StatelessWidget{
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(AppCard.bigRadius),
                   ),
-                  leading: const Icon(MdiIcons.accountReactivateOutline),
+                  leading: Icon(MdiIcons.accountReactivateOutline),
                   title: Text('Ktoś z ludzi tropu', style: AppTextStyle()),
                   onTap: () async {
 
@@ -865,7 +865,7 @@ class AssigneeButton extends StatelessWidget{
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(AppCard.bigRadius),
                   ),
-                  leading: const Icon(MdiIcons.accountCircleOutline),
+                  leading: Icon(MdiIcons.accountCircleOutline),
                   title: Text('Ktoś spoza tropu', style: AppTextStyle()),
                   onTap: () async {
 
@@ -908,7 +908,7 @@ class AssigneeButton extends StatelessWidget{
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(AppCard.bigRadius),
                   ),
-                  leading: const Icon(MdiIcons.close, color: Colors.red),
+                  leading: Icon(MdiIcons.close, color: Colors.red),
                   title: Text('Odsuń od zadania', style: AppTextStyle(color: Colors.red)),
                   onTap: () async {
 
@@ -1241,7 +1241,7 @@ class LoadableUserSelectorState extends State<LoadableUserSelector>{
   Widget build(BuildContext context) => PagingLoadableBaseScrollViewPage(
     appBarTitle: 'Wybierz ogarniacza',
     appBarLeading: IconButton(
-      icon: const Icon(MdiIcons.arrowLeft),
+      icon: Icon(MdiIcons.arrowLeft),
       onPressed: () => Navigator.pop(context),
     ),
 

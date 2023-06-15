@@ -104,7 +104,7 @@ class SoundPlayerWidgetState extends State<SoundPlayerWidget>{
                   ),
 
                   AppButton(
-                    icon: const Icon(MdiIcons.rewind),
+                    icon: Icon(MdiIcons.rewind),
                     onLongPress: assetsAudioPlayer.isPlaying.value?
                     (){
                       assetsAudioPlayer.seek(Duration.zero);
@@ -120,7 +120,7 @@ class SoundPlayerWidgetState extends State<SoundPlayerWidget>{
                   ),
 
                   IconButton(
-                    icon: const Icon(MdiIcons.fastForward),
+                    icon: Icon(MdiIcons.fastForward),
                     onPressed:
                     assetsAudioPlayer.isPlaying.value?
                     () async {

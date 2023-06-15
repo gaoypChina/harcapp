@@ -131,7 +131,7 @@ class MarkerManagersPageState extends State<MarkerManagersPage>{
           appBarActions: [
             if(marker.myRole == MarkerRole.ADMIN)
               IconButton(
-                icon: const Icon(MdiIcons.plus),
+                icon: Icon(MdiIcons.plus),
                 onPressed: () => showScrollBottomSheet(
                   context: context,
                   builder: (_) => AddUserBottomSheet(marker, context: context)

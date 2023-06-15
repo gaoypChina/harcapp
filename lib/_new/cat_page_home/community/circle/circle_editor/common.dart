@@ -21,7 +21,7 @@ class LeaveCircleButton extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) => ListTile(
-    leading: const Icon(MdiIcons.exitToApp),
+    leading: Icon(MdiIcons.exitToApp),
     title: Text(
       'Opuść krąg',
       style: AppTextStyle(),

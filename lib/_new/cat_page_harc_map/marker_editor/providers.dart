@@ -41,8 +41,8 @@ class PositionProvider extends ChangeNotifier{
           point: point,
           builder: (context) =>
           PositionProvider.of(context).editMode?
-          const Icon(MdiIcons.circleSmall, color: Colors.black):
-          const Icon(MdiIcons.mapMarkerCircle, color: Colors.black)
+          Icon(MdiIcons.circleSmall, color: Colors.black):
+          Icon(MdiIcons.mapMarkerCircle, color: Colors.black)
       );
 
   static void applyPosition_(BuildContext context) => of(context).applyPosition();

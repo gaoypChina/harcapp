@@ -69,7 +69,7 @@ class TropIdeasPageState extends State<TropIdeasPage> with TickerProviderStateMi
             ),
             actions: [
               IconButton(
-                icon: const Icon(MdiIcons.magnify),
+                icon: Icon(MdiIcons.magnify),
                 onPressed: () => pushPage(
                     context,
                     builder: (context) => TropIdeasSearchPage(

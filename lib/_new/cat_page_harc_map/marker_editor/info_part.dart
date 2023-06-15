@@ -65,7 +65,7 @@ class InfoPartState extends State<InfoPart> with AutomaticKeepAliveClientMixin{
                   padding: EdgeInsets.zero,
                   height: Dimen.ICON_SIZE + 2*16.0,
                 ),
-                iconStyleData: const IconStyleData(
+                iconStyleData: IconStyleData(
                   icon: SizedBox(
                     width: Dimen.ICON_FOOTPRINT,
                     child: Icon(MdiIcons.chevronDown),
@@ -129,7 +129,7 @@ class InfoPartState extends State<InfoPart> with AutomaticKeepAliveClientMixin{
                   padding: EdgeInsets.zero,
                   height: Dimen.ICON_SIZE + 2*16.0,
                 ),
-                iconStyleData: const IconStyleData(
+                iconStyleData: IconStyleData(
                   icon: SizedBox(
                     width: Dimen.ICON_FOOTPRINT,
                     child: Icon(MdiIcons.chevronDown),

@@ -46,7 +46,7 @@ class FamilyWidget extends StatelessWidget{
 
                 if(sprawFamily.fragment != null)
                   IconButton(
-                      icon: const Icon(MdiIcons.dotsVertical),
+                      icon: Icon(MdiIcons.dotsVertical),
                       onPressed: () => showScrollBottomSheet(
                           context: context,
                           builder: (context) => BottomSheetDef(

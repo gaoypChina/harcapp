@@ -202,7 +202,7 @@ class _AllSongsPartState extends State<_AllSongsPart> with AutomaticKeepAliveCli
     appBarActions: [
 
       IconButton(
-        icon: const Icon(MdiIcons.history),
+        icon: Icon(MdiIcons.history),
         onPressed: () => pushPage(context, builder: (context) => SearchHistoryPage(
           onSongSelected: (Song song, int index, SongOpenType type){
             onSongSelected?.call(song, index, type);
@@ -213,7 +213,7 @@ class _AllSongsPartState extends State<_AllSongsPart> with AutomaticKeepAliveCli
       ),
 
       IconButton(
-        icon: const Icon(MdiIcons.trendingUp),
+        icon: Icon(MdiIcons.trendingUp),
         onPressed: () => pushPage(context, builder: (context) => SongContributorsPage(
           onSongTap: (song){
             Navigator.pop(context); // Close song contrib page

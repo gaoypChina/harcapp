@@ -100,7 +100,7 @@ class CoverImageSelectableWidgetState extends State<CoverImageSelectableWidget>{
                 color: selCoverImage == null? Colors.transparent: CommunityCoverColors.cardColor(context, palette),
                 clipBehavior: Clip.hardEdge,
                 child: IconButton(
-                  icon: const Icon(MdiIcons.imageOutline),
+                  icon: Icon(MdiIcons.imageOutline),
                   onPressed: () async {
                     selCoverImage = await openSelectCoverImageDialog(
                         context,
@@ -126,7 +126,7 @@ class CoverImageSelectableWidgetState extends State<CoverImageSelectableWidget>{
                   color: selCoverImage == null? Colors.transparent: CommunityCoverColors.cardColor(context, palette),
                   clipBehavior: Clip.hardEdge,
                   child: IconButton(
-                    icon: const Icon(MdiIcons.trashCanOutline),
+                    icon: Icon(MdiIcons.trashCanOutline),
                     onPressed: () {
                       selCoverImage = null;
                       onSelected?.call(selCoverImage);

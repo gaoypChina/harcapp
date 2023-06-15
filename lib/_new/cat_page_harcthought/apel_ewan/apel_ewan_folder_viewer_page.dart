@@ -110,7 +110,7 @@ class ApelEwanFolderViewerPageState extends State<ApelEwanFolderViewerPage> with
                 max(0, cos(2*pi*notifier.value)),
 
                 child: FloatingActionButton(
-                    child: const Icon(MdiIcons.bookmark),
+                    child: Icon(MdiIcons.bookmark),
                     onPressed: () => openApelEwanOwnFolderSelector(
                         context, apelEwans[currentPage].item1.siglum
                     )

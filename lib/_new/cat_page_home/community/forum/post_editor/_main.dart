@@ -104,7 +104,7 @@ class PostEditorPageState extends State<PostEditorPage>{
           floating: true,
           actions: [
             IconButton(
-              icon: const Icon(MdiIcons.eyeOutline),
+              icon: Icon(MdiIcons.eyeOutline),
               onPressed: (){
 
                 Post post = Post(
@@ -258,7 +258,7 @@ class PostEditorPageState extends State<PostEditorPage>{
 
                       if(urlToPreviewController.text.isNotEmpty)
                         IconButton(
-                          icon: const Icon(MdiIcons.close),
+                          icon: Icon(MdiIcons.close),
                           onPressed: (){
                             previewData = null;
                             setState(() => urlToPreviewController.clear());

@@ -51,7 +51,7 @@ class GameWidget extends StatelessWidget{
                         Row(
                           children: [
 
-                            const Icon(MdiIcons.accountMultiple, size: 20, color: Colors.white),
+                            Icon(MdiIcons.accountMultiple, size: 20, color: Colors.white),
                             const SizedBox(width: 6),
                             Text(
                                 '${data.minPlayerCount} - ${data.maxPlayerCount==-1?'...':data.maxPlayerCount}',

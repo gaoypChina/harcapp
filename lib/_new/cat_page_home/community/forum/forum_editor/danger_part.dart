@@ -47,7 +47,7 @@ class DangerPartState extends State<DangerPart>{
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(communityRadius),
         ),
-        leading: const Icon(MdiIcons.vanish),
+        leading: Icon(MdiIcons.vanish),
         title: Text(
           'Zamknij forum',
           style: AppTextStyle(),

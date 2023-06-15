@@ -64,7 +64,7 @@ class PostWidgetTemplate extends StatelessWidget{
 
                 if(amIAuthor && post.forum.myRole != null)
                   ListTile(
-                    leading: const Icon(MdiIcons.pencilOutline),
+                    leading: Icon(MdiIcons.pencilOutline),
                     title: Text('Edytuj post', style: AppTextStyle()),
                     onTap: (){
                       Navigator.pop(context);
@@ -74,7 +74,7 @@ class PostWidgetTemplate extends StatelessWidget{
 
                 if(amIAuthor && post.forum.myRole != null)
                   ListTile(
-                    leading: const Icon(MdiIcons.trashCanOutline),
+                    leading: Icon(MdiIcons.trashCanOutline),
                     title: Text('Usuń post', style: AppTextStyle()),
                     onTap: () => showAppToast(context, text: 'Przytrzymaj, by usunąć'),
                     onLongPress: (){

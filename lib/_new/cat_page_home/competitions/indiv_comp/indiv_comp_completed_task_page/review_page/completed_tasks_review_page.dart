@@ -139,8 +139,8 @@ class CompletedTasksReviewPageState extends State<CompletedTasksReviewPage>{
       ),
       tabTitle: (index, loadMoreAvailable) => loadMoreAvailable?'Więcej...':'Wniosek $index',
 
-      emptyBody: const Padding(
-        padding: EdgeInsets.all(Dimen.SIDE_MARG),
+      emptyBody: Padding(
+        padding: const EdgeInsets.all(Dimen.SIDE_MARG),
         child: Center(
           child: EmptyMessageWidget(text: 'Brak\nnierozpatrzonych\nwniosków', icon: MdiIcons.cubeOffOutline),
         ),

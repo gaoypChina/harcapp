@@ -93,7 +93,7 @@ class AlbumWidgetSmall extends StatelessWidget{
                     Row(
                       children: [
 
-                        const Icon(MdiIcons.music, size: Dimen.TEXT_SIZE_NORMAL),
+                        Icon(MdiIcons.music, size: Dimen.TEXT_SIZE_NORMAL),
                         const SizedBox(width: Dimen.defMarg),
                         Hero(
                           tag: AlbumWidget.heroTagSongCnt(album),

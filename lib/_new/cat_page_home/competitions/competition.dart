@@ -3,6 +3,6 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 class Competition{
 
-  static const IconData icon = MdiIcons.trophyVariantOutline;
+  static IconData icon = MdiIcons.trophyVariantOutline;
 
 }

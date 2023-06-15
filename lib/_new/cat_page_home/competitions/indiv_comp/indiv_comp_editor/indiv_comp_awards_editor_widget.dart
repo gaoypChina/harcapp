@@ -25,77 +25,80 @@ class _IndivCompAwardsEditorWidgetState extends State<IndivCompAwardsEditorWidge
   bool get wantKeepAlive => true;
 
   @override
-  Widget build(BuildContext context) => Stack(
-    children: [
+  Widget build(BuildContext context){
+    super.build(context);
+    return Stack(
+      children: [
 
-      CustomScrollView(
-          physics: const BouncingScrollPhysics(),
-          slivers: [
+        CustomScrollView(
+            physics: const BouncingScrollPhysics(),
+            slivers: [
 
-            SliverOverlapInjector(handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context)),
+              SliverOverlapInjector(handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context)),
 
-            Consumer2<AwardsProvider, ColorKeyProvider>(
-              builder: (context, awardProv, colorProv, child){
+              Consumer2<AwardsProvider, ColorKeyProvider>(
+                builder: (context, awardProv, colorProv, child){
 
-                if(awardProv.awards!.isEmpty)
-                  return const SliverFillRemaining(
-                    hasScrollBody: false,
-                    fillOverscroll: true,
-                    child: Center(
-                      child: EmptyMessageWidget(
-                        icon: MdiIcons.trophyOutline,
-                        text: 'Dodaj nagrody!',
+                  if(awardProv.awards!.isEmpty)
+                    return SliverFillRemaining(
+                      hasScrollBody: false,
+                      fillOverscroll: true,
+                      child: Center(
+                        child: EmptyMessageWidget(
+                          icon: MdiIcons.trophyOutline,
+                          text: 'Dodaj nagrody!',
+                        ),
                       ),
-                    ),
-                  );
-                else
-                  return SliverPadding(
-                    padding: const EdgeInsets.all(settingsPartPaddingVal),
-                    sliver: SliverList(delegate: SliverChildSeparatedBuilderDelegate(
-                            (context, index) => AwardTileEditWidget(
-                              index+1,
-                              colorProv.colors,
-                              awardProv.data![index],
-                                onChanged: (text) => awardProv.awards![index] = text,
-                                onDuplicate: () => awardProv.insertAfter(index, null),
-                                onRemove: () => awardProv.removeAt(index),
-                            ),
-                        separatorBuilder: (context, index) => const SizedBox(height: Dimen.SIDE_MARG),
-                        count: Provider.of<AwardsProvider>(context, listen: false).data!.length
-                    )),
-                  );
+                    );
+                  else
+                    return SliverPadding(
+                      padding: const EdgeInsets.all(settingsPartPaddingVal),
+                      sliver: SliverList(delegate: SliverChildSeparatedBuilderDelegate(
+                              (context, index) => AwardTileEditWidget(
+                            index+1,
+                            colorProv.colors,
+                            awardProv.data![index],
+                            onChanged: (text) => awardProv.awards![index] = text,
+                            onDuplicate: () => awardProv.insertAfter(index, null),
+                            onRemove: () => awardProv.removeAt(index),
+                          ),
+                          separatorBuilder: (context, index) => const SizedBox(height: Dimen.SIDE_MARG),
+                          count: Provider.of<AwardsProvider>(context, listen: false).data!.length
+                      )),
+                    );
 
-              },
-            ),
+                },
+              ),
 
-            SliverList(delegate: SliverChildListDelegate([
-              const SizedBox(height: Dimen.ICON_FOOTPRINT + 3*Dimen.SIDE_MARG)
-            ]))
+              SliverList(delegate: SliverChildListDelegate([
+                const SizedBox(height: Dimen.ICON_FOOTPRINT + 3*Dimen.SIDE_MARG)
+              ]))
 
-          ]
-      ),
+            ]
+        ),
 
-      Positioned(
-        bottom: 0,
-        left: 0,
-        right: 0,
-        child: Container(
-          height: Dimen.ICON_FOOTPRINT,
-          color: background_(context),
-        )
-      ),
+        Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              height: Dimen.ICON_FOOTPRINT,
+              color: background_(context),
+            )
+        ),
 
-      Positioned(
-        bottom: Dimen.defMarg,
-        left: Dimen.defMarg,
-        right: Dimen.defMarg,
-        child: EditGradientButton(
+        Positioned(
+          bottom: Dimen.defMarg,
+          left: Dimen.defMarg,
+          right: Dimen.defMarg,
+          child: EditGradientButton(
             MdiIcons.trophy,
             'Dodaj nagrodę',
             onTap: () async => setState(() => Provider.of<AwardsProvider>(context, listen: false).add('')),
+          ),
         ),
-      ),
-    ],
-  );
+      ],
+    );
+  }
 
 }

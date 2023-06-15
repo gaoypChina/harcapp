@@ -102,7 +102,7 @@ class AnnouncementWidgetTemplate extends StatelessWidget{
 
                   if(amIAuthor && announcement.circle.myRole != CircleRole.OBSERVER)
                     ListTile(
-                      leading: const Icon(MdiIcons.pencilOutline),
+                      leading: Icon(MdiIcons.pencilOutline),
                       title: Text('Edytuj ogłoszenie', style: AppTextStyle()),
                       onTap: (){
                         Navigator.pop(context);
@@ -119,7 +119,7 @@ class AnnouncementWidgetTemplate extends StatelessWidget{
 
                   if(amIAuthor && announcement.circle.myRole != CircleRole.OBSERVER)
                     ListTile(
-                      leading: const Icon(MdiIcons.trashCanOutline),
+                      leading: Icon(MdiIcons.trashCanOutline),
                       title: Text('Usuń ogłoszenie', style: AppTextStyle()),
                       onTap: () => showAppToast(context, text: 'Przytrzymaj, by usunąć'),
                       onLongPress: (){
@@ -205,7 +205,7 @@ class EventInfoWidget extends StatelessWidget{
 
                 const SizedBox(width: Dimen.ICON_MARG),
 
-                const Icon(MdiIcons.calendarOutline),
+                Icon(MdiIcons.calendarOutline),
 
                 const SizedBox(width: Dimen.ICON_MARG),
 
@@ -232,7 +232,7 @@ class EventInfoWidget extends StatelessWidget{
 
                 const SizedBox(width: Dimen.ICON_MARG),
 
-                const Icon(MdiIcons.calendarOutline),
+                Icon(MdiIcons.calendarOutline),
 
                 const SizedBox(width: Dimen.ICON_MARG),
 
@@ -262,7 +262,7 @@ class EventInfoWidget extends StatelessWidget{
 
                 const SizedBox(width: Dimen.ICON_MARG),
 
-                const Icon(MdiIcons.mapMarkerOutline),
+                Icon(MdiIcons.mapMarkerOutline),
 
                 const SizedBox(width: Dimen.ICON_MARG),
 
@@ -389,7 +389,7 @@ class AttendanceWidget extends StatelessWidget{
             ),
           ),
           const SizedBox(width: Dimen.ICON_MARG),
-          const Icon(MdiIcons.chevronDown),
+          Icon(MdiIcons.chevronDown),
           const SizedBox(width: Dimen.ICON_MARG),
         ],
       )

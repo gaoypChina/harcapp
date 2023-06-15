@@ -40,21 +40,21 @@ class ZHPOrgPageState extends State<ZHPOrgPage> with ModuleStatsMixin{
             child: SimpleButton(
               padding: const EdgeInsets.all(Dimen.ICON_MARG),
               onTap: () => launchURL('https://www.facebook.com/ZwiazekHarcerstwaPolskiego/'),
-              child: const Icon(MdiIcons.facebook, color: AppColors.zhpGreen),
+              child: Icon(MdiIcons.facebook, color: AppColors.zhpGreen),
             ),
           ),
           Expanded(
             child: SimpleButton(
               padding: const EdgeInsets.all(Dimen.ICON_MARG),
               onTap: () => launchURL('https://twitter.com/zhp_pl'),
-              child: const Icon(MdiIcons.twitter, color: AppColors.zhpGreen),
+              child: Icon(MdiIcons.twitter, color: AppColors.zhpGreen),
             ),
           ),
           Expanded(
             child: SimpleButton(
               padding: const EdgeInsets.all(Dimen.ICON_MARG),
               onTap: () => launchURL('https://www.instagram.com/zhp_pl'),
-              child: const Icon(MdiIcons.instagram, color: AppColors.zhpGreen),
+              child: Icon(MdiIcons.instagram, color: AppColors.zhpGreen),
             ),
           ),
         ],

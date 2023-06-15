@@ -69,7 +69,7 @@ class CommunitiesPartState extends State<CommunitiesPart> with AutomaticKeepAliv
                   ),
 
                   if(communities.isEmpty)
-                    const SliverFillRemaining(
+                    SliverFillRemaining(
                       child: Center(
                         child: EmptyMessageWidget(
                           icon: Community.icon,
@@ -111,7 +111,7 @@ class CommunitiesPartState extends State<CommunitiesPart> with AutomaticKeepAliv
                     padding: AppCard.defPadding,
                     color: cardEnab_(context),
                     elevation: AppCard.bigElevation,
-                    child: const TitleShortcutRowWidget(
+                    child: TitleShortcutRowWidget(
                       icon: MdiIcons.plus,
                       title: 'Dodaj środowisko',
                     ),

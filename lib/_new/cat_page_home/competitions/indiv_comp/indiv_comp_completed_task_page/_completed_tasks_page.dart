@@ -120,7 +120,7 @@ class CompletedTasksPageState extends State<CompletedTasksPage>{
           ),
 
           if(children.isEmpty)
-            const SliverFillRemaining(
+            SliverFillRemaining(
               hasScrollBody: false,
               child: Center(
                 child: EmptyMessageWidget(

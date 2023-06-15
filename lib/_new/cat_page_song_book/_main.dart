@@ -301,7 +301,7 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
           children: [
 
             IconButton(
-              icon: const Icon(MdiIcons.musicNotePlus),
+              icon: Icon(MdiIcons.musicNotePlus),
               onPressed: !OwnAlbum.initialized?null:(){
 
                 showScrollBottomSheet(
@@ -406,7 +406,7 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
             ),
 
             IconButton(
-                icon: const Icon(MdiIcons.cogOutline),
+                icon: Icon(MdiIcons.cogOutline),
                 onPressed: !OwnAlbum.initialized?null:() => pushPage(
                     context,
                     builder: (context) => SettingsPage(
@@ -932,8 +932,8 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
 
                         Row(
                           children: [
-                            const Padding(
-                              padding: EdgeInsets.all(Dimen.ICON_MARG),
+                            Padding(
+                              padding: const EdgeInsets.all(Dimen.ICON_MARG),
                               child: Icon(MdiIcons.informationOutline),
                             ),
                             Text('Ostatni krok!', style: AppTextStyle(fontWeight: weight.halfBold, fontSize: Dimen.TEXT_SIZE_APPBAR)),
@@ -962,7 +962,7 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
                                       style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold, color: iconEnab_(context)),
                                     ),
                                     const SizedBox(width: Dimen.ICON_MARG),
-                                    const Icon(SongWidgetTemplate.ICON_SEND_SONG)
+                                    Icon(SongWidgetTemplate.ICON_SEND_SONG)
                                   ],
                                 ),
                                 onTap: () => Navigator.pop(context)

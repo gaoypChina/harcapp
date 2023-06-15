@@ -103,7 +103,7 @@ class CommunitySliverAppBarState extends State<CommunitySliverAppBar>{
         child: Material(
           color: Colors.transparent,
           child: IconButton(
-            icon: const Icon(MdiIcons.arrowLeft),
+            icon: Icon(MdiIcons.arrowLeft),
             onPressed: () => Navigator.pop(context),
           ),
         ),

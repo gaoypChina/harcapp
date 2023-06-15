@@ -58,7 +58,7 @@ class ApelEwanPageState extends State<ApelEwanPage> with ModuleStatsMixin{
           ],
         ),
         floatingActionButton: FloatingActionButton(
-          child: const Icon(MdiIcons.bookmark),
+          child: Icon(MdiIcons.bookmark),
           onPressed: () => openApelEwanOwnFolderSelector(
             context, apelEwan.siglum
           )

@@ -165,7 +165,7 @@ class MembersPageState extends State<MembersPage>{
         appBarActions: [
           if(circle.myRole == CircleRole.ADMIN)
             IconButton(
-                icon: const Icon(MdiIcons.plus),
+                icon: Icon(MdiIcons.plus),
                 onPressed: () => showScrollBottomSheet(
                     context: context,
                     builder: (_) => AddUserBottomSheet(circle, palette, context: context)

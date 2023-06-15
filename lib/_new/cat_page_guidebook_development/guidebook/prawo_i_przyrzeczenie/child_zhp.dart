@@ -102,16 +102,16 @@ class ChildZHPState extends State<ChildZHP> with TickerProviderStateMixin{
             children: [
               ListView(
                 physics: const BouncingScrollPhysics(),
-                children: const <Widget>[
+                children: [
 
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.all(Dimen.SIDE_MARG),
                     child: PrzyrzeczenieItem(ppz_przyrz_title, ppz_przyrz_content),
                   ),
 
-                  SizedBox(height: Dimen.LIST_SEP_MARG),
+                  const SizedBox(height: Dimen.LIST_SEP_MARG),
 
-                  TitleShortcutRowWidget(title: 'Prawo zucha'),
+                  const TitleShortcutRowWidget(title: 'Prawo zucha'),
 
                   PrawoItem(1, MdiIcons.cross, ppz1),
                   PrawoItem(2, MdiIcons.imageFilterHdr, ppz2),
@@ -125,16 +125,16 @@ class ChildZHPState extends State<ChildZHP> with TickerProviderStateMixin{
 
               ListView(
                 physics: const BouncingScrollPhysics(),
-                children: const <Widget>[
+                children: [
 
-                  SizedBox(height: Dimen.SIDE_MARG),
+                  const SizedBox(height: Dimen.SIDE_MARG),
 
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
                     child: PrzyrzeczenieItem(pph_przyrz_title, pph_przyrz_content),
                   ),
 
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.all(Dimen.SIDE_MARG),
                     child: PrzyrzeczenieItem(
                         'Dewiza starszoharcerska',
@@ -142,9 +142,9 @@ class ChildZHPState extends State<ChildZHP> with TickerProviderStateMixin{
                     ),
                   ),
 
-                  SizedBox(height: Dimen.LIST_SEP_MARG),
+                  const SizedBox(height: Dimen.LIST_SEP_MARG),
 
-                  TitleShortcutRowWidget(title: 'Prawo harcerskie'),
+                  const TitleShortcutRowWidget(title: 'Prawo harcerskie'),
 
                   PrawoItem(1, MdiIcons.textBoxCheckOutline, pph1_zhp, comment: kpph1_zhp,),
                   PrawoItem(2, MdiIcons.shieldEdit, pph2, comment: kpph2),

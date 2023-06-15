@@ -287,7 +287,7 @@ class GamePytakiPageState extends State<GamePytakiPage> with ModuleStatsMixin{
                         opacity: (cardsLeft()&&!showHardCards&&showClock!)?1.0:0.0,
                         duration: const Duration(milliseconds: 700),
                         curve: Curves.easeInOutQuad,
-                        child: const Icon(MdiIcons.clock, color: Colors.deepOrange, size: 32.0,),
+                        child: Icon(MdiIcons.clock, color: Colors.deepOrange, size: 32.0,),
                       ),
                     ),
 
@@ -299,7 +299,7 @@ class GamePytakiPageState extends State<GamePytakiPage> with ModuleStatsMixin{
                         opacity: (cardsLeft()&&!showHardCards&&showOk!)?1.0:0.0,
                         duration: const Duration(milliseconds: 700),
                         curve: Curves.easeInOutQuad,
-                        child: const Icon(MdiIcons.checkCircle, color: Colors.lightBlueAccent, size: 32.0,),
+                        child: Icon(MdiIcons.checkCircle, color: Colors.lightBlueAccent, size: 32.0,),
                       ),
                     ),
 
@@ -521,7 +521,7 @@ class CardItemState extends State<CardItem>{
             Row(
               children: <Widget>[
                 Expanded(child: Container()),
-                const Icon(MdiIcons.clock, color: Colors.deepOrange,)
+                Icon(MdiIcons.clock, color: Colors.deepOrange,)
               ],
             ),
 

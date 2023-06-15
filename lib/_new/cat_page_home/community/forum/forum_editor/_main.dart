@@ -108,7 +108,7 @@ class ForumEditorPageState extends State<ForumEditorPage>{
                     ),
                     actions: [
                       IconButton(
-                        icon: const Icon(MdiIcons.check),
+                        icon: Icon(MdiIcons.check),
                         onPressed: () async {
 
                           showLoadingWidget(

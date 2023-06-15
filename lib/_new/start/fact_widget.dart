@@ -80,7 +80,7 @@ class FactWidgetState extends State<FactWidget>{
 
             if(fact!.source != null || fact!.meaning != null)
               IconButton(
-                  icon: const Icon(MdiIcons.bookArrowUpOutline, color: Colors.white54),
+                  icon: Icon(MdiIcons.bookArrowUpOutline, color: Colors.white54),
                   onPressed: () => showScrollBottomSheet(
                     context: context,
                     builder: (context) => BottomSheetDef(

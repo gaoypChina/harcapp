@@ -124,7 +124,7 @@ class CommunityManagersPageState extends State<CommunityManagersPage>{
           appBarActions: [
             if(community.myRole == CommunityRole.ADMIN)
               IconButton(
-                  icon: const Icon(MdiIcons.plus),
+                  icon: Icon(MdiIcons.plus),
                   onPressed: () => showScrollBottomSheet(
                       context: context,
                       builder: (_) => AddUserBottomSheet(community, context: context)

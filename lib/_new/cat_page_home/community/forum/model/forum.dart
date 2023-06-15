@@ -167,8 +167,8 @@ class Forum extends ForumBasicData{
     forumManagersProv.notify();
   }
 
-  static const IconData icon = MdiIcons.earth;
-  static const IconData iconOff = MdiIcons.earthOff;
+  static IconData icon = MdiIcons.earth;
+  static IconData iconOff = MdiIcons.earthOff;
 
   static const int maxLenDescription = 320;
   static const int maxLenCoverImageUrl = 200;

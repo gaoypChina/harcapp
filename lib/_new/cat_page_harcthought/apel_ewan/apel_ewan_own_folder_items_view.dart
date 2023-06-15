@@ -106,7 +106,7 @@ class EmptyMessage extends StatelessWidget{
 
         const SizedBox(height: Dimen.SIDE_MARG),
 
-        const Icon(MdiIcons.bookmarkOutline, size: 32.0)
+        Icon(MdiIcons.bookmarkOutline, size: 32.0)
       ],
     ),
   );

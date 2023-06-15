@@ -53,7 +53,7 @@ class QuoteWidgetState extends State<QuoteWidget>{
   Widget build(BuildContext context) => Column(
     children: <Widget>[
 
-      const Align(
+      Align(
         alignment: Alignment.centerLeft,
         child: Icon(
           MdiIcons.formatQuoteClose,
@@ -76,7 +76,7 @@ class QuoteWidgetState extends State<QuoteWidget>{
 
       const SizedBox(height: 32),
       AnimatedOpacity(
-        opacity: _showAuthor?1.0:0.0,
+        opacity: _showAuthor?1.0:0.0, duration: const Duration(seconds: 2),
         child: Align(
           alignment: Alignment.bottomRight,
           child: Text(
@@ -89,7 +89,7 @@ class QuoteWidgetState extends State<QuoteWidget>{
             ),
             textAlign: TextAlign.end,
           ),
-        ), duration: const Duration(seconds: 2),
+        ),
       ),
     ],
   );

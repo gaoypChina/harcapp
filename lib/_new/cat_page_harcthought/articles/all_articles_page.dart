@@ -31,7 +31,7 @@ class AllArticlesPage extends StatelessWidget{
                           )
                       )
                   ),
-                  icon: const Icon(MdiIcons.magnify)
+                  icon: Icon(MdiIcons.magnify)
               )
             ],
           )

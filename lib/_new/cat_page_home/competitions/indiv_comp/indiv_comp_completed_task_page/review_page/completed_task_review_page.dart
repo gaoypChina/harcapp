@@ -153,8 +153,8 @@ class CompletedTaskReviewPageState extends State<CompletedTaskReviewPage>{
                   ],
                   body:
                   pendingComplTasks!.isEmpty?
-                  const Padding(
-                    padding: EdgeInsets.all(Dimen.SIDE_MARG),
+                  Padding(
+                    padding: const EdgeInsets.all(Dimen.SIDE_MARG),
                     child: Center(
                       child: EmptyMessageWidget(text: 'Brak nierozpatrzonych wniosków', icon: MdiIcons.cubeOffOutline),
                     ),

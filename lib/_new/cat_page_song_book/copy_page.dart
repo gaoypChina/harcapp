@@ -123,7 +123,7 @@ class CopyPageState<T extends SongCore> extends State<CopyPage> with TickerProvi
           child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(MdiIcons.contentCopy),
+                Icon(MdiIcons.contentCopy),
                 const SizedBox(width: Dimen.ICON_MARG),
                 Text('Kopiuj', style: AppTextStyle(fontWeight: weight.halfBold, color: iconEnab_(context)))
               ]

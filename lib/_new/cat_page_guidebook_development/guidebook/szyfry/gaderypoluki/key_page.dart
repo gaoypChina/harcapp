@@ -61,7 +61,7 @@ class KeyPageState extends State<KeyPage>{
                 builder: (context, prov, child){
                   if(!prov.isValid)
                     return IconButton(
-                        icon: const Icon(MdiIcons.alertCircleOutline),
+                        icon: Icon(MdiIcons.alertCircleOutline),
                         onPressed: () => showAppToast(context, text: 'Znaki klucza nie mogą się powtarzać.')
                     );
 

@@ -48,20 +48,20 @@ dependencies:
   flutter_staggered_animations: ^1.1.1
   flutter_svg: ^2.0.4
   flutter_translate: ^4.0.2
-  gallery_saver: ^2.3.2
   google_fonts: ^4.0.1
   html_unescape: ^2.0.0
   image: ^4.0.13
+  image_gallery_saver: ^2.0.1
   image_picker: ^0.8.6
   implicitly_animated_reorderable_list_2: ^0.5.1
   latlong2: ^0.8.1
   lifecycle: ^0.7.0
   logger: ^1.1.0
-  material_design_icons_flutter: ^6.0.7096
+  material_design_icons_flutter: ^7.0.7296
   metaballs: ^1.5.0
   numberpicker: ^2.1.1
   oktoast: ^3.2.0
-  open_file: 3.3.1
+  open_file: ^3.3.2
   optional: ^6.1.0+1
   package_info: ^2.0.2
   palette_generator: ^0.3.3
@@ -90,7 +90,7 @@ dependencies:
   torch_light: ^1.0.0
   url_launcher: ^6.1.2
   uuid: ^3.0.7
-  wakelock: ^0.6.1+2
+  wakelock: ^0.6.2
   # webfeed: ^0.7.0
   webfeed_revised: ^0.7.2
   youtube_player_flutter: ^8.1.0 # add dependencies to iOS # add dependencies to Android

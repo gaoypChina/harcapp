@@ -169,7 +169,7 @@ class CoverImageSelectorDialogState extends State<CoverImageSelectorDialog>{
                   pinned: true,
                   actions: [
                     IconButton(
-                      icon: const Icon(MdiIcons.check),
+                      icon: Icon(MdiIcons.check),
                       onPressed: (){
 
                         if(bottomIndex == 0 && !canChooseNull && selected == null){
@@ -496,7 +496,7 @@ class CoverImageSelectorDialogState extends State<CoverImageSelectorDialog>{
               backgroundColor: background_(context),
               currentIndex: bottomIndex,
               onTap: (index) => setState(() => bottomIndex = index),
-              items: const [
+              items: [
                 BottomNavigationBarItem(icon: Icon(MdiIcons.imageOutline), label: 'Przykładowe'),
                 BottomNavigationBarItem(icon: Icon(MdiIcons.trayArrowUp), label: 'Lokalne'),
                 BottomNavigationBarItem(icon: Icon(MdiIcons.linkBoxOutline), label: 'Z sieci'),
@@ -561,7 +561,7 @@ class RemoveButton extends StatelessWidget{
     clipBehavior: Clip.antiAlias,
     color: background_(context),
     child: IconButton(
-      icon: const Icon(MdiIcons.trashCanOutline),
+      icon: Icon(MdiIcons.trashCanOutline),
       onPressed: onPressed,
     ),
   );
@@ -613,7 +613,7 @@ class CoverImagePreviewWidget extends StatelessWidget{
                       child: AnimatedOpacity(
                         opacity: selected?0.8:0,
                         duration: const Duration(milliseconds: 500),
-                        child: const Icon(MdiIcons.checkOutline, size: 80.0, color: Colors.white),
+                        child: Icon(MdiIcons.checkOutline, size: 80.0, color: Colors.white),
                       ),
                     )
                 ),

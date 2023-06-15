@@ -1094,7 +1094,7 @@ class InitAwaitingMessageDialog extends StatelessWidget{
                     margin: EdgeInsets.zero,
                     onTap: () => Navigator.pop(context),
                     padding: const EdgeInsets.all(Dimen.ICON_MARG),
-                    child: const Icon(MdiIcons.check)
+                    child: Icon(MdiIcons.check)
                 )
 
               ],

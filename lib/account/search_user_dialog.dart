@@ -125,11 +125,11 @@ class SearchUserWidgetState extends State<SearchUserWidget>{
                       elevation: 0,
                       margin: EdgeInsets.zero,
                       leading: IconButton(
-                        icon: const Icon(MdiIcons.arrowLeft),
+                        icon: Icon(MdiIcons.arrowLeft),
                         onPressed: () => Navigator.of(context).pop(),
                       ),
                       trailing: IconButton(
-                          icon: const Icon(MdiIcons.qrcodeScan),
+                          icon: Icon(MdiIcons.qrcodeScan),
                           onPressed: () async {
                             if(await Permission.camera.request().isGranted) {
                               String? nick = await scanQrCode();
@@ -217,7 +217,7 @@ class SearchUserWidgetState extends State<SearchUserWidget>{
                     )),
 
                   if(_state == _State.error)
-                    const Expanded(child: EmptyMessageWidget(
+                    Expanded(child: EmptyMessageWidget(
                         text: 'Coś poszło nie tak...',
                         icon: MdiIcons.alertCircleOutline
                     )),

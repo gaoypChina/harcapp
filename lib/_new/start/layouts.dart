@@ -213,7 +213,7 @@ class HolyBibleFragWidgetState extends State<HolyBibleFragWidget>{
   Widget build(BuildContext context) =>  Column(
     children: <Widget>[
 
-      const Align(
+      Align(
         alignment: Alignment.centerLeft,
         child: Icon(
           MdiIcons.bookCross,

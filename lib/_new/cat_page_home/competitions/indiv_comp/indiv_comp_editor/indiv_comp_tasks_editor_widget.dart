@@ -26,100 +26,103 @@ class _IndivCompTasksEditorWidgetState extends State<IndivCompTasksEditorWidget>
   bool get wantKeepAlive => true;
 
   @override
-  Widget build(BuildContext context) => Stack(
-    children: [
+  Widget build(BuildContext context){
+    super.build(context);
+    return Stack(
+      children: [
 
-      CustomScrollView(
-          physics: const BouncingScrollPhysics(),
-          slivers: [
+        CustomScrollView(
+            physics: const BouncingScrollPhysics(),
+            slivers: [
 
-            SliverOverlapInjector(handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context)),
+              SliverOverlapInjector(handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context)),
 
-            Consumer<TaskBodiesProvider>(
-              builder: (context, prov, child){
+              Consumer<TaskBodiesProvider>(
+                builder: (context, prov, child){
 
-                if(prov.taskEditables!.isEmpty)
-                  return const SliverFillRemaining(
-                    hasScrollBody: false,
-                    fillOverscroll: true,
-                    child: Center(
-                      child: EmptyMessageWidget(
-                        icon: MdiIcons.cubeOutline,
-                        text: 'Dodaj zadania!',
-                      ),
-                    ),
-                  );
-                else
-                  return SliverPadding(
-                    padding: const EdgeInsets.only(top: Dimen.SIDE_MARG, left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
-                    sliver: SliverList(delegate: SliverChildSeparatedBuilderDelegate(
-                        (context, index) => IndivCompTaskEditWidget(
-                          initTitle: prov.taskEditables![index].editedTitle,
-                          initDesc: prov.taskEditables![index].editedDescription,
-                          initPoints: prov.taskEditables![index].editedPoints,
-
-                          state: prov.taskEditables![index].editedState,
-                          remove: prov.taskEditables![index].remove,
-
-                          accentColor: Provider.of<ColorKeyProvider>(context, listen: false).avgColor,
-
-                          showFreeze: prov.taskEditables![index].created,
-
-                          onTitleChanged: (text) => prov.update(index, title: text, silent: true),
-                          onDescChanged: (text) => prov.update(index, desc: text, silent: true),
-                          onPointsChanged: (points) => prov.update(index, points: points, silent: true),
-                          onRemoveTap: (remove){
-                            if(prov.taskEditables![index].created)
-                              prov.remove(index, remove);
-                            else {
-                              prov.taskEditables!.removeAt(index);
-                              prov.notify();
-                            }
-                          },
-                          onFreezeTap: (state) => prov.update(index, state: state),
-                          onRestoreTap: (){
-                            prov.update(index, state: TaskState.OPEN, silent: true);
-                            prov.remove(index, false, silent: true);
-                            prov.notify();
-                          },
-
+                  if(prov.taskEditables!.isEmpty)
+                    return SliverFillRemaining(
+                      hasScrollBody: false,
+                      fillOverscroll: true,
+                      child: Center(
+                        child: EmptyMessageWidget(
+                          icon: MdiIcons.cubeOutline,
+                          text: 'Dodaj zadania!',
                         ),
-                        separatorBuilder: (context, index) => const SizedBox(height: Dimen.SIDE_MARG),
-                        count: Provider.of<TaskBodiesProvider>(context, listen: false).taskEditables!.length
-                    )),
-                  );
+                      ),
+                    );
+                  else
+                    return SliverPadding(
+                      padding: const EdgeInsets.only(top: Dimen.SIDE_MARG, left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
+                      sliver: SliverList(delegate: SliverChildSeparatedBuilderDelegate(
+                              (context, index) => IndivCompTaskEditWidget(
+                            initTitle: prov.taskEditables![index].editedTitle,
+                            initDesc: prov.taskEditables![index].editedDescription,
+                            initPoints: prov.taskEditables![index].editedPoints,
 
-              },
-            ),
+                            state: prov.taskEditables![index].editedState,
+                            remove: prov.taskEditables![index].remove,
 
-            SliverList(delegate: SliverChildListDelegate([
-              const SizedBox(height: Dimen.ICON_FOOTPRINT + 3*Dimen.SIDE_MARG)
-            ]))
+                            accentColor: Provider.of<ColorKeyProvider>(context, listen: false).avgColor,
 
-          ]
-      ),
+                            showFreeze: prov.taskEditables![index].created,
 
-      Positioned(
-        bottom: 0,
-        left: 0,
-        right: 0,
-        child: Container(
-          height: Dimen.ICON_FOOTPRINT,
-          color: background_(context),
-        )
-      ),
+                            onTitleChanged: (text) => prov.update(index, title: text, silent: true),
+                            onDescChanged: (text) => prov.update(index, desc: text, silent: true),
+                            onPointsChanged: (points) => prov.update(index, points: points, silent: true),
+                            onRemoveTap: (remove){
+                              if(prov.taskEditables![index].created)
+                                prov.remove(index, remove);
+                              else {
+                                prov.taskEditables!.removeAt(index);
+                                prov.notify();
+                              }
+                            },
+                            onFreezeTap: (state) => prov.update(index, state: state),
+                            onRestoreTap: (){
+                              prov.update(index, state: TaskState.OPEN, silent: true);
+                              prov.remove(index, false, silent: true);
+                              prov.notify();
+                            },
 
-      Positioned(
-        bottom: Dimen.defMarg,
-        left: Dimen.defMarg,
-        right: Dimen.defMarg,
-        child: EditGradientButton(
-            MdiIcons.cube,
-            'Dodaj zadanie',
-            onTap: () async => setState(() => Provider.of<TaskBodiesProvider>(context, listen: false).create(Provider.of<TaskBodiesProvider>(context, listen: false).taskEditables!.length))
+                          ),
+                          separatorBuilder: (context, index) => const SizedBox(height: Dimen.SIDE_MARG),
+                          count: Provider.of<TaskBodiesProvider>(context, listen: false).taskEditables!.length
+                      )),
+                    );
+
+                },
+              ),
+
+              SliverList(delegate: SliverChildListDelegate([
+                const SizedBox(height: Dimen.ICON_FOOTPRINT + 3*Dimen.SIDE_MARG)
+              ]))
+
+            ]
         ),
-      ),
-    ],
-  );
+
+        Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              height: Dimen.ICON_FOOTPRINT,
+              color: background_(context),
+            )
+        ),
+
+        Positioned(
+          bottom: Dimen.defMarg,
+          left: Dimen.defMarg,
+          right: Dimen.defMarg,
+          child: EditGradientButton(
+              MdiIcons.cube,
+              'Dodaj zadanie',
+              onTap: () async => setState(() => Provider.of<TaskBodiesProvider>(context, listen: false).create(Provider.of<TaskBodiesProvider>(context, listen: false).taskEditables!.length))
+          ),
+        ),
+      ],
+    );
+  }
 
 }

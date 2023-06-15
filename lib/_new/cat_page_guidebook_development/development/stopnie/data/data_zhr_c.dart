@@ -352,11 +352,11 @@ RankZHRCData rankZhrHarcC1Data = RankZHRCData.from(
   idea: 'Wiem, co to znaczy być harcerzem. Znam Prawo Harcerskie. Jestem gotowy złożyć Przyrzeczenie Harcerskie. Jestem samodzielny i gotowy do służby. Pomagam innym. Odróżniam dobro i zło. Postępuję zgodnie ze wskazaniami wiary chrześcijańskiej. Poprzez dobre uczynki staję się coraz lepszy. Jestem dobrym synem, kolegą i uczniem.',
   koment: null,
   cats: [
-    const RankCatData(
+    RankCatData(
       title: 'Praca nad charakterem',
       icon: RankData.iconCatCharakter,
       groupData: [
-        RankGroupData(
+        const RankGroupData(
             title: 'Kształtowanie charakteru',
             taskData: [
               RankTaskData(text: 'Zna Prawo i Przyrzeczenie Harcerskie.'),
@@ -364,21 +364,21 @@ RankZHRCData rankZhrHarcC1Data = RankZHRCData.from(
               RankTaskData(text: 'Regularnie spełnia dobre uczynki.'),
             ]
         ),
-        RankGroupData(
+        const RankGroupData(
             title: 'Rozwój religijny',
             taskData: [
               RankTaskData(text: 'Praktykuje swoją wiarę (pamięta o codziennej modlitwie, w niedziele i święta uczestniczy we Mszy Świętej).'),
               RankTaskData(text: 'Zna podstawowe fakty z życia Jezusa Chrystusa.'),
             ]
         ),
-        RankGroupData(
+        const RankGroupData(
             title: 'Rozwój intelektualny',
             taskData: [
               RankTaskData(text: 'Jest dobrym uczniem, poprawił wyniki w nauce.'),
               RankTaskData(text: 'Przedstawił się i opowiedział o sobie w dowolnym języku obcym.'),
             ]
         ),
-        RankGroupData(
+        const RankGroupData(
             title: 'Rozwój fizyczny',
             taskData: [
               RankTaskData(text: 'Poprawił swoją sprawność fizyczną w wybranym zakresie – np. nauczył się wspinać / jeździć na rowerze (zdobył kartę rowerową) / szybciej biega / nauczył się pływać (zdobył kartę pływacką) itp..'),
@@ -387,11 +387,11 @@ RankZHRCData rankZhrHarcC1Data = RankZHRCData.from(
       ],
     ),
 
-    const RankCatData(
+    RankCatData(
       title: 'Harcerskie wtajemniczenie',
       icon: RankData.iconCatHarcWtajem,
       groupData: [
-        RankGroupData(
+        const RankGroupData(
             title: 'Doświadczenie harcerskie',
             taskData: [
               RankTaskData(text: 'Przez co najmniej 5 miesięcy systematycznie uczestniczył w życiu zastępu i drużyny.'),
@@ -399,7 +399,7 @@ RankZHRCData rankZhrHarcC1Data = RankZHRCData.from(
               RankTaskData(text: 'Regularnie płaci składki harcerskie.'),
             ]
         ),
-        RankGroupData(
+        const RankGroupData(
             title: 'Wiedza harcerska',
             taskData: [
               RankTaskData(text: 'Zna symbolikę lilijki, Krzyża Harcerskiego i znaczenie zawołania "Czuwaj!".'),
@@ -409,7 +409,7 @@ RankZHRCData rankZhrHarcC1Data = RankZHRCData.from(
               RankTaskData(text: 'Wie kim był Baden-Powell i Andrzej Małkowski.'),
             ]
         ),
-        RankGroupData(
+        const RankGroupData(
             title: 'Harcerski styl',
             taskData: [
               RankTaskData(text: 'Posiada mundur i skompletował podstawowy ekwipunek harcerski.'),
@@ -420,20 +420,20 @@ RankZHRCData rankZhrHarcC1Data = RankZHRCData.from(
               RankTaskData(text: 'Umie wykonywać komendy zgodnie z regulaminem musztry.'),
             ]
         ),
-        RankGroupData(
+        const RankGroupData(
             title: 'Samarytanka i zdrowie',
             taskData: [
               RankTaskData(text: 'Umie opatrzyć skaleczenie, wezwać pomoc do wypadku.'),
             ]
         ),
-        RankGroupData(
+        const RankGroupData(
             title: 'Przyrodoznawstwo',
             taskData: [
               RankTaskData(text: 'Umie rozpoznać 10 gatunków drzew.'),
               RankTaskData(text: 'Umie rozpoznać 5 sylwetek dzikich zwierząt występujących w polskich lasach.'),
             ]
         ),
-        RankGroupData(
+        const RankGroupData(
             title: 'Łączność',
             taskData: [
               RankTaskData(text: 'Umie zaszyfrować wiadomość przynajmniej trzema sposobami.'),
@@ -441,7 +441,7 @@ RankZHRCData rankZhrHarcC1Data = RankZHRCData.from(
               RankTaskData(text: 'Umie wysłać wiadomość pocztą tradycyjną i emailem.'),
             ]
         ),
-        RankGroupData(
+        const RankGroupData(
             title: 'Terenoznawstwo i krajoznawstwo',
             taskData: [
               RankTaskData(text: 'Umie czytać i poruszać się po znakach patrolowych.'),
@@ -449,7 +449,7 @@ RankZHRCData rankZhrHarcC1Data = RankZHRCData.from(
               RankTaskData(text: 'Umie poruszać się po swojej okolicy i wskazać ważne punkty (np. urząd gminy, poczta, straż pożarna, policja, apteka, pogotowie ratunkowe, zabytki).'),
             ]
         ),
-        RankGroupData(
+        const RankGroupData(
             title: 'Obozownictwo i pionierka',
             taskData: [
               RankTaskData(text: 'Umie rozbić mały namiot.'),
@@ -463,18 +463,18 @@ RankZHRCData rankZhrHarcC1Data = RankZHRCData.from(
       ],
     ),
 
-    const RankCatData(
+    RankCatData(
         title: 'Służba',
         icon: RankData.iconCatSluzba,
         groupData: [
-          RankGroupData(
+          const RankGroupData(
               title: 'Wychowanie prorodzinne',
               taskData: [
                 RankTaskData(text: 'Ma stałe obowiązki domowe, z których się sumiennie wywiązuje.'),
                 RankTaskData(text: 'Zna zasady zachowania przy stole, okazywania szacunku starszym i rycerskości wobec dziewcząt. Stosuje je w praktyce.'),
               ]
           ),
-          RankGroupData(
+          const RankGroupData(
               title: 'Służba Polsce i Bliźnim',
               taskData: [
                 RankTaskData(text: 'Zna godło, barwy i Hymn Narodowy, zna imię i nazwisko prezydenta RP. Wywiesza flagę z okazji najważniejszych świąt państwowych, wie kiedy i dlaczego powinno się to robić.'),
@@ -484,11 +484,11 @@ RankZHRCData rankZhrHarcC1Data = RankZHRCData.from(
         ]
     ),
 
-    const RankCatData(
+    RankCatData(
       title: 'Sylwetka',
       icon: RankData.iconCatSylwetka,
       groupData: [
-        RankGroupData(
+        const RankGroupData(
           title: 'Dojrzałość psychofizyczna',
           taskData: [
             RankTaskData(text:
@@ -501,28 +501,28 @@ RankZHRCData rankZhrHarcC1Data = RankZHRCData.from(
             )
           ],
         ),
-        RankGroupData(
+        const RankGroupData(
           title: 'Postawa harcerska',
           taskData: [
             RankTaskData(text: 'Chętnie przychodzi na zbiórki. Dba o swój mundur i schludny wygląd. Często zgłasza się na ochotnika do wykonania prostych zadań. Koledzy w zastępie mogą na niego liczyć. Sam znajduje okazje i wykonuje dobre uczynki. Jest ciekawy świata. Gdy go coś zainteresuje, stara się to poznać i spróbować w tym swych sił. Poznaje historię Polski i uczy się szacunku do barw i symboli narodowych –wie, co oznaczają i dlaczego są ważne. Wywiesza flagę z okazji najważniejszych świąt państwowych. W rywalizacji i współzawodnictwie przestrzega ustalonych reguł gry. Dobrze radzi sobie w szkole. Poprosił rodziców o przydzielenie stałych obowiązków domowych i stara się z nich wywiązywać.',
               checkable: false,),
           ],
         ),
-        RankGroupData(
+        const RankGroupData(
           title: 'Wiedza i umiejętności',
           taskData: [
             RankTaskData(text: 'Posiadł podstawową wiedzę i umiejętności, które umożliwiają mu pełne uczestnictwo w życiu zastępu i drużyny. Da sobie radę i nie wymaga opieki ani na zbiórce,ani na obozie ani w domu. Szczegóły w sekcji "Wymagania na stopień".',
               checkable: false,),
           ],
         ),
-        RankGroupData(
+        const RankGroupData(
           title: 'Rozwój duchowy',
           taskData: [
             RankTaskData(text: 'Odróżnia dobro i zło, postępuje według wskazań wiary, stara się być jej wierny. Bierze udział w nabożeństwach Kościoła do którego należy. Codziennie się modli.',
               checkable: false,),
           ],
         ),
-        RankGroupData(
+        const RankGroupData(
           title: 'Doświadczenie harcerskie',
           taskData: [
             RankTaskData(text: 'Poznał smak harcerstwa. Rozumie co to znaczy być harcerzem i jest gotów nim zostać. Szczegóły w sekcji "Wymagania na stopień".',
@@ -546,11 +546,11 @@ RankZHRCData rankZhrHarcC2Data = RankZHRCData.from(
   koment: null,
   cats: [
 
-    const RankCatData(
+    RankCatData(
       title: 'Praca nad charakterem',
       icon: RankData.iconCatCharakter,
       groupData: [
-        RankGroupData(
+        const RankGroupData(
             title: 'Kształtowanie charakteru',
             taskData: [
               RankTaskData(text: 'Kieruje się w życiu codziennym zasadami wynikającymi z Przyrzeczenia i Prawa Harcerskiego.'),
@@ -558,7 +558,7 @@ RankZHRCData rankZhrHarcC2Data = RankZHRCData.from(
               RankTaskData(text: 'Podjął próbę charakteru polegającą na kształtowaniu wybranej cechy zakończoną sukcesem'),
             ]
         ),
-        RankGroupData(
+        const RankGroupData(
             title: 'Rozwój religijny',
             taskData: [
               RankTaskData(text: 'Uczestniczy we Mszy Świętej harcerskiej, nabożeństwach, rekolekcjach, poprowadzi modlitwę na biwaku lub obozie.'),
@@ -566,14 +566,14 @@ RankZHRCData rankZhrHarcC2Data = RankZHRCData.from(
               RankTaskData(text: 'Zna znaczenie religijne świąt, związane z nimi tradycje i zwyczaje polskie.'),
             ]
         ),
-        RankGroupData(
+        const RankGroupData(
             title: 'Rozwój intelektualny',
             taskData: [
               RankTaskData(text: 'Umie porozumieć się w obcym języku.'),
               RankTaskData(text: 'Umie posługiwać się aparatem fotograficznym i kamerą, potrafi prawidłowo komponować ujęcia.'),
             ]
         ),
-        RankGroupData(
+        const RankGroupData(
             title: 'Rozwój fizyczny',
             taskData: [
               RankTaskData(text: 'Umie pływać, jeździć na rowerze.'),
@@ -583,11 +583,11 @@ RankZHRCData rankZhrHarcC2Data = RankZHRCData.from(
       ],
     ),
 
-    const RankCatData(
+    RankCatData(
       title: 'Harcerskie wtajemniczenie',
       icon: RankData.iconCatHarcWtajem,
       groupData: [
-        RankGroupData(
+        const RankGroupData(
             title: 'Doświadczenie harcerskie',
             taskData: [
               RankTaskData(text: 'Był na przynajmniej jednym obozie letnim, kilku biwakach i wędrówkach'),
@@ -598,7 +598,7 @@ RankZHRCData rankZhrHarcC2Data = RankZHRCData.from(
               RankTaskData(text: 'Dowodził zastępem lub inną grupą młodszych harcerzy –był odpowiedzialny za innych.'),
             ]
         ),
-        RankGroupData(
+        const RankGroupData(
             title: 'Wiedza harcerska',
             taskData: [
               RankTaskData(text: 'Zna oznaczenia funkcji do poziomu Głównej Kwatery Harcerzy.'),
@@ -610,7 +610,7 @@ RankZHRCData rankZhrHarcC2Data = RankZHRCData.from(
 
             ]
         ),
-        RankGroupData(
+        const RankGroupData(
             title: 'Harcerski styl',
             taskData: [
               RankTaskData(text: 'Posiada nienaganny (czysty i wyprasowany) mundur harcerski. Poszerzył własny ekwipunek, posiada pełen ekwipunek obozowy.'),
@@ -618,14 +618,14 @@ RankZHRCData rankZhrHarcC2Data = RankZHRCData.from(
               RankTaskData(text: 'Umie zaśpiewać 20 piosenek harcerskich.'),
             ]
         ),
-        RankGroupData(
+        const RankGroupData(
             title: 'Samarytanka i zdrowie',
             taskData: [
               RankTaskData(text: 'Umie usztywnić złamanie, zatamować krwotok, transportować rannego.'),
               RankTaskData(text: 'Ma osobistą apteczkę i zabiera ją na zbiórki i wyjazdy harcerskie.'),
             ]
         ),
-        RankGroupData(
+        const RankGroupData(
             title: 'Przyrodoznawstwo',
             taskData: [
               RankTaskData(text: 'Umie tropić, maskować się i podpatrywać dzikie zwierzęta.'),
@@ -633,7 +633,7 @@ RankZHRCData rankZhrHarcC2Data = RankZHRCData.from(
               RankTaskData(text: 'Wraz z zastępem pełnił służbę na rzecz lasu.'),
             ]
         ),
-        RankGroupData(
+        const RankGroupData(
             title: 'Łączność',
             taskData: [
               RankTaskData(text: 'Umie nadać wiadomość na odległość bez pomocy urządzeń elektronicznych i radiowych.'),
@@ -641,7 +641,7 @@ RankZHRCData rankZhrHarcC2Data = RankZHRCData.from(
               RankTaskData(text: 'Sprawnie posługuje się komputerem, zdobył komplet informacji na wybrany temat i przedstawił je w postaci prezentacji multimedialnej / filmu.'),
             ]
         ),
-        RankGroupData(
+        const RankGroupData(
             title: 'Terenoznawstwo i krajoznawstwo',
             taskData: [
               RankTaskData(text: 'Umie narysować szkic terenu.'),
@@ -651,7 +651,7 @@ RankZHRCData rankZhrHarcC2Data = RankZHRCData.from(
               RankTaskData(text: 'Umie trafić do celu na azymut, przy pomocy GPS i nawigacji samochodowej.'),
             ]
         ),
-        RankGroupData(
+        const RankGroupData(
             title: 'Obozownictwo i pionierka',
             taskData: [
               RankTaskData(text: 'Umie przeprawić się z ekwipunkiem przez przeszkodę wodną.'),
@@ -667,17 +667,17 @@ RankZHRCData rankZhrHarcC2Data = RankZHRCData.from(
       ],
     ),
 
-    const RankCatData(
+    RankCatData(
         title: 'Służba',
         icon: RankData.iconCatSluzba,
         groupData: [
-          RankGroupData(
+          const RankGroupData(
               title: 'Wychowanie prorodzinne',
               taskData: [
                 RankTaskData(text: 'Podejmuje obowiązki domowe. Wyręcza rodziców w pracach domowych, dba o porządek w swych rzeczach i w pokoju, w którym mieszka.'),
               ]
           ),
-          RankGroupData(
+          const RankGroupData(
               title: 'Służba Polsce i Bliźnim',
               taskData: [
                 RankTaskData(text: 'Wybierze jeden okres z historii Polski i przygotuje o nim grę na zbiórkę zastępu.'),
@@ -687,11 +687,11 @@ RankZHRCData rankZhrHarcC2Data = RankZHRCData.from(
         ]
     ),
 
-    const RankCatData(
+    RankCatData(
       title: 'Sylwetka',
       icon: RankData.iconCatSylwetka,
       groupData: [
-        RankGroupData(
+        const RankGroupData(
           title: 'Dojrzałość psychofizyczna',
           taskData: [
             RankTaskData(text: 'Harcerz w tym wieku strzeże swojej prywatności. Bywa zgorzkniały, smutny, podejrzliwy, niezbyt pewne siebie i często nieszczęśliwy. Prawdopodobnie w żadnym innym okresie dorastania chłopcy nie są tak przesadnie przeczuleni na punkcie swojego ciała, swojej odmienności, osobowości. Bardzo ważne, o ile nie najistotniejsze w tym czasie -są kontakty z przyjaciółmi. Chłopcy samodzielnie rozwiązują problemy i realizują wszelkie pomysły. Na ogół starają się zachowywać w zgodzie z powszechnie przyjętymi normami etycznymi. Usiłują odróżnić rzeczy złe od dobrych, dla większości najlepszym sędzią jest własne sumienie. Wymagania stawiane sobie i innym są wysokie. Dla większości kluczowym pojęciem jest „sprawiedliwość” i są gotowi ponieść karę za popełnione występki. Są zainteresowani zagadnieniami społecznymi, ale ich wiedza na ten temat jest jeszcze dość ograniczona.'
@@ -704,28 +704,28 @@ RankZHRCData rankZhrHarcC2Data = RankZHRCData.from(
             )
           ],
         ),
-        RankGroupData(
+        const RankGroupData(
           title: 'Postawa harcerska',
           taskData: [
             RankTaskData(text: 'Jest dumny z tego, że jest harcerzem. Stara się przestrzegać Dekalogu i Prawa Harcerskiego. Przyjęte na siebie obowiązki stara się wypełniać najlepiej jak potrafi. Odkrywa posiadane talenty. Zdobywając sprawności sprawdza się w różnych dziedzinach zainteresowań. Stara się nie tracić okazji do wykonania dobrego uczynku. Ochoczo bierze udział służbie społecznej zastępu lub drużyny. Można mu powierzyć odpowiedzialne zadanie, zorganizowanie zajęć dla zastępu i kierowanie grupą młodszych harcerzy. Drużynowy może na niego liczyć. Jest punktualny, dotrzymuje słowa i przestrzega reguł gry. Zna historię Polski w zakresie podstawowym i aktywnie uczestniczy w obchodach świąt państwowych. W domu to on odpowiada za przygotowanie i wywieszenie biało-czerwonej flagi. Stara się pomagać rodzicom i być dobrym uczniem. Kulturalnie odnosi się do dziewcząt. Szuka pozytywnych przykładów i wzorców osobowych, które chce w swoim życiu naśladować.',
               checkable: false,),
           ],
         ),
-        RankGroupData(
+        const RankGroupData(
           title: 'Wiedza i umiejętności',
           taskData: [
             RankTaskData(text: 'Jest znawcą technik harcerskich. Posiadł wiedzę i umiejętności, które pozwalają mu swobodnie poruszać się w normalnych warunkach polowych i organizować zbiórki zastępu Szczegóły w sekcji "Wymagania na stopień".',
               checkable: false,),
           ],
         ),
-        RankGroupData(
+        const RankGroupData(
           title: 'Rozwój duchowy',
           taskData: [
             RankTaskData(text: 'Jest znawcą technik harcerskich. Posiadł wiedzę i umiejętności, które pozwalają mu swobodnie poruszać się w normalnych warunkach polowych i organizować zbiórki zastępu Szczegóły w sekcji "Wymagania na stopień".',
               checkable: false,),
           ],
         ),
-        RankGroupData(
+        const RankGroupData(
           title: 'Doświadczenie harcerskie',
           taskData: [
             RankTaskData(text: 'Bierze aktywny udział w życiu zastępu i drużyny. Okazał się samodzielny i odpowiedzialny za innych. Jest przygotowany do objęcia zastępu lub innej samodzielnej funkcji w drużynie. Szczegóły w sekcji "Wymagania na stopień".',
@@ -749,11 +749,11 @@ RankZHRCData rankZhrHarcC3Data = RankZHRCData.from(
   koment: null,
   cats: [
 
-    const RankCatData(
+    RankCatData(
       title: 'Praca nad charakterem',
       icon: RankData.iconCatCharakter,
       groupData: [
-        RankGroupData(
+        const RankGroupData(
             title: 'Kształtowanie charakteru',
             taskData: [
               RankTaskData(text: 'Ocenia własne postępowanie w oparciu o Przyrzeczenie i Prawo Harcerskie i potrafi odnieść się do niego, dostrzec dobre i złe cechy swojego charakteru, określi plan regularnych ćwiczeń w pracy nad sobą.'),
@@ -761,7 +761,7 @@ RankZHRCData rankZhrHarcC3Data = RankZHRCData.from(
               RankTaskData(text: 'Zarobi (zaoszczędzi) na obóz minimum 50% jego ceny.'),
             ]
         ),
-        RankGroupData(
+        const RankGroupData(
             title: 'Rozwój religijny',
             taskData: [
               RankTaskData(text: 'Pogłębia swoją wiarę poprzez autoformację pod kierunkiem kapelana, katechety czy innej osoby, która jest autorytetem w zakresie wiary.'),
@@ -769,7 +769,7 @@ RankZHRCData rankZhrHarcC3Data = RankZHRCData.from(
               RankTaskData(text: 'Regularnie czyta Pismo Święte, zna młodzieżową prasę katolicką, wziął udział spotkaniu ewangelizacyjnym dla młodzieży (Lednica, Święto Młodzieży, itp.).'),
             ]
         ),
-        RankGroupData(
+        const RankGroupData(
             title: 'Rozwój intelektualny',
             taskData: [
               RankTaskData(text: 'Potrafi uzasadnić na czym opiera swoje wybory moralne (na ognisku, kominku, wieczornicy). Poprowadził dyskusję na temat wolności i jej granic lub "osobistego Westerplatte" - wg słów Jana Pawła II; wygłosił gawędę, jak rozumieć słowa Honorowego Przewodniczącego ZHR śp. hm. T. Strzembosza "Harcerstwo jest rycerską postacią współczesnego chrześcijaństwa", przybliżającą wartości Prawa Harcerskiego).'),
@@ -779,7 +779,7 @@ RankZHRCData rankZhrHarcC3Data = RankZHRCData.from(
               RankTaskData(text: 'Interesuje się jedną z dziedzin kultury, rozwija swoje talenty.Napisał cykl recenzji z ostatnio widzianych przedstawień teatralnych, filmów, recitali, koncertów muzyki poważnej bądź rozrywkowej.Wykonał do izby drużyny fotoreportaż, zrealizował z zastępem film i pokazał go drużynie(zdobył sprawność artystyczną trzygwiazdkową).'),
             ]
         ),
-        RankGroupData(
+        const RankGroupData(
             title: 'Rozwój fizyczny',
             taskData: [
               RankTaskData(text: 'Jest aktywny, próbuje nowych dziedzin sportowych, poszerza horyzonty swojej aktywności (jeździł konno, na nartach, wiosłuje, pływa kajakiem, żagluje itp.).'),
@@ -791,11 +791,11 @@ RankZHRCData rankZhrHarcC3Data = RankZHRCData.from(
       ],
     ),
 
-    const RankCatData(
+    RankCatData(
       title: 'Harcerskie wtajemniczenie',
       icon: RankData.iconCatHarcWtajem,
       groupData: [
-        RankGroupData(
+        const RankGroupData(
             title: 'Doświadczenie harcerskie',
             taskData: [
               RankTaskData(text: 'Umie zorganizować i przeprowadzić biwak drużyny i grę terenową.'),
@@ -806,7 +806,7 @@ RankZHRCData rankZhrHarcC3Data = RankZHRCData.from(
               RankTaskData(text: 'Dba o rozwój ruchu harcerskiego. Planował i uczestniczył w akcji werbunkowej do drużyny.Współorganizował akcję prezentującą w szkole dorobek drużyny, np. odpowiadał za system informacji (plakaty, strona www, ulotki, gazetka harcerska w szkole, itp.). Przygotował i przeprowadził akcję promującą harcerski styl i ZHR w środowisku działania drużyny).'),
             ]
         ),
-        RankGroupData(
+        const RankGroupData(
             title: 'Wiedza harcerska',
             taskData: [
               RankTaskData(text: 'Zna podstawowe okresy z historii harcerstwa, potrafi o nich opowiedzieć.'),
@@ -816,7 +816,7 @@ RankZHRCData rankZhrHarcC3Data = RankZHRCData.from(
               RankTaskData(text: 'Zna organizację i życie hufca. Objaśni młodszym harcerzom szczegółowo całą strukturę ZHR, w tym podając skład i znaczenie władz wybieranych (Okręgowych i Naczelnych). Wymieni nazwiska Naczelnika i Przewodniczącego'),
             ]
         ),
-        RankGroupData(
+        const RankGroupData(
             title: 'Harcerski styl',
             taskData: [
               RankTaskData(text: 'Zna regulamin musztry Organizacji Harcerzy ZHR. Poprowadził apel oraz musztrę paradną drużyny. Zorganizował ćwiczenia pocztu sztandarowego.'),
@@ -824,21 +824,21 @@ RankZHRCData rankZhrHarcC3Data = RankZHRCData.from(
               RankTaskData(text: 'Umie prać i prasować swój mundur w domu i w warunkach polowych.'),
             ]
         ),
-        RankGroupData(
+        const RankGroupData(
             title: 'Samarytanka i zdrowie',
             taskData: [
               RankTaskData(text: 'Umie udzielić pomocy tonącemu.'),
               RankTaskData(text: 'Umie przeprowadzić resuscytację zgodnie z protokołem BLS'),
             ]
         ),
-        RankGroupData(
+        const RankGroupData(
             title: 'Przyrodoznawstwo',
             taskData: [
               RankTaskData(text: 'Umie przewidzieć pogodę na postawie obserwacji nieba.'),
               RankTaskData(text: 'Wykonał konkretną pracę na rzecz środowiska naturalnego.'),
             ]
         ),
-        RankGroupData(
+        const RankGroupData(
             title: 'Łączność',
             taskData: [
               RankTaskData(text: 'Nawiązał w warunkach terenowych łączność przy pomocy sygnałów świetlnych, dymnych, itp.. Posłużył się CB-radiem. Przekazał informację za pomocą faksu'),
@@ -846,7 +846,7 @@ RankZHRCData rankZhrHarcC3Data = RankZHRCData.from(
               RankTaskData(text: 'Potrafi opowiedzieć o zagrożeniach płynących z nadmiernego korzystania z komputera, telewizji.'),
             ]
         ),
-        RankGroupData(
+        const RankGroupData(
             title: 'Terenoznawstwo i krajoznawstwo',
             taskData: [
               RankTaskData(text: 'Umie poruszać się terenie bagiennym i w górach.'),
@@ -854,7 +854,7 @@ RankZHRCData rankZhrHarcC3Data = RankZHRCData.from(
               RankTaskData(text: 'Umie posługiwać się różnymi rodzajami map (również internetowymi), GPS-em i nawigacją samochodową.'),
             ]
         ),
-        RankGroupData(
+        const RankGroupData(
             title: 'Obozownictwo i pionierka',
             taskData: [
               RankTaskData(text: 'Umie wyżywić się przez dwa dni korzystając wyłącznie z darów lasu.'),
@@ -870,11 +870,11 @@ RankZHRCData rankZhrHarcC3Data = RankZHRCData.from(
       ],
     ),
 
-    const RankCatData(
+    RankCatData(
         title: 'Służba',
         icon: RankData.iconCatSluzba,
         groupData: [
-          RankGroupData(
+          const RankGroupData(
               title: 'Wychowanie prorodzinne',
               taskData: [
                 RankTaskData(text: 'Umie przygotować i podać obiad dla rodziny.'),
@@ -883,7 +883,7 @@ RankZHRCData rankZhrHarcC3Data = RankZHRCData.from(
                 RankTaskData(text: 'Wysłuchał konferencji np. Jacka Pulikowskiego, albo ks. Piotra Pawlukiewicza na temat relacji chłopak-dziewczyna, oraz czystości we wzajemnych relacjach, zna zagrożenia wynikające z pornografii.'),
               ]
           ),
-          RankGroupData(
+          const RankGroupData(
               title: 'Służba Polsce i Bliźnim',
               taskData: [
                 RankTaskData(text: 'Świadomie uczestniczy w obchodach świąt narodowych. Uczestniczył w przygotowaniu drużyny do uczczenia narodowego święta.'),
@@ -895,11 +895,11 @@ RankZHRCData rankZhrHarcC3Data = RankZHRCData.from(
         ]
     ),
 
-    const RankCatData(
+    RankCatData(
         title: 'Sylwetka',
         icon: RankData.iconCatSylwetka,
         groupData: [
-          RankGroupData(
+          const RankGroupData(
               title: 'Dojrzałość psychofizyczna',
               taskData: [
                 RankTaskData(text: 'Umie przygotować i podać obiad dla rodziny.'),
@@ -908,7 +908,7 @@ RankZHRCData rankZhrHarcC3Data = RankZHRCData.from(
                 RankTaskData(text: 'Wysłuchał konferencji np. Jacka Pulikowskiego, albo ks. Piotra Pawlukiewicza na temat relacji chłopak-dziewczyna, oraz czystości we wzajemnych relacjach, zna zagrożenia wynikające z pornografii.'),
               ]
           ),
-          RankGroupData(
+          const RankGroupData(
               title: 'Służba Polsce i Bliźnim',
               taskData: [
                 RankTaskData(text: 'Świadomie uczestniczy w obchodach świąt narodowych. Uczestniczył w przygotowaniu drużyny do uczczenia narodowego święta.'),
@@ -917,7 +917,7 @@ RankZHRCData rankZhrHarcC3Data = RankZHRCData.from(
                 RankTaskData(text: 'W swoim środowisku działania spieszy z pomocą słabszym. Aktywnie poszukuje pól służby i stara się je realizować razem z przyjaciółmi z drużyny (zorganizował grupę wolontariuszy -w tym spoza ZHR) do pomocy słabszym uczniom lub dzieciom z Domu Dziecka. Uczestniczył w akcji propagującej życie bez uzależnień: od palenia papierosów, alkoholu, narkotyków, gier komputerowych itp. Podjął się kilkumiesięcznej służby indywidualnej (pomaga sąsiadce, osobie starszej, w wydawalni posiłków, itp.)'),
               ]
           ),
-          RankGroupData(
+          const RankGroupData(
             title: 'Dojrzałość psychofizyczna',
             taskData: [
               RankTaskData(text:
@@ -934,7 +934,7 @@ RankZHRCData rankZhrHarcC3Data = RankZHRCData.from(
               )
             ],
           ),
-          RankGroupData(
+          const RankGroupData(
             title: 'Postawa harcerska',
             taskData: [
               RankTaskData(text:
@@ -942,7 +942,7 @@ RankZHRCData rankZhrHarcC3Data = RankZHRCData.from(
               ),
             ],
           ),
-          RankGroupData(
+          const RankGroupData(
             title: 'Wiedza i umiejętności',
             taskData: [
               RankTaskData(text:
@@ -950,7 +950,7 @@ RankZHRCData rankZhrHarcC3Data = RankZHRCData.from(
               ),
             ],
           ),
-          RankGroupData(
+          const RankGroupData(
             title: 'Rozwój duchowy',
             taskData: [
               RankTaskData(text:
@@ -958,7 +958,7 @@ RankZHRCData rankZhrHarcC3Data = RankZHRCData.from(
               ),
             ],
           ),
-          RankGroupData(
+          const RankGroupData(
             title: 'Doświadczenie harcerskie',
             taskData: [
               RankTaskData(text:
@@ -992,11 +992,11 @@ RankZHRCData rankZhrHarcC4Data = RankZHRCData.from(
   ],
   cats: [
 
-    const RankCatData(
+    RankCatData(
       title: 'Praca nad sobą, wiedza, umiejętności',
       icon: RankData.iconCatCharakter,
       groupData: [
-        RankGroupData(
+        const RankGroupData(
           title: 'Rozwój duchowy (moralny i religijny)',
           taskData: [
             RankTaskData(text:
@@ -1008,7 +1008,7 @@ RankZHRCData rankZhrHarcC4Data = RankZHRCData.from(
           ],
         ),
 
-        RankGroupData(
+        const RankGroupData(
           title: 'Praca nad charakterem',
           taskData: [
             RankTaskData(text:
@@ -1021,7 +1021,7 @@ RankZHRCData rankZhrHarcC4Data = RankZHRCData.from(
           ],
         ),
 
-        RankGroupData(
+        const RankGroupData(
           title: 'Rozwój intelektualny i zawodowy',
           taskData: [
             RankTaskData(text:
@@ -1033,7 +1033,7 @@ RankZHRCData rankZhrHarcC4Data = RankZHRCData.from(
             )
           ],
         ),
-        RankGroupData(
+        const RankGroupData(
           title: 'Rozwój kulturalny',
           taskData: [
             RankTaskData(text:
@@ -1045,7 +1045,7 @@ RankZHRCData rankZhrHarcC4Data = RankZHRCData.from(
             )
           ],
         ),
-        RankGroupData(
+        const RankGroupData(
           title: 'Rozwój fizyczny',
           taskData: [
             RankTaskData(text:
@@ -1057,7 +1057,7 @@ RankZHRCData rankZhrHarcC4Data = RankZHRCData.from(
           ],
         ),
 
-        RankGroupData(
+        const RankGroupData(
           title: 'Powołanie, wychowanie prorodzinne',
           taskData: [
             RankTaskData(text:
@@ -1069,7 +1069,7 @@ RankZHRCData rankZhrHarcC4Data = RankZHRCData.from(
           ],
         ),
 
-        RankGroupData(
+        const RankGroupData(
           title: 'Harce, przygoda, przyroda, wyczyn',
           taskData: [
             RankTaskData(text:
@@ -1083,11 +1083,11 @@ RankZHRCData rankZhrHarcC4Data = RankZHRCData.from(
       ],
     ),
 
-    const RankCatData(
+    RankCatData(
       title: 'Służba',
       icon: RankData.iconCatSluzba,
       groupData: [
-        RankGroupData(
+        const RankGroupData(
             title: 'Służba Bogu',
             taskData: [
               RankTaskData(text:
@@ -1099,7 +1099,7 @@ RankZHRCData rankZhrHarcC4Data = RankZHRCData.from(
             ]
         ),
 
-        RankGroupData(
+        const RankGroupData(
             title: 'Służba bliźnim i środowisku, wychowanie społeczne',
             taskData: [
               RankTaskData(text:
@@ -1111,7 +1111,7 @@ RankZHRCData rankZhrHarcC4Data = RankZHRCData.from(
             ]
         ),
 
-        RankGroupData(
+        const RankGroupData(
             title: 'Służba harcerska',
             taskData: [
               RankTaskData(text:
@@ -1124,7 +1124,7 @@ RankZHRCData rankZhrHarcC4Data = RankZHRCData.from(
             ]
         ),
 
-        RankGroupData(
+        const RankGroupData(
             title: 'Służba Polsce',
             taskData: [
               RankTaskData(text:
@@ -1138,11 +1138,11 @@ RankZHRCData rankZhrHarcC4Data = RankZHRCData.from(
       ],
     ),
 
-    const RankCatData(
+    RankCatData(
       title: 'Próba końcowa',
       icon: RankData.iconCatProbaKoncowa,
       groupData: [
-        RankGroupData(
+        const RankGroupData(
           taskData: [
             RankTaskData(text:
             'Charakter próby winien być indywidualny i mieć formę wyczynu. Próba winna trwać od 18 do 36 godzin. Jej celem jest ostateczne sprawdzenie w szczególności:'
@@ -1182,11 +1182,11 @@ RankZHRCData rankZhrHarcC5Data = RankZHRCData.from(
   ],
   cats: [
 
-    const RankCatData(
+    RankCatData(
       title: 'Praca nad sobą, wiedza, umiejętności',
       icon: RankData.iconCatCharakter,
       groupData: [
-        RankGroupData(
+        const RankGroupData(
           title: 'Rozwój duchowy (moralny i religijny)',
           taskData: [
             RankTaskData(text:
@@ -1202,7 +1202,7 @@ RankZHRCData rankZhrHarcC5Data = RankZHRCData.from(
 
         ),
 
-        RankGroupData(
+        const RankGroupData(
           title: 'Praca nad charakterem',
           taskData: [
             RankTaskData(text:
@@ -1216,7 +1216,7 @@ RankZHRCData rankZhrHarcC5Data = RankZHRCData.from(
           ],
         ),
 
-        RankGroupData(
+        const RankGroupData(
           title: 'Rozwój intelektualny i zawodowy',
           taskData: [
             RankTaskData(text:
@@ -1231,7 +1231,7 @@ RankZHRCData rankZhrHarcC5Data = RankZHRCData.from(
           ],
         ),
 
-        RankGroupData(
+        const RankGroupData(
           title: 'Rozwój kulturalny',
           taskData: [
             RankTaskData(text:
@@ -1245,7 +1245,7 @@ RankZHRCData rankZhrHarcC5Data = RankZHRCData.from(
           ],
         ),
 
-        RankGroupData(
+        const RankGroupData(
           title: 'Rozwój fizyczny',
           taskData: [
             RankTaskData(text:
@@ -1259,7 +1259,7 @@ RankZHRCData rankZhrHarcC5Data = RankZHRCData.from(
           ],
         ),
 
-        RankGroupData(
+        const RankGroupData(
           title: 'Powołanie, wychowanie prorodzinne',
           taskData: [
             RankTaskData(text:
@@ -1277,11 +1277,11 @@ RankZHRCData rankZhrHarcC5Data = RankZHRCData.from(
       ],
     ),
 
-    const RankCatData(
+    RankCatData(
       title: 'Służba',
       icon: RankData.iconCatSluzba,
       groupData: [
-        RankGroupData(
+        const RankGroupData(
             title: 'Służba Bogu',
             taskData: [
               RankTaskData(text: 'Stara się być czynnym apostołem. Swoim życiem i planowym działaniem szerzy wiarę.',
@@ -1292,7 +1292,7 @@ RankZHRCData rankZhrHarcC5Data = RankZHRCData.from(
             ]
         ),
 
-        RankGroupData(
+        const RankGroupData(
             title: 'Służba bliźnim i środowisku, wychowanie społeczne',
             taskData: [
               RankTaskData(text: 'Dostrzega wokół siebie ludzi potrzebujących, pomaga im indywidualnie, potrafi zorganizować pomoc na większą skalę, poszukuje grup ludzi potrzebujących pomocy i ją dla nich organizuje.',
@@ -1305,7 +1305,7 @@ RankZHRCData rankZhrHarcC5Data = RankZHRCData.from(
             ]
         ),
 
-        RankGroupData(
+        const RankGroupData(
             title: 'Służba harcerska',
             taskData: [
               RankTaskData(text: 'Jest liderem w środowisku harcerskim i pozaharcerskim, organizuje jego działalność.',
@@ -1316,7 +1316,7 @@ RankZHRCData rankZhrHarcC5Data = RankZHRCData.from(
             ]
         ),
 
-        RankGroupData(
+        const RankGroupData(
             title: 'Służba Polsce',
             taskData: [
               RankTaskData(text: 'Aktywnie promuje wartości patriotyczne w środowisku rodzinnym, towarzyskim, zawodowym i w swej miejscowości. Bierze czynny udział w życiu społecznym i politycznym regionu i państwa. Dostrzega osobiste pola służby wobec Ojczyzny.',
@@ -1331,11 +1331,11 @@ RankZHRCData rankZhrHarcC5Data = RankZHRCData.from(
       ],
     ),
 
-    const RankCatData(
+    RankCatData(
       title: 'Sylwetka',
       icon: RankData.iconCatSylwetka,
       groupData: [
-        RankGroupData(
+        const RankGroupData(
           title: 'Wstęp',
           taskData: [
             RankTaskData(text: 'Zdobycie stopnia Harcerza Rzeczypospolitej wieńczy drogę wychowania harcerza ZHR-u i jest dowodem dojrzałości, czyli przygotowania do dorosłego życia i chęci realizowania etosu harcerskiego oraz ma służyć nieustannemu dalszemu rozwojowi. W przedstawionej tu sylwetce Harcerza Rzeczypospolitej zamieszczono rozszerzony opis wartości zawartych w Prawie Harcerskim i harcerskim systemie wychowawczym. Sylwetka ta pokazuje ideał harcerza ZHR, wynik do jakiego dążymy w wychowaniu harcerskim i całym naszym życiu.'
@@ -1347,55 +1347,55 @@ RankZHRCData rankZhrHarcC5Data = RankZHRCData.from(
           ],
         ),
 
-        RankGroupData(
+        const RankGroupData(
           title: 'Rozwój duchowy (religijny i moralny), służba Bogu',
           taskData: [
             RankTaskData(text: 'Rozwija się duchowo i religijnie. Kieruje się chrześcijańskim systemem wartości, który ma ugruntowany. Ma poczucie własnej wartości i godności jako stworzenia Bożego. Kształtuje wrażliwość swego sumienia. Poznaje swą słabość oraz grzeszność i czerpie od Boga siłę na ich pokonanie poprzez sakramenty oraz modlitwę. Odkrywa plan, jaki ma Bóg względem niego. Ceni życie jako dar od Boga. Odczuwa potrzebę Miłości Bożej i dąży do szczęścia. Ma autorytety i czerpie z nich wzory. Potrafi wyznaczać granice swej wolności oraz zachowuje czystość i nie ulega uzależnieniom (nałogom). Przez wierność i czystość umacnia miłość. Spostrzega działanie Opatrzności, czyli Boga w Trójcy Świętej, w wydarzeniach swego życia lub swych bliskich i ufa Bogu. Zdaje sobie sprawę, do czego zbawia go Chrystus. Dostrzega miłość w wymiarze heroicznym jako drogę do świętości. Chce iść za Chrystusem. Szanuje godność każdego człowieka i widzi łączące go z nim braterstwo. Chętnie służy bliźnim i widzi w nich cierpiącego Chrystusa. Chce mieć w sercu Miłość. Stara się zło zwyciężać dobrem. Nie odpłaca się złem za zło. Szerzy Miłość i Pokój. Miłość buduje na prawdzie. Potrafi być pokorny i cierpliwy. Rozumie sens ofiary i cierpienia. Potrafi się wyrzekać. Potrafi dzielić się z innymi. Pieniądze i dobra materialne nie są dla niego najważniejsze. W przyrodzie widzi stworzenie Boże oraz piękno i Mądrość Stwórcy, i darzy ją miłością. Jest przyjacielem całego świata. Odważnie świadczy swym życiem o wierze. Pomaga innym w odnajdywaniu Boga. Okazuje miłość i wdzięczność Bogu przez modlitwę, czytanie Słowa Bożego, udział w sakramentach i czynne uczestnictwo w życiu swego Kościoła oraz życie religijne w rodzinie.Ma mocny kościec moralny, nie ulega złym wpływom otoczenia. Przeciwstawia się relatywizmowi etycznemu. Orientuje się w nauczaniu Kościoła o rodzinie i życiu społecznym.',),
           ],
         ),
 
-        RankGroupData(
+        const RankGroupData(
           title: 'Praca nad charakterem',
           taskData: [
             RankTaskData(text: 'W swym postępowaniu kieruje się Prawem Harcerskim i Dekalogiem. Systematycznie kształtuje swój charakter. Rozwija swe dobre strony i walczy ze swymi wadami. Stawia sobie wysokie wymagania. Ma własny system pracy nad swym charakterem. Jest rzetelny: słowny, terminowy, punktualny,systematyczny, odpowiedzialny, uczciwy, oszczędny, karny, szanuje prawo. Podejmuje tylko te obowiązki, które może zrealizować. Jest samodzielny, zaradny i przedsiębiorczy. Potrafi planować swe obowiązki i wybierać, które są najważniejsze. Jest życzliwy i braterski: przyjazny, koleżeński, opiekuńczy, wrażliwy na potrzeby i krzywdę innych, współczujący, uczynny, rycerski, otwarty, szanujący innych, do nikogo nie jest usposobiony wrogo, łatwo przebacza. Potrafi chwalić innych. Jest powściągliwy w osądzaniu innych. Sprawia mu radość zrobienie czegoś dobrego dla innych. Ma przyjaciół i jest lubiany. Nie kieruje się egoizmem. Nie dąży do sukcesów kosztem innych. Unika stosowania przemocy. Jest odważny: jest śmiały w marzeniach i działaniu, ma odwagę bronić innych, przeciwstawiać się złu i bronić swych przekonań. Podejmuje ambitne działania. Jest roztropny: rozumny, logiczny, przewidujący, krytycznie myślący, mądry życiowo. Ma hart ducha i radość życia: jest wytrwały w dążeniach, ma silną wolę, nie załamuje się, z pogodą ducha pokonuje przeciwności i znosi niepowodzenia, wyciąga naukę z porażek, nie boi się popełniania błędów, nigdy nie narzeka i nie żywi bezzasadnych pretensji. Potrafi z zaufaną osobą rozmawiać o swoich problemach. Wierzy w swoje siły. Jest cierpliwy. Jest radosny i ma poczucie humoru. Potrafi z siebie żartować. Jest optymistą. Panuje nad swymi emocjami: wyróżnia się kulturą osobistą, unika zarozumiałości, dostrzega swą niedoskonałość oraz że nie zawsze ma rację, stać go na pokorę, uznaje racje i argumenty adwersarzy w dyskusji, potrafi przyznać się do własnych błędów, w dyskusji nie ma wrogów lecz przyjaciół, z którymi chce wspólnie dojść do prawdy, nie obraża się, jest spokojny i rzeczowy, nie chce poniżyć godności drugiego, wystrzega się ironii i złośliwości, jest skromny, nie stara się by go honorowano, panuje nad swym językiem, złym humorem, gwałtownymi reakcjami i strachem, jest zrównoważony. Potrafi okazywać pozytywne uczucia (rodzicom, rówieśnikom, dorosłym), nie wstydzi się ich. Pokonuje swą nieśmiałość. Potrafi nawiązywać kontakt z innymi.',),
           ],
         ),
 
-        RankGroupData(
+        const RankGroupData(
           title: 'Miejsce w życiu, powołanie',
           taskData: [
             RankTaskData(text: 'Ma śmiałe marzenia, pragnienia i plany życiowe. Poszukuje swej drogi do szczęścia. Odważnie wyznacza sobie cele życiowe i konsekwentnie je realizuje. Tworzy dalekosiężną wizję swego życia. Przygotowuje się do swoich powołań Życiowych (np. w służbie Bogu: w rodzinie, w kapłaństwie, w życiu zakonnym, w samotności; w pracy społecznej, w pracy zawodowej). W zakresie swego powołania pogłębia swą wiedzę (np. przygotowuje się do życia rodzinnego). Ma własną wizję szczęśliwej rodziny, roli i ideału męża i żony,roli ojca i matki oraz dzieci lub też wizję posługi kapłańskiej. Ma podstawową wiedzę psychologiczną, wychowawczą i teologiczną w wybranym zakresie. Ma odpowiedzialny stosunek do dziewcząt i kobiet. Docenia wartość czystości przedmałżeńskiej i naturalnego planowania rodziny. Broni życia od momentu poczęcia do naturalnej śmierci. Zna problemy swego domu rodzinnego i stara się brać udział w ich rozwiązywaniu. Pełni służbę na rzecz swej rodziny. Poznał dzieje i podtrzymuje dobre tradycje swej rodziny. Okazuje szacunek osobom starszym.',),
           ],
         ),
 
-        RankGroupData(
+        const RankGroupData(
           title: 'Zainteresowania. Rozwój intelektualny i zawodowy',
           taskData: [
             RankTaskData(text: 'Ma sprecyzowane zainteresowania zawodowe i pozazawodowe, które rozwija. Osiąga mistrzostwo w dziedzinie swych zainteresowań. Osiągnął poziom wykształcenia odpowiedni do swych potrzeb i zamierzeń oraz stale się dokształca. Traktuje swój zawód jako służbę bliźnim i Polsce. Docenia potrzebę znajomości języków obcych, przynajmniej jednym posługuje się płynnie. Potrafi posługiwać się współczesnymi środkami łączności i techniki oraz posiada umiejętności z ważnej dla niego dziedziny. Zdobyte w harcerstwie umiejętności i doświadczenie w pracy z młodzieżą potrafi twórczo wykorzystywać w życiu rodzinnym i zawodowym.',),
           ],
         ),
 
-        RankGroupData(
+        const RankGroupData(
           title: 'Rozwój kulturalny',
           taskData: [
             RankTaskData(text: 'Jest kulturalny w mowie i zachowaniu; jest taktowny. Stosuje zasady dobrego wychowania (savoir vivre’u). Uprawia kulturalne rozrywki. Posługuje się gawędą, piosenką, inscenizacją i zdobnictwem także w życiu rodzinnym i zawodowym. Rozwija posiadane zdolności, a w razie potrzeby potrafi ich brak nadrobić zaradnością i wytrwałością. Jest twórcą dóbr kulturalnych (np. fotografia, film, rysunek, grafika, malarstwo, gra na instrumencie) lub animatorem życia kulturalnego w życiu rodzinnym i w swym środowisku. Uczestniczy w życiu kulturalnym (bywanie w teatrze, operze, na koncertach, przynależność do zespołu artystycznego, czytanie literatury pięknej). Zna dorobek kultury polskiej i europejskiej.',),
           ],
         ),
 
-        RankGroupData(
+        const RankGroupData(
           title: 'Rozwój fizyczny i psychofizyczny, wyczyn',
           taskData: [
             RankTaskData(text: 'Prowadzi zdrowy tryb życia. Systematycznie dba o swą kondycję fizyczną. Dokonał wyczynu lub uprawia wybraną dziedzinę sportu czy turystyki. Chętnie przebywa wśród przyrody. Dostosowuje rodzaj i intensywność zajęć do stanu zdrowia i wieku. Nie szermuje swoim zdrowiem i życiem. Ma wyćwiczoną pamięć, spostrzegawczość, bystrość, podzielność uwagi i szybkość reakcji oraz zręczność i sprawność działania.',),
           ],
         ),
-        RankGroupData(
+        const RankGroupData(
           title: 'Służba społeczna i służba Polsce',
           taskData: [
             RankTaskData(text: 'Jest liderem w środowisku harcerskim i pozaharcerskim, organizuje jego działalność. Charakteryzuje go postawa patriotyczna, społeczna i ekologiczna. Znajduje sobie na miarę możliwości i potrzeb pole aktywności społecznej (np. ochrony przyrody, ekologiczne, kulturalne, sportowe, wolontariat, działalność dobroczynną). Działa w organizacjach społecznych w dobrej sprawie. Widzi zadania ZHR w służbie Rzeczypospolitej, m.in. w zakresie sposobów obrony przed zagrożeniami dla wychowania we współczesnym społeczeństwie. Czynnie realizuje postawę umiłowania Ojczyzny. Realizuje swe powołanie mężczyzny troszcząc się o własną rodzinę lub przedkładając posługę kapłańską Kościołowi, chroniąc dobro wspólne i broniąc Ojczyzny. Kultywuje patriotyczne tradycje rodziny, regionu i Polski. Przywiązuje wagę do tradycji niepodległościowych i tradycji niepokornego harcerstwa. Czynnie realizuje swą miłość do Ojczyzny promując wartości patriotyczne w środowisku rodzinnym, towarzyskim, zawodowym i w swej miejscowości przez organizowanie odpowiednich akcji (np. spotkania z ludźmi, obchody rocznicowe, inscenizacje, wycieczki, dbałość o miejsca pamięci, poznawanie tradycji, zbieranie i utrwalanie informacji). Patriotyzm opiera na miłości do swoich, a nie na szowinizmie i wrogości do innych. Jest świadom naszych zalet i wad narodowych. Staje po stronie prawdy w historii i polityce. Ma skrystalizowane poglądy polityczne, potrafi o nich dyskutować. Widzi swą współodpowiedzialność za losy narodu i państwa. Bierze aktywny udział w Życiu społecznym i politycznym regionu i państwa. Jeżeli jest to częścią jego powołania, bierze czynny udział w służbie publicznej. Widzi pola swej służby wobec Ojczyzny i wie, na jakim odcinku chciałby się przyczynić do osiągnięć Polski. Uczestniczy, w miarę możliwości i potrzeb, w kontaktach z Polakami poza krajem.',),
           ],
         ),
 
-        RankGroupData(
+        const RankGroupData(
           title: 'Służba społeczna i służba Polsce',
           taskData: [
             RankTaskData(text: 'Jest liderem w środowisku harcerskim i pozaharcerskim, organizuje jego działalność. Charakteryzuje go postawa patriotyczna, społeczna i ekologiczna. Znajduje sobie na miarę możliwości i potrzeb pole aktywności społecznej (np. ochrony przyrody, ekologiczne, kulturalne, sportowe, wolontariat, działalność dobroczynną). Działa w organizacjach społecznych w dobrej sprawie. Widzi zadania ZHR w służbie Rzeczypospolitej, m.in. w zakresie sposobów obrony przed zagrożeniami dla wychowania we współczesnym społeczeństwie. Czynnie realizuje postawę umiłowania Ojczyzny. Realizuje swe powołanie mężczyzny troszcząc się o własną rodzinę lub przedkładając posługę kapłańską Kościołowi, chroniąc dobro wspólne i broniąc Ojczyzny. Kultywuje patriotyczne tradycje rodziny, regionu i Polski. Przywiązuje wagę do tradycji niepodległościowych i tradycji niepokornego harcerstwa. Czynnie realizuje swą miłość do Ojczyzny promując wartości patriotyczne w środowisku rodzinnym, towarzyskim, zawodowym i w swej miejscowości przez organizowanie odpowiednich akcji (np. spotkania z ludźmi, obchody rocznicowe, inscenizacje, wycieczki, dbałość o miejsca pamięci, poznawanie tradycji, zbieranie i utrwalanie informacji). Patriotyzm opiera na miłości do swoich, a nie na szowinizmie i wrogości do innych. Jest świadom naszych zalet i wad narodowych. Staje po stronie prawdy w historii i polityce. Ma skrystalizowane poglądy polityczne, potrafi o nich dyskutować. Widzi swą współodpowiedzialność za losy narodu i państwa. Bierze aktywny udział w Życiu społecznym i politycznym regionu i państwa. Jeżeli jest to częścią jego powołania, bierze czynny udział w służbie publicznej. Widzi pola swej służby wobec Ojczyzny i wie, na jakim odcinku chciałby się przyczynić do osiągnięć Polski. Uczestniczy, w miarę możliwości i potrzeb, w kontaktach z Polakami poza krajem.',),

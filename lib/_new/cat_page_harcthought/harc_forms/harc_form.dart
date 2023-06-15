@@ -10,14 +10,14 @@ class HarcFormTag{
 
 }
 
-const HarcFormTag tagSprawdzanieWiedzy = HarcFormTag('Sprawdz. wiedzy', MdiIcons.school);
-const HarcFormTag tagFormaZespolowa = HarcFormTag('Zespołowe', MdiIcons.accountMultiple);
-const HarcFormTag tagRuchowe = HarcFormTag('Ruchowe', MdiIcons.run);
-const HarcFormTag tagFormaWyjazdowa = HarcFormTag('Wyjazdowe', MdiIcons.tent);
-const HarcFormTag tagOrientacjaWTerenie = HarcFormTag('Orientacja w terenie', MdiIcons.map);
-const HarcFormTag tagMuzyczne = HarcFormTag('Muzyczne', MdiIcons.music);
-const HarcFormTag tagWspolzawodnictwo = HarcFormTag('Współzawodnictwo', MdiIcons.trophy);
-const HarcFormTag tagArgumentacja = HarcFormTag('Argumentacja', MdiIcons.commentText);
+HarcFormTag tagSprawdzanieWiedzy = HarcFormTag('Sprawdz. wiedzy', MdiIcons.school);
+HarcFormTag tagFormaZespolowa = HarcFormTag('Zespołowe', MdiIcons.accountMultiple);
+HarcFormTag tagRuchowe = HarcFormTag('Ruchowe', MdiIcons.run);
+HarcFormTag tagFormaWyjazdowa = HarcFormTag('Wyjazdowe', MdiIcons.tent);
+HarcFormTag tagOrientacjaWTerenie = HarcFormTag('Orientacja w terenie', MdiIcons.map);
+HarcFormTag tagMuzyczne = HarcFormTag('Muzyczne', MdiIcons.music);
+HarcFormTag tagWspolzawodnictwo = HarcFormTag('Współzawodnictwo', MdiIcons.trophy);
+HarcFormTag tagArgumentacja = HarcFormTag('Argumentacja', MdiIcons.commentText);
 
 class HarcFormMeto{
 

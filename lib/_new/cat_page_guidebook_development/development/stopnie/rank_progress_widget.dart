@@ -11,13 +11,13 @@ class RankProgressWidget extends StatelessWidget{
   final bool? inProgress;
   final int completenessPercent;
 
-  const RankProgressWidget(this.completed, this.inProgress, this.completenessPercent);
+  const RankProgressWidget(this.completed, this.inProgress, this.completenessPercent, {super.key});
 
   @override
   Widget build(BuildContext context) {
 
     if(completed!)
-      return const Icon(
+      return Icon(
         MdiIcons.trophyAward,
         color: Colors.amber,
         size: RankTileWidgetTemplate.defTileIconSize,

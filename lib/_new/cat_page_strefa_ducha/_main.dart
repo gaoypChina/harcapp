@@ -5,7 +5,6 @@ import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:gallery_saver/gallery_saver.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/blur.dart';
 import 'package:harcapp/_common_classes/color_pack.dart';
@@ -24,6 +23,7 @@ import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
 import 'package:harcapp_core/comm_widgets/app_scaffold.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
@@ -280,12 +280,12 @@ class CatPageStrefaDuchaState extends State<CatPageStrefaDucha> with AfterLayout
                           icon:
                           strefaDuchaLoader.running?
                           const SpinKitChasingDots(size: Dimen.ICON_SIZE, color: Colors.white):
-                          const Icon(MdiIcons.refresh),
+                          Icon(MdiIcons.refresh),
                           onPressed: () => tryReloadItems(context)
                       )
                     else
                       IconButton(
-                        icon: const Icon(MdiIcons.cogOutline, color: Colors.white),
+                        icon: Icon(MdiIcons.cogOutline, color: Colors.white),
                         onPressed: () => pushPage(context, builder: (context) =>
                             SettingsPage(sourceChanged: (){
                               Provider.of<FadeImageProvider>(context, listen: false).clear(currIdx: 0);
@@ -658,27 +658,27 @@ class _CardWidgetState extends State<_CardWidget>{
                     children: [
 
                       ListTile(
-                          leading: const Icon(MdiIcons.shareVariant, color: Colors.white),
+                          leading: Icon(MdiIcons.shareVariant, color: Colors.white),
                           title: Text('Udostępnij', style: AppTextStyle(color: Colors.white)),
                           onTap: () => Share.shareFiles([sourceItem!.cachedFile.path], text: 'Udostępnij...')
                       ),
                       ListTile(
-                        leading: const Icon(MdiIcons.link, color: Colors.white),
+                        leading: Icon(MdiIcons.link, color: Colors.white),
                         title: Text('Źródło', style: AppTextStyle(color: Colors.white)),
                         onTap: () => launchURL(sourceItem!.sourceUrl!),
                       ),
                       ListTile(
-                        leading: const Icon(MdiIcons.trayArrowDown, color: Colors.white),
+                        leading: Icon(MdiIcons.trayArrowDown, color: Colors.white),
                         title: Text('Pobierz', style: AppTextStyle(color: Colors.white)),
                         onTap: () async {
                           if(await Permission.storage.request().isGranted){
-                            await GallerySaver.saveImage(sourceItem!.cachedFile.path);
-                            showAppToast(context, text: 'Zapisano w galerii.');
+                            await ImageGallerySaver.saveImage(sourceItem!.cachedFile.readAsBytesSync());
+                            if(mounted) showAppToast(context, text: 'Zapisano w galerii.');
                           }
                         },
                       ),
                       ListTile(
-                          leading: const Icon(MdiIcons.informationOutline, color: Colors.white),
+                          leading: Icon(MdiIcons.informationOutline, color: Colors.white),
                           title: Text('Informacje', style: AppTextStyle(color: Colors.white)),
                           onTap: () => showAppToast(context, text: sourceItem!.cachedFileName)
                       ),

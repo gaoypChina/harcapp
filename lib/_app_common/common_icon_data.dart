@@ -30,7 +30,7 @@ class CommonIconData{
 
   static String get randomKey => all.keys.toList()[Random().nextInt(all.length)];
 
-  static const Map<String, IconData> books = {
+  static Map<String, IconData> books = {
     'notebookOutline': MdiIcons.notebookOutline,
     'bookMusic': MdiIcons.bookMusic,
     'bookMusicOutline': MdiIcons.bookMusicOutline,
@@ -50,7 +50,7 @@ class CommonIconData{
     'graveStone': MdiIcons.graveStone,
   };
 
-  static const Map<String, IconData> fire = {
+  static Map<String, IconData> fire = {
     'fireplace': MdiIcons.fireplace,
     'campfire': MdiIcons.campfire,
     'fire': MdiIcons.fire,
@@ -58,7 +58,7 @@ class CommonIconData{
     'torch': MdiIcons.torch
   };
 
-  static const Map<String, IconData> writing = {
+  static Map<String, IconData> writing = {
     'fountainPenTip': MdiIcons.fountainPenTip,
     'pencilOutline': MdiIcons.pencilOutline,
     'pencilRuler': MdiIcons.pencilRuler,
@@ -68,7 +68,7 @@ class CommonIconData{
     'feather': MdiIcons.feather,
   };
 
-  static const Map<String, IconData> home = {
+  static Map<String, IconData> home = {
     'tent': MdiIcons.tent,
     'homeVariant': MdiIcons.homeVariant,
     'home': MdiIcons.home,
@@ -81,7 +81,7 @@ class CommonIconData{
     'homeAnalytics': MdiIcons.warehouse,
   };
 
-  static const Map<String, IconData> symbols = {
+  static Map<String, IconData> symbols = {
     'christianity': MdiIcons.cross,
 
     'cardsHeart': MdiIcons.cardsHeart,
@@ -102,7 +102,7 @@ class CommonIconData{
     'clover': MdiIcons.clover,
   };
 
-  static const Map<String, IconData> music = {
+  static Map<String, IconData> music = {
     'musicClefBass': MdiIcons.musicClefBass,
     'musicClefTreble': MdiIcons.musicClefTreble,
     'musicNoteQuarter': MdiIcons.musicNoteQuarter,
@@ -120,7 +120,7 @@ class CommonIconData{
     'saxophone': MdiIcons.saxophone,
   };
 
-  static const Map<String, IconData> plants = {
+  static Map<String, IconData> plants = {
     'pineTree': MdiIcons.pineTree,
     'treeOutline': MdiIcons.treeOutline,
     'flower': MdiIcons.flower,
@@ -128,7 +128,7 @@ class CommonIconData{
     'flowerPoppy': MdiIcons.flowerPoppy,
   };
 
-  static const Map<String, IconData> animals = {
+  static Map<String, IconData> animals = {
     'penguin': MdiIcons.penguin,
     'dog': MdiIcons.dog,
     'cat': MdiIcons.cat,
@@ -148,7 +148,7 @@ class CommonIconData{
     'paw': MdiIcons.paw,
   };
 
-  static const Map<String, IconData> sport = {
+  static Map<String, IconData> sport = {
     'basketball': MdiIcons.basketball,
     'waterPolo': MdiIcons.waterPolo,
     'baseball': MdiIcons.baseball,
@@ -168,7 +168,7 @@ class CommonIconData{
     'whistle': MdiIcons.whistle,
   };
 
-  static const Map<String, IconData> food = {
+  static Map<String, IconData> food = {
     'breadSliceOutline': MdiIcons.breadSliceOutline,
     'cake': MdiIcons.cake,
     'candycane': MdiIcons.candycane,
@@ -192,12 +192,12 @@ class CommonIconData{
     'bowlOutline': MdiIcons.bowlMixOutline,
   };
 
-  static const Map<String, IconData> masks = {
+  static Map<String, IconData> masks = {
     'dominoMask': MdiIcons.dominoMask,
     'dramaMasks': MdiIcons.dramaMasks,
   };
 
-  static const Map<String, IconData> sea = {
+  static Map<String, IconData> sea = {
     'pirate': MdiIcons.pirate,
     'sailBoat': MdiIcons.sailBoat,
     'shipWheel': MdiIcons.shipWheel,
@@ -210,7 +210,7 @@ class CommonIconData{
     'sharkFin': MdiIcons.sharkFin
   };
 
-  static const Map<String, IconData> tools = {
+  static Map<String, IconData> tools = {
     'sawBlade': MdiIcons.sawBlade,
     'handSaw': MdiIcons.handSaw,
     'axe': MdiIcons.axe,
@@ -221,7 +221,7 @@ class CommonIconData{
     'wrench': MdiIcons.wrench,
   };
 
-  static const Map<String, IconData> cars = {
+  static Map<String, IconData> cars = {
     'bicycle': MdiIcons.bicycle,
     'bike': MdiIcons.bike,
     'bicycleCargo': MdiIcons.bicycleCargo,
@@ -233,7 +233,7 @@ class CommonIconData{
     'rocketLaunchOutline': MdiIcons.rocketLaunchOutline,
   };
 
-  static const Map<String, IconData> weather = {
+  static Map<String, IconData> weather = {
     'snowflake': MdiIcons.snowflake,
     'brightness3': MdiIcons.brightness3,
     'weatherNight': MdiIcons.weatherNight,
@@ -246,7 +246,7 @@ class CommonIconData{
     'weatherSnowyHeavy': MdiIcons.weatherSnowyHeavy,
   };
 
-  static const Map<String, IconData> other = {
+  static Map<String, IconData> other = {
     'fleurDeLis': MdiIcons.fleurDeLis,
 
     'bed': MdiIcons.bed,
@@ -284,7 +284,7 @@ class CommonIconData{
 
   static const String defIconKey = 'bookVariant';
   static const String folderIconKey = 'folder';
-  static const IconData folderIcon = MdiIcons.folder;
+  static IconData folderIcon = MdiIcons.folder;
 
   static IconData get(String key, {String defKey = defIconKey}) =>
       all[key]??all[defKey]??all[defIconKey]!;

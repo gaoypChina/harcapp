@@ -18,7 +18,7 @@ class ClaimButton extends StatelessWidget{
     heroTag: null,
     backgroundColor: cardEnab_(context),
     foregroundColor: color,
-    child: const Icon(
+    child: Icon(
         MdiIcons.checkCircleOutline
     ),
     onPressed: (){

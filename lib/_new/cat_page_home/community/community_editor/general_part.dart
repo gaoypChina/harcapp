@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_app_common/icon_selector_widget.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/common_contact_editor_widget.dart';
@@ -8,7 +7,6 @@ import 'package:harcapp/_common_widgets/search_field.dart';
 import 'package:harcapp/_new/cat_page_home/community/community_editor/providers.dart';
 import 'package:harcapp/_new/cat_page_home/community/community_thumbnail_widget.dart';
 import 'package:harcapp/_new/cat_page_home/community/model/community.dart';
-import 'package:harcapp/account/account.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
@@ -118,7 +116,7 @@ class GeneralPartState extends State<GeneralPart>{
         ),
         Expanded(child: Container()),
         IconButton(
-          icon: const Icon(MdiIcons.dotsVertical),
+          icon: Icon(MdiIcons.dotsVertical),
           onPressed: () => selectCommunityCategory(context, prov)
         )
       ])),

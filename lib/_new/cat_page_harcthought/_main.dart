@@ -147,7 +147,7 @@ class CatPageHarcThoughtState extends State<CatPageHarcThought> with TickerProvi
                 title: 'Apele ewangeliczne',
                 textAlign: TextAlign.start,
                 trailing: IconButton(
-                  icon: const Icon(MdiIcons.informationOutline),
+                  icon: Icon(MdiIcons.informationOutline),
                   onPressed: () => showScrollBottomSheet(
                     context: context,
                     builder: (context) => BottomSheetDef(
@@ -301,7 +301,7 @@ class CatPageHarcThoughtState extends State<CatPageHarcThought> with TickerProvi
     children: [
 
       ListTile(
-        leading: const Icon(MdiIcons.grid),
+        leading: Icon(MdiIcons.grid),
         title: Text('Podgląd', style: AppTextStyle(fontWeight: weight.halfBold)),
       ),
 
@@ -313,19 +313,19 @@ class CatPageHarcThoughtState extends State<CatPageHarcThought> with TickerProvi
       ),
 
       ListTile(
-        leading: const Icon(MdiIcons.textBoxCheckOutline),
+        leading: Icon(MdiIcons.textBoxCheckOutline),
         title: Text('Wszystkie', style: AppTextStyle(fontWeight: weight.halfBold)),
         trailing: Text('${Article.all?.length}', style: AppTextStyle(fontWeight: weight.bold)),
       ),
 
       ListTile(
-        leading: const Icon(MdiIcons.bookmarkOutline),
+        leading: Icon(MdiIcons.bookmarkOutline),
         title: Text('Zapisane', style: AppTextStyle(fontWeight: weight.halfBold)),
         trailing: Text('${Article.bookmarkedIds.length}', style: AppTextStyle(fontWeight: weight.bold)),
       ),
 
       ListTile(
-        leading: const Icon(MdiIcons.heartOutline),
+        leading: Icon(MdiIcons.heartOutline),
         title: Text('Polubione', style: AppTextStyle(fontWeight: weight.halfBold)),
         trailing: Text('${Article.likedIds.length}', style: AppTextStyle(fontWeight: weight.bold)),
       ),
@@ -338,7 +338,7 @@ class CatPageHarcThoughtState extends State<CatPageHarcThought> with TickerProvi
       ),
 
       ListTile(
-        leading: const Icon(MdiIcons.campfire),
+        leading: Icon(MdiIcons.campfire),
         title: Text('Wszystkie', style: AppTextStyle(fontWeight: weight.halfBold)),
       ),
 
@@ -359,7 +359,7 @@ class CatPageHarcThoughtState extends State<CatPageHarcThought> with TickerProvi
             Article.all??[],
           ));
         },
-        child: const Icon(MdiIcons.magnify),
+        child: Icon(MdiIcons.magnify),
       ),
       builder: (context, child) => Transform.translate(
         offset: Offset(cos(pi/2*(tabNotifier.value))*(50 + 2*Dimen.FLOATING_BUTTON_MARG), 0),
@@ -453,10 +453,10 @@ class _ArticleScrollViewState extends State<_ArticleScrollView>{
           ):
           articleLoader.loadState == ArticleLoadState.NO_NET || articleLoader.loadState == ArticleLoadState.FAILED?
           IconButton(
-            icon: const Icon(MdiIcons.refresh),
+            icon: Icon(MdiIcons.refresh),
             onPressed: () => articleLoader.run()
           ):
-          IconButton(icon: const Icon(MdiIcons.progressDownload), onPressed: () => showAlertDialog(
+          IconButton(icon: Icon(MdiIcons.progressDownload), onPressed: () => showAlertDialog(
               context,
               title: 'Ostrożnie',
               content: 'HarcAppka pobiera automatycznie jedynie nowe artykuły.'

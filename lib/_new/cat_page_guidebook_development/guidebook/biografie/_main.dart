@@ -73,7 +73,7 @@ class BiografieFragmentState extends State<BiografieFragment> with TickerProvide
             forceElevated: innerBoxIsScrolled,
             actions: [
               IconButton(
-                icon: const Icon(MdiIcons.dotsGrid),
+                icon: Icon(MdiIcons.dotsGrid),
                 onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => AllBioPage(
                   onPicked: (int index) => controller.animateTo(index),
                 ))))

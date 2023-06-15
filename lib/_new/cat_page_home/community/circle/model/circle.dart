@@ -120,7 +120,7 @@ class Circle extends CircleBasicData{
 
   static const int memberPageSize = 10;
   
-  static const IconData icon = MdiIcons.googleCircles;
+  static IconData icon = MdiIcons.googleCircles;
 
   static const int maxLenDescription = 320;
   static const int maxLenCoverImageUrl = 200;

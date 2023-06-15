@@ -94,7 +94,7 @@ class AppMarker extends Marker{
                   //   color: Colors.white,
                   //   elevation: 2.0,
                   //   borderRadius: BorderRadius.circular(Dimen.ICON_SIZE),
-                  //   child: const Icon(MdiIcons.mapMarker, color: Colors.black),
+                  //   child: Icon(MdiIcons.mapMarker, color: Colors.black),
                   // ),
                 );
 
@@ -190,7 +190,7 @@ Future<void> showMarkerBottomSheet(BuildContext context, MarkerData marker) => o
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   IconButton(
-                    icon: const Icon(MdiIcons.arrowLeft),
+                    icon: Icon(MdiIcons.arrowLeft),
                     onPressed: () => Navigator.pop(context),
                   ),
 
@@ -245,7 +245,7 @@ Future<void> showMarkerBottomSheet(BuildContext context, MarkerData marker) => o
 
                   if(marker.loadedManagersMap[AccountData.key]?.role == MarkerRole.ADMIN)
                     IconButton(
-                      icon: const Icon(MdiIcons.pencilOutline),
+                      icon: Icon(MdiIcons.pencilOutline),
                       onPressed: () {
                         Navigator.pop(context);
                         pushPage(

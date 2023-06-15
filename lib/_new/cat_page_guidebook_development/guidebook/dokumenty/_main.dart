@@ -38,7 +38,7 @@ class DokumentyFragmentState extends State<DokumentyFragment> with ModuleStatsMi
             floating: true,
             forceElevated: innerBoxIsScrolled,
             bottom: TabBar(
-              tabs: const <Tab>[
+              tabs: [
                 Tab(icon: Icon(MdiIcons.fileDocumentOutline)),
                 Tab(icon: Icon(MdiIcons.cashCheck)),
               ],
@@ -50,7 +50,7 @@ class DokumentyFragmentState extends State<DokumentyFragment> with ModuleStatsMi
         body: TabBarView(
           physics: const BouncingScrollPhysics(),
           children: <Widget>[
-            ChildDokumenty(),
+            const ChildDokumenty(),
             ChildFaktury()
           ],
           //controller: _tabController,

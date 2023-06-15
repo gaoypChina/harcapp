@@ -16,8 +16,8 @@ class GDPRInputField extends StatelessWidget{
   static const String accepted = 'Wyrażam zgodę';
   static const String notAccepted = 'Nie wyrażam zgody';
 
-  static const IconData acceptedIcon = MdiIcons.checkboxMarkedCircleOutline;
-  static const IconData notAcceptedIcon = MdiIcons.closeCircleOutline;
+  static IconData acceptedIcon = MdiIcons.checkboxMarkedCircleOutline;
+  static IconData notAcceptedIcon = MdiIcons.closeCircleOutline;
 
   final bool? gdprAccepted;
   final bool enabled;

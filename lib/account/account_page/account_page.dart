@@ -113,7 +113,7 @@ class AccountPageState extends State<AccountPage> with TickerProviderStateMixin{
 
         Consumer<ConnectivityProvider>(
             builder: (context, prov, child) => IconButton(
-                icon: const Icon(MdiIcons.exitToApp),
+                icon: Icon(MdiIcons.exitToApp),
                 onPressed: prov.connected?() => openLogoutDialog(context):null
             )
         )
@@ -123,7 +123,7 @@ class AccountPageState extends State<AccountPage> with TickerProviderStateMixin{
         indicator: AppTabBarIncdicator(context: context),
         physics: const BouncingScrollPhysics(),
         controller: controller,
-        tabs: const [
+        tabs: [
           Tab(icon: Icon(MdiIcons.accountEditOutline)),
           Tab(icon: Icon(MdiIcons.broadcast))
         ],
@@ -168,7 +168,7 @@ class AccountPageState extends State<AccountPage> with TickerProviderStateMixin{
                         'Połącz z kontem ZHP',
                         trailing: mergingMsAcc?
                         const SpinKitChasingDots(color: Colors.black, size: Dimen.ICON_SIZE):
-                        const Icon(MdiIcons.loginVariant, color: Colors.black),
+                        Icon(MdiIcons.loginVariant, color: Colors.black),
                         onTap: () async {
 
                           showAlertDialog(

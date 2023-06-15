@@ -53,7 +53,7 @@ class SearchHistoryPageState extends State<SearchHistoryPage>{
 
                 if(BaseAlbum.current.searchHistory.isNotEmpty)
                   AppButton(
-                    icon: const Icon(MdiIcons.trashCanOutline),
+                    icon: Icon(MdiIcons.trashCanOutline),
                     onTap: () => showAppToast(context, text: 'Przytrzymaj, by wyczyścić historię wyszukiwania'),
                     onLongPress: (){
                       BaseAlbum.current.searchHistory = [];
@@ -66,7 +66,7 @@ class SearchHistoryPageState extends State<SearchHistoryPage>{
             ),
 
             if(BaseAlbum.current.searchHistory.isEmpty)
-              const SliverFillRemaining(
+              SliverFillRemaining(
                   hasScrollBody: false,
                   child: Center(child: EmptyMessageWidget(
                     icon: MdiIcons.magnify,
@@ -93,7 +93,7 @@ class SearchHistoryPageState extends State<SearchHistoryPage>{
                             SongOpenType.history
                         ),
                         trailing: IconButton(
-                          icon: const Icon(MdiIcons.close),
+                          icon: Icon(MdiIcons.close),
                           onPressed: (){
                             BaseAlbum.current.removeFromSearchHistory(index);
                             setState((){});

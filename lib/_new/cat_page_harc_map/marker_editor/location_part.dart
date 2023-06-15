@@ -45,8 +45,8 @@ class LocationPartState extends State<LocationPart> with AfterLayoutMixin, Autom
   //         point: point,
   //         builder: (context) =>
   //         PositionProvider.of(context).editMode?
-  //         const Icon(MdiIcons.circleSmall):
-  //         const Icon(MdiIcons.mapMarkerCircle)
+  //         Icon(MdiIcons.circleSmall):
+  //         Icon(MdiIcons.mapMarkerCircle)
   //     );
 
   @override

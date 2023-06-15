@@ -67,8 +67,8 @@ class CreateNewButton extends StatelessWidget{
 
 class ShareCodeDialog extends StatefulWidget{
 
-  static const IconData iconOn = MdiIcons.lockOpenVariantOutline;
-  static const IconData iconOff = MdiIcons.lockOutline;
+  static IconData iconOn = MdiIcons.lockOpenVariantOutline;
+  static IconData iconOff = MdiIcons.lockOutline;
 
   final String shareCode;
   final bool shareCodeSearchable;

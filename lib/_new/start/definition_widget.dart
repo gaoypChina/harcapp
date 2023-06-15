@@ -39,7 +39,7 @@ class DefinitionWidgetState extends State<DefinitionWidget>{
     crossAxisAlignment: CrossAxisAlignment.stretch,
     children: <Widget>[
 
-      const Align(
+      Align(
         alignment: Alignment.centerLeft,
         child: SizedBox(
           width: QuoteWidgetState.iconSize,

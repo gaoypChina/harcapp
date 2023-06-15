@@ -6,7 +6,6 @@ import 'package:harcapp/_common_widgets/floating_container.dart';
 import 'package:harcapp/_common_widgets/search_field.dart';
 import 'package:harcapp/_new/cat_page_home/_main.dart';
 import 'package:harcapp/_new/cat_page_home/community/common/community_cover_colors.dart';
-import 'package:harcapp/_new/cat_page_home/community/common/cover_image_selector_dialog.dart';
 import 'package:harcapp/_new/cat_page_home/community/model/community.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_thumbnail_widget.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
@@ -137,7 +136,7 @@ class SuperSearchPageState extends State<SuperSearchPage>{
               controller: textController,
               color: CommunityCoverColors.nonPaletteBackgroundColor(),
               leading: IconButton(
-                icon: const Icon(MdiIcons.arrowLeft),
+                icon: Icon(MdiIcons.arrowLeft),
                 onPressed: () => Navigator.pop(context),
               ),
               onChanged: (text){
@@ -246,7 +245,7 @@ class SuperSearchPageState extends State<SuperSearchPage>{
             )
           )
         else if(searched.isEmpty)
-          const SliverFillRemaining(
+          SliverFillRemaining(
             hasScrollBody: false,
             child: EmptyMessageWidget(
               icon: MdiIcons.magnifyClose,

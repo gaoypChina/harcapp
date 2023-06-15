@@ -16,8 +16,8 @@ class SexInputField extends StatelessWidget{
   static const String male = 'Mężczyzna';
   static const String female = 'Kobieta';
 
-  static const IconData maleIcon = MdiIcons.faceMan;
-  static const IconData femaleIcon = MdiIcons.faceWoman;
+  static IconData maleIcon = MdiIcons.faceMan;
+  static IconData femaleIcon = MdiIcons.faceWoman;
 
   final Sex? sex;
   final bool? enabled;

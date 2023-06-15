@@ -60,89 +60,89 @@ class NutritionWidget extends _NutritionWidget{
       :super(kcal100, proteins100, carbohyd100, fat100, vitamins, other);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => Column(
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(asString(kcal100), style: AppTextStyle(fontWeight: weight.halfBold, fontSize: 22.0), textAlign: TextAlign.center),
+          Text('${asString(proteins100)} g', style: AppTextStyle(fontWeight: weight.halfBold, fontSize: 22.0), textAlign: TextAlign.center),
+          Text('${asString(carbohyd100)} g', style: AppTextStyle(fontWeight: weight.halfBold, fontSize: 22.0), textAlign: TextAlign.center),
+          Text('${asString(fat100)} g', style: AppTextStyle(fontWeight: weight.halfBold, fontSize: 22.0), textAlign: TextAlign.center),
+        ],
+      ),
+      const SizedBox(height: Dimen.SIDE_MARG),
+      Row(
+        children: [
+          Expanded(child: Text('kcal', style: AppTextStyle(fontSize: 14.0), textAlign: TextAlign.center)),
+          Expanded(child: Text('białko', style: AppTextStyle(fontSize: 14.0), textAlign: TextAlign.center)),
+          Expanded(child: Text('węglow', style: AppTextStyle(fontSize: 14.0), textAlign: TextAlign.center)),
+          Expanded(child: Text('tłuszcz', style: AppTextStyle(fontSize: 14.0), textAlign: TextAlign.center)),
+        ],
+      ),
+      const SizedBox(height: 3),
+      Row(
+        children: [
+          Expanded(child: Text('100 g', style: AppTextStyle(fontSize: 14.0, color: hintEnab_(context)), textAlign: TextAlign.center)),
+          Expanded(child: Text('100 g', style: AppTextStyle(fontSize: 14.0, color: hintEnab_(context)), textAlign: TextAlign.center)),
+          Expanded(child: Text('100 g', style: AppTextStyle(fontSize: 14.0, color: hintEnab_(context)), textAlign: TextAlign.center)),
+          Expanded(child: Text('100 g', style: AppTextStyle(fontSize: 14.0, color: hintEnab_(context)), textAlign: TextAlign.center)),
+        ],
+      ),
 
-    return Column(
-      children: [
-        Row(
-          children: [
-            Expanded(child: Text(asString(kcal100), style: AppTextStyle(fontWeight: weight.halfBold, fontSize: 22.0), textAlign: TextAlign.center)),
-            Expanded(child: Text('${asString(proteins100)} g', style: AppTextStyle(fontWeight: weight.halfBold, fontSize: 22.0), textAlign: TextAlign.center)),
-            Expanded(child: Text('${asString(carbohyd100)} g', style: AppTextStyle(fontWeight: weight.halfBold, fontSize: 22.0), textAlign: TextAlign.center)),
-            Expanded(child: Text('${asString(fat100)} g', style: AppTextStyle(fontWeight: weight.halfBold, fontSize: 22.0), textAlign: TextAlign.center)),
-          ],
-        ),
-        const SizedBox(height: 6),
-        Row(
-          children: [
-            Expanded(child: Text('kcal', style: AppTextStyle(fontSize: 14.0), textAlign: TextAlign.center)),
-            Expanded(child: Text('białko', style: AppTextStyle(fontSize: 14.0), textAlign: TextAlign.center)),
-            Expanded(child: Text('węglow', style: AppTextStyle(fontSize: 14.0), textAlign: TextAlign.center)),
-            Expanded(child: Text('tłuszcz', style: AppTextStyle(fontSize: 14.0), textAlign: TextAlign.center)),
-          ],
-        ),
-        const SizedBox(height: 3),
-        Row(
-          children: [
-            Expanded(child: Text('100 g', style: AppTextStyle(fontSize: 14.0, color: hintEnab_(context)), textAlign: TextAlign.center)),
-            Expanded(child: Text('100 g', style: AppTextStyle(fontSize: 14.0, color: hintEnab_(context)), textAlign: TextAlign.center)),
-            Expanded(child: Text('100 g', style: AppTextStyle(fontSize: 14.0, color: hintEnab_(context)), textAlign: TextAlign.center)),
-            Expanded(child: Text('100 g', style: AppTextStyle(fontSize: 14.0, color: hintEnab_(context)), textAlign: TextAlign.center)),
-          ],
-        ),
+      const SizedBox(height: Dimen.ICON_MARG),
 
-        const SizedBox(height: Dimen.ICON_MARG),
-
-        Row(
-          children: [
-            Expanded(
-              child: SimpleButton(
-                onTap: vitamins.isEmpty?null:() => showAppToast(context, text: getWitaminyString()),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
+      Row(
+        children: [
+          Expanded(
+            child: SimpleButton(
+              onTap: vitamins.isEmpty?null:() => showAppToast(context, text: getWitaminyString()),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
                       getWitaminyString(),
                       style: AppTextStyle(
-                        fontSize: Dimen.TEXT_SIZE_BIG,
-                        fontWeight: weight.halfBold
+                          fontSize: Dimen.TEXT_SIZE_BIG,
+                          fontWeight: weight.halfBold
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis
-                    ),
-                    Text('witaminy', style: AppTextStyle(color: vitamins.isEmpty?hintEnab_(context):textEnab_(context))),
-                  ],
-                ),
+                  ),
+                  Text('witaminy', style: AppTextStyle(color: vitamins.isEmpty?hintEnab_(context):textEnab_(context))),
+                ],
               ),
             ),
-            Expanded(
-              child: SimpleButton(
-                onTap: other.isEmpty?null:() => showAppToast(context, text: getOtherString(true)),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      getOtherString(false),
-                      style: AppTextStyle(
+          ),
+          Expanded(
+            child: SimpleButton(
+              onTap: other.isEmpty?null:() => showAppToast(context, text: getOtherString(true)),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    getOtherString(false),
+                    style: AppTextStyle(
                         fontSize: Dimen.TEXT_SIZE_BIG,
                         fontWeight: weight.halfBold
-                      ),
-                      maxLines: 1, overflow: TextOverflow.ellipsis,),
-                    Text(
-                        'inne',
-                        style: AppTextStyle(
-                            color: other.isEmpty?hintEnab_(context):textEnab_(context)
-                        )
                     ),
-                  ],
-                ),
+                    maxLines: 1, overflow: TextOverflow.ellipsis,),
+                  Text(
+                      'inne',
+                      style: AppTextStyle(
+                          color: other.isEmpty?hintEnab_(context):textEnab_(context)
+                      )
+                  ),
+                ],
               ),
-            )
-          ],
-        )
-      ],
-    );
-  }
+            ),
+          )
+        ],
+      )
+    ],
+  );
+
 }
 
 class NutritionWidgetFull extends _NutritionWidget{
@@ -151,112 +151,109 @@ class NutritionWidgetFull extends _NutritionWidget{
       :super(kcal100, proteins100, carbohyd100, fat100, vitamins, other);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => Column(
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: [
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
+      if(vitamins.isNotEmpty)
+        Padding(
+          padding: const EdgeInsets.only(left: Dimen.ICON_FOOTPRINT),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
 
-        if(vitamins.isNotEmpty)
-          Padding(
-            padding: const EdgeInsets.only(left: Dimen.ICON_FOOTPRINT),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-
-                Text(
-                    'Witaminy',
-                    style: AppTextStyle(
+              Text(
+                  'Witaminy',
+                  style: AppTextStyle(
                       color: hintEnab_(context),
                       fontSize: Dimen.TEXT_SIZE_BIG,
                       fontWeight: weight.halfBold
-                    )
-                ),
+                  )
+              ),
 
-                const SizedBox(height: Dimen.ICON_MARG),
+              const SizedBox(height: Dimen.ICON_MARG),
 
-                Text(
-                    getWitaminyString(),
-                    style: AppTextStyle(
-                        fontSize: Dimen.TEXT_SIZE_BIG,
-                        fontWeight: weight.halfBold
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis
-                ),
-
-              ],
-            ),
-          ),
-
-        const SizedBox(height: 2*Dimen.ICON_MARG),
-
-        if(other.isNotEmpty)
-          Padding(
-            padding: const EdgeInsets.only(left: Dimen.ICON_FOOTPRINT),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-
-                Text(
-                    'inne',
-                    style: AppTextStyle(
-                      color: hintEnab_(context),
-                      fontSize: Dimen.TEXT_SIZE_BIG,
-                      fontWeight: weight.halfBold
-                    )
-                ),
-
-                const SizedBox(height: Dimen.ICON_MARG),
-
-                Text(
-                  getOtherString(false),
+              Text(
+                  getWitaminyString(),
                   style: AppTextStyle(
                       fontSize: Dimen.TEXT_SIZE_BIG,
                       fontWeight: weight.halfBold
                   ),
-                  maxLines: 1, overflow: TextOverflow.ellipsis,),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis
+              ),
 
-
-              ],
-            ),
+            ],
           ),
-
-        const SizedBox(height: 2*Dimen.ICON_MARG),
-
-        Row(
-          children: [
-            Expanded(child: Text(asString(kcal100), style: AppTextStyle(fontWeight: weight.halfBold, fontSize: 22.0), textAlign: TextAlign.center)),
-            Expanded(child: Text('${asString(proteins100)} g', style: AppTextStyle(fontWeight: weight.halfBold, fontSize: 22.0), textAlign: TextAlign.center)),
-            Expanded(child: Text('${asString(carbohyd100)} g', style: AppTextStyle(fontWeight: weight.halfBold, fontSize: 22.0), textAlign: TextAlign.center)),
-            Expanded(child: Text('${asString(fat100)} g', style: AppTextStyle(fontWeight: weight.halfBold, fontSize: 22.0), textAlign: TextAlign.center)),
-          ],
-        ),
-        const SizedBox(height: 6),
-        Row(
-          children: [
-            Expanded(child: Text('kcal', style: AppTextStyle(fontSize: 14.0), textAlign: TextAlign.center)),
-            Expanded(child: Text('białko', style: AppTextStyle(fontSize: 14.0), textAlign: TextAlign.center)),
-            Expanded(child: Text('węglow', style: AppTextStyle(fontSize: 14.0), textAlign: TextAlign.center)),
-            Expanded(child: Text('tłuszcz', style: AppTextStyle(fontSize: 14.0), textAlign: TextAlign.center)),
-          ],
-        ),
-        const SizedBox(height: 3),
-        Row(
-          children: [
-            Expanded(child: Text('100 g', style: AppTextStyle(fontSize: 14.0, color: hintEnab_(context)), textAlign: TextAlign.center)),
-            Expanded(child: Text('100 g', style: AppTextStyle(fontSize: 14.0, color: hintEnab_(context)), textAlign: TextAlign.center)),
-            Expanded(child: Text('100 g', style: AppTextStyle(fontSize: 14.0, color: hintEnab_(context)), textAlign: TextAlign.center)),
-            Expanded(child: Text('100 g', style: AppTextStyle(fontSize: 14.0, color: hintEnab_(context)), textAlign: TextAlign.center)),
-          ],
         ),
 
-        const SizedBox(height: 2*Dimen.ICON_MARG),
+      const SizedBox(height: 2*Dimen.ICON_MARG),
 
-      ],
-    );
+      if(other.isNotEmpty)
+        Padding(
+          padding: const EdgeInsets.only(left: Dimen.ICON_FOOTPRINT),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
 
-  }
+              Text(
+                  'inne',
+                  style: AppTextStyle(
+                      color: hintEnab_(context),
+                      fontSize: Dimen.TEXT_SIZE_BIG,
+                      fontWeight: weight.halfBold
+                  )
+              ),
+
+              const SizedBox(height: Dimen.ICON_MARG),
+
+              Text(
+                getOtherString(false),
+                style: AppTextStyle(
+                    fontSize: Dimen.TEXT_SIZE_BIG,
+                    fontWeight: weight.halfBold
+                ),
+                maxLines: 1, overflow: TextOverflow.ellipsis,),
+
+
+            ],
+          ),
+        ),
+
+      const SizedBox(height: 2*Dimen.ICON_MARG),
+
+      Row(
+        children: [
+          Expanded(child: Text(asString(kcal100), style: AppTextStyle(fontWeight: weight.halfBold, fontSize: 22.0), textAlign: TextAlign.center)),
+          Expanded(child: Text('${asString(proteins100)} g', style: AppTextStyle(fontWeight: weight.halfBold, fontSize: 22.0), textAlign: TextAlign.center)),
+          Expanded(child: Text('${asString(carbohyd100)} g', style: AppTextStyle(fontWeight: weight.halfBold, fontSize: 22.0), textAlign: TextAlign.center)),
+          Expanded(child: Text('${asString(fat100)} g', style: AppTextStyle(fontWeight: weight.halfBold, fontSize: 22.0), textAlign: TextAlign.center)),
+        ],
+      ),
+      const SizedBox(height: 6),
+      Row(
+        children: [
+          Expanded(child: Text('kcal', style: AppTextStyle(fontSize: 14.0), textAlign: TextAlign.center)),
+          Expanded(child: Text('białko', style: AppTextStyle(fontSize: 14.0), textAlign: TextAlign.center)),
+          Expanded(child: Text('węglow', style: AppTextStyle(fontSize: 14.0), textAlign: TextAlign.center)),
+          Expanded(child: Text('tłuszcz', style: AppTextStyle(fontSize: 14.0), textAlign: TextAlign.center)),
+        ],
+      ),
+      const SizedBox(height: 3),
+      Row(
+        children: [
+          Expanded(child: Text('100 g', style: AppTextStyle(fontSize: 14.0, color: hintEnab_(context)), textAlign: TextAlign.center)),
+          Expanded(child: Text('100 g', style: AppTextStyle(fontSize: 14.0, color: hintEnab_(context)), textAlign: TextAlign.center)),
+          Expanded(child: Text('100 g', style: AppTextStyle(fontSize: 14.0, color: hintEnab_(context)), textAlign: TextAlign.center)),
+          Expanded(child: Text('100 g', style: AppTextStyle(fontSize: 14.0, color: hintEnab_(context)), textAlign: TextAlign.center)),
+        ],
+      ),
+
+      const SizedBox(height: 2*Dimen.ICON_MARG),
+
+    ],
+  );
+
 }
 
 class KuchSectionHeader extends StatelessWidget{
@@ -287,20 +284,19 @@ class EquipmentListWidget extends StatelessWidget{
 
   final Map<Equipment, int?>? equipment;
 
-  const EquipmentListWidget(this.equipment);
+  const EquipmentListWidget(this.equipment, {super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
-        const KuchSectionHeader(text: 'Ekwipunek'),
-        Column(children: equipment!.keys.toList()
-            .map((eq) => EquipmentWidget(eq, equipment![eq])
-        ).toList()),
-      ],
-    );
-  }
+  Widget build(BuildContext context) => Column(
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: <Widget>[
+      const KuchSectionHeader(text: 'Ekwipunek'),
+      Column(children: equipment!.keys.toList()
+          .map((eq) => EquipmentWidget(eq, equipment![eq])
+      ).toList()),
+    ],
+  );
+
 }
 
 class PortionsSelectorWidget extends StatefulWidget{
@@ -310,7 +306,7 @@ class PortionsSelectorWidget extends StatefulWidget{
   final PrimitiveWrapper<int> portions;
   final InputDecoration? decoration;
 
-  const PortionsSelectorWidget(this.builder, this.onChanged, this.portions, this.decoration);
+  const PortionsSelectorWidget(this.builder, this.onChanged, this.portions, this.decoration, {super.key});
 
   static PortionsSelectorWidget create({
     required Function(Widget buttons, Widget textField) builder,
@@ -360,7 +356,7 @@ class PortionsSelectorWidgetState extends State<PortionsSelectorWidget>{
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         IconButton(
-          icon: const Icon(MdiIcons.chevronUp),
+          icon: Icon(MdiIcons.chevronUp),
           onPressed: () => setState((){
             if(widget.portions.get() == KUCH_MAX_PORTION_COUNT) return;
             widget.portions.set(widget.portions.get()+ 1);
@@ -371,7 +367,7 @@ class PortionsSelectorWidgetState extends State<PortionsSelectorWidget>{
           }),
         ),
         IconButton(
-            icon: const Icon(MdiIcons.chevronDown),
+            icon: Icon(MdiIcons.chevronDown),
             onPressed: () => setState((){
               if(widget.portions.get() == 1) return;
               widget.portions.set(widget.portions.get()- 1);

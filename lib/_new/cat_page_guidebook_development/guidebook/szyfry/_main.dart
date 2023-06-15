@@ -62,49 +62,49 @@ class SzyfryFragmentState extends State<SzyfryFragment> with TickerProviderState
       _TabItem(
           title: 'gaderypoluki',
           bottom: DescGaderypoluki(),
-          icon: const Icon(MdiIcons.swapHorizontal),
+          icon: Icon(MdiIcons.swapHorizontal),
           child: ChildGaderypoluki()
 
       ),
       _TabItem(
           title: MORSE,
           bottom: DescMorse(),
-          icon: const Icon(MdiIcons.dotsHorizontal),
+          icon: Icon(MdiIcons.dotsHorizontal),
           child: ChildMorse(commonVals)
       ),
-      const _TabItem(
+      _TabItem(
           title: 'czekoladka',
           icon: Icon(MdiIcons.apps),
-          child: DescCzekoladka()
+          child: const DescCzekoladka()
       ),
-      const _TabItem(
+      _TabItem(
           title: 'matematyczny',
           icon: Icon(MdiIcons.mathIntegral),
-          child: DescMatematyczny()
+          child: const DescMatematyczny()
       ),
       _TabItem(
           title: 'tabl. mnożenia',
-          icon: const Icon(MdiIcons.close),
+          icon: Icon(MdiIcons.close),
           child: DescTabliczkaMnozenia()
       ),
       _TabItem(
           title: 'ułamkowy',
-          icon: const Icon(MdiIcons.division),
+          icon: Icon(MdiIcons.division),
           child: DescUlamkowy()
       ),
       _TabItem(
           title: 'komórkowy',
-          icon: const Icon(MdiIcons.cellphone),
+          icon: Icon(MdiIcons.cellphone),
           child: DescKomorkowy()
       ),
       _TabItem(
           title: 'zamiana',
-          icon: const Icon(MdiIcons.reload),
+          icon: Icon(MdiIcons.reload),
           child: DescZamiana()
       ),
       _TabItem(
           title: 'karolinka',
-          icon: const Icon(MdiIcons.emoticonHappyOutline),
+          icon: Icon(MdiIcons.emoticonHappyOutline),
           child: DescKarolinka()
       )
     ];

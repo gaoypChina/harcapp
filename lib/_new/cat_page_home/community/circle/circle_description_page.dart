@@ -168,7 +168,7 @@ class CircleDescriptionPageState extends State<CircleDescriptionPage>{
                         left: Dimen.SIDE_MARG,
                         right: Dimen.SIDE_MARG,
                       ),
-                      customPointer: const Icon(MdiIcons.mapMarkerCircle, color: Colors.black)
+                      customPointer: Icon(MdiIcons.mapMarkerCircle, color: Colors.black)
                     ),
 
                   if(circle.hasDescription)
@@ -212,7 +212,7 @@ class CircleDescriptionPageState extends State<CircleDescriptionPage>{
                       trailing:
                       circle.myRole == CircleRole.ADMIN?
                       IconButton(
-                        icon: const Icon(MdiIcons.dotsHorizontal),
+                        icon: Icon(MdiIcons.dotsHorizontal),
                         onPressed: () => pushPage(
                             context,
                             builder: (context) => CircleBindedIndivCompPage(

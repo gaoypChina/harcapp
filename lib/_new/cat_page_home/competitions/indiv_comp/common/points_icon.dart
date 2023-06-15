@@ -8,8 +8,8 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 class PointsIcon extends StatefulWidget{
 
   static const double defSize = 32.0;
-  static const IconData icon = MdiIcons.circleMultiple;
-  static const IconData insideIcon = MdiIcons.fleurDeLis;
+  static IconData icon = MdiIcons.circleMultiple;
+  static IconData insideIcon = MdiIcons.fleurDeLis;
 
   final double size;
 

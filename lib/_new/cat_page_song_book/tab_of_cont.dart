@@ -667,7 +667,7 @@ void _showAddSongBottomSheet(BuildContext context, void Function(Song song)? onN
 
                   Expanded(child: Container()),
 
-                  const IconButton(icon: Icon(MdiIcons.web), onPressed: null)
+                  IconButton(icon: Icon(MdiIcons.web), onPressed: null)
                 ],
               )
           ),
@@ -702,8 +702,8 @@ void _showAddSongBottomSheet(BuildContext context, void Function(Song song)? onN
 
                   Expanded(child: Container()),
 
-                  const Padding(
-                    padding: EdgeInsets.all(Dimen.ICON_MARG),
+                  Padding(
+                    padding: const EdgeInsets.all(Dimen.ICON_MARG),
                     child: Icon(MdiIcons.musicNotePlus)
                   )
                 ]

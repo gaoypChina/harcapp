@@ -1,8 +1,6 @@
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
@@ -89,7 +87,7 @@ class _OrgSwitcherExtendedButton extends StatelessWidget{
         child: Row(
           children: [
             if(OrgProvider.of(context).current == org)
-              const Icon(MdiIcons.circleMedium)
+              Icon(MdiIcons.circleMedium)
             else
               const SizedBox(width: Dimen.ICON_SIZE),
 

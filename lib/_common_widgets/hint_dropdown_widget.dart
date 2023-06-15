@@ -64,7 +64,7 @@ class HintDropdownWidget<T> extends StatelessWidget{
 
           if(onCleared != null)
             IconButton(
-                icon: const Icon(MdiIcons.close),
+                icon: Icon(MdiIcons.close),
                 onPressed: onCleared
             )
 

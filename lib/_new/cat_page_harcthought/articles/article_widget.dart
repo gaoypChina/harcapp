@@ -248,7 +248,7 @@ class ArticleWidgetState extends State<ArticleWidget> {
                                                         children: [
 
                                                           IconButton(
-                                                            icon: const Icon(MdiIcons.arrowLeft, color: Colors.white),
+                                                            icon: Icon(MdiIcons.arrowLeft, color: Colors.white),
                                                             onPressed: () => Navigator.pop(context),
                                                           ),
 
@@ -261,7 +261,7 @@ class ArticleWidgetState extends State<ArticleWidget> {
 
                                                           if(article.isSeen)
                                                             IconButton(
-                                                                icon: const Icon(MdiIcons.eyeOutline, color: ColorPackBlack.ICON_DISABLED),
+                                                                icon: Icon(MdiIcons.eyeOutline, color: ColorPackBlack.ICON_DISABLED),
                                                                 onPressed: () => showAppToast(context, text: 'Artykuł przeczytany')
                                                             ),
                                                         ],
@@ -339,7 +339,7 @@ class ArticleWidgetState extends State<ArticleWidget> {
                   opacity: appBarNotifier.value==1?1:0,
                   duration: const Duration(milliseconds: 300),
                   child: IconButton(
-                    icon: const Icon(MdiIcons.arrowLeft),
+                    icon: Icon(MdiIcons.arrowLeft),
                     onPressed: () => Navigator.pop(context),
                   ),
                 ),
@@ -369,15 +369,13 @@ class ArticleWidgetState extends State<ArticleWidget> {
                     opacity: appBarNotifier.value==1?1:0,
                     duration: const Duration(milliseconds: 300),
                     child: IconButton(
-                        icon: const Icon(
+                        icon: Icon(
                           MdiIcons.formatLetterCaseUpper,
-                          //color: prov.colorOption.icon,
                         ),
                         onPressed: () => showScrollBottomSheet(
                             context: context,
                             builder: (context) => Consumer<ArticleThemeProvider>(
                               builder: (context, prov, child) => BottomSheetDef(
-                                //color: prov.colorOption.background,
                                 builder: (context) => const ArticleDrawer(),
                               ),
                             )

@@ -145,7 +145,7 @@ class ParticipTileExtendedState extends State<ParticipTileExtended>{
               }:null,
             ),
             ListTile(
-                leading: const Icon(MdiIcons.cubeOutline),
+                leading: Icon(MdiIcons.cubeOutline),
                 title: Text(
                     'Zobacz zrealizowane zadania',
                     style: AppTextStyle(color: textEnab_(context))
@@ -289,7 +289,7 @@ class ParticipTileExtendedState extends State<ParticipTileExtended>{
 
                   if(particip.key != AccountData.key)
                     ListTile(
-                        leading: const Icon(MdiIcons.logoutVariant, color: Colors.red),
+                        leading: Icon(MdiIcons.logoutVariant, color: Colors.red),
                         title: Text('Wyproś uczestnika', style: AppTextStyle(color: Colors.red)),
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppCard.bigRadius)),
                         onTap: () => showRemoveParticipDialog()

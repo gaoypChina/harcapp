@@ -155,7 +155,7 @@ class SprawFoldersPageState extends State<SprawFoldersPage> with TickerProviderS
               centerTitle: true,
               actions: [
                 IconButton(
-                  icon: const Icon(MdiIcons.magnify),
+                  icon: Icon(MdiIcons.magnify),
                   onPressed: () => pushPage(
                       context,
                       builder: (context) => FolderSearchPage<BaseSprawFolder>(
@@ -309,7 +309,7 @@ class _EditFloatingButton extends StatelessWidget{
                     )
                 );
               },
-              child: const Icon(MdiIcons.pencil),
+              child: Icon(MdiIcons.pencil),
             ),
           ),
         );
@@ -351,7 +351,7 @@ class EmptyMessage extends StatelessWidget{
           const SizedBox(height: Dimen.SIDE_MARG),
 
         if(showHowToAddMessage)
-          const Icon(MdiIcons.bookmarkOutline, size: 32.0)
+          Icon(MdiIcons.bookmarkOutline, size: 32.0)
       ],
     ),
   );

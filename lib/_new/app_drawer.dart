@@ -23,7 +23,6 @@ import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:provider/provider.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import 'common.dart';
 
@@ -106,7 +105,7 @@ class AccountHeader extends StatelessWidget{
   final Widget? leading;
   const AccountHeader({this.leading, super.key});
 
-  static const IconData icon = MdiIcons.accountCircleOutline;
+  static IconData icon = MdiIcons.accountCircleOutline;
 
   static open(BuildContext context) => openDialog(
       context: context,
@@ -120,7 +119,7 @@ class AccountHeader extends StatelessWidget{
                 left: Dimen.ICON_MARG,
                 right: Dimen.ICON_MARG
               ),
-              icon: const Icon(MdiIcons.arrowLeft),
+              icon: Icon(MdiIcons.arrowLeft),
               onPressed: () => Navigator.pop(context),
             ),
           ),
@@ -154,7 +153,7 @@ class AccountHeader extends StatelessWidget{
 
             if(account)
               IconButton(
-                  icon: const Icon(AppDetails.icon),
+                  icon: Icon(AppDetails.icon),
                   onPressed: (){
                     Navigator.pop(context);
                     pushPage(context, builder: (context) => const AppDetails());
@@ -183,8 +182,8 @@ class AccountHeader extends StatelessWidget{
           child: Row(
             children: [
 
-              const Padding(
-                padding: EdgeInsets.all(Dimen.ICON_MARG),
+              Padding(
+                padding: const EdgeInsets.all(Dimen.ICON_MARG),
                 child: account?Icon(MdiIcons.accountCircleOutline):Icon(AppDetails.icon),
               ),
 
@@ -268,8 +267,8 @@ class AccountHeader extends StatelessWidget{
                 ),
               ),
 
-              const Padding(
-                padding: EdgeInsets.all(Dimen.ICON_MARG),
+              Padding(
+                padding: const EdgeInsets.all(Dimen.ICON_MARG),
                 child: Icon(MdiIcons.handPointingRight),
               ),
 

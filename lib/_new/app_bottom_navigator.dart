@@ -148,7 +148,7 @@ class AppBottomNavigator extends StatelessWidget{
                 if(account)
                   BottomNavigationBarItem(
                       backgroundColor: prov.background??background??background_(context),
-                      icon: const Icon(MdiIcons.accountCircleOutline),
+                      icon: Icon(MdiIcons.accountCircleOutline),
                       //activeIcon: Icon(MdiIcons.accountCircle),
                       label: 'Skromny ja'
                   ),
@@ -156,31 +156,31 @@ class AppBottomNavigator extends StatelessWidget{
                 if(account)
                   BottomNavigationBarItem(
                       backgroundColor: background??background_(context),
-                      icon: const Icon(MdiIcons.mapLegend),
+                      icon: Icon(MdiIcons.mapLegend),
                       //activeIcon: Icon(MdiIcons.map),
                       label: 'Harc mapa'
                   ),
 
                 BottomNavigationBarItem(
                     backgroundColor: prov.background??background??background_(context),
-                    icon: const Icon(MdiIcons.music),
+                    icon: Icon(MdiIcons.music),
                     label: 'Śpiewnik'
                 ),
                 BottomNavigationBarItem(
                     backgroundColor: prov.background??background??background_(context),
-                    icon: const Icon(MdiIcons.notebookOutline),
+                    icon: Icon(MdiIcons.notebookOutline),
                     //activeIcon: Icon(MdiIcons.notebook),
                     label: 'Tajniki'
                 ),
                 BottomNavigationBarItem(
                     backgroundColor: prov.background??background??background_(context),
-                    icon: const Icon(MdiIcons.lightbulbOutline),
+                    icon: Icon(MdiIcons.lightbulbOutline),
                     //activeIcon: Icon(MdiIcons.lightbulb),
                     label: 'Harc myśl'
                 ),
                 BottomNavigationBarItem(
                     backgroundColor: prov.background??background??background_(context),
-                    icon: const Icon(MdiIcons.candle),
+                    icon: Icon(MdiIcons.candle),
                     label: 'Strefa ducha'
                 )
               ],

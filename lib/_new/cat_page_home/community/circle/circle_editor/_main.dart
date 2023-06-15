@@ -111,7 +111,7 @@ class CircleEditorPageState extends State<CircleEditorPage>{
                     ),
                     actions: [
                       IconButton(
-                        icon: const Icon(MdiIcons.check),
+                        icon: Icon(MdiIcons.check),
                         onPressed: () async {
 
                           showLoadingWidget(

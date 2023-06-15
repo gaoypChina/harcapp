@@ -81,7 +81,7 @@ class CommunityEditorPageState extends State<CommunityEditorPage>{
                 ),
                 actions: [
                   IconButton(
-                    icon: const Icon(MdiIcons.check),
+                    icon: Icon(MdiIcons.check),
                     onPressed: () async {
 
                       if(NameProvider.of(context).nameController.text.trim().isEmpty){

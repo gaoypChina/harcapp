@@ -149,10 +149,10 @@ class AllCompetitionsPageState extends State<AllCompetitionsPage>{
     ])));
 
     if(!networkAvailable)// && (IndivComp.all == null || IndivComp.all!.isEmpty))
-      slivers.add(const SliverFillRemaining(
+      slivers.add(SliverFillRemaining(
         hasScrollBody: false,
         child: Padding(
-          padding: EdgeInsets.all(Dimen.SIDE_MARG),
+          padding: const EdgeInsets.all(Dimen.SIDE_MARG),
           child: CompetitionPreviewGridMessage(
             icon: Competition.icon,
             text: 'Brak połączenia\nz siecią',
@@ -174,10 +174,10 @@ class AllCompetitionsPageState extends State<AllCompetitionsPage>{
           ),
         ));
       else if(indivCompLoader.running)
-        slivers.add(const SliverFillRemaining(
+        slivers.add(SliverFillRemaining(
             hasScrollBody: false,
             child: Padding(
-              padding: EdgeInsets.all(Dimen.SIDE_MARG),
+              padding: const EdgeInsets.all(Dimen.SIDE_MARG),
               child: CompetitionPreviewGridMessage(
                 icon: Competition.icon,
                 text: 'Ładowanie\nwspółzawodnictw',
@@ -185,10 +185,10 @@ class AllCompetitionsPageState extends State<AllCompetitionsPage>{
             ),
         ));
       else if(IndivComp.all == null)
-        slivers.add(const SliverFillRemaining(
+        slivers.add(SliverFillRemaining(
             hasScrollBody: false,
             child: Padding(
-              padding: EdgeInsets.all(Dimen.SIDE_MARG),
+              padding: const EdgeInsets.all(Dimen.SIDE_MARG),
               child: CompetitionPreviewGridMessage(
                 icon: MdiIcons.closeOutline,
                 text: 'Mamy problem'

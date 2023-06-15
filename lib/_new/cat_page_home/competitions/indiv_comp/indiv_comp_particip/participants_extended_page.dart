@@ -154,7 +154,7 @@ class ParticipantsExtendedPageState extends State<ParticipantsExtendedPage>{
             SizedBox(
               width: Dimen.APPBAR_LEADING_WIDTH,
               child: IconButton(
-                  icon: const Icon(MdiIcons.close),
+                  icon: Icon(MdiIcons.close),
                   onPressed: () => setState(() => selectedParticips.clear())
               ),
             ),
@@ -164,7 +164,7 @@ class ParticipantsExtendedPageState extends State<ParticipantsExtendedPage>{
                 Padding(
                   padding: const EdgeInsets.only(right: 2*Dimen.defMarg),
                   child: IconButton(
-                      icon: const Icon(MdiIcons.selectMultiple),
+                      icon: Icon(MdiIcons.selectMultiple),
                       onPressed: (){
                         selectedParticips.clear();
                         selectedParticips.addAll(particips);
@@ -174,7 +174,7 @@ class ParticipantsExtendedPageState extends State<ParticipantsExtendedPage>{
                 )
               else if(comp.myProfile?.role == CompRole.ADMIN)
                 IconButton(
-                    icon: const Icon(MdiIcons.plus),
+                    icon: Icon(MdiIcons.plus),
                     onPressed: () => showScrollBottomSheet(
                         context: context,
                         builder: (_) => AddUserBottomSheet(comp, context: context)
@@ -203,7 +203,7 @@ class ParticipantsExtendedPageState extends State<ParticipantsExtendedPage>{
             ),
 
             headerTrailing: (context, userSet) => IconButton(
-              icon: const Icon(MdiIcons.selectMultiple),
+              icon: Icon(MdiIcons.selectMultiple),
               onPressed: (){
 
                 bool allSelected = true;

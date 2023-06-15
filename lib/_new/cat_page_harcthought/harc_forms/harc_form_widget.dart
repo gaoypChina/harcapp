@@ -218,8 +218,8 @@ class _MetoTile extends StatelessWidget{
                     child: Padding(
                       padding: const EdgeInsets.all(Dimen.defMarg),
                       child: enabled?
-                      const Icon(MdiIcons.check):
-                      const Icon(MdiIcons.close),
+                      Icon(MdiIcons.check):
+                      Icon(MdiIcons.close),
                     )
                 ),
               )

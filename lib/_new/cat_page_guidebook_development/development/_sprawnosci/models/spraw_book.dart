@@ -32,13 +32,13 @@ class SprawBookData{
   static RankColors SPRAW_BOOK_ZHR_H_RZE_COLOR = RankData.colorsZhrC;
   static RankColors SPRAW_BOOK_ZHR_H_RKI_COLOR = RankData.colorsZhrD;
 
-  static const IconData SPRAW_BOOK_ZHP_ZUCH_SIM_2022_ICON = MdiIcons.abacus;
-  static const IconData SPRAW_BOOK_ZHP_HARC_SIM_2022_ICON = MdiIcons.abacus;
-  static const IconData SPRAW_BOOK_ZHP_ZUCH_OLD_ICON = MdiIcons.dramaMasks;
-  static const IconData SPRAW_BOOK_ZHP_HARC_OLD_ICON = MdiIcons.hammerScrewdriver;
-  static const IconData SPRAW_BOOK_ZHP_WODNE_OLD_ICON = MdiIcons.shipWheel;
-  static const IconData SPRAW_BOOK_ZHR_H_RZE_ICON = MdiIcons.campfire;
-  static const IconData SPRAW_BOOK_ZHR_H_RKI_ICON = MdiIcons.tent;
+  static IconData SPRAW_BOOK_ZHP_ZUCH_SIM_2022_ICON = MdiIcons.abacus;
+  static IconData SPRAW_BOOK_ZHP_HARC_SIM_2022_ICON = MdiIcons.abacus;
+  static IconData SPRAW_BOOK_ZHP_ZUCH_OLD_ICON = MdiIcons.dramaMasks;
+  static IconData SPRAW_BOOK_ZHP_HARC_OLD_ICON = MdiIcons.hammerScrewdriver;
+  static IconData SPRAW_BOOK_ZHP_WODNE_OLD_ICON = MdiIcons.shipWheel;
+  static IconData SPRAW_BOOK_ZHR_H_RZE_ICON = MdiIcons.campfire;
+  static IconData SPRAW_BOOK_ZHR_H_RKI_ICON = MdiIcons.tent;
 
   static Map<String, RankColors> mapIdColorMap = {
     SprawBookData.ZHP_ZUCH_SIM_2022_ID: SPRAW_BOOK_ZHP_ZUCH_SIM_2022_COLOR,

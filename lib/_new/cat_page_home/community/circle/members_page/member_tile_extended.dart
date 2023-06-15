@@ -193,7 +193,7 @@ class MemberTileExtendedState extends State<MemberTileExtended>{
 
             ListTile(
               enabled: !member.shadow,
-              leading: const Icon(MdiIcons.googleCirclesGroup),
+              leading: Icon(MdiIcons.googleCirclesGroup),
               title: Text('Zarządzaj zastępem', style: AppTextStyle()),
               subtitle: member.patrol==null?null:Text(member.patrol!, style: AppTextStyle()),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(communityRadius)),
@@ -207,7 +207,7 @@ class MemberTileExtendedState extends State<MemberTileExtended>{
 
             if(member.key != AccountData.key)
               ListTile(
-                  leading: const Icon(MdiIcons.logoutVariant, color: Colors.red),
+                  leading: Icon(MdiIcons.logoutVariant, color: Colors.red),
                   title: Text('Wyproś członka', style: AppTextStyle(color: Colors.red)),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(communityRadius)),
                   onTap: () => showRemoveMemberDialog(
@@ -389,7 +389,7 @@ class _EditPatrolDialogState extends State<_EditPatrolDialog>{
               actions: [
 
                 IconButton(
-                  icon: const Icon(MdiIcons.check),
+                  icon: Icon(MdiIcons.check),
                   onPressed: () async {
 
                     showLoadingWidget(context, iconEnab_(context), 'Ostatnia prosta...');

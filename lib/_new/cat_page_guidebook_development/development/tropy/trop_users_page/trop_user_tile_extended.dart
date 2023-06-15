@@ -136,7 +136,7 @@ class TropUserTileExtendedState extends State<TropUserTileExtended>{
 
             if(user.key != AccountData.key)
               ListTile(
-                  leading: const Icon(MdiIcons.logoutVariant, color: Colors.red),
+                  leading: Icon(MdiIcons.logoutVariant, color: Colors.red),
                   title: Text('Wyproś ogarniacza', style: AppTextStyle(color: Colors.red)),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(communityRadius)),
                   onTap: () => showRemoveManagerDialog()

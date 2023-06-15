@@ -61,7 +61,7 @@ class StrefaInstruktoraFragmentState extends State<StrefaInstruktoraFragment> wi
                 forceElevated: innerBoxIsScrolled,
                 bottom: TabBar(
                   physics: const BouncingScrollPhysics(),
-                  tabs: const <Tab>[
+                  tabs: <Tab>[
                     Tab(icon: Icon(MdiIcons.lightbulbOutline)),
                     Tab(icon: Icon(MdiIcons.clockOutline)),
                     Tab(icon: Icon(MdiIcons.fileDocumentOutline)),

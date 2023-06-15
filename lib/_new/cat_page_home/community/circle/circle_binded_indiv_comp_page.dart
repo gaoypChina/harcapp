@@ -95,7 +95,7 @@ class CircleBindedIndivCompPageState extends State<CircleBindedIndivCompPage>{
                       bottomTextColor: CommunityCoverColors.strongColor(context, palette),
                       onTap: (_) => showAppToast(context, text: 'Aby dołączyć, odezwij się do administratora współzawodnictwa'),
                       trailing: IconButton(
-                        icon: const Icon(MdiIcons.close),
+                        icon: Icon(MdiIcons.close),
                         onPressed: () async {
 
                           CircleProvider circleProv = Provider.of<CircleProvider>(context, listen: false);
@@ -153,7 +153,7 @@ class CircleBindedIndivCompPageState extends State<CircleBindedIndivCompPage>{
                       ],
                     ),
                     trailing: IconButton(
-                      icon: const Icon(MdiIcons.close),
+                      icon: Icon(MdiIcons.close),
                       onPressed: () async {
 
                         IndivComp comp = IndivComp.allMap![indivCompKey]!;
@@ -246,7 +246,7 @@ class CircleBindedIndivCompPageState extends State<CircleBindedIndivCompPage>{
                       ],
                     ),
                     trailing: IconButton(
-                      icon: const Icon(MdiIcons.check),
+                      icon: Icon(MdiIcons.check),
                       onPressed: () async{
 
                         IndivComp comp = bindableIndivComps[index];

@@ -171,7 +171,7 @@ class ChildMorseState extends State<ChildMorse> with AutomaticKeepAliveClientMix
                       hideKeyboard(context);
                       _additionalMorseLetter += MORSE_LINE;
                     }),
-                    child: const Icon(MdiIcons.minus)
+                    child: Icon(MdiIcons.minus)
                 ),
               ),
               Expanded(
@@ -185,7 +185,7 @@ class ChildMorseState extends State<ChildMorse> with AutomaticKeepAliveClientMix
                       controller!.text += latinLetter;
                       _additionalMorseLetter = '';
                     }),
-                    child: const Icon(MdiIcons.slashForward)
+                    child: Icon(MdiIcons.slashForward)
                 ),
               ),
               Expanded(
@@ -195,7 +195,7 @@ class ChildMorseState extends State<ChildMorse> with AutomaticKeepAliveClientMix
                       hideKeyboard(context);
                       _additionalMorseLetter += MORSE_DOT;
                     }),
-                    child: const Icon(MdiIcons.circleMedium)
+                    child: Icon(MdiIcons.circleMedium)
                 ),
               )
             ],
@@ -328,22 +328,12 @@ class MorseFlashState extends State<MorseFlash>{
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
 
-        if(_hasFlashlight == null)
-          const AppCard(
+        if(!_hasFlashlight)
+          AppCard(
             radius: AppCard.bigRadius,
             padding: const EdgeInsets.all(Dimen.ICON_MARG),
             margin: AppCard.normMargin,
-            child: const EmptyMessageWidget(
-              text: 'Ładowanie...',
-              icon: MdiIcons.loading,
-            ),
-          )
-        else if(!_hasFlashlight)
-          const AppCard(
-            radius: AppCard.bigRadius,
-            padding: EdgeInsets.all(Dimen.ICON_MARG),
-            margin: AppCard.normMargin,
-            child: const EmptyMessageWidget(
+            child: EmptyMessageWidget(
               text: 'Brak latartki!',
               icon: MdiIcons.flashlightOff,
             ),

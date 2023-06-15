@@ -182,7 +182,7 @@ class PartContributors extends StatelessWidget{
     return PageView(
       physics: const BouncingScrollPhysics(),
       controller: PageController(viewportFraction: Dimen.viewportFraction(context)),
-      children: const [
+      children: [
         ContribListCard(
           'Maestrowie hitów śpiewnika',
           MdiIcons.bookMusicOutline,
@@ -273,27 +273,27 @@ class GraphicalResourceCard extends StatelessWidget{
 
           const SizedBox(height: Dimen.ICON_MARG),
           ListTile(
-            leading: const Icon(MdiIcons.circleSmall),
+            leading: Icon(MdiIcons.circleSmall),
             title: Text('Icomoon', style: AppTextStyle()),
           ),
           ListTile(
-            leading: const Icon(MdiIcons.circleSmall),
+            leading: Icon(MdiIcons.circleSmall),
             title: Text('Smashicons (grafiki żywności)', style: AppTextStyle()),
           ),
           ListTile(
-            leading: const Icon(MdiIcons.circleSmall),
+            leading: Icon(MdiIcons.circleSmall),
             title: Text('Nikita Golubev grafiki żywności - masło, kapusta pekińska, paluszki)', style: AppTextStyle()),
           ),
           ListTile(
-            leading: const Icon(MdiIcons.circleSmall),
+            leading: Icon(MdiIcons.circleSmall),
             title: Text('Adib Sulthon (grafiki żywności - papryka, parówka, chleb)', style: AppTextStyle()),
           ),
           ListTile(
-            leading: const Icon(MdiIcons.circleSmall),
+            leading: Icon(MdiIcons.circleSmall),
             title: Text('prettycons (grafiki żywności - bób)', style: AppTextStyle()),
           ),
           ListTile(
-            leading: const Icon(MdiIcons.circleSmall),
+            leading: Icon(MdiIcons.circleSmall),
             title: Text('Kuba Tesner, Magda Garczyńska (lilijka harcerska)', style: AppTextStyle()),
           ),
 

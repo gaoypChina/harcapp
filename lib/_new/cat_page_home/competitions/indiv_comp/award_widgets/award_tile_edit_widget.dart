@@ -50,12 +50,12 @@ class AwardTileEditWidget extends StatelessWidget{
       titleTrailing: Row(
         children: [
           IconButton(
-            icon: const Icon(MdiIcons.minus),
+            icon: Icon(MdiIcons.minus),
             onPressed: onRemove,
           ),
 
           IconButton(
-            icon: const Icon(MdiIcons.plus),
+            icon: Icon(MdiIcons.plus),
             onPressed: onDuplicate,
           ),
         ],

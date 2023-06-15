@@ -163,7 +163,7 @@ class _ErrorCard extends StatelessWidget{
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
 
-            const EmptyMessageWidget(
+            EmptyMessageWidget(
                 text: 'Mamy problem',
                 icon: MdiIcons.cloudAlert
             ),

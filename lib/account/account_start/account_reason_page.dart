@@ -55,7 +55,7 @@ class AccountReasonPage extends StatelessWidget{
                 title: 'Współzawodnictwa',
                 textAlign: TextAlign.start,
                 titleColor: hintEnab_(context),
-                trailing: const GradientIcon(
+                trailing: GradientIcon(
                   MdiIcons.gold,
                   colorStart: Colors.yellow,
                   colorEnd: Colors.deepOrange,
@@ -74,12 +74,12 @@ class AccountReasonPage extends StatelessWidget{
             const SizedBox(height: Dimen.SIDE_MARG),
 
             ListTile(
-              leading: const Icon(MdiIcons.run),
+              leading: Icon(MdiIcons.run),
               title: Text('Uczestnictwo we współzawod.', style: AppTextStyle()),
             ),
 
             ListTile(
-              leading: const Icon(MdiIcons.accountMultipleOutline),
+              leading: Icon(MdiIcons.accountMultipleOutline),
               title: Text('Tworzenie współzawodnictw', style: AppTextStyle()),
             ),
 
@@ -89,7 +89,7 @@ class AccountReasonPage extends StatelessWidget{
                 title: 'Synchronizacja',
                 textAlign: TextAlign.start,
                 titleColor: hintEnab_(context),
-                trailing: const GradientIcon(
+                trailing: GradientIcon(
                   MdiIcons.cloudUpload,
                   colorStart: Colors.lightBlueAccent,
                   colorEnd: Colors.indigo,
@@ -108,43 +108,43 @@ class AccountReasonPage extends StatelessWidget{
             const SizedBox(height: Dimen.SIDE_MARG),
 
             ListTile(
-              leading: const Icon(MdiIcons.cog),
+              leading: Icon(MdiIcons.cog),
               title: Text('Ustawienia aplikacji', style: AppTextStyle()),
             ),
 
             ListTile(
-              leading: const Icon(MdiIcons.musicNotePlus),
+              leading: Icon(MdiIcons.musicNotePlus),
               title: Text('Piosenki własne', style: AppTextStyle()),
             ),
 
             ListTile(
-              leading: const Icon(MdiIcons.musicNoteSixteenthDotted),
+              leading: Icon(MdiIcons.musicNoteSixteenthDotted),
               title: Text('Oceny piosenek', style: AppTextStyle()),
             ),
 
             ListTile(
-              leading: const Icon(MdiIcons.draw),
+              leading: Icon(MdiIcons.draw),
               title: Text('Wspomnienia do piosenek', style: AppTextStyle()),
             ),
 
             ListTile(
-              leading: const Icon(MdiIcons.unfoldMoreVertical),
+              leading: Icon(MdiIcons.unfoldMoreVertical),
               title: Text('Tonacja piosenek', style: AppTextStyle()),
             ),
 
             ListTile(
-              leading: const Icon(MdiIcons.bookmarkMusicOutline),
+              leading: Icon(MdiIcons.bookmarkMusicOutline),
               title: Text('Albumy', style: AppTextStyle()),
             ),
 
 
             ListTile(
-              leading: const Icon(MdiIcons.chevronDoubleUp),
+              leading: Icon(MdiIcons.chevronDoubleUp),
               title: Text('Stopnie', style: AppTextStyle()),
             ),
 
             ListTile(
-              leading: const Icon(MdiIcons.toolboxOutline),
+              leading: Icon(MdiIcons.toolboxOutline),
               title: Text('Sprawności', style: AppTextStyle()),
             ),
 
@@ -171,12 +171,12 @@ class AccountReasonPage extends StatelessWidget{
             ),
 
             ListTile(
-              leading: const Icon(MdiIcons.chevronDoubleRight),
+              leading: Icon(MdiIcons.chevronDoubleRight),
               title: Text('Udostępnianie stopni', style: AppTextStyle()),
             ),
 
             ListTile(
-              leading: const Icon(MdiIcons.chevronDoubleLeft),
+              leading: Icon(MdiIcons.chevronDoubleLeft),
               title: Text('Dostęp do udostępnionych stopni', style: AppTextStyle()),
             ),
 

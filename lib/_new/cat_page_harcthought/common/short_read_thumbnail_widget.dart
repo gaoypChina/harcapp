@@ -52,8 +52,8 @@ class ShortReadThumbnailWidget extends StatelessWidget{
                       borderRadius: const BorderRadius.only(
                           bottomLeft: Radius.circular(AppCard.bigRadius),
                       ),
-                      child: const Padding(
-                        padding: EdgeInsets.all(Dimen.defMarg),
+                      child: Padding(
+                        padding: const EdgeInsets.all(Dimen.defMarg),
                         child: Icon(MdiIcons.volumeHigh),
                       ),
                     ),

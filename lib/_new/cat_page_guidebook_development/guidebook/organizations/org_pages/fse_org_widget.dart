@@ -42,13 +42,13 @@ class FSEOrgWidgetState extends State<FSEOrgWidget> with ModuleStatsMixin{
         children: <Widget>[
           Expanded(
               child: IconButton(
-                icon: const Icon(MdiIcons.facebook),
+                icon: Icon(MdiIcons.facebook),
                 onPressed: () => launchURL('facebook.com/skauci.europy'),
               )
           ),
           Expanded(
               child: IconButton(
-                icon: const Icon(MdiIcons.instagram),
+                icon: Icon(MdiIcons.instagram),
                 onPressed: () => launchURL('https://www.instagram.com/skaucieuropy_pl/'),
               )
           ),
@@ -80,7 +80,7 @@ class FSEOrgWidgetState extends State<FSEOrgWidget> with ModuleStatsMixin{
               titleColor: Colors.amber,
               textColor: Colors.white,
               cardColor: grayColor,
-              titleLeading: Row(children: const [Icon(MdiIcons.heart, color: Colors.amber), SizedBox(width: Dimen.ICON_MARG)]),
+              titleLeading: Row(children: [Icon(MdiIcons.heart, color: Colors.amber), const SizedBox(width: Dimen.ICON_MARG)]),
               inCard: false,
             ),
 
@@ -90,7 +90,7 @@ class FSEOrgWidgetState extends State<FSEOrgWidget> with ModuleStatsMixin{
               titleColor: Colors.amber,
               textColor: Colors.white,
               cardColor: grayColor,
-              titleLeading: Row(children: const [Icon(MdiIcons.hammerScrewdriver, color: Colors.amber), SizedBox(width: Dimen.ICON_MARG)]),
+              titleLeading: Row(children: [Icon(MdiIcons.hammerScrewdriver, color: Colors.amber), const SizedBox(width: Dimen.ICON_MARG)]),
               inCard: false,
             ),
 
@@ -100,7 +100,7 @@ class FSEOrgWidgetState extends State<FSEOrgWidget> with ModuleStatsMixin{
               titleColor: Colors.amber,
               textColor: Colors.white,
               cardColor: grayColor,
-              titleLeading: Row(children: const [Icon(MdiIcons.account, color: Colors.amber), SizedBox(width: Dimen.ICON_MARG)]),
+              titleLeading: Row(children: [Icon(MdiIcons.account, color: Colors.amber), const SizedBox(width: Dimen.ICON_MARG)]),
               inCard: false,
             ),
 
@@ -110,7 +110,7 @@ class FSEOrgWidgetState extends State<FSEOrgWidget> with ModuleStatsMixin{
               titleColor: Colors.amber,
               textColor: Colors.white,
               cardColor: grayColor,
-              titleLeading: Row(children: const [Icon(MdiIcons.handshake, color: Colors.amber), SizedBox(width: Dimen.ICON_MARG)]),
+              titleLeading: Row(children: [Icon(MdiIcons.handshake, color: Colors.amber), const SizedBox(width: Dimen.ICON_MARG)]),
               inCard: false,
             ),
 
@@ -120,7 +120,7 @@ class FSEOrgWidgetState extends State<FSEOrgWidget> with ModuleStatsMixin{
               titleColor: Colors.amber,
               textColor: Colors.white,
               cardColor: grayColor,
-              titleLeading: Row(children: const [Icon(MdiIcons.cross, color: Colors.amber), SizedBox(width: Dimen.ICON_MARG)]),
+              titleLeading: Row(children: [Icon(MdiIcons.cross, color: Colors.amber), const SizedBox(width: Dimen.ICON_MARG)]),
               inCard: false,
             ),
 

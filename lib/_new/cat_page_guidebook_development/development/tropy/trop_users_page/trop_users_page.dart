@@ -229,7 +229,7 @@ class TropUsersPageState extends State<TropUsersPage>{
         appBarActions: [
           if(!trop.isShared || trop.myRole == TropRole.OWNER)
             IconButton(
-                icon: const Icon(MdiIcons.plus),
+                icon: Icon(MdiIcons.plus),
                 onPressed: () => openAddUserBottomSheet(context),
             )
         ],
@@ -272,7 +272,7 @@ class TropUsersPageState extends State<TropUsersPage>{
             radius: AppCard.bigRadius,
             padding: const EdgeInsets.all(Dimen.SIDE_MARG),
             onTap: () => openAddUserBottomSheet(context),
-            child: const EmptyMessageWidget(
+            child: EmptyMessageWidget(
               text: 'Zaproś nowe osoby\ndo tropu',
               icon: Trop.icon,
             ),

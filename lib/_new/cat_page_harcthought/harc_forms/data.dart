@@ -5,7 +5,7 @@ import 'harc_form.dart';
 
 List<HarcForm> allForms = [
 
-  const HarcForm(
+  HarcForm(
     filename: 'warcaby',
     title: 'Warcaby',
     icon: MdiIcons.chessPawn,
@@ -15,7 +15,7 @@ List<HarcForm> allForms = [
     colorEnd: Colors.purple
   ),
 
-  const HarcForm(
+  HarcForm(
     filename: 'bukmacher',
     title: 'Bukmacher',
     icon: MdiIcons.gold,
@@ -25,7 +25,7 @@ List<HarcForm> allForms = [
     colorEnd: Colors.deepOrange
   ),
 
-  const HarcForm(
+  HarcForm(
     filename: 'tak_nie',
     title: 'Tak-nie',
     icon: MdiIcons.circleHalfFull,
@@ -35,7 +35,7 @@ List<HarcForm> allForms = [
     colorEnd: Colors.black
   ),
 
-  const HarcForm(
+  HarcForm(
       filename: 'wieza_papieru',
       title: 'Wieża papieru',
       icon: MdiIcons.scriptOutline,
@@ -45,7 +45,7 @@ List<HarcForm> allForms = [
       colorEnd: Colors.blue
   ),
 
-  const HarcForm(
+  HarcForm(
       filename: 'zwiad',
       title: 'Zwiad',
       icon: MdiIcons.treeOutline,
@@ -55,7 +55,7 @@ List<HarcForm> allForms = [
       colorEnd: Colors.green
   ),
 
-  const HarcForm(
+  HarcForm(
       filename: 'antymapa',
       title: 'Anty-mapa',
       icon: MdiIcons.mapOutline,
@@ -65,7 +65,7 @@ List<HarcForm> allForms = [
       colorEnd: Colors.brown
   ),
 
-  const HarcForm(
+  HarcForm(
       filename: 'pajeczyna',
       title: 'Pajęczyna',
       icon: MdiIcons.spiderWeb,
@@ -75,7 +75,7 @@ List<HarcForm> allForms = [
       colorEnd: Colors.blue
   ),
 
-  const HarcForm(
+  HarcForm(
       filename: 'jaka_to_melodia',
       title: 'Jaka to melodia',
       icon: MdiIcons.music,
@@ -85,7 +85,7 @@ List<HarcForm> allForms = [
       colorEnd: Colors.deepPurple
   ),
 
-  const HarcForm(
+  HarcForm(
       filename: 'pantomima',
       title: 'Pantomima',
       icon: MdiIcons.dramaMasks,
@@ -105,7 +105,7 @@ List<HarcForm> allForms = [
       colorEnd: Colors.lightGreen
   ),
 
-  const HarcForm(
+  HarcForm(
       filename: 'sad_nad_sprawa',
       title: 'Sąd nad sprawą',
       icon: MdiIcons.gavel,
@@ -115,7 +115,7 @@ List<HarcForm> allForms = [
       colorEnd: Colors.blue
   ),
 
-  const HarcForm(
+  HarcForm(
       filename: 'wieza_kubeczkow',
       title: 'Wieża kubeczków',
       icon: MdiIcons.beerOutline,
@@ -125,7 +125,7 @@ List<HarcForm> allForms = [
       colorEnd: Colors.orange
   ),
 
-  const HarcForm(
+  HarcForm(
       filename: 'odkladanie_miotly',
       title: 'Odkładanie miotły',
       icon: MdiIcons.broom,

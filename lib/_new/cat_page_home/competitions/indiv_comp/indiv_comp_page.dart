@@ -217,7 +217,7 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
                       ),
 
                     IconButton(
-                      icon: const Icon(MdiIcons.cogOutline),
+                      icon: Icon(MdiIcons.cogOutline),
                       onPressed: comp.myProfile?.role == CompRole.ADMIN?(){
 
                         IndivCompProvider indivCompProv = IndivCompProvider.of(context);
@@ -861,7 +861,7 @@ class ParticipantsWidgetState extends State<ParticipantsWidget>{
 
                     const SizedBox(width: Dimen.ICON_MARG),
 
-                    const AccountThumbnailWidget(
+                    AccountThumbnailWidget(
                       elevated: false,
                       icon: MdiIcons.accountPlusOutline,
                     )

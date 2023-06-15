@@ -243,7 +243,7 @@ class StorageDisplayPageState extends State<StorageDisplayPage>{
                 title: 'Błędy aplikacji',
                 textAlign: TextAlign.start,
                 trailing: IconButton(
-                  icon: const Icon(MdiIcons.shareOutline),
+                  icon: Icon(MdiIcons.shareOutline),
                   onPressed: errorFiles==0?null:() async {
 
                     List<String> filePaths = Directory(getErrorFolderPath).listSync().map((file) => file.path).toList();
@@ -451,7 +451,7 @@ class FolderDisplayerState extends State<FolderDisplayer>{
 
                 return ExpansionTile(
                     trailing: removable?IconButton(
-                      icon: const Icon(MdiIcons.close),
+                      icon: Icon(MdiIcons.close),
                       onPressed: (){
                         File(filePaths[index]).deleteSync(recursive: true);
                         filePaths.removeAt(index);

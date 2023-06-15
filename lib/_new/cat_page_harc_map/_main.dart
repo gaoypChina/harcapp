@@ -596,7 +596,7 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
             if(Community.all == null && !communitiesLoader.running)
               return FloatingActionButton(
                   backgroundColor: background_(context),
-                  child: const Icon(MdiIcons.alertCircleOutline),
+                  child: Icon(MdiIcons.alertCircleOutline),
                   onPressed: () => showAppToast(context, text: 'Problem z ładowaniem')
               );
 

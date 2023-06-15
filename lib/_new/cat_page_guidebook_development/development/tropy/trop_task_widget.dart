@@ -394,7 +394,7 @@ class SummaryDialogState extends State<SummaryDialog>{
               centerTitle: true,
               actions: [
                 IconButton(
-                  icon: const Icon(MdiIcons.check),
+                  icon: Icon(MdiIcons.check),
                   onPressed: () async {
                     onSaved?.call();
                     await popPage(context);

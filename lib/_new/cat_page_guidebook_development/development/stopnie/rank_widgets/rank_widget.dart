@@ -503,7 +503,7 @@ class SharedUsersWidgetState extends State<SharedUsersWidget>{
                   ),
 
                 IconButton(
-                    icon: const Icon(MdiIcons.share),
+                    icon: Icon(MdiIcons.share),
                     onPressed: () => openShareDialog(context, rank, sharedUsersProv)
                 ),
 
@@ -516,7 +516,7 @@ class SharedUsersWidgetState extends State<SharedUsersWidget>{
                 const SizedBox(width: Dimen.ICON_FOOTPRINT),
                 Expanded(child: Text('Problem z ładowaniem', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_APPBAR), textAlign: TextAlign.center)),
                 IconButton(
-                  icon: const Icon(MdiIcons.refresh),
+                  icon: Icon(MdiIcons.refresh),
                   onPressed: loadSharedUsers,
                 )
               ],
@@ -620,7 +620,7 @@ class ShareDialogState extends State<ShareDialog>{
             elevation: 0,
             actions: [
               IconButton(
-                  icon: const Icon(MdiIcons.check),
+                  icon: Icon(MdiIcons.check),
                   onPressed: anythingChanged?() async {
                     setState(() => processing = true);
                     showLoadingWidget(context, RankData.colors[rank!.data]!.avgColor(AppSettings.isDark), 'Chwileczkę...');
@@ -649,8 +649,8 @@ class ShareDialogState extends State<ShareDialog>{
                   child: SimpleButton(
                       radius: AppCard.bigRadius,
                       onTap: addNewUser,
-                      child: const Padding(
-                        padding: EdgeInsets.all(Dimen.SIDE_MARG),
+                      child: Padding(
+                        padding: const EdgeInsets.all(Dimen.SIDE_MARG),
                         child: EmptyMessageWidget(
                           icon: MdiIcons.accountPlusOutline,
                           text: 'Udostępnij stopień\nnowej osobie',
@@ -682,11 +682,11 @@ class ShareDialogState extends State<ShareDialog>{
                       trailing:
                       removed?
                       IconButton(
-                        icon: const Icon(MdiIcons.refresh),
+                        icon: Icon(MdiIcons.refresh),
                         onPressed: () => setState(() => usersToRemove.remove(users[index])),
                       ):
                       IconButton(
-                        icon: const Icon(MdiIcons.close),
+                        icon: Icon(MdiIcons.close),
                         onPressed: (){
                           UserData user = users[index];
                           if(!usersToAdd.remove(user))

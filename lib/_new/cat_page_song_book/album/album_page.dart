@@ -47,7 +47,7 @@ class AlbumPageState extends State<AlbumPage>{
               floating: true,
               actions: [
                 IconButton(
-                    icon: const Icon(MdiIcons.plus),
+                    icon: Icon(MdiIcons.plus),
                     onPressed: () => pushPage(
                         context,
                         builder: (context) => AlbumEditorPage(
@@ -122,7 +122,7 @@ class _AlbumItemState extends State<_AlbumItem>{
 
           const SizedBox(width: AlbumWidget.titlePaddingVal),
 
-          const Icon(
+          Icon(
             MdiIcons.music,
           ),
           const SizedBox(width: Dimen.defMarg),

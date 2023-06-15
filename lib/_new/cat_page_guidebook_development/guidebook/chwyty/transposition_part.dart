@@ -107,12 +107,12 @@ class TranspositionPartState extends State<TranspositionPart> with AutomaticKeep
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 IconButton(
-                                  icon: const Icon(MdiIcons.chevronDoubleDown),
+                                  icon: Icon(MdiIcons.chevronDoubleDown),
                                   onPressed: () => setState(() => shift = ChordShifter.shiftToneDown(shift!)),
                                 ),
                                 Text(shift.toString(), style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold)),
                                 IconButton(
-                                  icon: const Icon(MdiIcons.chevronDoubleUp),
+                                  icon: Icon(MdiIcons.chevronDoubleUp),
                                   onPressed: () => setState(() => shift = ChordShifter.shiftToneUp(shift!)),
                                 )
                               ]

@@ -536,7 +536,7 @@ class Trop extends TropBaseData with SyncableParamGroupMixin, SyncGetRespNode<Tr
     initialized = true;
   }
 
-  static const IconData icon = MdiIcons.signDirectionPlus;
+  static IconData icon = MdiIcons.signDirectionPlus;
 
   static const String paramLclId = 'lclId';
   static const String paramKey = '_key';

@@ -73,7 +73,7 @@ class CommunityGroupsWidget extends StatelessWidget{
             child: Row(
               children: [
                 const SizedBox(width: Dimen.SIDE_MARG - Dimen.ICON_MARG),
-                const Icon(MdiIcons.googleCircles),
+                Icon(MdiIcons.googleCircles),
                 const SizedBox(width: Dimen.SIDE_MARG),
                 Expanded(
                   child: Column(
@@ -144,7 +144,7 @@ class CommunityGroupsWidget extends StatelessWidget{
             child: Row(
               children: [
                 const SizedBox(width: Dimen.SIDE_MARG - Dimen.ICON_MARG),
-                const Icon(Forum.icon),
+                Icon(Forum.icon),
                 const SizedBox(width: Dimen.SIDE_MARG),
                 Expanded(
                   child: Column(

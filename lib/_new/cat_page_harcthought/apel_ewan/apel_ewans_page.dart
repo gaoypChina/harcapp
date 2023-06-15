@@ -208,7 +208,7 @@ class ApelEwansPageState extends State<ApelEwansPage> with TickerProviderStateMi
                       ),
 
                       IconButton(
-                        icon: const Icon(MdiIcons.magnify),
+                        icon: Icon(MdiIcons.magnify),
                         onPressed: () => pushPage(
                             context,
                             builder: (context) => FolderSearchPage<ApelEwanFolder>(
@@ -338,7 +338,7 @@ class _EditFloatingButton extends StatelessWidget{
                     )
                 );
               },
-              child: const Icon(MdiIcons.pencil),
+              child: Icon(MdiIcons.pencil),
             ),
           ),
         );
@@ -386,7 +386,7 @@ class _PrintFloatingButton extends StatelessWidget{
                     context: context,
                     builder: (context) => _PrintBottomSheet(pageFolders[truncPage]!)
                 ),
-                child: const Icon(MdiIcons.printer)
+                child: Icon(MdiIcons.printer)
             ),
           ),
         );

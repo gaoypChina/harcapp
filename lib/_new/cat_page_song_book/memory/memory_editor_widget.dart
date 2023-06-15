@@ -88,7 +88,7 @@ class MemoryEditorWidgetState extends State<MemoryEditorWidget> with TickerProvi
               floating: true,
               pinned: true,
               leading: IconButton(
-                icon: const Icon(MdiIcons.arrowLeft),
+                icon: Icon(MdiIcons.arrowLeft),
                 onPressed: (){
                   if(controller.page == 0) Navigator.pop(context);
                   else controller.animateToPage(0, duration: _animDuration, curve: _animCurve);

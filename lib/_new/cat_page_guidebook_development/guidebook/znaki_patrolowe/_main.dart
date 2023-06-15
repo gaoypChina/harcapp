@@ -4,10 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/app_tab_bar_indicator.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
-import 'package:harcapp/_common_widgets/folder_widget/folder_tab.dart';
-import 'package:harcapp/_common_widgets/folder_widget/folder_tab_indicator.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
-import 'package:harcapp/_common_widgets/sliding_card.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import 'package:harcapp/_new/module_statistics_registrator.dart';
@@ -64,7 +61,7 @@ class ZnakiPatroloweFragmentState extends State<ZnakiPatroloweFragment> with Tic
         centerTitle: true,
         actions: [
           IconButton(
-              icon: const Icon(MdiIcons.magnify),
+              icon: Icon(MdiIcons.magnify),
               onPressed: () => pushPage(
                   context,
                   builder: (context) => AllSignsPage(

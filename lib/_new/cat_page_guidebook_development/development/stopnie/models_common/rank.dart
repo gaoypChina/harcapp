@@ -90,35 +90,35 @@ abstract class RankData{
   static const String GROUP_TITLE_OGOLNE = 'Ogólne';
   static const String GROUP_TITLE_POZOSTALE = 'Pozostałe';
 
-  static const IconData iconTozsHarcerska = MdiIcons.fleurDeLis;
-  static const IconData iconObozow = MdiIcons.tent;
-  static const IconData iconPierwszaPomoc = MdiIcons.hospitalBox;
-  static const IconData iconZywienie = MdiIcons.noodles;
-  static const IconData iconZdrowie = MdiIcons.heartPulse;
-  static const IconData iconSwiatCyfrowy = MdiIcons.cellphoneLink;
-  static const IconData iconEkologia = MdiIcons.tree;
-  static const IconData iconEkonomia = MdiIcons.gold;
-  static const IconData iconPostawaObyw = MdiIcons.accountTie;
-  static const IconData iconZaradnosc = MdiIcons.hammerScrewdriver;
+  static IconData iconTozsHarcerska = MdiIcons.fleurDeLis;
+  static IconData iconObozow = MdiIcons.tent;
+  static IconData iconPierwszaPomoc = MdiIcons.hospitalBox;
+  static IconData iconZywienie = MdiIcons.noodles;
+  static IconData iconZdrowie = MdiIcons.heartPulse;
+  static IconData iconSwiatCyfrowy = MdiIcons.cellphoneLink;
+  static IconData iconEkologia = MdiIcons.tree;
+  static IconData iconEkonomia = MdiIcons.gold;
+  static IconData iconPostawaObyw = MdiIcons.accountTie;
+  static IconData iconZaradnosc = MdiIcons.hammerScrewdriver;
 
-  static const IconData iconRodzina = MdiIcons.home;
-  static const IconData iconPracaNadSoba = MdiIcons.accountCog;
-  static const IconData iconTechHarc = MdiIcons.knifeMilitary;
-  static const IconData iconSluzba = MdiIcons.handshake;
-  static const IconData iconKoncowa = MdiIcons.stopCircle;
+  static IconData iconRodzina = MdiIcons.home;
+  static IconData iconPracaNadSoba = MdiIcons.accountCog;
+  static IconData iconTechHarc = MdiIcons.knifeMilitary;
+  static IconData iconSluzba = MdiIcons.handshake;
+  static IconData iconKoncowa = MdiIcons.stopCircle;
 
-  static const IconData iconSilaCiala = MdiIcons.human;
-  static const IconData iconSilaRozumu = MdiIcons.bookEducation;
-  static const IconData iconSilaDucha = MdiIcons.handsPray;
+  static IconData iconSilaCiala = MdiIcons.human;
+  static IconData iconSilaRozumu = MdiIcons.bookEducation;
+  static IconData iconSilaDucha = MdiIcons.handsPray;
 
-  static const IconData iconCatRozwoj = MdiIcons.trendingUp;
-  static const IconData iconCatCharakter = MdiIcons.candle;
-  static const IconData iconCatHarcWtajem = MdiIcons.fleurDeLis;
-  static const IconData iconCatSluzba = MdiIcons.handshakeOutline;
-  static const IconData iconCatSylwetka = MdiIcons.faceManShimmerOutline;
-  static const IconData iconCatProbaKoncowa = MdiIcons.flagCheckered;
-  static const IconData iconCatIdea = MdiIcons.starOutline;
-  static const IconData iconCatStopZadania = MdiIcons.checkboxMarkedCircleOutline;
+  static IconData iconCatRozwoj = MdiIcons.trendingUp;
+  static IconData iconCatCharakter = MdiIcons.candle;
+  static IconData iconCatHarcWtajem = MdiIcons.fleurDeLis;
+  static IconData iconCatSluzba = MdiIcons.handshakeOutline;
+  static IconData iconCatSylwetka = MdiIcons.faceManShimmerOutline;
+  static IconData iconCatProbaKoncowa = MdiIcons.flagCheckered;
+  static IconData iconCatIdea = MdiIcons.starOutline;
+  static IconData iconCatStopZadania = MdiIcons.checkboxMarkedCircleOutline;
 
   static RankColors colorsZuchZhp = RankColors(
     Colors.orange,
@@ -229,51 +229,51 @@ abstract class RankData{
 
   static Map<RankData, Tuple2<List<IconData>, double>> iconSizeMap = {
 
-    rankZhpOldZuch1Data: const Tuple2([MdiIcons.star], iconSizeSmall),
-    rankZhpOldZuch2Data: const Tuple2([MdiIcons.star, MdiIcons.star], iconSizeSmall),
-    rankZhpOldZuch3Data: const Tuple2([MdiIcons.star, MdiIcons.star, MdiIcons.star], iconSizeSmall),
+    rankZhpOldZuch1Data: Tuple2([MdiIcons.star], iconSizeSmall),
+    rankZhpOldZuch2Data: Tuple2([MdiIcons.star, MdiIcons.star], iconSizeSmall),
+    rankZhpOldZuch3Data: Tuple2([MdiIcons.star, MdiIcons.star, MdiIcons.star], iconSizeSmall),
 
-    rankZhpOld0Data: const Tuple2([MdiIcons.crossBolnisi], 28.0),
-    rankZhp1Data: const Tuple2([MdiIcons.minus], iconSizeBig),
-    rankZhpOld1Data: const Tuple2([MdiIcons.minus], iconSizeBig),
-    rankZhp2Data: const Tuple2([MdiIcons.equal], iconSizeBig),
-    rankZhpOld2Data: const Tuple2([MdiIcons.equal], iconSizeBig),
-    rankZhp3Data: const Tuple2([MdiIcons.chevronUp], iconSizeBig),
-    rankZhpOld3Data: const Tuple2([MdiIcons.chevronUp], iconSizeBig),
-    rankZhp4Data: const Tuple2([MdiIcons.chevronDoubleUp], iconSizeBig),
-    rankZhpOld4Data: const Tuple2([MdiIcons.chevronDoubleUp], iconSizeBig),
-    rankZhp5Data: const Tuple2([MdiIcons.star], iconSizeSmall),
-    rankZhpOld5Data: const Tuple2([MdiIcons.star], iconSizeSmall),
-    rankZhp6Data: const Tuple2([MdiIcons.star, MdiIcons.star], iconSizeSmall),
-    rankZhpOld6Data: const Tuple2([MdiIcons.star, MdiIcons.star], iconSizeSmall),
+    rankZhpOld0Data: Tuple2([MdiIcons.crossBolnisi], 28.0),
+    rankZhp1Data: Tuple2([MdiIcons.minus], iconSizeBig),
+    rankZhpOld1Data: Tuple2([MdiIcons.minus], iconSizeBig),
+    rankZhp2Data: Tuple2([MdiIcons.equal], iconSizeBig),
+    rankZhpOld2Data: Tuple2([MdiIcons.equal], iconSizeBig),
+    rankZhp3Data: Tuple2([MdiIcons.chevronUp], iconSizeBig),
+    rankZhpOld3Data: Tuple2([MdiIcons.chevronUp], iconSizeBig),
+    rankZhp4Data: Tuple2([MdiIcons.chevronDoubleUp], iconSizeBig),
+    rankZhpOld4Data: Tuple2([MdiIcons.chevronDoubleUp], iconSizeBig),
+    rankZhp5Data: Tuple2([MdiIcons.star], iconSizeSmall),
+    rankZhpOld5Data: Tuple2([MdiIcons.star], iconSizeSmall),
+    rankZhp6Data: Tuple2([MdiIcons.star, MdiIcons.star], iconSizeSmall),
+    rankZhpOld6Data: Tuple2([MdiIcons.star, MdiIcons.star], iconSizeSmall),
 
-    rankZhrZuchD1Data: const Tuple2([MdiIcons.star], iconSizeSmall),
-    rankZhrZuchD2Data: const Tuple2([MdiIcons.star, MdiIcons.star], iconSizeSmall),
-    rankZhrZuchD3Data: const Tuple2([MdiIcons.star, MdiIcons.star, MdiIcons.star], iconSizeSmall),
+    rankZhrZuchD1Data: Tuple2([MdiIcons.star], iconSizeSmall),
+    rankZhrZuchD2Data: Tuple2([MdiIcons.star, MdiIcons.star], iconSizeSmall),
+    rankZhrZuchD3Data: Tuple2([MdiIcons.star, MdiIcons.star, MdiIcons.star], iconSizeSmall),
 
-    rankZhrHarcD0Data: const Tuple2([MdiIcons.crossBolnisi], 28.0),
-    rankZhrHarcD0WData: const Tuple2([MdiIcons.crossBolnisi], 28.0),
-    rankZhrHarcD0SData: const Tuple2([MdiIcons.crossBolnisi], 28.0),
-    rankZhrHarcD1Data: const Tuple2([MdiIcons.minus], iconSizeBig),
-    rankZhrHarcD2Data: const Tuple2([MdiIcons.equal], iconSizeBig),
-    rankZhrHarcD2SData: const Tuple2([MdiIcons.equal], iconSizeBig),
-    rankZhrHarcD3Data: const Tuple2([MdiIcons.chevronUp], iconSizeBig),
-    rankZhrHarcD3SData: const Tuple2([MdiIcons.chevronUp], iconSizeBig),
-    rankZhrHarcD4Data: const Tuple2([MdiIcons.star], iconSizeSmall),
-    rankZhrHarcD4SData: const Tuple2([MdiIcons.star], iconSizeSmall),
-    rankZhrHarcD5Data: const Tuple2([MdiIcons.star, MdiIcons.star], iconSizeSmall),
+    rankZhrHarcD0Data: Tuple2([MdiIcons.crossBolnisi], 28.0),
+    rankZhrHarcD0WData: Tuple2([MdiIcons.crossBolnisi], 28.0),
+    rankZhrHarcD0SData: Tuple2([MdiIcons.crossBolnisi], 28.0),
+    rankZhrHarcD1Data: Tuple2([MdiIcons.minus], iconSizeBig),
+    rankZhrHarcD2Data: Tuple2([MdiIcons.equal], iconSizeBig),
+    rankZhrHarcD2SData: Tuple2([MdiIcons.equal], iconSizeBig),
+    rankZhrHarcD3Data: Tuple2([MdiIcons.chevronUp], iconSizeBig),
+    rankZhrHarcD3SData: Tuple2([MdiIcons.chevronUp], iconSizeBig),
+    rankZhrHarcD4Data: Tuple2([MdiIcons.star], iconSizeSmall),
+    rankZhrHarcD4SData: Tuple2([MdiIcons.star], iconSizeSmall),
+    rankZhrHarcD5Data: Tuple2([MdiIcons.star, MdiIcons.star], iconSizeSmall),
 
-    rankZhrZuchC1Data: const Tuple2([MdiIcons.star], iconSizeSmall),
-    rankZhrZuchC2Data: const Tuple2([MdiIcons.star, MdiIcons.star], iconSizeSmall),
-    rankZhrZuchC3Data: const Tuple2([MdiIcons.star, MdiIcons.star, MdiIcons.star], iconSizeSmall),
+    rankZhrZuchC1Data: Tuple2([MdiIcons.star], iconSizeSmall),
+    rankZhrZuchC2Data: Tuple2([MdiIcons.star, MdiIcons.star], iconSizeSmall),
+    rankZhrZuchC3Data: Tuple2([MdiIcons.star, MdiIcons.star, MdiIcons.star], iconSizeSmall),
 
-    rankZhrHarcC0Data: const Tuple2([MdiIcons.crossBolnisi], 28.0),
-    rankZhrHarcC0SData: const Tuple2([MdiIcons.crossBolnisi], 28.0),
-    rankZhrHarcC1Data: const Tuple2([MdiIcons.minus], iconSizeBig),
-    rankZhrHarcC2Data: const Tuple2([MdiIcons.equal], iconSizeBig),
-    rankZhrHarcC3Data: const Tuple2([MdiIcons.chevronUp], iconSizeBig),
-    rankZhrHarcC4Data: const Tuple2([MdiIcons.star], iconSizeSmall),
-    rankZhrHarcC5Data: const Tuple2([MdiIcons.star, MdiIcons.star], iconSizeSmall),
+    rankZhrHarcC0Data: Tuple2([MdiIcons.crossBolnisi], 28.0),
+    rankZhrHarcC0SData: Tuple2([MdiIcons.crossBolnisi], 28.0),
+    rankZhrHarcC1Data: Tuple2([MdiIcons.minus], iconSizeBig),
+    rankZhrHarcC2Data: Tuple2([MdiIcons.equal], iconSizeBig),
+    rankZhrHarcC3Data: Tuple2([MdiIcons.chevronUp], iconSizeBig),
+    rankZhrHarcC4Data: Tuple2([MdiIcons.star], iconSizeSmall),
+    rankZhrHarcC5Data: Tuple2([MdiIcons.star, MdiIcons.star], iconSizeSmall),
 
   };
 

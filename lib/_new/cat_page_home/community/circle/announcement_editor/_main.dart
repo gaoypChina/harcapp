@@ -124,7 +124,7 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
           floating: true,
           actions: [
             IconButton(
-              icon: const Icon(MdiIcons.eyeOutline),
+              icon: Icon(MdiIcons.eyeOutline),
               onPressed: (){
 
                 Announcement announcement = Announcement(
@@ -263,7 +263,7 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
                           menuItemStyleData: const MenuItemStyleData(
                             padding: EdgeInsets.zero,
                           ),
-                          iconStyleData: const IconStyleData(
+                          iconStyleData: IconStyleData(
                             icon: SizedBox(
                               width: Dimen.ICON_FOOTPRINT,
                               child: Icon(MdiIcons.chevronDown),
@@ -343,12 +343,12 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
                       Expanded(child: Container()),
                       if(startTime != null)
                         IconButton(
-                          icon: const Icon(MdiIcons.close),
+                          icon: Icon(MdiIcons.close),
                           onPressed: () => setState(() => startTime = null),
                         )
                       else
                         IconButton(
-                            icon: const Icon(MdiIcons.plus),
+                            icon: Icon(MdiIcons.plus),
                             onPressed: (){
                               DateTime now = DateTime.now();
                               setState(() => startTime = DateTime(
@@ -405,7 +405,7 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
 
                       if(endTime != null)
                         IconButton(
-                          icon: const Icon(MdiIcons.close),
+                          icon: Icon(MdiIcons.close),
                           onPressed: () => setState(() => endTime = null),
                         )
                       else
@@ -444,8 +444,8 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
                           controller: placeController,
                           style: AppTextStyle(color: iconEnab_(context)),
                           textCapitalization: TextCapitalization.sentences,
-                          leading: const Padding(
-                            padding: EdgeInsets.only(
+                          leading: Padding(
+                            padding: const EdgeInsets.only(
                               left: Dimen.ICON_MARG,
                               right: Dimen.ICON_MARG,
                             ),
@@ -456,7 +456,7 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
 
                       if(placeEnabled)
                         IconButton(
-                          icon: const Icon(MdiIcons.close),
+                          icon: Icon(MdiIcons.close),
                           onPressed: () => placeController.text = '',
                         )
 
@@ -507,7 +507,7 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
 
                         if(urlToPreviewController.text.isNotEmpty)
                           IconButton(
-                            icon: const Icon(MdiIcons.close),
+                            icon: Icon(MdiIcons.close),
                             onPressed: (){
                               previewData = null;
                               setState(() => urlToPreviewController.clear());
@@ -797,7 +797,7 @@ class BottomSheetDateTimePicker extends StatelessWidget{
           ),
 
           ListTile(
-            leading: const Icon(MdiIcons.calendarOutline),
+            leading: Icon(MdiIcons.calendarOutline),
             title: const Text('Edytuj dzień'),
             onTap: () async {
               Navigator.pop(context);
@@ -822,7 +822,7 @@ class BottomSheetDateTimePicker extends StatelessWidget{
           ),
 
           ListTile(
-            leading: const Icon(MdiIcons.clockOutline),
+            leading: Icon(MdiIcons.clockOutline),
             title: const Text('Edytuj godzinę'),
             onTap: () async {
               Navigator.pop(context);

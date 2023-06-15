@@ -156,7 +156,7 @@ class FakturaBigWidget extends StatelessWidget{
         centerTitle: true,
         actions: [
           IconButton(
-            icon: const Icon(MdiIcons.contentCopy),
+            icon: Icon(MdiIcons.contentCopy),
             onPressed: ()async{
               await Clipboard.setData(ClipboardData(text: '${data.title}\n\n${data.adres}\n\nNIP: ${data.nip}'));
               showAppToast(context, text: 'Skopiowano');

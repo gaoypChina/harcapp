@@ -64,37 +64,37 @@ class ChildMisja extends StatelessWidget{
               child: Column(
                 children: [
                   Row(children: [
-                    const Icon(MdiIcons.circleSmall),
+                    Icon(MdiIcons.circleSmall),
                     const SizedBox(width: Dimen.ICON_MARG),
                     Text('Dobrowolność', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG))
                   ]),
                   Row(children: [
-                    const Icon(MdiIcons.circleSmall),
+                    Icon(MdiIcons.circleSmall),
                     const SizedBox(width: Dimen.ICON_MARG),
                     Text('Pozytywność', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG))
                   ]),
                   Row(children: [
-                    const Icon(MdiIcons.circleSmall),
+                    Icon(MdiIcons.circleSmall),
                     const SizedBox(width: Dimen.ICON_MARG),
                     Text('Pośredniość', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG))
                   ]),
                   Row(children: [
-                    const Icon(MdiIcons.circleSmall),
+                    Icon(MdiIcons.circleSmall),
                     const SizedBox(width: Dimen.ICON_MARG),
                     Text('Wzajemność oddziaływań', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG))
                   ]),
                   Row(children: [
-                    const Icon(MdiIcons.circleSmall),
+                    Icon(MdiIcons.circleSmall),
                     const SizedBox(width: Dimen.ICON_MARG),
                     Text('Świadomość celów', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG))
                   ]),
                   Row(children: [
-                    const Icon(MdiIcons.circleSmall),
+                    Icon(MdiIcons.circleSmall),
                     const SizedBox(width: Dimen.ICON_MARG),
                     Text('Indywidualność', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG))
                   ]),
                   Row(children: [
-                    const Icon(MdiIcons.circleSmall),
+                    Icon(MdiIcons.circleSmall),
                     const SizedBox(width: Dimen.ICON_MARG),
                     Text('Naturalność', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG))
                   ]),
@@ -125,22 +125,22 @@ class ChildMisja extends StatelessWidget{
               child: Column(
                 children: [
                   Row(children: [
-                    const Icon(MdiIcons.circleSmall),
+                    Icon(MdiIcons.circleSmall),
                     const SizedBox(width: Dimen.ICON_MARG),
                     Text('Prawo i Przyrzeczenie', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG))
                   ]),
                   Row(children: [
-                    const Icon(MdiIcons.circleSmall),
+                    Icon(MdiIcons.circleSmall),
                     const SizedBox(width: Dimen.ICON_MARG),
                     Text('Uczenie przez działanie', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG))
                   ]),
                   Row(children: [
-                    const Icon(MdiIcons.circleSmall),
+                    Icon(MdiIcons.circleSmall),
                     const SizedBox(width: Dimen.ICON_MARG),
                     Text('Stale doskonalony i stymulujący program', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG))
                   ]),
                   Row(children: [
-                    const Icon(MdiIcons.circleSmall),
+                    Icon(MdiIcons.circleSmall),
                     const SizedBox(width: Dimen.ICON_MARG),
                     Text('System małych grup', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG))
                   ]),

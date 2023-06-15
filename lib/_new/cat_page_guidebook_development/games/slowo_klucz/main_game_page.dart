@@ -289,7 +289,7 @@ class SlowoKluczMainGamePageState extends State<SlowoKluczMainGamePage>{
                 actions: [
                   if(mode == GameMode.PLAYER)
                     IconButton(
-                      icon: const Icon(MdiIcons.qrcode),
+                      icon: Icon(MdiIcons.qrcode),
                       onPressed: () => openDialog(
                           context: context,
                           dismissible: false,

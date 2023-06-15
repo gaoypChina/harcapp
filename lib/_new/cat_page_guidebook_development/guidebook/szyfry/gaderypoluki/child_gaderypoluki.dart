@@ -31,6 +31,7 @@ class ChildGaderypolukiState extends State<ChildGaderypoluki> with AutomaticKeep
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
 
     GaderypolukiProvider prov = Provider.of<GaderypolukiProvider>(context, listen: false);
 
@@ -43,7 +44,7 @@ class ChildGaderypolukiState extends State<ChildGaderypoluki> with AutomaticKeep
               child: KeyField(
                   enabled: false,
                   trailing: IconButton(
-                    icon: const Icon(MdiIcons.textBoxSearchOutline),
+                    icon: Icon(MdiIcons.textBoxSearchOutline),
                     onPressed: showKeyPage,
                   )
               )
@@ -111,7 +112,7 @@ class ChildGaderypolukiState extends State<ChildGaderypoluki> with AutomaticKeep
                             )
                         );
 
-                      return const EmptyMessageWidget(
+                      return EmptyMessageWidget(
                           text: 'Błąd w kluczu',
                           icon: MdiIcons.alertCircleOutline
                       );

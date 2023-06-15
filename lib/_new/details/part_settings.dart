@@ -197,7 +197,7 @@ class PartSettingsState extends State<PartSettings>{
         if(AppSettings.devMode)
           ListTile(
               title: Text('Podgląd pamięci', style: AppTextStyle(fontWeight: weight.halfBold)),
-              trailing: const Icon(MdiIcons.arrowRight),
+              trailing: Icon(MdiIcons.arrowRight),
               onTap: () => pushPage(
                   context,
                   builder: (context) => const StorageDisplayPage()

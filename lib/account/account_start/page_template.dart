@@ -87,7 +87,7 @@ class PageTemplate extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
 
-                              //const Icon(MdiIcons.earthOff, color: Colors.white),
+                              //Icon(MdiIcons.earthOff, color: Colors.white),
 
                               const SizedBox(width: Dimen.ICON_MARG),
 

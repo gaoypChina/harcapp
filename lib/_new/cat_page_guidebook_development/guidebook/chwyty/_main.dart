@@ -64,7 +64,7 @@ class ChwytyFragmentState extends State<ChwytyFragment> with ModuleStatsMixin {
                   SimpleButton(
                     padding: EdgeInsets.only(left: AppCard.defPadding.left, right: AppCard.defPadding.right),
                     child: Row(children: <Widget>[
-                      const Icon(MdiIcons.guitarPickOutline,),
+                      Icon(MdiIcons.guitarPickOutline,),
                       const SizedBox(width: Dimen.defMarg),
                       SizedBox(
                         width: 52,

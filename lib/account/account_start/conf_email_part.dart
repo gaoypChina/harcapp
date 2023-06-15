@@ -102,7 +102,7 @@ class ConfEmailPartState extends State<ConfEmailPart>{
     return PageTemplate(
       actions: [
         IconButton(
-            icon: const Icon(MdiIcons.logout),
+            icon: Icon(MdiIcons.logout),
             onPressed: () => openLogoutDialog(context)
         )
       ],

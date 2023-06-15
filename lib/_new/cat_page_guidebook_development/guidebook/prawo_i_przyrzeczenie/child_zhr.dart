@@ -103,15 +103,15 @@ class ChildZHRState extends State<ChildZHR> with TickerProviderStateMixin{
             children: [
               ListView(
                 physics: const BouncingScrollPhysics(),
-                children: const <Widget>[
-                  Padding(
+                children: [
+                  const Padding(
                     padding: EdgeInsets.all(Dimen.SIDE_MARG),
                     child: PrzyrzeczenieItem(ppz_przyrz_title, ppz_przyrz_content),
                   ),
 
-                  SizedBox(height: Dimen.LIST_SEP_MARG),
+                  const SizedBox(height: Dimen.LIST_SEP_MARG),
 
-                  TitleShortcutRowWidget(title: 'Prawo zucha'),
+                  const TitleShortcutRowWidget(title: 'Prawo zucha'),
 
                   PrawoItem(1, MdiIcons.cross, ppz1),
                   PrawoItem(2, MdiIcons.imageFilterHdr, ppz2),
@@ -124,15 +124,15 @@ class ChildZHRState extends State<ChildZHR> with TickerProviderStateMixin{
 
               ListView(
                 physics: const BouncingScrollPhysics(),
-                children: const <Widget>[
-                  Padding(
+                children: [
+                  const Padding(
                     padding: EdgeInsets.all(Dimen.SIDE_MARG),
                     child: PrzyrzeczenieItem(pph_przyrz_title, pph_przyrz_content),
                   ),
 
-                  SizedBox(height: Dimen.LIST_SEP_MARG),
+                  const SizedBox(height: Dimen.LIST_SEP_MARG),
 
-                  TitleShortcutRowWidget(title: 'Prawo harcerskie'),
+                  const TitleShortcutRowWidget(title: 'Prawo harcerskie'),
 
                   PrawoItem(1, MdiIcons.accountTie, pph1_zhr, comment: '$kpph1_zhr$pph1_zhp\n\n$kpph1_zhp'),
                   PrawoItem(2, MdiIcons.shieldEdit, pph2, comment: kpph2),

@@ -58,14 +58,14 @@ class ShowInitMessageWidgetState extends State<ShowInitMessageWidget>{
 
                       Row(
                         children: [
-                          const Icon(MdiIcons.heartOutline),
+                          Icon(MdiIcons.heartOutline),
                           const SizedBox(width: 2*Dimen.defMarg,),
                           Expanded(child: Text('Aby dodać grafikę do ulubionych, dwukrotnie ją naciśnij.', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG)))
                         ],),
                       Text('', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG)),
                       Row(
                         children: [
-                          const Icon(MdiIcons.pinOutline),
+                          Icon(MdiIcons.pinOutline),
                           const SizedBox(width: 2*Dimen.defMarg,),
                           Expanded(child: Text('Aby zachować grafikę na później, przytrzymaj ją i wybierz pineskę.', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG)))
                         ],),
@@ -93,7 +93,7 @@ class ShowInitMessageWidgetState extends State<ShowInitMessageWidget>{
                         Navigator.pop(context);
                       },
                       padding: const EdgeInsets.all(Dimen.ICON_MARG),
-                      child: const Icon(MdiIcons.check)
+                      child: Icon(MdiIcons.check)
                   )
                 ],),
           )

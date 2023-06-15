@@ -15,7 +15,7 @@ class AddFolderTab extends StatelessWidget implements PreferredSizeWidget{
   Widget build(BuildContext context) => Tab(icon: Row(
     children: [
       const SizedBox(width: 24.0,),
-      const Icon(MdiIcons.folderPlusOutline, size: FolderIcon.defSize),
+      Icon(MdiIcons.folderPlusOutline, size: FolderIcon.defSize),
       const SizedBox(width: 32.0,),
       const SizedBox(width: Dimen.ICON_MARG),
       Text('Nowy folder', style: AppTextStyle(fontWeight: weight.halfBold)),

@@ -287,7 +287,7 @@ class OwnSongPageState extends State<OwnSongPage> {
     actions: <Widget>[
 
       IconButton(
-          icon: const Icon(MdiIcons.eyeOutline),
+          icon: Icon(MdiIcons.eyeOutline),
           onPressed: () async {
 
             SongRaw songRaw = currItemProv.song;

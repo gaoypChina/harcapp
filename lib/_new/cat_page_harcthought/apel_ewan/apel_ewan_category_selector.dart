@@ -33,18 +33,18 @@ class ApelEwanCategorySelector extends StatelessWidget{
             'Zestaw pytań',
             style: AppTextStyle(color: hintEnab_(context))
         ),
-        items: allSubgroupSuffs.map((subgroupSuff) =>
+        items: allSubgroupSuffs.map((subgroupStuff) =>
             DropdownMenuItem<String>(
-              value: subgroupSuff,
+              value: subgroupStuff,
               child: Text(
-                  suffixNameMap[subgroupSuff]!,
-                  style: AppTextStyle(fontWeight: subgroupSuff == selSubgroupSuff?weight.halfBold:weight.normal)
+                  suffixNameMap[subgroupStuff]!,
+                  style: AppTextStyle(fontWeight: subgroupStuff == selSubgroupSuff?weight.halfBold:weight.normal)
               ),
             ))
             .toList(),
         value: selSubgroupSuff,
         onChanged: onChanged, // (value) => setState(() => selSubgroupSuff = value as String),
-        iconStyleData: const IconStyleData(
+        iconStyleData: IconStyleData(
           icon: Icon(MdiIcons.dotsVertical),
           iconSize: Dimen.ICON_SIZE,
         ),

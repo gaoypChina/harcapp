@@ -141,7 +141,7 @@ class _JoinButtonState extends State<_JoinButton>{
           icon:
           processing?
           SpinKitChasingDots(color: iconEnab_(context), size: Dimen.ICON_SIZE):
-          const Icon(MdiIcons.arrowRight),
+          Icon(MdiIcons.arrowRight),
 
           onPressed: () async {
             if(controller.text.isEmpty){

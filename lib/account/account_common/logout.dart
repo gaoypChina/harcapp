@@ -3,7 +3,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_new/api/login_register.dart';
-import 'package:harcapp/account/account.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
@@ -15,7 +14,6 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 import '../../logger.dart';
 import '../login_provider.dart';
-import '../ms_oauth.dart';
 
 
 class LogoutDialog extends StatefulWidget{
@@ -139,7 +137,7 @@ class LogoutDialogState extends State<LogoutDialog> with TickerProviderStateMixi
                             Row(
                               children: <Widget>[
 
-                                const Icon(MdiIcons.alertCircleOutline, color: Colors.red),
+                                Icon(MdiIcons.alertCircleOutline, color: Colors.red),
                                 const SizedBox(width: Dimen.defMarg),
                                 Text('Problem z synchronizacją', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_NORMAL, color: Colors.red)),
                               ],

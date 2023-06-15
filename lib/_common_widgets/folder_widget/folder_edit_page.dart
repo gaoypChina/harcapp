@@ -110,7 +110,7 @@ class FolderEditPageState extends State<FolderEditPage>{
                 await onSave?.call(controller.text, selIconKey, Provider.of<_ColorProvider>(context, listen: false).selColorKey);
                 Navigator.pop(context);
               },
-              icon: const Icon(MdiIcons.check)
+              icon: Icon(MdiIcons.check)
           )
         ],
       ),

@@ -66,7 +66,7 @@ class AcceptTaskWidgetState extends State<AcceptTaskWidget>{
             task,
             bottom: Center(
               child: IconButton(
-                  icon: const Icon(MdiIcons.check),
+                  icon: Icon(MdiIcons.check),
                   onPressed: () async {
 
                     showLoadingWidget(context, comp.colors.avgColor, 'Przesyłanie punktów...');

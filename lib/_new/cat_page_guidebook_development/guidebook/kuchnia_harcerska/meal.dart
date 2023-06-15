@@ -7,6 +7,100 @@ class Meal{
   static const String TAG_JARSKIE = "#Jarskie";
   static const String TAG_JEDNOGARNKOWE = "#Jednogarnkowe";
 
+  static Meal bigos_cyganski = Meal.create('Bigos cygański',
+      [
+        const Ingredient(Product.cebula, 5, Unit.item),
+        const Ingredient(Product.ziemniaki, 1, Unit.item),
+        const Ingredient(Product.kielbasa, 200, Unit.g),
+        const Ingredient(Product.czosnek, 3, Unit.clove),
+        const Ingredient(Product.pulpa_pomidorowa, 150, Unit.g),
+        const Ingredient(Product.sol, 0.1, Unit.spoonS),
+        const Ingredient(Product.pieprz, 0.1, Unit.spoonS),
+        const Ingredient(Product.olej_rzepakowy, 20, Unit.ml),
+      ],
+      {
+        Equipment.PATELNIA:1,
+        Equipment.GARNEK:1,
+        Equipment.NOZ: 1,
+        Equipment.DESKA_DO_KROJENIA:1,
+        Equipment.DREWNIANA_SZPATULKA:1,
+        Equipment.LYZKA_DO_MIESZANIA:1,
+      },
+      [
+        'Kiełbasę pokroić w kostkę i podsmażyć na rumiano.',
+        'Do garnka wrzucić ziemniaki pokrojone w kostkę i gotować do miękkości.',
+        'Do garnka dorzucić cebulę pokrojoną w piórka i dusić.',
+        'Gdy cebula się zeszkli, dodać kiełbasę.',
+        'Wszystko zalać pulpą pomidorową.',
+        'Doprawić solą i pieprzem.',
+        'Gotować 15min.',
+        'Pokroić i dodać czosnek.',
+        'Gotować 5 min.',
+      ],
+      fire: true,
+      water: false
+  );
+
+  static Meal buraki_na_ostro = Meal.create(
+      "Buraki na ostro",
+      [
+        const Ingredient(Product.burak, 500, Unit.g),
+        const Ingredient(Product.chrzan, 120, Unit.g),
+        const Ingredient(Product.czosnek, 6, Unit.clove),
+        const Ingredient(Product.smietana, 300, Unit.g),
+        const Ingredient(Product.sol, 0.1, Unit.spoonS)
+      ],
+      {
+        Equipment.GARNEK:1,
+        Equipment.TARKA:1,
+        Equipment.NOZ:1,
+        Equipment.LYZKA_DO_MIESZANIA:1
+      },
+      [
+        'Buraki ugotowac bez opierania.',
+        'Obrać i zetrzeć buraki na tarce.',
+        'Obrać i drobno pokroić czosnek.',
+        'Buraki, czosnek, chrzan i śmietanę wymieszać.',
+        'Doprawić solą.',
+      ],
+      tags: [TAG_JARSKIE],
+      fire: true,
+      water: false
+  );
+
+  static Meal chili_con_carne = Meal.create("Chili con carne",
+      [
+        const Ingredient(Product.piersi_z_kurczaka, 60, Unit.g),
+        const Ingredient(Product.majeranek, 3, Unit.g),
+        const Ingredient(Product.sos_slodko_kwasny, 100, Unit.ml),
+        const Ingredient(Product.papryka_czerwona, 30, Unit.g),
+        const Ingredient(Product.pomidor, 40, Unit.g),
+        const Ingredient(Product.cukinia, 30, Unit.g),
+        const Ingredient(Product.kukurydza_puszka, 25, Unit.g),
+        const Ingredient(Product.groszek_zielony, 25, Unit.g),
+        const Ingredient(Product.cebula, 0.25, Unit.item),
+      ],
+      {
+        Equipment.GARNEK:1,
+        Equipment.LYZKA_DO_MIESZANIA:1,
+        Equipment.NOZ:1,
+        Equipment.DESKA_DO_KROJENIA:1,
+      },
+      [
+        'Pokroić mięso w kostkę i wymieszać z przyprawami.',
+        'Pokroić wszystkie warzywa w kostkę.',
+        'Przygotować sos. Jeśli w proszku: przygotować według zaleceń (zazwyczaj trzeba rozpuścić w szklance wody).',
+        'Rozgrzać olej w garnku.',
+        'Wrzucić na gorący olej mięso i cebulę.',
+        'Mieszać dopóki mięso nie będzie usmażone.',
+        'Dodać sos do mięsa i mieszać przez 5 min.',
+        'Wrzucić wszystkie warzywa.',
+        'Całość mieszać przez 10 – 15 min. lub dopóki potrawa nie będzie ciepła.',
+      ],
+      tags: [TAG_JEDNOGARNKOWE],
+      water: false,
+      fire: true);
+
   static Meal jajecznica = Meal.create(
       'Jajecznica',
       const [
@@ -32,24 +126,330 @@ class Meal{
       fire: true
   );
 
-  static Meal twarog_ze_smietana = Meal.create(
-      "Twaróg ze śmietaną",
-      const [
-        Ingredient(Product.ser_twarogowy_chudy, 100, Unit.g),
-        Ingredient(Product.smietana, 1, Unit.spoonB),
-        Ingredient(Product.cukier, 2, Unit.spoonS)
+  static Meal kaszki_dzieciece = Meal.create("Kaszki dziecięce",
+      [
+        const Ingredient(Product.kaszka_dziecieca, 100, Unit.g),
+        const Ingredient(Product.czekolada_gorzka, 20, Unit.g),
       ],
       {
+        Equipment.GARNEK:1,
+        Equipment.LYZKA_DO_MIESZANIA:1,
+      },
+      [
+        'Zagotować wodę (tyle ile jest napisane na opakowaniu kaszki).',
+        'Zdjąć wodę z ognia.',
+        'Do gorącej wody powoli wsypywać kaszkę stale mieszając.',
+        'Mieszać dopóki kaszka nie będzie miała jednolitej konsystencji.',
+        'Dla smaku można dodać 2 kawałki czekolady na osobę.',
+      ],
+      tags: [TAG_JEDNOGARNKOWE],
+      water: true,
+      fire: true);
+
+  static Meal kotlety_sojowe_z_ryzem = Meal.create("Kotlety sojowe z ryżem",
+      [
+        const Ingredient(Product.bulion, 1, Unit.item),
+        const Ingredient(Product.soja, 90, Unit.g),
+        const Ingredient(Product.sol, 1, Unit.spoonS),
+        const Ingredient(Product.olej_rzepakowy, 2, Unit.spoonB),
+        const Ingredient(Product.ryz_bialy, 80, Unit.g),
+      ],
+      {
+        Equipment.PATELNIA:1,
+        Equipment.LYZKA_DO_MIESZANIA:1,
+        Equipment.MENAZKA:1,
+      },
+      [
+        'Rozpuścić bulion w 100 ml ciepłej wody i nasączyć w nim kotlety (opcjonalne).',
+        'Rozgrzać olej na patelni.',
+        'Na rozgrzanym oleju ułożyć soję (po 30 g).',
+        'Po 4 min obrócić kotlety.',
+        'Po 4 min przełożyć kotlety z patelni do naczynia w rozłożonym ręcznikiem papierowym (żeby odsączał olej).',
+        'W garnku zagotować wodę i lekko ją posolić (1 mała łyżeczka).',
+        'Do gotującej się wody włożyć ryż.',
+        'Gotować przez ok. 10 min. i wyjąć gotowy ryż.',
+      ],
+      tags: [TAG_JARSKIE],
+      water: true,
+      fire: true);
+
+  static Meal leczo = Meal.create("Leczo",
+      [
+        const Ingredient(Product.kielbasa_parowkowa, 60, Unit.g),
+        const Ingredient(Product.kielbasa_podwawelska, 60, Unit.g),
+        const Ingredient(Product.papryka_czerwona, 0.5, Unit.item),
+        const Ingredient(Product.cebula, 0.25, Unit.item),
+        const Ingredient(Product.cukinia, 50, Unit.g),
+        const Ingredient(Product.kukurydza_puszka, 60, Unit.g),
+        const Ingredient(Product.pomidor, 80, Unit.g),
+        const Ingredient(Product.czosnek, 1, Unit.clove),
+        const Ingredient(Product.oliwa_z_oliwek, 20, Unit.ml),
+        const Ingredient(Product.sol, 0.1, Unit.spoonS),
+        const Ingredient(Product.pieprz, 0.05, Unit.spoonS),
+      ],
+      {
+        Equipment.GARNEK:1,
+        Equipment.NOZ:1,
+        Equipment.DESKA_DO_KROJENIA:1,
+        Equipment.LYZKA_DO_MIESZANIA:1,
+      },
+      [
+        'Pokroić mięso i warzywa w kostkę (cukinię trzeba najpierw wydrążyć).',
+        'Rozgrzać oliwę w garnku i dorzucić mięso.',
+        'Smażyć mięso przez 5 min regularnie mieszając.',
+        'Dorzucić cebulę, czosnek i dodać paprykę w proszku (ostrą i słodką).',
+        'Dodać wszystkie warzywa, dokładnie wymieszać i dusić przez 30 min.',
+        'Doprawić solą i pieprzem.',
+      ],
+      tags: [TAG_JEDNOGARNKOWE],
+      water: false,
+      fire: true);
+
+  static Meal makaron_z_pesto = Meal.create(
+      "Makaron z pesto",
+      [
+        const Ingredient(Product.makaron, 100, Unit.g),
+        const Ingredient(Product.ser_zolty, 20, Unit.g),
+        const Ingredient(Product.pomidor, 60, Unit.g),
+        const Ingredient(Product.bazylia, 2, Unit.g),
+        const Ingredient(Product.czosnek, 0.5, Unit.clove),
+        const Ingredient(Product.oliwa_z_oliwek, 1, Unit.spoonS),
+        const Ingredient(Product.sol, 0.1, Unit.spoonS),
+        const Ingredient(Product.pieprz, 0.05, Unit.spoonS),
+      ],
+      {
+        Equipment.GARNEK:1,
+        Equipment.MENAZKA:1,
+        Equipment.LYZKA_DO_MIESZANIA:1,
+      },
+      [
+        'Ugotować makaron lekko soląc i dodając łyżkę oleju.',
+        'Utrzeć ser.',
+        'Posiekać pomidory, czosnek i bazylię na jak najdrobniejsze kawałki.',
+        'Wrzucić wszystkie składniki do jednego naczynia i dokładnie wymieszać.',
+        'Wymieszać makaron z pesto i posypujemy serem.',
+      ],
+      tags: [TAG_JARSKIE, TAG_JEDNOGARNKOWE],
+      water: true,
+      fire: true);
+
+  static Meal nalesniki = Meal.create("Naleśniki",
+      [
+        const Ingredient(Product.maka_przenna, 100, Unit.g),
+        const Ingredient(Product.jajko, 0.5, Unit.item),
+        const Ingredient(Product.mleko_spozywcze_2_0_pro, 100, Unit.ml),
+        //add(new Ingredient(dzem, 400, UNIT_G),
+        const Ingredient(Product.olej_rzepakowy, 1, Unit.spoonB),
+        const Ingredient(Product.sol, 0.1, Unit.spoonS)
+      ],
+      {
+        Equipment.PATELNIA:1,
+        Equipment.LYZKA_DO_MIESZANIA:1
+      },
+      [
+        'Mleko wymieszać z taką samą ilością wody.',
+        'Jajka roztrzepać i dodać razem z mąką do mieszanki.',
+        'Całość dokładnie wymieszać i lekko posolić.',
+        'Rozgrzać olej na patelni.',
+        'Turowo rozlewać część ciasta po patelni.',
+        'Na każdą turę rozlane ciasto po 3 min. odwrócić, a po kolejnych 3 min. zdjąć z patelni.',
+        'Posmarować gotowe naleśniki dżemem i zwinąć w ruloniki.'
+      ],
+      tags: [TAG_JARSKIE],
+      fire: true,
+      water: true);
+
+  static Meal owsianka_z_bakaliami = Meal.create("Owsianka z bakaliami",
+      [
+        const Ingredient(Product.platki_owsiane, 100, Unit.g),
+        const Ingredient(Product.banan, 4, Unit.g),
+        const Ingredient(Product.rodzynki, 12, Unit.g),
+        const Ingredient(Product.orzechy_laskowe, 8, Unit.g),
+        const Ingredient(Product.orzechy_wloskie, 8, Unit.g),
+        const Ingredient(Product.orzechy_nerkowca, 8, Unit.g),
+      ],
+      {
+        Equipment.MENAZKA:1,
+      },
+      [
+        'Do gorącej wody dodać owsiankę.',
+        'Gotować jeszcze przez 2 min.',
+        'Zdjąć owsiankę z ognia.',
+        'Odsączyć wodę.',
+        'Dodać bakalie.',
+      ],
+      tags: [TAG_JARSKIE, TAG_JEDNOGARNKOWE],
+      water: true,
+      fire: true);
+
+  static Meal puree_z_warzywami = Meal.create(
+      "Puree z warzywami",
+      [
+        const Ingredient(Product.ziemniaki, 400, Unit.g),
+        const Ingredient(Product.maslo_ekstra, 15, Unit.g),
+        const Ingredient(Product.mleko_spozywcze_2_0_pro, 30, Unit.ml),
+        const Ingredient(Product.groszek_zielony, 50, Unit.g),
+        const Ingredient(Product.marchew, 50, Unit.g),
+        const Ingredient(Product.kukurydza_puszka, 50, Unit.g),
+        const Ingredient(Product.sol, 0.1, Unit.spoonS)
+      ],
+      {
+        Equipment.GARNEK:1,
+        Equipment.TLUCZEK:1,
+        Equipment.NOZ:1,
         Equipment.MENAZKA:1,
         Equipment.LYZKA_DO_MIESZANIA:1
       },
       [
-        'Do głębokiego naczynia wrzucić twaróg.',
-        'Dodać śmietanę i cukier.',
-        'Całość mieszać do uzyskania jednakowej konsystencji.'
+        'Obrać i umyć ziemniaki.',
+        'Ugotować ziemniaki w osolonej wodzie.'
+            'Po ugotowaniu odsączyć wodę i dodać masło.',
+        'Tłuczkiem dokładnie ubić do wymieszania się składników.',
+        'Pokroić marchewkę w kostkę.',
+        'W małym garnku z wodą gotować marchewkę do miękkości.',
+        'Dodać groszek z puszki i gotować jeszcze przez około 2 min.',
+        'Zdjąć garnek z ognia i dodać kukurydzę.'
       ],
-      tags: [Meal.TAG_JARSKIE, Meal.TAG_JEDNOGARNKOWE],
+      fire: true,
+      water: true);
+
+  static Meal racuchy_z_jablkami = Meal.create("Racuchy z jabłkami",
+    [
+      const Ingredient(Product.drozdze, 20, Unit.g),
+      const Ingredient(Product.cukier, 30, Unit.g),
+      const Ingredient(Product.mleko_spozywcze_2_0_pro, 150, Unit.ml),
+      const Ingredient(Product.maka_przenna, 150, Unit.g),
+      const Ingredient(Product.cynamon, 0.5, Unit.spoonS),
+      // const Ingredient(Product.sol, 1, Unit.g),
+      // const Ingredient(Product.jajko, 2, Unit.item),
+      // const Ingredient(Product.jablko, 2, Unit.item),
+      const Ingredient(Product.olej_rzepakowy, 6, Unit.spoonB),
+      const Ingredient(Product.cukier_puder, 6, Unit.spoonS),
+    ],
+    {
+      Equipment.PATELNIA: 1,
+      Equipment.DREWNIANA_SZPATULKA: 1,
+      Equipment.DESKA_DO_KROJENIA: 1,
+      Equipment.GARNEK: 1,
+      Equipment.MENAZKA: 1,
+      Equipment.NOZ: 1
+    },
+    [
+      'Podgrzać mleko w garnku.',
+      'W menażce utrzeć drożdże z łyżką cukru do momentu rozpuszczenia.',
+      'Upłynnione drożdże z cukrem dodać do ciepłego mleka.',
+      'Dodać mąkę, resztę cukru, cynamon, szczyptę soli oraz jajka.',
+      'Wszystko dokładnie wymieszać i odstawić w ciepłe miejsce na ok. 20 minut.',
+      'Umyć, obierać i pokroić jabłka w cienkie półplastry.',
+      'Gdy ciasto wyrośnie, dodać pokrojone jabłka, dokładnie wymieszać i ponownie odstawić w ciepłe miejsce na ok. 10 minut.',
+      'Na rozgrzaną patelnię wlać kilka łyżek oleju, rozgrzać i smażyć racuchy z obu stron.',
+      'Racuchy podać opruszone cukrem pudrem.'
+    ],
+    tags: [TAG_JARSKIE],
+    water: false,
+    fire: true,
   );
+
+  static Meal risotto = Meal.create("Risotto",
+      [
+        const Ingredient(Product.ryz_bialy, 80, Unit.g),
+        const Ingredient(Product.mielonka, 60, Unit.g),
+        const Ingredient(Product.marchew, 30, Unit.g),
+        const Ingredient(Product.pietruszka_korzen, 30, Unit.g),
+        const Ingredient(Product.cukinia, 30, Unit.g),
+        const Ingredient(Product.por, 30, Unit.g),
+        const Ingredient(Product.kukurydza_puszka, 60, Unit.g),
+        const Ingredient(Product.koncentrat_pomidorowy, 40, Unit.ml),
+        const Ingredient(Product.cebula, 0.25, Unit.item),
+        const Ingredient(Product.czosnek, 1, Unit.clove),
+        const Ingredient(Product.sol, 0.1, Unit.spoonS),
+        const Ingredient(Product.pieprz, 0.05, Unit.spoonS),
+        const Ingredient(Product.bazylia, 2, Unit.g),
+        const Ingredient(Product.olej_rzepakowy, 1, Unit.spoonB),
+      ],
+      {
+        Equipment.GARNEK:2,
+        Equipment.DREWNIANA_SZPATULKA:1,
+        Equipment.NOZ:1,
+        Equipment.DESKA_DO_KROJENIA:1,
+      },
+      [
+        'Ugotować ryż (posolić lekko).',
+        'Pokroić cebulę w kostkę i wycisnąć kostkę.',
+        'Przyprawić mięso pieprzem i solą i smażyć na małym oleju (można to pominąć, żeby danie było wegetariańskie).',
+        'Dodać cebulę i czosnek.',
+        'Pokroić wszystkie warzywa.',
+        'W osolonej wodzie gotować warzywa przez ok. 5 min. (wyzwaniowcy mogą to zrobić w wodzie po ryżu).',
+        'Po 5 min smażenia mięsa dodać przecier pomidorowy.',
+        'Po 2 min dodać kukurydzę.',
+        'Dodać ryż i dusić przez 5 do 10 min.',
+      ],
+      tags: [/*TAG_WEGE*/],
+      water: true,
+      fire: true);
+
+  static Meal spaghetti_bolognese = Meal.create(
+      "Spaghetti bolognese (na wypasie)",
+      [
+        const Ingredient(Product.makaron, 100, Unit.g),
+        const Ingredient(Product.passata, 100, Unit.ml),
+        const Ingredient(Product.mieso_mielone_wieprzowe, 100, Unit.g),
+        const Ingredient(Product.parmezan, 10, Unit.g),
+        const Ingredient(Product.koncentrat_pomidorowy, 1, Unit.spoonB),
+        const Ingredient(Product.czosnek, 1, Unit.clove),
+        const Ingredient(Product.tymianek, 0.2, Unit.spoonS),
+        const Ingredient(Product.oregano, 0.2, Unit.spoonS),
+        const Ingredient(Product.oliwa_z_oliwek, 10, Unit.ml),
+        const Ingredient(Product.bazylia, 10, Unit.g),
+      ],
+      {
+        Equipment.GARNEK:1,
+        Equipment.PATELNIA:1,
+        Equipment.DREWNIANA_SZPATULKA:1,
+        Equipment.TARKA:1,
+      },
+      [
+        'Do garnka wlać wodę na makaron i zagotować, następnie dodać makaron i ugotować.',
+        'Równocześnie na patelni rozgrzać 2 łyżki oliwy z oliwek.',
+        'Na rozgrzaną patelnię wrzucić czosnek i cebulę.',
+        'Po kilku minutach dodać na patelnię mięso. Rozdrabniać szpatułką, aby nie powstały grube mięsne grudki.',
+        'Do mięsa dodać zioła oraz koncentrat. Całość chwilę podgrzewać.',
+        'Dodać passatę, gotować na małym ogniu około 30 minut.'
+      ],
+      water: true,
+      fire: true);
+
+  static Meal spaghetti_carbonara = Meal.create(
+      "Spaghetti carbonara",
+      [
+        const Ingredient(Product.makaron, 100, Unit.g),
+        const Ingredient(Product.boczek_wedzony, 60, Unit.g),
+        const Ingredient(Product.czosnek, 1, Unit.clove),
+        const Ingredient(Product.jajko, 1, Unit.item),
+        const Ingredient(Product.natka_pietruszki, 5, Unit.g),
+        const Ingredient(Product.ser_zolty, 20, Unit.g),
+        const Ingredient(Product.sol, 0.1, Unit.spoonS),
+        const Ingredient(Product.pieprz, 0.05, Unit.spoonS),
+      ],
+      {
+        Equipment.GARNEK:1,
+        Equipment.MENAZKA:1,
+        Equipment.NOZ:1,
+        Equipment.DESKA_DO_KROJENIA:1,
+        Equipment.TARKA:1,
+      },
+      [
+        'Wbić jajka do miski i roztrzepać oraz utrzeć parmezan.',
+        'Ugotować makaron lekko soląc i dodając łyżkę oleju.',
+        'Boczek pokroić drobno w kostkę.',
+        'W rozgrzanym garnku podsmażyć boczek.',
+        'Po 3 do 5 min dodać makaron i ok. 50 ml wody po makaronie.',
+        'Całość wymieszać.',
+        'Dodać połowę sera i polać całość wcześniej przygotowanymi jajkami.',
+        'Po 2 min doprawić solą oraz pieprzem i posypać resztą sera.',
+      ],
+      water: true,
+      fire: true);
 
   static Meal tosty_francuskie = Meal.create(
       "Tosty francuskie",
@@ -77,337 +477,45 @@ class Meal{
       water: false,
       fire: true);
 
-  static Meal owsianka_z_bakaliami = Meal.create("Owsianka z bakaliami",
-      [
-        Ingredient(Product.platki_owsiane, 100, Unit.g),
-        Ingredient(Product.banan, 4, Unit.g),
-        Ingredient(Product.rodzynki, 12, Unit.g),
-        Ingredient(Product.orzechy_laskowe, 8, Unit.g),
-        Ingredient(Product.orzechy_wloskie, 8, Unit.g),
-        Ingredient(Product.orzechy_nerkowca, 8, Unit.g),
+  static Meal twarog_ze_smietana = Meal.create(
+      "Twaróg ze śmietaną",
+      const [
+        Ingredient(Product.ser_twarogowy_chudy, 100, Unit.g),
+        Ingredient(Product.smietana, 1, Unit.spoonB),
+        Ingredient(Product.cukier, 2, Unit.spoonS)
       ],
       {
         Equipment.MENAZKA:1,
-      },
-      [
-        'Do gorącej wody dodać owsiankę.',
-        'Gotować jeszcze przez 2 min.',
-        'Zdjąć owsiankę z ognia.',
-        'Odsączyć wodę.',
-        'Dodać bakalie.',
-      ],
-      tags: [TAG_JARSKIE, TAG_JEDNOGARNKOWE],
-      water: true,
-      fire: true);
-
-  static Meal chili_con_carne = Meal.create("Chili con carne",
-      [
-        Ingredient(Product.piersi_z_kurczaka, 60, Unit.g),
-        Ingredient(Product.majeranek, 3, Unit.g),
-        Ingredient(Product.sos_slodko_kwasny, 100, Unit.ml),
-        Ingredient(Product.papryka_czerwona, 30, Unit.g),
-        Ingredient(Product.pomidor, 40, Unit.g),
-        Ingredient(Product.cukinia, 30, Unit.g),
-        Ingredient(Product.kukurydza_puszka, 25, Unit.g),
-        Ingredient(Product.groszek_zielony, 25, Unit.g),
-        Ingredient(Product.cebula, 0.25, Unit.item),
-      ],
-      {
-        Equipment.GARNEK:1,
-        Equipment.LYZKA_DO_MIESZANIA:1,
-        Equipment.NOZ:1,
-        Equipment.DESKA_DO_KROJENIA:1,
-      },
-      [
-        'Pokroić mięso w kostkę i wymieszać z przyprawami.',
-        'Pokroić wszystkie warzywa w kostkę.',
-        'Przygotować sos. Jeśli w proszku: przygotować według zaleceń (zazwyczaj trzeba rozpuścić w szklance wody).',
-        'Rozgrzać olej w garnku.',
-        'Wrzucić na gorący olej mięso i cebulę.',
-        'Mieszać dopóki mięso nie będzie usmażone.',
-        'Dodać sos do mięsa i mieszać przez 5 min.',
-        'Wrzucić wszystkie warzywa.',
-        'Całość mieszać przez 10 – 15 min. lub dopóki potrawa nie będzie ciepła.',
-      ],
-      tags: [TAG_JEDNOGARNKOWE],
-      water: false,
-      fire: true);
-
-  static Meal kotlety_sojowe_z_ryzem = Meal.create("Kotlety sojowe z ryżem",
-      [
-        Ingredient(Product.bulion, 1, Unit.item),
-        Ingredient(Product.soja, 90, Unit.g),
-        Ingredient(Product.sol, 1, Unit.spoonS),
-        Ingredient(Product.olej_rzepakowy, 2, Unit.spoonB),
-        Ingredient(Product.ryz_bialy, 80, Unit.g),
-      ],
-      {
-        Equipment.PATELNIA:1,
-        Equipment.LYZKA_DO_MIESZANIA:1,
-        Equipment.MENAZKA:1,
-      },
-      [
-        'Rozpuścić bulion w 100 ml ciepłej wody i nasączyć w nim kotlety (opcjonalne).',
-        'Rozgrzać olej na patelni.',
-        'Na rozgrzanym oleju ułożyć soję (po 30 g).',
-        'Po 4 min obrócić kotlety.',
-        'Po 4 min przełożyć kotlety z patelni do naczynia w rozłożonym ręcznikiem papierowym (żeby odsączał olej).',
-        'W garnku zagotować wodę i lekko ją posolić (1 mała łyżeczka).',
-        'Do gotującej się wody włożyć ryż.',
-        'Gotować przez ok. 10 min. i wyjąć gotowy ryż.',
-      ],
-      tags: [TAG_JARSKIE],
-      water: true,
-      fire: true);
-
-  static Meal leczo = Meal.create("Leczo",
-      [
-        Ingredient(Product.kielbasa_parowkowa, 60, Unit.g),
-        Ingredient(Product.kielbasa_podwawelska, 60, Unit.g),
-        Ingredient(Product.papryka_czerwona, 0.5, Unit.item),
-        Ingredient(Product.cebula, 0.25, Unit.item),
-        Ingredient(Product.cukinia, 50, Unit.g),
-        Ingredient(Product.kukurydza_puszka, 60, Unit.g),
-        Ingredient(Product.pomidor, 80, Unit.g),
-        Ingredient(Product.czosnek, 1, Unit.clove),
-        Ingredient(Product.oliwa_z_oliwek, 20, Unit.ml),
-        Ingredient(Product.sol, 0.1, Unit.spoonS),
-        Ingredient(Product.pieprz, 0.05, Unit.spoonS),
-      ],
-      {
-        Equipment.GARNEK:1,
-        Equipment.NOZ:1,
-        Equipment.DESKA_DO_KROJENIA:1,
-        Equipment.LYZKA_DO_MIESZANIA:1,
-      },
-      [
-        'Pokroić mięso i warzywa w kostkę (cukinię trzeba najpierw wydrążyć).',
-        'Rozgrzać oliwę w garnku i dorzucić mięso.',
-        'Smażyć mięso przez 5 min regularnie mieszając.',
-        'Dorzucić cebulę, czosnek i dodać paprykę w proszku (ostrą i słodką).',
-        'Dodać wszystkie warzywa, dokładnie wymieszać i dusić przez 30 min.',
-        'Doprawić solą i pieprzem.',
-      ],
-      tags: [TAG_JEDNOGARNKOWE],
-      water: false,
-      fire: true);
-
-  static Meal risotto = Meal.create("Risotto",
-      [
-        Ingredient(Product.ryz_bialy, 80, Unit.g),
-        Ingredient(Product.mielonka, 60, Unit.g),
-        Ingredient(Product.marchew, 30, Unit.g),
-        Ingredient(Product.pietruszka_korzen, 30, Unit.g),
-        Ingredient(Product.cukinia, 30, Unit.g),
-        Ingredient(Product.por, 30, Unit.g),
-        Ingredient(Product.kukurydza_puszka, 60, Unit.g),
-        Ingredient(Product.koncentrat_pomidorowy, 40, Unit.ml),
-        Ingredient(Product.cebula, 0.25, Unit.item),
-        Ingredient(Product.czosnek, 1, Unit.clove),
-        Ingredient(Product.sol, 0.1, Unit.spoonS),
-        Ingredient(Product.pieprz, 0.05, Unit.spoonS),
-        Ingredient(Product.bazylia, 2, Unit.g),
-        Ingredient(Product.olej_rzepakowy, 1, Unit.spoonB),
-      ],
-      {
-        Equipment.GARNEK:2,
-        Equipment.DREWNIANA_SZPATULKA:1,
-        Equipment.NOZ:1,
-        Equipment.DESKA_DO_KROJENIA:1,
-      },
-      [
-        'Ugotować ryż (posolić lekko).',
-        'Pokroić cebulę w kostkę i wycisnąć kostkę.',
-        'Przyprawić mięso pieprzem i solą i smażyć na małym oleju (można to pominąć, żeby danie było wegetariańskie).',
-        'Dodać cebulę i czosnek.',
-        'Pokroić wszystkie warzywa.',
-        'W osolonej wodzie gotować warzywa przez ok. 5 min. (wyzwaniowcy mogą to zrobić w wodzie po ryżu).',
-        'Po 5 min smażenia mięsa dodać przecier pomidorowy.',
-        'Po 2 min dodać kukurydzę.',
-        'Dodać ryż i dusić przez 5 do 10 min.',
-      ],
-      tags: [/*TAG_WEGE*/],
-      water: true,
-      fire: true);
-
-  static Meal carbonara = Meal.create(
-      "Carbonara",
-      [
-        Ingredient(Product.makaron, 100, Unit.g),
-        Ingredient(Product.boczek_wedzony, 60, Unit.g),
-        Ingredient(Product.czosnek, 1, Unit.clove),
-        Ingredient(Product.jajko, 1, Unit.item),
-        Ingredient(Product.natka_pietruszki, 5, Unit.g),
-        Ingredient(Product.ser_zolty, 20, Unit.g),
-        Ingredient(Product.sol, 0.1, Unit.spoonS),
-        Ingredient(Product.pieprz, 0.05, Unit.spoonS),
-      ],
-      {
-        Equipment.GARNEK:1,
-        Equipment.MENAZKA:1,
-        Equipment.NOZ:1,
-        Equipment.DESKA_DO_KROJENIA:1,
-        Equipment.TARKA:1,
-      },
-      [
-        'Wbić jajka do miski i roztrzepać oraz utrzeć parmezan.',
-        'Ugotować makaron lekko soląc i dodając łyżkę oleju.',
-        'Boczek pokroić drobno w kostkę.',
-        'W rozgrzanym garnku podsmażyć boczek.',
-        'Po 3 do 5 min dodać makaron i ok. 50 ml wody po makaronie.',
-        'Całość wymieszać.',
-        'Dodać połowę sera i polać całość wcześniej przygotowanymi jajkami.',
-        'Po 2 min doprawić solą oraz pieprzem i posypać resztą sera.',
-      ],
-      water: true,
-      fire: true);
-
-  static Meal makaron_z_pesto = Meal.create(
-      "Makaron z pesto",
-      [
-        Ingredient(Product.makaron, 100, Unit.g),
-        Ingredient(Product.ser_zolty, 20, Unit.g),
-        Ingredient(Product.pomidor, 60, Unit.g),
-        Ingredient(Product.bazylia, 2, Unit.g),
-        Ingredient(Product.czosnek, 0.5, Unit.clove),
-        Ingredient(Product.oliwa_z_oliwek, 1, Unit.spoonS),
-        Ingredient(Product.sol, 0.1, Unit.spoonS),
-        Ingredient(Product.pieprz, 0.05, Unit.spoonS),
-      ],
-      {
-        Equipment.GARNEK:1,
-        Equipment.MENAZKA:1,
-        Equipment.LYZKA_DO_MIESZANIA:1,
-      },
-      [
-        'Ugotować makaron lekko soląc i dodając łyżkę oleju.',
-        'Utrzeć ser.',
-        'Posiekać pomidory, czosnek i bazylię na jak najdrobniejsze kawałki.',
-        'Wrzucić wszystkie składniki do jednego naczynia i dokładnie wymieszać.',
-        'Wymieszać makaron z pesto i posypujemy serem.',
-      ],
-      tags: [TAG_JARSKIE, TAG_JEDNOGARNKOWE],
-      water: true,
-      fire: true);
-
-  static Meal kaszki_dzieciece = Meal.create("Kaszki dziecięce",
-      [
-        Ingredient(Product.kaszka_dziecieca, 100, Unit.g),
-        Ingredient(Product.czekolada_gorzka, 20, Unit.g),
-      ],
-      {
-        Equipment.GARNEK:1,
-        Equipment.LYZKA_DO_MIESZANIA:1,
-      },
-      [
-        'Zagotować wodę (tyle ile jest napisane na opakowaniu kaszki).',
-        'Zdjąć wodę z ognia.',
-        'Do gorącej wody powoli wsypywać kaszkę stale mieszając.',
-        'Mieszać dopóki kaszka nie będzie miała jednolitej konsystencji.',
-        'Dla smaku można dodać 2 kawałki czekolady na osobę.',
-      ],
-      tags: [TAG_JEDNOGARNKOWE],
-      water: true,
-      fire: true);
-
-  static Meal nalesniki = Meal.create("Naleśniki",
-  [
-    Ingredient(Product.maka_przenna, 100, Unit.g),
-    Ingredient(Product.jajko, 0.5, Unit.item),
-    Ingredient(Product.mleko_spozywcze_2_0_pro, 100, Unit.ml),
-    //add(new Ingredient(dzem, 400, UNIT_G),
-    Ingredient(Product.olej_rzepakowy, 1, Unit.spoonB),
-    Ingredient(Product.sol, 0.1, Unit.spoonS)
-  ],
-  {
-    Equipment.PATELNIA:1,
-    Equipment.LYZKA_DO_MIESZANIA:1
-  },
-  [
-  'Mleko wymieszać z taką samą ilością wody.',
-  'Jajka roztrzepać i dodać razem z mąką do mieszanki.',
-  'Całość dokładnie wymieszać i lekko posolić.',
-  'Rozgrzać olej na patelni.',
-  'Turowo rozlewać część ciasta po patelni.',
-  'Na każdą turę rozlane ciasto po 3 min. odwrócić, a po kolejnych 3 min. zdjąć z patelni.',
-  'Posmarować gotowe naleśniki dżemem i zwinąć w ruloniki.'
-  ],
-  tags: [TAG_JARSKIE],
-  fire: true,
-  water: true);
-
-  static Meal puree_z_warzywami = Meal.create(
-      "Puree z warzywami",
-  [
-    Ingredient(Product.ziemniaki, 400, Unit.g),
-    Ingredient(Product.maslo_ekstra, 15, Unit.g),
-    Ingredient(Product.mleko_spozywcze_2_0_pro, 30, Unit.ml),
-    Ingredient(Product.groszek_zielony, 50, Unit.g),
-    Ingredient(Product.marchew, 50, Unit.g),
-    Ingredient(Product.kukurydza_puszka, 50, Unit.g),
-    Ingredient(Product.sol, 0.1, Unit.spoonS)
-  ],
-  {
-    Equipment.GARNEK:1,
-    Equipment.TLUCZEK:1,
-    Equipment.NOZ:1,
-    Equipment.MENAZKA:1,
-    Equipment.LYZKA_DO_MIESZANIA:1
-  },
-  [
-    'Obrać i umyć ziemniaki.',
-    'Ugotować ziemniaki w osolonej wodzie.'
-    'Po ugotowaniu odsączyć wodę i dodać masło.',
-    'Tłuczkiem dokładnie ubić do wymieszania się składników.',
-    'Pokroić marchewkę w kostkę.',
-    'W małym garnku z wodą gotować marchewkę do miękkości.',
-    'Dodać groszek z puszki i gotować jeszcze przez około 2 min.',
-    'Zdjąć garnek z ognia i dodać kukurydzę.'
-  ],
-  fire: true,
-  water: true);
-
-  static Meal buraki_na_ostro = Meal.create(
-      "Buraki na ostro",
-      [
-        Ingredient(Product.burak, 500, Unit.g),
-        Ingredient(Product.chrzan, 120, Unit.g),
-        Ingredient(Product.czosnek, 6, Unit.clove),
-        Ingredient(Product.smietana, 300, Unit.g),
-        Ingredient(Product.sol, 0.1, Unit.spoonS)
-      ],
-      {
-        Equipment.GARNEK:1,
-        Equipment.TARKA:1,
-        Equipment.NOZ:1,
         Equipment.LYZKA_DO_MIESZANIA:1
       },
       [
-        'Buraki ugotowac bez opierania.',
-        'Obrać i zetrzeć buraki na tarce.',
-        'Obrać i drobno pokroić czosnek.',
-        'Buraki, czosnek, chrzan i śmietanę wymieszać.',
-        'Doprawić solą',
+        'Do głębokiego naczynia wrzucić twaróg.',
+        'Dodać śmietanę i cukier.',
+        'Całość mieszać do uzyskania jednakowej konsystencji.'
       ],
-      tags: [TAG_JARSKIE],
-      fire: true,
-      water: false);
+      tags: [Meal.TAG_JARSKIE, Meal.TAG_JEDNOGARNKOWE],
+  );
+
+
 
   static List<Meal> all = [
-    jajecznica,
-    twarog_ze_smietana,
-    tosty_francuskie,
-    owsianka_z_bakaliami,
+    bigos_cyganski,
+    buraki_na_ostro,
     chili_con_carne,
+    jajecznica,
+    kaszki_dzieciece,
     kotlety_sojowe_z_ryzem,
     leczo,
-    risotto,
-    carbonara,
     makaron_z_pesto,
-    kaszki_dzieciece,
     nalesniki,
+    owsianka_z_bakaliami,
     puree_z_warzywami,
-    buraki_na_ostro
+    racuchy_z_jablkami,
+    risotto,
+    spaghetti_bolognese,
+    spaghetti_carbonara,
+    tosty_francuskie,
+    twarog_ze_smietana,
   ];
 
   final String name;

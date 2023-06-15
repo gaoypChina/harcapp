@@ -70,7 +70,7 @@ class IndivCompCompetedTaskRequestWidgetState extends State<IndivCompCompetedTas
 
               TitleShortcutRowWidget(
                 leading: IconButton(
-                  icon: const Icon(MdiIcons.arrowLeft),
+                  icon: Icon(MdiIcons.arrowLeft),
                   onPressed: () => Navigator.pop(context),
                 ),
                 trailing: const SizedBox(width: Dimen.ICON_FOOTPRINT),

@@ -28,7 +28,7 @@ class CircleWidget extends StatelessWidget{
         Row(
           children: [
             const SizedBox(width: Dimen.ICON_MARG),
-            const Icon(MdiIcons.clockAlertOutline, color: Colors.red),
+            Icon(MdiIcons.clockAlertOutline, color: Colors.red),
             const SizedBox(width: Dimen.ICON_MARG),
             Text(
               '${circle.awaitingCount}',

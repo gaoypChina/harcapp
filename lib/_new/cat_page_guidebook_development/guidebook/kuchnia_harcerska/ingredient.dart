@@ -44,10 +44,10 @@ class IngredientWidget extends StatelessWidget{
     return Row(
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.all(Dimen.ICON_MARG),
-          child: SvgPicture.asset(ingredient.product.fileName, width: 24, height: 24,),
+          padding: const EdgeInsets.all(Dimen.ICON_MARG),
+          child: SvgPicture.asset(ingredient.product.fileName, width: 24, height: 24),
         ),
-        Text('${ingredient.product.name}', style: AppTextStyle(fontWeight: weight.halfBold, fontSize: Dimen.TEXT_SIZE_BIG)),
+        Text(ingredient.product.name, style: AppTextStyle(fontWeight: weight.halfBold, fontSize: Dimen.TEXT_SIZE_BIG)),
         Expanded(child: Container()),
         Text(' $amountStr ${UnitManager.unitName(showUnit)}', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG),)
 

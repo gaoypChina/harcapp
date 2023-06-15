@@ -77,7 +77,7 @@ class MarkerEditorPageState extends State<MarkerEditorPage> with TickerProviderS
 
               actions: [
                 IconButton(
-                  icon: const Icon(MdiIcons.check),
+                  icon: Icon(MdiIcons.check),
                   onPressed: (){
 
                     PositionProvider positionProv = PositionProvider.of(context);

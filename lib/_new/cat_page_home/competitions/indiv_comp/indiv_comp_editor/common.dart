@@ -25,7 +25,7 @@ class LeaveCompButton extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) => ListTile(
-    leading: const Icon(MdiIcons.exitToApp),
+    leading: Icon(MdiIcons.exitToApp),
     title: Text(
       'Opuść współzawodnictwo',
       style: AppTextStyle(),

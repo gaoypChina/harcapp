@@ -1097,11 +1097,11 @@ RankZHRDData rankZhrHarcD4Data = RankZHRDData.from(
     umiejetnosci: null,
     doswiadczenie: null,
     catData: [
-      const RankCatData(
+      RankCatData(
         title: 'Rozwój',
         icon: RankData.iconCatRozwoj,
         groupData: [
-          RankGroupData(
+          const RankGroupData(
               title: 'Idea',
               taskData: [
                 RankTaskData(text:
@@ -1145,7 +1145,7 @@ RankZHRDData rankZhrHarcD4Data = RankZHRDData.from(
               ]
           ),
 
-          RankGroupData(
+          const RankGroupData(
             title: _GROUP_TITLE_ROZWOJ_INTELEKTUALNY,
             taskData: [
               RankTaskData(text:
@@ -1160,7 +1160,7 @@ RankZHRDData rankZhrHarcD4Data = RankZHRDData.from(
             ],
           ),
 
-          RankGroupData(
+          const RankGroupData(
             title: _GROUP_TITLE_ROZWOJ_FIZYCZNY,
             taskData: [
               RankTaskData(text:
@@ -1170,7 +1170,7 @@ RankZHRDData rankZhrHarcD4Data = RankZHRDData.from(
             ],
           ),
 
-          RankGroupData(
+          const RankGroupData(
             title: _GROUP_TITLE_ROZWOJ_WSPOLNOTA,
             taskData: [
               RankTaskData(text:
@@ -1241,11 +1241,11 @@ RankZHRDData rankZhrHarcD4SData = RankZHRDData.from(
     umiejetnosci: null,
     doswiadczenie: null,
     catData: [
-      const RankCatData(
+      RankCatData(
         title: 'Rozwój',
         icon: RankData.iconCatRozwoj,
         groupData: [
-          RankGroupData(
+          const RankGroupData(
               title: 'Idea',
               taskData: [
                 RankTaskData(text:
@@ -1265,7 +1265,7 @@ RankZHRDData rankZhrHarcD4SData = RankZHRDData.from(
               ]
           ),
 
-          RankGroupData(
+          const RankGroupData(
               title: 'Duchowy',
               taskData: [
                 RankTaskData(text:
@@ -1287,7 +1287,7 @@ RankZHRDData rankZhrHarcD4SData = RankZHRDData.from(
               ]
           ),
 
-          RankGroupData(
+          const RankGroupData(
               title: _GROUP_TITLE_ROZWOJ_SPOL_PATR_OBYW,
               taskData: [
                 RankTaskData(text:
@@ -1306,7 +1306,7 @@ RankZHRDData rankZhrHarcD4SData = RankZHRDData.from(
               ]
           ),
 
-          RankGroupData(
+          const RankGroupData(
               title: 'Odkrywanie swojego powołania',
               taskData: [
                 RankTaskData(text:
@@ -1328,7 +1328,7 @@ RankZHRDData rankZhrHarcD4SData = RankZHRDData.from(
               ]
           ),
 
-          RankGroupData(
+          const RankGroupData(
               title: _GROUP_TITLE_ROZWOJ_INTELEKTUALNY,
               taskData: [
                 RankTaskData(text:
@@ -1343,7 +1343,7 @@ RankZHRDData rankZhrHarcD4SData = RankZHRDData.from(
               ]
           ),
 
-          RankGroupData(
+          const RankGroupData(
               title: _GROUP_TITLE_ROZWOJ_FIZYCZNY,
               taskData: [
                 RankTaskData(text:
@@ -1357,7 +1357,7 @@ RankZHRDData rankZhrHarcD4SData = RankZHRDData.from(
               ]
           ),
 
-          RankGroupData(
+          const RankGroupData(
               title: _GROUP_TITLE_ROZWOJ_WSPOLNOTA,
               taskData: [
                 RankTaskData(text:
@@ -1375,7 +1375,7 @@ RankZHRDData rankZhrHarcD4SData = RankZHRDData.from(
                 ),
               ]
           ),
-          RankGroupData(
+          const RankGroupData(
               title: _GROUP_TITLE_WIEDZA_HARCERSKA,
               taskData: [
                 RankTaskData(text:
@@ -1385,7 +1385,7 @@ RankZHRDData rankZhrHarcD4SData = RankZHRDData.from(
               ]
           ),
 
-          RankGroupData(
+          const RankGroupData(
               title: 'Umiejętności',
               taskData: [
                 RankTaskData(text:
@@ -1407,7 +1407,7 @@ RankZHRDData rankZhrHarcD4SData = RankZHRDData.from(
               ]
           ),
 
-          RankGroupData(
+          const RankGroupData(
               title: 'Doświadczenie',
               taskData: [
                 RankTaskData(text:
@@ -1456,11 +1456,11 @@ RankZHRDData rankZhrHarcD5Data = RankZHRDData.from(
     umiejetnosci: null,
     doswiadczenie: null,
     catData: [
-      const RankCatData(
+      RankCatData(
         title: 'Rozwój',
         icon: RankData.iconCatRozwoj,
         groupData: [
-          RankGroupData(
+          const RankGroupData(
               title: 'Rozwój duchowy',
               taskData: [
                 RankTaskData(text:
@@ -1480,7 +1480,7 @@ RankZHRDData rankZhrHarcD5Data = RankZHRDData.from(
               ]
           ),
 
-          RankGroupData(
+          const RankGroupData(
               title: _GROUP_TITLE_ROZWOJ_SPOL_PATR_OBYW,
               taskData: [
                 RankTaskData(text:
@@ -1498,7 +1498,7 @@ RankZHRDData rankZhrHarcD5Data = RankZHRDData.from(
               ]
           ),
 
-          RankGroupData(
+          const RankGroupData(
               title: 'Odkrywanie swojego powołania',
               taskData: [
                 RankTaskData(text:
@@ -1513,7 +1513,7 @@ RankZHRDData rankZhrHarcD5Data = RankZHRDData.from(
               ]
           ),
 
-          RankGroupData(
+          const RankGroupData(
               title: _GROUP_TITLE_ROZWOJ_INTELEKTUALNY,
               taskData: [
                 RankTaskData(text:
@@ -1524,7 +1524,7 @@ RankZHRDData rankZhrHarcD5Data = RankZHRDData.from(
               ]
           ),
 
-          RankGroupData(
+          const RankGroupData(
               title: _GROUP_TITLE_ROZWOJ_FIZYCZNY,
               taskData: [
                 RankTaskData(text:
@@ -1534,7 +1534,7 @@ RankZHRDData rankZhrHarcD5Data = RankZHRDData.from(
               ]
           ),
 
-          RankGroupData(
+          const RankGroupData(
               title: _GROUP_TITLE_ROZWOJ_WSPOLNOTA,
               taskData: [
                 RankTaskData(text:
@@ -1553,7 +1553,7 @@ RankZHRDData rankZhrHarcD5Data = RankZHRDData.from(
               ]
           ),
 
-          RankGroupData(
+          const RankGroupData(
               title: 'Wiedza, umiejętności i doświadczenie harcerskie.',
               taskData: [
                 RankTaskData(text:

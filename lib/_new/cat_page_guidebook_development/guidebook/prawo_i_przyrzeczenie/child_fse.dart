@@ -103,18 +103,18 @@ class ChildFSEState extends State<ChildFSE> with TickerProviderStateMixin{
             children: [
               ListView(
                 physics: const BouncingScrollPhysics(),
-                children: const <Widget>[
+                children: [
 
-                  SizedBox(height: Dimen.SIDE_MARG),
+                  const SizedBox(height: Dimen.SIDE_MARG),
 
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
                     child: PrzyrzeczenieItem(ppz_przyrz_fse_title, ppz_przyrz_fse_content),
                   ),
 
-                  SizedBox(height: Dimen.SIDE_MARG),
+                  const SizedBox(height: Dimen.SIDE_MARG),
 
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
                     child: PrzyrzeczenieItem(
                       'Obietnica wilczka',
@@ -122,9 +122,9 @@ class ChildFSEState extends State<ChildFSE> with TickerProviderStateMixin{
                     ),
                   ),
 
-                  SizedBox(height: Dimen.SIDE_MARG),
+                  const SizedBox(height: Dimen.SIDE_MARG),
 
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
                     child: PrzyrzeczenieItem(
                         'Dewiza wilczków',
@@ -132,10 +132,10 @@ class ChildFSEState extends State<ChildFSE> with TickerProviderStateMixin{
                     ),
                   ),
 
-                  SizedBox(height: Dimen.SIDE_MARG),
-                  SizedBox(height: Dimen.LIST_SEP_MARG),
+                  const SizedBox(height: Dimen.SIDE_MARG),
+                  const SizedBox(height: Dimen.LIST_SEP_MARG),
 
-                  TitleShortcutRowWidget(title: 'Prawo wilczka'),
+                  const TitleShortcutRowWidget(title: 'Prawo wilczka'),
 
                   PrawoItem(1, MdiIcons.accountSwitch, ppz1_fse),
                   PrawoItem(2, MdiIcons.radar, ppz2_fse),
@@ -148,16 +148,16 @@ class ChildFSEState extends State<ChildFSE> with TickerProviderStateMixin{
 
               ListView(
                 physics: const BouncingScrollPhysics(),
-                children: const <Widget>[
+                children: [
 
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.all(Dimen.SIDE_MARG),
                     child: PrzyrzeczenieItem(pph_przyrz_title, pph_przyrz_fse_content),
                   ),
 
-                  SizedBox(height: Dimen.LIST_SEP_MARG),
+                  const SizedBox(height: Dimen.LIST_SEP_MARG),
 
-                  TitleShortcutRowWidget(title: 'Prawo harcerskie'),
+                  const TitleShortcutRowWidget(title: 'Prawo harcerskie'),
 
                   PrawoItem(1, MdiIcons.medal, pph1_fse_c),
                   PrawoItem(2, MdiIcons.accountTie, pph2_fse_c),
@@ -174,16 +174,16 @@ class ChildFSEState extends State<ChildFSE> with TickerProviderStateMixin{
 
               ListView(
                 physics: const BouncingScrollPhysics(),
-                children: const <Widget>[
+                children: [
 
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.all(Dimen.SIDE_MARG),
                     child: PrzyrzeczenieItem(pph_przyrz_title, pph_przyrz_fse_content),
                   ),
 
-                  SizedBox(height: Dimen.LIST_SEP_MARG),
+                  const SizedBox(height: Dimen.LIST_SEP_MARG),
 
-                  TitleShortcutRowWidget(title: 'Prawo harcerskie'),
+                  const TitleShortcutRowWidget(title: 'Prawo harcerskie'),
 
                   PrawoItem(1, MdiIcons.medal, pph1_fse_d),
                   PrawoItem(2, MdiIcons.accountTie, pph2_fse_d),

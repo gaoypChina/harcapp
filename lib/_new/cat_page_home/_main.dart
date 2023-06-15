@@ -174,7 +174,7 @@ class CatPageHomeState extends State<CatPageHome> with AfterLayoutMixin, TickerP
                           Tab(
                               child: Row(
                                 children: [
-                                  const Icon(MdiIcons.newspaperVariantOutline),
+                                  Icon(MdiIcons.newspaperVariantOutline),
                                   const SizedBox(width: Dimen.ICON_MARG),
                                   Text('Potok', style: AppTextStyle(fontWeight: weight.halfBold))
                                 ],
@@ -183,7 +183,7 @@ class CatPageHomeState extends State<CatPageHome> with AfterLayoutMixin, TickerP
                           Tab(
                               child: Row(
                                 children: [
-                                  const Icon(Community.icon),
+                                  Icon(Community.icon),
                                   const SizedBox(width: Dimen.ICON_MARG),
                                   Text('Środowiska', style: AppTextStyle(fontWeight: weight.halfBold))
                                 ],
@@ -192,7 +192,7 @@ class CatPageHomeState extends State<CatPageHome> with AfterLayoutMixin, TickerP
                           Tab(
                               child: Row(
                                 children: [
-                                  const Icon(MdiIcons.trophyVariantOutline),
+                                  Icon(MdiIcons.trophyVariantOutline),
                                   const SizedBox(width: Dimen.ICON_MARG),
                                   Text('Współzawodnictwa', style: AppTextStyle(fontWeight: weight.halfBold))
                                 ],
@@ -212,7 +212,7 @@ class CatPageHomeState extends State<CatPageHome> with AfterLayoutMixin, TickerP
                             ),
                           ),
                           child: IconButton(
-                            icon: const Icon(MdiIcons.plus),
+                            icon: Icon(MdiIcons.plus),
                             onPressed: (){
                               if(tabController.index == 0)
                                 return;
@@ -452,7 +452,7 @@ class NotLoggedInWidgetState extends State<NotLoggedInWidget>{
                   padding: const EdgeInsets.all(Dimen.SIDE_MARG),
                   child: Row(
                     children: [
-                      const Icon(MdiIcons.accountCircleOutline, size: 60),
+                      Icon(MdiIcons.accountCircleOutline, size: 60),
                       const SizedBox(width: 20),
                       Text(
                         'Zaloguj się\nlub ogarnij konto',

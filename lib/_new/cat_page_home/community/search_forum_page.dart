@@ -170,7 +170,7 @@ class SearchForumPageState extends State<SearchForumPage>{
               floating: true,
               actions: [
                 IconButton(
-                  icon: const Icon(MdiIcons.sortBoolAscending),
+                  icon: Icon(MdiIcons.sortBoolAscending),
                   onPressed: () => showScrollBottomSheet(
                     context: context,
                     builder: (context) => SortBottomSheet(
@@ -204,7 +204,7 @@ class SearchForumPageState extends State<SearchForumPage>{
                   ),
                 ):
                 IconButton(
-                  icon: const Icon(MdiIcons.magnify),
+                  icon: Icon(MdiIcons.magnify),
                   color: initProcessing?iconDisab_(context):iconEnab_(context),
                   onPressed: initProcessing?null:(){
                     runNewSearch();
@@ -216,7 +216,7 @@ class SearchForumPageState extends State<SearchForumPage>{
             ])),
 
             initProcessing?
-            const SliverFillRemaining(
+            SliverFillRemaining(
               hasScrollBody: false,
               child: EmptyMessageWidget(
                 icon: MdiIcons.magnify,
@@ -224,7 +224,7 @@ class SearchForumPageState extends State<SearchForumPage>{
               ),
             ):
             searchedCommunities == null?
-              const SliverFillRemaining(
+              SliverFillRemaining(
                 hasScrollBody: false,
                 child: EmptyMessageWidget(
                   icon: MdiIcons.magnify,
@@ -232,7 +232,7 @@ class SearchForumPageState extends State<SearchForumPage>{
                 ),
               ):
             searchedCommunities!.isEmpty?
-              const SliverFillRemaining(
+              SliverFillRemaining(
                 hasScrollBody: false,
                 child: EmptyMessageWidget(
                   icon: Forum.iconOff,
@@ -308,7 +308,7 @@ class SortBottomSheet extends StatelessWidget{
       children: [
 
         ListTile(
-          leading: const Icon(MdiIcons.thumbUpOutline),
+          leading: Icon(MdiIcons.thumbUpOutline),
           title: Text('Od najczęściej lubianych', style: AppTextStyle()),
           selected: sort == ForumSearchSort.likes,
           selectedColor: iconEnab_(context),
@@ -323,7 +323,7 @@ class SortBottomSheet extends StatelessWidget{
         const SizedBox(height: Dimen.defMarg),
 
         ListTile(
-          leading: const Icon(MdiIcons.eyeOutline),
+          leading: Icon(MdiIcons.eyeOutline),
           title: Text('Od najczęściej obserwowanych', style: AppTextStyle()),
           selected: sort == ForumSearchSort.follows,
           selectedColor: iconEnab_(context),
