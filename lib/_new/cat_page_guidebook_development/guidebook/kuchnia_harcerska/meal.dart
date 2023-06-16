@@ -101,6 +101,44 @@ class Meal{
       water: false,
       fire: true);
 
+  static Meal grochowka_wojskowa = Meal.create("Grochówka wojskowa",
+      [
+        const Ingredient(Product.groch, 500, Unit.g),
+        const Ingredient(Product.boczek_wedzony, 300, Unit.g),
+        const Ingredient(Product.kielbasa, 100, Unit.g),
+        const Ingredient(Product.marchew, 1, Unit.item),
+        const Ingredient(Product.pietruszka_korzen, 1, Unit.item),
+        const Ingredient(Product.seler, 100, Unit.g),
+        const Ingredient(Product.cebula, 1, Unit.item),
+        const Ingredient(Product.czosnek, 2, Unit.clove),
+        const Ingredient(Product.ziemniaki, 3, Unit.item),
+        const Ingredient(Product.smietana, 50, Unit.g),
+        const Ingredient(Product.sol, 0.1, Unit.spoonS),
+        const Ingredient(Product.pieprz, 0.4, Unit.spoonS),
+        const Ingredient(Product.lisc_laurowy, 1, Unit.item),
+        const Ingredient(Product.ziele_angielskie, 1, Unit.spoonS),
+        const Ingredient(Product.majeranek, 1, Unit.spoonS),
+      ],
+      {
+        Equipment.GARNEK:1,
+        Equipment.LYZKA_DO_MIESZANIA:1,
+        Equipment.NOZ:1,
+        Equipment.TARKA:1,
+        Equipment.DESKA_DO_KROJENIA:1,
+      },
+      [
+        'Zamoczyć groch na kilka godzin',
+        'Do grochu dolać wody, ziele angielskie, listek laurowy, kminek, majeranek, sól, pieprz i gotować.',
+        'Zetrzeć marchewkę, pietruszkę i seler i dodać do garnka.',
+        'Na patelni podsmażyć kiełbasę, boczek, cebulę.',
+        'Gdy cebula się zezłoci, całość z patelni dodać do garnka.',
+        'Ziemniaki pokroić w kostkę i dodać do garnka.',
+        'Gdy ziemniaki zmiękną, dodać śmietanę.',
+        'Można przyprawić solem, pieprzem i majerankiem.'
+      ],
+      water: true,
+      fire: true);
+
   static Meal jajecznica = Meal.create(
       'Jajecznica',
       const [
@@ -496,12 +534,11 @@ class Meal{
       tags: [Meal.TAG_JARSKIE, Meal.TAG_JEDNOGARNKOWE],
   );
 
-
-
   static List<Meal> all = [
     bigos_cyganski,
     buraki_na_ostro,
     chili_con_carne,
+    grochowka_wojskowa,
     jajecznica,
     kaszki_dzieciece,
     kotlety_sojowe_z_ryzem,
