@@ -66,7 +66,7 @@ class ApiHarcMap{
   }) async => await API.sendRequest(
     withToken: !publicOnly,
     requestSender: (Dio dio) => dio.get(
-        '${API.baseUrl}api/harcMap${publicOnly?'/public':''}',
+        '${API.baseUrl}api/harcMap${publicOnly?'/public':'/scoped'}',
         queryParameters: {
           'northLat': northLat,
           'southLat': southLat,
