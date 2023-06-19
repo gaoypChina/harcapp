@@ -130,7 +130,7 @@ class KuchniaHarcerskaFragmentState extends State<KuchniaHarcerskaFragment> with
         ),
       ),
       floatingActionButton: FloatingActionButton(
-          child: Icon(MdiIcons.formatListBulleted, color: Colors.black),
+          child: Icon(MdiIcons.formatListBulleted, color: background_(context)),
           onPressed: () => pushPage(context, builder: (context) => const ProductsPage())
       ),
     ),

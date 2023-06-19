@@ -53,4 +53,10 @@ List<Gaweda> allGawedy = [
       titleColor: (context) => Colors.black,
       graphicalResource: const GraphicalResource('gaweda_o_pastuszku_i_wilku.webp', 'Freepik (freepik)')
   ),
+  Gaweda(
+      title: 'O kulcie cargo',
+      fileName: 'gaweda_o_kulcie_cargo',
+      titleColor: (context) => Colors.black,
+      graphicalResource: const GraphicalResource('gaweda_o_kulcie_cargo.webp', '?')
+  )
 ];

@@ -117,7 +117,7 @@ class MealWidgetState extends State<MealWidget>{
       if(meal.tags.isNotEmpty)
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          child: Row(children: meal.tags.map<Widget>((tag) => Tag(tag)).toList()),
+          child: Row(children: meal.tags.map<Widget>((tag) => Tag(tag, elevation: 0)).toList()),
         ),
       if(meal.tags.isNotEmpty)
         const SizedBox(height: 28),

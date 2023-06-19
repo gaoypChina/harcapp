@@ -3,13 +3,13 @@ import 'package:flutter_svg/svg.dart';
 import 'package:harcapp/_common_classes/sliver_child_builder_separated_delegate.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_common_widgets/search_field.dart';
-import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
+import 'package:harcapp_core_tags/tag_layout.dart';
 
 import 'meal.dart';
 
@@ -112,31 +112,45 @@ class SearchItem extends StatelessWidget{
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
 
-          TitleShortcutRowWidget(title: meal.name, textAlign: TextAlign.start),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+            child: TitleShortcutRowWidget(title: meal.name, textAlign: TextAlign.left),
+          ),
 
           if(meal.tags.isNotEmpty)
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              physics: const BouncingScrollPhysics(),
-              padding: const EdgeInsets.only(left: Dimen.defMarg, right: Dimen.defMarg),
-              child: Row(
-                children: meal.tags.map((tag) => Padding(
-                  padding: const EdgeInsets.all(Dimen.defMarg),
-                  child: Text(tag, style: AppTextStyle(fontWeight: weight.halfBold)),
-                )).toList(),
+            const SizedBox(height: Dimen.defMarg),
+
+          if(meal.tags.isNotEmpty)
+            SizedBox(
+              height: Tag.height(),
+              child: ListView.separated(
+                physics: const BouncingScrollPhysics(),
+                padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) => Tag(meal.tags[index], elevation: 0, color: background_(context)),
+                separatorBuilder: (context, index) => const SizedBox(width: Dimen.SIDE_MARG),
+                itemCount: meal.tags.length
               ),
             ),
 
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            physics: const BouncingScrollPhysics(),
-            child: Row(
-              children: meal.ingredients.map((ingr) => Padding(
-                padding: const EdgeInsets.all(Dimen.ICON_MARG),
-                child: SvgPicture.asset(ingr.product.fileName, width: 24, height: 24,),
-              )).toList(),
+          const SizedBox(height: Dimen.SIDE_MARG),
+
+          SizedBox(
+            height: Dimen.ICON_SIZE,
+            child: ListView.separated(
+              physics: const BouncingScrollPhysics(),
+              padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) => SvgPicture.asset(
+                meal.ingredients[index].product.fileName,
+                width: Dimen.ICON_SIZE, height: Dimen.ICON_SIZE
+              ),
+              separatorBuilder: (context, index) => const SizedBox(width: Dimen.SIDE_MARG),
+              itemCount: meal.ingredients.length
             ),
-          )
+          ),
+
+          const SizedBox(height: Dimen.SIDE_MARG),
 
         ],
       )

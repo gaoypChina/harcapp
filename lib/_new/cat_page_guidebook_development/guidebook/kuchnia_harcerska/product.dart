@@ -52,6 +52,7 @@ class Product{
   static const Product cukier_puder = Product('Cukier puder', 'kuch_icing_sugar', 405, 0, 99.8, 0, [], [], unitManager: UnitManager(defUnit: Unit.ml, gInMl: 1.2, mlInSpoonS: UnitManager.ML_IN_SPOON_S, mlInSpoonB: UnitManager.ML_IN_SPOON_B));
   static const Product cukierki_krowki = Product('Cukierki krówki', 'kuch_candy', 421, 4.3, 76.1, 10.7, [], []);
   static const Product cukinia = Product('Cukinia', 'kuch_courgette', 15, 1.2, 3.2, 0.1, ['E', 'K'], []);
+  static const Product curry = Product('Curry', 'kuch_curry', 325, 14.3, 56, 13, ['B1', 'B2', 'B3', 'B6', 'B12', 'C', 'D', 'E'], [Subst.Zn, Subst.P, Subst.Mg, Subst.Cu, Subst.K, Subst.Se, Subst.Na, Subst.Ca, Subst.Fe]);
   static const Product cynamon = Product('Cynamon', 'kuch_cinnamon', 247, 0.8, 9.5, 0.3, ['K'], [Subst.Fe, Subst.Ca, Subst.Mg], unitManager: UnitManager(defUnit: Unit.g, gInMl: .2, mlInSpoonS: UnitManager.ML_IN_SPOON_S, mlInSpoonB: UnitManager.ML_IN_SPOON_B));
   static const Product cytryna = Product('Cytryna', 'kuch_lemon', 36, 0.8, 9.5, 0.3, ['C'], [], unitManager: UnitManager(defUnit: Unit.item, gInItem: 80));
   static const Product czekolada_biala = Product('Czekolada biała', 'kuch_chocolate_white', 530, 7.7, 51, 38.4, [], []);
@@ -59,9 +60,9 @@ class Product{
   static const Product czekolada_mleczna = Product('Czekolada mleczna', 'kuch_chocolate', 549, 9.8, 54.7, 32.8, [], []);
   static const Product czosnek = Product('Czosnek', 'kuch_garlic', 146, 6.4, 32.6, 0.5, ['B1', 'B2', 'B3', 'C'], [Subst.S, Subst.K], unitManager: UnitManager(defUnit: Unit.clove, gInClove: 5));
   static const Product drozdze = Product('Drożdże', 'kuch_yeast', 92, 11, 7, 2, [], [Subst.Bl_]);
-  //public static final Product cwikla = Product('Ćwikła', 0, 0, 41f, 1.6f, 10.2f, 0.1f, ['B9', 'E', 'K'}, [Subst.P, K, Mn]});
   static const Product daktyle_suszone = Product('Daktyle suszone', 'kuch_dactyl', 277, 2, 74, 0.4, ['B1'], [Subst.Bl_, Subst.Fe, Subst.Ni_]);
   static const Product fasola_biala = Product('Fasola biała', 'kuch_beans', 288, 21.4, 61.6, 1.6, ['B1', 'B2', 'B6', 'E', 'K'], [Subst.K]);
+  static const Product fasola_czerwona = Product('Fasola czerwona', 'kuch_red_beans', 347, 24, 60, 0.8, ['B1'], [Subst.Fe, Subst.Mn, Subst.Cu, Subst.Kf_, Subst.P, Subst.Ca, Subst.K, Subst.Bl_]);
   static const Product figi_suszone = Product('Figi suszone', 'kuch_fig', 290, 3.6, 78, 1.2, ['B1'], [Subst.Ca, Subst.Bl_, Subst.Pe_, Subst.K]);
   static const Product grejpfrut = Product('Grejpfrut', 'kuch_grejpfrut', 36, 0.6, 9.8, 0.2, ['C'], [Subst.Bl_]);
   static const Product groch = Product('Groch', 'kuch_beans', 293, 23.8, 60.2, 1.4, ['B1', 'B2', 'B3', 'B6', 'E', 'H'], [Subst.K]);
@@ -84,7 +85,7 @@ class Product{
   static const Product kasza_manna = Product('Kasza manna', 'kuch_groats_manna', 34.8, 8.7, 76.7, 1.3, ['B1', 'B2', 'B6'], [Subst.Bl_, Subst.P, Subst.Fe, Subst.Cu], unitManager: UnitManager(waterExpandFactor: 2.5));
   static const Product kaszka_dziecieca = Product('Kaszka dziecięca', 'kuch_baby_food', 427, 12, 10, 72, [], [], unitManager: UnitManager(waterExpandFactor: 2.5));
   static const Product kawa = Product('Kawa', 'kuch_coffee', 2, 0.2, 0.3, 0, [], []);
-  static const Product ketchup = Product('Ketchup', 'kuch_ketchup', 93, 1.8, 22.2, 1, [], []);
+  static const Product ketchup = Product('Ketchup', 'kuch_ketchup', 93, 1.8, 22.2, 1, [], [], unitManager: UnitManager(defUnit: Unit.ml, gInMl: 1.1, mlInSpoonS: UnitManager.ML_IN_SPOON_S, mlInSpoonB: UnitManager.ML_IN_SPOON_B));
   static const Product kielbasa = Product('Kiełbasa', 'kuch_sausage_1', 323, 25.6, 0, 24.8, [], []);
   static const Product kielbasa_krakowska = Product('Kiełbasa krakowska', 'kuch_sausage_2', 323, 25.6, 0, 24.8, [], []);
   static const Product kielbasa_parowkowa = Product('Kiełbasa parówkowa', 'kuch_sausage_3', 323, 11, 0, 31.5, [], []);
@@ -92,19 +93,21 @@ class Product{
   static const Product koncentrat_pomidorowy = Product('Koncentrat pomidorowy', 'kuch_tomato_sauce', 92, 5.6, 16.7, 1.5, ['C', 'E', 'B1', 'B2', 'B3', 'B6', 'K'], [], unitManager: UnitManager(defUnit: Unit.ml, gInMl: 1.2, mlInSpoonS: UnitManager.ML_IN_SPOON_S, mlInSpoonB: UnitManager.ML_IN_SPOON_B));
   static const Product kukurydza_puszka = Product('Kukurydza puszka', 'kuch_corn', 110, 3.7, 23.4, 1.5, ['B1', 'B3', 'B6', 'E'], []);
   static const Product lisc_laurowy = Product('Liść laurowy', 'kuch_bay_leaf', 313, 7.6, 75, 8.4, ['A', 'B2', 'B6', 'C'], [Subst.Kf_, Subst.Mn, Subst.Fe, Subst.Ca, Subst.Zn, Subst.Cu, Subst.Mg, Subst.Bl_], unitManager: UnitManager(defUnit: Unit.g, gInItem: 1));
-
-  static const Product majeranek = Product('Majeranek', 'kuch_marjoram', 271, 60, 12.6, 7, ['A', 'B', 'C', 'K'], [Subst.Ca, Subst.Fe, Subst.Mg, Subst.K, Subst.P]);
+  static const Product majeranek = Product('Majeranek', 'kuch_marjoram', 271, 60, 12.6, 7, ['A', 'B', 'C', 'K'], [Subst.Ca, Subst.Fe, Subst.Mg, Subst.K, Subst.P], unitManager: UnitManager(defUnit: Unit.g, gInMl: .2, mlInSpoonS: UnitManager.ML_IN_SPOON_S, mlInSpoonB: UnitManager.ML_IN_SPOON_B));
   static const Product makaron = Product('Makaron', 'kuch_pasta', 363, 10, 78.5, 1.6, ['B1', 'B3', 'B6'], [], unitManager: UnitManager(waterExpandFactor: 2.1));
+  static const Product makaron_swiderki = Product('Makaron świderki', 'kuch_pasta_swiderki', 363, 10, 78.5, 1.6, ['B1', 'B3', 'B6'], [], unitManager: UnitManager(waterExpandFactor: 2.1));
   static const Product maliny = Product('Maliny', 'kuch_raspberry', 29, 1.3, 12, 0.3, ['B2', 'B9'], [Subst.Bl_, Subst.Zn, Subst.P]);
   static const Product mandarynki = Product('Mandarynki', 'kuch_tangerine', 42, 0.6, 11.2, 0.2, ['A', 'B1', 'B9', 'C'], [Subst.Bl_, Subst.Bk_]);
   static const Product marchew = Product('Marchew', 'kuch_carrot', 27, 1, 8.7, 0.2, ['A', 'B6', 'E', 'K'], [Subst.Ca, Subst.K, Subst.Bk_], unitManager: UnitManager(gInItem: 60));
   static const Product margaryna = Product('Margaryna', 'kuch_butter', 710, 0.3, 0.4, 80, [], []);
   static const Product maslo_ekstra = Product('Masło ekstra', 'kuch_butter', 735, 0.7, 0.7, 82.5, ['A', 'B12', 'C', 'D', 'E'], []);
-  static const Product maka_przenna = Product('Mąka pszenna', 'kuch_flour', 35, 1, 0.6, 7.5, [], []);
+  static const Product maka_przenna = Product('Mąka pszenna', 'kuch_flour', 364, 10, 76, 1, [], [], unitManager: UnitManager(defUnit: Unit.g, gInMl: 0.77, mlInSpoonS: UnitManager.ML_IN_SPOON_S, mlInSpoonB: UnitManager.ML_IN_SPOON_B));
+  static const Product maka_ziemniaczana = Product('Mąka ziemniaczana', 'kuch_flour', 357, 7, 83, 0, [], []);
   static const Product melon = Product('Melon', 'kuch_melon', 36, 0.9, 8.4, 0.3, ['A', 'B3', 'B6', 'C'], [Subst.K, Subst.Bk_]);
   static const Product mielonka = Product('Mielonka', 'kuch_canned_food', 171, 12.8, 3.7, 11.7, ['B6', 'B12', 'D', 'E', 'K'], []);
   static const Product mieso_mielone_wieprzowe = Product('Mięso mielone (wieprzowe)', 'kuch_minced_meat', 263, 16.8, 0, 16.0, ['B1', 'B2', 'B3', 'E', 'K'], [Subst.Ca, Subst.Fe, Subst.K, Subst.Mg, Subst.P]);
   static const Product migdaly = Product('Migdały', 'kuch_almond', 572, 20, 20.5, 52, ['B2', 'E'], [Subst.Bl_, Subst.K]);
+  static const Product miod = Product('Miód', 'kuch_honey', 304, 0, 82, 0, ['B', 'C'], [Subst.K, Subst.P, Subst.Na, Subst.Ca, Subst.Mg], unitManager: UnitManager(defUnit: Unit.ml, gInMl: 1.4, mlInSpoonS: UnitManager.ML_IN_SPOON_S, mlInSpoonB: UnitManager.ML_IN_SPOON_B));
   static const Product mleko_spozywcze_1_5_pro = Product('Mleko spożywcze 1.5%', 'kuch_milk', 47, 3.4, 5, 1.5, ['A', 'B2', 'B6', 'B12', 'D', 'E', 'K', 'H'], [], unitManager: UnitManager(defUnit: Unit.ml, gInMl: 0.92));
   static const Product mleko_spozywcze_2_0_pro = Product('Mleko spożywcze 2.0%', 'kuch_milk_2', 51, 3.4, 4.9, 2, ['A', 'B2', 'B6', 'B12', 'D', 'E', 'K', 'H'], [], unitManager: UnitManager(defUnit: Unit.ml, gInMl: 0.92));
   static const Product mleko_spozywcze_3_2_pro = Product('Mleko spożywcze 3.2%', 'kuch_milk_3_2', 61, 3.3, 4.8, 3.2, ['A', 'B2', 'B6', 'B12', 'D', 'E', 'K', 'H'], [], unitManager: UnitManager(defUnit: Unit.ml, gInMl: 0.92));
@@ -113,7 +116,7 @@ class Product{
   static const Product musztarda = Product('Musztarda', 'kuch_mustard', 162, 5.7, 22, 6.4, [], []);
   static const Product natka_pietruszki = Product('Natka pietruszki', 'kuch_parsley', 60, 3.7, 9, 1, ['A', 'B2', 'B6', 'B9', 'C', 'E', 'K'], [Subst.Ca, Subst.Fe, Subst.Mg, Subst.K, Subst.Cu, Subst.Bk_]);
   static const Product nektarynka = Product('Nektarynka', 'kuch_peach', 48, 0.9, 11.8, 0.2, ['E'], [], unitManager: UnitManager(defUnit: Unit.item, gInItem: 115));
-  static const Product ocet = Product('Ocet', 'kuch_vinegar', 20, 0, 5, 0, [], [], unitManager: UnitManager(defUnit: Unit.ml, gInMl: 0.39));
+  static const Product ocet = Product('Ocet', 'kuch_vinegar', 20, 0, 5, 0, [], [], unitManager: UnitManager(defUnit: Unit.ml, gInMl: 0.95, mlInSpoonS: UnitManager.ML_IN_SPOON_S, mlInSpoonB: UnitManager.ML_IN_SPOON_B));
   static const Product olej_rzepakowy = Product('Olej rzepakowy', 'kuch_oil', 900, 0, 0, 100, [], [], unitManager: UnitManager(defUnit: Unit.ml, gInMl: 0.86, mlInSpoonS: UnitManager.ML_IN_SPOON_S, mlInSpoonB: UnitManager.ML_IN_SPOON_B));
   static const Product oliwa_z_oliwek = Product('Oliwa z oliwek', 'kuch_olive_oil', 897, 0, 0.2, 99.6, [], [], unitManager: UnitManager(defUnit: Unit.ml, gInMl: 0.64, mlInSpoonS: UnitManager.ML_IN_SPOON_S, mlInSpoonB: UnitManager.ML_IN_SPOON_B));
   static const Product oliwki = Product('Oliwki', 'kuch_olives', 147, 1.4, 4.1, 13.9, ['A', 'B', 'C', 'E'], []);
@@ -123,6 +126,7 @@ class Product{
   static const Product orzechy_pistacjowe = Product('Orzechy pistacjowe', 'kuch_pistachio', 618, 20.8, 17.5, 51.6, ['B1', 'B5', 'B6', 'E'], []);
   static const Product orzechy_wloskie = Product('Orzechy włoskie', 'kuch_walnut', 679, 16, 18, 60.3, ['B1', 'B5', 'B6', 'E'], []);
   static const Product orzeszki_ziemne = Product('Orzeszki ziemne', 'kuch_peanut', 634, 26, 13.3, 53, ['B1', 'B3', 'B5', 'B6', 'E'], []);
+  static const Product ostra_papryka = Product('Ostra papryka', 'kuch_pepper_spice', 40, 1.9, 9, 0.4, ['A', 'B'], [Subst.Fe, Subst.Mg, Subst.K, Subst.Mn], unitManager: UnitManager(defUnit: Unit.g, gInMl: 0.4, mlInSpoonS: UnitManager.ML_IN_SPOON_S, mlInSpoonB: UnitManager.ML_IN_SPOON_B));
   static const Product paluszki = Product('Paluszki', 'kuch_salty_sticks', 384, 9.9, 75.2, 4.9, [], []);
   static const Product papryka_czerwona = Product('Papryka czerwona', 'kuch_paprika', 35, 1.2, 6.9, 0.3, ['A', 'B6', 'B9', 'C', 'E', 'K'], [Subst.K, Subst.Bk_], unitManager: UnitManager(defUnit: Unit.item, gInItem: 120));
   static const Product parmezan = Product('Ser parmezan', 'kuch_parmezan', 451, 41.5, 0.1, 42, ['A', 'D', 'E', 'K'], [Subst.Ca, Subst.P, Subst.Mg, Subst.Fe, Subst.Zn, Subst.Cu, Subst.K]);
@@ -137,17 +141,21 @@ class Product{
   static const Product pietruszka_korzen = Product('Pietruszka korzeń', 'kuch_horseradish', 83, 2.6, 17.1, 0.5, ['A', 'B1', 'B3', 'B6', 'B9', 'C', 'E'], [Subst.P, Subst.K, Subst.Cu, Subst.Mn], unitManager: UnitManager(defUnit: Unit.g, gInItem: 60));
   static const Product platki_owsiane = Product('Płatki owsiane', 'kuch_cereals', 390, 11.9, 69.3, 7.2, ['B1', 'B9', 'K'], [], unitManager: UnitManager(waterExpandFactor: 3));
   static const Product pomidor = Product('Pomidor', 'kuch_tomato', 29, 0.9, 5.2, 0.5, ['A', 'C', 'E', 'K'], [], unitManager: UnitManager(defUnit: Unit.item, gInItem: 170));
-  static const Product por = Product('Por', 'kuch_leek', 47, 1.7, 9.9, 0.1, ['B6', 'B9', 'C', 'K'], [Subst.Fe, Subst.Mn, Subst.Bk_]);
+  static const Product por = Product('Por', 'kuch_leek', 47, 1.7, 9.9, 0.1, ['B6', 'B9', 'C', 'K'], [Subst.Fe, Subst.Mn, Subst.Bk_], unitManager: UnitManager(defUnit: Unit.item, gInItem: 160));
   static const Product pomarancza = Product('Pomarańcza', 'kuch_orange', 51, 0.9, 11.3, 0.2, ['B1', 'B6', 'B9', 'C'], [Subst.Bl_, Subst.Ca]);
   static const Product pulpa_pomidorowa = Product('Pulpa pomidorowa', 'kuch_tomato_sauce', 29, 0.9, 5.2, 0.5, ['A', 'C', 'E', 'K'], [], unitManager: UnitManager(defUnit: Unit.g));
   static const Product rodzynki = Product('Rodzynki', 'kuch_raisen', 298, 2.3, 71.2, 0.5, ['C', 'E', 'K'], [Subst.Bl_, Subst.Fe, Subst.K]);
   static const Product ryz_bialy = Product('Ryż biały', 'kuch_rice', 349, 6.7, 78.9, 0.7, ['B6', 'E'], [], unitManager: UnitManager(waterExpandFactor: 2.4));
-  static const Product seler = Product('Seler', 'kuch_seler', 17, 1.5, 9.2, 0.3, ['B', 'C', 'E'], [Subst.Ca, Subst.Zn, Subst.K, Subst.Mg, Subst.Fe]);
+  static const Product seler = Product('Seler', 'kuch_celery', 17, 1.5, 9.2, 0.3, ['B', 'C', 'E'], [Subst.Ca, Subst.Zn, Subst.K, Subst.Mg, Subst.Fe]);
+  static const Product ser_feta = Product('Ser feta', 'kuch_feta', 260, 14, 4, 21, ['B2', 'B6', 'B12'], [Subst.Ca, Subst.Na, Subst.P, Subst.Fe]);
+
   static const Product ser_twarogowy_chudy = Product('Ser twarogowy chudy', 'kuch_curd', 98, 19.8, 3.5, 0.5, ['B2', 'E'], []);
   static const Product ser_twarogowy_poltlusty = Product ('Ser twarogowy półtłusty', 'kuch_curd', 132, 18.7, 3.7, 4.7, ['B2', 'E'], []);
   static const Product ser_twarogowy_pelnotlusty = Product('Ser twarogowy pełnotłusty', 'kuch_curd', 176, 17.7, 3.5, 10.1, ['A', 'B2', 'E'], []);
   static const Product ser_zolty = Product('Ser żółty', 'kuch_cheese', 344, 1.4, 26, 26, ['A', 'D', 'E', 'K'], [Subst.Ca, Subst.P, Subst.Mg, Subst.Fe, Subst.Zn, Subst.Cu, Subst.K], unitManager: UnitManager(defUnit: Unit.slice, gInSlice: 14));
   static const Product serek_homogenizowany_waniliowy = Product('Serek homogenizowany waniliowy', 'kuch_cheese_cream', 158, 16.8, 13.3, 4.2, ['B2', 'E'], []);
+  static const Product sliwka = Product('Śliwka', 'kuch_plum', 46, 1, 64, 0, ['A', 'C', 'E', 'B6', 'K'], [Subst.Ca, Subst.K, Subst.P, Subst.Mg, Subst.Fe, Subst.Bl_]);
+  static const Product slodka_papryka = Product('Słodka papryka', 'kuch_pepper_spice', 35, 1.2, 6.9, 0.3, ['A', 'B6', 'B9', 'C', 'E', 'K'], [Subst.K, Subst.Bk_], unitManager: UnitManager(defUnit: Unit.g, gInMl: 0.4, mlInSpoonS: UnitManager.ML_IN_SPOON_S, mlInSpoonB: UnitManager.ML_IN_SPOON_B));
   static const Product slonecznik_ziarno = Product('Słonecznik ziarno', 'kuch_sunflower', 580, 22.5, 12.3, 49, ['B1', 'B9'], []);
   static const Product soja = Product('Soja', 'kuch_soya', 412, 34.3, 19.6, 32.7, [], []);
   static const Product sok_jablkowy_100_pro = Product('Sok jabłkowy 100%', 'kuch_apple_juice', 45, 0.4, 10, 0.4, ['A', 'B6', 'C', 'E', 'K'], [Subst.Bl_, Subst.Fl_], unitManager: UnitManager(defUnit: Unit.ml, gInMl: 1));
@@ -155,38 +163,46 @@ class Product{
   static const Product sos_slodko_kwasny = Product('Sos słodko-kwaśny', 'kuch_sauce', 86, 19.8, 0.7, 0.2, ['B2', 'B6', 'C'], [Subst.Na, Subst.Cu, Subst.Mn], unitManager: UnitManager(defUnit: Unit.ml, gInMl: 1.2));
   static const Product sol = Product('Sól', 'kuch_salt', 0, 0, 0, 0, [], [Subst.Na], unitManager: UnitManager(defUnit: Unit.ml, gInMl: 0.86, mlInSpoonS: UnitManager.ML_IN_SPOON_S));
   static const Product szczypiorek = Product('Szczypiorek', 'kuch_chives', 39, 4.1, 3.9, 0.8, ['A', 'B1', 'B2', 'C'], [Subst.Bk_]);
+  static const Product szpinak = Product('Szpinak', 'kuch_spinach', 23, 2.9, 3.6, 0, ['A', 'C', 'E', 'K'], [Subst.Bl_, Subst.Zn, Subst.Cu, Subst.Fe, ]);
   static const Product szynka_wedzona = Product('Szynka wędzona', 'kuch_ham_leg', 389, 23, 0, 33, ['B3'], [], unitManager: UnitManager(defUnit: Unit.slice, gInSlice: 14));
-  static const Product sledz_w_pomidorach = Product('Śledź w pomidorach', 'kuch_fish_can_red', 177, 13.7, 1.8, 12.8, ['A', 'B2', 'B5', 'B6', 'B12', 'C', 'D'], []);
+  static const Product szynka_wieprzowa = Product('Szynka wieprzowa', 'kuch_ham', 145, 21, 1.5, 6, [], []);
+  static const Product sledz_w_pomidorach = Product('Śledź w pomidorach', 'kuch_białkofish_can_red', 177, 13.7, 1.8, 12.8, ['A', 'B2', 'B5', 'B6', 'B12', 'C', 'D'], []);
   static const Product smietana = Product('Śmietana', 'kuch_cream', 193, 2.9, 2.1, 20, ['A', 'B6', 'B12', 'D'], [Subst.Ca, Subst.Fe, Subst.Mg], unitManager: UnitManager(defUnit: Unit.ml, gInMl: 0.64, mlInSpoonB: UnitManager.ML_IN_SPOON_B));
+  static const Product tortilla_przenna = Product('Tortilla przenna', 'kuch_tortilla', 273, 7, 50, 1, ['B'], [], unitManager: UnitManager(defUnit: Unit.item, gInItem: 60));
   static const Product truskawki = Product('Truskawki', 'kuch_strawberry', 28, 0.7, 7.2, 0.4, ['C', 'B2', 'K'], [Subst.Bl_, Subst.K]);
   static const Product tunczyk_w_oleju = Product('Tuńczyk w oleju', 'kuch_fish_can_yellow', 190, 27.1, 0, 9, ['A', 'B2', 'B5', 'B6', 'B12', 'C', 'D'], []);
   static const Product tymianek = Product('Tymianek', 'kuch_thyme', 101, 5.5, 24, 1.7, ['B', 'A', 'C', 'E', 'K'], [Subst.Mg, Subst.Mn, Subst.Fe, Subst.Se, Subst.Ca, Subst.K], unitManager: UnitManager(defUnit: Unit.g, gInMl: 0.2, mlInSpoonS: UnitManager.ML_IN_SPOON_S, mlInSpoonB: UnitManager.ML_IN_SPOON_B));
-
   static const Product winogrona = Product('Winogrona', 'kuch_grapes', 69, 0.5, 17.6, 0.2, ['A', 'B6', 'C', 'K'], [Subst.Re_]);
-  static const Product ziele_angielskie = Product('Ziele angielskie', 'kuch_allspice', 260, 6, 72.1 , 8.7, ['A', 'C', 'B'], [Subst.Mg, Subst.K, Subst.Fe, Subst.Ca], unitManager: UnitManager(defUnit: Unit.g, gInItem: 100));
+  static const Product ziele_angielskie = Product('Ziele angielskie', 'kuch_allspice', 260, 6, 72.1 , 8.7, ['A', 'C', 'B'], [Subst.Mg, Subst.K, Subst.Fe, Subst.Ca], unitManager: UnitManager(defUnit: Unit.g, gInMl: 0.2, mlInSpoonS: UnitManager.ML_IN_SPOON_S, mlInSpoonB: UnitManager.ML_IN_SPOON_B, gInItem: 100));
   static const Product ziemniaki = Product('Ziemniaki', 'kuch_potatoes', 85, 1.9, 20.5, 0.1, ['B1', 'B2', 'B3', 'B5', 'B6', 'C', 'E', 'K'], [Subst.K], unitManager: UnitManager(defUnit: Unit.g, gInItem: 100));
 
   static const List<Product> all = [
     agrest, ananas, arbuz, baklazan, banan, bazylia, bob, boczek_wedzony,
-    brukselka, bulion, bulka_tarta, burak, cebula, chleb_wiejski, chleb_zytni_pelnoziarnisty,
-    chrupki_kukurydziane, chrzan, coca_cola, cukier, cukier_puder, cukierki_krowki, cukinia, cynamon,
-    cytryna, czekolada_biala, czekolada_gorzka, czekolada_mleczna, czosnek,
-//cwikla,
-    daktyle_suszone, drozdze, fasola_biala, figi_suszone, grejpfrut,
-    groch, groszek_zielony, gruszka, herbatniki, jablko, jagody,
-    jajko, kabanosy, kakao_w_proszku, kapusta_biala, kapusta_czerwona, kapusta_kiszona,
-    kapusta_pekinska, kasza_gryczana, kasza_jaglana, kasza_jeczmienna, kasza_peczak,
-    kasza_manna, kaszka_dziecieca, kawa, ketchup, kielbasa, kielbasa_krakowska, kielbasa_parowkowa, kielbasa_podwawelska,
-    koncentrat_pomidorowy, kukurydza_puszka, lisc_laurowy, majeranek, makaron, maliny, mandarynki, marchew, margaryna, maslo_ekstra, maka_przenna,
-    melon, mielonka, mieso_mielone_wieprzowe, migdaly, mleko_spozywcze_1_5_pro, mleko_spozywcze_2_0_pro, mleko_spozywcze_3_2_pro, mleko_zageszczone,
-    morele_suszone, musztarda, natka_pietruszki, nektarynka, ocet, olej_rzepakowy, oliwa_z_oliwek,
-    oliwki, oregano, orzechy_laskowe, orzechy_nerkowca, orzechy_pistacjowe, orzechy_wloskie, orzeszki_ziemne, paluszki, papryka_czerwona,
-    parowki, passata, pasztet_z_drobiu, pestki_dyni, pieczarka, pieprz, piersi_indycze, piersi_z_kurczaka,
-    pietruszka_korzen, platki_owsiane, pomidor, por, pomarancza, rodzynki, ryz_bialy,
-    ser_twarogowy_chudy, ser_twarogowy_poltlusty, ser_twarogowy_pelnotlusty,
-    ser_zolty, serek_homogenizowany_waniliowy, slonecznik_ziarno, soja, sok_jablkowy_100_pro, sok_pomaranczowy_100_pro,
-    sos_slodko_kwasny, sol, szczypiorek, szynka_wedzona, sledz_w_pomidorach, smietana, truskawki,
-    tunczyk_w_oleju, tymianek, winogrona, ziele_angielskie, ziemniaki
+    brukselka, bulion, bulka_tarta, burak, cebula, chleb_wiejski,
+    chleb_zytni_pelnoziarnisty, chrupki_kukurydziane, chrzan, coca_cola, cukier,
+    cukier_puder, cukierki_krowki, cukinia, curry, cynamon, cytryna, czekolada_biala,
+    czekolada_gorzka, czekolada_mleczna, czosnek, daktyle_suszone, drozdze,
+    fasola_biala, fasola_czerwona, figi_suszone, grejpfrut, groch, groszek_zielony, gruszka,
+    herbatniki, jablko, jagody, jajko, kabanosy, kakao_w_proszku, kapusta_biala,
+    kapusta_czerwona, kapusta_kiszona, kapusta_pekinska, kasza_gryczana,
+    kasza_jaglana, kasza_jeczmienna, kasza_peczak, kasza_manna, kaszka_dziecieca,
+    kawa, ketchup, kielbasa, kielbasa_krakowska, kielbasa_parowkowa,
+    kielbasa_podwawelska, koncentrat_pomidorowy, kukurydza_puszka, lisc_laurowy,
+    majeranek, makaron, makaron_swiderki, maliny, mandarynki, marchew, margaryna, maslo_ekstra,
+    maka_przenna, maka_ziemniaczana, melon, mielonka, mieso_mielone_wieprzowe,
+    migdaly, miod, mleko_spozywcze_1_5_pro, mleko_spozywcze_2_0_pro,
+    mleko_spozywcze_3_2_pro, mleko_zageszczone, morele_suszone, musztarda,
+    natka_pietruszki, nektarynka, ocet, olej_rzepakowy, oliwa_z_oliwek, oliwki,
+    oregano, orzechy_laskowe, orzechy_nerkowca, orzechy_pistacjowe,
+    orzechy_wloskie, orzeszki_ziemne, ostra_papryka, paluszki, papryka_czerwona, parowki,
+    passata, pasztet_z_drobiu, pestki_dyni, pieczarka, pieprz, piersi_indycze,
+    piersi_z_kurczaka, pietruszka_korzen, platki_owsiane, pomidor, por,
+    pomarancza, rodzynki, ryz_bialy, seler, ser_feta, ser_twarogowy_chudy,
+    ser_twarogowy_poltlusty, ser_twarogowy_pelnotlusty, ser_zolty,
+    serek_homogenizowany_waniliowy, sliwka, slodka_papryka, slonecznik_ziarno, soja,
+    sok_jablkowy_100_pro, sok_pomaranczowy_100_pro, sos_slodko_kwasny, sol,
+    szczypiorek, szpinak, szynka_wedzona, szynka_wieprzowa, sledz_w_pomidorach, smietana,
+    tortilla_przenna, truskawki, tunczyk_w_oleju, tymianek, winogrona, ziele_angielskie, ziemniaki
   ];
 
   static const int UNIT_G = 0;

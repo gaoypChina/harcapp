@@ -68,6 +68,36 @@ class Meal{
       water: false
   );
 
+  static Meal burito = Meal.create(
+      "Burito",
+      [
+        const Ingredient(Product.mieso_mielone_wieprzowe, 500, Unit.g),
+        const Ingredient(Product.cebula, 1, Unit.item),
+        const Ingredient(Product.papryka_czerwona, .5, Unit.item),
+        const Ingredient(Product.passata, 200, Unit.g),
+        const Ingredient(Product.fasola_czerwona, 400, Unit.g),
+        const Ingredient(Product.olej_rzepakowy, 1, Unit.spoonB),
+        const Ingredient(Product.tortilla_przenna, 6, Unit.item),
+        const Ingredient(Product.sol, 1, Unit.spoonS),
+        const Ingredient(Product.slodka_papryka, 1, Unit.spoonS),
+        const Ingredient(Product.ostra_papryka, 1, Unit.spoonS),
+      ],
+      {
+        Equipment.PATELNIA:1,
+        Equipment.DESKA_DO_KROJENIA:1,
+        Equipment.NOZ:1,
+        Equipment.DREWNIANA_SZPATULKA:1,
+      },
+      [
+        'Paprykę i cebulę pokroić w kostkę i podsmażyć na rozgrzanym oleju do zeszklenia.',
+        'Dodać na patelnię mięso z przyprawami i rozdrobnić w miarę możliwości szpatułką.',
+        'Do usmażonego mięsa dodać fasolę oraz passatę pomidorową. Wymieszać i w razie potrzeby doprawić.',
+        'Tortille podgrzać na patelni przez 1 minutę z każdej strony, nałożyć 1/6 farszu i zawinąć.',
+      ],
+      fire: true,
+      water: false
+  );
+
   static Meal chili_con_carne = Meal.create("Chili con carne",
       [
         const Ingredient(Product.piersi_z_kurczaka, 60, Unit.g),
@@ -99,7 +129,8 @@ class Meal{
       ],
       tags: [TAG_JEDNOGARNKOWE],
       water: false,
-      fire: true);
+      fire: true
+  );
 
   static Meal grochowka_wojskowa = Meal.create("Grochówka wojskowa",
       [
@@ -112,7 +143,7 @@ class Meal{
         const Ingredient(Product.cebula, 1, Unit.item),
         const Ingredient(Product.czosnek, 2, Unit.clove),
         const Ingredient(Product.ziemniaki, 3, Unit.item),
-        const Ingredient(Product.smietana, 50, Unit.g),
+        const Ingredient(Product.smietana, 50, Unit.ml),
         const Ingredient(Product.sol, 0.1, Unit.spoonS),
         const Ingredient(Product.pieprz, 0.4, Unit.spoonS),
         const Ingredient(Product.lisc_laurowy, 1, Unit.item),
@@ -137,7 +168,47 @@ class Meal{
         'Można przyprawić solem, pieprzem i majerankiem.'
       ],
       water: true,
-      fire: true);
+      fire: true
+  );
+
+  static Meal gulasz_wieprzowy = Meal.create("Gulasz wieprzowy",
+      [
+        const Ingredient(Product.szynka_wieprzowa, 1000, Unit.g),
+        const Ingredient(Product.cebula, 2, Unit.item),
+        const Ingredient(Product.czosnek, 2, Unit.clove),
+        const Ingredient(Product.ostra_papryka, .3, Unit.spoonS),
+        const Ingredient(Product.slodka_papryka, .5, Unit.spoonS),
+        const Ingredient(Product.sol, .5, Unit.spoonS),
+        const Ingredient(Product.pieprz, .5, Unit.spoonS),
+        const Ingredient(Product.majeranek, 1, Unit.spoonS),
+        const Ingredient(Product.lisc_laurowy, 3, Unit.item),
+        const Ingredient(Product.koncentrat_pomidorowy, 3, Unit.spoonS),
+        const Ingredient(Product.por, 200, Unit.g),
+        const Ingredient(Product.marchew, 1, Unit.item),
+        const Ingredient(Product.olej_rzepakowy, 1, Unit.spoonB),
+        const Ingredient(Product.maka_przenna, 1, Unit.spoonB),
+      ],
+      {
+        Equipment.RECZNIK_PAPIEROWY:1,
+        Equipment.DESKA_DO_KROJENIA:1,
+        Equipment.NOZ:1,
+        Equipment.PATELNIA:1,
+        Equipment.MENAZKA:1,
+        Equipment.LYZKA_DO_MIESZANIA:1,
+      },
+      [
+        'Mięso na gulasz wieprzowy umyć, odcisnąć papierowym ręcznikiem, pokroić w małą kostkę.',
+        'Cebulę pokroić w piórka, zeszklić na oleju w głębokiej patelni, przełożyć do menażki.',
+        'Na tej samej patelni, obsmażyć mięso wieprzowe na złoty kolor.',
+        'Obrać i pokrić marchewkę, umyć i cienko pokroić pora. Wszystko to razem z cebulą dodać do mięsa na patelni.',
+        'Do patelni dolać wody, aż do przykrycia mięsa.',
+        'Dusić ok. 15 min. na małym ogniu, pod przykryciem.',
+        'Dodać przyprawy: paprykę w proszku, liść laurowy, posiekany czosnek, majeranek i koncentrat pomidorowy. Doprawić solą i pieprzem.',
+        'Wszystko dusić, aż mięsko będzie miękkie. Na końcu dodać łyżkę mąki, rozrobioną z odrobiną wody. zGotować jeszcze ok. 5 min.',
+      ],
+      water: true,
+      fire: true
+  );
 
   static Meal jajecznica = Meal.create(
       'Jajecznica',
@@ -184,6 +255,75 @@ class Meal{
       water: true,
       fire: true);
 
+  static Meal kaszotto_z_kurczakiem_i_warzywami = Meal.create("Kaszotto z kurczakiem i warzywami",
+      [
+        const Ingredient(Product.piersi_z_kurczaka, 500, Unit.g),
+        const Ingredient(Product.oliwa_z_oliwek, 2, Unit.spoonB),
+        const Ingredient(Product.cebula, 1, Unit.item),
+        const Ingredient(Product.czosnek, 3, Unit.clove),
+        const Ingredient(Product.por, 1, Unit.item),
+        const Ingredient(Product.marchew, 1, Unit.item),
+        const Ingredient(Product.papryka_czerwona, .5, Unit.item),
+        const Ingredient(Product.pieczarka, 200, Unit.g),
+        const Ingredient(Product.kasza_gryczana, 200, Unit.g),
+        const Ingredient(Product.szpinak, 50, Unit.g),
+        const Ingredient(Product.sol, 1, Unit.spoonS),
+        const Ingredient(Product.pieprz, 1, Unit.spoonS),
+        const Ingredient(Product.oregano, 1, Unit.spoonS),
+        const Ingredient(Product.passata, 1, Unit.spoonB),
+        const Ingredient(Product.curry, 1, Unit.spoonB),
+      ],
+      {
+        Equipment.PATELNIA:1,
+        Equipment.LYZKA_DO_MIESZANIA:1,
+        Equipment.DESKA_DO_KROJENIA:1,
+        Equipment.NOZ:1,
+
+      },
+      [
+        'Cebulę i czosnek drobno posiekać, kurczaka pokroić w kostkę.',
+        'Wszystko podsmażyć na dużej patelni, przyprawić curry.',
+        'Dodać posiekanego pora, marchew, paprykę oraz rozdrobniony szpinak, doprawić solą i pieprzem.',
+        'Smażyć przez ok. 2 minuty mieszając. Przykryć i smażyć na małym ogniu do momentu zmięknięcia warzyw.',
+        'Na patelnię wsypać suchą kaszę gryczaną, wymieszać i smażyć przez ok. 2 minut'
+        'Wlać wodę, dusić przez 10-15 minut aż kasza spęcznieje.',
+        'Dodać przecier, oregano ewentualnie sól i pieprz.'
+      ],
+      tags: [TAG_JEDNOGARNKOWE],
+      water: true,
+      fire: true
+  );
+
+  static Meal knedle_ze_sliwkami = Meal.create("Knedle ze śliwkami",
+      [
+        const Ingredient(Product.ziemniaki, 330, Unit.g),
+
+        const Ingredient(Product.maka_przenna, 120, Unit.g),
+        const Ingredient(Product.maka_ziemniaczana, 30, Unit.g),
+        const Ingredient(Product.jajko, 1, Unit.item),
+        const Ingredient(Product.sol, 0.1, Unit.spoonS),
+        const Ingredient(Product.sliwka, 180, Unit.g),
+      ],
+      {
+        Equipment.GARNEK:1,
+        Equipment.LYZKA_DO_MIESZANIA:1,
+        Equipment.NOZ:1,
+        Equipment.DESKA_DO_KROJENIA:1,
+      },
+      [
+        'Ugotować ziemniaki, następnie zmielić.',
+        'Do ziemniaków dodać jajka i mąkę przenną i dokładnie wymieszać.',
+        'Mąkę ziemniaczaną dosywać małymi partiami - dopóki ciasto nie będzie odchodzić od ręki.',
+        'Śliwki przekroić na pół i pozbawić pestki.',
+        'Ciasto zwinąć w rulon i pokroić na kawałki.',
+        'Kawałki ciasta rozpłaszczyć i zawinąć w nie śliwki.',
+        'Gotować we wrzątku.',
+      ],
+      tags: [TAG_JARSKIE],
+      water: true,
+      fire: true
+  );
+
   static Meal kotlety_sojowe_z_ryzem = Meal.create("Kotlety sojowe z ryżem",
       [
         const Ingredient(Product.bulion, 1, Unit.item),
@@ -209,7 +349,48 @@ class Meal{
       ],
       tags: [TAG_JARSKIE],
       water: true,
-      fire: true);
+      fire: true
+  );
+
+  static Meal kurczak_z_ryzem_w_sosie = Meal.create("Kurczak z ryżem w sosie",
+      [
+        const Ingredient(Product.piersi_z_kurczaka, 200, Unit.g),
+        const Ingredient(Product.ryz_bialy, 100, Unit.g),
+        const Ingredient(Product.papryka_czerwona, 1, Unit.item),
+        const Ingredient(Product.marchew, 2, Unit.item),
+        const Ingredient(Product.ananas, 200, Unit.g),
+        const Ingredient(Product.olej_rzepakowy, 10, Unit.ml),
+        const Ingredient(Product.maka_ziemniaczana, 80, Unit.g),
+
+        const Ingredient(Product.ketchup, 4, Unit.spoonB),
+        const Ingredient(Product.miod, 2, Unit.spoonB),
+        const Ingredient(Product.ocet, 6, Unit.spoonB),
+
+        const Ingredient(Product.sol, 0.1, Unit.spoonS),
+        const Ingredient(Product.pieprz, 0.1, Unit.spoonS),
+      ],
+      {
+        Equipment.PATELNIA:1,
+        Equipment.GARNEK:1,
+        Equipment.MENAZKA:1,
+        Equipment.DREWNIANA_SZPATULKA:1,
+        Equipment.NOZ:1,
+        Equipment.LYZKA_DO_MIESZANIA:1,
+        Equipment.DESKA_DO_KROJENIA:1,
+      },
+      [
+        'Ugotować ryż.',
+        'Na patelni rozgrzać olej, następnie dodać pokrojoną w cienkie słupki marchewkę i paprykę pokrojoną w średniej wielkości kostkę.',
+        'Warzywa dusić do miękkości. Kurczaka pokroić w kostkę, przełożyć do miski, przyprawić solą i pieprzem i dodać mąkę ziemniaczaną – całość dokładnie wymieszać.',
+        'Tak przygotowanego kurczaka dodać na patelnię i podsmażać, aż mięso się zetnie.',
+        'W międzyczasie przygotować sos: 4 łyżki ketchupu, 2 łyżki miodu, 6 łyżek octu ryżowego.',
+        'Na patelnię dodać pokrojonego ananasa oraz wcześniej przygotowany sos.',
+        'Wymieszać dokładnie i przyprawić solą i pieprzem.',
+        'Podać z ugotowanym ryżem.'
+      ],
+      water: true,
+      fire: true
+  );
 
   static Meal leczo = Meal.create("Leczo",
       [
@@ -241,7 +422,8 @@ class Meal{
       ],
       tags: [TAG_JEDNOGARNKOWE],
       water: false,
-      fire: true);
+      fire: true
+  );
 
   static Meal makaron_z_pesto = Meal.create(
       "Makaron z pesto",
@@ -270,6 +452,38 @@ class Meal{
       tags: [TAG_JARSKIE, TAG_JEDNOGARNKOWE],
       water: true,
       fire: true);
+
+  static Meal makaron_ze_szpinakiem_kurczakiem_feta = Meal.create(
+      "Makaron ze szpinakiem, kurczakiem i fetą",
+      [
+        const Ingredient(Product.piersi_z_kurczaka, 400, Unit.g),
+        const Ingredient(Product.szpinak, 200, Unit.g),
+        const Ingredient(Product.ser_feta, 200, Unit.g),
+        const Ingredient(Product.makaron_swiderki, 250, Unit.g),
+        const Ingredient(Product.czosnek, 1, Unit.clove),
+        const Ingredient(Product.slodka_papryka, 1, Unit.spoonB),
+        const Ingredient(Product.sol, 1, Unit.spoonS),
+        const Ingredient(Product.pieprz, 0.5, Unit.spoonS),
+        const Ingredient(Product.olej_rzepakowy, 2, Unit.spoonB),
+      ],
+      {
+        Equipment.MENAZKA:1,
+        Equipment.LYZKA_DO_MIESZANIA:1,
+        Equipment.DESKA_DO_KROJENIA:1,
+        Equipment.NOZ:1,
+        Equipment.GARNEK:1,
+        Equipment.PATELNIA:1,
+      },
+      [
+        'Szpinak zagrzać w menażce z wodą, dodać do rozgnieciony ząbek czosnku, sól i pieprz. Dusić do odparowania.',
+        'Piersi z kurczaka pokrić w większą kostkę, doprawić solą i papryką. Usmażyć na oleju do zrumienienia.',
+        'Ser feta pokroić w kostkę.',
+        'Makaron ugotować w osolonej wodzie i odcedzić.',
+        'Do makaronu dodać szpinak, mięso i fetę. Mieszać i gotować jeszcze kilka minut.'
+      ],
+      water: true,
+      fire: true
+  );
 
   static Meal nalesniki = Meal.create("Naleśniki",
       [
@@ -319,6 +533,33 @@ class Meal{
       tags: [TAG_JARSKIE, TAG_JEDNOGARNKOWE],
       water: true,
       fire: true);
+
+  static Meal placki_ziemniaczane = Meal.create(
+      "Placki ziemniaczane",
+      [
+        const Ingredient(Product.ziemniaki, 500, Unit.g),
+        const Ingredient(Product.maka_przenna, .5, Unit.spoonB),
+        const Ingredient(Product.cebula, .5, Unit.item),
+        const Ingredient(Product.jajko, 1, Unit.item),
+        const Ingredient(Product.sol, .5, Unit.spoonS),
+        const Ingredient(Product.olej_rzepakowy, 1, Unit.spoonB),
+      ],
+      {
+        Equipment.NOZ:1,
+        Equipment.TARKA:1,
+        Equipment.DESKA_DO_KROJENIA:1,
+        Equipment.LYZKA_DO_MIESZANIA:1
+      },
+      [
+        'Ziemniaki obrać i zetrzeć na tarce o małych oczkach do większej miski.',
+        'Zostawić misce bez mieszania, miskę delikatnie przechylić i odstawić tak na ok. 5 minut.',
+        'W międzyczasie odlewać zbierający się sok. Na koniec docisnąć dłonią do miski i odlać pozostały sok.',
+        'Dodać mąkę, drobno startą cebulę, jajko oraz dwie szczypty soli. Wymieszać.'
+        'Rozgrzać patelnię, wlać olej. Nakładać porcje masy (1 łyżka) na rozgrzany olej i rozprowadzać ją na dość cienki placek. Smażyć na średnim ogniu przez ok. 2 - 3 minuty na złoty kolor, przewrócić na drugą stronę i powtórzyć smażenie.',
+      ],
+      fire: true,
+      water: true
+  );
 
   static Meal puree_z_warzywami = Meal.create(
       "Puree z warzywami",
@@ -537,15 +778,22 @@ class Meal{
   static List<Meal> all = [
     bigos_cyganski,
     buraki_na_ostro,
+    burito,
     chili_con_carne,
     grochowka_wojskowa,
+    gulasz_wieprzowy,
     jajecznica,
     kaszki_dzieciece,
+    kaszotto_z_kurczakiem_i_warzywami,
+    knedle_ze_sliwkami,
     kotlety_sojowe_z_ryzem,
+    kurczak_z_ryzem_w_sosie,
     leczo,
     makaron_z_pesto,
+    makaron_ze_szpinakiem_kurczakiem_feta,
     nalesniki,
     owsianka_z_bakaliami,
+    placki_ziemniaczane,
     puree_z_warzywami,
     racuchy_z_jablkami,
     risotto,
