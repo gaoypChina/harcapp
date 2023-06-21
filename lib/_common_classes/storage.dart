@@ -152,8 +152,6 @@ Future<OpenResult> openAsset(String assetPath) async {
 
   file.writeAsBytesSync(list);
 
-  if (await Permission.manageExternalStorage.request().isGranted)
-    return OpenFile.open(file.path);
-  return OpenResult(type: ResultType.permissionDenied);
+  return OpenFile.open(file.path);
 
 }

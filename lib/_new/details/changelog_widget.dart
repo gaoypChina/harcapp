@@ -29,8 +29,8 @@ class PartChangelog extends StatelessWidget{
                 '3.1.23',
                 [
                   'Dodano nowe piosenki,',
-                  'Dodano nowe przepisy do modułu "Kuchnia harcerska".',
-                  'Poprawiono wymagania na stopień pwd',
+                  'Dodano nowe przepisy do modułu "Kuchnia harcerska",',
+                  'Poprawiono wymagania na stopień pwd.',
                 ]
             ),
 
