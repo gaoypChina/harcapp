@@ -87,6 +87,7 @@ class MemoryEditorWidgetState extends State<MemoryEditorWidget> with TickerProvi
               centerTitle: true,
               floating: true,
               pinned: true,
+              forceElevated: innerBoxIsScrolled,
               leading: IconButton(
                 icon: Icon(MdiIcons.arrowLeft),
                 onPressed: (){

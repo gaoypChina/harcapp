@@ -299,10 +299,11 @@ class OwnSongPageState extends State<OwnSongPage> {
                   physics: const BouncingScrollPhysics(),
                   floatHeaderSlivers: true,
                   headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [
-                    const SliverAppBar(
-                      title: Text('Podgląd piosenki'),
+                    SliverAppBar(
+                      title: const Text('Podgląd piosenki'),
                       centerTitle: true,
                       floating: true,
+                      forceElevated: innerBoxIsScrolled,
                     )
                   ],
                   body: SongWidget(

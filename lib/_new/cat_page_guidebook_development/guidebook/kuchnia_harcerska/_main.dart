@@ -48,11 +48,12 @@ class KuchniaHarcerskaFragmentState extends State<KuchniaHarcerskaFragment> with
       body: NestedScrollView(
         floatHeaderSlivers: true,
         physics: const BouncingScrollPhysics(),
-        headerSliverBuilder: (context, value) => [
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [
           SliverAppBar(
               title: const Text('Kuchnia harcerska'),
               centerTitle: true,
               backgroundColor: background_(context),
+              forceElevated: innerBoxIsScrolled,
               actions: [
 
                 Consumer<SelectedMealsProvider>(

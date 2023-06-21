@@ -74,7 +74,7 @@ class SongWidget extends StatelessWidget{
 
     tempSongFile.writeAsStringSync(fileContent);
 
-    String newPersonCode = """const Person NEW_PERSON = Person(
+    String newPersonCode = """const Person ${person==null?'NEW_PERSON':person.name.toUpperCase().replaceAll(' ', '_')} = Person(
         ${hasName?"name: '${person?.name}',":""}
         ${hasDruzyna?"druzyna: '${person?.druzyna}',":""}
         ${hasHufiec?"hufiec: '${person?.hufiec}',":""}

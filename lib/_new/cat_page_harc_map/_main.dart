@@ -423,7 +423,7 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
     try{
       return mapController.zoom;
     } catch(e){
-      return -1;
+      return lastZoom;
     }
   }
 

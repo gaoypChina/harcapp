@@ -97,6 +97,7 @@ class CircleEditorPageState extends State<CircleEditorPage>{
                     centerTitle: true,
                     floating: true,
                     pinned: true,
+                    forceElevated: innerBoxIsScrolled,
                     backgroundColor: CommunityCoverColors.backgroundColor(context, colorsKeyProv.isColorsKeyAuto?palette:null),
                     bottom: initCircle==null?null:TabBar(
                       physics: const BouncingScrollPhysics(),

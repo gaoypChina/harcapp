@@ -87,6 +87,7 @@ class ViewAllSprawPageState extends State<ViewAllSprawPage>{
 
           SliverAppBar(
             floating: true,
+            forceElevated: innerBoxIsScrolled,
             leading:
             widget.heroTagId == null || sprawGroupList.isEmpty?null:
             Hero(
@@ -115,7 +116,7 @@ class ViewAllSprawPageState extends State<ViewAllSprawPage>{
         ],
         body: PageView.builder(
           controller: controller,
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           itemCount: allItems.length,
           itemBuilder: (context, index) => SprawWidget(
             allItems[index],

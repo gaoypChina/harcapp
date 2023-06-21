@@ -126,6 +126,7 @@ List<Person> allPeople = [
   KSENIA_OKRUCINSKA,
   LAURA_FRASZEWSKA,
   LAURA_NOWAKOWSKA,
+  LENA_PATLA,
   LILIANA_MIROTA,
   LUKASZ_SZEPIELAK,
   LUKASZ_KRYWULT,
@@ -138,6 +139,7 @@ List<Person> allPeople = [
   MACIEJ_SZOLC,
   MAJA_WOJTYNIAK,
   MALGORZATA_KLOC,
+  MALGORZATA_SZMUK,
   MALWINA_TRUSZKOWSKA,
   MARCEL_RYCHTER,
   MARCIN_JANKOWIAK,
@@ -872,6 +874,13 @@ const Person LAURA_NOWAKOWSKA = Person(
   org: Org.zhp,
   email: ['kocham.racuchy.pl@gmail.com', 'laura.elwartowska@edu.sp1grodzisk.pl']
 );
+const Person LENA_PATLA = Person(
+    name: 'Lena Patla',
+    druzyna: '3. Krośnieńska Górska Drużyna Harcerska „Adventure”',
+    hufiec: huf_zhp_krosno,
+    org: Org.zhp,
+    email: ['lena.patla@icloud.com']
+);
 const Person LILIANA_MIROTA = Person(
     name: 'Liliana Mirota',
     druzyna: '7 BDH wrzosowisko',
@@ -951,6 +960,11 @@ const Person MALGORZATA_KLOC = Person(
   hufiec: huf_zhp_ziemi_gliwickiej,
   org: Org.zhp,
   email: ['malgorzata.kloc@zhp.net.pl']
+);
+const Person MALGORZATA_SZMUK = Person(
+    name: 'Małgorzata Szmuk',
+    druzyna: '16. DH WATAHA',
+    email: ['szgosia2k19@gmail.com']
 );
 const MALWINA_TRUSZKOWSKA = Person(
   name: 'Malwina Truszkowska',

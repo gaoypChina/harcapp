@@ -14,10 +14,11 @@ class LikedArticlesPage extends StatelessWidget{
         physics: const BouncingScrollPhysics(),
         floatHeaderSlivers: true,
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [
-          const SliverAppBar(
-            title: Text('Polubione artykuły'),
+          SliverAppBar(
+            title: const Text('Polubione artykuły'),
             centerTitle: true,
             floating: true,
+            forceElevated: innerBoxIsScrolled,
           )
         ],
         body: ArticleListWidget(

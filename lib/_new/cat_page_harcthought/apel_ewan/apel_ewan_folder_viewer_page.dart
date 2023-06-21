@@ -66,6 +66,7 @@ class ApelEwanFolderViewerPageState extends State<ApelEwanFolderViewerPage> with
               title: Text(title??'Apele ewangeliczne'),
               centerTitle: true,
               floating: true,
+              forceElevated: innerBoxIsScrolled,
             ),
 
           ],

@@ -152,6 +152,7 @@ class SprawFoldersPageState extends State<SprawFoldersPage> with TickerProviderS
               floating: true,
               pinned: true,
               title: AppBarTitleWidget(notifier: notifier!),
+              forceElevated: innerBoxIsScrolled,
               centerTitle: true,
               actions: [
                 IconButton(

@@ -132,6 +132,44 @@ class Meal{
       fire: true
   );
 
+  static Meal chlopski_garnek = Meal.create("Chłopski garnek",
+      [
+        const Ingredient(Product.olej_rzepakowy, 2, Unit.spoonB),
+        const Ingredient(Product.cebula, 1, Unit.item),
+        const Ingredient(Product.boczek_wedzony, 150, Unit.g),
+        const Ingredient(Product.kielbasa, 300, Unit.g),
+        const Ingredient(Product.bulion, 1, Unit.item),
+        const Ingredient(Product.ziemniaki, 3, Unit.item),
+        const Ingredient(Product.majeranek, 1, Unit.spoonB),
+        const Ingredient(Product.slodka_papryka, 1, Unit.spoonB),
+        const Ingredient(Product.pieprz, 1, Unit.spoonB),
+        const Ingredient(Product.papryka_czerwona, 0.5, Unit.item),
+        const Ingredient(Product.passata, 130, Unit.ml),
+        const Ingredient(Product.sol, 1, Unit.spoonS),
+      ],
+      {
+        Equipment.GARNEK:1,
+        Equipment.LYZKA_DO_MIESZANIA:1,
+        Equipment.NOZ:1,
+        Equipment.DESKA_DO_KROJENIA:1,
+      },
+      [
+        'Do szerokiego garnka wlać oliwę lub olej.',
+        'Dodać obraną i pokrojoną w kosteczkę cebulę.',
+        'Dodać pokrojony w kostkę parzony boczek.',
+        'Mieszając co chwilę smażyć na umiarkowanym ogniu aż cebula się zeszkli a boczek zacznie się rumienić.',
+        'Dodać pokrojoną na plasterki kiełbasę.',
+        'Dodać obrane i pokrojone w kostkę ziemniaki, paprykę w proszku i majeranek.',
+        'Wszystko wymieszać, a następnie dodać 500 ml gorącej wody i bulion.',
+        'Przykryć i gotować przez ok. 10 minut, do czasu aż ziemniaki będą miękkie.',
+        'Dodać pokrojoną paprykę, wymieszać i gotować przez ok. 5 minut.',
+        'Wlać przecier, doprawić solą i gotować przez ok. 3 minuty.'
+      ],
+      tags: [TAG_JEDNOGARNKOWE],
+      water: true,
+      fire: true
+  );
+
   static Meal grochowka_wojskowa = Meal.create("Grochówka wojskowa",
       [
         const Ingredient(Product.groch, 500, Unit.g),
@@ -275,19 +313,18 @@ class Meal{
       ],
       {
         Equipment.PATELNIA:1,
-        Equipment.LYZKA_DO_MIESZANIA:1,
+        Equipment.DREWNIANA_SZPATULKA:1,
         Equipment.DESKA_DO_KROJENIA:1,
         Equipment.NOZ:1,
-
       },
       [
         'Cebulę i czosnek drobno posiekać, kurczaka pokroić w kostkę.',
         'Wszystko podsmażyć na dużej patelni, przyprawić curry.',
         'Dodać posiekanego pora, marchew, paprykę oraz rozdrobniony szpinak, doprawić solą i pieprzem.',
         'Smażyć przez ok. 2 minuty mieszając. Przykryć i smażyć na małym ogniu do momentu zmięknięcia warzyw.',
-        'Na patelnię wsypać suchą kaszę gryczaną, wymieszać i smażyć przez ok. 2 minut'
+        'Na patelnię wsypać suchą kaszę gryczaną, wymieszać i smażyć przez ok. 2 minuty',
         'Wlać wodę, dusić przez 10-15 minut aż kasza spęcznieje.',
-        'Dodać przecier, oregano ewentualnie sól i pieprz.'
+        'Dodać przecier, oregano ewentualnie sól i pieprz.',
       ],
       tags: [TAG_JEDNOGARNKOWE],
       water: true,
@@ -422,6 +459,39 @@ class Meal{
       ],
       tags: [TAG_JEDNOGARNKOWE],
       water: false,
+      fire: true
+  );
+
+  static Meal lazanki = Meal.create("Łazanki",
+      [
+        const Ingredient(Product.kielbasa, 900, Unit.g),
+        const Ingredient(Product.kapusta_kiszona, 900, Unit.g),
+        const Ingredient(Product.cebula, 1, Unit.item),
+        const Ingredient(Product.oliwa_z_oliwek, 2, Unit.spoonB),
+        const Ingredient(Product.makaron_lazanki, 500, Unit.g),
+        const Ingredient(Product.lisc_laurowy, 4, Unit.item),
+        const Ingredient(Product.ziele_angielskie, 5, Unit.g),
+        const Ingredient(Product.sol, 0.5, Unit.g),
+        const Ingredient(Product.pieprz, 0.5, Unit.g),
+      ],
+      {
+        Equipment.GARNEK:1,
+        Equipment.NOZ:1,
+        Equipment.DESKA_DO_KROJENIA:1,
+        Equipment.LYZKA_DO_MIESZANIA:1,
+        Equipment.PATELNIA:1,
+      },
+      [
+        'Kapustę włożyć do garnka, zalać wodą, zagotować.',
+        'Dodać ziele angielskie, liść laurowy, sól.',
+        'Gotować 60 minut.',
+        'Odcedzić ugotowaną kapustę i drobno pokroić.',
+        'Makaron łazanki ugotować z dodatkiem oliwy, odcedzić.',
+        'Kiełbasę i cebulę pokroić w kostkę, podsmażyć na patelni.',
+        'Dodać do makaronu kapustę, kiełbasę i cebulę. Zamieszać i podsmażyć',
+      ],
+      tags: [],
+      water: true,
       fire: true
   );
 
@@ -780,6 +850,7 @@ class Meal{
     buraki_na_ostro,
     burito,
     chili_con_carne,
+    chlopski_garnek,
     grochowka_wojskowa,
     gulasz_wieprzowy,
     jajecznica,
@@ -789,6 +860,7 @@ class Meal{
     kotlety_sojowe_z_ryzem,
     kurczak_z_ryzem_w_sosie,
     leczo,
+    lazanki,
     makaron_z_pesto,
     makaron_ze_szpinakiem_kurczakiem_feta,
     nalesniki,

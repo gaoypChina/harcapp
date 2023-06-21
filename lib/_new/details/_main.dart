@@ -57,6 +57,7 @@ class AppDetailsState extends State<AppDetails> with TickerProviderStateMixin{
               backgroundColor: background_(context),
               floating: true,
               pinned: true,
+              forceElevated: innerBoxIsScrolled,
               bottom: TabBar(
                 physics: const BouncingScrollPhysics(),
                 tabs: const [

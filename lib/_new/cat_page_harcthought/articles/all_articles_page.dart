@@ -21,6 +21,7 @@ class AllArticlesPage extends StatelessWidget{
             title: const Text('Wszystkie artykuły'),
             centerTitle: true,
             floating: true,
+            forceElevated: innerBoxIsScrolled,
             actions: [
               IconButton(
                   onPressed: () => Navigator.push(

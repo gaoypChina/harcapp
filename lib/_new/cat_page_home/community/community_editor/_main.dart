@@ -70,6 +70,7 @@ class CommunityEditorPageState extends State<CommunityEditorPage>{
                 centerTitle: true,
                 floating: true,
                 pinned: true,
+                forceElevated: innerBoxIsScrolled,
                 bottom: initCommunity==null?null:TabBar(
                   physics: const BouncingScrollPhysics(),
                   tabs: [

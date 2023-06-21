@@ -134,6 +134,7 @@ class CompletedTaskReviewPageState extends State<CompletedTaskReviewPage>{
                       title: const Text('Wnioski o punkty'),
                       centerTitle: true,
                       floating: true,
+                      forceElevated: innerBoxIsScrolled,
                       pinned: pendingComplTasks!.length > 1,
                       actions: [
 

@@ -79,6 +79,7 @@ class AttendingMembersDialog extends StatelessWidget{
                   overflow: TextOverflow.ellipsis,
                 ),
                 centerTitle: true,
+                forceElevated: innerBoxIsScrolled,
                 backgroundColor: CommunityCoverColors.cardColor(context, palette),
                 bottom: TabBar(
                     physics: const BouncingScrollPhysics(),

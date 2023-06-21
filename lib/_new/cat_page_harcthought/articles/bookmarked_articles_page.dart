@@ -16,10 +16,11 @@ class BookmarkedArticlesPage extends StatelessWidget{
         physics: const BouncingScrollPhysics(),
         floatHeaderSlivers: true,
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [
-          const SliverAppBar(
-            title: Text('Zapisane artykuły'),
+          SliverAppBar(
+            title: const Text('Zapisane artykuły'),
             centerTitle: true,
             floating: true,
+            forceElevated: innerBoxIsScrolled,
           )
         ],
         body: ArticleListWidget(

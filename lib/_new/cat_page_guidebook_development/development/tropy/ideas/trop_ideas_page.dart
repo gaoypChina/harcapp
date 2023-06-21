@@ -61,6 +61,7 @@ class TropIdeasPageState extends State<TropIdeasPage> with TickerProviderStateMi
             centerTitle: true,
             floating: true,
             pinned: true,
+            forceElevated: innerBoxIsScrolled,
             bottom: TabBar(
               tabs: tabs,
               controller: controller,

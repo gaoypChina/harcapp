@@ -94,6 +94,7 @@ class ForumEditorPageState extends State<ForumEditorPage>{
                     centerTitle: true,
                     floating: true,
                     pinned: true,
+                    forceElevated: innerBoxIsScrolled,
                     backgroundColor: CommunityCoverColors.backgroundColor(context, colorsKeyProv.isColorsKeyAuto?palette:null),
                     bottom: initForum==null?null:TabBar(
                       physics: const BouncingScrollPhysics(),

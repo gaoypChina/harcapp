@@ -286,13 +286,14 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
       return 0;
   }
 
-  SliverAppBar appBarBuilder(BuildContext context, {bool pinned=false}) => SliverAppBar(
+  SliverAppBar appBarBuilder(BuildContext context, bool innerBoxIsScrolled, {bool pinned=false}) => SliverAppBar(
     backgroundColor: background_(context),
     title: const Text('Śpiewnik'),
     automaticallyImplyLeading: OwnAlbum.initialized,
     centerTitle: true,
     floating: true,
     pinned: pinned,
+    forceElevated: innerBoxIsScrolled,
     actions: [
       AnimatedOpacity(
         opacity: OwnAlbum.initialized?1:0,
@@ -452,7 +453,7 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
                       NestedScrollView(
                           key: nestedScrollViewKey,
                           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) =>
-                          [appBarBuilder(context)],
+                          [appBarBuilder(context, false /*innerBoxIsScrolled*/)],
                           floatHeaderSlivers: true,
                           physics: const BouncingScrollPhysics(),
                           body: PageView.builder(
@@ -467,7 +468,7 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
                               position,
                               onScroll: (scrollInfo, textHeight, textTopPadding) async {
 
-                                FloatingButtonProvider floatingButtonProv = Provider.of<FloatingButtonProvider>(context, listen: false);
+                                FloatingButtonProvider floatingButtonProv = FloatingButtonProvider.of(context);
 
                                 int page = pageController.page!.round();
                                 if(page != position) return;
@@ -691,7 +692,7 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
               return CustomScrollView(
                 physics: const NeverScrollableScrollPhysics(),
                 slivers: [
-                  appBarBuilder(context),
+                  appBarBuilder(context, false),
 
                   SliverFillRemaining(
                     hasScrollBody: false,

@@ -167,6 +167,7 @@ class CoverImageSelectorDialogState extends State<CoverImageSelectorDialog>{
                   centerTitle: true,
                   // floating: true,
                   pinned: true,
+                  forceElevated: innerBoxIsScrolled,
                   actions: [
                     IconButton(
                       icon: Icon(MdiIcons.check),

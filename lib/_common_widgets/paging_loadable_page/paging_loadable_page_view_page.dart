@@ -215,6 +215,7 @@ class PagingLoadablePageViewPageState extends State<PagingLoadablePageViewPage> 
                 title: Text(appBarTitle),
                 leading: appBarLeading,
                 actions: appBarActions,
+                forceElevated: innerBoxIsScrolled,
                 centerTitle: true,
                 pinned: true,
                 backgroundColor: backgroundColor,

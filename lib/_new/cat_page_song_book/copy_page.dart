@@ -86,6 +86,7 @@ class CopyPageState<T extends SongCore> extends State<CopyPage> with TickerProvi
               centerTitle: true,
               floating: true,
               pinned: true,
+              forceElevated: innerBoxIsScrolled,
               bottom: TabBar(
                 isScrollable: true,
                 controller: tabController,

@@ -217,6 +217,7 @@ const String huf_zhp_karkonoski = 'Karkonoski Hufiec ZHP';
 const String huf_zhp_kielce_poludnie = 'Hufiec ZHP Kielce-Południe';
 const String huf_zhp_kielce_miasto = 'Hufiec ZHP Kielce-Miasto';
 const String huf_zhp_konin = 'Hufiec ZHP Konin';
+const String huf_zhp_krosno = 'Hufiec ZHP Krosno';
 const String huf_zhp_lask = 'Hufiec ZHP Łask';
 const String huf_zhp_legionowo = 'Hufiec ZHP Legionowo im. Szarych Szeregów "Rój-Tom"';
 const String huf_zhp_luban = 'Hufiec ZHP Lubań';
