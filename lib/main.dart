@@ -61,6 +61,7 @@ import 'account/account.dart';
 import 'account/ms_oauth.dart';
 import 'account/statistics.dart';
 import 'sync/synchronizer_engine.dart';
+import 'values/app_values.dart';
 
 AppMode? appMode;
 enum AppMode{
@@ -482,7 +483,13 @@ class AppState extends State<App> with WidgetsBindingObserver {
     }
 
     navigatorKey = GlobalKey<NavigatorState>();
-    post(() => ZhpAccAuth.init(navigatorKey));
+    post(() async {
+      await ZhpAccAuth.init(navigatorKey);
+      if(!account && AccountData.loggedIn){
+        await AccountData.forgetAccount();
+        setState(() {});
+      }
+    });
 
     super.initState();
   }

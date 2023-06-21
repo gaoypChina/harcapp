@@ -40,18 +40,18 @@ class ChildStopnie extends StatelessWidget{
             'Podejmuje stałą służbę w swoim harcerskim środowisku.',
             'Bierze udział w życiu hufca.',
             'W trakcie minimum 9-miesięcznej aktywnej służby w gromadzie/drużynie wykazał się umiejętnością pracy wychowawczej metodą harcerską z dziećmi lub młodzieżą w wybranej grupie wiekowej, w tym umiejętnościami:'
-                '\n\ta)\tstosowania instrumentów metodycznych,'
-                '\n\tb)\tstosowania systemu małych grup,'
-                '\n\tc)\ttworzenia programu gromady/drużyny, jego realizacji i podsumowania,'
-                '\n\td)\tpracy z Prawem i Przyrzeczeniem / Prawem i Obietnicą,'
-                '\n\te)\tsamodzielnego prowadzenia zbiórek'
-                '\noraz uczestniczył w:'
-                '\n\tf)\torganizacji wyjazdowych form pracy wykorzystujących kontakt z przyrodą,'
-                '\n\tg)\torganizowaniu oraz przeprowadzeniu gier i form pracy w terenie uwzględniających współdziałanie i współzawodnictwo,'
-                '\n\th)\tpozyskiwaniu środków finansowych lub innych form wsparcia działalności gromady/drużyny,'
-                '\n\ti)\torganizacji obozu (kolonii) lub zimowiska gromady/drużyny i pełnił na nim funkcję,'
-                '\n\tj)\tprowadzeniu dokumentacji niezbędnej do działania gromady/drużyny,'
-                '\n\tk)\twspółpracy ze środowiskiem działania – rodzicami, szkołą, itp.'
+                '\n\n\ta)\tstosowania instrumentów metodycznych,'
+                '\n\n\tb)\tstosowania systemu małych grup,'
+                '\n\n\tc)\ttworzenia programu gromady/drużyny, jego realizacji i podsumowania,'
+                '\n\n\td)\tpracy z Prawem i Przyrzeczeniem / Prawem i Obietnicą,'
+                '\n\n\te)\tsamodzielnego prowadzenia zbiórek'
+                '\n\noraz uczestniczył w:'
+                '\n\n\tf)\torganizacji wyjazdowych form pracy wykorzystujących kontakt z przyrodą,'
+                '\n\n\tg)\torganizowaniu oraz przeprowadzeniu gier i form pracy w terenie uwzględniających współdziałanie i współzawodnictwo,'
+                '\n\n\th)\tpozyskiwaniu środków finansowych lub innych form wsparcia działalności gromady/drużyny,'
+                '\n\n\ti)\torganizacji obozu (kolonii) lub zimowiska gromady/drużyny i pełnił na nim funkcję,'
+                '\n\n\tj)\tprowadzeniu dokumentacji niezbędnej do działania gromady/drużyny,'
+                '\n\n\tk)\twspółpracy ze środowiskiem działania – rodzicami, szkołą, itp.',
             'Wykazał się umiejętnością stosowania zasad dotyczących umundurowania, musztry, ceremoniału harcerskiego w pracy z drużyną.',
             'Wiedzę zdobytą w harcerskiej literaturze i mediach wykorzystał w pracy wychowawczej. Przeczytał minimum 3 książki harcerskie.'
           ],
