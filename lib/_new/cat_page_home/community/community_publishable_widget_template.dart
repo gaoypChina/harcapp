@@ -418,7 +418,7 @@ class PublishInfoWidget extends StatelessWidget{
           color: CommunityCoverColors.backgroundColor(context, palette),
           radius: AppCard.defRadius,
           child: Padding(
-            padding: const EdgeInsets.all(6.0),
+            padding: const EdgeInsets.all(4.0),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [

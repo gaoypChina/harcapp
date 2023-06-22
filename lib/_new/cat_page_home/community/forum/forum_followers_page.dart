@@ -91,7 +91,7 @@ class ForumFollowersPageState extends State<ForumFollowersPage>{
               lastUserName: followers.isEmpty?null:followers.last.name,
               lastUserKey: followers.isEmpty?null:followers.last.key,
               onSuccess: (followersPage){
-                forum.setAllLoadedFollowers(followersPage, context: context);
+                forum.addLoadedFollowers(followersPage, context: context);
                 if(mounted) setState((){});
               },
               onForceLoggedOut: (){

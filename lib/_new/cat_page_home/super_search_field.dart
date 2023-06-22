@@ -340,6 +340,7 @@ class _CommunityTile extends StatelessWidget{
     leading: CommunityThumbnailWidget(
       community.iconKey,
       community.key,
+      colorsInverted: true,
       size: 48.0,
       borderSize: CommunityThumbnailWidget.border(48.0),
       paddingSize: CommunityThumbnailWidget.padding(48.0),
@@ -365,6 +366,7 @@ class _CircleTile extends StatelessWidget{
       height: 48.0,
       width: 48.0,
       child: Container(
+        clipBehavior: Clip.hardEdge,
         decoration: BoxDecoration(borderRadius: BorderRadius.circular(AppCard.defRadius)),
         child: CoverImageWidget(
           circle.coverImage,
@@ -391,6 +393,7 @@ class _ForumTile extends StatelessWidget{
       height: 48.0,
       width: 48.0,
       child: Container(
+        clipBehavior: Clip.hardEdge,
         decoration: BoxDecoration(borderRadius: BorderRadius.circular(AppCard.defRadius)),
         child: CoverImageWidget(
           forum.coverImage,

@@ -94,7 +94,7 @@ class ForumLikesPageState extends State<ForumLikesPage>{
               lastUserName: likes.isEmpty?null:likes.last.name,
               lastUserKey: likes.isEmpty?null:likes.last.key,
               onSuccess: (likesPage){
-                forum.setAllLoadedLikes(likesPage, context: context);
+                forum.addLoadedLikes(likesPage, context: context);
                 allLoadedItems = forum.loadedLikes.length;
                 setState((){});
               },
