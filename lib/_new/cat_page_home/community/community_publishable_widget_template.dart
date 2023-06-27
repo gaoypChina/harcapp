@@ -311,11 +311,14 @@ class PublishInfoWidget extends StatelessWidget{
                     child: IgnorePointer(
                       child: AccountThumbnailWidget(
                         name: publishable.author!.name,
+                        verified: publishable.author!.verified,
+                        showVerified: false,
                         elevated: false,
 
                         color: CommunityCoverColors.backgroundColor(context, palette),
-
                         borderColor: CommunityCoverColors.backgroundColor(context, palette),
+                        markerColor: CommunityCoverColors.strongColor(context, palette),
+                        backgroundColor: CommunityCoverColors.cardColor(context, palette),
 
                         size: .45*AccountThumbnailWidget.defSize,
                       ),
@@ -327,11 +330,13 @@ class PublishInfoWidget extends StatelessWidget{
         else
           AccountThumbnailWidget(
             name: publishable.author!.name,
+            verified: publishable.author!.verified,
             elevated: false,
 
             color: CommunityCoverColors.backgroundColor(context, palette),
-
             borderColor: CommunityCoverColors.backgroundColor(context, palette),
+            markerColor: CommunityCoverColors.strongColor(context, palette),
+            backgroundColor: CommunityCoverColors.cardColor(context, palette),
           ),
 
         const SizedBox(width: 10.0),

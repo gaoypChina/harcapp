@@ -7,6 +7,7 @@ class AccountHeaderWidget extends StatelessWidget{
   final String name;
   final Color? thumbnailColor;
   final Color? thumbnailBorderColor;
+  final bool verified;
   final bool shadow;
   final Widget? leading;
   final Widget? trailing;
@@ -16,6 +17,7 @@ class AccountHeaderWidget extends StatelessWidget{
       this.name,
       { this.thumbnailColor,
         this.thumbnailBorderColor,
+        required this.verified,
         this.shadow = false,
         this.leading,
         this.trailing,
@@ -31,6 +33,7 @@ class AccountHeaderWidget extends StatelessWidget{
 
         AccountThumbnailWidget(
             name: name,
+            verified: verified,
             shadow: shadow,
             size: 84,
             elevated: false,

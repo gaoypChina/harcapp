@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
+import 'package:harcapp/_common_widgets/empty_message_widget.dart';
 import 'package:harcapp/_new/api/forum.dart';
 import 'package:harcapp/_new/cat_page_home/community/common/community_cover_colors.dart';
 import 'package:harcapp/_new/cat_page_home/user_list_managment_loadable_page.dart';
 import 'package:harcapp/account/account_tile.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
 
@@ -31,7 +33,7 @@ class ForumFollowersPageState extends State<ForumFollowersPage>{
   Forum get forum => widget.forum;
   PaletteGenerator? get palette => widget.palette;
   List<UserData> get followers => forum.loadedFollowers;
-  
+
   @override
   Widget build(BuildContext context) => Consumer<ForumFollowersProvider>(
       builder: (context, prov, child) => UserListManagementLoadablePage<UserData>(
@@ -46,9 +48,12 @@ class ForumFollowersPageState extends State<ForumFollowersPage>{
           ],
           userTileBuilder: (context, follower) => AccountTile(
             follower.name,
-
+            showVerified: true,
+            verified: follower.verified,
             thumbnailColor: CommunityCoverColors.cardColor(context, palette),
             thumbnailBorderColor: CommunityCoverColors.cardColor(context, palette),
+            thumbnailMarkerColor: CommunityCoverColors.strongColor(context, palette),
+            backgroundColor: CommunityCoverColors.backgroundColor(context, palette),
           ),
 
           strongColor: CommunityCoverColors.strongColor(context, palette),
@@ -113,6 +118,18 @@ class ForumFollowersPageState extends State<ForumFollowersPage>{
             return forum.loadedFollowers.length;
           },
           callLoadOnInit: forum.loadedFollowers.isEmpty,
+
+          emptyWidget: EmptyMessageWidget(
+            text: 'Brak obserwujących',
+            icon: MdiIcons.eyeOffOutline,
+            color: CommunityCoverColors.strongColor(context, palette),
+          ),
+
+          emptyLoadingWidget: EmptyMessageWidget(
+            text: 'Ładowanie obserwujących...',
+            icon: MdiIcons.eyeOutline,
+            color: CommunityCoverColors.strongColor(context, palette),
+          ),
 
       )
   );

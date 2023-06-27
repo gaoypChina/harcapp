@@ -113,7 +113,10 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
 
   @override
   void afterFirstLayout(BuildContext context) =>
-    post(() => Provider.of<ColorPackProvider>(context, listen: false).colorPack = ColorPackHarcMap());
+    post((){
+      if(mounted)
+        Provider.of<ColorPackProvider>(context, listen: false).colorPack = ColorPackHarcMap();
+    });
 
   late LoginListener loginListener;
 

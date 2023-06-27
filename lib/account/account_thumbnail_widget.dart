@@ -33,11 +33,15 @@ class AccountThumbnailWidget extends StatelessWidget{
   final IconData? icon;
   final Widget? child;
 
+  final bool showVerified;
+  final bool verified;
   final bool shadow;
 
   final bool elevated;
   final Color? color;
   final Color? borderColor;
+  final Color? markerColor;
+  final Color? backgroundColor;
   final double? size;
   final bool enabled;
   final IconData? markIcon;
@@ -48,11 +52,15 @@ class AccountThumbnailWidget extends StatelessWidget{
         this.fullName = false,
         this.icon,
         this.child,
+        this.showVerified=true,
+        required this.verified,
         this.shadow=false,
 
         this.elevated=true,
         this.color,
         this.borderColor,
+        this.markerColor,
+        this.backgroundColor,
         this.size,
         this.markIcon,
         this.enabled = true,
@@ -87,8 +95,6 @@ class AccountThumbnailWidget extends StatelessWidget{
       }
     }
 
-    //Tuple2<Color, Color> colors = backgroundColors[name.hashCode%backgroundColors.length];
-
     return SizedBox(
       width: size,
       height: size,
@@ -120,10 +126,10 @@ class AccountThumbnailWidget extends StatelessWidget{
               right: -.04*size,
               child: Material(
                 borderRadius: BorderRadius.circular(size),
-                color: background_(context),
+                color: color??background_(context),
                 child: Icon(
                   MdiIcons.alien,
-                  color: hintEnab_(context),
+                  color: markerColor??borderColor??hintEnab_(context),
                   size: size/2.6,
                 ),
               )
@@ -144,16 +150,30 @@ class AccountThumbnailWidget extends StatelessWidget{
             ),
           ),
 
-          if(markIcon != null)
+          if(verified && showVerified)
             Positioned(
                 bottom: -.04*size,
                 right: -.04*size,
                 child: Material(
                   borderRadius: BorderRadius.circular(size),
-                  color: color??background_(context),
+                  color: backgroundColor??background_(context),
+                  child: Icon(
+                    MdiIcons.shieldCheck,
+                    color: markerColor??borderColor??hintEnab_(context),
+                    size: size/2.6,
+                  ),
+                )
+            )
+          else if(markIcon != null)
+            Positioned(
+                bottom: -.04*size,
+                right: -.04*size,
+                child: Material(
+                  borderRadius: BorderRadius.circular(size),
+                  color: backgroundColor??background_(context),
                   child: Icon(
                     markIcon,
-                    color: borderColor??hintEnab_(context),
+                    color: markerColor??borderColor??hintEnab_(context),
                     size: size/2.6,
                   ),
                 )

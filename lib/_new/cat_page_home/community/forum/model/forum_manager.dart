@@ -10,6 +10,7 @@ class ForumManager extends UserData{
   const ForumManager({
     required super.key,
     required super.name,
+    required super.verified,
     required super.shadow,
     required super.sex,
     required this.role
@@ -21,6 +22,7 @@ class ForumManager extends UserData{
   => ForumManager(
       key: userData.key,
       name: userData.name,
+      verified: userData.verified,
       shadow: userData.shadow,
       sex: userData.sex,
       role: role,
@@ -31,6 +33,6 @@ class ForumManager extends UserData{
     role: strToForumRole[respMap['role']]??(throw InvalidResponseError('role')),
   );
 
-  UserData toUserData() => UserData(key: key, name: name, shadow: shadow, sex: sex);
+  UserData toUserData() => UserData(key: key, name: name, verified: verified, shadow: shadow, sex: sex);
 
 }

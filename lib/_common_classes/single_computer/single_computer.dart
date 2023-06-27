@@ -117,7 +117,7 @@ abstract class SingleComputer<TErr, TListener extends SingleComputerListener<TEr
   
   Future<void> callError(TErr err) async {
     _errorCalled = err;
-    for(TListener listener in listeners)
+    for(TListener listener in List.from(listeners)) // List.from is used to copy the list so that it can be modified by other processes while iterating.
       await listener.onError?.call(err);
   }
 
@@ -129,7 +129,7 @@ abstract class SingleComputer<TErr, TListener extends SingleComputerListener<TEr
     logger.i('Single computer $computerName finished.');
     checkRunningSemaphore.release();
 
-    for(TListener listener in listeners)
+    for(TListener listener in List.from(listeners)) // List.from is used to copy the list so that it can be modified by other processes while iterating.
       await listener.onEnd?.call(_errorCalled, forceFinished);
 
     _errorCalled = null;

@@ -119,6 +119,7 @@ class AcceptTaskWidgetState extends State<AcceptTaskWidget>{
               if(selectedParticips.length==1)
                 ParticipHeaderWidget(
                     selectedParticips[0].name,
+                    selectedParticips[0].verified,
                     selectedParticips[0].shadow,
                     selectedParticips[0].profile.role
                 )

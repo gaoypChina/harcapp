@@ -862,6 +862,7 @@ class ParticipantsWidgetState extends State<ParticipantsWidget>{
                     const SizedBox(width: Dimen.ICON_MARG),
 
                     AccountThumbnailWidget(
+                      verified: false,
                       elevated: false,
                       icon: MdiIcons.accountPlusOutline,
                     )

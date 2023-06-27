@@ -111,7 +111,7 @@ class ParticipTileExtendedState extends State<ParticipTileExtended>{
         builder: (context) => Column(
           children: [
 
-            ParticipHeaderWidget(particip.name, particip.shadow, particip.profile.role, heroTag: particip.key),
+            ParticipHeaderWidget(particip.name, particip.verified, particip.shadow, particip.profile.role, heroTag: particip.key),
 
             const SizedBox(height: 2*24.0),
 

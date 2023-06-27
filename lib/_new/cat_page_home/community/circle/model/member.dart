@@ -18,6 +18,7 @@ class Member extends UserData{
   const Member({
       required super.key,
       required super.name,
+      required super.verified,
       required super.shadow,
       required super.sex,
       required this.role,
@@ -31,6 +32,7 @@ class Member extends UserData{
       }) => Member(
       key: userData.key,
       name: userData.name,
+      verified: userData.verified,
       shadow: userData.shadow,
       sex: userData.sex,
       role: role,
@@ -43,6 +45,6 @@ class Member extends UserData{
     patrol: respMap['patrol'],
   );
 
-  UserData toUserData() => UserData(key: key, name: name, shadow: shadow, sex: sex);
+  UserData toUserData() => UserData(key: key, name: name, verified: verified, shadow: shadow, sex: sex);
 
 }

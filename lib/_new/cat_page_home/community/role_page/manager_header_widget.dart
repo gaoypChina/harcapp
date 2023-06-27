@@ -20,6 +20,7 @@ class ManagerHeaderWidget extends StatelessWidget{
     manager.name,
     thumbnailColor: cardEnab_(context),
     thumbnailBorderColor: cardEnab_(context),
+    verified: manager.verified,
     shadow: manager.shadow,
     leading: const SizedBox(width: Dimen.ICON_SIZE + Dimen.ICON_MARG),
     trailing: Row(

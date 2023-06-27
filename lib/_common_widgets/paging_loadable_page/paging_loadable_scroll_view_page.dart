@@ -74,7 +74,7 @@ class PagingLoadableScrollViewPage extends StatelessWidget{
     callLoadOnInit: callLoadOnInit,
     loadMoreIfHeightNotExceeding: loadMoreIfHeightNotExceeding,
 
-    sliverBody: SliverPadding(
+    sliverBody: (context, isLoading) => SliverPadding(
       padding: padding??const EdgeInsets.all(Dimen.SIDE_MARG),
       sliver: SliverList(
         delegate: SliverChildSeparatedBuilderDelegate((context, index) =>

@@ -120,6 +120,7 @@ class PostEditorPageState extends State<PostEditorPage>{
                   author: UserData(
                     key: AccountData.key!,
                     name: AccountData.name!,
+                    verified: AccountData.verified,
                     shadow: false,
                     sex: AccountData.sex!,
                   ),

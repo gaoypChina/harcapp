@@ -738,6 +738,7 @@ class NotLoggedInPartCommunitiesWidget extends StatelessWidget{
                     author: const UserData(
                         key: '',
                         name: 'Teresa Szynewiczówna',
+                        verified: true,
                         shadow: false,
                         sex: Sex.female
                     ),

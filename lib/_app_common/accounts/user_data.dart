@@ -28,6 +28,7 @@ class UserData{
 
   final String key;
   final String name;
+  final bool verified;
   final bool shadow;
   final Sex sex;
 
@@ -36,6 +37,7 @@ class UserData{
   const UserData({
     required this.key,
     required this.name,
+    required this.verified,
     required this.shadow,
     required this.sex,
   });
@@ -43,6 +45,7 @@ class UserData{
   static UserData fromRespMap(Map respMap, {String? key}) => UserData(
     key: key??respMap['_key']??(throw InvalidResponseError('_key')),
     name: respMap['name']??(throw InvalidResponseError('name')),
+    verified: respMap['verified']??false,
     shadow: respMap['shadow']??(throw InvalidResponseError('shadow')),
     sex: strToSex[respMap['sex']]??(throw InvalidResponseError('sex')),
     //nick: nick,
@@ -51,6 +54,7 @@ class UserData{
   Map toJsonMap() => {
     '_key': key,
     'name': name,
+    'verified': verified,
     'shadow': shadow,
     'sex': sexToString[sex]
   };
@@ -64,6 +68,7 @@ class UserDataNick extends UserData{
   const UserDataNick({
     required super.key,
     required super.name,
+    required super.verified,
     required super.shadow,
     required super.sex,
     required this.nick,
@@ -74,6 +79,7 @@ class UserDataNick extends UserData{
     return UserDataNick(
         key: userData.key,
         name: userData.name,
+        verified: userData.verified,
         shadow: userData.shadow,
         sex: userData.sex,
         nick: nick
@@ -83,6 +89,7 @@ class UserDataNick extends UserData{
 
   static const String _paramKey = '_key';
   static const String _paramName = 'name';
+  static const String _paramVerified = 'verified';
   static const String _paramShadow = 'shadow';
   static const String _paramSex = 'sex';
   static const String _paramNick = 'nick';
@@ -90,13 +97,14 @@ class UserDataNick extends UserData{
   Map<String, dynamic> toJsonMap() => {
     _paramKey: key,
     _paramName: name,
+    _paramVerified: verified,
     _paramShadow: shadow,
     _paramSex: sexToString[sex],
     _paramNick: nick
   };
 
   @override
-  int get hashCode => key.hashCode + name.hashCode + shadow.hashCode + sex.hashCode + nick.hashCode;
+  int get hashCode => key.hashCode + name.hashCode + verified.hashCode + shadow.hashCode + sex.hashCode + nick.hashCode;
 
   @override
   bool operator ==(Object other) => hashCode == other.hashCode;

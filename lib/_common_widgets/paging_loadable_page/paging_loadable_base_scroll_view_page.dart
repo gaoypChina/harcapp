@@ -29,7 +29,7 @@ class PagingLoadableBaseScrollViewPage extends StatefulWidget{
   final bool callLoadOnInit;
   final bool loadMoreIfHeightNotExceeding;
 
-  final Widget sliverBody;
+  final Widget Function(BuildContext, bool) sliverBody;
   final Widget? bottomNavigationBar;
   
   const PagingLoadableBaseScrollViewPage({
@@ -78,12 +78,14 @@ class PagingLoadableBaseScrollViewPageState extends State<PagingLoadableBaseScro
   bool get callLoadOnInit => widget.callLoadOnInit;
   bool get loadMoreIfHeightNotExceeding => widget.loadMoreIfHeightNotExceeding;
 
-  Widget get sliverBody => widget.sliverBody;
+  Widget Function(BuildContext, bool) get sliverBody => widget.sliverBody;
   Widget? get bottomNavigationBar => widget.bottomNavigationBar;
 
   late RefreshController refreshController;
 
   bool get moreToLoad => loadedItemsCount < totalItemsCount;
+
+  bool get isLoading => refreshController.isRefresh || refreshController.isLoading;
 
   late GlobalKey outerScrollViewKey;
   late GlobalKey innerScrollViewKey;
@@ -199,7 +201,7 @@ class PagingLoadableBaseScrollViewPageState extends State<PagingLoadableBaseScro
 
             Container(
               key: innerScrollViewKey,
-              child: sliverBody,
+              child: sliverBody(context, isLoading),
             )
 
             //sliverBody,

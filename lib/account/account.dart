@@ -63,6 +63,7 @@ class AccountData {
   static String? _email;
   static String? _emailConf;
   static String? _name;
+  static String? _verified;
   static String? _nick;
   static String? _nickSearchable;
   static Sex? _sex;
@@ -84,6 +85,7 @@ class AccountData {
   static const String _keyEmail = 'acc_email';
   static const String _keyEmailConf = 'acc_email_conf';
   static const String _keyName = 'acc_name';
+  static const String _keyVerified = 'acc_verified';
   static const String _keyNick = 'acc_nick';
   static const String _keyNickSearchable = 'acc_nick_searchable';
   static const String _keySex = 'acc_sex';
@@ -106,6 +108,7 @@ class AccountData {
     _email = await storage.read(key: _keyEmail);
     _emailConf = await storage.read(key: _keyEmailConf);
     _name = await storage.read(key: _keyName);
+    _verified = await storage.read(key: _keyVerified);
     _nick = await storage.read(key: _keyNick);
     _nickSearchable = await storage.read(key: _keyNickSearchable);
     _sex = strToSex[await (storage.read(key: _keySex))];
@@ -129,6 +132,7 @@ class AccountData {
     await AccountData.writeLastConfLoginEmail(email);
     await AccountData.writeEmailConf(response.data['emailConfirmed']??(throw InvalidResponseError('emailConfirmed')));
     await AccountData.writeName(response.data['name']??(throw InvalidResponseError('name')));
+    await AccountData.writeVerified(response.data['verified']??(throw InvalidResponseError('verified')));
     await AccountData.writeNick(response.data['nick']??(throw InvalidResponseError('nick')));
     await AccountData.writeNickSearchable(response.data['nickSearchable']??(throw InvalidResponseError('nickSearchable')));
     await AccountData.writeSex(boolToSex[response.data['sex']??(throw InvalidResponseError('sex'))]);
@@ -271,6 +275,22 @@ class AccountData {
       return await removeName();
     else
       return await const FlutterSecureStorage().write(key: _keyName, value: value);
+  }
+
+
+  static bool get verified => _verified == 'true';
+
+  static Future<void> removeVerified() async {
+    _verified = null;
+    await const FlutterSecureStorage().delete(key: _keyVerified);
+  }
+
+  static Future<void> writeVerified(String? value) async {
+    _verified = value;
+    if (value == null)
+      return await removeVerified();
+    else
+      return await const FlutterSecureStorage().write(key: _keyVerified, value: value);
   }
 
 
@@ -467,6 +487,7 @@ class AccountData {
     await AccountData.removeKey();
     await AccountData.removeEmail();
     await AccountData.removeName();
+    await AccountData.removeVerified();
     await AccountData.removeNick();
     await AccountData.removeJwt();
     await AccountData.removeSex();

@@ -33,7 +33,7 @@ class InvalidResponseError extends Error{
 }
 
 RefreshTokenHandler refreshTokenHandler = RefreshTokenHandler();
-class RefreshTokenHandler extends SingleComputer<DioError, SingleComputerListener<DioError>>{
+class RefreshTokenHandler extends SingleComputer<DioException, SingleComputerListener<DioException>>{
 
   @override
   String get computerName => 'RefreshTokenHandler';
@@ -55,7 +55,7 @@ class RefreshTokenHandler extends SingleComputer<DioError, SingleComputerListene
       await AccountData.writeJwt(response.data['jwt']);
       await AccountData.writeRefreshToken(response.data['refreshToken']);
 
-    } on DioError catch (e){
+    } on DioException catch (e){
       await callError(e);
     }
 
@@ -67,7 +67,7 @@ class API{
 
   static String baseUrl = '${testBackendUrl??backendUrl}/';
 
-  static void saveErrorMessage(DioError e) async => saveStringAsFileToFolder(
+  static void saveErrorMessage(DioException e) async => saveStringAsFileToFolder(
       getApiErrorFolderLocalPath,
       '# Date: ${DateTime.now().toIso8601String()}'
           '\n# System time used: ${await TimeSettings.isTimeAutomatic}'
@@ -95,7 +95,7 @@ class API{
     FutureOr<bool> Function()? onForceLoggedOut,
     FutureOr<bool> Function()? onServerMaybeWakingUp,
     FutureOr<bool> Function()? onImageDBWakingUp,
-    FutureOr<void> Function(DioError)? onError,
+    FutureOr<void> Function(DioException)? onError,
 
     bool saveServerTime = true,
     bool jwtTokenRefreshed = false // do not use this argument.
@@ -119,7 +119,7 @@ class API{
         await onSuccess?.call(response, lastServerTime);
       }
       return response;
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       debugPrint('HarcApp API: ${e.requestOptions.method} ${e.requestOptions.path} :: error! :: ${e.message} :: ${e.response?.data?.toString()}');
       if(e.response?.statusCode != jwtInvalidHttpStatus) saveErrorMessage(e);
       bool? finish;
@@ -141,8 +141,8 @@ class API{
 
           Response? response;
 
-          SingleComputerListener<DioError> listener = SingleComputerListener(
-            onEnd: (DioError? error, _) async {
+          SingleComputerListener<DioException> listener = SingleComputerListener(
+            onEnd: (DioException? error, _) async {
 
               if(error == null)
                 response = await sendRequest(
@@ -222,7 +222,7 @@ class API{
             result.add(Memory.fromRespMap(map));
 
         },
-      onError: (DioError error)async{
+      onError: (DioException error)async{
         logger.d(error.response?.data);
       }
     );
@@ -250,7 +250,7 @@ class API{
           await onSuccess?.call();
 
         },
-        onError: (DioError error)async{
+        onError: (DioException error)async{
           result = null;
           logger.d(error.response?.data);
           if(onError != null) await onError();

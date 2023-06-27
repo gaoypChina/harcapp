@@ -670,7 +670,12 @@ class ShareDialogState extends State<ShareDialog>{
                       contentPadding: const EdgeInsets.symmetric(vertical: Dimen.SIDE_MARG/2, horizontal: Dimen.SIDE_MARG),
                       leading: Hero(
                           tag: users[index],
-                          child: AccountThumbnailWidget(name: users[index].name, enabled: !removed, elevated: false)
+                          child: AccountThumbnailWidget(
+                              name: users[index].name,
+                              verified: users[index].verified,
+                              enabled: !removed,
+                              elevated: false
+                          )
                       ),
                       title: Text(
                           users[index].name,

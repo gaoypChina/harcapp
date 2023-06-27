@@ -137,6 +137,7 @@ class CompletedTaskDetailsWidgetState extends State<CompletedTaskDetailsWidget>{
 
                   if(participLoading)
                     AccountThumbnailWidget(
+                      verified: false,
                       elevated: false,
                       markIcon: MdiIcons.messageArrowRight,
                       child: SpinKitChasingDots(
@@ -146,12 +147,14 @@ class CompletedTaskDetailsWidgetState extends State<CompletedTaskDetailsWidget>{
                     )
                   else if(particip == null)
                     AccountThumbnailWidget(
+                      verified: false,
                       icon: MdiIcons.alertCircleOutline,
                       elevated: false,
                       markIcon: MdiIcons.messageArrowRight,
                     )
                   else
                     AccountThumbnailWidget(
+                      verified: particip!.verified,
                       name: particip!.name,
                       elevated: false,
                       markIcon: MdiIcons.messageArrowRight,
@@ -186,6 +189,7 @@ class CompletedTaskDetailsWidgetState extends State<CompletedTaskDetailsWidget>{
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   AccountThumbnailWidget(
+                    verified: false,
                     icon: compRoleToIcon(CompRole.ADMIN),
                     elevated: false,
                     markIcon: MdiIcons.messageArrowLeft,

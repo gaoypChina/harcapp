@@ -11,6 +11,7 @@ class IndivCompParticip extends UserData{
   IndivCompParticip({
     required super.key,
     required super.name,
+    required super.verified,
     required super.shadow,
     required super.sex,
     required this.profile,
@@ -22,6 +23,7 @@ class IndivCompParticip extends UserData{
       }) => IndivCompParticip(
       key: userData.key,
       name: userData.name,
+      verified: userData.verified,
       shadow: userData.shadow,
       sex: userData.sex,
       profile: profile
@@ -32,10 +34,10 @@ class IndivCompParticip extends UserData{
     profile: IndivCompProfile.fromRespMap(respMap['profile']??(throw InvalidResponseError('profile')), comp),
   );
 
-  UserData toUserData() => UserData(key: key, name: name, shadow: shadow, sex: sex);
+  UserData toUserData() => UserData(key: key, name: name, verified: verified, shadow: shadow, sex: sex);
 
   @override
-  int get hashCode => key.hashCode + name.hashCode + shadow.hashCode + sex.hashCode + profile.hashCode;
+  int get hashCode => key.hashCode + name.hashCode + verified.hashCode + shadow.hashCode + sex.hashCode + profile.hashCode;
 
   @override
   bool operator ==(Object other) => other is IndivCompParticip && key == other.key;

@@ -211,8 +211,12 @@ class ForumDescriptionPageState extends State<ForumDescriptionPage>{
                       ),
                       textAlign: TextAlign.start,
                     ),
-                    onTap: () => forum.likeCnt==0?
+                    onTap: () => forum.myRole == null?
+                    null:
+
+                    forum.likeCnt==0?
                     showAppToast(context, text: 'Wieje pustką...'):
+
                     pushPage(
                         context,
                         builder: (context) => ForumLikesPage(forum: forum, palette: palette)
@@ -262,8 +266,12 @@ class ForumDescriptionPageState extends State<ForumDescriptionPage>{
                       ),
                       textAlign: TextAlign.start,
                     ),
-                    onTap: () => forum.followersCnt==0?
+                    onTap: () => forum.myRole == null?
+                    null:
+
+                    forum.followersCnt==0?
                     showAppToast(context, text: 'Wieje pustką...'):
+
                     pushPage(
                         context,
                         builder: (context) => ForumFollowersPage(forum: forum, palette: palette)

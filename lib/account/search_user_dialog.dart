@@ -182,7 +182,7 @@ class SearchUserWidgetState extends State<SearchUserWidget>{
                               left: Dimen.SIDE_MARG,
                               right: Dimen.SIDE_MARG
                           ),
-                          child: AccountHeaderWidget(userData!.name)
+                          child: AccountHeaderWidget(userData!.name, verified: userData!.verified)
 
                         /*
                           Row(

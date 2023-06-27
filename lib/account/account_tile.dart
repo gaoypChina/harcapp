@@ -8,35 +8,41 @@ class AccountTile extends StatelessWidget{
 
   final String name;
   final Widget? subtitle;
+  final bool showVerified;
+  final bool verified;
   final bool shadow;
 
   final Color? textColor;
   final Color? backgroundColor;
   final Color? thumbnailColor;
   final Color? thumbnailBorderColor;
+  final Color? thumbnailMarkerColor;
 
   final Widget? leading;
   final Widget? trailing;
   final dynamic thumbnailHeroTag;
   final void Function()? onTap;
   final void Function()? onLongPress;
-  final IconData? mardIcon;
+  final IconData? markIcon;
 
   const AccountTile(
       this.name,
       { this.subtitle,
+        this.showVerified = true,
+        this.verified = false,
         this.shadow = false,
         this.textColor,
         this.backgroundColor,
         this.thumbnailColor,
         this.thumbnailBorderColor,
+        this.thumbnailMarkerColor,
 
         this.leading,
         this.trailing,
         this.thumbnailHeroTag,
         this.onTap,
         this.onLongPress,
-        this.mardIcon,
+        this.markIcon,
         Key? key
       }) : super(key: key);
 
@@ -61,11 +67,33 @@ class AccountTile extends StatelessWidget{
             if(leading != null) leading!,
 
             if(thumbnailHeroTag == null)
-              AccountThumbnailWidget(name: name, shadow: shadow, elevated: false, color: thumbnailColor, borderColor: thumbnailBorderColor, markIcon: mardIcon)
+              AccountThumbnailWidget(
+                  name: name,
+                  showVerified: showVerified,
+                  verified: verified,
+                  shadow: shadow,
+                  elevated: false,
+                  color: thumbnailColor,
+                  borderColor: thumbnailBorderColor,
+                  markerColor: thumbnailMarkerColor,
+                  backgroundColor: backgroundColor,
+                  markIcon: markIcon
+              )
             else
               Hero(
                 tag: thumbnailHeroTag,
-                child: AccountThumbnailWidget(name: name, shadow: shadow, elevated: false, color: thumbnailColor, borderColor: thumbnailBorderColor, markIcon: mardIcon),
+                child: AccountThumbnailWidget(
+                    name: name,
+                    showVerified: showVerified,
+                    verified: verified,
+                    shadow: shadow,
+                    elevated: false,
+                    color: thumbnailColor,
+                    borderColor: thumbnailBorderColor,
+                    markerColor: thumbnailMarkerColor,
+                    backgroundColor: backgroundColor,
+                    markIcon: markIcon
+                ),
               ),
 
           ],

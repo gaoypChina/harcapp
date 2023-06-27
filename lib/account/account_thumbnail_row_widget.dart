@@ -79,6 +79,8 @@ class AccountThumbnailRowWidget extends StatelessWidget{
                             padding: EdgeInsets.all(circleMargin),
                             child: AccountThumbnailWidget(
                               name: acc,
+                              verified: false,
+                              showVerified: false,
                               elevated: elevated,
                               size: circleHeight,
                               color: color,
@@ -212,6 +214,7 @@ class AccountThumbnailLoadableRowWidget extends StatelessWidget{
 
         lastChild: isLoading?Center(
           child: AccountThumbnailWidget(
+            verified: false,
             elevated: elevated,
             color: color,
             borderColor: borderColor,

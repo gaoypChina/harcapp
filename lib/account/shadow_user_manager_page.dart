@@ -100,7 +100,7 @@ class ShadowUserManagerPageState extends State<ShadowUserManagerPage>{
       return loadedShadowUsers.length;
     },
     callLoadOnInit: false,
-    sliverBody: Builder(builder: (context){
+    sliverBody: (context, isLoading){
 
       if(loadedShadowUsers.isEmpty)
         return SliverFillRemaining(
@@ -188,7 +188,7 @@ class ShadowUserManagerPageState extends State<ShadowUserManagerPage>{
           ),
         );
 
-    })
+    }
   );
 
 }

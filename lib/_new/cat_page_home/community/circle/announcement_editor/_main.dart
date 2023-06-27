@@ -139,6 +139,7 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
                   author: UserData(
                     key: AccountData.key!,
                     name: AccountData.name!,
+                    verified: AccountData.verified,
                     shadow: false,
                     sex: AccountData.sex!,
                   ),

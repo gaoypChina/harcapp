@@ -8,15 +8,17 @@ import '../comp_role.dart';
 class ParticipHeaderWidget extends StatelessWidget{
 
   final String name;
+  final bool verified;
   final bool shadow;
   final CompRole role;
   final dynamic heroTag;
 
-  const ParticipHeaderWidget(this.name, this.shadow, this.role, {this.heroTag, super.key});
+  const ParticipHeaderWidget(this.name, this.verified, this.shadow, this.role, {this.heroTag, super.key});
 
   @override
   Widget build(BuildContext context) => AccountHeaderWidget(
     name,
+    verified: verified,
     shadow: shadow,
     leading: const SizedBox(width: Dimen.ICON_SIZE + Dimen.ICON_MARG),
     trailing: Row(

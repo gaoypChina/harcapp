@@ -1013,6 +1013,7 @@ class MembersWidgetState extends State<MembersWidget>{
                       const SizedBox(width: Dimen.ICON_MARG),
 
                       AccountThumbnailWidget(
+                        verified: false,
                         elevated: false,
                         color: CommunityCoverColors.cardColor(context, palette),
                         borderColor: CommunityCoverColors.backgroundColor(context, palette),

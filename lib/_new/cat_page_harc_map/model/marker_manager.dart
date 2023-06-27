@@ -10,6 +10,7 @@ class MarkerManager extends UserData{
   const MarkerManager({
     required super.key,
     required super.name,
+    required super.verified,
     required super.shadow,
     required super.sex,
     required this.role
@@ -22,6 +23,7 @@ class MarkerManager extends UserData{
   => MarkerManager(
     key: userData.key,
     name: userData.name,
+    verified: userData.verified,
     shadow: userData.shadow,
     sex: userData.sex,
     role: role,
@@ -32,6 +34,6 @@ class MarkerManager extends UserData{
     role: strToMarkerRole[respMap['role']]??(throw InvalidResponseError('role')),
   );
 
-  UserData toUserData() => UserData(key: key, name: name, shadow: shadow, sex: sex);
+  UserData toUserData() => UserData(key: key, name: name, verified: verified, shadow: shadow, sex: sex);
 
 }

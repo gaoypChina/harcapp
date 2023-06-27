@@ -1263,7 +1263,7 @@ class LoadableUserSelectorState extends State<LoadableUserSelector>{
     ),
     callLoadOnInit: trop.loadedUsers.length == 1,
 
-    sliverBody: Builder(builder: (context){
+    sliverBody: (context, isLoading){
 
       return SliverList(delegate: SliverChildBuilderDelegate(
           (context, index) => TropUserTile(
@@ -1273,8 +1273,7 @@ class LoadableUserSelectorState extends State<LoadableUserSelector>{
           childCount: trop.loadedUsers.length
       ));
 
-    }),
-
+    }
   );
   
 }

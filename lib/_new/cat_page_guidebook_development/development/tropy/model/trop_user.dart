@@ -9,6 +9,7 @@ class TropUser extends UserData{
   TropUser({
     required super.key,
     required super.name,
+    required super.verified,
     required super.shadow,
     required super.sex,
     required this.role,
@@ -21,6 +22,7 @@ class TropUser extends UserData{
   => TropUser(
     key: userData.key,
     name: userData.name,
+    verified: userData.verified,
     shadow: userData.shadow,
     sex: userData.sex,
     role: role,
@@ -29,6 +31,7 @@ class TropUser extends UserData{
   static TropUser fromRespMap(Map respMap, {String? key}) => TropUser(
     key: key??respMap['_key']??(throw InvalidResponseError('_key')),
     name: respMap['name']??(throw InvalidResponseError('name')),
+    verified: respMap['verified']??(throw InvalidResponseError('verified')),
     shadow: respMap['shadow']??(throw InvalidResponseError('shadow')),
     sex: strToSex[respMap['sex']]??(throw InvalidResponseError('sex')),
     role: strToTropRole[respMap['role']]??(throw InvalidResponseError('role')),
@@ -43,7 +46,7 @@ class TropUser extends UserData{
     return map;
   }
 
-  UserData toUserData() => UserData(key: key, name: name, shadow: shadow, sex: sex);
+  UserData toUserData() => UserData(key: key, name: name, verified: verified, shadow: shadow, sex: sex);
 
 }
 
@@ -54,6 +57,7 @@ class TropUserNick extends TropUser{
   TropUserNick({
     required super.key,
     required super.name,
+    required super.verified,
     required super.shadow,
     required super.sex,
     required super.role,
@@ -67,6 +71,7 @@ class TropUserNick extends TropUser{
   => TropUserNick(
     key: userData.key,
     name: userData.name,
+    verified: userData.verified,
     shadow: userData.shadow,
     sex: userData.sex,
     role: role,

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
+import 'package:harcapp/_common_widgets/empty_message_widget.dart';
 import 'package:harcapp/_new/api/forum.dart';
 import 'package:harcapp/_new/cat_page_home/community/common/community_cover_colors.dart';
 import 'package:harcapp/_new/cat_page_home/user_list_managment_loadable_page.dart';
 import 'package:harcapp/account/account_tile.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
 
@@ -47,8 +49,12 @@ class ForumLikesPageState extends State<ForumLikesPage>{
           userTileBuilder: (context, like) => AccountTile(
             like.name,
 
+            showVerified: true,
+            verified: like.verified,
             thumbnailColor: CommunityCoverColors.cardColor(context, palette),
             thumbnailBorderColor: CommunityCoverColors.cardColor(context, palette),
+            thumbnailMarkerColor: CommunityCoverColors.strongColor(context, palette),
+            backgroundColor: CommunityCoverColors.backgroundColor(context, palette),
           ),
 
           strongColor: CommunityCoverColors.strongColor(context, palette),
@@ -119,6 +125,18 @@ class ForumLikesPageState extends State<ForumLikesPage>{
 
           },
           callLoadOnInit: forum.loadedLikes.isEmpty,
+
+          emptyWidget: EmptyMessageWidget(
+            text: 'Brak polubień',
+            icon: MdiIcons.thumbDownOutline,
+            color: CommunityCoverColors.strongColor(context, palette),
+          ),
+
+          emptyLoadingWidget: EmptyMessageWidget(
+            text: 'Ładowanie polubień...',
+            icon: MdiIcons.thumbUpOutline,
+            color: CommunityCoverColors.strongColor(context, palette),
+          ),
       )
   );
 

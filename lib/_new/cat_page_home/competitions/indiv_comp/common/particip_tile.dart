@@ -44,7 +44,7 @@ class ParticipTile extends StatelessWidget{
     leading: leading,
     trailing: trailing,
     subtitle: subtitle,
-    mardIcon: mardIcon,
+    markIcon: mardIcon,
     thumbnailHeroTag: heroTag,
 
     onTap: onTap,
