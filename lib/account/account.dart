@@ -285,12 +285,9 @@ class AccountData {
     await const FlutterSecureStorage().delete(key: _keyVerified);
   }
 
-  static Future<void> writeVerified(String? value) async {
-    _verified = value;
-    if (value == null)
-      return await removeVerified();
-    else
-      return await const FlutterSecureStorage().write(key: _keyVerified, value: value);
+  static Future<void> writeVerified(bool value) async {
+    _verified = value?'true':'false';
+    return await const FlutterSecureStorage().write(key: _keyVerified, value: value?'true':'false');
   }
 
 

@@ -312,7 +312,9 @@ class ApiRegLog{
       );
     },
     onServerMaybeWakingUp: onServerMaybeWakingUp,
-    onError: (err) => onError?.call(err.response),
+    onError: (err) async {
+      await onError?.call(err.response);
+    }
   );
 
   static Future<Response?> carefullyLogin({

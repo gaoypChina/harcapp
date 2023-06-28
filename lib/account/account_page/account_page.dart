@@ -174,12 +174,16 @@ class AccountPageState extends State<AccountPage> with TickerProviderStateMixin{
                           showAlertDialog(
                             context,
                             dismissible: false,
-                            title: 'Lodowanie',
+                            title: 'Logowanie',
                             content: 'Trwa logowanie przez konto ZHP...',
                           );
 
                           await ZhpAccAuth.login();
                           String? azureToken = await ZhpAccAuth.azureToken;
+                          if(azureToken == null){
+                            Navigator.pop(context);
+                            return;
+                          }
                           await ApiRegLog.mergeMicrosoft(
                             azureToken,
                             onSuccess: (response){
