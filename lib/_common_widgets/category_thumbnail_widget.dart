@@ -6,7 +6,8 @@ import 'package:harcapp_core/dimen.dart';
 
 class CategoryThumbnailCommonWidget extends StatelessWidget{
 
-  static const borderSize = 1.2;
+  static const double defBorderSize = 1.2;
+  static double borderSize(double size) => defBorderSize*size/24;
 
   final Color color;
   final Color? colorEnd;
@@ -86,9 +87,9 @@ class CategoryThumbnailCommonWidget extends StatelessWidget{
     borderRadius: BorderRadius.circular(size),
     color: iconColor??colorEnd??color,
     child: Padding(
-      padding: const EdgeInsets.all(borderSize),
+      padding: EdgeInsets.all(borderSize(size)),
       child: GradientWidget(
-          borderRadius: BorderRadius.circular(size - 2*borderSize),
+          borderRadius: BorderRadius.circular(size - 2*borderSize(size)),
           duration: Duration.zero,
           colorStart: color,
           colorEnd: colorEnd??color,
@@ -96,30 +97,30 @@ class CategoryThumbnailCommonWidget extends StatelessWidget{
             builder: (context){
               if(icon != null)
                 return SizedBox(
-                  width: size - 2*borderSize,
-                  height: size - 2*borderSize,
+                  width: size - 2*borderSize(size),
+                  height: size - 2*borderSize(size),
                   child: Center(
-                    child: Icon(icon, size: .9*(size - 2*borderSize), color: iconColor??Colors.black),
+                    child: Icon(icon, size: .9*(size - 2*borderSize(size)), color: iconColor??Colors.black),
                   ),
                 );
 
               if(svgPath != null)
                 return SizedBox(
-                  width: size - 2*borderSize,
-                  height: size - 2*borderSize,
+                  width: size - 2*borderSize(size),
+                  height: size - 2*borderSize(size),
                   child: Center(
                     child: SvgPicture.asset(
                       svgPath!,
-                      width: svgSizeFraction*(size - 2*borderSize),
-                      height: svgSizeFraction*(size - 2*borderSize),
+                      width: svgSizeFraction*(size - 2*borderSize(size)),
+                      height: svgSizeFraction*(size - 2*borderSize(size)),
                     ),
                   ),
                 );
 
               if(text != null)
                 return SizedBox(
-                  width: size - 2*borderSize,
-                  height: size - 2*borderSize,
+                  width: size - 2*borderSize(size),
+                  height: size - 2*borderSize(size),
                   child: Center(
                     child: Text(
                         text!,

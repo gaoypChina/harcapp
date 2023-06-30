@@ -357,15 +357,16 @@ class ApiHarcMap{
 
   static Future<Response?> getCommunitiesOfMarker({
     required String markerKey,
+    required bool publicOnly,
 
     FutureOr<void> Function(List<Tuple2<CommunityPreviewData, String?>> communities)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
     FutureOr<bool> Function()? onServerMaybeWakingUp,
     FutureOr<void> Function()? onError,
   }) => API.sendRequest(
-      withToken: true,
+      withToken: !publicOnly,
       requestSender: (Dio dio) async => dio.get(
-          '${API.baseUrl}api/harcMap/$markerKey/communities',
+          '${API.baseUrl}api/harcMap/$markerKey/communities${publicOnly?'/public':''}',
       ),
       onSuccess: (Response response, DateTime now) async {
         List<Tuple2<CommunityPreviewData, String?>> communities = [];

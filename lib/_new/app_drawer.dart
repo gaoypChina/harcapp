@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/common.dart';
+import 'package:harcapp/_new/w_deche/_main.dart';
 import 'package:harcapp/values/app_values.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
@@ -145,9 +146,16 @@ class AccountHeader extends StatelessWidget{
               leading!,
 
             Expanded(child: Container()),
-            HarcApp(
-              size: Dimen.TEXT_SIZE_APPBAR,
-              color: iconEnab_(context),
+
+            GestureDetector(
+                onLongPress: () async {
+                  await precacheImage(const AssetImage(WDechePageState.tileImagePath), context);
+                  pushPage(context, builder: (context) => const WDechePage());
+                },
+              child: HarcApp(
+                size: Dimen.TEXT_SIZE_APPBAR,
+                color: iconEnab_(context),
+              )
             ),
             Expanded(child: Container()),
 

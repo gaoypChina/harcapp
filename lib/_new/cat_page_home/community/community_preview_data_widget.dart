@@ -32,7 +32,7 @@ class CommunityPreviewDataWidget extends StatelessWidget{
       community.name,
       community.category,
 
-      subtitle: community.contact == null?
+      subtitle: community.contact == null || community.contact!.isEmpty?
       null:
       Align(
         alignment: Alignment.topLeft,

@@ -69,6 +69,7 @@ List<Person> allPeople = [
   JADWIGA_GORSKA,
   JADWIGA_SZEWCZYK,
   JAGIENKA_KULCZYCKA,
+  JAGODA_SKOWRONSKA,
   JAKUB_DEBICKI,
   JAKUB_EJDUK,
   JAKUB_KLEPACZ,
@@ -585,6 +586,14 @@ const Person JAGIENKA_KULCZYCKA = Person(
   hufiec: huf_zhp_kalisz,
   org: Org.zhp,
   email: ['jagienkakulczycka@gmail.com', 'kulczyckajagienka@gmail.com'],
+);
+const Person JAGODA_SKOWRONSKA = Person(
+    name: 'Jagoda Skowrońska',
+    druzyna: '125. Aves',
+    hufiec: huf_zhp_nowe_miasto_lubawskie,
+    stopH: StopHarc.zhpSamarytanka,
+    org: Org.zhp,
+    email: ['jagoda.skowronska@edu.szkolagortatowo.pl', 'jagodaskowronska2021@gmail.com']
 );
 const Person JAKUB_DEBICKI = Person(
     name: 'Jakub Dębicki',

@@ -227,6 +227,7 @@ const String huf_zhp_lodz_gorna = 'Hufiec ZHP Łódź-Górna';
 const String huf_zhp_lodz_polesie = 'Hufiec ZHP Łódź Polesie';
 const String huf_zhp_miedzyrzecz = 'Hufiec ZHP Międzyrzecz';
 const String huf_zhp_myslenice = 'Hufiec ZHP Myślenice';
+const String huf_zhp_nowe_miasto_lubawskie = 'Hufiec ZHP Nowe Miasto Lubawskie';
 const String huf_zhp_opole = 'Hufiec ZHP Opole';
 const String huf_zhp_ostrowiec_swietokrzyski = 'Hufiec ZHP Ostrowiec Świętokrzyski';
 const String huf_zhp_plock = 'Hufiec ZHP Płock im. Obrońców Płocka 1920 roku';

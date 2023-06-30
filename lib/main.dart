@@ -464,16 +464,16 @@ class AppState extends State<App> with WidgetsBindingObserver {
     subscription = addConnectionListener((hasConnection) async {
       if (!hasConnection) return;
 
-      if(Community.all == null)
+      if(AccountData.loggedIn && Community.all == null)
         communitiesLoader.run();
 
-      if(IndivComp.all == null)
+      if(AccountData.loggedIn && IndivComp.all == null)
         indivCompLoader.run();
 
-      if(!await synchronizer.isAllSynced())
+      if(AccountData.loggedIn && !await synchronizer.isAllSynced())
         await synchronizer.post();
 
-      await Statistics.commit();
+      if(AccountData.loggedIn) await Statistics.commit();
     });
 
     songLoader.run();

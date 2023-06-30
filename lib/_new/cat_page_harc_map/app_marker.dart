@@ -10,6 +10,7 @@ import 'package:harcapp/_common_widgets/common_contact_widget.dart';
 import 'package:harcapp/_new/api/harc_map.dart';
 import 'package:harcapp/_new/cat_page_harc_map/role_page/managers_page.dart';
 import 'package:harcapp/_new/cat_page_home/community/common_widgets/community_header_widget.dart';
+import 'package:harcapp/_new/cat_page_home/community/common_widgets/community_markers_widget.dart';
 import 'package:harcapp/_new/cat_page_home/community/community_thumbnail_widget.dart';
 import 'package:harcapp/_new/cat_page_home/community/model/community_category.dart';
 import 'package:harcapp/_new/details/app_settings.dart';
@@ -174,76 +175,43 @@ class CommunityTile extends StatelessWidget{
 
 Future<void> showMarkerBottomSheet(BuildContext context, MarkerData marker) => openDialog(
     context: context,
-    builder: (_) => Center(
+    builder: (_) => MarkerDialog(context, marker)
+);
+
+class MarkerDialog extends StatelessWidget{
+
+  final BuildContext context;
+  final MarkerData marker;
+
+  const MarkerDialog(this.context, this.marker, {super.key});
+
+  @override
+  Widget build(BuildContext _) {
+
+    bool amIAdmin = marker.myRole == MarkerRole.ADMIN;
+    bool hasName = marker.name != null && marker.name!.isNotEmpty;
+    bool hasContact = marker.contact != null && marker.contact!.isNotEmpty;
+    bool hasCommunities = marker.communitiesBasicData.isNotEmpty;
+
+    return Center(
       child: Padding(
         padding: const EdgeInsets.all(Dimen.SIDE_MARG),
         child: Material(
           borderRadius: BorderRadius.circular(AppCard.bigRadius),
           clipBehavior: Clip.hardEdge,
-          color: background_(context),
+          color: getMarkerTypeColor(marker.type)??background_(context),
           child: ListView(
             shrinkWrap: true,
             physics: const BouncingScrollPhysics(),
             children: [
 
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  IconButton(
-                    icon: Icon(MdiIcons.arrowLeft),
-                    onPressed: () => Navigator.pop(context),
-                  ),
+              AppBar(
+                title: Text(markerTypeToName(marker.type)),
+                centerTitle: true,
+                backgroundColor: getMarkerTypeColorEnd(marker.type),
+                actions: [
 
-                  const SizedBox(
-                      width: Dimen.APPBAR_LEADING_WIDTH - Dimen.ICON_FOOTPRINT),
-
-                  if(marker.name == null || marker.name!.isEmpty)
-                    Expanded(child: Padding(
-                      padding: const EdgeInsets.only(top: Dimen.ICON_MARG +
-                          (Dimen.ICON_SIZE - Dimen.TEXT_SIZE_APPBAR) / 2),
-                      child: Text(markerTypeToName(marker.type), style: AppTextStyle(
-                          fontSize: Dimen.TEXT_SIZE_APPBAR,
-                          fontWeight: weight.bold,
-                          color: iconEnab_(context)
-                      )),
-                    ))
-                  else
-                    Expanded(child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-
-                        const SizedBox(
-                          height: Dimen.ICON_MARG +
-                              (Dimen.ICON_SIZE - Dimen.TEXT_SIZE_APPBAR) / 2,
-                        ),
-
-                        Text(marker.name!, style: AppTextStyle(
-                            fontSize: Dimen.TEXT_SIZE_APPBAR,
-                            fontWeight: weight.bold,
-                            color: iconEnab_(context)
-                        )),
-
-                        const SizedBox(height: Dimen.defMarg),
-
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: MarkerTypeWidget(marker.type, dense: true, key: ValueKey(marker)),
-                        ),
-
-                        if(AppSettings.devMode)
-                          const SizedBox(height: Dimen.defMarg),
-
-                        if(AppSettings.devMode)
-                          AppText(
-                            'Min appear. zoom: <b>${marker.minZoomAppearance.toStringAsFixed(3)}</b>'
-                                '\nLat: <b>${marker.lat}</b>'
-                                '\nLng: <b>${marker.lng}</b>',
-                          )
-
-                      ],
-                    )),
-
-                  if(marker.loadedManagersMap[AccountData.key]?.role == MarkerRole.ADMIN)
+                  if(amIAdmin)
                     IconButton(
                       icon: Icon(MdiIcons.pencilOutline),
                       onPressed: () {
@@ -259,81 +227,205 @@ Future<void> showMarkerBottomSheet(BuildContext context, MarkerData marker) => o
                                 )
                         );
                       },
+                    )
+                  else
+                    SizedBox(
+                      width: kToolbarHeight,
+                      child: Center(
+                        child: markerTypeToWidget(marker.type, size: 32),
+                      ),
                     ),
 
                 ],
               ),
 
               Padding(
-                  padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
+                padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
 
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-
-                          if(marker.loadedManagersMap[AccountData.key]?.role == MarkerRole.ADMIN)
-                            SimpleButton.from(
-                                context: context,
-                                color: backgroundIcon_(context),
-                                icon: MdiIcons.accountSupervisorCircleOutline,
-                                text: 'Role',
-                                onTap: () async {
-                                  pushReplacePage(context, builder: (context) => MarkerManagersPage(marker: marker));
-                                }
-                            ),
-
-                          if(marker.contact != null)
-                            SimpleButton.from(
-                                context: context,
-                                color: backgroundIcon_(context),
-                                icon: MdiIcons.emailOutline,
-                                text: 'Kontakt',
-                                onTap: () async {
-                                  Navigator.pop(context);
-                                  await openCommonContact(
-                                      context,
-                                      marker.contact!,
-                                      otherMultiline: true
-                                  );
-                                  showMarkerBottomSheet(context, marker);
-                                }
-                            ),
-
-                        ],
+                    if(hasName)
+                      TitleShortcutRowWidget(
+                        title: 'Nazwa',
+                        titleColor: textEnab_(context),
+                        textAlign: TextAlign.left,
                       ),
 
-                      if(marker.communitiesBasicData.isNotEmpty)
-                        const SizedBox(height: Dimen.SIDE_MARG),
+                    if(hasName)
+                      Text(marker.name!, style: AppTextStyle(
+                          fontSize: Dimen.TEXT_SIZE_BIG,
+                          // fontWeight: weight.halfBold,
+                          color: iconEnab_(context)
+                      )),
 
-                      if(marker.communitiesBasicData.isNotEmpty)
-                        TitleShortcutRowWidget(
-                          title: 'Środowiska',
-                          titleColor: textEnab_(context),
-                          textAlign: TextAlign.left,
-                        ),
+                    if(hasName)
+                      const SizedBox(height: Dimen.SIDE_MARG),
 
-                      if(marker.communitiesBasicData.isNotEmpty)
-                        MarkerCommunitiesWidget(
-                          marker,
-                          onPreShowDialog: () => Navigator.pop(context),
-                          onPostShowDialog: () =>
-                              showMarkerBottomSheet(context, marker),
-                        ),
+                    if(AppSettings.devMode)
+                      TitleShortcutRowWidget(
+                        title: 'Info dla wtajemniczonych',
+                        titleColor: textEnab_(context),
+                        textAlign: TextAlign.left,
+                      ),
 
-                    ],
-                  )
+                    if(AppSettings.devMode)
+                      AppText(
+                        'Min appear. zoom: <b>${marker.minZoomAppearance.toStringAsFixed(3)}</b>'
+                            '\nLat: <b>${marker.lat}</b>'
+                            '\nLng: <b>${marker.lng}</b>',
+                      ),
+
+                    if(AppSettings.devMode)
+                      const SizedBox(height: Dimen.SIDE_MARG),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+
+                        if(amIAdmin)
+                          SimpleButton.from(
+                              context: context,
+                              color: backgroundIcon_(context),
+                              icon: MdiIcons.accountSupervisorCircleOutline,
+                              text: 'Role',
+                              onTap: () async {
+                                pushReplacePage(context, builder: (context) => MarkerManagersPage(marker: marker));
+                              }
+                          ),
+
+                        if(hasContact)
+                          SimpleButton.from(
+                              context: context,
+                              color: backgroundIcon_(context),
+                              icon: MdiIcons.emailOutline,
+                              text: 'Kontakt',
+                              onTap: () async {
+                                Navigator.pop(context);
+                                await openCommonContact(
+                                    context,
+                                    marker.contact!,
+                                    otherMultiline: true
+                                );
+                                showMarkerBottomSheet(context, marker);
+                              }
+                          ),
+
+                      ],
+                    ),
+
+                    if(amIAdmin || hasContact)
+                      const SizedBox(height: Dimen.SIDE_MARG),
+
+                    if(hasCommunities)
+                      TitleShortcutRowWidget(
+                        title: 'Środowiska',
+                        titleColor: textEnab_(context),
+                        textAlign: TextAlign.left,
+                      ),
+
+                    if(hasCommunities)
+                      MarkerCommunitiesWidget(
+                        marker,
+                        onPreShowDialog: () => Navigator.pop(context),
+                        onPostShowDialog: () =>
+                            showMarkerBottomSheet(context, marker),
+                      ),
+
+                    if(hasCommunities)
+                      const SizedBox(height: Dimen.SIDE_MARG),
+
+                  ],
+                ),
               ),
+
+              // Row(
+              //   crossAxisAlignment: CrossAxisAlignment.start,
+              //   children: [
+              //     IconButton(
+              //       icon: Icon(MdiIcons.arrowLeft),
+              //       onPressed: () => Navigator.pop(context),
+              //     ),
+              //
+              //     const SizedBox(
+              //         width: Dimen.APPBAR_LEADING_WIDTH - Dimen.ICON_FOOTPRINT),
+              //
+              //     if(marker.name == null || marker.name!.isEmpty)
+              //       Expanded(child: Padding(
+              //         padding: const EdgeInsets.only(top: Dimen.ICON_MARG +
+              //             (Dimen.ICON_SIZE - Dimen.TEXT_SIZE_APPBAR) / 2),
+              //         child: Text(markerTypeToName(marker.type), style: AppTextStyle(
+              //             fontSize: Dimen.TEXT_SIZE_APPBAR,
+              //             fontWeight: weight.bold,
+              //             color: iconEnab_(context)
+              //         )),
+              //       ))
+              //     else
+              //       Expanded(child: Column(
+              //         crossAxisAlignment: CrossAxisAlignment.stretch,
+              //         children: [
+              //
+              //           const SizedBox(
+              //             height: Dimen.ICON_MARG +
+              //                 (Dimen.ICON_SIZE - Dimen.TEXT_SIZE_APPBAR) / 2,
+              //           ),
+              //
+              //           Text(marker.name!, style: AppTextStyle(
+              //               fontSize: Dimen.TEXT_SIZE_APPBAR,
+              //               fontWeight: weight.halfBold,
+              //               color: iconEnab_(context)
+              //           )),
+              //
+              //           const SizedBox(height: Dimen.defMarg),
+              //
+              //           Align(
+              //             alignment: Alignment.centerLeft,
+              //             child: MarkerTypeWidget(marker.type, dense: true, key: ValueKey(marker)),
+              //           ),
+              //
+              //           if(AppSettings.devMode)
+              //             const SizedBox(height: Dimen.defMarg),
+              //
+              //           if(AppSettings.devMode)
+              //             AppText(
+              //               'Min appear. zoom: <b>${marker.minZoomAppearance.toStringAsFixed(3)}</b>'
+              //                   '\nLat: <b>${marker.lat}</b>'
+              //                   '\nLng: <b>${marker.lng}</b>',
+              //             )
+              //
+              //         ],
+              //       )),
+              //
+              //     if(amIAdmin)
+              //       IconButton(
+              //         icon: Icon(MdiIcons.pencilOutline),
+              //         onPressed: () {
+              //           Navigator.pop(context);
+              //           pushPage(
+              //               context,
+              //               builder: (context) =>
+              //                   MarkerEditorPage(
+              //                     initMarker: marker,
+              //                     onSuccess: (updatedMarker) {
+              //                       marker.update(updatedMarker);
+              //                     },
+              //                   )
+              //           );
+              //         },
+              //       ),
+              //
+              //   ],
+              // ),
 
             ],
           ),
         ),
       ),
-    )
-);
+    );
+
+  }
+
+}
 
 class MarkerCommunitiesWidget extends StatefulWidget{
 
@@ -367,6 +459,7 @@ class MarkerCommunitiesWidgetState extends State<MarkerCommunitiesWidget> {
     if(marker.communities == null)
       ApiHarcMap.getCommunitiesOfMarker(
         markerKey: marker.key,
+        publicOnly: !AccountData.loggedIn,
         onSuccess: (communities){
           marker.communities = communities;
           if(mounted) setState(() => loading = false);

@@ -52,7 +52,7 @@ dependencies:
   html_unescape: ^2.0.0
   image: ^4.0.13
   image_gallery_saver: ^2.0.1
-  image_picker: ^0.8.6
+  image_picker: ^1.0.0
   implicitly_animated_reorderable_list_2: ^0.5.1
   latlong2: ^0.8.1
   lifecycle: ^0.7.0
@@ -185,6 +185,7 @@ flutter:
     - assets/images/symb/
     - assets/images/trop/harc/
     - assets/images/trop/zuch/
+    - assets/images/w_deche/
     - assets/images/znaki_patro/
     - assets/konspekty/
     - assets/konspekty/gang_potencjalnych_porywaczy/

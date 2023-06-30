@@ -38,6 +38,9 @@ class CommonContactData{
     };
   }
 
+  bool get isEmpty => email.isEmpty && phone.isEmpty && website.isEmpty && (other == null || other!.isEmpty);
+  bool get isNotEmpty => !isEmpty;
+
   static CommonContactData empty() => CommonContactData(
       email: [],
       phone: [],

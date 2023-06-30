@@ -177,7 +177,7 @@ Color getMarkerTypeColorEnd(MarkerType markerType){
 
     case MarkerType.schronTurystyczny: return Colors.green[500]!;
 
-    case MarkerType.siedzibaHufcaZhp: return Colors.white;
+    case MarkerType.siedzibaHufcaZhp: return Colors.grey[300]!;
     case MarkerType.siedzibaChoragwiZhp: return Colors.white;
     case MarkerType.siedzibaGlownejKwateryZhp: return Colors.white;
 
@@ -226,7 +226,9 @@ Widget markerTypeToWidget(MarkerType markerType, {required double size, bool ele
           icon: MdiIcons.alertCircleOutline);
 
     case MarkerType.harcowka: return CategoryThumbnailCommonWidget.fromIcon(
-        color: getMarkerTypeColor(markerType), iconColor: getMarkerTypeIconColor(markerType),
+        color: getMarkerTypeColor(markerType),
+        colorEnd: getMarkerTypeColorEnd(markerType),
+        iconColor: getMarkerTypeIconColor(markerType),
         size: size, elevated: elevated,
         icon: MdiIcons.fleurDeLis);
     case MarkerType.miejsceOgniskowe: return CategoryThumbnailCommonWidget.fromIcon(
