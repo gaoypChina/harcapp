@@ -61,7 +61,7 @@ class WDecheData{
       imageSize: 60.0,
     ),
 
-    WDecheData(text: 'Sympatia żadko jest wzajemna, ale antypatia - prawie zawsze.'),
+    WDecheData(text: 'Sympatia rzadko jest wzajemna, ale antypatia - prawie zawsze.'),
 
     WDecheData(
         text: '"Przybyłem, zobaczyłem i oczom nie wierzę..."',
@@ -84,6 +84,10 @@ class WDecheData{
 
     WDecheData(text: 'Wizyty zawsze sprawiają przyjemność, jeśli nie przyjściem, to wyjściem'),
 
+    WDecheData(text: 'Czy ktoś widział, gdzie położyłem swój widelec?'),
+
+    WDecheData(text: '"Rower jest wielce okej"'),
+
     WDecheData(
       text: 'Nie ma powrotu do jaskiń - jest nas za dużo...',
       imageName: 'cave',
@@ -93,18 +97,56 @@ class WDecheData{
     WDecheData(
       text: 'Miej serce i nie patrz w telewizor',
       imageName: 'heart',
-      imageSize: 42.0
+      imageSize: 64.0
     ),
 
     WDecheData(text: 'Ty wiesz swoje\n'
         'On wie swoje\n'
         'Ja znam prawdę'),
 
+    WDecheData(
+      text: 'Nie wychodź z siebie. Możesz nie wrócić'
+    ),
+
+    WDecheData(
+      text: 'Warzywa to w gruncie rzeczy...',
+      imageName: 'carrot',
+      imageSize: 42.0,
+    ),
+
+    WDecheData(
+      text: 'Czy klucz maturalny otwiera jakieś drzwi?',
+    ),
+
+    WDecheData(
+      text: 'Kupiłem telefon od ornitologa i mi słowik zmienia sowa'
+    ),
+
+    WDecheData(
+      text: 'Nie pytaj mnie o starą wędlinę w lodówce, to dość śliski temat'
+    ),
+
+    WDecheData(
+      text: 'Czemu nie wymyślono jeszcze lekarstwa na anoreksję? Przecież to bułka z masłem'
+    ),
+
+    WDecheData(
+      text: 'Nie rozmawiaj z obcymi'
+          '\nBo jeszcze kogoś poznasz',
+    ),
+
     WDecheData(text: '"Jestem wstawiony" ~ Ząb'),
+
+    WDecheData(text: 'Z prochu powstałeś...'
+        '\nWięc wstań i się otrzep'),
+
+    WDecheData(text: 'Trzeba być kimś, żeby być sobą'),
 
     WDecheData(text: 'Żadna praca nie hańbi - ale każda męczy'),
 
     WDecheData(text: 'Jak nie możesz dojść do siebie, przyjdź do mnie.'),
+
+    WDecheData(text: 'Czy Darth Vader sikał?'),
 
     WDecheData(text: 'Tylko Ewa mogła być pewna, że Adam nie pokocha innej'),
 
@@ -115,6 +157,14 @@ class WDecheData{
     WDecheData(text: 'Uwierz mi: nie ufaj nikomu.'),
 
     WDecheData(text: 'Ludzie, myślenie nie boli...'),
+
+    WDecheData(text: 'To wszystko jest trochę śmieszne'),
+
+    WDecheData(text: 'Pani mówi, że 40% z nas nie zda matematyki'
+        '\nA przecież nas nawet tylu nie ma w klasie'),
+
+    WDecheData(text: '"Panie, już cuchnie!"'
+        '\n~ J 11, 39'),
 
     WDecheData(text: 'xD'),
 

@@ -52,7 +52,7 @@ class CommunityHeaderWidget extends StatelessWidget{
         heroTag: thumbnailHeroTag,
       ),
 
-      const SizedBox(width: Dimen.ICON_MARG),
+      // const SizedBox(width: Dimen.defMarg),
 
       Expanded(
           child: Column(

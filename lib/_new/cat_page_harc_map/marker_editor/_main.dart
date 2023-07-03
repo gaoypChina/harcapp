@@ -1,11 +1,15 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_tab_bar_indicator.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
+import 'package:harcapp/_common_widgets/loading_widget.dart';
 import 'package:harcapp/_new/api/harc_map.dart';
 import 'package:harcapp/_new/cat_page_harc_map/model/marker_data.dart';
 import 'package:harcapp/_new/cat_page_harc_map/marker_editor/danger_part.dart';
 import 'package:harcapp/_new/cat_page_harc_map/marker_editor/providers.dart';
 import 'package:harcapp/values/consts.dart';
+import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -13,6 +17,7 @@ import 'package:optional/optional_internal.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 
+import '../../../_common_classes/app_navigator.dart';
 import 'communities_part.dart';
 import 'info_part.dart';
 import 'location_part.dart';
@@ -22,7 +27,7 @@ class MarkerEditorPage extends StatefulWidget{
   final MarkerData? initMarker;
   final double? initZoom;
   final LatLng? initCenter;
-  final void Function(MarkerData marker)? onSuccess;
+  final FutureOr<void> Function(MarkerData marker)? onSuccess;
 
   const MarkerEditorPage({this.initMarker, this.initZoom, this.initCenter, this.onSuccess, super.key});
 
@@ -37,7 +42,7 @@ class MarkerEditorPageState extends State<MarkerEditorPage> with TickerProviderS
   double? get initZoom => widget.initZoom;
   LatLng? get initCenter => widget.initCenter;
 
-  void Function(MarkerData marker)? get onSuccess => widget.onSuccess;
+  FutureOr<void> Function(MarkerData marker)? get onSuccess => widget.onSuccess;
 
   late TabController controller;
 
@@ -115,6 +120,8 @@ class MarkerEditorPageState extends State<MarkerEditorPage> with TickerProviderS
                     ContactProvider contactProv = ContactProvider.of(context);
                     BindedCommunitiesProvider bindedCommProv = BindedCommunitiesProvider.of(context);
 
+                    showLoadingWidget(context, iconEnab_(context), 'Chwileczkę...');
+
                     if(initMarker == null)
                       ApiHarcMap.create(
                         name: nameProv.name,
@@ -126,18 +133,22 @@ class MarkerEditorPageState extends State<MarkerEditorPage> with TickerProviderS
 
                         communityKeys: bindedCommProv.addedCommunities,
 
-                        onSuccess: (MarkerData marker){
-                          onSuccess?.call(marker);
-                          Navigator.pop(context);
+                        onSuccess: (MarkerData marker) async {
+                          await onSuccess?.call(marker);
+                          if(mounted) await popPage(context); // Close loading widget.
+                          if(mounted) Navigator.pop(context);
                         },
-                        onForceLoggedOut: (){
+                        onForceLoggedOut: () async {
+                          await popPage(context); // Close loading widget.
                           return true;
                         },
-                        onServerMaybeWakingUp: (){
+                        onServerMaybeWakingUp: () async {
+                          if(mounted) await popPage(context); // Close loading widget.
                           if(mounted) showServerWakingUpToast(context);
                           return true;
                         },
-                        onError: (){
+                        onError: () async {
+                          if(mounted) await popPage(context); // Close loading widget.
                           if(mounted) showAppToast(context, text: simpleErrorMessage);
                         },
                       );
@@ -173,18 +184,22 @@ class MarkerEditorPageState extends State<MarkerEditorPage> with TickerProviderS
                         editCommunity: bindedCommProv.editedCommunities,
                         removeCommunity: bindedCommProv.removedCommunities,
 
-                        onSuccess: (MarkerData marker){
+                        onSuccess: (MarkerData marker) async {
                           onSuccess?.call(marker);
-                          Navigator.pop(context);
+                          if(mounted) await popPage(context); // Close loading widget.
+                          if(mounted) Navigator.pop(context);
                         },
-                        onForceLoggedOut: (){
+                        onForceLoggedOut: () async {
+                          if(mounted) await popPage(context); // Close loading widget.
                           return true;
                         },
-                        onServerMaybeWakingUp: (){
+                        onServerMaybeWakingUp: () async {
+                          if(mounted) await popPage(context); // Close loading widget.
                           if(mounted) showServerWakingUpToast(context);
                           return true;
                         },
-                        onError: (){
+                        onError: () async {
+                          if(mounted) await popPage(context); // Close loading widget.
                           if(mounted) showAppToast(context, text: simpleErrorMessage);
                         },
                       );

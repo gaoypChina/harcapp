@@ -150,7 +150,7 @@ class AccountHeader extends StatelessWidget{
             GestureDetector(
                 onLongPress: () async {
                   await precacheImage(const AssetImage(WDechePageState.tileImagePath), context);
-                  pushPage(context, builder: (context) => const WDechePage());
+                  pushReplacePage(context, builder: (context) => const WDechePage());
                 },
               child: HarcApp(
                 size: Dimen.TEXT_SIZE_APPBAR,

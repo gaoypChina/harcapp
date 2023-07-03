@@ -356,6 +356,20 @@ class MarkerData{
     }
     MarkerManager? me = _loadedManagersMap[accKey];
 
+    if(me == null)
+      return null;
+
+    return me.role;
+  }
+
+  MarkerRole? get myRoleOrLogout{
+    String? accKey = AccountData.key;
+    if(accKey == null){
+      logger.w('Value of saved account data key is null. Are you logged in?');
+      return null;
+    }
+    MarkerManager? me = _loadedManagersMap[accKey];
+
     if(me == null){
       AccountData.forgetAccount();
       AccountData.callOnLogout(true);

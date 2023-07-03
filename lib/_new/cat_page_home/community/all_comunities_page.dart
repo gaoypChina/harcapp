@@ -146,7 +146,7 @@ class AllCommunitiesPageState extends State<AllCommunitiesPage>{
 
     slivers.add(SliverList(delegate: SliverChildListDelegate([
       SuperSearchFieldButton(
-          color: CommunityCoverColors.nonPaletteBackgroundColor(),
+          color: CommunityCoverColors.nonPaletteBackgroundColor(context),
           margin: const EdgeInsets.only(
             left: Dimen.SIDE_MARG,
             right: Dimen.SIDE_MARG,
@@ -328,7 +328,7 @@ class NewCommunityButton extends StatelessWidget{
             child: Material(
               clipBehavior: Clip.hardEdge,
               shape: RoundedRectangleBorder(
-                side: BorderSide(color: CommunityCoverColors.nonPaletteBackgroundColor(), width: Dimen.defMarg),
+                side: BorderSide(color: CommunityCoverColors.nonPaletteBackgroundColor(context), width: Dimen.defMarg),
                 borderRadius: BorderRadius.circular(radius),
               ),
               color: background_(context),

@@ -134,7 +134,7 @@ class SuperSearchPageState extends State<SuperSearchPage>{
             child: SuperSearchField(
               autofocus: true,
               controller: textController,
-              color: CommunityCoverColors.nonPaletteBackgroundColor(),
+              color: CommunityCoverColors.nonPaletteBackgroundColor(context),
               leading: IconButton(
                 icon: Icon(MdiIcons.arrowLeft),
                 onPressed: () => Navigator.pop(context),

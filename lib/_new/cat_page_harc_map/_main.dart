@@ -435,202 +435,210 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
     providers: [
       ChangeNotifierProvider(create: (context) => MapEventChangedProvider()),
     ],
-    builder: (context, child) => AppScaffold(
-      bottomNavigationBar: const AppBottomNavigator(),
-      body: Stack(
-        children: [
+    builder: (context, child) => Theme(
+      data: ColorPackHarcMap().themeData,
+      child: Builder(
+        builder: (context) {
+          // This has to be here in order to override the old context for theme.
+          return AppScaffold(
+            bottomNavigationBar: const AppBottomNavigator(),
+            body: Stack(
+              children: [
 
-          FlutterMap(
-            options: MapOptions(
-              center: lastCenter,
-              crs: const Epsg3857(),
-              maxBounds: LatLngBounds(LatLng(-maxLatSpan, -maxLngSpan), LatLng(maxLatSpan, maxLngSpan)),
-              zoom: lastZoom,
-              minZoom: 2,
-              maxZoom: CatPageHarcMap.maxZoom,
+                FlutterMap(
+                  options: MapOptions(
+                    center: lastCenter,
+                    crs: const Epsg3857(),
+                    maxBounds: LatLngBounds(LatLng(-maxLatSpan, -maxLngSpan), LatLng(maxLatSpan, maxLngSpan)),
+                    zoom: lastZoom,
+                    minZoom: 2,
+                    maxZoom: CatPageHarcMap.maxZoom,
 
-              interactiveFlags: CatPageHarcMap.interactiveFlags,
+                    interactiveFlags: CatPageHarcMap.interactiveFlags,
 
-              onMapReady: () => tryGetMarkers(publicOnly: !AccountData.loggedIn),
+                    onMapReady: () => tryGetMarkers(publicOnly: !AccountData.loggedIn),
 
-              onMapEvent: (event){
+                    onMapEvent: (event){
 
-                lastCenter = event.center;
-                lastZoom = event.zoom;
+                      lastCenter = event.center;
+                      lastZoom = event.zoom;
 
-                if(event is MapEventMoveEnd || event is MapEventDoubleTapZoomEnd)
-                  tryGetMarkers(publicOnly: !AccountData.loggedIn);
+                      if(event is MapEventMoveEnd || event is MapEventDoubleTapZoomEnd)
+                        tryGetMarkers(publicOnly: !AccountData.loggedIn);
 
-                markersToDisplay = calculateMarkersToDisplay();
-                if(mounted) post(() => setState((){}));
+                      markersToDisplay = calculateMarkersToDisplay();
+                      if(mounted) post(() => setState((){}));
 
-                // MapEventChangedProvider.notify_(context);
-              },
-            ),
-            mapController: mapController,
-            children: [
-              TileLayer(
-                // urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                // urlTemplate: 'http://mt{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',
-                // urlTemplate: 'https://cdn.lima-labs.com/{z}/{x}/{y}.png?api=demo',
-                urlTemplate: CatPageHarcMap.tileServer,
-                userAgentPackageName: 'dev.fleaflet.flutter_map.example',
-              ),
-              if(MarkerData.all != null)
-                MarkerLayer(rotate: true, markers: markersToDisplay),
-
-              if(AppSettings.devMode)
-                IgnorePointer(
-                  child: SamplingPointsLayerWidget(
-                    markersToDisplay.hashCode,
-
-                    lastRequestedSamples,
-                    otherMarkersUncertaintySamples,
-                    mapController
+                      // MapEventChangedProvider.notify_(context);
+                    },
                   ),
-                ),
-
-              if(AppSettings.devMode)
-                Align(
-                  alignment: Alignment.bottomLeft,
-                  child: Container(
-                    color: background_(context).withOpacity(.7),
-                    child: Consumer<MapEventChangedProvider>(
-                      builder: (context, prov, child){
-
-                        CustomPoint center = const SphericalMercator().project(LatLng(mapController.center.latitude, mapController.center.longitude));
-                        var (latDistDelta, lngDistDelta) = HarcMapUtils.getDistanceDeltas(zoom);
-
-                        return Text(
-                            'cntr X: ${center.x.toStringAsFixed(3)}\n'
-                            'cntr Y: ${center.y.toStringAsFixed(3)}\n'
-                            '\n'
-                            'Z: ${zoom.toStringAsFixed(3)}\n'
-                            'N: ${northBound.toStringAsFixed(3)}\n'
-                            'S: ${southBound.toStringAsFixed(3)}\n'
-                            'W: ${westBound.toStringAsFixed(3)}\n'
-                            'E: ${eastBound.toStringAsFixed(3)}\n'
-                            '\n'
-                            'ΔscrnLat: ${(northBound - southBound).toStringAsFixed(3)}\n'
-                            'ΔscrnLng: ${(eastBound - westBound).toStringAsFixed(3)}\n'
-                            '\n'
-                            'ΔlatDist: $latDistDelta\n'
-                            'ΔlngDist: $lngDistDelta'
-                        );
-                      },
+                  mapController: mapController,
+                  children: [
+                    TileLayer(
+                      // urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                      // urlTemplate: 'http://mt{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',
+                      // urlTemplate: 'https://cdn.lima-labs.com/{z}/{x}/{y}.png?api=demo',
+                      urlTemplate: CatPageHarcMap.tileServer,
+                      userAgentPackageName: 'dev.fleaflet.flutter_map.example',
                     ),
-                  ),
+                    if(MarkerData.all != null)
+                      MarkerLayer(rotate: true, markers: markersToDisplay),
+
+                    if(AppSettings.devMode)
+                      IgnorePointer(
+                        child: SamplingPointsLayerWidget(
+                          markersToDisplay.hashCode,
+
+                          lastRequestedSamples,
+                          otherMarkersUncertaintySamples,
+                          mapController
+                        ),
+                      ),
+
+                    if(AppSettings.devMode)
+                      Align(
+                        alignment: Alignment.bottomLeft,
+                        child: Container(
+                          color: background_(context).withOpacity(.7),
+                          child: Consumer<MapEventChangedProvider>(
+                            builder: (context, prov, child){
+
+                              CustomPoint center = const SphericalMercator().project(LatLng(mapController.center.latitude, mapController.center.longitude));
+                              var (latDistDelta, lngDistDelta) = HarcMapUtils.getDistanceDeltas(zoom);
+
+                              return Text(
+                                  'cntr X: ${center.x.toStringAsFixed(3)}\n'
+                                  'cntr Y: ${center.y.toStringAsFixed(3)}\n'
+                                  '\n'
+                                  'Z: ${zoom.toStringAsFixed(3)}\n'
+                                  'N: ${northBound.toStringAsFixed(3)}\n'
+                                  'S: ${southBound.toStringAsFixed(3)}\n'
+                                  'W: ${westBound.toStringAsFixed(3)}\n'
+                                  'E: ${eastBound.toStringAsFixed(3)}\n'
+                                  '\n'
+                                  'ΔscrnLat: ${(northBound - southBound).toStringAsFixed(3)}\n'
+                                  'ΔscrnLng: ${(eastBound - westBound).toStringAsFixed(3)}\n'
+                                  '\n'
+                                  'ΔlatDist: $latDistDelta\n'
+                                  'ΔlngDist: $lngDistDelta'
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+
+                    if(AppSettings.devMode && !AccountData.loggedIn)
+                      SeenPublicMapLayerWidget(zoom.ceil())
+
+                  ],
                 ),
 
-              if(AppSettings.devMode && !AccountData.loggedIn)
-                SeenPublicMapLayerWidget(zoom.ceil())
+                Positioned(
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        SearchField(
+                          elevation: AppCard.defElevation,
+                          leading: const AccountHeaderIcon(),
+                          hint: 'Szukaj...',
+                          trailing:
+                          markersLoading?Padding(
+                            padding: const EdgeInsets.only(right: Dimen.ICON_MARG),
+                            child: SpinKitSpinningLines(
+                              size: Dimen.ICON_SIZE,
+                              color: iconEnab_(context)
+                            ),
+                          ):null
+                        ),
 
-            ],
-          ),
-
-          Positioned(
-              top: 0,
-              left: 0,
-              right: 0,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  SearchField(
-                    elevation: AppCard.defElevation,
-                    leading: const AccountHeaderIcon(),
-                    hint: 'Szukaj...',
-                    trailing:
-                    markersLoading?Padding(
-                      padding: const EdgeInsets.only(right: Dimen.ICON_MARG),
-                      child: SpinKitSpinningLines(
-                        size: Dimen.ICON_SIZE,
-                        color: iconEnab_(context)
-                      ),
-                    ):null
-                  ),
-
-                  // SingleChildScrollView(
-                  //   physics: const BouncingScrollPhysics(),
-                  //   scrollDirection: Axis.horizontal,
-                  //   clipBehavior: Clip.none,
-                  //   child: Row(
-                  //     mainAxisAlignment: MainAxisAlignment.start,
-                  //     children: const [
-                  //       TagWidget(MdiIcons.handshake, 'Służba'),
-                  //       TagWidget(MdiIcons.accountChild, 'Zuchy'),
-                  //       TagWidget(MdiIcons.account, 'Harcerze'),
-                  //       TagWidget(MdiIcons.accountStar, 'Harcerze Starsi'),
-                  //       TagWidget(MdiIcons.accountCowboyHat, 'Wędrownicy'),
-                  //       TagWidget(MdiIcons.school, 'Krąg akademicki'),
-                  //       TagWidget(MdiIcons.candle, 'Duszpasterstwa'),
-                  //       TagWidget(MdiIcons.tent, 'Miejsca biwakowe'),
-                  //       TagWidget(MdiIcons.flagTriangle, 'Miejsca obozowe'),
-                  //     ],
-                  //   ),
-                  // )
-                ],
-              )
-          ),
-
-        ],
-      ),
-
-      floatingActionButton: Consumer2<LoginProvider, CommunityListProvider>(
-          builder: (context, loginProv, commListProv, child) {
-
-            if(!loginProv.loggedIn)
-              return ExtendedFloatingButton(
-                  MdiIcons.plus,
-                  'Zaloguj się i dodawaj',
-                  background: background_(context),
-                  onTap: () => AccountPage.open(context)
-              );
-
-            if(Community.all == null && communitiesLoader.running)
-              return FloatingActionButton(
-                  backgroundColor: background_(context),
-                  child: SpinKitChasingDots(
-                    color: iconEnab_(context),
-                    size: Dimen.ICON_SIZE,
-                  ),
-                  onPressed: () => showAppToast(context, text: 'Ładowanie środowisk...')
-              );
-
-            if(Community.all == null && !communitiesLoader.running)
-              return FloatingActionButton(
-                  backgroundColor: background_(context),
-                  child: Icon(MdiIcons.alertCircleOutline),
-                  onPressed: () => showAppToast(context, text: 'Problem z ładowaniem')
-              );
-
-            return FloatingActionButton(
-                backgroundColor: background_(context),
-                child: Icon(MdiIcons.plus, color: iconEnab_(context)),
-                onPressed: () => pushPage(
-                    context,
-                    builder: (context) => MarkerEditorPage(
-                      initZoom: mapController.zoom,
-                      initCenter: mapController.center,
-                      onSuccess: (marker){
-                        MarkerData.addToAll(marker);
-                        setState(() {});
-
-                        mapController.moveAndRotate(
-                          LatLng(marker.lat, marker.lng),
-                          15,
-                          0
-                        );
-
-                        showAppToast(context, text: 'Dodano miejsce');
-
-                      },
+                        // SingleChildScrollView(
+                        //   physics: const BouncingScrollPhysics(),
+                        //   scrollDirection: Axis.horizontal,
+                        //   clipBehavior: Clip.none,
+                        //   child: Row(
+                        //     mainAxisAlignment: MainAxisAlignment.start,
+                        //     children: const [
+                        //       TagWidget(MdiIcons.handshake, 'Służba'),
+                        //       TagWidget(MdiIcons.accountChild, 'Zuchy'),
+                        //       TagWidget(MdiIcons.account, 'Harcerze'),
+                        //       TagWidget(MdiIcons.accountStar, 'Harcerze Starsi'),
+                        //       TagWidget(MdiIcons.accountCowboyHat, 'Wędrownicy'),
+                        //       TagWidget(MdiIcons.school, 'Krąg akademicki'),
+                        //       TagWidget(MdiIcons.candle, 'Duszpasterstwa'),
+                        //       TagWidget(MdiIcons.tent, 'Miejsca biwakowe'),
+                        //       TagWidget(MdiIcons.flagTriangle, 'Miejsca obozowe'),
+                        //     ],
+                        //   ),
+                        // )
+                      ],
                     )
-                )
-            );
+                ),
 
-          }
+              ],
+            ),
+
+            floatingActionButton: Consumer2<LoginProvider, CommunityListProvider>(
+                builder: (context, loginProv, commListProv, child) {
+
+                  if(!loginProv.loggedIn)
+                    return ExtendedFloatingButton(
+                        MdiIcons.plus,
+                        'Zaloguj się i dodawaj',
+                        background: background_(context),
+                        onTap: () => AccountPage.open(context)
+                    );
+
+                  if(Community.all == null && communitiesLoader.running)
+                    return FloatingActionButton(
+                        backgroundColor: background_(context),
+                        child: SpinKitChasingDots(
+                          color: iconEnab_(context),
+                          size: Dimen.ICON_SIZE,
+                        ),
+                        onPressed: () => showAppToast(context, text: 'Ładowanie środowisk...')
+                    );
+
+                  if(Community.all == null && !communitiesLoader.running)
+                    return FloatingActionButton(
+                        backgroundColor: background_(context),
+                        child: Icon(MdiIcons.alertCircleOutline),
+                        onPressed: () => showAppToast(context, text: 'Problem z ładowaniem')
+                    );
+
+                  return FloatingActionButton(
+                      backgroundColor: background_(context),
+                      child: Icon(MdiIcons.plus, color: iconEnab_(context)),
+                      onPressed: () => pushPage(
+                          context,
+                          builder: (context) => MarkerEditorPage(
+                            initZoom: mapController.zoom,
+                            initCenter: mapController.center,
+                            onSuccess: (marker){
+                              MarkerData.addToAll(marker);
+                              setState(() {});
+
+                              mapController.moveAndRotate(
+                                LatLng(marker.lat, marker.lng),
+                                15,
+                                0
+                              );
+
+                              showAppToast(context, text: 'Dodano miejsce');
+
+                            },
+                          )
+                      )
+                  );
+
+                }
+            ),
+
+          );
+        }
       ),
-
     ),
   );
 

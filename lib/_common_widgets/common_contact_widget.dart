@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_new/cat_page_home/community/common_widgets/community_header_widget.dart';
 import 'package:harcapp/_new/cat_page_home/community/model/community.dart';
 import 'package:harcapp/values/consts.dart';
@@ -152,7 +151,8 @@ Future<void> openCommonContact(
 
   assert(showHeader == false || (showHeader && community != null));
 
-  return openDialog(
+  // Don't use openDialog. It will reset the theme in the context.
+  return showDialog(
       context: context,
       builder: (context) => Center(
         child: Padding(

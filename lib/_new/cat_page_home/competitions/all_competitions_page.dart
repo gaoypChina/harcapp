@@ -140,7 +140,7 @@ class AllCompetitionsPageState extends State<AllCompetitionsPage>{
 
     slivers.add(SliverList(delegate: SliverChildListDelegate([
       SuperSearchFieldButton(
-          color: CommunityCoverColors.nonPaletteBackgroundColor(),
+          color: CommunityCoverColors.nonPaletteBackgroundColor(context),
           margin: const EdgeInsets.only(
             left: Dimen.SIDE_MARG,
             right: Dimen.SIDE_MARG,

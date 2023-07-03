@@ -31,7 +31,7 @@ class CommunityWidgetTemplate extends StatelessWidget{
   Widget build(BuildContext context) => Consumer<CommunityProvider>(
       builder: (context, prov, _) => Material(
           clipBehavior: Clip.hardEdge,
-          color: CommunityCoverColors.nonPaletteBackgroundColor(),
+          color: CommunityCoverColors.nonPaletteBackgroundColor(context),
           borderRadius: BorderRadius.circular(communityRadius),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -48,7 +48,9 @@ class CommunityWidgetTemplate extends StatelessWidget{
                   iconKey,
                   communityKey,
                   name,
-                  category
+                  category,
+                  thumbnailBorderColor: CommunityCoverColors.backgroundColor(context, null),
+                  thumbnailBackgroundColor: CommunityCoverColors.cardColor(context, null),
                 ),
               ),
 

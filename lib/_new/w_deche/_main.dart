@@ -10,9 +10,23 @@ import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_scaffold.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:flutter_map/src/layer/tile_layer/tile_layer.dart';
+import 'package:simple_shadow/simple_shadow.dart';
 
 import '../details/app_settings.dart';
 import 'data.dart';
+
+class WDecheMarker extends Marker{
+
+  final WDecheData data;
+  WDecheMarker({
+    required this.data,
+    required super.point,
+    required super.builder,
+    super.width = 30.0,
+    super.height = 30.0,
+  });
+
+}
 
 class WDechePage extends StatefulWidget {
 
@@ -32,7 +46,8 @@ class WDechePageState extends State<WDechePage> {
   static const int interactiveFlags = InteractiveFlag.drag |
   InteractiveFlag.flingAnimation;
 
-  late List<Marker> markers;
+  late List<WDecheData> visibleData;
+  late List<WDecheMarker> markers;
 
   double get northBound{
     try{
@@ -68,23 +83,27 @@ class WDechePageState extends State<WDechePage> {
 
   void removeOld(LatLng center, double latScrDelta, double lngScrDelta){
 
-    List<Marker> newMarkers = [];
+    List<WDecheData> newVisibleData = [];
+    List<WDecheMarker> newMarkers = [];
 
-    for(Marker marker in markers)
+    for(WDecheMarker marker in markers)
       if( marker.point.latitude < center.latitude + latScrDelta*(deltaFactor + .5) &&
           marker.point.latitude > center.latitude - latScrDelta*(deltaFactor + .5) &&
           marker.point.longitude < center.longitude + lngScrDelta*(deltaFactor + .5) &&
           marker.point.longitude > center.longitude - lngScrDelta*(deltaFactor + .5)
-      ) newMarkers.add(marker);
+      ){
+        newVisibleData.add(marker.data);
+        newMarkers.add(marker);
+      }
 
     logger.d('Removed ${markers.length - newMarkers.length} markers.');
+    visibleData = newVisibleData;
     markers = newMarkers;
 
   }
 
-  Marker createMarker(double topLat, double leftLng, double latScrDelta, double lngScrDelta){
+  WDecheMarker createMarker(WDecheData data, double topLat, double leftLng, double latScrDelta, double lngScrDelta){
     String fontFamily = WDecheData.allFontFamilies[Random().nextInt(WDecheData.allFontFamilies.length)];
-    WDecheData data = WDecheData.all[Random().nextInt(WDecheData.all.length)];
     int textRotDegrees = Random().nextInt(60) - 30;
     int imgRotDegrees = Random().nextInt(40) - 20;
     bool imageOnTop = Random().nextBool();
@@ -96,19 +115,26 @@ class WDechePageState extends State<WDechePage> {
         padding: EdgeInsets.all(.5*data.imageSize),
         child: RotationTransition(
             turns: AlwaysStoppedAnimation(imgRotDegrees / 360),
-            child: SvgPicture.asset(
-              'assets/images/w_deche/${data.imageName}.svg',
-              fit: BoxFit.contain,
-              height: data.imageSize,
-              width: data.imageSize,
-              color: Colors.black.withOpacity(.7),
+            child: SimpleShadow(
+              sigma: 3,
+              color: Colors.brown,
+              offset: Offset.zero,
+              opacity: 1,
+              child: SvgPicture.asset(
+                'assets/images/w_deche/${data.imageName}.svg',
+                fit: BoxFit.contain,
+                height: data.imageSize,
+                width: data.imageSize,
+                color: Colors.black.withOpacity(.8),
+              ),
             )
         ),
       );
     else
       image = Container();
 
-    return Marker(
+    return WDecheMarker(
+        data: data,
         point: LatLng(
           topLat + (.2 + (Random().nextDouble()%.6))*latScrDelta * latScrDelta,
           leftLng + (.2 + (Random().nextDouble()%.6))*lngScrDelta * lngScrDelta,
@@ -156,6 +182,8 @@ class WDechePageState extends State<WDechePage> {
 
     int added = 0;
 
+    List<WDecheData> availableData = WDecheData.all.where((data) => !visibleData.contains(data)).toList();
+
     while(lat <= maxLat){
 
       double lng = center.longitude - lngScrDelta*(deltaFactor + .5);
@@ -168,7 +196,10 @@ class WDechePageState extends State<WDechePage> {
             marker.point.longitude >= lng - 1*lngScrDelta &&
             marker.point.longitude <= lng + 2*lngScrDelta
         ).isEmpty) {
-          markers.add(createMarker(lat, lng, latScrDelta, lngScrDelta));
+          WDecheData data = availableData[Random().nextInt(availableData.length)];
+          visibleData.add(data);
+          availableData.remove(data);
+          markers.add(createMarker(data, lat, lng, latScrDelta, lngScrDelta));
           added++;
         }
         lng += lngScrDelta;
@@ -185,9 +216,12 @@ class WDechePageState extends State<WDechePage> {
 
   @override
   void initState() {
+    visibleData = [];
     markers = [];
     post(() async {
-      markers.add(createMarker(0, 0, 0.05, 0.05));
+      WDecheData data = WDecheData.all[Random().nextInt(WDecheData.all.length)];
+      visibleData.add(data);
+      markers.add(createMarker(data, 0, 0, 0.05, 0.05));
       setState(() {});
     });
     mapController = MapController();
@@ -250,6 +284,7 @@ class WDechePageState extends State<WDechePage> {
                         '\n'
                         'ΔscrnLat: ${(northBound - southBound).toStringAsFixed(3)}\n'
                         'ΔscrnLng: ${(eastBound - westBound).toStringAsFixed(3)}\n'
+                        'Visib data: ${visibleData.length}\n'
                         'Markers: ${markers.length}',
                   );
                 },

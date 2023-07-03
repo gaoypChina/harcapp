@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/widgets.dart';
 import 'package:harcapp/_common_classes/color_pack.dart';
 import 'package:harcapp/_new/cat_page_home/community/common/community_cover_image_data.dart';
@@ -35,19 +33,14 @@ class CommunityCoverColors{
   static Color appBarColor(BuildContext context, PaletteGenerator? palette) =>
       backgroundColor(context, palette);
 
-  static Color nonPaletteBackgroundColor(){
-    if(AppSettings.isDark)
-      return const Color.fromARGB(255, 50, 50, 50);
-    else
-      return const Color.fromARGB(255, 240, 240, 240);
-  }
+  static Color nonPaletteBackgroundColor(BuildContext context) => cardEnab_(context)!;
 
   static Color backgroundColor(BuildContext context, PaletteGenerator? palette){
 
     if(AppSettings.isDark)
-      return _lighten(palette?.dominantColor!.color, .16)??nonPaletteBackgroundColor();
+      return _lighten(palette?.dominantColor!.color, .16)??nonPaletteBackgroundColor(context);
     else
-      return _lighten(palette?.dominantColor!.color, .88)??nonPaletteBackgroundColor();
+      return _lighten(palette?.dominantColor!.color, .88)??nonPaletteBackgroundColor(context);
 
   }
 

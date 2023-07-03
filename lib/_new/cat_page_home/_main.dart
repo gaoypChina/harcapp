@@ -291,7 +291,7 @@ class CatPageHomeState extends State<CatPageHome> with AfterLayoutMixin, TickerP
                 builder: (context, loginProv, child) => Container(
                     color:
                     loginProv.loggedIn?
-                    CommunityCoverColors.nonPaletteBackgroundColor().withOpacity(max(0, 1 - notifier.value)):
+                    CommunityCoverColors.nonPaletteBackgroundColor(context).withOpacity(max(0, 1 - notifier.value)):
                     background_(context),
                     child: child
                 ),
