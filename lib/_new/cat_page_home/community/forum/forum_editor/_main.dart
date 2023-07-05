@@ -114,8 +114,8 @@ class ForumEditorPageState extends State<ForumEditorPage>{
 
                           showLoadingWidget(
                               context,
-                              CommunityCoverColors.strongColor(context, colorsKeyProv.isColorsKeyAuto?palette:null),
-                              initForum == null? 'Zakładanie forum...': 'Uaktualnianie...'
+                              initForum == null? 'Zakładanie forum...': 'Uaktualnianie...',
+                            color: CommunityCoverColors.strongColor(context, colorsKeyProv.isColorsKeyAuto?palette:null),
                           );
 
                           if(initForum == null)

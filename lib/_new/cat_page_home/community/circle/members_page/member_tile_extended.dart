@@ -229,7 +229,7 @@ class MemberTileExtendedState extends State<MemberTileExtended>{
         looseAdminConfMess: 'Czy na pewno chcesz zrzec się roli <b>administratora</b> kręgu <b>${circle.name}</b>?',
         handleUpdate: () async {
 
-          showLoadingWidget(context, iconEnab_(context), 'Ostatnia prosta...');
+          showLoadingWidget(context, 'Ostatnia prosta...');
 
           await ApiCircle.updateMembers(
               circleKey: circle.key,
@@ -285,7 +285,7 @@ class MemberTileExtendedState extends State<MemberTileExtended>{
         removingUserDetailMess: '${member.name} nie będzie mieć dłużej dostępu do kręgu.\n\nNa pewno chcesz ${member.isMale?'go':'ją'} wyprosić?',
         handleRemove: () async {
 
-          showLoadingWidget(context, CommunityCoverColors.strongColor(context, palette), 'Wypraszanie członka...');
+          showLoadingWidget(context, 'Wypraszanie członka...', color: CommunityCoverColors.strongColor(context, palette), );
           await ApiCircle.removeMembers(
               circleKey: circle.key,
               userKeys: [member.key],
@@ -392,7 +392,7 @@ class _EditPatrolDialogState extends State<_EditPatrolDialog>{
                   icon: Icon(MdiIcons.check),
                   onPressed: () async {
 
-                    showLoadingWidget(context, iconEnab_(context), 'Ostatnia prosta...');
+                    showLoadingWidget(context, 'Ostatnia prosta...');
 
                     await ApiCircle.updateMembers(
                         circleKey: circle.key,

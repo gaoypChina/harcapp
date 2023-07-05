@@ -8,7 +8,6 @@ import 'package:harcapp/_common_widgets/loading_widget.dart';
 import 'package:harcapp/_new/api/forum.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
-import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:palette_generator/palette_generator.dart';
@@ -66,7 +65,7 @@ class DangerPartState extends State<DangerPart>{
 
                     Navigator.pop(context); // Close alert dialog.
 
-                    showLoadingWidget(context, iconEnab_(context), 'Zwijanie kręgu...');
+                    showLoadingWidget(context, 'Zwijanie kręgu...');
 
                     await ApiForum.delete(
                       forumKey: forum!.key,

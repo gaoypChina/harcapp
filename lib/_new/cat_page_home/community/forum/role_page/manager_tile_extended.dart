@@ -163,7 +163,7 @@ class ForumManagerTileExtendedState extends State<ForumManagerTileExtended>{
         looseAdminConfMess: 'Czy na pewno chcesz zrzec się roli <b>administratora</b> forum <b>${forum.name}</b>?',
         handleUpdate: () async {
 
-          showLoadingWidget(context, iconEnab_(context), 'Ostatnia prosta...');
+          showLoadingWidget(context, 'Ostatnia prosta...');
 
           await ApiForum.updateManagers(
               forumKey: forum.key,
@@ -200,7 +200,7 @@ class ForumManagerTileExtendedState extends State<ForumManagerTileExtended>{
         removingUserDetailMess: '${manager.name} nie będzie mieć dłużej dostępu do zarządzania forum.\n\nNa pewno chcesz ${manager.isMale?'go':'ją'} wyprosić?',
         handleRemove: () async {
 
-          showLoadingWidget(context, CommunityCoverColors.strongColor(context, palette), 'Wypraszanie ogarniacza...');
+          showLoadingWidget(context, 'Wypraszanie ogarniacza...', color: CommunityCoverColors.strongColor(context, palette));
           await ApiForum.removeManagers(
               forumKey: forum.key,
               userKeys: [manager.key],

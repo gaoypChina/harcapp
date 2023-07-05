@@ -130,7 +130,7 @@ class API{
           Dio().get(imageDbUrl).onError((e, __) => Response(requestOptions: RequestOptions(path: '')));
       }
 
-      if (e.response?.statusCode == 503 || e.response?.statusCode == 502) {
+      if (e.response?.statusCode == 504 || e.response?.statusCode == 503 || e.response?.statusCode == 502) {
         finish = await onServerMaybeWakingUp?.call();
         if(await isNetworkAvailable())
           Dio().get(baseUrl).onError((e, __) => Response(requestOptions: RequestOptions(path: '')));

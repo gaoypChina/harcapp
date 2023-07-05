@@ -7,9 +7,9 @@ import 'common/community_cover_colors.dart';
 
 class CommunityThumbnailWidget extends StatelessWidget{
 
-  static const double defSize = 54.0 + 2*defPaddingSize;
+  static const double defSize = 50.0 + 2*defPaddingSize;
   static const double defBorderWidth = Dimen.defMarg;
-  static const double defPaddingSize = Dimen.ICON_MARG;
+  static const double defPaddingSize = Dimen.ICON_MARG - defBorderWidth;
   static const double defRadius = 14.0;
 
   static double border(double size) => defBorderWidth * (size/defSize);
@@ -55,33 +55,66 @@ class CommunityThumbnailWidget extends StatelessWidget{
   Widget build(BuildContext context){
 
     Widget child = Material(
-      shape: RoundedRectangleBorder(
-        side: BorderSide(
-          color: borderColor??(colorsInverted?
-          CommunityCoverColors.backgroundColor(context, palette):
-          CommunityCoverColors.cardColor(context, palette)),
-          width: borderSize
-        ),
-        borderRadius: BorderRadius.circular(radius),
-      ),
+      borderRadius: BorderRadius.circular(radius),
       clipBehavior: Clip.hardEdge,
 
-      color: backgroundColor??(colorsInverted?
-      CommunityCoverColors.cardColor(context, palette):
-      CommunityCoverColors.backgroundColor(context, palette)),
+      color: borderColor??(colorsInverted?
+      CommunityCoverColors.backgroundColor(context, palette):
+      CommunityCoverColors.cardColor(context, palette)),
 
-      child: InkWell(
-        onTap: onTap,
-        child: Padding(
-          padding: EdgeInsets.all(paddingSize),
-          child: Icon(
-            CommonIconData.get(iconKey),
-            size: size - 2*paddingSize,
-            color: iconColor,
+      child: Padding(
+        padding: EdgeInsets.all(borderSize),
+        child: Material(
+          borderRadius: BorderRadius.circular(radius*(size - 2*borderSize)/size),
+          clipBehavior: Clip.hardEdge,
+
+          color: backgroundColor??(colorsInverted?
+          CommunityCoverColors.cardColor(context, palette):
+          CommunityCoverColors.backgroundColor(context, palette)),
+
+          child: InkWell(
+            onTap: onTap,
+            child: Padding(
+              padding: EdgeInsets.all(paddingSize),
+              child: Icon(
+                CommonIconData.get(iconKey),
+                size: size - 2*paddingSize,
+                color: iconColor,
+              ),
+            ),
           ),
         ),
       ),
     );
+
+    // child = Material(
+    //   shape: RoundedRectangleBorder(
+    //     side: BorderSide(
+    //       color: borderColor??(colorsInverted?
+    //       CommunityCoverColors.backgroundColor(context, palette):
+    //       CommunityCoverColors.cardColor(context, palette)),
+    //       width: borderSize
+    //     ),
+    //     borderRadius: BorderRadius.circular(radius),
+    //   ),
+    //   clipBehavior: Clip.hardEdge,
+    //
+    //   color: backgroundColor??(colorsInverted?
+    //   CommunityCoverColors.cardColor(context, palette):
+    //   CommunityCoverColors.backgroundColor(context, palette)),
+    //
+    //   child: InkWell(
+    //     onTap: onTap,
+    //     child: Padding(
+    //       padding: EdgeInsets.all(paddingSize),
+    //       child: Icon(
+    //         CommonIconData.get(iconKey),
+    //         size: size - 2*paddingSize,
+    //         color: iconColor,
+    //       ),
+    //     ),
+    //   ),
+    // );
 
     if(!heroTag)
       return child;

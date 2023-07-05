@@ -37,15 +37,19 @@ import 'model/marker_type.dart';
 class AppMarker extends Marker{
 
   final MarkerData marker;
+  final void Function()? onUpdated;
+  final void Function()? onRemoved;
 
   AppMarker({
     required this.marker,
+    this.onUpdated,
+    this.onRemoved,
   }): super(
       height: 24.0 + (marker.anyDoubleCommunityCategories?(2 + Dimen.TEXT_SIZE_BIG):0),
       width: 24.0 * max(marker.communitiesBasicData.length, 1),
       point: LatLng(marker.lat, marker.lng),
       builder: (context) => InkWell(
-        onTap: () => showMarkerDialog(context, marker),
+        onTap: () => showMarkerDialog(context, marker, onUpdated: onUpdated, onRemoved: onRemoved),
         child: Builder(
             builder: (context){
 
@@ -176,17 +180,25 @@ class CommunityTile extends StatelessWidget{
 
 }
 
-Future<void> showMarkerDialog(BuildContext context, MarkerData marker) => openDialog(
+Future<void> showMarkerDialog(
+    BuildContext context,
+    MarkerData marker,
+{
+  void Function()? onUpdated,
+  void Function()? onRemoved
+}) => openDialog(
     context: context,
-    builder: (_) => MarkerDialog(context, marker)
+    builder: (_) => MarkerDialog(context, marker, onUpdated: onUpdated, onRemoved: onRemoved)
 );
 
 class MarkerDialog extends StatelessWidget{
 
   final BuildContext parentContext;
   final MarkerData marker;
+  final void Function()? onUpdated;
+  final void Function()? onRemoved;
 
-  const MarkerDialog(this.parentContext, this.marker, {super.key});
+  const MarkerDialog(this.parentContext, this.marker, {this.onUpdated, this.onRemoved, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -224,13 +236,23 @@ class MarkerDialog extends StatelessWidget{
                             icon: Icon(MdiIcons.pencilOutline),
                             onPressed: () {
                               Navigator.pop(context);
+                              MarkerProvider markerProv = MarkerProvider.of(context);
+                              MarkerListProvider markerListProv = MarkerListProvider.of(context);
                               pushPage(
                                   context,
                                   builder: (context) =>
                                       MarkerEditorPage(
                                         initMarker: marker,
                                         onSuccess: (updatedMarker) {
+                                          MarkerData.updateInAll(updatedMarker);
+                                          MarkerData.callProviders(markerProv, markerListProv);
                                           marker.update(updatedMarker);
+                                          onUpdated?.call();
+                                        },
+                                        onRemoved: () {
+                                          MarkerData.removeFromAll(marker);
+                                          MarkerData.callProviders(markerProv, markerListProv);
+                                          onRemoved?.call();
                                         },
                                       )
                               );
@@ -266,6 +288,8 @@ class MarkerDialog extends StatelessWidget{
                             )),
 
                           if(hasName)
+                            const SizedBox(height: Dimen.SIDE_MARG)
+                          else
                             const SizedBox(height: Dimen.SIDE_MARG),
 
                           if(AppSettings.devMode)
@@ -334,7 +358,7 @@ class MarkerDialog extends StatelessWidget{
                               tileBorder: getMarkerTypeColorEnd(marker.type),
                               tileBackground: getMarkerTypeColor(marker.type),
                               onPreShowDialog: () => Navigator.pop(context),
-                              onPostShowDialog: () => showMarkerDialog(context, marker),
+                              onPostShowDialog: () => showMarkerDialog(parentContext, marker),
                             ),
 
                           if(hasCommunities)

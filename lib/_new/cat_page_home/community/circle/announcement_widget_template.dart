@@ -128,8 +128,8 @@ class AnnouncementWidgetTemplate extends StatelessWidget{
 
                         showLoadingWidget(
                             context,
-                            CommunityCoverColors.strongColor(context, palette),
-                            'Usuwanie...'
+                            'Usuwanie...',
+                            color: CommunityCoverColors.strongColor(context, palette),
                         );
 
                         ApiCircle.deleteAnnouncement(
@@ -627,9 +627,9 @@ class AttendingDialog extends StatelessWidget{
                     Navigator.pop(context);
 
                     showLoadingWidget(
-                        getContext(),
-                        CommunityCoverColors.strongColor(context, palette),
-                        'Chwileczkę...'
+                      getContext(),
+                      'Chwileczkę...',
+                      color: CommunityCoverColors.strongColor(context, palette),
                     );
 
                     await ApiCircle.updateAnnouncementAttendanceResponse(
@@ -771,8 +771,8 @@ class PostponeRespDialogState extends State<PostponeRespDialog>{
 
                   showLoadingWidget(
                       getContext(),
-                      CommunityCoverColors.strongColor(context, palette),
-                      'Chwileczkę...'
+                      'Chwileczkę...',
+                    color: CommunityCoverColors.strongColor(context, palette),
                   );
 
                   await ApiCircle.updateAnnouncementAttendanceResponse(
@@ -899,8 +899,8 @@ class NotAttendingDialogState extends State<NotAttendingDialog>{
 
                     showLoadingWidget(
                         getContext(),
-                        CommunityCoverColors.strongColor(context, palette),
-                        'Chwileczkę...'
+                        'Chwileczkę...',
+                      color: CommunityCoverColors.strongColor(context, palette),
                     );
 
                     await ApiCircle.updateAnnouncementAttendanceResponse(

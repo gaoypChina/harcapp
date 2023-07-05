@@ -29,7 +29,7 @@ class AddUserBottomSheet extends StatelessWidget{
     participatingUserKeys: comp.loadedParticips.map((p) => p.key).toList(),
     handleAddingUser: (UserDataNick userData) async {
 
-      showLoadingWidget(context, comp.colors.avgColor, 'Dodawanie uczestnika');
+      showLoadingWidget(context, 'Dodawanie uczestnika', color: comp.colors.avgColor);
 
       IndivCompProvider indivCompProv = IndivCompProvider.of(context);
       IndivCompListProvider indivCompListProv = IndivCompListProvider.of(context);

@@ -82,7 +82,7 @@ class CompletedTaskWidget extends StatelessWidget{
               onTap: () => showAppToast(context, text: 'Przytrzymaj, by usunąć.'),
               onLongPress: () async {
 
-                showLoadingWidget(context, colors!.avgColor, 'Wycofywanie...');
+                showLoadingWidget(context, 'Wycofywanie...', color: colors!.avgColor, );
                 await ApiIndivComp.removeCompletedTask(
                   complTaskKey: complTask.key,
                   onSuccess: onRemoved,

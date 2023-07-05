@@ -146,8 +146,8 @@ class TropEditorPageState extends State<TropEditorPage>{
 
                   showLoadingWidget(
                       context,
-                      accent_(context),
-                      initTrop == null? 'Tworzenie tropu...': 'Poprawianie...'
+                      initTrop == null? 'Tworzenie tropu...': 'Poprawianie...',
+                      color: accent_(context),
                   );
 
                   tasks.sort((t1, t2) => t1.deadline.millisecondsSinceEpoch - t2.deadline.millisecondsSinceEpoch);
@@ -1071,7 +1071,7 @@ class RemoveOwnTropButton extends StatelessWidget{
 
                 Navigator.pop(context); // Close alert dialog.
 
-                showLoadingWidget(context, iconEnab_(context), 'Zwijanie tropu...');
+                showLoadingWidget(context, 'Zwijanie tropu...', color: AppColors.zhpTropColor);
 
                 bool removed = trop.deleteOwn(context: context);
 
@@ -1115,7 +1115,7 @@ class RemoveSharedTropButton extends StatelessWidget{
 
                 Navigator.pop(context); // Close alert dialog.
 
-                showLoadingWidget(context, iconEnab_(context), 'Zwijanie tropu...');
+                showLoadingWidget(context, 'Zwijanie tropu...', color: AppColors.zhpTropColor);
 
                 TropListProvider tropListProv = TropListProvider.of(context);
 

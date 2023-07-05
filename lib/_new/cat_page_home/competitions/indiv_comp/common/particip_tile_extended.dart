@@ -312,7 +312,7 @@ class ParticipTileExtendedState extends State<ParticipTileExtended>{
       looseAdminConfMess: 'Czy na pewno chcesz zrzec się roli <b>administratora</b> współzawodnictwa <b>${comp.name}</b>?',
       handleUpdate: () async {
 
-        showLoadingWidget(context, iconEnab_(context), 'Ostatnia prosta...');
+        showLoadingWidget(context, 'Ostatnia prosta...');
 
         await ApiIndivComp.updateParticipants(
             comp: comp,
@@ -356,7 +356,7 @@ class ParticipTileExtendedState extends State<ParticipTileExtended>{
         removingUserDetailMess: '${particip.name} nie będzie mieć dłużej dostępu do współzawodnictwa.\n\nNa pewno chcesz ${particip.isMale?'go':'ją'} wyprosić?',
         handleRemove: () async {
 
-          showLoadingWidget(context, comp.colors.avgColor, 'Wypraszanie użytkownika...');
+          showLoadingWidget(context, 'Wypraszanie użytkownika...', color: comp.colors.avgColor);
           await ApiIndivComp.removeParticipants(
               compKey: comp.key,
               userKeys: [particip.key],

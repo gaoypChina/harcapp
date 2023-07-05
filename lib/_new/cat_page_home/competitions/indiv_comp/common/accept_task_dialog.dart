@@ -69,7 +69,7 @@ class AcceptTaskWidgetState extends State<AcceptTaskWidget>{
                   icon: Icon(MdiIcons.check),
                   onPressed: () async {
 
-                    showLoadingWidget(context, comp.colors.avgColor, 'Przesyłanie punktów...');
+                    showLoadingWidget(context, 'Przesyłanie punktów...', color: comp.colors.avgColor);
 
                     await ApiIndivComp.createCompletedTask(
                         comp: comp,

@@ -33,7 +33,7 @@ class AddUserBottomSheet extends StatelessWidget{
     backgroundColor: CommunityCoverColors.backgroundColor(context, palette),
     handleAddingUser: (UserDataNick userData) async {
 
-      showLoadingWidget(context, CommunityCoverColors.strongColor(context, palette), 'Dodawanie ogarniacza');
+      showLoadingWidget(context, 'Dodawanie ogarniacza', color: CommunityCoverColors.strongColor(context, palette), );
 
       ForumProvider forumProv = ForumProvider.of(context);
       ForumListProvider forumListProv = ForumListProvider.of(context);

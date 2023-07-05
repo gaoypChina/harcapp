@@ -12,7 +12,6 @@ import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_ed
 import 'package:harcapp/_new/api/indiv_comp.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_task.dart';
 import 'package:harcapp/values/consts.dart';
-import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
@@ -127,7 +126,7 @@ class IndivCompEditorPageState extends State<IndivCompEditorPage>{
                           return;
                         }
 
-                        if(mounted) showLoadingWidget(context, iconEnab_(context), 'Ostatnia prosta...');
+                        if(mounted) showLoadingWidget(context, 'Ostatnia prosta...');
 
                         if(IndivCompModeEditorWidget.verifyHandleDateOrder(context))
 

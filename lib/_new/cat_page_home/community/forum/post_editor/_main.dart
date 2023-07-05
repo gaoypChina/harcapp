@@ -363,8 +363,9 @@ class PostEditorPageState extends State<PostEditorPage>{
                   }
 
                   showLoadingWidget(
-                      context, CommunityCoverColors.strongColor(context, palette),
-                      initPost == null?'Publikowanie...':'Uaktualnianie...'
+                      context,
+                      initPost == null?'Publikowanie...':'Uaktualnianie...',
+                    color: CommunityCoverColors.strongColor(context, palette),
                   );
 
                   if(initPost == null)

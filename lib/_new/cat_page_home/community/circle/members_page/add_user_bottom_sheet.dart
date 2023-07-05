@@ -33,7 +33,7 @@ class AddUserBottomSheet extends StatelessWidget{
     backgroundColor: CommunityCoverColors.backgroundColor(context, palette),
     handleAddingUser: (UserDataNick userData) async {
 
-      showLoadingWidget(context, CommunityCoverColors.strongColor(context, palette), 'Dodawanie członka');
+      showLoadingWidget(context, 'Dodawanie członka', color: CommunityCoverColors.strongColor(context, palette));
 
       CircleProvider circleProv = CircleProvider.of(context);
       CircleListProvider circleListProv = CircleListProvider.of(context);

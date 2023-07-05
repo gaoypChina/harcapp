@@ -4,6 +4,7 @@ import 'package:harcapp/_common_widgets/border_material.dart';
 import 'package:harcapp/_common_widgets/empty_message_widget.dart';
 import 'package:harcapp/_new/cat_page_harc_map/model/marker_data.dart';
 import 'package:harcapp/_new/cat_page_harc_map/marker_editor/providers.dart';
+import 'package:harcapp/_new/cat_page_harc_map/model/marker_type.dart';
 import 'package:harcapp/_new/cat_page_home/community/common_widgets/community_header_widget.dart';
 import 'package:harcapp/_new/cat_page_home/community/model/community.dart';
 import 'package:harcapp/_new/cat_page_home/community/select_community.dart';
@@ -43,8 +44,8 @@ class CommunitiesPartState extends State<CommunitiesPart> with AutomaticKeepAliv
   Widget build(BuildContext context){
     super.build(context);
     return Consumer<BindedCommunitiesProvider>(
-        builder: (context, prov, child){
-          Map<String, String> communities = prov.communities;
+        builder: (context, bindCommProv, child){
+          Map<String, String> communities = bindCommProv.communities;
           return Stack(
             children: [
 
@@ -55,30 +56,22 @@ class CommunitiesPartState extends State<CommunitiesPart> with AutomaticKeepAliv
                   // SliverOverlapInjector does not work with SliverAppBar(pinned = true);
                   // SliverOverlapInjector(handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context)),
 
-                  SliverPadding(
-                    padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-                    sliver: SliverList(delegate: SliverChildListDelegate([
-
-                      TitleShortcutRowWidget(
-                        title: 'Środowiska powiązane z miejscem',
-                        titleColor: hintEnab_(context),
-                        textAlign: TextAlign.left,
-                      )
-
-                    ])),
-                  ),
-
                   if(communities.isEmpty)
                     SliverFillRemaining(
                       child: Center(
-                        child: EmptyMessageWidget(
-                          icon: Community.icon,
-                          text: 'Nikt się tu na razie nie kręci...',
-                        ),
+                        child: Consumer<MarkerTypeProvider>(
+                          builder: (context, typeProv, child) => EmptyMessageWidget(
+                            icon: Community.icon,
+                            text: isMarkerTypeZbiorkable(typeProv.markerType)?
+                            'To miejsce świeci pustkami...\n\nDodaj gromady i drużyny,\nktóre mają tu zbiórki!':
+                            'Nikt się tu na razie nie kręci...',
+                          ),
+                        )
                       ),
                     ),
                   SliverPadding(
                       padding: const EdgeInsets.only(
+                        top: Dimen.SIDE_MARG,
                         right: Dimen.SIDE_MARG,
                         left: Dimen.SIDE_MARG,
                         bottom: Dimen.SIDE_MARG + Dimen.ICON_FOOTPRINT + 2*AppCard.defPaddingVal + Dimen.defMarg
@@ -90,8 +83,8 @@ class CommunitiesPartState extends State<CommunitiesPart> with AutomaticKeepAliv
                           return BindedCommunityEditWidget(
                             community: community,
                             initNote: communities[commKey],
-                            onNoteChanged: (note) => prov.edit(commKey, note),
-                            onRemoveTap: () => prov.remove(commKey),
+                            onNoteChanged: (note) => bindCommProv.edit(commKey, note),
+                            onRemoveTap: () => bindCommProv.remove(commKey),
                           );
                         },
                         separatorBuilder: (context, index) => const SizedBox(height: Dimen.SIDE_MARG),
@@ -106,26 +99,30 @@ class CommunitiesPartState extends State<CommunitiesPart> with AutomaticKeepAliv
                   bottom: Dimen.defMarg,
                   left: Dimen.defMarg,
                   right: Dimen.defMarg,
-                  child: SimpleButton(
-                    radius: AppCard.bigRadius,
-                    padding: AppCard.defPadding,
-                    color: cardEnab_(context),
-                    elevation: AppCard.bigElevation,
-                    child: TitleShortcutRowWidget(
-                      icon: MdiIcons.plus,
-                      title: 'Dodaj środowisko',
+                  child: Consumer<MarkerTypeProvider>(
+                    builder: (context, prov, child) => SimpleButton(
+                        radius: AppCard.bigRadius,
+                        padding: AppCard.defPadding,
+                        color: getMarkerTypeColorEnd(prov.markerType),
+                        elevation: AppCard.bigElevation,
+                        child: TitleShortcutRowWidget(
+                          icon: MdiIcons.plus,
+                          title: 'Dodaj środowisko',
+                          titleColor: iconEnab_(context),
+                        ),
+                        onTap: () async {
+
+                          String? communityKey = await selectCommunity(
+                              context,
+                              forbiddenCommunityKeys: communities.keys.toList(),
+                              filterMode: FilterMode.manager,
+                              backgroundColor: getMarkerTypeColor(prov.markerType)
+                          );
+                          if(communityKey == null) return;
+                          bindCommProv.add(communityKey);
+
+                        }
                     ),
-                    onTap: () async {
-
-                      String? communityKey = await selectCommunity(
-                        context,
-                        forbiddenCommunityKeys: communities.keys.toList(),
-                        filterMode: FilterMode.manager
-                      );
-                      if(communityKey == null) return;
-                      prov.add(communityKey);
-
-                    }
                   )
               ),
 
@@ -166,40 +163,49 @@ class BindedCommunityEditWidgetState extends State<BindedCommunityEditWidget>{
   }
 
   @override
-  Widget build(BuildContext context) => BorderMaterial(
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
+  Widget build(BuildContext context) => Consumer<MarkerTypeProvider>(
+    builder: (context, prov, child) => BorderMaterial(
+      borderColor: getMarkerTypeColorEnd(prov.markerType),
+      color: getMarkerTypeColor(prov.markerType),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
 
-        CommunityHeaderWidget(
-            community.iconKey,
-            community.key,
-            community.name,
-            community.category,
+          CommunityHeaderWidget(
+              community.iconKey,
+              community.key,
+              community.name,
+              community.category,
 
-            thumbnailHeroTag: false
-        ),
+              thumbnailBackgroundColor: Colors.transparent,
+              thumbnailBorderColor: Colors.transparent,
 
-        Padding(
-          padding: const EdgeInsets.all(Dimen.defMarg),
-          child: AppTextFieldHint(
-            controller: noteController,
-            hint: 'Jakieś uwagi:',
-            hintTop: 'Uwagi',
-            maxLines: null,
-            onChanged: (_, text) => onNoteChanged?.call(text),
+              thumbnailHeroTag: false
           ),
-        ),
 
-        SimpleButton.from(
-            context: context,
-            margin: EdgeInsets.zero,
-            radius: 0,
-            icon: MdiIcons.trashCanOutline,
-            onTap: onRemoveTap
-        )
+          Padding(
+            padding: const EdgeInsets.all(Dimen.defMarg),
+            child: AppTextFieldHint(
+              controller: noteController,
+              hint: isMarkerTypeZbiorkable(prov.markerType)?
+              'Czas zbiórek, inne uwagi:':
+              'Jakieś uwagi:',
+              hintTop: 'Uwagi',
+              maxLines: null,
+              onChanged: (_, text) => onNoteChanged?.call(text),
+            ),
+          ),
 
-      ],
+          SimpleButton.from(
+              context: context,
+              margin: EdgeInsets.zero,
+              radius: 0,
+              icon: MdiIcons.trashCanOutline,
+              onTap: onRemoveTap
+          )
+
+        ],
+      ),
     ),
   );
 

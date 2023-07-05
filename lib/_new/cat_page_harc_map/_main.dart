@@ -132,7 +132,18 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
   late List<AppMarker> markersToDisplay;
   List<AppMarker> calculateMarkersToDisplay() => (MarkerData.all??[])
       .where((marker) => zoom > marker.minZoomAppearance)
-      .map((m) => AppMarker(marker: m))
+      .map(
+          (m) => AppMarker(
+          marker: m,
+          onUpdated: (){
+            setState(() => markersToDisplay = calculateMarkersToDisplay());
+            showAppToast(context, text: 'Zaktualizowano miejsce');
+          },
+          onRemoved: (){
+            setState(() => markersToDisplay = calculateMarkersToDisplay());
+            showAppToast(context, text: 'Usunięto miejsce');
+          },
+      ))
       .toList();
 
   Future<int> markerLoadingStarted() async {
@@ -618,7 +629,7 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
                             initCenter: mapController.center,
                             onSuccess: (marker){
                               MarkerData.addToAll(marker);
-                              setState(() {});
+                              setState(() => markersToDisplay = calculateMarkersToDisplay());
 
                               mapController.moveAndRotate(
                                 LatLng(marker.lat, marker.lng),

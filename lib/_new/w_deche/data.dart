@@ -80,13 +80,15 @@ class WDecheData{
     WDecheData(text: 'Małe dzieci nie dają spać'
         '\nDuże nie dają żyć'),
 
-    WDecheData(text: 'Jeśli pójdę spać o 4:00, to jest późno, czy wcześnie?'),
+    WDecheData(text: 'Chodzę spać o 4:00, to późno, czy wcześnie?'),
 
     WDecheData(text: 'Wizyty zawsze sprawiają przyjemność, jeśli nie przyjściem, to wyjściem'),
 
-    WDecheData(text: 'Czy ktoś widział, gdzie położyłem swój widelec?'),
+    WDecheData(text: 'Czy ktoś widział, gdzie się podział mój widelec?'),
 
     WDecheData(text: '"Rower jest wielce okej"'),
+
+    WDecheData(text: '"Trzeba być ostrożnym czego się pragnie na młodość, bo dostanie się to na starość"'),
 
     WDecheData(
       text: 'Nie ma powrotu do jaskiń - jest nas za dużo...',
@@ -105,7 +107,7 @@ class WDecheData{
         'Ja znam prawdę'),
 
     WDecheData(
-      text: 'Nie wychodź z siebie. Możesz nie wrócić'
+      text: 'Nie wychodź z siebie\nMożesz nie wrócić'
     ),
 
     WDecheData(
@@ -135,7 +137,7 @@ class WDecheData{
           '\nBo jeszcze kogoś poznasz',
     ),
 
-    WDecheData(text: '"Jestem wstawiony" ~ Ząb'),
+    WDecheData(text: '"Jestem wstawiony"\n~ Ząb'),
 
     WDecheData(text: 'Z prochu powstałeś...'
         '\nWięc wstań i się otrzep'),
@@ -163,8 +165,17 @@ class WDecheData{
     WDecheData(text: 'Pani mówi, że 40% z nas nie zda matematyki'
         '\nA przecież nas nawet tylu nie ma w klasie'),
 
+    WDecheData(text: 'Tylko bogatych stać na tanie rzeczy'),
+
     WDecheData(text: '"Panie, już cuchnie!"'
         '\n~ J 11, 39'),
+
+    WDecheData(
+      text: 'Uwaga!\nRozlana\nboża łaska',
+      imageName: 'laska_boza',
+      imageSize: 84.0,
+      fontFamily: 'Hand15'
+    ),
 
     WDecheData(text: 'xD'),
 
@@ -173,11 +184,13 @@ class WDecheData{
   final String text;
   final String? imageName;
   final double imageSize;
+  final String? fontFamily;
 
   const WDecheData({
     required this.text,
     this.imageName,
-    this.imageSize = 36.0
+    this.imageSize = 36.0,
+    this.fontFamily,
   });
 
 }

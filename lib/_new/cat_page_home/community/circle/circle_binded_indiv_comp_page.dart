@@ -105,7 +105,7 @@ class CircleBindedIndivCompPageState extends State<CircleBindedIndivCompPage>{
 
                           BindedIndivCompsProvider bindedIndivCompsProv = Provider.of<BindedIndivCompsProvider>(context, listen: false);
 
-                          showLoadingWidget(context, CommunityCoverColors.strongColor(context, palette), 'Chwileczkę...');
+                          showLoadingWidget(context, 'Chwileczkę...', color: CommunityCoverColors.strongColor(context, palette));
 
                           await ApiCircle.deleteIndivCompBind(
                               circleKey: circle.key,
@@ -165,7 +165,7 @@ class CircleBindedIndivCompPageState extends State<CircleBindedIndivCompPage>{
 
                         BindedIndivCompsProvider bindedIndivCompsProv = Provider.of<BindedIndivCompsProvider>(context, listen: false);
 
-                        showLoadingWidget(context, CommunityCoverColors.strongColor(context, palette), 'Chwileczkę...');
+                        showLoadingWidget(context, 'Chwileczkę...', color: CommunityCoverColors.strongColor(context, palette));
 
                         await ApiCircle.deleteIndivCompBind(
                           circleKey: circle.key,
@@ -258,7 +258,7 @@ class CircleBindedIndivCompPageState extends State<CircleBindedIndivCompPage>{
 
                         BindedIndivCompsProvider bindedIndivCompsProv = Provider.of<BindedIndivCompsProvider>(context, listen: false);
 
-                        showLoadingWidget(context, CommunityCoverColors.strongColor(context, palette), 'Chwileczkę...');
+                        showLoadingWidget(context, 'Chwileczkę...', color: CommunityCoverColors.strongColor(context, palette));
 
                         await ApiCircle.bindIndivComp(
                             circleKey: circle.key,

@@ -70,34 +70,43 @@ class LocationPartState extends State<LocationPart> with AfterLayoutMixin, Autom
 
               IgnorePointer(
                 ignoring: !posProv.editMode,
-                child: FlutterMap(
-                  mapController: controller,
-                  options: MapOptions(
-                      center: LatLng(posProv.lat, posProv.lng),
-                      zoom: initZoom??10,
-                      minZoom: 2,
-                      maxZoom: CatPageHarcMap.maxZoom,
-                      interactiveFlags: CatPageHarcMap.interactiveFlags,
-                      onPositionChanged: (MapPosition position, bool _){
-                        if(posProv.editMode) posProv.setTmpMarkerPosition(position.center!);
-                      }
-                  ),
-                  children: [
-                    TileLayer(
-                      urlTemplate: CatPageHarcMap.tileServer,
-                      userAgentPackageName: 'dev.fleaflet.flutter_map.example',
+                child: Padding(
+                  padding: const EdgeInsets.all(Dimen.defMarg),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(AppCard.bigRadius),
                     ),
-                    MarkerLayer(markers: [
-                      AppMarker(marker: MarkerData.fromSimple(
-                          lat: posProv.lat,
-                          lng: posProv.lng,
-                          type: typeProv.markerType,
-                          visibility: visibilityProv.markerVisibility
-                      )),
-                      if(posProv.editMode)
-                        posProv.tmpMarker,
-                    ]),
-                  ],
+                    clipBehavior: Clip.hardEdge,
+                    child: FlutterMap(
+                      mapController: controller,
+                      options: MapOptions(
+                          center: LatLng(posProv.lat, posProv.lng),
+                          zoom: initZoom??10,
+                          minZoom: 2,
+                          maxZoom: CatPageHarcMap.maxZoom,
+                          interactiveFlags: CatPageHarcMap.interactiveFlags,
+                          onPositionChanged: (MapPosition position, bool _){
+                            if(posProv.editMode) posProv.setTmpMarkerPosition(position.center!);
+                          }
+                      ),
+                      children: [
+                        TileLayer(
+                          urlTemplate: CatPageHarcMap.tileServer,
+                          userAgentPackageName: 'dev.fleaflet.flutter_map.example',
+                        ),
+                        MarkerLayer(markers: [
+                          AppMarker(marker: MarkerData.fromSimple(
+                              lat: posProv.lat,
+                              lng: posProv.lng,
+                              type: typeProv.markerType,
+                              visibility: visibilityProv.markerVisibility
+                          )),
+                          if(posProv.editMode)
+                            posProv.tmpMarker,
+                        ]),
+                      ],
+                    ),
+                  ),
                 ),
               ),
 

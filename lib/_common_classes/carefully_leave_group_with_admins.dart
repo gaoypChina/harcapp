@@ -1,5 +1,4 @@
 import 'package:flutter/widgets.dart';
-import 'package:harcapp_core/comm_classes/color_pack.dart';
 
 import '../_common_widgets/loading_widget.dart';
 import 'app_navigator.dart';
@@ -46,7 +45,7 @@ Future<void> carefullyLeaveGroupWithAdmins({
 
                 Navigator.pop(context); // Close alert dialog.
 
-                showLoadingWidget(context, iconEnab_(context), leavingMessage);
+                showLoadingWidget(context, leavingMessage);
 
                 await requestLeave();
 

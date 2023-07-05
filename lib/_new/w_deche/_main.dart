@@ -103,7 +103,7 @@ class WDechePageState extends State<WDechePage> {
   }
 
   WDecheMarker createMarker(WDecheData data, double topLat, double leftLng, double latScrDelta, double lngScrDelta){
-    String fontFamily = WDecheData.allFontFamilies[Random().nextInt(WDecheData.allFontFamilies.length)];
+    String fontFamily = data.fontFamily??WDecheData.allFontFamilies[Random().nextInt(WDecheData.allFontFamilies.length)];
     int textRotDegrees = Random().nextInt(60) - 30;
     int imgRotDegrees = Random().nextInt(40) - 20;
     bool imageOnTop = Random().nextBool();

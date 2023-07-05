@@ -322,7 +322,7 @@ class MemberAttendanceTileState extends State<MemberAttendanceTile>{
                     ),
                     onTap: (){
 
-                      showLoadingWidget(context, CommunityCoverColors.strongColor(context, palette), 'Chwileczkę...');
+                      showLoadingWidget(context, 'Chwileczkę...', color: CommunityCoverColors.strongColor(context, palette));
 
                       ApiCircle.waiveResponse(
                           annKey: announcement.key,

@@ -623,7 +623,7 @@ class ShareDialogState extends State<ShareDialog>{
                   icon: Icon(MdiIcons.check),
                   onPressed: anythingChanged?() async {
                     setState(() => processing = true);
-                    showLoadingWidget(context, RankData.colors[rank!.data]!.avgColor(AppSettings.isDark), 'Chwileczkę...');
+                    showLoadingWidget(context, 'Chwileczkę...', color: RankData.colors[rank!.data]!.avgColor(AppSettings.isDark), );
                     await ApiRank.shareRank(
                       rank!.uniqRankName,
                       addByNick: usersToAdd.map((user) => user.nick).toList(),

@@ -352,7 +352,7 @@ class ReviewButtonsState extends State<ReviewButtons>{
                         Navigator.pop(context);
 
                         setState(() => sending = true);
-                        showLoadingWidget(context, comp.colors.avgColor, 'Ostatnia prosta');
+                        showLoadingWidget(context, 'Ostatnia prosta', color: comp.colors.avgColor);
 
                         await ApiIndivComp.reviewCompletedTask(
                             complTaskKey: complTask.key,
@@ -404,7 +404,7 @@ class ReviewButtonsState extends State<ReviewButtons>{
                         Navigator.pop(context);
 
                         setState(() => sending = true);
-                        showLoadingWidget(context, comp.colors.avgColor, 'Ostatnia prosta');
+                        showLoadingWidget(context, 'Ostatnia prosta');
 
                         await ApiIndivComp.reviewCompletedTask(
                             complTaskKey: complTask.key,

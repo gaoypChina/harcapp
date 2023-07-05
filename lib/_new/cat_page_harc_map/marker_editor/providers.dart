@@ -186,7 +186,9 @@ class BindedCommunitiesProvider extends ChangeNotifier{
   }
 
   int get length =>
-    _initCommunities.length + _communitiesToAdd.length - _communitiesToEdit.length;
+    _initCommunities.length + _communitiesToAdd.length - _communitiesToEdit.length - _communitiesToRemove.length;
+
+  bool get isEmpty => length == 0;
 
   BindedCommunitiesProvider({MarkerData? initMarker}){
     _initCommunities = {for(Tuple2<CommunityPreviewData, String?> c in (initMarker?.communities??[])) c.item1.key: c.item2??''};

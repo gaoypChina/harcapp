@@ -164,7 +164,7 @@ class CommunityManagerTileExtendedState extends State<CommunityManagerTileExtend
         looseAdminConfMess: 'Czy na pewno chcesz zrzec się roli <b>administratora</b> środowiska <b>${community.name}</b>?',
         handleUpdate: () async {
 
-          showLoadingWidget(context, iconEnab_(context), 'Ostatnia prosta...');
+          showLoadingWidget(context, 'Ostatnia prosta...');
 
           await ApiCommunity.updateManagers(
               communityKey: community.key,
@@ -201,7 +201,7 @@ class CommunityManagerTileExtendedState extends State<CommunityManagerTileExtend
         removingUserDetailMess: '${manager.name} nie będzie mieć dłużej dostępu do zarządzania środowiskiem.\n\nNa pewno chcesz ${manager.isMale?'go':'ją'} wyprosić?',
         handleRemove: () async {
 
-          showLoadingWidget(context, CommunityCoverColors.strongColor(context, palette), 'Wypraszanie ogarniacza...');
+          showLoadingWidget(context, 'Wypraszanie ogarniacza...', color: CommunityCoverColors.strongColor(context, palette), );
           await ApiCommunity.removeManagers(
               communityKey: community.key,
               userKeys: [manager.key],

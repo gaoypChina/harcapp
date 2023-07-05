@@ -167,7 +167,7 @@ class MarkerManagerTileExtendedState extends State<MarkerManagerTileExtended>{
         looseAdminConfMess: 'Czy na pewno chcesz zrzec się roli <b>administratora</b> miejsca <b>${marker.name}</b>?',
         handleUpdate: () async {
 
-          showLoadingWidget(context, iconEnab_(context), 'Ostatnia prosta...');
+          showLoadingWidget(context, 'Ostatnia prosta...');
 
           await ApiHarcMap.updateManagers(
               markerKey: marker.key,
@@ -206,7 +206,7 @@ class MarkerManagerTileExtendedState extends State<MarkerManagerTileExtended>{
         removingUserDetailMess: '${manager.name} nie będzie mieć dłużej dostępu do zarządzania miejscem.\n\nNa pewno chcesz ${manager.isMale?'go':'ją'} wyprosić?',
         handleRemove: () async {
 
-          showLoadingWidget(context, iconEnab_(context), 'Wypraszanie ogarniacza...');
+          showLoadingWidget(context, 'Wypraszanie ogarniacza...');
           await ApiHarcMap.removeManagers(
               markerKey: marker.key,
               userKeys: [manager.key],

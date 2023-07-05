@@ -103,7 +103,7 @@ Future<void> loadOpenRankDialog(BuildContext context, Color color, SharedRankMet
   if(loadedSharedRank != null)
     _openRankDialog(context, loadedSharedRank, data.lastUpdateTime);
   else {
-    showLoadingWidget(context, color, 'Otwieranie...');
+    showLoadingWidget(context, 'Otwieranie...', color: color);
     await ApiRank.getShared(
         key: data.sharedRankKey,
         onSuccess: (Rank sharedRank) async {

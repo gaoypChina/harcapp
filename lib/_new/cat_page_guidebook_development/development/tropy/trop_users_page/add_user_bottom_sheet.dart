@@ -4,7 +4,7 @@ import 'package:harcapp/_new/api/trop.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/model/trop.dart';
 import 'package:harcapp/_new/cat_page_home/user_list_add_new_bottom_sheet.dart';
 import 'package:harcapp/logger.dart';
-import 'package:harcapp_core/comm_classes/color_pack.dart';
+import 'package:harcapp/values/colors.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/loading_widget.dart';
 import 'package:harcapp/values/consts.dart';
@@ -39,7 +39,7 @@ class AddUserBottomSheet extends StatelessWidget{
         return;
       }
 
-      showLoadingWidget(context, iconEnab_(context), 'Dodawanie człowieka tropu');
+      showLoadingWidget(context, 'Dodawanie człowieka tropu', color: AppColors.zhpTropColor);
 
       TropProvider tropProv = TropProvider.of(context);
       TropListProvider tropListProv = TropListProvider.of(context);

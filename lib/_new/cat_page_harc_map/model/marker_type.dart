@@ -28,6 +28,10 @@ enum MarkerType{
 
 }
 
+bool isMarkerTypeZbiorkable(MarkerType type) => type == MarkerType.harcowka ||
+    type == MarkerType.szkola ||
+    type == MarkerType.salaParafialna;
+
 List<MarkerType> get allUsableMarkerType{
   List<MarkerType> all = List.of(MarkerType.values);
   all.remove(MarkerType.error);
@@ -168,22 +172,22 @@ Color getMarkerTypeColorEnd(MarkerType markerType){
     case MarkerType.miejsceOgniskowe: return Colors.amber[300]!;
     case MarkerType.miejsceBiwakowe: return Colors.yellow[600]!;
     case MarkerType.miejsceObozowe: return Colors.orange[400]!;
-    case MarkerType.szkola: return Colors.white;
-    case MarkerType.kosciol: return Colors.white;
-    case MarkerType.salaParafialna: return Colors.white;
-    case MarkerType.remiza: return Colors.white;
+    case MarkerType.szkola: return Colors.grey[400]!;
+    case MarkerType.kosciol: return Colors.grey[400]!;
+    case MarkerType.salaParafialna: return Colors.grey[400]!;
+    case MarkerType.remiza: return Colors.grey[400]!;
 
     case MarkerType.duszpasterstwoAkademickie: return Colors.grey[400]!;
 
     case MarkerType.schronTurystyczny: return Colors.green[500]!;
 
     case MarkerType.siedzibaHufcaZhp: return Colors.grey[300]!;
-    case MarkerType.siedzibaChoragwiZhp: return Colors.white;
-    case MarkerType.siedzibaGlownejKwateryZhp: return Colors.white;
+    case MarkerType.siedzibaChoragwiZhp: return Colors.grey[400]!;
+    case MarkerType.siedzibaGlownejKwateryZhp: return Colors.grey[400]!;
 
-    case MarkerType.wiata: return Colors.white;
+    case MarkerType.wiata: return Colors.grey[400]!;
 
-    case MarkerType.inne: return Colors.white;
+    case MarkerType.inne: return Colors.grey[400]!;
   }
 
 }

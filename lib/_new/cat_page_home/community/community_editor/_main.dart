@@ -91,9 +91,9 @@ class CommunityEditorPageState extends State<CommunityEditorPage>{
                       }
 
                       showLoadingWidget(
-                          context,
-                          accent_(context),
-                          initCommunity == null? 'Zawiązywanie środowiska...': 'Uaktualnianie...'
+                        context,
+                        initCommunity == null? 'Zawiązywanie środowiska...': 'Uaktualnianie...',
+                        color: accent_(context),
                       );
 
                       if(initCommunity == null)

@@ -622,8 +622,9 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
                   }
 
                   showLoadingWidget(
-                      context, CommunityCoverColors.strongColor(context, palette),
-                      initAnnouncement == null?'Publikowanie...':'Uaktualnianie...'
+                      context,
+                      initAnnouncement == null?'Publikowanie...':'Uaktualnianie...',
+                    color: CommunityCoverColors.strongColor(context, palette),
                   );
 
                   if(initAnnouncement == null)

@@ -38,7 +38,7 @@ Future<void> _loadHandleTrop(BuildContext context, TropSharedPreviewData data, {
   if(loadSharedTrop != null)
     pushPage(context, builder: (context) => TropPage(loadSharedTrop!));
   else {
-    showLoadingWidget(context, AppColors.zhpTropColor, 'Otwieranie...');
+    showLoadingWidget(context, 'Otwieranie...', color: AppColors.zhpTropColor);
     await ApiTrop.getTrop(
         tropKey: data.key,
         onSuccess: (Trop trop) async {

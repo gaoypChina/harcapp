@@ -11,6 +11,7 @@ import 'package:harcapp/_new/cat_page_home/user_list_managment_loadable_page.dar
 import 'package:harcapp/_new/cat_page_home/user_tile_dialogs.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/logger.dart';
+import 'package:harcapp/values/colors.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
@@ -156,7 +157,7 @@ class TropUserTileExtendedState extends State<TropUserTileExtended>{
         looseAdminConfMess: 'Czy na pewno chcesz zrzec się roli <b>koordynatora</b> tropu <b>${trop.name}</b>?',
         handleUpdate: () async {
 
-          showLoadingWidget(context, iconEnab_(context), 'Ostatnia prosta...');
+          showLoadingWidget(context, 'Ostatnia prosta...', color: AppColors.zhpTropColor);
 
           if(trop.key == null){
             logger.e("Registered a failed attempt to call `updateUsers` on trop with no trop key.");
@@ -204,7 +205,7 @@ class TropUserTileExtendedState extends State<TropUserTileExtended>{
           return;
         }
 
-        showLoadingWidget(context, iconEnab_(context), 'Wypraszanie koordynatora...');
+        showLoadingWidget(context, 'Wypraszanie koordynatora...', color: AppColors.zhpTropColor);
         await ApiTrop.removeUsers(
             tropKey: trop.key!,
             userKeys: [user.key],

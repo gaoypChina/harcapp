@@ -116,9 +116,9 @@ class CircleEditorPageState extends State<CircleEditorPage>{
                         onPressed: () async {
 
                           showLoadingWidget(
-                              context,
-                              CommunityCoverColors.strongColor(context, colorsKeyProv.isColorsKeyAuto?palette:null),
-                              initCircle == null? 'Zawiązywanie kręgu...': 'Uaktualnianie...'
+                            context,
+                            initCircle == null? 'Zawiązywanie kręgu...': 'Uaktualnianie...',
+                            color: CommunityCoverColors.strongColor(context, colorsKeyProv.isColorsKeyAuto?palette:null),
                           );
 
                           if(initCircle == null)

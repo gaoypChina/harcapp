@@ -59,6 +59,7 @@ class InfoPartState extends State<InfoPart> with AutomaticKeepAliveClientMixin{
                   maxHeight: MediaQuery.of(context).size.height/2,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(communityRadius),
+                    color: getMarkerTypeColor(prov.markerType),
                   ),
                 ),
                 menuItemStyleData: const MenuItemStyleData(
@@ -115,14 +116,15 @@ class InfoPartState extends State<InfoPart> with AutomaticKeepAliveClientMixin{
           titleColor: hintEnab_(context),
           textAlign: TextAlign.left,
         ),
-        Consumer<MarkerVisibilityProvider>(
-          builder: (context, prov, child) => DropdownButtonHideUnderline(
+        Consumer2<MarkerVisibilityProvider, MarkerTypeProvider>(
+          builder: (context, prov, markerTypeProv, child) => DropdownButtonHideUnderline(
               child: DropdownButton2(
                 isExpanded: true,
                 dropdownStyleData: DropdownStyleData(
                   padding: EdgeInsets.zero,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(communityRadius),
+                    color: getMarkerTypeColor(markerTypeProv.markerType),
                   ),
                 ),
                 menuItemStyleData: const MenuItemStyleData(

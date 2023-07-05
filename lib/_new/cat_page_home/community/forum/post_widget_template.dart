@@ -83,8 +83,8 @@ class PostWidgetTemplate extends StatelessWidget{
 
                       showLoadingWidget(
                           context,
-                          CommunityCoverColors.strongColor(context, palette),
-                          'Usuwanie...'
+                          'Usuwanie...',
+                        color: CommunityCoverColors.strongColor(context, palette),
                       );
 
                       ApiForum.deletePost(

@@ -63,7 +63,7 @@ class LeaveCompButton extends StatelessWidget{
 
                     Navigator.pop(context);
 
-                    showLoadingWidget(context, comp.colors.avgColor, 'Opuszczanie lokalu...');
+                    showLoadingWidget(context, 'Opuszczanie lokalu...', color: comp.colors.avgColor);
 
                     await ApiIndivComp.leave(
                         compKey: comp.key,

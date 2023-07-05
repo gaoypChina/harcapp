@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_new/api/harc_map.dart';
 import 'package:harcapp/_new/cat_page_home/user_list_add_new_bottom_sheet.dart';
-import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/loading_widget.dart';
 import 'package:harcapp/values/consts.dart';
@@ -31,7 +30,7 @@ class AddUserBottomSheet extends StatelessWidget{
     participatingUserKeys: marker.loadedManagersMap.keys.toList(),
     handleAddingUser: (UserDataNick userData) async {
 
-      showLoadingWidget(context, iconEnab_(context), 'Dodawanie ogarniacza');
+      showLoadingWidget(context, 'Dodawanie ogarniacza');
 
       MarkerProvider markerProv = MarkerProvider.of(context);
       MarkerListProvider markerListProv = MarkerListProvider.of(context);

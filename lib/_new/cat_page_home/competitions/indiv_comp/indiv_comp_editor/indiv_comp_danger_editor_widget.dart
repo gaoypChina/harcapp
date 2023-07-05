@@ -64,7 +64,7 @@ class _IndivCompDangerEditorWidgetState extends State<IndivCompDangerEditorWidge
 
                           Navigator.pop(context);
 
-                          showLoadingWidget(context, comp.colors.avgColor, 'Zwijanie współzawodnictwa...');
+                          showLoadingWidget(context, 'Zwijanie współzawodnictwa...', color: comp.colors.avgColor);
 
                           await ApiIndivComp.delete(
                               compKey: comp.key,
