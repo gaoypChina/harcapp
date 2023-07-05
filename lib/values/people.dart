@@ -33,6 +33,7 @@ List<Person> allPeople = [
   BENIAMIN_PLUCINSKI,
   BRUNO_BRONCEL,
   BRUNO_WALERYCH,
+  DAMIAN_SZYSZKA,
   DANIEL_IWANICKI,
   DANIEL_KORZEB,
   DAWID_LOBODA,
@@ -140,6 +141,7 @@ List<Person> allPeople = [
   MACIEJ_SZOLC,
   MAJA_WOJTYNIAK,
   MALGORZATA_KLOC,
+  MALGORZATA_MASKO_HORYZA,
   MALGORZATA_SZMUK,
   MALWINA_TRUSZKOWSKA,
   MARCEL_RYCHTER,
@@ -184,6 +186,7 @@ List<Person> allPeople = [
   PAULINA_LUBOS,
   PAWEL_KIMEL,
   PAWEL_MARUD,
+  PIOTR_KUBOWICZ,
   PIOTR_MACIEJ_KABATA,
   PIOTR_SOSNOWSKI,
   PIOTR_TUROWSKI,
@@ -230,6 +233,7 @@ List<Person> allPeople = [
   ZOFIA_SZAFRANEK,
   ZOFIA_ZAWADZKA,
   ZOFIA_ZBRUK,
+  ZUZANNA_ANDRZEJCZAK,
   ZUZANNA_JAWORSKA,
   ZUZANNA_KOLIS,
   ZUZANNA_KOWALCZYK,
@@ -381,6 +385,10 @@ const Person BRUNO_WALERYCH = Person(
   name: 'Bruno Walerych',
   org: Org.zhp,
   email: ['bruno.walerych@zhp.pl']
+);
+const Person DAMIAN_SZYSZKA = Person(
+    name: 'Damian Szyszka',
+    email: ['damianoszyszka@gmail.com']
 );
 const Person DANIEL_IWANICKI = Person(
     name: 'Daniel Iwanicki',
@@ -970,6 +978,12 @@ const Person MALGORZATA_KLOC = Person(
   org: Org.zhp,
   email: ['malgorzata.kloc@zhp.net.pl']
 );
+const Person MALGORZATA_MASKO_HORYZA = Person(
+  name: 'Małgorzata Maśko-Horyza',
+  stopI: 'phm.',
+  email: ['m.masko-horyza@zhp.net.pl', 'malgorzata.masko-horyza@zhp.net.pl'],
+  org: Org.zhp,
+);
 const Person MALGORZATA_SZMUK = Person(
     name: 'Małgorzata Szmuk',
     druzyna: '16. DH WATAHA',
@@ -1227,6 +1241,12 @@ const Person PAWEL_KIMEL = Person(
   email: ['pawel.kimel@gmail.com']
 );
 const Person PAWEL_MARUD = Person(name: 'Piotr Marud');
+const Person PIOTR_KUBOWICZ = Person(
+    name: 'Piotr Kubowicz',
+    druzyna: '2. NDWP Płomienie',
+    hufiec: huf_zhp_nowy_sacz,
+    email: ['piotr.kubowicz@supersnow.com', 'ocwypyziuleh@gmail.com']
+);
 const Person PIOTR_MACIEJ_KABATA = Person(name: 'Piotr Maciej Kabata');
 const Person PIOTR_SOSNOWSKI = Person(name: 'Piotr Sosnowski', stopI: 'pwd.',
   druzyna: 'II. SzDHiZ, 74. Poznańska Drużyna Wędrownicza "Lewe Skrzydło" im. Dywizjonu 303',
@@ -1458,6 +1478,12 @@ const Person ZOFIA_ZBRUK = Person(
     hufiec: huf_zhp_poznan_grunwald,
     org: Org.zhp,
     email: ['anonusiauvu@gmail.com']
+);
+const Person ZUZANNA_ANDRZEJCZAK = Person(
+    name: 'Zuzanna Andrzejczak',
+    druzyna: '15. ZWDH "Atlantyda',
+    hufiec: huf_zhp_zgierz,
+    email: ['zuzannaandrzejczak12@gmail.com']
 );
 const Person ZUZANNA_JAWORSKA = Person(
     name: 'Zuzanna Jaworska',
