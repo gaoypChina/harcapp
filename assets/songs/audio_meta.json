@@ -30,6 +30,13 @@
         }
     ],
 
+    "o!_chwile": [
+        {
+            "file": "chwile.malgorzata_masko_horyza.mp3",
+            "performer": "Małgorzata Maśko-Horyza"
+        }
+    ],
+
     "o!_czas": [
         {
             "file": "czas.0.mp3",
@@ -89,6 +96,13 @@
             "file": "major_ponury.jaaamw-u.mp3",
             "performer": "JAAAMW-u",
             "source": "https://www.youtube.com/watch?v=7T9_iSooTWQ"
+        }
+    ],
+
+    "o!_ogniobranie": [
+        {
+            "file": "ogniobranie.malgorzata_masko_horyza.mp3",
+            "performer": "Małgorzata Maśko-Horyza"
         }
     ],
 

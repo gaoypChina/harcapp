@@ -13,6 +13,8 @@ class WDecheData{
 
   static const List<WDecheData> all = [
 
+    WDecheData(text: 'Co Wy robicie z tą kulką, jak już wypijecie mozzarellę?'),
+
     WDecheData(text: 'Nie jestem pomidorową, żebyście mnie wszyscy lubili'),
 
     WDecheData(text: 'Na świecie są trzy rodzaje ludzi: ci co umieją liczyć i ci co nie umieją.'),
@@ -43,7 +45,7 @@ class WDecheData{
     ),
 
     WDecheData(
-      text: 'Papier toaletory niby też ma dwie strony'
+      text: 'Papier toaletowy niby też ma dwie strony'
           '\nTylko co z tego',
       imageName: 'toilet_paper',
       imageSize: 54.0,
@@ -88,7 +90,7 @@ class WDecheData{
 
     WDecheData(text: '"Rower jest wielce okej"'),
 
-    WDecheData(text: '"Trzeba być ostrożnym czego się pragnie na młodość, bo dostanie się to na starość"'),
+    WDecheData(text: '"Trzeba być ostrożnym czego się pragnie w młodości, bo dostanie się to na starość"'),
 
     WDecheData(
       text: 'Nie ma powrotu do jaskiń - jest nas za dużo...',
@@ -165,7 +167,7 @@ class WDecheData{
     WDecheData(text: 'Pani mówi, że 40% z nas nie zda matematyki'
         '\nA przecież nas nawet tylu nie ma w klasie'),
 
-    WDecheData(text: 'Tylko bogatych stać na tanie rzeczy'),
+    WDecheData(text: 'Tylko bogatych stać na kupowanie tanich rzeczy'),
 
     WDecheData(text: '"Panie, już cuchnie!"'
         '\n~ J 11, 39'),

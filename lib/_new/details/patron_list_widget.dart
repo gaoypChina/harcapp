@@ -7,7 +7,7 @@ class PatronListWidget extends StatelessWidget{
   static const List<Person> PLN50Patrons = [
     WIKTOR_KARPALA,
     PIOTR_MACIEJ_KABATA,
-    HUBERT_FRUKOWSKI
+    HUBERT_FRUKOWSKI,
   ];
 
   static const List<Person> PLN20Patrons = [
@@ -34,6 +34,7 @@ class PatronListWidget extends StatelessWidget{
     Person(name: 'Sławomira Wcisło'),
     Person(name: 'Tosia Wachowicz'),
     Person(name: 'Witek Marszał'),
+    MALGORZATA_MASKO_HORYZA,
   ];
 
   @override
