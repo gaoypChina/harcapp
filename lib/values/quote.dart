@@ -264,7 +264,7 @@ const List<Quote> CYTATY_POWST_WARSZ = [
   Quote(cytaty_autor_baczynski, 'Umrzeć przyjdzie, gdy się kochało wielkie sprawy głupią miłością.'),
   Quote(cytaty_autor_baczynski, 'Zanim padłeś, jeszcze ziemię przeżegnałeś ręką. Czy to była kula, synku, czy to serce pękło?'),
 
-  Quote(quoteAuthorKaminski, 'A kiedy trzeba, na śmierć idą po kolei, jak kamienie przez Boga rzucane na szaniec.'),
+  Quote(quoteAuthorSlowacki, 'A kiedy trzeba, na śmierć idą po kolei, jak kamienie przez Boga rzucane na szaniec(…)'),
 
   Quote(cytaty_autor_baczynski, 'Chcieliśmy być wolni i wolność sobie zawdzięczać.'),
 

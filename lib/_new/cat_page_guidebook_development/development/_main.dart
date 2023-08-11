@@ -588,37 +588,37 @@ class TropyPreviewListState extends State<TropyPreviewList>{
             child: Row(
               children: [
 
-                ListView.separated(
-                  padding: const EdgeInsets.only(
-                    left: Dimen.defMarg,
-                    right: Dimen.defMarg,
-                    bottom: Dimen.defMarg,
+                if(tropCount == 0)
+                  const SizedBox(width: Dimen.defMarg)
+                else
+                  ListView.separated(
+                    padding: const EdgeInsets.only(
+                      left: Dimen.defMarg,
+                      right: Dimen.defMarg,
+                      bottom: Dimen.defMarg,
+                    ),
+                    itemBuilder: (context, index) => TropWidgetSmall(
+                      trops[index],
+                      elevation: 0,
+                    ),
+                    separatorBuilder: (context, index) => const SizedBox(width: Dimen.defMarg),
+                    itemCount: tropCount,
+                    scrollDirection: Axis.horizontal,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
                   ),
-                  itemBuilder: (context, index) => TropWidgetSmall(
-                    trops[index],
-                    elevation: 0,
-                  ),
-                  separatorBuilder: (context, index) => const SizedBox(width: Dimen.defMarg),
-                  itemCount: tropCount,
-                  scrollDirection: Axis.horizontal,
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                ),
 
                 if(tropSharedPreviewsLoader.running)
-                  Padding(
-                    padding: const EdgeInsets.only(left: Dimen.defMarg),
-                    child: SizedBox(
-                      height: TropWidgetSmall.height,
-                      width: TropWidgetSmall.width,
-                      child: Material(
-                        color: cardEnab_(context),
-                        borderRadius: BorderRadius.circular(AppCard.bigRadius),
-                        child: const Center(
-                          child: SpinKitChasingDots(
-                            size: Dimen.ICON_SIZE,
-                            color: AppColors.zhpTropColor,
-                          ),
+                  SizedBox(
+                    height: TropWidgetSmall.height,
+                    width: TropWidgetSmall.width,
+                    child: Material(
+                      color: cardEnab_(context),
+                      borderRadius: BorderRadius.circular(AppCard.bigRadius),
+                      child: const Center(
+                        child: SpinKitChasingDots(
+                          size: Dimen.ICON_SIZE,
+                          color: AppColors.zhpTropColor,
                         ),
                       ),
                     ),

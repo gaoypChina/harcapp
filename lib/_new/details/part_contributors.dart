@@ -94,7 +94,7 @@ class PartContributors extends StatelessWidget{
     KAJETAN_WYGNANSKI,
     FILIP_BERGIER,
     WOJCIECH_WOLNIK,
-    KRZSZTOF_MALIKIEWICZ,
+    KRZYSZTOF_MALIKIEWICZ,
     PAWEL_MARUD,
     KACPER_TOMCZYK,
     JAN_KUCZA,
@@ -135,6 +135,7 @@ class PartContributors extends StatelessWidget{
     SZYMON_JAWOREK,
     ARTUR_KOSTRZEWA,
     MACIEJ_CHUSTECKI,
+    SEBASTIAN_BINKOWICZ,
   ];
 
   static const List<Person> osWspierSlownik = [

@@ -56,7 +56,9 @@ class AllCompetitionsPageState extends State<AllCompetitionsPage>{
   @override
   void initState() {
     
-    refreshController = RefreshController();
+    refreshController = RefreshController(
+      initialRefresh: IndivComp.all == null
+    );
 
     IndivCompProvider indivCompProv = Provider.of<IndivCompProvider>(context, listen: false);
     IndivCompListProvider indivCompListProv = Provider.of<IndivCompListProvider>(context, listen: false);
@@ -180,7 +182,7 @@ class AllCompetitionsPageState extends State<AllCompetitionsPage>{
               padding: const EdgeInsets.all(Dimen.SIDE_MARG),
               child: CompetitionPreviewGridMessage(
                 icon: Competition.icon,
-                text: 'Ładowanie\nwspółzawodnictw',
+                text: 'Ładowanie',
               ),
             ),
         ));
@@ -190,7 +192,7 @@ class AllCompetitionsPageState extends State<AllCompetitionsPage>{
             child: Padding(
               padding: const EdgeInsets.all(Dimen.SIDE_MARG),
               child: CompetitionPreviewGridMessage(
-                icon: MdiIcons.closeOutline,
+                icon: MdiIcons.alertCircleOutline,
                 text: 'Mamy problem'
             ),
           ),

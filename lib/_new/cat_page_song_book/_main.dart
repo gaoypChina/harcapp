@@ -438,14 +438,26 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
             else if (albProv.current.songs.isNotEmpty)
               return SongAutoScrollController(
                   SongBookBaseSetting(),
+
+                  beforeAutoscrollStart: (context) async {
+                    ScrollPosition innerPosition = innerController.position;
+                    innerController.detach(innerPosition);
+                    await outerController.animateTo(
+                        outerController.position.maxScrollExtent,
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeOutCubic
+                    );
+                    innerController.attach(innerPosition);
+                  },
+
                   onAutoscrollStart: (context){
                     isAutoScrolling = true;
-                    Provider.of<FloatingButtonProvider>(context, listen: false).notify();
+                    FloatingButtonProvider.notify_(context);
                   },
 
                   onAutoscrollEnd: (context){
                     isAutoScrolling = false;
-                    Provider.of<FloatingButtonProvider>(context, listen: false).notify();
+                    FloatingButtonProvider.notify_(context);
                   },
                   builder: (context) => Stack(
                     children: [

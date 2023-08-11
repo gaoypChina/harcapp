@@ -46,7 +46,7 @@ class FolderSearchPageState<T extends Folder> extends State<FolderSearchPage<T>>
 
         FloatingContainer.child(
             child: SearchField(
-              hint: 'Szukaj folderu:',
+              hint: 'Szukaj folderu',
               onChanged: (text){
 
                 if(text.isEmpty) {

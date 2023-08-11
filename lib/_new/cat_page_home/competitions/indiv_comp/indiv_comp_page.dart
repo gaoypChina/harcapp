@@ -135,7 +135,6 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
 
                     if(!AccountData.loggedIn)
                       loginProv.notify();
-                    Navigator.pop(context);
                   }
               );
 

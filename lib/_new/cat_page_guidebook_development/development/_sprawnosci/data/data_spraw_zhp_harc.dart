@@ -2855,8 +2855,8 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 id: '10',
                 sprawData: [
                   SprawData(
-                      id: 'rezyser_teatralny',
-                      title: 'Reżyser Teatralny',
+                      id: 'scenograf',
+                      title: 'Scenograf',
                       level: 3,
                       comment:'Wykonuje kostiumy i detale scenograficzne. Kieruje wykonywaniem scenografii lub dekoracji.',
                       tasks: [

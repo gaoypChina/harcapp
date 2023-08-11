@@ -26,6 +26,7 @@ import '../../_sprawnosci/models/spraw.dart';
 import '../../_sprawnosci/spraw_selector.dart';
 import '../../tropy/open_trop_dialog.dart';
 import '../../tropy/trop_selector.dart';
+import '../../tropy/trop_shared_preview_tile.dart';
 
 const String _tab = '    ';
 
@@ -361,6 +362,37 @@ class SprawSelectedListWidgetState extends State<SprawSelectedListWidget>{
           }else
             spraw = null;
 
+          Widget notInProgress = SizedBox(
+              height: itemHeight,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Sprawność ${index+1}',
+                      style: AppTextStyle(
+                          fontWeight: weight.halfBold,
+                          fontSize: Dimen.TEXT_SIZE_BIG
+                      ),
+                    ),
+
+                    const SizedBox(height: Dimen.defMarg),
+
+                    Text(
+                      'Rozpocznij zdobywanie, by wybrać sprawność',
+                      style: AppTextStyle(
+                          fontWeight: weight.halfBold,
+                          fontSize: Dimen.TEXT_SIZE_NORMAL,
+                          color: hintEnab_(context)
+                      ),
+                    )
+                  ],
+                ),
+              )
+          );
+
           Widget emptyButtons = SizedBox(
             height: itemHeight,
             child: AdditionalTaskEmptyButtons(
@@ -403,8 +435,10 @@ class SprawSelectedListWidgetState extends State<SprawSelectedListWidget>{
             ),
           );
 
-          if (extText == null && enabled)
+          if (extText == null && enabled && checkable)
             return emptyButtons;
+          else if(extText == null && enabled && !checkable)
+            return notInProgress;
           else if (extText == null && !enabled)
             return SizedBox(
                 height: itemHeight,
@@ -507,6 +541,7 @@ class TropSelectedListWidget extends StatefulWidget{
 
   static const String customPrefix = 'custom@';
   static const String samplePrefix = 'sample@';
+  static const String lclIdTropKeySel = '&';
 
   final String rankId;
   final String name;
@@ -590,40 +625,82 @@ class TropSelectedListWidgetState extends State<TropSelectedListWidget>{
           String? extText = RankZHPSim2022Templ.getExtText(rankId, code, index);
 
           Trop? trop;
+          String? sharedTropKey;
           if(extText == null)
+            // No trop selected.
             trop = null;
-          else if(extText.length > TropSelectedListWidget.samplePrefix.length)
-            trop = Trop.readOwnFromLclId(extText.substring(TropSelectedListWidget.samplePrefix.length));
-          else if(!extText.startsWith(TropSelectedListWidget.samplePrefix) && !extText.startsWith(TropSelectedListWidget.customPrefix) && extText.isNotEmpty) {
-            // This is a temporary solution.
+          else if(extText.startsWith(TropSelectedListWidget.samplePrefix)) {
+            // Trop selected.
+            List<String> parts = extText.substring(TropSelectedListWidget.samplePrefix.length).split(TropSelectedListWidget.lclIdTropKeySel);
+
+            trop = parts.isNotEmpty?Trop.readOwnFromLclId(parts[0], log: false):null;
+            sharedTropKey = parts.length>1?parts[1]:null;
+
+          }else if(!extText.startsWith(TropSelectedListWidget.samplePrefix) && !extText.startsWith(TropSelectedListWidget.customPrefix) && extText.isNotEmpty) {
+            // Strange things are happening - just move the text into a custom trop note.
             trop = null;
             extText = TropSelectedListWidget.customPrefix + extText;
             RankZHPSim2022Templ.setExtText(rankId, code, index, extText);
-          }else
-            trop = null;
+          }
 
-          Widget emptyButtons = SizedBox(
+          Widget notInProgress = SizedBox(
+            height: itemHeight,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Trop ${index+1}',
+                    style: AppTextStyle(
+                        fontWeight: weight.halfBold,
+                        fontSize: Dimen.TEXT_SIZE_BIG
+                    ),
+                  ),
+
+                  const SizedBox(height: Dimen.defMarg),
+
+                  Text(
+                    'Rozpocznij zdobywanie, by wybrać trop',
+                    style: AppTextStyle(
+                      fontWeight: weight.halfBold,
+                      fontSize: Dimen.TEXT_SIZE_NORMAL,
+                      color: hintEnab_(context)
+                    ),
+                  )
+                ],
+              ),
+            )
+          );
+
+            Widget emptyButtons = SizedBox(
             height: itemHeight,
             child: AdditionalTaskEmptyButtons(
               required: index < (reqCount??count),
               onSelectTap: () async {
 
-                Trop? selectedTrop = await selectTrop(context);
+                String? lclId;
+                String? tropKey;
 
-                if(selectedTrop == null) return;
+                (lclId, tropKey) = await selectTrop(context);
 
-                RankZHPSim2022Templ.setExtText(rankId, code, index, SprawSelectedListWidget.samplePrefix + selectedTrop.lclId!);
+                if(lclId == null && tropKey == null) return;
+
+                RankZHPSim2022Templ.setExtText(rankId, code, index, TropSelectedListWidget.samplePrefix + (lclId??"") + TropSelectedListWidget.lclIdTropKeySel + (tropKey??""));
                 setState(() {});
               },
               onNoteTap: (){
-                RankZHPSim2022Templ.setExtText(rankId, code, index, SprawSelectedListWidget.customPrefix);
+                RankZHPSim2022Templ.setExtText(rankId, code, index, TropSelectedListWidget.customPrefix);
                 setState(() {});
               },
             ),
           );
 
-          if (extText == null && enabled)
+          if (extText == null && enabled && checkable)
             return emptyButtons;
+          else if (extText == null && enabled && !checkable)
+            return notInProgress;
           else if (extText == null && !enabled)
             return SizedBox(
                 height: itemHeight,
@@ -653,7 +730,7 @@ class TropSelectedListWidgetState extends State<TropSelectedListWidget>{
                       setState(() {});
                     }
                 );
-                setState((){});
+                setState(() {});
               },
               onCompletedTap: (context, value){
                 RankZHPSim2022Templ.setExtChecked(rankId, code, index, value);
@@ -707,6 +784,31 @@ class TropSelectedListWidgetState extends State<TropSelectedListWidget>{
                       completenessPercent: trop.completenessPercent,
                     ),
                   )
+                )
+            );
+          else if(extText.startsWith(TropSelectedListWidget.samplePrefix) && sharedTropKey != null)
+            return ItemSlidable(
+                onRemoveTap: (context) async {
+                  String? oldExtText = RankZHPSim2022Templ.getExtText(rankId, code, index)??'';
+                  await RankZHPSim2022Templ.removeExtText(rankId, code, index);
+                  if(!mounted) return;
+                  showAppToast(
+                      context,
+                      text: 'Usunięto ${name.toLowerCase()}',
+                      buttonText: 'Cofnij',
+                      onButtonPressed: (){
+                        RankZHPSim2022Templ.setExtText(rankId, code, index, oldExtText);
+                        setState(() {});
+                      }
+                  );
+                  setState((){});
+                },
+                child: SizedBox(
+                    height: itemHeight,
+                    child: TropSharedPreviewTile(
+                      tropKey: sharedTropKey,
+                      padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+                    )
                 )
             );
           else
@@ -805,6 +907,38 @@ class WyzwanieSelectedListWidgetState extends State<WyzwanieSelectedListWidget>{
         itemBuilder: (context, index){
           String? extText = RankZHPSim2022Templ.getExtText(rankId, code, index);
 
+
+          Widget notInProgress = SizedBox(
+              height: itemHeight,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Wyzwanie ${index+1}',
+                      style: AppTextStyle(
+                          fontWeight: weight.halfBold,
+                          fontSize: Dimen.TEXT_SIZE_BIG
+                      ),
+                    ),
+
+                    const SizedBox(height: Dimen.defMarg),
+
+                    Text(
+                      'Rozpocznij zdobywanie, by wybrać wyzwanie',
+                      style: AppTextStyle(
+                          fontWeight: weight.halfBold,
+                          fontSize: Dimen.TEXT_SIZE_NORMAL,
+                          color: hintEnab_(context)
+                      ),
+                    )
+                  ],
+                ),
+              )
+          );
+
           Widget emptyButtons = SizedBox(
             height: itemHeight,
             child: AdditionalTaskEmptyButtons(
@@ -819,8 +953,10 @@ class WyzwanieSelectedListWidgetState extends State<WyzwanieSelectedListWidget>{
             ),
           );
 
-          if (extText == null && enabled)
+          if (extText == null && enabled && checkable)
             return emptyButtons;
+          else if (extText == null && enabled && !checkable)
+            return notInProgress;
           else if (extText == null && !enabled)
             return SizedBox(
                 height: itemHeight,
@@ -1187,7 +1323,7 @@ RankZHPSim2022Data rankZhp3Data = RankZHPSim2022Data(
               title: 'Ratownictwo',
               icon: RankData.iconPierwszaPomoc,
               taskData: [
-                const RankTaskData(text: 'Przeprowadziłem resuscytację krążeniowo‐oddechową na fantomie osoby dorosłej.'),
+                const RankTaskData(text: 'Przeprowadziłem resuscytację krążeniowo-oddechową na fantomie osoby dorosłej.'),
                 const RankTaskData(text: 'W sytuacji rzeczywistej lub symulowanej rozpoznałem objawy udaru słonecznego i udzieliłem pierwszej pomocy poszkodowanemu.')
               ],
             ),
@@ -1390,7 +1526,7 @@ RankZHPSim2022Data rankZhp5Data = RankZHPSim2022Data(
             const RankGroupData(
               title: 'Harcerz Orli jest ciekawy świata',
               taskData: [
-                RankTaskData(text: 'Chętnie uczy się nowych rzeczy i interesuje się otaczającym go światem. Zna miejsce człowieka w środowisku naturalnym i wyrabia w sobie nawyki związane z jego ochroną. Podchodzi z dystansem do uzyskiwanych informacji i weryfikuje ich źródła. Harcerz Orla rozumie, co oznacza słowo „braterstwo” i akceptuje prawo innych do własnych poglądów oraz decyzji, bez względu na to czy się z nimi zgadza. Wyrabia w sobie własne zdanie i poglądy na różne tematy bazując na pozyskanej wiedzy.'),
+                RankTaskData(text: 'Chętnie uczy się nowych rzeczy i interesuje się otaczającym go światem. Zna miejsce człowieka w środowisku naturalnym i wyrabia w sobie nawyki związane z jego ochroną. Podchodzi z dystansem do uzyskiwanych informacji i weryfikuje ich źródła. Harcerz Orli rozumie, co oznacza słowo „braterstwo” i akceptuje prawo innych do własnych poglądów oraz decyzji, bez względu na to czy się z nimi zgadza. Wyrabia w sobie własne zdanie i poglądy na różne tematy bazując na pozyskanej wiedzy.'),
               ],
             ),
             const RankGroupData(
@@ -1441,7 +1577,7 @@ RankZHPSim2022Data rankZhp5Data = RankZHPSim2022Data(
               title: 'Ratownictwo',
               icon: RankData.iconPierwszaPomoc,
               taskData: [
-                const RankTaskData(text: 'Przeszedł co najmniej 15‐godzinne szkolenie z zakresu pierwszej pomocy. Wykorzystał zdobyte umiejętności do pełnienia służby na rzecz własnego środowiska lub na zewnątrz organizacji'),
+                const RankTaskData(text: 'Przeszedł co najmniej 15-godzinne szkolenie z zakresu pierwszej pomocy. Wykorzystał zdobyte umiejętności do pełnienia służby na rzecz własnego środowiska lub na zewnątrz organizacji'),
               ],
             ),
             RankGroupData(

@@ -74,7 +74,7 @@ class SongWidget extends StatelessWidget{
 
     tempSongFile.writeAsStringSync(fileContent);
 
-    String newPersonCode = """const Person ${person==null?'NEW_PERSON':person.name.toUpperCase().replaceAll(' ', '_')} = Person(
+    String newPersonCode = """const Person ${person==null?'NEW_PERSON':remPolChars(person.name).toUpperCase().replaceAll(' ', '_')} = Person(
         ${hasName?"name: '${person?.name}',":""}
         ${hasDruzyna?"druzyna: '${person?.druzyna}',":""}
         ${hasHufiec?"hufiec: '${person?.hufiec}',":""}
@@ -201,7 +201,7 @@ class SongWidget extends StatelessWidget{
         return;
       }
 
-      if(Platform.isAndroid && (await DeviceInfoPlugin().androidInfo).version.sdkInt! < 20 && song.youtubeLink != null)
+      if(Platform.isAndroid && (await DeviceInfoPlugin().androidInfo).version.sdkInt < 20 && song.youtubeLink != null)
         launchURL(song.youtubeLink!);
 
       double statusBarHeight = App.statusBarHeight;

@@ -49,6 +49,7 @@ class ApiTrop{
     required String? lastStartTime,
     required String? lastName,
     required String? lastTropKey,
+    String? searchPhrase,
     FutureOr<void> Function(List<TropSharedPreviewData>)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
     FutureOr<bool> Function()? onServerMaybeWakingUp,
@@ -62,6 +63,7 @@ class ApiTrop{
             if(lastStartTime != null) 'lastStartTime': lastStartTime,
             if(lastName != null) 'lastName': lastName,
             if(lastTropKey != null) 'lastTropKey': lastTropKey,
+            if(searchPhrase != null) 'searchPhrase': searchPhrase,
           }
       ),
       onSuccess: (Response response, DateTime now) async {

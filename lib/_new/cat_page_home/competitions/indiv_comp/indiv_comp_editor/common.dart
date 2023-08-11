@@ -135,7 +135,7 @@ class SettingsPartHeader extends StatelessWidget{
       TitleShortcutRowWidget(
           title: title,
           textAlign: TextAlign.start,
-          titleColor: backgroundIcon_(context).withOpacity(.1)
+          titleColor: backgroundIcon_(context)
       );
 
 }

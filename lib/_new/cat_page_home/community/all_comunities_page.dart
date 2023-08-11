@@ -56,7 +56,9 @@ class AllCommunitiesPageState extends State<AllCommunitiesPage>{
   @override
   void initState() {
     
-    refreshController = RefreshController();
+    refreshController = RefreshController(
+      initialRefresh: Community.all == null
+    );
 
     CommunityProvider communityProv = CommunityProvider.of(context);
     CommunityListProvider communityListProv = CommunityListProvider.of(context);
@@ -185,8 +187,8 @@ class AllCommunitiesPageState extends State<AllCommunitiesPage>{
             child: Padding(
               padding: const EdgeInsets.all(Dimen.SIDE_MARG),
               child: CommunitiesPreviewMessageWidget(
-                icon: MdiIcons.refresh,
-                text: 'Ładowanie środowisk...',
+                icon: Community.icon,
+                text: 'Ładowanie',
               ),
             )
         ));
@@ -196,7 +198,7 @@ class AllCommunitiesPageState extends State<AllCommunitiesPage>{
             child: Padding(
               padding: const EdgeInsets.all(Dimen.SIDE_MARG),
               child: CommunitiesPreviewMessageWidget(
-                  icon: MdiIcons.closeOutline,
+                  icon: MdiIcons.alertCircleOutline,
                   text: 'Mamy problem'
               ),
             )

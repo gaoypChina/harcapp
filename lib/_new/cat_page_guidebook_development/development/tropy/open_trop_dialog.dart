@@ -28,11 +28,11 @@ void openTropDialog(
       )
 );
 
-Future<void> _loadHandleTrop(BuildContext context, TropSharedPreviewData data, {required bool dialog}) async {
+Future<void> _loadHandleTrop(BuildContext context, TropSharedPreviewData data, {required bool dialog, bool checkForUpdates = true}) async {
 
   Trop? loadSharedTrop;
   if(Trop.allSharedMapByKey.containsKey(data.key))
-    if(data.lastUpdateTime == Trop.allSharedMapByKey[data.key]!.lastUpdateTime)
+    if(!checkForUpdates || data.lastUpdateTime == Trop.allSharedMapByKey[data.key]!.lastUpdateTime)
       loadSharedTrop = Trop.allSharedMapByKey[data.key];
 
   if(loadSharedTrop != null)
@@ -61,8 +61,8 @@ Future<void> _loadHandleTrop(BuildContext context, TropSharedPreviewData data, {
   }
 }
 
-Future<void> loadOpenTropDialog(BuildContext context, TropSharedPreviewData data) async =>
-  _loadHandleTrop(context, data, dialog: true);
+Future<void> loadOpenTropDialog(BuildContext context, TropSharedPreviewData data, {bool checkForUpdates = true}) async =>
+  _loadHandleTrop(context, data, dialog: true, checkForUpdates: checkForUpdates);
 
-Future<void> loadPushTropPage(BuildContext context, TropSharedPreviewData data) async =>
-    _loadHandleTrop(context, data, dialog: false);
+Future<void> loadPushTropPage(BuildContext context, TropSharedPreviewData data, {bool checkForUpdates = true}) async =>
+    _loadHandleTrop(context, data, dialog: false, checkForUpdates: checkForUpdates);

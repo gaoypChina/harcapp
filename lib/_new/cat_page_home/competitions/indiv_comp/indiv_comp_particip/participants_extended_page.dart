@@ -123,7 +123,7 @@ class ParticipantsExtendedPageState extends State<ParticipantsExtendedPage>{
 
           UserListManagementLoadablePage<IndivCompParticip>(
             appBarTitle: selectedParticips.isEmpty?
-            'Uczestnicy (${particips.length})':
+            'Uczestnicy (${comp.participCount})':
             'Zaznaczono: ${selectedParticips.length}',
 
             userSets: [

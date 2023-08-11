@@ -107,6 +107,7 @@ Future<void> showAlertDialog(
     BuildContext context,
     { required String title,
       required String content,
+      Widget? bottomContent,
       Widget? leading,
       List<Widget> Function(BuildContext context)? actionBuilder,
       bool dismissible = true,
@@ -115,10 +116,21 @@ Future<void> showAlertDialog(
       dismissible: dismissible,
       builder: (BuildContext context) => AlertDialog(
         title: Text(title, style: AppTextStyle(fontWeight: weight.halfBold)),
-        content: Row(
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            if(leading != null) leading,
-            Expanded(child: AppText(content, size: Dimen.TEXT_SIZE_BIG))
+
+            Row(
+              children: [
+                if(leading != null) leading,
+                Expanded(child: AppText(content, size: Dimen.TEXT_SIZE_BIG))
+              ],
+            ),
+
+            if(bottomContent != null)
+              bottomContent,
+
           ],
         ),
         actions: actionBuilder==null?null:actionBuilder(context),

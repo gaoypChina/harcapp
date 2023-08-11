@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:harcapp/_common_widgets/sound_player_widget.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
@@ -10,6 +11,7 @@ import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/dimen.dart';
 
 import 'package:harcapp/_new/module_statistics_registrator.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class ShortReadWidget<T extends ShortRead> extends StatefulWidget{
 
@@ -103,6 +105,16 @@ class ShortReadWidgetState extends State<ShortReadWidget> with ModuleStatsMixin{
               StretchMode.blurBackground
             ],
           ),
+          actions: [
+            if(text != null)
+              IconButton(
+                icon: Icon(MdiIcons.contentCopy),
+                onPressed: (){
+                  Clipboard.setData(ClipboardData(text: ':: ${shortRead.title} ::\n\n$text\n\n:: Gawęda z aplikacji HarcApp::'));
+                  showAppToast(context, text: 'Skopiowano');
+                },
+              )
+          ],
         ),
 
         if(text != null)

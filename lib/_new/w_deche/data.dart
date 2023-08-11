@@ -27,6 +27,8 @@ class WDecheData{
 
     WDecheData(text: 'Zaskocz przeciwnika ucieczką!'),
 
+    WDecheData(text: 'Gdzie sika pani z kiosku?'),
+
     WDecheData(
       text: 'Lepiej mieć tasiemca, niż żadnego życia wewnętrznego...',
       imageName: 'snake',

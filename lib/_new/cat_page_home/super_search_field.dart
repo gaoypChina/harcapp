@@ -59,7 +59,7 @@ class SuperSearchField extends StatelessWidget{
         child: AbsorbPointer(
           absorbing: overrideTap != null,
           child: SearchField(
-            hint: 'Szukaj czego tam tylko chcesz:',
+            hint: 'Szukaj czego tam tylko chcesz',
             controller: controller,
             leading: leading,
             margin: margin,

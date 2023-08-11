@@ -174,10 +174,12 @@ class IndivCompEditorPageState extends State<IndivCompEditorPage>{
                                   await widget.onSuccess?.call(indivComp);
                                 },
                                 onServerMaybeWakingUp: () {
+                                  if(mounted) Navigator.pop(context); // Close loading widget.
                                   if(mounted) showServerWakingUpToast(context);
                                   return true;
                                 },
                                 onError: (){
+                                  if(mounted) Navigator.pop(context); // Close loading widget.
                                   if(mounted) showAppToast(context, text: simpleErrorMessage);
                                 }
                             );

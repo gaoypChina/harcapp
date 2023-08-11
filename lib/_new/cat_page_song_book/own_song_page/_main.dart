@@ -109,7 +109,7 @@ class OwnSongPageState extends State<OwnSongPage> {
   Widget build(BuildContext context) => Theme(
       data: Theme.of(context).copyWith(
         // This is the accent color
-        colorScheme: ColorScheme.fromSwatch().copyWith(secondary: BaseAlbum.current.avgColor),
+        colorScheme: Theme.of(context).colorScheme.copyWith(secondary: BaseAlbum.current.avgColor),
         textSelectionTheme: TextSelectionThemeData(
           cursorColor: BaseAlbum.current.avgColor,
           selectionHandleColor: BaseAlbum.current.avgColor,
@@ -123,7 +123,6 @@ class OwnSongPageState extends State<OwnSongPage> {
               currItemProv = CurrentItemProvider(song: song!);
 
             if(editType == EditType.newOwn) {
-
               String? initAddPersName;
               String? initAddPersEmail;
               String? initAddPersUserKey;
@@ -138,8 +137,9 @@ class OwnSongPageState extends State<OwnSongPage> {
                 initAddPersUserKey: initAddPersUserKey,
               );
             }
+
             else if(editType == EditType.editOfficial)
-              currItemProv = CurrentItemProvider(song: song!.copy());
+              currItemProv = CurrentItemProvider(song: song!.copy(withLclId: false));
 
             return currItemProv;
 
@@ -342,6 +342,19 @@ class SongWebEditorInfo extends StatelessWidget{
       radius: AppCard.bigRadius,
       child: Stack(
         children: [
+
+          Positioned(
+              child: Row(
+                children: [
+                  const SizedBox(width: Dimen.ICON_MARG),
+                  Icon(MdiIcons.music, size: 84.0, color: backgroundIcon_(context)),
+                  Expanded(child: Container()),
+                  Icon(MdiIcons.laptop, size: 84.0, color: backgroundIcon_(context)),
+                  const SizedBox(width: Dimen.ICON_MARG),
+                ],
+              )
+          ),
+
           Padding(
             padding: const EdgeInsets.all(Dimen.SIDE_MARG),
             child: Column(
@@ -375,18 +388,6 @@ class SongWebEditorInfo extends StatelessWidget{
 
               ],
             ),
-          ),
-
-          Positioned(
-              child: Row(
-                children: [
-                  const SizedBox(width: Dimen.ICON_MARG),
-                  Icon(MdiIcons.music, size: 84.0, color: backgroundIcon_(context)),
-                  Expanded(child: Container()),
-                  Icon(MdiIcons.laptop, size: 84.0, color: backgroundIcon_(context)),
-                  const SizedBox(width: Dimen.ICON_MARG),
-                ],
-              )
           ),
 
         ],

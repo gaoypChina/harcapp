@@ -9,66 +9,68 @@ class QRWidget extends StatelessWidget{
 
   final String data;
 
-  const QRWidget(this.data);
+  const QRWidget(this.data, {super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => Material(
+    color: Colors.white,
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
 
-    return Material(
-      color: Colors.white,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-
-          Center(
-            child: QrImageView(
-              padding: EdgeInsets.all(10),
-              foregroundColor: iconEnab_(context),
-              data: data,
-              version: QrVersions.auto,
-            ),
+        Center(
+          child: QrImageView(
+            padding: const EdgeInsets.all(10.0),
+            eyeStyle: const QrEyeStyle(eyeShape: QrEyeShape.square, color: Colors.black),
+            dataModuleStyle: const QrDataModuleStyle(dataModuleShape: QrDataModuleShape.square, color: Colors.black),
+            data: data,
+            version: QrVersions.auto,
           ),
+        ),
 
-          Padding(
-            padding: EdgeInsets.all(Dimen.ICON_MARG),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                    'Jak odebrać piosenkę?',
-                    style: AppTextStyle(fontWeight: weight.halfBold, color: hintEnab_(context), fontSize: Dimen.TEXT_SIZE_NORMAL)),
-                SizedBox(height: Dimen.defMarg),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.only(
+              left: Dimen.ICON_MARG,
+              right: Dimen.ICON_MARG,
+              bottom: Dimen.ICON_MARG
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                  'Jak odebrać piosenkę?',
+                  style: AppTextStyle(fontWeight: weight.halfBold, color: ColorPack.DEF_ICON_DISAB, fontSize: Dimen.TEXT_SIZE_BIG)),
+              const SizedBox(height: Dimen.defMarg),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
 
-                    Text(
-                      'Kliknij ',
-                      style: AppTextStyle(color: hintEnab_(context), fontSize: Dimen.TEXT_SIZE_NORMAL),
-                    ),
+                  Text(
+                    'Kliknij ',
+                    style: AppTextStyle(color: ColorPack.DEF_ICON_DISAB, fontSize: Dimen.TEXT_SIZE_BIG),
+                  ),
 
-                    Icon(MdiIcons.musicNotePlus, color: hintEnab_(context), size: Dimen.TEXT_SIZE_NORMAL),
-                    Text(
-                      ', następnie ',
-                      style: AppTextStyle(color: hintEnab_(context), fontSize: Dimen.TEXT_SIZE_NORMAL),
-                    ),
-                    Icon(MdiIcons.qrcodeScan, color: hintEnab_(context), size: Dimen.TEXT_SIZE_NORMAL),
+                  Icon(MdiIcons.musicNotePlus, color: ColorPack.DEF_ICON_DISAB, size: Dimen.TEXT_SIZE_BIG),
+                  Text(
+                    ', następnie ',
+                    style: AppTextStyle(color: ColorPack.DEF_ICON_DISAB, fontSize: Dimen.TEXT_SIZE_BIG),
+                  ),
+                  Icon(MdiIcons.qrcodeScan, color: ColorPack.DEF_ICON_DISAB, size: Dimen.TEXT_SIZE_BIG),
 
-                    Text(
-                      ' i zeskanuj powyższy kod.',
-                      style: AppTextStyle(color: hintEnab_(context), fontSize: Dimen.TEXT_SIZE_NORMAL),
-                    ),
-                  ],
-                )
+                  Text(
+                    ' i zeskanuj powyższy kod.',
+                    style: AppTextStyle(color: ColorPack.DEF_ICON_DISAB, fontSize: Dimen.TEXT_SIZE_BIG),
+                  ),
+                ],
+              )
 
-              ],
-            ),
-          )
+            ],
+          ),
+        )
 
-        ],
-      ),
-    );
-  }
+      ],
+    ),
+  );
 
 }

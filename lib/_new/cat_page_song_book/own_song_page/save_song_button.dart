@@ -41,63 +41,60 @@ class SaveSongButtonState extends State<SaveSongButton>{
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => IconButton(
+    icon: Icon(MdiIcons.check),
+    onPressed: isSaving?null:()async{
 
-    return IconButton(
-      icon: Icon(MdiIcons.check),
-      onPressed: isSaving?null:()async{
+      CurrentItemProvider currentItemProv = CurrentItemProvider.of(context);
 
-        CurrentItemProvider currentItemProv = CurrentItemProvider.of(context);
+      if(currentItemProv.titleController.text.isEmpty)
+        showAppToast(context, text: 'Podaj tytuł piosenki.');
+      else{
 
-        if(currentItemProv.titleController.text.isEmpty)
-          showAppToast(context, text: 'Podaj tytuł piosenki.');
-        else{
+        showAppToast(context, text: 'Zapisywanie...');
 
-          showAppToast(context, text: 'Zapisywanie...');
+        setState(() => isSaving = true);
 
-          setState(() => isSaving = true);
+        await Future.delayed(const Duration(milliseconds: 300));
 
-          await Future.delayed(const Duration(milliseconds: 300));
+        SongRaw songRaw = currentItemProv.song;
 
-          SongRaw songRaw = currentItemProv.song;
+        String code = jsonEncode(songRaw.toMap(withLclId: false));
 
-          String code = jsonEncode(songRaw.toMap(withLclId: false));
-
-          if(code.length > OwnSong.codeMaxLength){
-            if(mounted) setState(() => isSaving = false);
-            if(mounted) showAppToast(context, text: 'Piosenka za długa.');
-            return;
-          }
-
-          OwnSong? song;
-          try{
-            song = await OwnSong.create(code: code, lclId: songRaw.lclId);
-            if(song == null){
-              if(mounted) showAppToast(context, text: 'Błąd kodowania piosenki!');
-              return;
-            }
-          }catch(e){
-            if(mounted) setState(() => isSaving = false);
-            if(mounted) showAppToast(context, text: 'Błąd kodowania nazwy piosenki!');
-            return;
-          }
-          song.save();
-
-          if(widget.editType == EditType.editOwn){
-            OwnSong remSong = OwnSong.allOwnMap[song.lclId]!;
-            OwnSong.removeFromAll(remSong);
-          }
-
-          OwnSong.addToAll(song);
-          for (OwnAlbum album in albums!)
-            album.addSong(song);
-
-          if(mounted) Navigator.pop(context);
-
-          onSaved?.call(song, widget.editType);
-
+        if(code.length > OwnSong.codeMaxLength){
+          if(mounted) setState(() => isSaving = false);
+          if(mounted) showAppToast(context, text: 'Piosenka za długa.');
+          return;
         }
-      },
-    );
-  }
+
+        OwnSong? song;
+        try{
+          song = await OwnSong.create(code: code, lclId: songRaw.lclId);
+          if(song == null){
+            if(mounted) showAppToast(context, text: 'Błąd kodowania piosenki!');
+            return;
+          }
+        }catch(e){
+          if(mounted) setState(() => isSaving = false);
+          if(mounted) showAppToast(context, text: 'Błąd kodowania nazwy piosenki!');
+          return;
+        }
+        song.save();
+
+        if(widget.editType == EditType.editOwn){
+          OwnSong remSong = OwnSong.allOwnMap[song.lclId]!;
+          OwnSong.removeFromAll(remSong);
+        }
+
+        OwnSong.addToAll(song);
+        for (OwnAlbum album in albums!)
+          album.addSong(song);
+
+        if(mounted) Navigator.pop(context);
+
+        onSaved?.call(song, widget.editType);
+
+      }
+    },
+  );
 }

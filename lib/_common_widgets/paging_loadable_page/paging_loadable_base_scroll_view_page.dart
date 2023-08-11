@@ -94,7 +94,12 @@ class PagingLoadableBaseScrollViewPageState extends State<PagingLoadableBaseScro
   void initState() {
 
     refreshController = RefreshController(
-        initialLoadStatus: callLoadOnInit?LoadStatus.loading:LoadStatus.idle
+        initialRefresh: callLoadOnInit && loadedItemsCount == 0,
+
+        initialLoadStatus:
+        callLoadOnInit && loadedItemsCount > 0?
+        LoadStatus.loading:
+        LoadStatus.idle
     );
     if(callLoadOnInit)
       onLoading();
@@ -112,9 +117,11 @@ class PagingLoadableBaseScrollViewPageState extends State<PagingLoadableBaseScro
     if(!loadMoreIfHeightNotExceeding)
       return;
 
+    if(outerScrollViewKey.currentContext == null) return;
     final outerBox = outerScrollViewKey.currentContext?.findRenderObject() as RenderBox;
     double outerHeight = outerBox.size.height;
 
+    if(innerScrollViewKey.currentContext == null) return;
     final innerBox = innerScrollViewKey.currentContext?.findRenderObject() as RenderSliver;
     double innerHeight = innerBox.geometry!.maxPaintExtent;
 

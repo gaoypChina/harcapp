@@ -78,7 +78,8 @@ class AccountThumbnailWidget extends StatelessWidget{
       abbr = name??'';
 
     else if(name != null) {
-      List<String> nameParts = name!.split(' ');
+      String name = this.name!.replaceAll(RegExp('[^A-ZĄĆĘŁŃÓŚŹŻa-ząćęłńóśźż1-9 ]'), '');
+      List<String> nameParts = name.split(' ');
       if (nameParts.length == 1) {
         String part = nameParts[0];
         if (part.length == 1)
