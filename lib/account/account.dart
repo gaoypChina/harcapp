@@ -74,7 +74,7 @@ class AccountData {
   static int? _shadowUserCount;
   static List<UserDataNick>? _loadedShadowUsers;
   static Map<String, UserDataNick>? _loadedShadowUserMap;
-
+  static int? _allSharedTropCount;
 
   static const String _keyLastConfLoginEmail = 'acc_last_conf_login_email';
 
@@ -95,6 +95,7 @@ class AccountData {
   static const String _keyRegularAcc = 'acc_regular_acc';
   static const String _keyShadowUserCount = 'acc_shadow_users_count';
   static const String _keyShadowUsers = 'acc_shadow_users';
+  static const String _keyAllSharedTropCount = 'acc_all_shared_trop_count';
 
   static bool get loggedIn => jwt != null;
 
@@ -122,6 +123,7 @@ class AccountData {
         (jsonDecode(shadowUserData??'[]') as List).cast<Map<String, dynamic>>()
     );
     _shadowUserCount = int.tryParse(await storage.read(key: _keyShadowUserCount)??'0');
+    _allSharedTropCount = int.tryParse(await storage.read(key: _keyAllSharedTropCount)??'0');
   }
 
   static Future<void> saveLoginData(String? email, Response response) async {
@@ -145,6 +147,7 @@ class AccountData {
     initShadowUsers(
         ((response.data['shadowUsers']??(throw InvalidResponseError('shadowUsers'))) as List).cast<Map<String, dynamic>>()
     );
+    await AccountData.writeAllSharedTropCount(response.data['allSharedTropCount']??(throw InvalidResponseError('allSharedTropCount')));
     await AccountData.writeShadowUserCount(response.data['shadowUserCount']??(throw InvalidResponseError('shadowUserCount')));
 
   }
@@ -476,6 +479,22 @@ class AccountData {
   }
 
 
+  static int get allSharedTropCount => _allSharedTropCount??0;
+
+  static Future<void> removeAllSharedTropCount() async {
+    _allSharedTropCount = null;
+    await const FlutterSecureStorage().delete(key: _keyAllSharedTropCount);
+  }
+
+  static Future<void> writeAllSharedTropCount(int value) async {
+    _allSharedTropCount = value;
+    return await const FlutterSecureStorage().write(
+        key: _keyAllSharedTropCount,
+        value: value.toString()
+    );
+  }
+
+
   static Future<void> forgetAccount({bool forgetLastServerTime = false}) async {
     if(forgetLastServerTime) await AccountData.removeLastServerTime();
 
@@ -494,6 +513,7 @@ class AccountData {
     await AccountData.removeRegularAcc();
     await AccountData.removeShadowUsers();
     await AccountData.removeShadowUserCount();
+    await AccountData.removeAllSharedTropCount();
 
     Community.forget();
     CommunityPublishable.forget();

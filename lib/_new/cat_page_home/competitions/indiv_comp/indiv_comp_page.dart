@@ -46,6 +46,7 @@ import 'indiv_comp_particip/participants_page.dart';
 import 'indiv_comp_completed_task_page/completed_tasks_page.dart';
 import 'indiv_comp_particip/participants_extended_page.dart';
 import 'indiv_comp_completed_task_page/indiv_comp_completed_task_request_widget.dart';
+import 'indiv_comp_participants_loader.dart';
 import 'indiv_comp_task_widget.dart';
 import 'models/show_rank_data.dart';
 import 'models/indiv_comp.dart';
@@ -774,23 +775,64 @@ class ParticipantsWidgetState extends State<ParticipantsWidget>{
 
   late bool isLoading;
 
+  late IndivCompParticipantsLoaderListener participsLoaderListener;
+
   Future<void> loadMore() async {
     setState(() => isLoading = true);
     if(!await isNetworkAvailable()){
       setState(() => isLoading = false);
       return;
     }
-    await ApiIndivComp.getParticipants(
-      comp: comp,
+
+    await comp.reloadParticipsPage(
+      awaitFinish: true,
       pageSize: IndivComp.participsPageSize,
-      lastRole: comp.loadedParticips.length==1?null:comp.loadedParticips.last.profile.role,
-      lastUserName: comp.loadedParticips.length==1?null:comp.loadedParticips.last.name,
-      lastUserKey: comp.loadedParticips.length==1?null:comp.loadedParticips.last.key,
-      onSuccess: (participsPage){
-        IndivCompParticip me = comp.getParticip(AccountData.key!)!;
-        participsPage.removeWhere((member) => member.key == me.key);
-        participsPage.insert(0, me);
-        comp.addLoadedParticips(participsPage, context: context);
+    );
+
+    // await ApiIndivComp.getParticipants(
+    //   comp: comp,
+    //   pageSize: IndivComp.participsPageSize,
+    //   lastRole: comp.loadedParticips.length==1?null:comp.loadedParticips.last.profile.role,
+    //   lastUserName: comp.loadedParticips.length==1?null:comp.loadedParticips.last.name,
+    //   lastUserKey: comp.loadedParticips.length==1?null:comp.loadedParticips.last.key,
+    //   onSuccess: (participsPage){
+    //     IndivCompParticip me = comp.getParticip(AccountData.key!)!;
+    //     participsPage.removeWhere((member) => member.key == me.key);
+    //     participsPage.insert(0, me);
+    //     comp.addLoadedParticips(participsPage, context: context);
+    //     setState((){});
+    //   },
+    //   onForceLoggedOut: (){
+    //     if(!mounted) return true;
+    //     showAppToast(context, text: forceLoggedOutMessage);
+    //     setState(() {});
+    //     return true;
+    //   },
+    //   onServerMaybeWakingUp: (){
+    //     if(!mounted) return true;
+    //     showServerWakingUpToast(context);
+    //     return true;
+    //   },
+    //   onError: (){
+    //     if(!mounted) return;
+    //     showAppToast(context, text: simpleErrorMessage);
+    //   },
+    // );
+
+    setState(() => isLoading = false);
+
+  }
+
+  @override
+  void initState() {
+
+    IndivCompProvider indivCompProv = IndivCompProvider.of(context);
+    IndivCompListProvider indivCompListProv = IndivCompListProvider.of(context);
+    IndivCompParticipsProvider indivCompParticipsProv = IndivCompParticipsProvider.of(context);
+
+    participsLoaderListener = IndivCompParticipantsLoaderListener(
+      onIndivCompParticipantsLoaded: (participsPage, reloaded){
+        IndivComp.callProvidersWithParticips(indivCompProv, indivCompListProv, indivCompParticipsProv);
         setState((){});
       },
       onForceLoggedOut: (){
@@ -804,21 +846,22 @@ class ParticipantsWidgetState extends State<ParticipantsWidget>{
         showServerWakingUpToast(context);
         return true;
       },
-      onError: (){
+      onError: (_){
         if(!mounted) return;
         showAppToast(context, text: simpleErrorMessage);
       },
     );
 
-    setState(() => isLoading = false);
-
-  }
-
-  @override
-  void initState() {
+    comp.addParticipLoaderListener(participsLoaderListener);
     isLoading = comp.loadedParticips.length == 1 && comp.participCount > 1;
     if(isLoading) loadMore();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    comp.removeParticipLoaderListener(participsLoaderListener);
+    super.dispose();
   }
 
   @override

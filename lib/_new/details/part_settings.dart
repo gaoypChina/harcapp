@@ -210,7 +210,7 @@ class PartSettingsState extends State<PartSettings>{
             color: Colors.red,
             icon: MdiIcons.reloadAlert,
             text: 'Przywróć ustawienia fabryczne',
-            onTap: ()async {
+            onTap: () async {
               PrimitiveWrapperListenable<
                   bool> yesPressed = PrimitiveWrapperListenable(false);
 
@@ -258,56 +258,40 @@ class _ButtonFactoryResetYes extends StatefulWidget{
 
 class _ButtonFactoryResetYesState extends State<_ButtonFactoryResetYes>{
 
-  SingleComputerListener? songLoaderListener;
-
-  @override
-  void initState() {
-
-    songLoaderListener = SingleComputerListener<String>(
-        onEnd: (String? err, bool forceFinished)async{
-
-          songLoader.removeListener(songLoaderListener as SingleComputerListener<String>);
-          await factoryResetLocal(context);
-          await AccountData.forgetAccount();
-          Provider.of<LoginProvider>(context, listen: false).notify();
-          synchronizer.post();
-          Navigator.pop(context);
-          Navigator.pop(context);
-
-        }
-    );
-
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-
-    songLoader.removeListener(songLoaderListener as SingleComputerListener<String>);
-
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
+    LoginProvider loginProv = LoginProvider.of(context);
     return SimpleButton(
-      child:
-      widget.yesPressed.get()?
-      SpinKitThreeBounce(
-          color: accent_(context),
-          size: Dimen.TEXT_SIZE_BIG
-      ):
-      Text('Tak', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG,
-          fontWeight: weight.halfBold)),
-      onTap: ()async{
+      onTap: () async {
 
         setState(() => widget.yesPressed.set(true));
 
-        songLoader.addListener(songLoaderListener as SingleComputerListener<String>);
-
-        await songLoader.run();
+        await songLoader.run(awaitFinish: true);
+        await factoryResetLocal(context);
+        await AccountData.forgetAccount();
+        loginProv.notify();
+        synchronizer.post();
+        Navigator.pop(context);
+        Navigator.pop(context);
       },
       padding: const EdgeInsets.all(Dimen.ICON_MARG),
+      child:
+      widget.yesPressed.get()?
+      SizedBox(
+        height: Dimen.TEXT_SIZE_BIG,
+        width: 26.0,
+        child: SpinKitThreeBounce(
+            color: accent_(context),
+            size: Dimen.TEXT_SIZE_BIG
+        ),
+      ):
+      Text(
+        'Tak',
+        style: AppTextStyle(
+            fontSize: Dimen.TEXT_SIZE_BIG,
+            fontWeight: weight.halfBold
+        )
+      ),
     );
   }
 
@@ -382,17 +366,19 @@ class _ButtonFactoryResetNoState extends State<_ButtonFactoryResetNo>{
   }
 
   @override
-  Widget build(BuildContext context) {
-    return SimpleButton(
-      child: Text('Nie', style: AppTextStyle(
-          fontSize: Dimen.TEXT_SIZE_BIG,
-          fontWeight: weight.halfBold,
-          color: yesPressed.get()?hintEnab_(context):textEnab_(context)
-      )),
+  Widget build(BuildContext context) =>
+    SimpleButton(
       onTap: () => Navigator.pop(context),
       enabled: !yesPressed.get(),
       padding: const EdgeInsets.all(Dimen.ICON_MARG),
+      child: Text(
+          'Nie',
+          style: AppTextStyle(
+              fontSize: Dimen.TEXT_SIZE_BIG,
+              fontWeight: weight.halfBold,
+              color: yesPressed.get()?hintEnab_(context):textEnab_(context)
+          )
+      ),
     );
-  }
 
 }

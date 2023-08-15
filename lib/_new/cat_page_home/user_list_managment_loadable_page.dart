@@ -45,6 +45,7 @@ class UserListManagementLoadablePage<T extends UserData> extends StatelessWidget
   final int userCount;
   final FutureOr<int> Function() callReload;
   final FutureOr<int> Function() callLoadMore;
+  final bool callReloadOnInit;
   final bool callLoadOnInit;
 
   const UserListManagementLoadablePage({
@@ -70,6 +71,7 @@ class UserListManagementLoadablePage<T extends UserData> extends StatelessWidget
     required this.userCount,
     required this.callReload,
     required this.callLoadMore,
+    required this.callReloadOnInit,
     required this.callLoadOnInit,
 
     super.key
@@ -116,6 +118,7 @@ class UserListManagementLoadablePage<T extends UserData> extends StatelessWidget
     loadedItemsCount: loadedItemsCount,
     callReload: callReload,
     callLoadMore: callLoadMore,
+    callReloadOnInit: callReloadOnInit,
     callLoadOnInit: callLoadOnInit,
 
     sliverBody: (context, isLoading){

@@ -46,7 +46,7 @@ class ApiTrop{
 
   static Future<Response?> getSharedTropPreviews({
     required int? pageSize,
-    required String? lastStartTime,
+    required DateTime? lastStartDate,
     required String? lastName,
     required String? lastTropKey,
     String? searchPhrase,
@@ -60,7 +60,7 @@ class ApiTrop{
           '${API.baseUrl}api/trop/shared',
           queryParameters: {
             if(pageSize != null) 'pageSize': pageSize,
-            if(lastStartTime != null) 'lastStartTime': lastStartTime,
+            if(lastStartDate != null) 'lastStartDate': lastStartDate.toIso8601String(),
             if(lastName != null) 'lastName': lastName,
             if(lastTropKey != null) 'lastTropKey': lastTropKey,
             if(searchPhrase != null) 'searchPhrase': searchPhrase,

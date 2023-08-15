@@ -6,6 +6,7 @@ import 'package:harcapp/_common_classes/sha_pref.dart';
 import 'package:harcapp/_new/api/_api.dart';
 import 'package:harcapp/_new/api/indiv_comp.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_editor/indiv_comp_task_editable.dart';
+import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_participants_loader.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/rank_disp_type.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_particip.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/providers/compl_tasks_provider.dart';
@@ -338,6 +339,8 @@ class IndivComp{
 
   List<IndivCompCompletedTask> loadedPendingCompletedTasks;
 
+  late IndivCompParticipantsLoader _participantsLoader;
+
   void update(IndivComp updatedComp){
     name = updatedComp.name;
     iconKey = updatedComp.iconKey;
@@ -454,6 +457,29 @@ class IndivComp{
         compareText(particip.key, lastLoaded.key) < 0;
   }
 
+  Future<bool> loadParticipsPage({
+    bool awaitFinish = false,
+    int pageSize = participsPageSize,
+  }) => _participantsLoader.run(
+    awaitFinish: awaitFinish,
+    comp: this,
+    pageSize: pageSize,
+    lastRole: loadedParticips.length == 1 ? null : loadedParticips.last.profile.role,
+    lastUserName: loadedParticips.length == 1 ? null : loadedParticips.last.name,
+    lastUserKey: loadedParticips.length == 1 ? null : loadedParticips.last.key,
+  );
+
+  Future<bool> reloadParticipsPage({
+    bool awaitFinish = false,
+    int pageSize = participsPageSize,
+  }) => _participantsLoader.run(
+    awaitFinish: awaitFinish,
+    comp: this,
+    pageSize: pageSize,
+  );
+
+  bool isParticipsLoading() => _participantsLoader.running;
+
   void addCompletedTasksForParticip(String participKey, List<IndivCompCompletedTask> completedTasks, {required bool increaseTotalCount}){
     _loadedParticipMap[participKey]!.profile.addLoadedCompletedTasks(completedTasks, increaseTotalCount: increaseTotalCount);
   }
@@ -499,6 +525,12 @@ class IndivComp{
     return true;
   }
 
+  void addParticipLoaderListener(IndivCompParticipantsLoaderListener listener) =>
+    _participantsLoader.addListener(listener);
+
+  void removeParticipLoaderListener(IndivCompParticipantsLoaderListener listener) =>
+    _participantsLoader.removeListener(listener);
+
   IndivComp({
     required this.key,
     required this.name,
@@ -528,7 +560,8 @@ class IndivComp{
         _loadedParticipMap = {for (var particip in loadedParticips) particip.key: particip},
         sideLoadedParticipMap = {},
 
-        loadedPendingCompletedTasks = [];
+        loadedPendingCompletedTasks = [],
+        _participantsLoader = IndivCompParticipantsLoader();
 
   static List<IndivCompAward> awardListFromRaw(List<String?> awards){
 

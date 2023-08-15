@@ -204,7 +204,8 @@ class MarkerManagersPageState extends State<MarkerManagersPage>{
             );
             return marker.loadedManagers.length;
           },
-          callLoadOnInit: marker.loadedManagers.length == 1,
+          callReloadOnInit: marker.loadedManagers.length == 1,
+          callLoadOnInit: false,
       )
   );
 

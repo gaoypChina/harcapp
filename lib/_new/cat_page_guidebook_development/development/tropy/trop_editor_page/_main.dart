@@ -260,7 +260,7 @@ class TropEditorPageState extends State<TropEditorPage>{
 
                           onSuccess: (trop) async {
                             trop.saveShared();
-                            Trop.addSharedToAll(trop);
+                            Trop.addSharedToAllLoaded(trop);
                             TropSharedPreviewData.addToAll(trop.toPreviewData());
                             await popPage(context); // Close loading widget.
                             await popPage(context);
@@ -1190,7 +1190,7 @@ class LeaveSharedTropButton extends StatelessWidget{
 
               trop.deleteShared();
               TropSharedPreviewData.removeFromAllByKey(trop.key!);
-              Trop.removeSharedFromAll(trop);
+              Trop.removeSharedFromAllLoaded(trop);
               Trop.callProviders(tropProvider, tropListProvider);
 
               await popPage(context); // Close loading widget.
@@ -1261,7 +1261,8 @@ class LoadableUserSelectorState extends State<LoadableUserSelector>{
       isMounted: () => mounted,
       setState: () => setState((){}),
     ),
-    callLoadOnInit: trop.loadedUsers.length == 1,
+    callReloadOnInit: trop.loadedUsers.length == 1,
+    callLoadOnInit: false,
 
     sliverBody: (context, isLoading){
 

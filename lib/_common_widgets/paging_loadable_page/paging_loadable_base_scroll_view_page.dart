@@ -1,14 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:harcapp/_common_widgets/app_custom_footer.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
-import 'package:harcapp_core/comm_classes/color_pack.dart';
-import 'package:harcapp_core/comm_classes/common.dart';
-import 'package:harcapp_core/comm_classes/network.dart';
-import 'package:harcapp_core/comm_widgets/app_toast.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:harcapp/_common_widgets/paging_loadable_page/paging_loadable_base_widget.dart';
 
 
 class PagingLoadableBaseScrollViewPage extends StatefulWidget{
@@ -26,6 +20,7 @@ class PagingLoadableBaseScrollViewPage extends StatefulWidget{
 
   final FutureOr<int> Function() callReload;
   final FutureOr<int> Function() callLoadMore;
+  final bool callReloadOnInit;
   final bool callLoadOnInit;
   final bool loadMoreIfHeightNotExceeding;
 
@@ -46,6 +41,7 @@ class PagingLoadableBaseScrollViewPage extends StatefulWidget{
 
     required this.callReload,
     required this.callLoadMore,
+    required this.callReloadOnInit,
     required this.callLoadOnInit,
     this.loadMoreIfHeightNotExceeding = true,
 
@@ -75,91 +71,48 @@ class PagingLoadableBaseScrollViewPageState extends State<PagingLoadableBaseScro
 
   FutureOr<int> Function() get callReload => widget.callReload;
   FutureOr<int> Function() get callLoadMore => widget.callLoadMore;
+  bool get callReloadOnInit => widget.callReloadOnInit;
   bool get callLoadOnInit => widget.callLoadOnInit;
   bool get loadMoreIfHeightNotExceeding => widget.loadMoreIfHeightNotExceeding;
 
   Widget Function(BuildContext, bool) get sliverBody => widget.sliverBody;
   Widget? get bottomNavigationBar => widget.bottomNavigationBar;
 
-  late RefreshController refreshController;
-
-  bool get moreToLoad => loadedItemsCount < totalItemsCount;
-
-  bool get isLoading => refreshController.isRefresh || refreshController.isLoading;
-
-  late GlobalKey outerScrollViewKey;
-  late GlobalKey innerScrollViewKey;
-
-  @override
-  void initState() {
-
-    refreshController = RefreshController(
-        initialRefresh: callLoadOnInit && loadedItemsCount == 0,
-
-        initialLoadStatus:
-        callLoadOnInit && loadedItemsCount > 0?
-        LoadStatus.loading:
-        LoadStatus.idle
-    );
-    if(callLoadOnInit)
-      onLoading();
-    else
-      post(() => handleOnExceedingHeightLoader(0));
-
-    outerScrollViewKey = GlobalKey();
-    innerScrollViewKey = GlobalKey();
-
-    super.initState();
-  }
-
-  Future<void> handleOnExceedingHeightLoader(int allLoadedItems) async {
-
-    if(!loadMoreIfHeightNotExceeding)
-      return;
-
-    if(outerScrollViewKey.currentContext == null) return;
-    final outerBox = outerScrollViewKey.currentContext?.findRenderObject() as RenderBox;
-    double outerHeight = outerBox.size.height;
-
-    if(innerScrollViewKey.currentContext == null) return;
-    final innerBox = innerScrollViewKey.currentContext?.findRenderObject() as RenderSliver;
-    double innerHeight = innerBox.geometry!.maxPaintExtent;
-
-    print('allLoadedItems: $allLoadedItems, totalItemsCount: $totalItemsCount');
-    if(allLoadedItems >= totalItemsCount)
-      return;
-
-    if(innerHeight < outerHeight)
-      await onLoading();
-
-  }
-
-  Future<void> onLoading() async {
-
-    if(!moreToLoad) {
-      refreshController.loadComplete();
-      return;
-    }
-
-    if(!await isNetworkAvailable()){
-      showAppToast(context, text: 'Brak dostępu do Internetu');
-      refreshController.loadComplete();
-      return;
-    }
-
-    int loadedItems = await callLoadMore.call();
-
-    await handleOnExceedingHeightLoader(loadedItems);
-
-    refreshController.loadComplete();
-
-  }
-
   @override
   Widget build(BuildContext context) => BottomNavScaffold(
       backgroundColor: backgroundColor,
       appBottomNavColor: appBottomNavColor,
-      body: SmartRefresher(
+      body: PagingLoadableBaseWidget(
+        backgroundColor: backgroundColor,
+        loadingIndicatorColor: loadingIndicatorColor,
+        totalItemsCount: totalItemsCount,
+        loadedItemsCount: loadedItemsCount,
+        callReload: callReload,
+        callLoadMore: callLoadMore,
+        callReloadOnInit: callReloadOnInit,
+        callLoadOnInit: callLoadOnInit,
+        loadMoreIfHeightNotExceeding: loadMoreIfHeightNotExceeding,
+        sliversBuilder: (context, isLoading, innerScrollViewKey) => [
+
+          SliverAppBar(
+            floating: true,
+            title: Text(appBarTitle),
+            leading: appBarLeading,
+            actions: appBarActions,
+            centerTitle: true,
+            backgroundColor: backgroundColor,
+          ),
+
+          Container(
+            key: innerScrollViewKey,
+            child: sliverBody(context, isLoading),
+          )
+
+        ],
+      ),
+
+      /*
+      SmartRefresher(
         enablePullDown: true,
         enablePullUp: !refreshController.isRefresh,
         footer: AppCustomFooter(
@@ -216,6 +169,7 @@ class PagingLoadableBaseScrollViewPageState extends State<PagingLoadableBaseScro
           ],
         ),
       ),
+      */
       bottomNavigationBar: bottomNavigationBar
   );
 

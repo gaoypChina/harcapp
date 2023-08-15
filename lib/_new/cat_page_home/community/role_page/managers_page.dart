@@ -198,7 +198,8 @@ class CommunityManagersPageState extends State<CommunityManagersPage>{
             return community.loadedManagers.length;
 
           },
-          callLoadOnInit: community.loadedManagers.length == 1,
+          callReloadOnInit: community.loadedManagers.length == 1,
+          callLoadOnInit: false,
 
         );
 

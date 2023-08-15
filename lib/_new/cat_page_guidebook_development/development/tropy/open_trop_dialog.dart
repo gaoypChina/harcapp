@@ -31,9 +31,9 @@ void openTropDialog(
 Future<void> _loadHandleTrop(BuildContext context, TropSharedPreviewData data, {required bool dialog, bool checkForUpdates = true}) async {
 
   Trop? loadSharedTrop;
-  if(Trop.allSharedMapByKey.containsKey(data.key))
-    if(!checkForUpdates || data.lastUpdateTime == Trop.allSharedMapByKey[data.key]!.lastUpdateTime)
-      loadSharedTrop = Trop.allSharedMapByKey[data.key];
+  if(Trop.allLoadedSharedMapByKey.containsKey(data.key))
+    if(!checkForUpdates || data.lastUpdateTime == Trop.allLoadedSharedMapByKey[data.key]!.lastUpdateTime)
+      loadSharedTrop = Trop.allLoadedSharedMapByKey[data.key];
 
   if(loadSharedTrop != null)
     pushPage(context, builder: (context) => TropPage(loadSharedTrop!));
@@ -43,8 +43,8 @@ Future<void> _loadHandleTrop(BuildContext context, TropSharedPreviewData data, {
         tropKey: data.key,
         onSuccess: (Trop trop) async {
           trop.saveShared();
-          Trop.removeSharedFromAllByKey(trop.key!);
-          Trop.addSharedToAll(trop, context: context);
+          Trop.removeSharedFromAllLoadedByKey(trop.key!);
+          Trop.addSharedToAllLoaded(trop, context: context);
           TropSharedPreviewData? prevData = TropSharedPreviewData.allMapByKey![trop.key];
           if(prevData != null)
             prevData.lastUpdateTime = trop.lastUpdateTime!;

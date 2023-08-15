@@ -99,6 +99,7 @@ class ShadowUserManagerPageState extends State<ShadowUserManagerPage>{
       );
       return loadedShadowUsers.length;
     },
+    callReloadOnInit: false,
     callLoadOnInit: false,
     sliverBody: (context, isLoading){
 

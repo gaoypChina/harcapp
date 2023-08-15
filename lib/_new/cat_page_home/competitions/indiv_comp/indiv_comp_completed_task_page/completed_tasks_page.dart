@@ -113,7 +113,7 @@ class CompletedTasksPageState extends State<CompletedTasksPage>{
 
   bool get moreToLoad => loadedCompletedTasks.length < totalCount;
 
-  bool get callLoadOnInit => loadedCompletedTasks.isEmpty;
+  bool get callReloadOnInit => loadedCompletedTasks.isEmpty;
 
   @override
   void initState() {
@@ -194,7 +194,8 @@ class CompletedTasksPageState extends State<CompletedTasksPage>{
         );
         return loadedCompletedTasks.length;
       },
-      callLoadOnInit: callLoadOnInit,
+      callReloadOnInit: callReloadOnInit,
+      callLoadOnInit: false,
       loadedItemBuilder: (index) => CompletedTaskWidget(
           loadedCompletedTasks[index],
           comp.colors,

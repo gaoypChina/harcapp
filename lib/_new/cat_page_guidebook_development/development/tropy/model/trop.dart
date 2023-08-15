@@ -389,6 +389,7 @@ class Trop extends TropBaseData with SyncableParamGroupMixin, SyncGetRespNode<Tr
 
   // Whether the all, allMap, etc. are initialized.
   static bool initialized = false;
+  static int? get allSharedCount => AccountData.allSharedTropCount;
 
   static callProvidersOf(BuildContext context) =>
       callProviders(TropProvider.of(context), TropListProvider.of(context));
@@ -441,35 +442,35 @@ class Trop extends TropBaseData with SyncableParamGroupMixin, SyncGetRespNode<Tr
     callProvidersOf(context);
   }
 
-  static late List<Trop> allShared;
-  static late Map<String, Trop> allSharedMapByKey;
+  static late List<Trop> allLoadedShared;
+  static late Map<String, Trop> allLoadedSharedMapByKey;
 
-  static addSharedToAll(Trop t, {BuildContext? context}){
-    if(allSharedMapByKey[t.key!] != null) return;
+  static addSharedToAllLoaded(Trop t, {BuildContext? context}){
+    if(allLoadedSharedMapByKey[t.key!] != null) return;
 
-    allShared.add(t);
-    allSharedMapByKey[t.key!] = t;
-
-    if(context == null) return;
-    callProvidersOf(context);
-  }
-
-  static removeSharedFromAll(Trop t, {BuildContext? context}){
-    if(allSharedMapByKey[t.key] == null) return;
-
-    allShared.remove(t);
-    allSharedMapByKey.remove(t.key);
+    allLoadedShared.add(t);
+    allLoadedSharedMapByKey[t.key!] = t;
 
     if(context == null) return;
     callProvidersOf(context);
   }
 
-  static removeSharedFromAllByKey(String key, {BuildContext? context}){
-    Trop? trop = allSharedMapByKey[key];
+  static removeSharedFromAllLoaded(Trop t, {BuildContext? context}){
+    if(allLoadedSharedMapByKey[t.key] == null) return;
+
+    allLoadedShared.remove(t);
+    allLoadedSharedMapByKey.remove(t.key);
+
+    if(context == null) return;
+    callProvidersOf(context);
+  }
+
+  static removeSharedFromAllLoadedByKey(String key, {BuildContext? context}){
+    Trop? trop = allLoadedSharedMapByKey[key];
     if(trop == null) return;
 
-    allShared.remove(trop);
-    allSharedMapByKey.remove(trop.key);
+    allLoadedShared.remove(trop);
+    allLoadedSharedMapByKey.remove(trop.key);
 
     if(context == null) return;
     callProvidersOf(context);
@@ -482,7 +483,7 @@ class Trop extends TropBaseData with SyncableParamGroupMixin, SyncGetRespNode<Tr
     for (FileSystemEntity file in sharedTropyDir.listSync(recursive: false)) {
       File tropFile = File(getSharedTropFolderPath + basename(file.path));
       if(!tropFile.existsSync()) return;
-      if(!allSharedMapByKey.containsKey(basename(file.path))) {
+      if(!allLoadedSharedMapByKey.containsKey(basename(file.path))) {
         tropFile.deleteSync();
         removed.add(basename(file.path));
       }
@@ -495,8 +496,8 @@ class Trop extends TropBaseData with SyncableParamGroupMixin, SyncGetRespNode<Tr
     allOwn = [];
     allOwnMapByLclId = {};
     
-    allShared = [];
-    allSharedMapByKey = {};
+    allLoadedShared = [];
+    allLoadedSharedMapByKey = {};
     
     // List<TropSharedPreviewData> allPreviewData = [];
     
@@ -514,8 +515,8 @@ class Trop extends TropBaseData with SyncableParamGroupMixin, SyncGetRespNode<Tr
     for (FileSystemEntity file in sharedTropDir.listSync(recursive: false)) {
       Trop? trop = Trop.readSharedFromKey(basename(file.path));
       if(trop == null) continue;
-      allShared.add(trop);
-      allSharedMapByKey[trop.key!] = trop;
+      allLoadedShared.add(trop);
+      allLoadedSharedMapByKey[trop.key!] = trop;
     }
 
     // Directory previewDataTropDir = Directory(getSharedTropPreviewDataFolderPath);
@@ -937,7 +938,7 @@ class Trop extends TropBaseData with SyncableParamGroupMixin, SyncGetRespNode<Tr
   bool deleteShared({BuildContext? context}){
     try{
       File(getSharedTropFolderPath + key!).deleteSync();
-      removeSharedFromAll(this, context: context);
+      removeSharedFromAllLoaded(this, context: context);
       TropSharedPreviewData.removeFromAllByKey(key!);
       return true;
     }catch(e){
@@ -960,7 +961,7 @@ class Trop extends TropBaseData with SyncableParamGroupMixin, SyncGetRespNode<Tr
   void changedToShared(DateTime lastUpdateTime, {BuildContext? context}){
     this.lastUpdateTime = lastUpdateTime;
     deleteOwn(); // This call also calls `removeOwnFromAll`;
-    addSharedToAll(this);
+    addSharedToAllLoaded(this);
     TropSharedPreviewData.addToAll(toPreviewData());
     saveShared();
     if(context != null) callProvidersOf(context);

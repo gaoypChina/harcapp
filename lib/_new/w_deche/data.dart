@@ -181,7 +181,18 @@ class WDecheData{
       fontFamily: 'Hand15'
     ),
 
+    WDecheData(
+      text: 'Najważniejsza zasada okna w pociągu:'
+        '\n"Nie wychylaj się"'
+        '\n\nAle ludzie, nie bądźcie frajerami'
+        '\nżycie to nie pociąg',
+      imageName: 'train',
+      imageSize: 42.0,
+    ),
+
     WDecheData(text: 'xD'),
+
+    WDecheData(text: 'Fanatyczni i radykalni centryści w natarciu!'),
 
   ];
 

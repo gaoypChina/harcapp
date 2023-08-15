@@ -112,7 +112,8 @@ abstract class SingleComputer<TErr, TListener extends SingleComputerListener<TEr
     }
     return true;
   }
-  
+
+  @protected
   Future<void> perform();
   
   Future<void> callError(TErr err) async {

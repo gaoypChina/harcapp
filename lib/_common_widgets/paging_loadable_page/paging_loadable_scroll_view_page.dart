@@ -21,6 +21,7 @@ class PagingLoadableScrollViewPage extends StatelessWidget{
 
   final FutureOr<int> Function() callReload;
   final FutureOr<int> Function() callLoadMore;
+  final bool callReloadOnInit;
   final bool callLoadOnInit;
   final bool loadMoreIfHeightNotExceeding;
 
@@ -44,6 +45,7 @@ class PagingLoadableScrollViewPage extends StatelessWidget{
 
     required this.callReload,
     required this.callLoadMore,
+    required this.callReloadOnInit,
     required this.callLoadOnInit,
     this.loadMoreIfHeightNotExceeding = true,
 
@@ -71,6 +73,7 @@ class PagingLoadableScrollViewPage extends StatelessWidget{
 
     callReload: callReload,
     callLoadMore: callLoadMore,
+    callReloadOnInit: callReloadOnInit,
     callLoadOnInit: callLoadOnInit,
     loadMoreIfHeightNotExceeding: loadMoreIfHeightNotExceeding,
 

@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:harcapp/_new/api/indiv_comp.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_particip.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/providers/indiv_comp_particips_provider.dart';
 import 'package:harcapp/_new/cat_page_home/user_list_managment_loadable_page.dart';
-import 'package:harcapp/account/account.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:provider/provider.dart';
 
 import '../common/particip_tile.dart';
 import '../comp_role.dart';
+import '../indiv_comp_participants_loader.dart';
 import '../models/indiv_comp.dart';
 
 class ParticipantsPage extends StatefulWidget{
@@ -70,6 +69,7 @@ class ParticipantsPageState extends State<ParticipantsPage>{
   List<IndivCompParticip> get particips => comp.loadedParticips;
 
   late IndivCompParticipsProvider indivCompParticipsProv;
+  late IndivCompParticipantsLoaderListener participsLoaderListener;
 
   List<IndivCompParticip> participAdmins = [];
   List<IndivCompParticip> participModerators = [];
@@ -101,15 +101,47 @@ class ParticipantsPageState extends State<ParticipantsPage>{
 
   @override
   void initState() {
+
+    IndivCompProvider indivCompProv = IndivCompProvider.of(context);
+    IndivCompListProvider indivCompListProv = IndivCompListProvider.of(context);
+    IndivCompParticipsProvider indivCompParticipsProv = IndivCompParticipsProvider.of(context);
+
+    participsLoaderListener = IndivCompParticipantsLoaderListener(
+      onIndivCompParticipantsLoaded: (participsPage, reloaded){
+        updateUserSets();
+        IndivComp.callProvidersWithParticips(indivCompProv, indivCompListProv, indivCompParticipsProv);
+        setState((){});
+      },
+      onForceLoggedOut: (){
+        if(!mounted) return true;
+        showAppToast(context, text: forceLoggedOutMessage);
+        setState(() {});
+        return true;
+      },
+      onServerMaybeWakingUp: (){
+        if(!mounted) return true;
+        showServerWakingUpToast(context);
+        return true;
+      },
+      onError: (_){
+        if(!mounted) return;
+        showAppToast(context, text: simpleErrorMessage);
+      },
+    );
+
     indivCompParticipsProv = IndivCompParticipsProvider.of(context);
     indivCompParticipsProv.addListener(onParticipantsProviderNotified);
+
+    comp.addParticipLoaderListener(participsLoaderListener);
     updateUserSets();
+
     super.initState();
   }
 
   @override
   void dispose() {
     indivCompParticipsProv.removeListener(onParticipantsProviderNotified);
+    comp.removeParticipLoaderListener(participsLoaderListener);
     super.dispose();
   }
 
@@ -147,69 +179,72 @@ class ParticipantsPageState extends State<ParticipantsPage>{
 
         userCount: comp.participCount,
         callReload: () async {
-          await ApiIndivComp.getParticipants(
-            comp: comp,
-            pageSize: IndivComp.participsPageSize,
-            lastRole: null,
-            lastUserName: null,
-            lastUserKey: null,
-            onSuccess: (participsPage){
-              IndivCompParticip me = comp.getParticip(AccountData.key!)!;
-              participsPage.removeWhere((member) => member.key == me.key);
-              participsPage.insert(0, me);
-              comp.setAllLoadedParticips(participsPage, context: context);
-              updateUserSets();
-              setState((){});
-            },
-            onForceLoggedOut: (){
-              if(!mounted) return true;
-              showAppToast(context, text: forceLoggedOutMessage);
-              setState(() {});
-              return true;
-            },
-            onServerMaybeWakingUp: (){
-              if(!mounted) return true;
-              showServerWakingUpToast(context);
-              return true;
-            },
-            onError: (){
-              if(!mounted) return;
-              showAppToast(context, text: simpleErrorMessage);
-            },
-          );
+          await comp.reloadParticipsPage(awaitFinish: true);
+          // await ApiIndivComp.getParticipants(
+          //   comp: comp,
+          //   pageSize: IndivComp.participsPageSize,
+          //   lastRole: null,
+          //   lastUserName: null,
+          //   lastUserKey: null,
+          //   onSuccess: (participsPage){
+          //     IndivCompParticip me = comp.getParticip(AccountData.key!)!;
+          //     participsPage.removeWhere((member) => member.key == me.key);
+          //     participsPage.insert(0, me);
+          //     comp.setAllLoadedParticips(participsPage, context: context);
+          //     updateUserSets();
+          //     setState((){});
+          //   },
+          //   onForceLoggedOut: (){
+          //     if(!mounted) return true;
+          //     showAppToast(context, text: forceLoggedOutMessage);
+          //     setState(() {});
+          //     return true;
+          //   },
+          //   onServerMaybeWakingUp: (){
+          //     if(!mounted) return true;
+          //     showServerWakingUpToast(context);
+          //     return true;
+          //   },
+          //   onError: (){
+          //     if(!mounted) return;
+          //     showAppToast(context, text: simpleErrorMessage);
+          //   },
+          // );
           return comp.loadedParticips.length;
         },
         callLoadMore: () async {
-          await ApiIndivComp.getParticipants(
-            comp: comp,
-            pageSize: IndivComp.participsPageSize,
-            lastRole: comp.loadedParticips.length==1?null:comp.loadedParticips.last.profile.role,
-            lastUserName: comp.loadedParticips.length==1?null:comp.loadedParticips.last.name,
-            lastUserKey: comp.loadedParticips.length==1?null:comp.loadedParticips.last.key,
-            onSuccess: (participsPage){
-              comp.addLoadedParticips(participsPage, context: context);
-              updateUserSets();
-              if(mounted) setState((){});
-            },
-            onForceLoggedOut: (){
-              if(!mounted) return true;
-              showAppToast(context, text: forceLoggedOutMessage);
-              setState(() {});
-              return true;
-            },
-            onServerMaybeWakingUp: (){
-              if(!mounted) return true;
-              showServerWakingUpToast(context);
-              return true;
-            },
-            onError: (){
-              if(!mounted) return;
-              showAppToast(context, text: simpleErrorMessage);
-            },
-          );
+          await comp.loadParticipsPage(awaitFinish: true);
+          // await ApiIndivComp.getParticipants(
+          //   comp: comp,
+          //   pageSize: IndivComp.participsPageSize,
+          //   lastRole: comp.loadedParticips.length==1?null:comp.loadedParticips.last.profile.role,
+          //   lastUserName: comp.loadedParticips.length==1?null:comp.loadedParticips.last.name,
+          //   lastUserKey: comp.loadedParticips.length==1?null:comp.loadedParticips.last.key,
+          //   onSuccess: (participsPage){
+          //     comp.addLoadedParticips(participsPage, context: context);
+          //     updateUserSets();
+          //     if(mounted) setState((){});
+          //   },
+          //   onForceLoggedOut: (){
+          //     if(!mounted) return true;
+          //     showAppToast(context, text: forceLoggedOutMessage);
+          //     setState(() {});
+          //     return true;
+          //   },
+          //   onServerMaybeWakingUp: (){
+          //     if(!mounted) return true;
+          //     showServerWakingUpToast(context);
+          //     return true;
+          //   },
+          //   onError: (){
+          //     if(!mounted) return;
+          //     showAppToast(context, text: simpleErrorMessage);
+          //   },
+          // );
           return comp.loadedParticips.length;
         },
-        callLoadOnInit: comp.loadedParticips.length == 1,
+        callLoadOnInit: false,
+        callReloadOnInit: comp.loadedParticips.length == 1 && !comp.isParticipsLoading(),
 
       )
   );
