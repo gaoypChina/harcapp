@@ -194,6 +194,16 @@ class WDecheData{
 
     WDecheData(text: 'Fanatyczni i radykalni centryści w natarciu!'),
 
+    WDecheData(text: 'Po co palić za szkołą'
+        '\nSkoro można jarać'
+        '\nsię życiem'),
+
+    WDecheData(text: 'Bycie gówniarzem kończy się'
+        '\nGdy palenie fajek przestaje być cool'),
+
+    WDecheData(text: 'Nie spoczywaj'
+        '\nNa lajkach'),
+
   ];
 
   final String text;

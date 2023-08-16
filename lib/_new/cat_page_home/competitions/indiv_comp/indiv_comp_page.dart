@@ -831,7 +831,7 @@ class ParticipantsWidgetState extends State<ParticipantsWidget>{
     IndivCompParticipsProvider indivCompParticipsProv = IndivCompParticipsProvider.of(context);
 
     participsLoaderListener = IndivCompParticipantsLoaderListener(
-      onIndivCompParticipantsLoaded: (participsPage, reloaded){
+      onParticipantsLoaded: (participsPage, reloaded){
         IndivComp.callProvidersWithParticips(indivCompProv, indivCompListProv, indivCompParticipsProv);
         setState((){});
       },

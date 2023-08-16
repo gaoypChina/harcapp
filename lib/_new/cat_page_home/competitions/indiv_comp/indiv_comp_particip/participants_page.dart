@@ -107,7 +107,7 @@ class ParticipantsPageState extends State<ParticipantsPage>{
     IndivCompParticipsProvider indivCompParticipsProv = IndivCompParticipsProvider.of(context);
 
     participsLoaderListener = IndivCompParticipantsLoaderListener(
-      onIndivCompParticipantsLoaded: (participsPage, reloaded){
+      onParticipantsLoaded: (participsPage, reloaded){
         updateUserSets();
         IndivComp.callProvidersWithParticips(indivCompProv, indivCompListProv, indivCompParticipsProv);
         setState((){});

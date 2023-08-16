@@ -2,51 +2,52 @@ import 'dart:async';
 
 import 'package:harcapp/_common_classes/single_computer/single_computer.dart';
 import 'package:harcapp/_common_classes/single_computer/single_computer_listener.dart';
+import 'package:harcapp/_new/api/forum.dart';
 import 'package:harcapp/_new/api/indiv_comp.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
 
-import 'comp_role.dart';
-import 'models/indiv_comp.dart';
-import 'models/indiv_comp_particip.dart';
+import 'forum_role.dart';
+import 'model/forum.dart';
+import 'model/forum_manager.dart';
 
-class IndivCompParticipantsLoaderListener extends SingleComputerApiListener<String>{
+class ForumManagersLoaderListener extends SingleComputerApiListener<String>{
 
-  final FutureOr<void> Function(List<IndivCompParticip>, bool)? onParticipantsLoaded;
+  final FutureOr<void> Function(List<ForumManager>, bool)? onManagersLoaded;
 
-  const IndivCompParticipantsLoaderListener({
+  const ForumManagersLoaderListener({
     super.onStart,
     super.onError,
     super.onForceLoggedOut,
     super.onServerMaybeWakingUp,
     super.onEnd,
-    this.onParticipantsLoaded,
+    this.onManagersLoaded,
   });
 
 }
 
-class IndivCompParticipantsLoader extends SingleComputer<String?, IndivCompParticipantsLoaderListener>{
+class ForumManagersLoader extends SingleComputer<String?, ForumManagersLoaderListener>{
 
   @override
   String get computerName => 'IndivCompParticipantsLoader';
 
-  late IndivComp _comp;
+  late Forum _forum;
   late int _pageSize;
-  CompRole? _lastRole;
+  ForumRole? _lastRole;
   String? _lastUserName;
   String? _lastUserKey;
 
   @override
   Future<bool> run({
     bool awaitFinish = false,
-    IndivComp? comp,
-    int pageSize = IndivComp.participsPageSize,
-    CompRole? lastRole,
+    Forum? forum,
+    int pageSize = Forum.managerPageSize,
+    ForumRole? lastRole,
     String? lastUserName,
     String? lastUserKey,
   }){
-    assert(comp != null);
-    _comp = comp!;
+    assert(forum != null);
+    _forum = forum!;
     _pageSize = pageSize;
     _lastRole = lastRole;
     _lastUserName = lastUserName;
@@ -59,15 +60,15 @@ class IndivCompParticipantsLoader extends SingleComputer<String?, IndivCompParti
     if(!await isNetworkAvailable())
       return false;
 
-    await ApiIndivComp.getParticipants(
-        comp: _comp,
+    await ApiForum.getManagers(
+        forumKey: _forum.key,
         pageSize: _pageSize,
         lastRole: _lastRole,
         lastUserName: _lastUserName,
         lastUserKey: _lastUserKey,
-        onSuccess: (List<IndivCompParticip> participsPage){
+        onSuccess: (List<ForumManager> managersPage){
 
-          IndivCompParticip me = _comp.getParticip(AccountData.key!)!;
+          ForumManager me = _forum.getManager(AccountData.key!)!;
           participsPage.removeWhere((member) => member.key == me.key);
           participsPage.insert(0, me);
 
@@ -79,7 +80,7 @@ class IndivCompParticipantsLoader extends SingleComputer<String?, IndivCompParti
             _comp.addLoadedParticips(participsPage);
 
           for(IndivCompParticipantsLoaderListener? listener in listeners)
-            listener!.onParticipantsLoaded?.call(participsPage, reloaded);
+            listener!.onIndivCompParticipantsLoaded?.call(participsPage, reloaded);
         },
         onServerMaybeWakingUp: () async {
           for(IndivCompParticipantsLoaderListener? listener in listeners)
