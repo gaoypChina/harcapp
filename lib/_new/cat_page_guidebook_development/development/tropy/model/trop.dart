@@ -23,6 +23,8 @@ import 'package:uuid/uuid.dart';
 import 'package:provider/provider.dart';
 import 'package:collection/collection.dart';
 
+import '../trop_users_loader.dart';
+
 class TropProvider extends ChangeNotifier{
   static TropProvider of(BuildContext context) => Provider.of<TropProvider>(context, listen: false);
   static void notify_(BuildContext context) => of(context).notify();
@@ -644,7 +646,10 @@ class Trop extends TropBaseData with SyncableParamGroupMixin, SyncGetRespNode<Tr
       _assignedUsersMap = assignedUsersMap,
       _assignedUsers = assignedUsersMap.values.toList(),
       _loadedUsersMap = loadedUsersMap,
-      _loadedUsers = loadedUsersMap.values.toList();
+      _loadedUsers = loadedUsersMap.values.toList(),
+      _tropUsersLoader = TropUsersLoader();
+
+  late final TropUsersLoader _tropUsersLoader;
 
   void update(Trop trop){
     name = trop.name;
@@ -969,6 +974,11 @@ class Trop extends TropBaseData with SyncableParamGroupMixin, SyncGetRespNode<Tr
 
   // Assigned users
 
+
+  TropUser? getAssignedUser(String key){
+    return _loadedUsersMap[key];
+  }
+
   void addAssignedUsers(List<TropUser> newUsers, {BuildContext? context}){
 
     for(TropUser participant in newUsers) {
@@ -1026,6 +1036,11 @@ class Trop extends TropBaseData with SyncableParamGroupMixin, SyncGetRespNode<Tr
   }
 
   // Loaded users
+
+
+  TropUser? getUser(String key){
+    return _loadedUsersMap[key];
+  }
 
   void addLoadedUsers(List<TropUser> newUsers, {BuildContext? context}){
 
@@ -1088,6 +1103,35 @@ class Trop extends TropBaseData with SyncableParamGroupMixin, SyncGetRespNode<Tr
     if(success && removed != null && shrinkTotalCount)
       userCount -= 1;
   }
+
+  Future<bool> loadUsersPage({
+    bool awaitFinish = false,
+    int pageSize = userPageSize,
+  }) => _tropUsersLoader.run(
+    awaitFinish: awaitFinish,
+    trop: this,
+    pageSize: pageSize,
+    lastRole: loadedUsers.length == 1 ? null : loadedUsers.last.role,
+    lastUserName: loadedUsers.length == 1 ? null : loadedUsers.last.name,
+    lastUserKey: loadedUsers.length == 1 ? null : loadedUsers.last.key,
+  );
+
+  Future<bool> reloadUsersPage({
+    bool awaitFinish = false,
+    int pageSize = userPageSize,
+  }) => _tropUsersLoader.run(
+    awaitFinish: awaitFinish,
+    trop: this,
+    pageSize: pageSize,
+  );
+
+  bool isUsersLoading() => _tropUsersLoader.running;
+
+  void addUsersLoaderListener(TropUsersLoaderListener listener) =>
+      _tropUsersLoader.addListener(listener);
+
+  void removeUsersLoaderListener(TropUsersLoaderListener listener) =>
+      _tropUsersLoader.removeListener(listener);
 
   // static void fixNoUserInOwnTrops() {
   //   bool anyFixed = false;

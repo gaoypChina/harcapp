@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_common_widgets/empty_message_widget.dart';
-import 'package:harcapp/_new/api/trop.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/model/trop.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_users_page/trop_user_tile_extended.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_users_page/trop_user_tile.dart';
+import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_users_loader.dart';
 import 'package:harcapp/_new/cat_page_home/user_list_managment_loadable_page.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/logger.dart';
@@ -47,80 +47,82 @@ class TropUsersPage extends StatefulWidget{
     return me;
   }
   
-  static Future<int> reloadTropUsers({
-    required BuildContext context,
-    required Trop trop,
-    required void Function() setState,
-    required bool Function() isMounted,
-  }) async {
-    await ApiTrop.getUsers(
-      tropKey: trop.key!,
-      pageSize: Trop.userPageSize,
-      lastRole: null,
-      lastUserName: null,
-      lastUserKey: null,
-      onSuccess: (usersPage){
-        TropUser me = trop.loadedUsersMap[AccountData.key]??fixTropUser(usersPage);
-        usersPage.removeWhere((manager) => manager.key == me.key);
-        usersPage.insert(0, me);
-        trop.setAllLoadedUsers(usersPage, context: context);
-        trop.saveOwn(localOnly: true, synced: true);
-        setState();
-      },
-      onForceLoggedOut: (){
-        if(!isMounted()) return true;
-        showAppToast(context, text: forceLoggedOutMessage);
-        setState();
-        return true;
-      },
-      onServerMaybeWakingUp: (){
-        if(!isMounted()) return true;
-        showServerWakingUpToast(context);
-        return true;
-      },
-      onError: (){
-        if(!isMounted()) return;
-        showAppToast(context, text: simpleErrorMessage);
-      },
-    );
-    return trop.loadedUsers.length;
-  }
-  
-  static Future<int> loadMoreTropUsers({
-    required BuildContext context,
-    required Trop trop,
-    required void Function() setState,
-    required bool Function() isMounted,
-  }) async {
-    await ApiTrop.getUsers(
-      tropKey: trop.key!,
-      pageSize: Trop.userPageSize,
-      lastRole: trop.loadedUsers.length==1?null:trop.loadedUsers.last.role,
-      lastUserName: trop.loadedUsers.length==1?null:trop.loadedUsers.last.name,
-      lastUserKey: trop.loadedUsers.length==1?null:trop.loadedUsers.last.key,
-      onSuccess: (observersPage){
-        trop.addLoadedUsers(observersPage, context: context);
-        trop.saveOwn(localOnly: true, synced: true);
-        if(isMounted()) setState();
-      },
-      onForceLoggedOut: (){
-        if(!isMounted()) return true;
-        showAppToast(context, text: forceLoggedOutMessage);
-        setState();
-        return true;
-      },
-      onServerMaybeWakingUp: (){
-        if(!isMounted()) return true;
-        showServerWakingUpToast(context);
-        return true;
-      },
-      onError: (){
-        if(!isMounted()) return;
-        showAppToast(context, text: simpleErrorMessage);
-      },
-    );
-    return trop.loadedUsers.length;
-  }
+  // static Future<int> reloadTropUsers({
+  //   required BuildContext context,
+  //   required Trop trop,
+  //   required void Function() setState,
+  //   required bool Function() isMounted,
+  // }) async {
+  //   await trop.reloadUsersPage(awaitFinish: true);
+  //   await ApiTrop.getUsers(
+  //     tropKey: trop.key!,
+  //     pageSize: Trop.userPageSize,
+  //     lastRole: null,
+  //     lastUserName: null,
+  //     lastUserKey: null,
+  //     onSuccess: (usersPage){
+  //       TropUser me = trop.loadedUsersMap[AccountData.key]??fixTropUser(usersPage);
+  //       usersPage.removeWhere((manager) => manager.key == me.key);
+  //       usersPage.insert(0, me);
+  //       trop.setAllLoadedUsers(usersPage, context: context);
+  //       trop.saveOwn(localOnly: true, synced: true);
+  //       setState();
+  //     },
+  //     onForceLoggedOut: (){
+  //       if(!isMounted()) return true;
+  //       showAppToast(context, text: forceLoggedOutMessage);
+  //       setState();
+  //       return true;
+  //     },
+  //     onServerMaybeWakingUp: (){
+  //       if(!isMounted()) return true;
+  //       showServerWakingUpToast(context);
+  //       return true;
+  //     },
+  //     onError: (){
+  //       if(!isMounted()) return;
+  //       showAppToast(context, text: simpleErrorMessage);
+  //     },
+  //   );
+  //   return trop.loadedUsers.length;
+  // }
+  //
+  // static Future<int> loadMoreTropUsers({
+  //   required BuildContext context,
+  //   required Trop trop,
+  //   required void Function() setState,
+  //   required bool Function() isMounted,
+  // }) async {
+  //   await trop.loadUsersPage(awaitFinish: true);
+  //   await ApiTrop.getUsers(
+  //     tropKey: trop.key!,
+  //     pageSize: Trop.userPageSize,
+  //     lastRole: trop.loadedUsers.length==1?null:trop.loadedUsers.last.role,
+  //     lastUserName: trop.loadedUsers.length==1?null:trop.loadedUsers.last.name,
+  //     lastUserKey: trop.loadedUsers.length==1?null:trop.loadedUsers.last.key,
+  //     onSuccess: (observersPage){
+  //       trop.addLoadedUsers(observersPage, context: context);
+  //       trop.saveOwn(localOnly: true, synced: true);
+  //       if(isMounted()) setState();
+  //     },
+  //     onForceLoggedOut: (){
+  //       if(!isMounted()) return true;
+  //       showAppToast(context, text: forceLoggedOutMessage);
+  //       setState();
+  //       return true;
+  //     },
+  //     onServerMaybeWakingUp: (){
+  //       if(!isMounted()) return true;
+  //       showServerWakingUpToast(context);
+  //       return true;
+  //     },
+  //     onError: (){
+  //       if(!isMounted()) return;
+  //       showAppToast(context, text: simpleErrorMessage);
+  //     },
+  //   );
+  //   return trop.loadedUsers.length;
+  // }
   
   final Trop trop;
 
@@ -145,6 +147,7 @@ class TropUsersPageState extends State<TropUsersPage>{
   void Function(bool wasShared)? get onUserAdded => widget.onUserAdded;
 
   late TropLoadedUsersProvider tropLoadedUsersProv;
+  late TropUsersLoaderListener usersLoaderListener;
 
   List<TropUser> userOwners = [];
   List<TropUser> userRegulars = [];
@@ -171,20 +174,52 @@ class TropUsersPageState extends State<TropUsersPage>{
 
   void onTropUserProviderNotified(){
     updateUserSets();
-    setState((){});
+    if(mounted) setState((){});
   }
 
   @override
   void initState() {
-    updateUserSets();
+
+    TropProvider tropProv = TropProvider.of(context);
+    TropListProvider tropListProv = TropListProvider.of(context);
+    TropLoadedUsersProvider tropUsersProv = TropLoadedUsersProvider.of(context);
+
+    usersLoaderListener = TropUsersLoaderListener(
+      onUsersLoaded: (usersPage, reloaded){
+        updateUserSets();
+        Trop.callProvidersWithLoadedUsers(tropProv, tropListProv, tropUsersProv);
+        if(mounted) setState((){});
+      },
+      onForceLoggedOut: (){
+        if(!mounted) return true;
+        showAppToast(context, text: forceLoggedOutMessage);
+        setState(() {});
+        return true;
+      },
+      onServerMaybeWakingUp: (){
+        if(!mounted) return true;
+        showServerWakingUpToast(context);
+        return true;
+      },
+      onError: (_){
+        if(!mounted) return;
+        showAppToast(context, text: simpleErrorMessage);
+      },
+    );
+
     tropLoadedUsersProv = TropLoadedUsersProvider.of(context);
     tropLoadedUsersProv.addListener(onTropUserProviderNotified);
+
+    trop.addUsersLoaderListener(usersLoaderListener);
+    updateUserSets();
+
     super.initState();
   }
 
   @override
   void dispose() {
     tropLoadedUsersProv.removeListener(onTropUserProviderNotified);
+    trop.removeUsersLoaderListener(usersLoaderListener);
     super.dispose();
   }
 
@@ -242,13 +277,8 @@ class TropUsersPageState extends State<TropUsersPage>{
             return trop.assignedUsers.length + trop.loadedUsers.length;
           }
 
-          return await TropUsersPage.reloadTropUsers(
-            context: context,
-            trop: trop,
-            isMounted: () => mounted,
-            setState: () => setState((){}),
-          );
-          
+          await trop.reloadUsersPage(awaitFinish: true);
+          return trop.loadedUsers.length;
         },
         callLoadMore: () async {
 
@@ -257,15 +287,11 @@ class TropUsersPageState extends State<TropUsersPage>{
             return trop.loadedUsers.length;
           }
 
-          return await TropUsersPage.loadMoreTropUsers(
-            context: context,
-            trop: trop,
-            isMounted: () => mounted,
-            setState: () => setState((){})
-          );
-
+          await trop.loadUsersPage(awaitFinish: true);
+          return trop.loadedUsers.length;
         },
-        callLoadOnInit: trop.loadedUsers.length == 1,
+        callLoadOnInit: false,
+        callReloadOnInit: trop.loadedUsers.length == 1 && trop.isUsersLoading(),
 
         emptyWidget: Center(
           child: SimpleButton(

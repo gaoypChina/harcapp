@@ -51,8 +51,8 @@ class ArticleLoader extends SingleComputer<ArticleLoaderError, ArticleLoaderList
   ArticleLoadState get loadState => _loadState;
   set loadState(ArticleLoadState value){
     _loadState = value;
-    for(ArticleLoaderListener? listener in listeners)
-      listener!.onStateChanged!(_loadState);
+    for(ArticleLoaderListener listener in listeners)
+      listener.onStateChanged!(_loadState);
   }
 
   late bool all;
@@ -94,7 +94,7 @@ class ArticleLoader extends SingleComputer<ArticleLoaderError, ArticleLoaderList
         return _responseToAzymutFeed(response);
 
       return null;
-    } on DioError catch(e){
+    } on DioException catch(e){
       if(e.response == null)
         return null;
       return _responseToAzymutFeed(e.response!);
@@ -191,7 +191,7 @@ class ArticleLoader extends SingleComputer<ArticleLoaderError, ArticleLoaderList
 
       return null;
 
-    } on DioError {
+    } on DioException {
       return null;
     }
 
@@ -338,10 +338,8 @@ Future<Author> downloadAuthor(String authCode, {Function? onError}) async {
       return Author.fromJson(authCode, code);
     }
     return Author.PROBLEM(authCode);
-  } on DioError {
-    if (onError != null)
-      onError();
-
+  } on DioException {
+    onError?.call();
     return Author.PROBLEM(authCode);
   }
 }

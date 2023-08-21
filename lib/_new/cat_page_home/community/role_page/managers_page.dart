@@ -71,7 +71,7 @@ class CommunityManagersPageState extends State<CommunityManagersPage>{
 
   void onManagersProviderNotified(){
     updateUserSets();
-    setState((){});
+    if(mounted) setState((){});
   }
 
   @override
@@ -134,6 +134,7 @@ class CommunityManagersPageState extends State<CommunityManagersPage>{
 
           userCount: community.managerCount??0,
           callReload: () async {
+            // TODO: Zmienić to na loadera
             await ApiCommunity.getManagers(
               communityKey: community.key,
               pageSize: Community.managerPageSize,
@@ -146,7 +147,7 @@ class CommunityManagersPageState extends State<CommunityManagersPage>{
                 managersPage.insert(0, me);
                 community.setAllLoadedManagers(managersPage, context: context);
                 updateUserSets();
-                setState((){});
+                if(mounted) setState((){});
               },
               onForceLoggedOut: (){
                 if(!mounted) return true;

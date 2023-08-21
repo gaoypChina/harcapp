@@ -12,10 +12,10 @@ import 'package:harcapp/_new/api/trop.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_editor_page/providers.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_icon.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_users_page/trop_user_tile.dart';
-import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_users_page/trop_users_page.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/account_page/account_page.dart';
 import 'package:harcapp/account/search_user_dialog.dart';
+import 'package:harcapp/logger.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:harcapp/values/app_values.dart';
 import 'package:harcapp/values/colors.dart';
@@ -37,6 +37,7 @@ import 'package:provider/provider.dart';
 import '../model/trop.dart';
 import '../model/trop_role.dart';
 import '../model/trop_user.dart';
+import '../trop_users_loader.dart';
 
 class TropEditorPage extends StatefulWidget{
 
@@ -1236,7 +1237,49 @@ class LoadableUserSelectorState extends State<LoadableUserSelector>{
 
   Trop get trop => widget.trop;
   void Function(TropUser)? get onUserSelected => widget.onUserSelected;
-  
+
+  late TropUsersLoaderListener usersLoaderListener;
+
+  @override
+  void initState() {
+
+    TropProvider tropProv = TropProvider.of(context);
+    TropListProvider tropListProv = TropListProvider.of(context);
+    TropLoadedUsersProvider tropUsersProv = TropLoadedUsersProvider.of(context);
+
+    usersLoaderListener = TropUsersLoaderListener(
+      onUsersLoaded: (usersPage, reloaded){
+        Trop.callProvidersWithLoadedUsers(tropProv, tropListProv, tropUsersProv);
+        if(mounted) setState((){});
+      },
+      onForceLoggedOut: (){
+        if(!mounted) return true;
+        showAppToast(context, text: forceLoggedOutMessage);
+        setState(() {});
+        return true;
+      },
+      onServerMaybeWakingUp: (){
+        if(!mounted) return true;
+        showServerWakingUpToast(context);
+        return true;
+      },
+      onError: (_){
+        if(!mounted) return;
+        showAppToast(context, text: simpleErrorMessage);
+      },
+    );
+
+    trop.addUsersLoaderListener(usersLoaderListener);
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    trop.removeUsersLoaderListener(usersLoaderListener);
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) => PagingLoadableBaseScrollViewPage(
     appBarTitle: 'Wybierz ogarniacza',
@@ -1249,20 +1292,28 @@ class LoadableUserSelectorState extends State<LoadableUserSelector>{
 
     totalItemsCount: trop.userCount,
     loadedItemsCount: trop.loadedUsers.length,
-    callReload: () => TropUsersPage.reloadTropUsers(
-      context: context,
-      trop: trop,
-      isMounted: () => mounted,
-      setState: () => setState((){}),
-    ),
-    callLoadMore: () => TropUsersPage.loadMoreTropUsers(
-      context: context,
-      trop: trop,
-      isMounted: () => mounted,
-      setState: () => setState((){}),
-    ),
-    callReloadOnInit: trop.loadedUsers.length == 1,
+    callReload: () async {
+
+      if(trop.key == null){
+        logger.e("Registered a failed attempt to call `getUsers` on trop with no trop key.");
+        return trop.assignedUsers.length + trop.loadedUsers.length;
+      }
+
+      await trop.reloadUsersPage(awaitFinish: true);
+      return trop.loadedUsers.length;
+    },
+    callLoadMore: () async {
+
+      if(trop.key == null){
+        logger.e("Registered a failed attempt to call `getUsers` on trop with no trop key.");
+        return trop.loadedUsers.length;
+      }
+
+      await trop.loadUsersPage(awaitFinish: true);
+      return trop.loadedUsers.length;
+    },
     callLoadOnInit: false,
+    callReloadOnInit: trop.loadedUsers.length == 1 && trop.isUsersLoading(),
 
     sliverBody: (context, isLoading){
 

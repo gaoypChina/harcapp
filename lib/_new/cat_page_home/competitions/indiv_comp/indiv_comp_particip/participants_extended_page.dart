@@ -75,7 +75,7 @@ class ParticipantsExtendedPageState extends State<ParticipantsExtendedPage>{
 
   void onParticipProviderNotified(){
     updateUserSets();
-    setState((){});
+    if(mounted) setState((){});
   }
 
   @override
@@ -90,7 +90,7 @@ class ParticipantsExtendedPageState extends State<ParticipantsExtendedPage>{
         updateUserSets();
         IndivComp.callProvidersWithParticips(indivCompProv, indivCompListProv, indivCompParticipsProv);
         if(reloaded) selectedParticips.clear();
-        setState((){});
+        if(mounted) setState((){});
       },
       onForceLoggedOut: (){
         if(!mounted) return true;

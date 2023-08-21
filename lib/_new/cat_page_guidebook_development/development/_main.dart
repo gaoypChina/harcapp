@@ -49,7 +49,7 @@ class DevelopmentSubpage extends StatefulWidget{
 
 class DevelopmentSubpageState extends State<DevelopmentSubpage>{
 
-  SynchronizerListener? syncListener;
+  late SynchronizerListener syncListener;
 
   @override
   void initState() {

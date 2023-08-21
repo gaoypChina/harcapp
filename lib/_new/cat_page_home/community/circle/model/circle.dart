@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 
 import '../../common/community_cover_image_data.dart';
 import '../../model/community.dart';
+import '../circle_members_loader.dart';
 import '../circle_role.dart';
 import 'announcement.dart';
 import 'member.dart';
@@ -147,6 +148,12 @@ class Circle extends CircleBasicData{
 
   bool get hasDescription => description != null && description!.isNotEmpty;
 
+  CircleMembersLoader _membersLoader;
+
+  Member? getMember(String key){
+    return _loadedMembersMap[key];
+  }
+
   void addLoadedMembers(List<Member> newMembers, {BuildContext? context}){
 
     for(Member mem in newMembers) {
@@ -218,6 +225,35 @@ class Circle extends CircleBasicData{
         compareText(member.name, lastLoaded.name) < 0 ||
         compareText(member.key, lastLoaded.key) < 0;
   }
+
+  Future<bool> loadMembersPage({
+    bool awaitFinish = false,
+    int pageSize = memberPageSize,
+  }) => _membersLoader.run(
+    awaitFinish: awaitFinish,
+    circle: this,
+    pageSize: pageSize,
+    lastUserName: loadedMembers.length == 1 ? null : loadedMembers.last.name,
+    lastUserKey: loadedMembers.length == 1 ? null : loadedMembers.last.key,
+  );
+
+  Future<bool> reloadMembersPage({
+    bool awaitFinish = false,
+    int pageSize = memberPageSize,
+  }) => _membersLoader.run(
+    awaitFinish: awaitFinish,
+    circle: this,
+    pageSize: pageSize,
+  );
+
+  bool isMembersLoading() => _membersLoader.running;
+
+  void addMembersLoaderListener(CircleMembersLoaderListener listener) =>
+      _membersLoader.addListener(listener);
+
+  void removeMembersLoaderListener(CircleMembersLoaderListener listener) =>
+      _membersLoader.removeListener(listener);
+
 
   late Map<String, _AnnouncementLookup> _announcementsMap;
   Map<String, _AnnouncementLookup> get announcementsMap => _announcementsMap;
@@ -417,6 +453,7 @@ class Circle extends CircleBasicData{
       _allAnnouncements = allAnnouncements,
       _pinnedAnnouncements = pinnedAnnouncements,
       _awaitingAnnouncements = awaitingAnnouncements,
+      _membersLoader = CircleMembersLoader(),
       super(name: community.name)
   {
     _loadedMembers.sort((mem1, mem2) => mem1.name.compareTo(mem2.name));

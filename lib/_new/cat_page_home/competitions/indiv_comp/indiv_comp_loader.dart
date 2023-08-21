@@ -40,18 +40,18 @@ class IndivCompLoader extends SingleComputer<String?, IndivCompLoaderListener>{
 
           IndivComp.silentInit(comps);
 
-          for(IndivCompLoaderListener? listener in listeners)
-            listener!.onIndivCompsLoaded?.call(comps);
+          for(IndivCompLoaderListener listener in listeners)
+            listener.onIndivCompsLoaded?.call(comps);
         },
         onServerMaybeWakingUp: () async {
-          for(IndivCompLoaderListener? listener in listeners)
-            listener!.onServerMaybeWakingUp?.call();
+          for(IndivCompLoaderListener listener in listeners)
+            listener.onServerMaybeWakingUp?.call();
 
           return true;
         },
         onForceLoggedOut: () async {
-          for(IndivCompLoaderListener? listener in listeners)
-            listener!.onForceLoggedOut?.call();
+          for(IndivCompLoaderListener listener in listeners)
+            listener.onForceLoggedOut?.call();
 
           return true;
         },

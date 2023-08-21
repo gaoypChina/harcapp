@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
-import 'package:harcapp/_new/api/forum.dart';
 import 'package:harcapp/_new/cat_page_home/community/common/community_cover_colors.dart';
 import 'package:harcapp/_new/cat_page_home/community/forum/model/forum_manager.dart';
 import 'package:harcapp/_new/cat_page_home/community/forum/role_page/manager_tile_extended.dart';
 import 'package:harcapp/_new/cat_page_home/user_list_managment_loadable_page.dart';
-import 'package:harcapp/account/account.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
 
+import '../forum_managers_loader.dart';
 import '../forum_role.dart';
 import '../model/forum.dart';
 import 'add_user_bottom_sheet.dart';
@@ -58,6 +57,7 @@ class ManagersPageState extends State<ManagersPage>{
   List<ForumManager> get managers => forum.loadedManagers;
 
   late ForumManagersProvider forumManagersProv;
+  late ForumManagersLoaderListener managersLoaderListener;
 
   List<ForumManager> managAdmins = [];
   List<ForumManager> managEditors = [];
@@ -79,20 +79,52 @@ class ManagersPageState extends State<ManagersPage>{
 
   void onManagersProviderNotified(){
     updateUserSets();
-    setState((){});
+    if(mounted) setState((){});
   }
 
   @override
   void initState() {
+
+    ForumProvider forumProv = ForumProvider.of(context);
+    ForumListProvider forumListProv = ForumListProvider.of(context);
+    ForumManagersProvider forumManagersProv = ForumManagersProvider.of(context);
+
+    managersLoaderListener = ForumManagersLoaderListener(
+      onManagersLoaded: (managersPage, reloaded){
+        updateUserSets();
+        Forum.callProvidersWithManagers(forumProv, forumListProv, forumManagersProv);
+        if(mounted) setState((){});
+      },
+      onForceLoggedOut: (){
+        if(!mounted) return true;
+        showAppToast(context, text: forceLoggedOutMessage);
+        setState(() {});
+        return true;
+      },
+      onServerMaybeWakingUp: (){
+        if(!mounted) return true;
+        showServerWakingUpToast(context);
+        return true;
+      },
+      onError: (_){
+        if(!mounted) return;
+        showAppToast(context, text: simpleErrorMessage);
+      },
+    );
+
     forumManagersProv = ForumManagersProvider.of(context);
     forumManagersProv.addListener(onManagersProviderNotified);
+
+    forum.addManagersLoaderListener(managersLoaderListener);
     updateUserSets();
+
     super.initState();
   }
 
   @override
   void dispose() {
     forumManagersProv.removeListener(onManagersProviderNotified);
+    forum.removeManagersLoaderListener(managersLoaderListener);
     super.dispose();
   }
 
@@ -145,72 +177,74 @@ class ManagersPageState extends State<ManagersPage>{
 
           userCount: forum.managerCount!,
           callReload: () async {
-            await ApiForum.getManagers(
-              forumKey: forum.key,
-              pageSize: Forum.managerPageSize,
-              lastRole: null,
-              lastUserName: null,
-              lastUserKey: null,
-              onSuccess: (managersPage){
-                ForumManager me = forum.loadedManagersMap[AccountData.key]!;
-                managersPage.removeWhere((manager) => manager.key == me.key);
-                managersPage.insert(0, me);
-                forum.setAllLoadedManagers(managersPage, context: context);
-                updateUserSets();
-
-                setState((){});
-              },
-              onForceLoggedOut: (){
-                if(!mounted) return true;
-                showAppToast(context, text: forceLoggedOutMessage);
-                setState(() {});
-                return true;
-              },
-              onServerMaybeWakingUp: (){
-                if(!mounted) return true;
-                showServerWakingUpToast(context);
-                return true;
-              },
-              onError: (){
-                if(!mounted) return;
-                showAppToast(context, text: simpleErrorMessage);
-              },
-            );
+            await forum.reloadManagersPage(awaitFinish: true);
+            // await ApiForum.getManagers(
+            //   forumKey: forum.key,
+            //   pageSize: Forum.managerPageSize,
+            //   lastRole: null,
+            //   lastUserName: null,
+            //   lastUserKey: null,
+            //   onSuccess: (managersPage){
+            //     ForumManager me = forum.loadedManagersMap[AccountData.key]!;
+            //     managersPage.removeWhere((manager) => manager.key == me.key);
+            //     managersPage.insert(0, me);
+            //     forum.setAllLoadedManagers(managersPage, context: context);
+            //     updateUserSets();
+            //
+            //     setState((){});
+            //   },
+            //   onForceLoggedOut: (){
+            //     if(!mounted) return true;
+            //     showAppToast(context, text: forceLoggedOutMessage);
+            //     setState(() {});
+            //     return true;
+            //   },
+            //   onServerMaybeWakingUp: (){
+            //     if(!mounted) return true;
+            //     showServerWakingUpToast(context);
+            //     return true;
+            //   },
+            //   onError: (){
+            //     if(!mounted) return;
+            //     showAppToast(context, text: simpleErrorMessage);
+            //   },
+            // );
             return forum.loadedManagers.length;
           },
           callLoadMore: () async {
-            await ApiForum.getManagers(
-              forumKey: forum.key,
-              pageSize: Forum.managerPageSize,
-              lastRole: managers.length==1?null:managers.last.role,
-              lastUserName: managers.length==1?null:managers.last.name,
-              lastUserKey: managers.length==1?null:managers.last.key,
-              onSuccess: (managersPage){
-                forum.addLoadedManagers(managersPage, context: context);
-                updateUserSets();
-                if(mounted) setState((){});
-              },
-              onForceLoggedOut: (){
-                if(!mounted) return true;
-                showAppToast(context, text: forceLoggedOutMessage);
-                setState(() {});
-                return true;
-              },
-              onServerMaybeWakingUp: (){
-                if(!mounted) return true;
-                showServerWakingUpToast(context);
-                return true;
-              },
-              onError: (){
-                if(!mounted) return;
-                showAppToast(context, text: simpleErrorMessage);
-              },
-            );
-
+            await forum.loadManagersPage(awaitFinish: true);
+            // await ApiForum.getManagers(
+            //   forumKey: forum.key,
+            //   pageSize: Forum.managerPageSize,
+            //   lastRole: managers.length==1?null:managers.last.role,
+            //   lastUserName: managers.length==1?null:managers.last.name,
+            //   lastUserKey: managers.length==1?null:managers.last.key,
+            //   onSuccess: (managersPage){
+            //     forum.addLoadedManagers(managersPage, context: context);
+            //     updateUserSets();
+            //     if(mounted) setState((){});
+            //   },
+            //   onForceLoggedOut: (){
+            //     if(!mounted) return true;
+            //     showAppToast(context, text: forceLoggedOutMessage);
+            //     setState(() {});
+            //     return true;
+            //   },
+            //   onServerMaybeWakingUp: (){
+            //     if(!mounted) return true;
+            //     showServerWakingUpToast(context);
+            //     return true;
+            //   },
+            //   onError: (){
+            //     if(!mounted) return;
+            //     showAppToast(context, text: simpleErrorMessage);
+            //   },
+            // );
             return forum.loadedManagers.length;
 
           },
-          callLoadOnInit: forum.loadedManagers.length == 1,
+          callLoadOnInit: false,
+          callReloadOnInit: forum.loadedManagers.length == 1 && !forum.isManagersLoading(),
       )
   );
 

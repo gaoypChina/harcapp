@@ -1,38 +1,36 @@
 import 'dart:async';
 
+import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_common_classes/single_computer/single_computer.dart';
 import 'package:harcapp/_common_classes/single_computer/single_computer_listener.dart';
 import 'package:harcapp/_new/api/forum.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
 
-import 'forum_role.dart';
 import 'model/forum.dart';
-import 'model/forum_manager.dart';
 
-class ForumManagersLoaderListener extends SingleComputerApiListener<String>{
+class ForumFollowersLoaderListener extends SingleComputerApiListener<String>{
 
-  final FutureOr<void> Function(List<ForumManager>, bool)? onManagersLoaded;
+  final FutureOr<void> Function(List<UserData>, bool)? onFollowersLoaded;
 
-  const ForumManagersLoaderListener({
+  const ForumFollowersLoaderListener({
     super.onStart,
     super.onError,
     super.onForceLoggedOut,
     super.onServerMaybeWakingUp,
     super.onEnd,
-    this.onManagersLoaded,
+    this.onFollowersLoaded,
   });
 
 }
 
-class ForumManagersLoader extends SingleComputer<String?, ForumManagersLoaderListener>{
+class ForumFollowersLoader extends SingleComputer<String?, ForumFollowersLoaderListener>{
 
   @override
-  String get computerName => 'ForumManagersLoader';
+  String get computerName => 'ForumFollowersLoader';
 
   late Forum _forum;
   late int _pageSize;
-  ForumRole? _lastRole;
   String? _lastUserName;
   String? _lastUserKey;
 
@@ -41,14 +39,12 @@ class ForumManagersLoader extends SingleComputer<String?, ForumManagersLoaderLis
     bool awaitFinish = false,
     Forum? forum,
     int pageSize = Forum.managerPageSize,
-    ForumRole? lastRole,
     String? lastUserName,
     String? lastUserKey,
   }){
     assert(forum != null);
     _forum = forum!;
     _pageSize = pageSize;
-    _lastRole = lastRole;
     _lastUserName = lastUserName;
     _lastUserKey = lastUserKey;
     return super.run(awaitFinish: awaitFinish);
@@ -59,36 +55,35 @@ class ForumManagersLoader extends SingleComputer<String?, ForumManagersLoaderLis
     if(!await isNetworkAvailable())
       return false;
 
-    await ApiForum.getManagers(
+    await ApiForum.getFollowers(
         forumKey: _forum.key,
         pageSize: _pageSize,
-        lastRole: _lastRole,
         lastUserName: _lastUserName,
         lastUserKey: _lastUserKey,
-        onSuccess: (List<ForumManager> managersPage){
+        onSuccess: (List<UserData> followersPage){
 
-          ForumManager me = _forum.getManager(AccountData.key!)!;
-          managersPage.removeWhere((manager) => manager.key == me.key);
-          managersPage.insert(0, me);
+          UserData me = _forum.getFollower(AccountData.key!)!;
+          followersPage.removeWhere((follower) => follower.key == me.key);
+          followersPage.insert(0, me);
 
-          bool reloaded = _lastRole == null && _lastUserName == null && _lastUserKey == null;
+          bool reloaded = _lastUserName == null && _lastUserKey == null;
 
           if(reloaded)
-            _forum.setAllLoadedManagers(managersPage);
+            _forum.setAllLoadedFollowers(followersPage);
           else
-            _forum.addLoadedManagers(managersPage);
+            _forum.addLoadedFollowers(followersPage);
 
-          for(ForumManagersLoaderListener listener in listeners)
-            listener.onManagersLoaded?.call(managersPage, reloaded);
+          for(ForumFollowersLoaderListener listener in listeners)
+            listener.onFollowersLoaded?.call(followersPage, reloaded);
         },
         onServerMaybeWakingUp: () async {
-          for(ForumManagersLoaderListener listener in listeners)
+          for(ForumFollowersLoaderListener listener in listeners)
             listener.onServerMaybeWakingUp?.call();
 
           return true;
         },
         onForceLoggedOut: () async {
-          for(ForumManagersLoaderListener listener in listeners)
+          for(ForumFollowersLoaderListener listener in listeners)
             listener.onForceLoggedOut?.call();
 
           return true;

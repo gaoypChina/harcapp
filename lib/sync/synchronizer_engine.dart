@@ -52,7 +52,7 @@ class SynchronizerEngine{
   final aggregateDelaySemaphore = LocalSemaphore(10000000);
   static int currAggregateDelayIndex = 0;
 
-  final List<SynchronizerListener?> _listeners = [];
+  final List<SynchronizerListener> _listeners = [];
   SyncOper? _runningOper;
   late bool _runPostAfterFinish;
   late bool _runGetAfterFinish;
@@ -66,8 +66,8 @@ class SynchronizerEngine{
     _runGetAfterFinish = false;
   }
 
-  void addListener(SynchronizerListener? listener) => _listeners.add(listener);
-  void removeListener(SynchronizerListener? listener) => _listeners.remove(listener);
+  void addListener(SynchronizerListener listener) => _listeners.add(listener);
+  void removeListener(SynchronizerListener listener) => _listeners.remove(listener);
 
   Future<bool> _callStart(SyncOper oper)async{
 
@@ -88,8 +88,8 @@ class SynchronizerEngine{
 
     semaphore.release();
 
-    for(SynchronizerListener? listener in _listeners)
-      if(listener!.onStart != null) listener.onStart!(oper);
+    for(SynchronizerListener listener in _listeners)
+      if(listener.onStart != null) listener.onStart!(oper);
 
     return true;
   }
@@ -124,8 +124,8 @@ class SynchronizerEngine{
     _runningOper = null;
     semaphore.release();
 
-    for(SynchronizerListener? listener in _listeners)
-      listener!.onEnd?.call(oper);
+    for(SynchronizerListener listener in _listeners)
+      listener.onEnd?.call(oper);
   }
 
   Future<bool?> _post({bool? dumpReplaceExisting}) async {

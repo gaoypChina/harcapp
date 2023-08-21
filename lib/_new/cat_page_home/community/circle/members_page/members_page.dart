@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
-import 'package:harcapp/_new/api/circle.dart';
 import 'package:harcapp/_new/cat_page_home/community/circle/members_page/member_tile_extended.dart';
 import 'package:harcapp/_new/cat_page_home/community/circle/model/member.dart';
 import 'package:harcapp/_new/cat_page_home/community/common/community_cover_colors.dart';
 import 'package:harcapp/_new/cat_page_home/user_list_managment_loadable_page.dart';
-import 'package:harcapp/account/account.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
 
+import '../circle_members_loader.dart';
 import '../circle_role.dart';
 import '../model/circle.dart';
 import 'add_user_bottom_sheet.dart';
@@ -76,6 +75,7 @@ class MembersPageState extends State<MembersPage>{
   List<Member> get members => circle.loadedMembers;
 
   late CircleMembersProvider circleMembersProv;
+  late CircleMembersLoaderListener membersLoaderListener;
 
   List<Member> memberAdmins = [];
   List<Member> memberEditors = [];
@@ -102,13 +102,43 @@ class MembersPageState extends State<MembersPage>{
 
   void onMembersProviderNotified(){
     updateUserSets();
-    setState((){});
+    if(mounted) setState((){});
   }
 
   @override
   void initState() {
+
+    CircleProvider circleProv = CircleProvider.of(context);
+    CircleListProvider circleListProv = CircleListProvider.of(context);
+    CircleMembersProvider circleMembersProv = CircleMembersProvider.of(context);
+
+    membersLoaderListener = CircleMembersLoaderListener(
+      onMembersLoaded: (usersPage, reloaded){
+        updateUserSets();
+        Circle.callProvidersWithMembers(circleProv, circleListProv, circleMembersProv);
+        if(mounted) setState((){});
+      },
+      onForceLoggedOut: (){
+        if(!mounted) return true;
+        showAppToast(context, text: forceLoggedOutMessage);
+        setState(() {});
+        return true;
+      },
+      onServerMaybeWakingUp: (){
+        if(!mounted) return true;
+        showServerWakingUpToast(context);
+        return true;
+      },
+      onError: (_){
+        if(!mounted) return;
+        showAppToast(context, text: simpleErrorMessage);
+      },
+    );
+    
     circleMembersProv = CircleMembersProvider.of(context);
     circleMembersProv.addListener(onMembersProviderNotified);
+
+    circle.addMembersLoaderListener(membersLoaderListener);
     updateUserSets();
     super.initState();
   }
@@ -175,69 +205,15 @@ class MembersPageState extends State<MembersPage>{
 
         userCount: circle.memberCount,
         callReload: () async {
-          await ApiCircle.getMembers(
-            circleKey: circle.key,
-            pageSize: Circle.memberPageSize,
-            lastRole: null,
-            lastUserName: null,
-            lastUserKey: null,
-            onSuccess: (membersPage){
-              Member me = circle.loadedMembersMap[AccountData.key]!;
-              membersPage.removeWhere((member) => member.key == me.key);
-              membersPage.insert(0, me);
-              circle.setAllLoadedMembers(membersPage, context: context);
-              updateUserSets();
-              if(mounted) setState((){});
-            },
-            onForceLoggedOut: (){
-              if(!mounted) return true;
-              showAppToast(context, text: forceLoggedOutMessage);
-              setState(() {});
-              return true;
-            },
-            onServerMaybeWakingUp: (){
-              if(!mounted) return true;
-              showServerWakingUpToast(context);
-              return true;
-            },
-            onError: (){
-              if(!mounted) return;
-              showAppToast(context, text: simpleErrorMessage);
-            },
-          );
+          await circle.reloadMembersPage(awaitFinish: true);
           return circle.loadedMembers.length;
         },
         callLoadMore: () async {
-          await ApiCircle.getMembers(
-            circleKey: circle.key,
-            pageSize: Circle.memberPageSize,
-            lastRole: circle.loadedMembers.length==1?null:circle.loadedMembers.last.role,
-            lastUserName: circle.loadedMembers.length==1?null:circle.loadedMembers.last.name,
-            lastUserKey: circle.loadedMembers.length==1?null:circle.loadedMembers.last.key,
-            onSuccess: (membersPage){
-              circle.addLoadedMembers(membersPage, context: context);
-              updateUserSets();
-              setState((){});
-            },
-            onForceLoggedOut: (){
-              if(!mounted) return true;
-              showAppToast(context, text: forceLoggedOutMessage);
-              setState(() {});
-              return true;
-            },
-            onServerMaybeWakingUp: (){
-              if(!mounted) return true;
-              showServerWakingUpToast(context);
-              return true;
-            },
-            onError: (){
-              if(!mounted) return;
-              showAppToast(context, text: simpleErrorMessage);
-            },
-          );
+          await circle.loadMembersPage(awaitFinish: true);
           return circle.loadedMembers.length;
         },
-        callLoadOnInit: circle.loadedMembers.length == 1,
+        callLoadOnInit: false,
+        callReloadOnInit: circle.loadedMembers.length == 1 && circle.isMembersLoading(),
 
       )
   );

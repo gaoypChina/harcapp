@@ -36,9 +36,9 @@ class LogoutDialogState extends State<LogoutDialog> with TickerProviderStateMixi
   static const int _STATE_OK = 2;
   static const int _STATE_FAILED = 3;
 
-  int? state;
+  late int state;
 
-  SynchronizerListener? listener;
+  late SynchronizerListener listener;
 
   Future<void> setSyncState() async {
     bool allSynced = await synchronizer.isAllSynced();

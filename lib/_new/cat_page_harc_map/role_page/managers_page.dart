@@ -71,7 +71,7 @@ class MarkerManagersPageState extends State<MarkerManagersPage>{
 
   void onManagersProviderNotified(){
     updateUserSets();
-    setState((){});
+    if(mounted) setState((){});
   }
 
   @override
@@ -141,6 +141,7 @@ class MarkerManagersPageState extends State<MarkerManagersPage>{
 
           userCount: marker.managerCount!,
           callReload: () async {
+            // TODO: Wymienić to na loadera tak jak w forum managerze
             await ApiHarcMap.getManagers(
               markerKey: marker.key,
               pageSize: MarkerData.managerPageSize,
@@ -154,7 +155,7 @@ class MarkerManagersPageState extends State<MarkerManagersPage>{
                 marker.setAllLoadedManagers(managersPage, context: context);
                 updateUserSets();
 
-                setState((){});
+                if(mounted) setState((){});
               },
               onForceLoggedOut: (){
                 if(!mounted) return true;

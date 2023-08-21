@@ -10,6 +10,9 @@ import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
+import '../forum_followers_loader.dart';
+import '../forum_likes_loader.dart';
+import '../forum_managers_loader.dart';
 import '../forum_role.dart';
 import 'forum_manager.dart';
 
@@ -157,6 +160,26 @@ class Forum extends ForumBasicData{
     forumListProv.notify();
   }
 
+  static callProvidersWithFollowersOf(BuildContext context){
+    callProvidersOf(context);
+    ForumFollowersProvider.notify_(context);
+  }
+
+  static callProvidersWithFollowers(ForumProvider forumProv, ForumListProvider forumListProv, ForumFollowersProvider forumFollowersProv){
+    callProviders(forumProv, forumListProv);
+    forumFollowersProv.notify();
+  }
+
+  static callProvidersWithLikesOf(BuildContext context){
+    callProvidersOf(context);
+    ForumLikesProvider.notify_(context);
+  }
+
+  static callProvidersWithLikes(ForumProvider forumProv, ForumListProvider forumListProv, ForumLikesProvider forumLikesProv){
+    callProviders(forumProv, forumListProv);
+    forumLikesProv.notify();
+  }
+
   static callProvidersWithManagersOf(BuildContext context){
     callProvidersOf(context);
     ForumManagersProvider.notify_(context);
@@ -201,6 +224,10 @@ class Forum extends ForumBasicData{
 
   bool get hasDescription => description != null && description!.isNotEmpty;
 
+  late final ForumManagersLoader _managersLoader;
+  late final ForumFollowersLoader _followersLoader;
+  late final ForumLikesLoader _likesLoader;
+
   void update(Forum updatedForum){
     description = updatedForum.description;
     coverImage = updatedForum.coverImage;
@@ -213,6 +240,11 @@ class Forum extends ForumBasicData{
     followersCnt = updatedForum.followersCnt;
 
     managerCount = updatedForum.managerCount;
+  }
+
+
+  UserData? getLikes(String key){
+    return _loadedLikesMap[key];
   }
 
   void addLoadedLikes(List<UserData> newLikes, {BuildContext? context}){
@@ -279,6 +311,38 @@ class Forum extends ForumBasicData{
       managerCount = managerCount! - 1;
   }
 
+  Future<bool> loadLikesPage({
+    bool awaitFinish = false,
+    int pageSize = likePageSize,
+  }) => _likesLoader.run(
+    awaitFinish: awaitFinish,
+    forum: this,
+    pageSize: pageSize,
+    lastUserName: loadedLikes.isEmpty ? null : loadedLikes.last.name,
+    lastUserKey: loadedLikes.isEmpty ? null : loadedLikes.last.key,
+  );
+
+  Future<bool> reloadLikesPage({
+    bool awaitFinish = false,
+    int pageSize = likePageSize,
+  }) => _likesLoader.run(
+    awaitFinish: awaitFinish,
+    forum: this,
+    pageSize: pageSize,
+  );
+
+  bool isLikesLoading() => _likesLoader.running;
+
+  void addLikesLoaderListener(ForumLikesLoaderListener listener) =>
+      _likesLoader.addListener(listener);
+
+  void removeLikesLoaderListener(ForumLikesLoaderListener listener) =>
+      _likesLoader.removeListener(listener);
+
+
+  UserData? getFollower(String key){
+    return _loadedFollowersMap[key];
+  }
 
   void addLoadedFollowers(List<UserData> newFollowers, {BuildContext? context}){
 
@@ -344,6 +408,38 @@ class Forum extends ForumBasicData{
       managerCount = managerCount! - 1;
   }
 
+  Future<bool> loadFollowersPage({
+    bool awaitFinish = false,
+    int pageSize = followerPageSize,
+  }) => _followersLoader.run(
+    awaitFinish: awaitFinish,
+    forum: this,
+    pageSize: pageSize,
+    lastUserName: loadedFollowers.isEmpty ? null : loadedFollowers.last.name,
+    lastUserKey: loadedFollowers.isEmpty ? null : loadedFollowers.last.key,
+  );
+
+  Future<bool> reloadFollowersPage({
+    bool awaitFinish = false,
+    int pageSize = followerPageSize,
+  }) => _followersLoader.run(
+    awaitFinish: awaitFinish,
+    forum: this,
+    pageSize: pageSize,
+  );
+
+  bool isFollowersLoading() => _followersLoader.running;
+
+  void addFollowersLoaderListener(ForumFollowersLoaderListener listener) =>
+      _followersLoader.addListener(listener);
+
+  void removeFollowersLoaderListener(ForumFollowersLoaderListener listener) =>
+      _followersLoader.removeListener(listener);
+
+
+  ForumManager? getManager(String key){
+    return _loadedManagersMap[key];
+  }
 
   void addLoadedManagers(List<ForumManager> newManagers, {BuildContext? context}){
 
@@ -416,6 +512,35 @@ class Forum extends ForumBasicData{
         compareText(manager.name, lastLoaded.name) < 0 ||
         compareText(manager.key, lastLoaded.key) < 0;
   }
+
+  Future<bool> loadManagersPage({
+    bool awaitFinish = false,
+    int pageSize = managerPageSize,
+  }) => _managersLoader.run(
+    awaitFinish: awaitFinish,
+    forum: this,
+    pageSize: pageSize,
+    lastRole: loadedManagers.length == 1 ? null : loadedManagers.last.role,
+    lastUserName: loadedManagers.length == 1 ? null : loadedManagers.last.name,
+    lastUserKey: loadedManagers.length == 1 ? null : loadedManagers.last.key,
+  );
+
+  Future<bool> reloadManagersPage({
+    bool awaitFinish = false,
+    int pageSize = managerPageSize,
+  }) => _managersLoader.run(
+    awaitFinish: awaitFinish,
+    forum: this,
+    pageSize: pageSize,
+  );
+
+  bool isManagersLoading() => _managersLoader.running;
+
+  void addManagersLoaderListener(ForumManagersLoaderListener listener) =>
+      _managersLoader.addListener(listener);
+
+  void removeManagersLoaderListener(ForumManagersLoaderListener listener) =>
+      _managersLoader.removeListener(listener);
 
 
   late Map<String, Post> _postsMap;
@@ -495,7 +620,10 @@ class Forum extends ForumBasicData{
 
       _loadedManagers = managers,
       _loadedManagersMap = {for (ForumManager manager in managers) manager.key: manager},
-      _allPosts = allPosts
+      _allPosts = allPosts,
+      _managersLoader = ForumManagersLoader(),
+      _followersLoader = ForumFollowersLoader(),
+      _likesLoader = ForumLikesLoader()
   {
     _loadedManagers.sort((m1, m2) => m1.name.compareTo(m2.name));
     _postsMap = {for (Post post in _allPosts) post.key: post};

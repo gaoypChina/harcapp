@@ -1,52 +1,53 @@
 import 'dart:async';
 
+import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_common_classes/single_computer/single_computer.dart';
 import 'package:harcapp/_common_classes/single_computer/single_computer_listener.dart';
-import 'package:harcapp/_new/api/indiv_comp.dart';
+import 'package:harcapp/_new/api/circle.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
 
-import 'comp_role.dart';
-import 'models/indiv_comp.dart';
-import 'models/indiv_comp_particip.dart';
+import 'circle_role.dart';
+import 'model/circle.dart';
+import 'model/member.dart';
 
-class IndivCompParticipantsLoaderListener extends SingleComputerApiListener<String>{
+class CircleMembersLoaderListener extends SingleComputerApiListener<String>{
 
-  final FutureOr<void> Function(List<IndivCompParticip>, bool)? onParticipantsLoaded;
+  final FutureOr<void> Function(List<UserData>, bool)? onMembersLoaded;
 
-  const IndivCompParticipantsLoaderListener({
+  const CircleMembersLoaderListener({
     super.onStart,
     super.onError,
     super.onForceLoggedOut,
     super.onServerMaybeWakingUp,
     super.onEnd,
-    this.onParticipantsLoaded,
+    this.onMembersLoaded,
   });
 
 }
 
-class IndivCompParticipantsLoader extends SingleComputer<String?, IndivCompParticipantsLoaderListener>{
+class CircleMembersLoader extends SingleComputer<String?, CircleMembersLoaderListener>{
 
   @override
-  String get computerName => 'IndivCompParticipantsLoader';
+  String get computerName => 'CircleMembersLoader';
 
-  late IndivComp _comp;
+  late Circle _circle;
   late int _pageSize;
-  CompRole? _lastRole;
+  CircleRole? _lastRole;
   String? _lastUserName;
   String? _lastUserKey;
 
   @override
   Future<bool> run({
     bool awaitFinish = false,
-    IndivComp? comp,
-    int pageSize = IndivComp.participsPageSize,
-    CompRole? lastRole,
+    Circle? circle,
+    int pageSize = Circle.memberPageSize,
+    CircleRole? lastRole,
     String? lastUserName,
     String? lastUserKey,
   }){
-    assert(comp != null);
-    _comp = comp!;
+    assert(circle != null);
+    _circle = circle!;
     _pageSize = pageSize;
     _lastRole = lastRole;
     _lastUserName = lastUserName;
@@ -59,36 +60,36 @@ class IndivCompParticipantsLoader extends SingleComputer<String?, IndivCompParti
     if(!await isNetworkAvailable())
       return false;
 
-    await ApiIndivComp.getParticipants(
-        comp: _comp,
+    await ApiCircle.getMembers(
+        circleKey: _circle.key,
         pageSize: _pageSize,
         lastRole: _lastRole,
         lastUserName: _lastUserName,
         lastUserKey: _lastUserKey,
-        onSuccess: (List<IndivCompParticip> participsPage){
+        onSuccess: (List<Member> membersPage){
 
-          IndivCompParticip me = _comp.getParticip(AccountData.key!)!;
-          participsPage.removeWhere((member) => member.key == me.key);
-          participsPage.insert(0, me);
+          Member me = _circle.getMember(AccountData.key!)!;
+          membersPage.removeWhere((user) => user.key == me.key);
+          membersPage.insert(0, me);
 
           bool reloaded = _lastRole == null && _lastUserName == null && _lastUserKey == null;
 
           if(reloaded)
-            _comp.setAllLoadedParticips(participsPage);
+            _circle.setAllLoadedMembers(membersPage);
           else
-            _comp.addLoadedParticips(participsPage);
+            _circle.addLoadedMembers(membersPage);
 
-          for(IndivCompParticipantsLoaderListener listener in listeners)
-            listener.onParticipantsLoaded?.call(participsPage, reloaded);
+          for(CircleMembersLoaderListener listener in listeners)
+            listener.onMembersLoaded?.call(membersPage, reloaded);
         },
         onServerMaybeWakingUp: () async {
-          for(IndivCompParticipantsLoaderListener listener in listeners)
+          for(CircleMembersLoaderListener listener in listeners)
             listener.onServerMaybeWakingUp?.call();
 
           return true;
         },
         onForceLoggedOut: () async {
-          for(IndivCompParticipantsLoaderListener listener in listeners)
+          for(CircleMembersLoaderListener listener in listeners)
             listener.onForceLoggedOut?.call();
 
           return true;

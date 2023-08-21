@@ -35,23 +35,23 @@ class AccountData {
   static void removeLoginListener(LoginListener listener) => _listeners.remove(listener);
 
   static void callOnLogin(bool emailConfirmed){
-    for(LoginListener? listener in _listeners)
-      listener!.onLogin?.call(emailConfirmed);
+    for(LoginListener listener in _listeners)
+      listener.onLogin?.call(emailConfirmed);
   }
 
   static void callOnRegister(){
-    for(LoginListener? listener in _listeners)
-      listener!.onRegistered?.call();
+    for(LoginListener listener in _listeners)
+      listener.onRegistered?.call();
   }
 
   static void callOnEmailConfirmChanged(bool emailConfirmed){
-    for(LoginListener? listener in _listeners)
-      listener!.onEmailConfirmChanged?.call(emailConfirmed);
+    for(LoginListener listener in _listeners)
+      listener.onEmailConfirmChanged?.call(emailConfirmed);
   }
 
   static void callOnLogout(bool force){
-    for(LoginListener? listener in _listeners)
-      listener!.onLogout?.call(force);
+    for(LoginListener listener in _listeners)
+      listener.onLogout?.call(force);
   }
 
   static String? _lastConfLoginEmail;

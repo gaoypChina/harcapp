@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_common_widgets/empty_message_widget.dart';
-import 'package:harcapp/_new/api/forum.dart';
 import 'package:harcapp/_new/cat_page_home/community/common/community_cover_colors.dart';
 import 'package:harcapp/_new/cat_page_home/user_list_managment_loadable_page.dart';
 import 'package:harcapp/account/account_tile.dart';
@@ -11,6 +10,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
 
+import 'forum_likes_loader.dart';
 import 'model/forum.dart';
 
 class ForumLikesPage extends StatefulWidget{
@@ -33,7 +33,49 @@ class ForumLikesPageState extends State<ForumLikesPage>{
   Forum get forum => widget.forum;
   PaletteGenerator? get palette => widget.palette;
   List<UserData> get likes => forum.loadedLikes;
-  
+
+  late ForumLikesLoaderListener likesLoaderListener;
+
+  @override
+  void initState() {
+
+    ForumProvider forumProv = ForumProvider.of(context);
+    ForumListProvider forumListProv = ForumListProvider.of(context);
+    ForumLikesProvider forumLikesProv = ForumLikesProvider.of(context);
+
+    likesLoaderListener = ForumLikesLoaderListener(
+      onLikesLoaded: (likesPage, reloaded){
+        Forum.callProvidersWithLikes(forumProv, forumListProv, forumLikesProv);
+        setState((){});
+      },
+      onForceLoggedOut: (){
+        if(!mounted) return true;
+        showAppToast(context, text: forceLoggedOutMessage);
+        setState(() {});
+        return true;
+      },
+      onServerMaybeWakingUp: (){
+        if(!mounted) return true;
+        showServerWakingUpToast(context);
+        return true;
+      },
+      onError: (_){
+        if(!mounted) return;
+        showAppToast(context, text: simpleErrorMessage);
+      },
+    );
+
+    forum.addLikesLoaderListener(likesLoaderListener);
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    forum.removeLikesLoaderListener(likesLoaderListener);
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) => Consumer<ForumLikesProvider>(
       builder: (context, prov, child) => UserListManagementLoadablePage<UserData>(
@@ -63,68 +105,69 @@ class ForumLikesPageState extends State<ForumLikesPage>{
 
           userCount: forum.likeCnt,
           callReload: () async {
-            await ApiForum.getLikes(
-              forumKey: forum.key,
-              pageSize: Forum.likePageSize,
-              lastUserName: null,
-              lastUserKey: null,
-              onSuccess: (likesPage){
-                forum.setAllLoadedLikes(likesPage, context: context);
-                if(mounted) setState((){});
-              },
-              onForceLoggedOut: (){
-                if(!mounted) return true;
-                showAppToast(context, text: forceLoggedOutMessage);
-                setState(() {});
-                return true;
-              },
-              onServerMaybeWakingUp: (){
-                if(!mounted) return true;
-                showServerWakingUpToast(context);
-                return true;
-              },
-              onError: (){
-                if(!mounted) return;
-                showAppToast(context, text: simpleErrorMessage);
-              },
-            );
+            await forum.reloadLikesPage(awaitFinish: true);
+            // await ApiForum.getLikes(
+            //   forumKey: forum.key,
+            //   pageSize: Forum.likePageSize,
+            //   lastUserName: null,
+            //   lastUserKey: null,
+            //   onSuccess: (likesPage){
+            //     forum.setAllLoadedLikes(likesPage, context: context);
+            //     if(mounted) setState((){});
+            //   },
+            //   onForceLoggedOut: (){
+            //     if(!mounted) return true;
+            //     showAppToast(context, text: forceLoggedOutMessage);
+            //     setState(() {});
+            //     return true;
+            //   },
+            //   onServerMaybeWakingUp: (){
+            //     if(!mounted) return true;
+            //     showServerWakingUpToast(context);
+            //     return true;
+            //   },
+            //   onError: (){
+            //     if(!mounted) return;
+            //     showAppToast(context, text: simpleErrorMessage);
+            //   },
+            // );
             return forum.loadedLikes.length;
           },
           callLoadMore: () async {
-
-            int allLoadedItems = 0;
-
-            await ApiForum.getLikes(
-              forumKey: forum.key,
-              pageSize: Forum.likePageSize,
-              lastUserName: likes.isEmpty?null:likes.last.name,
-              lastUserKey: likes.isEmpty?null:likes.last.key,
-              onSuccess: (likesPage){
-                forum.addLoadedLikes(likesPage, context: context);
-                allLoadedItems = forum.loadedLikes.length;
-                setState((){});
-              },
-              onForceLoggedOut: (){
-                if(!mounted) return true;
-                showAppToast(context, text: forceLoggedOutMessage);
-                setState(() {});
-                return true;
-              },
-              onServerMaybeWakingUp: (){
-                if(!mounted) return true;
-                showServerWakingUpToast(context);
-                return true;
-              },
-              onError: (){
-                if(!mounted) return;
-                showAppToast(context, text: simpleErrorMessage);
-              },
-            );
-
-            return allLoadedItems;
+            await forum.loadLikesPage(awaitFinish: true);
+            // int allLoadedItems = 0;
+            //
+            // await ApiForum.getLikes(
+            //   forumKey: forum.key,
+            //   pageSize: Forum.likePageSize,
+            //   lastUserName: likes.isEmpty?null:likes.last.name,
+            //   lastUserKey: likes.isEmpty?null:likes.last.key,
+            //   onSuccess: (likesPage){
+            //     forum.addLoadedLikes(likesPage, context: context);
+            //     allLoadedItems = forum.loadedLikes.length;
+            //     setState((){});
+            //   },
+            //   onForceLoggedOut: (){
+            //     if(!mounted) return true;
+            //     showAppToast(context, text: forceLoggedOutMessage);
+            //     setState(() {});
+            //     return true;
+            //   },
+            //   onServerMaybeWakingUp: (){
+            //     if(!mounted) return true;
+            //     showServerWakingUpToast(context);
+            //     return true;
+            //   },
+            //   onError: (){
+            //     if(!mounted) return;
+            //     showAppToast(context, text: simpleErrorMessage);
+            //   },
+            // );
+            return forum.loadedLikes.length;
 
           },
-          callLoadOnInit: forum.loadedLikes.isEmpty,
+          callLoadOnInit: false,
+          callReloadOnInit: forum.loadedLikes.isEmpty && !forum.isLikesLoading(),
 
           emptyWidget: EmptyMessageWidget(
             text: 'Brak polubień',

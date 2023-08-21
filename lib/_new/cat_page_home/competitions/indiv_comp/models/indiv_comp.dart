@@ -480,6 +480,12 @@ class IndivComp{
 
   bool isParticipsLoading() => _participantsLoader.running;
 
+  void addParticipLoaderListener(IndivCompParticipantsLoaderListener listener) =>
+      _participantsLoader.addListener(listener);
+
+  void removeParticipLoaderListener(IndivCompParticipantsLoaderListener listener) =>
+      _participantsLoader.removeListener(listener);
+
   void addCompletedTasksForParticip(String participKey, List<IndivCompCompletedTask> completedTasks, {required bool increaseTotalCount}){
     _loadedParticipMap[participKey]!.profile.addLoadedCompletedTasks(completedTasks, increaseTotalCount: increaseTotalCount);
   }
@@ -524,12 +530,6 @@ class IndivComp{
     particip.profile.points = points;
     return true;
   }
-
-  void addParticipLoaderListener(IndivCompParticipantsLoaderListener listener) =>
-    _participantsLoader.addListener(listener);
-
-  void removeParticipLoaderListener(IndivCompParticipantsLoaderListener listener) =>
-    _participantsLoader.removeListener(listener);
 
   IndivComp({
     required this.key,

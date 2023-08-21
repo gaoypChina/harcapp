@@ -38,7 +38,7 @@ class CatPageGuidebookDevelopmentState extends State<CatPageGuidebookDevelopment
   static const Color musicCatHistoria = Colors.amber;
   static const Color musicCatTechniki = Colors.teal;
 
-  SynchronizerListener? syncListener;
+  late SynchronizerListener syncListener;
 
   @override
   void initState() {

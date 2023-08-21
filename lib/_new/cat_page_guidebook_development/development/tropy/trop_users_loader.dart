@@ -1,52 +1,54 @@
 import 'dart:async';
 
+import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_common_classes/single_computer/single_computer.dart';
 import 'package:harcapp/_common_classes/single_computer/single_computer_listener.dart';
-import 'package:harcapp/_new/api/indiv_comp.dart';
+import 'package:harcapp/_new/api/trop.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
 
-import 'comp_role.dart';
-import 'models/indiv_comp.dart';
-import 'models/indiv_comp_particip.dart';
+import 'model/trop.dart';
+import 'model/trop_role.dart';
+import 'model/trop_user.dart';
 
-class IndivCompParticipantsLoaderListener extends SingleComputerApiListener<String>{
+class TropUsersLoaderListener extends SingleComputerApiListener<String>{
 
-  final FutureOr<void> Function(List<IndivCompParticip>, bool)? onParticipantsLoaded;
+  final FutureOr<void> Function(List<UserData>, bool)? onUsersLoaded;
 
-  const IndivCompParticipantsLoaderListener({
+  const TropUsersLoaderListener({
     super.onStart,
     super.onError,
     super.onForceLoggedOut,
     super.onServerMaybeWakingUp,
     super.onEnd,
-    this.onParticipantsLoaded,
+    this.onUsersLoaded,
   });
 
 }
 
-class IndivCompParticipantsLoader extends SingleComputer<String?, IndivCompParticipantsLoaderListener>{
+class TropUsersLoader extends SingleComputer<String?, TropUsersLoaderListener>{
 
   @override
-  String get computerName => 'IndivCompParticipantsLoader';
+  String get computerName => 'TropUsersLoader';
 
-  late IndivComp _comp;
+  late Trop _trop;
   late int _pageSize;
-  CompRole? _lastRole;
+  TropRole? _lastRole;
   String? _lastUserName;
   String? _lastUserKey;
 
   @override
   Future<bool> run({
     bool awaitFinish = false,
-    IndivComp? comp,
-    int pageSize = IndivComp.participsPageSize,
-    CompRole? lastRole,
+    Trop? trop,
+    int pageSize = Trop.userPageSize,
+    TropRole? lastRole,
     String? lastUserName,
     String? lastUserKey,
   }){
-    assert(comp != null);
-    _comp = comp!;
+    assert(trop != null);
+    assert(trop!.key != null);
+    _trop = trop!;
     _pageSize = pageSize;
     _lastRole = lastRole;
     _lastUserName = lastUserName;
@@ -59,36 +61,38 @@ class IndivCompParticipantsLoader extends SingleComputer<String?, IndivCompParti
     if(!await isNetworkAvailable())
       return false;
 
-    await ApiIndivComp.getParticipants(
-        comp: _comp,
+    await ApiTrop.getUsers(
+        tropKey: _trop.key!,
         pageSize: _pageSize,
         lastRole: _lastRole,
         lastUserName: _lastUserName,
         lastUserKey: _lastUserKey,
-        onSuccess: (List<IndivCompParticip> participsPage){
+        onSuccess: (List<TropUser> usersPage){
 
-          IndivCompParticip me = _comp.getParticip(AccountData.key!)!;
-          participsPage.removeWhere((member) => member.key == me.key);
-          participsPage.insert(0, me);
+          TropUser me = _trop.getUser(AccountData.key!)!;
+          usersPage.removeWhere((user) => user.key == me.key);
+          usersPage.insert(0, me);
 
           bool reloaded = _lastRole == null && _lastUserName == null && _lastUserKey == null;
 
           if(reloaded)
-            _comp.setAllLoadedParticips(participsPage);
+            _trop.setAllLoadedUsers(usersPage);
           else
-            _comp.addLoadedParticips(participsPage);
+            _trop.addLoadedUsers(usersPage);
 
-          for(IndivCompParticipantsLoaderListener listener in listeners)
-            listener.onParticipantsLoaded?.call(participsPage, reloaded);
+          _trop.saveOwn(localOnly: true, synced: true);
+
+          for(TropUsersLoaderListener listener in listeners)
+            listener.onUsersLoaded?.call(usersPage, reloaded);
         },
         onServerMaybeWakingUp: () async {
-          for(IndivCompParticipantsLoaderListener listener in listeners)
+          for(TropUsersLoaderListener listener in listeners)
             listener.onServerMaybeWakingUp?.call();
 
           return true;
         },
         onForceLoggedOut: () async {
-          for(IndivCompParticipantsLoaderListener listener in listeners)
+          for(TropUsersLoaderListener listener in listeners)
             listener.onForceLoggedOut?.call();
 
           return true;

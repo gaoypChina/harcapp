@@ -303,7 +303,7 @@ class SyncWidgetState extends State<SyncWidget>{
 
   static const double iconSize = Dimen.ICON_SIZE;
 
-  SynchronizerListener? listener;
+  late SynchronizerListener listener;
   SyncOper? syncing;
 
   @override
