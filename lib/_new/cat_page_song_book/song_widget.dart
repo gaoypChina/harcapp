@@ -12,6 +12,7 @@ import 'package:harcapp/_new/cat_page_song_book/settings/song_book_base_settings
 import 'package:harcapp/_new/cat_page_song_book/settings/song_book_settings.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_audio_player_widget.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_contributors_page.dart';
+import 'package:harcapp/values/consts.dart';
 import 'package:harcapp/values/hufce.dart';
 import 'package:harcapp/values/people.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
@@ -197,7 +198,7 @@ class SongWidget extends StatelessWidget{
     onYTLinkTap: (position) async {
 
       if(!await isNetworkAvailable()) {
-        showAppToast(context, text: 'Brak połączenia z Internetem.');
+        showAppToast(context, text: noInternetMessage);
         return;
       }
 

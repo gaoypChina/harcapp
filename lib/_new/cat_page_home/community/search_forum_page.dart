@@ -114,15 +114,17 @@ class SearchForumPageState extends State<SearchForumPage>{
       onLoading: () async {
 
         if(!moreToLoad) {
-          if(mounted) refreshController.loadComplete(); // This is called in `post()` inside.
-          post(() => mounted?setState(() {}):null);
+          if(!mounted) return;
+          refreshController.loadComplete(); // This is called in `post()` inside.
+          post(() => setState(() {}));
           return;
         }
 
         if(!await isNetworkAvailable()){
-          showAppToast(context, text: 'Brak dostępu do Internetu');
-          if(mounted) refreshController.loadComplete(); // This is called in `post()` inside.
-          post(() => mounted?setState(() {}):null);
+          if(!mounted) return;
+          showAppToast(context, text: noInternetMessage);
+          refreshController.loadComplete(); // This is called in `post()` inside.
+          post(() => setState(() {}));
           return;
         }
 

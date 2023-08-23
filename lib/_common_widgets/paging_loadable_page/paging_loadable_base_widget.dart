@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:harcapp/_common_widgets/app_custom_footer.dart';
+import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
@@ -131,7 +132,7 @@ class PagingLoadableBaseWidgetState extends State<PagingLoadableBaseWidget>{
     }
 
     if(!await isNetworkAvailable()){
-      if(mounted) showAppToast(context, text: 'Brak dostępu do Internetu');
+      if(mounted) showAppToast(context, text: noInternetMessage);
       if(mounted) refreshController.loadComplete(); // This is called in `post()` inside.
       post(() => mounted?setState(() {}):null);
       return;
@@ -149,7 +150,7 @@ class PagingLoadableBaseWidgetState extends State<PagingLoadableBaseWidget>{
   Future<void> onReloading() async {
 
     if(!await isNetworkAvailable()){
-      if(mounted) showAppToast(context, text: 'Brak dostępu do Internetu');
+      if(mounted) showAppToast(context, text: noInternetMessage);
       if(mounted) refreshController.refreshCompleted(); // This is called in `post()` inside.
       post(() => mounted?setState(() {}):null);
       return;
@@ -182,9 +183,10 @@ class PagingLoadableBaseWidgetState extends State<PagingLoadableBaseWidget>{
     onRefresh: () async {
 
       if(!await isNetworkAvailable()){
-        if(mounted) showAppToast(context, text: 'Brak dostępu do Internetu');
-        if(mounted) refreshController.refreshCompleted(); // This is called in `post()` inside.
-        post(() => mounted?setState(() {}):null);
+        if(!mounted) return;
+        showAppToast(context, text: noInternetMessage);
+        refreshController.refreshCompleted(); // This is called in `post()` inside.
+        post(() => setState(() {}));
         return;
       }
 

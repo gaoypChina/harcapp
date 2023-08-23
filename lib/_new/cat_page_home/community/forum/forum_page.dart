@@ -198,9 +198,10 @@ class ForumPageState extends State<ForumPage>{
           onRefresh: () async {
 
             if(!await isNetworkAvailable()){
-              if(mounted) showAppToast(context, text: 'Brak dostępu do Internetu');
-              if(mounted) refreshController.refreshCompleted(); // This is called in `post()` inside.
-              post(() => mounted?setState(() {}):null);
+              if(!mounted) return;
+              showAppToast(context, text: noInternetMessage);
+              refreshController.refreshCompleted(); // This is called in `post()` inside.
+              post(() => setState(() {}));
               return;
             }
 
@@ -242,22 +243,25 @@ class ForumPageState extends State<ForumPage>{
                 }
             );
 
-            if(mounted) refreshController.refreshCompleted(); // This is called in `post()` inside.
-            post(() => mounted?setState(() {}):null);
+            if(!mounted) return;
+            refreshController.refreshCompleted(); // This is called in `post()` inside.
+            post(() => setState(() {}));
 
           },
           onLoading: () async {
 
             if(!moreToLoad) {
-              if(mounted) refreshController.loadComplete(); // This is called in `post()` inside.
-              post(() => mounted?setState(() {}):null);
+              if(!mounted) return;
+              refreshController.loadComplete(); // This is called in `post()` inside.
+              post(() => setState(() {}));
               return;
             }
 
             if(!await isNetworkAvailable()){
-              if(mounted) showAppToast(context, text: 'Brak dostępu do Internetu');
-              if(mounted) refreshController.loadComplete(); // This is called in `post()` inside.
-              post(() => mounted?setState(() {}):null);
+              if(!mounted) return;
+              showAppToast(context, text: noInternetMessage);
+              refreshController.loadComplete(); // This is called in `post()` inside.
+              post(() => setState(() {}));
               return;
             }
 

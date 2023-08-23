@@ -96,14 +96,16 @@ class TropyPageState extends State<TropyPage>{
           showAppToast(context, text: simpleErrorMessage);
         },
         onNoInternet: (){
-          if(mounted) showAppToast(context, text: 'Brak dostępu do Internetu');
+          if(!mounted) return;
+          showAppToast(context, text: noInternetMessage);
           refreshController.loadComplete(); // This is called in `post()` inside.
-          if(mounted) post(() => mounted?setState(() {}):null);
+          post(() => setState(() {}));
         },
         onEnd: (_, __){
+          if(!mounted) return;
           refreshController.loadComplete();
           refreshController.refreshCompleted();
-          if(mounted) post(() => mounted?setState(() {}):null);
+          post(() => setState(() {}));
         }
     );
     tropSharedPreviewsLoader.addListener(tropSharedPreviewsLoaderListener);

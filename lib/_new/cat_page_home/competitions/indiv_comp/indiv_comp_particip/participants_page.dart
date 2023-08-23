@@ -104,7 +104,6 @@ class ParticipantsPageState extends State<ParticipantsPage>{
 
     IndivCompProvider indivCompProv = IndivCompProvider.of(context);
     IndivCompListProvider indivCompListProv = IndivCompListProvider.of(context);
-    IndivCompParticipsProvider indivCompParticipsProv = IndivCompParticipsProvider.of(context);
 
     participsLoaderListener = IndivCompParticipantsLoaderListener(
       onParticipantsLoaded: (participsPage, reloaded){

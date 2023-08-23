@@ -291,7 +291,8 @@ class AllCommunitiesPageState extends State<AllCommunitiesPage>{
               onRefresh: () async {
 
                 if(!await isNetworkAvailable()){
-                  showAppToast(context, text: 'Brak dostępu do Internetu');
+                  if(!mounted) return;
+                  showAppToast(context, text: noInternetMessage);
                   refreshController.refreshCompleted();
                   return;
                 }

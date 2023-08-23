@@ -204,6 +204,7 @@ class WDecheData{
     WDecheData(text: 'Nie spoczywaj'
         '\nNa lajkach'),
 
+    WDecheData(text: 'Najmniej ryzykowne jest śmianie się z samego siebie'),
   ];
 
   final String text;

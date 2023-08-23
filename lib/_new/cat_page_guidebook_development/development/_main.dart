@@ -531,8 +531,9 @@ class TropyPreviewListState extends State<TropyPreviewList>{
           showAppToast(context, text: simpleErrorMessage);
         },
         onNoInternet: (){
-          if(mounted) showAppToast(context, text: 'Brak dostępu do Internetu');
-          if(mounted) post(() => mounted?setState(() {}):null);
+          if(!mounted) return;
+          showAppToast(context, text: noInternetMessage);
+          post(() => setState(() {}));
         },
         onEnd: (_, __){
           if(mounted) setState(() {});

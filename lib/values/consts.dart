@@ -10,6 +10,7 @@ const double communityRadius = 8.0;
 AppTextStyle settingsHintStyle(BuildContext context) => AppTextStyle(fontSize: Dimen.TEXT_SIZE_NORMAL, color: hintEnab_(context));
 AppTextStyle settingsTextStyle(BuildContext context) => AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, color: textEnab_(context), fontWeight: weight.halfBold);
 
+const String noInternetMessage = 'Nie ma neta';
 const String forceLoggedOutMessage = 'Wymagane ponowne zalogowanie';
 const String serverWakingUpMessage = 'Twoje konto właśnie obudziło drzemiący serwer. Spróbuj za minutę, gdy wstanie na dobre.';
 const String imageDBWakingUpMessage = 'Twoje konto właśnie obudziło drzemiący serwer zdjęć. Spróbuj za minutę, gdy wstanie na dobre.';

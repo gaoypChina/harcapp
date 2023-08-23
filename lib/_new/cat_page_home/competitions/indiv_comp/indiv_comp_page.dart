@@ -112,7 +112,7 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
 
               if(!await isNetworkAvailable()){
                 if(!mounted) return;
-                showAppToast(context, text: 'Brak dostępu do Internetu');
+                showAppToast(context, text: noInternetMessage);
                 refreshController.refreshCompleted();
                 return;
               }
@@ -527,7 +527,7 @@ class PendingCompletedTasksReviewWidget extends StatelessWidget{
           onTap: () async {
 
             if(!await isNetworkAvailable()){
-              showAppToast(context, text: 'Brak dostępu do Internetu');
+              showAppToast(context, text: noInternetMessage);
               return;
             }
 
@@ -658,7 +658,7 @@ class TaskWidget extends StatelessWidget{
               onTap: () async {
 
                 if(!await isNetworkAvailable()){
-                  showAppToast(context, text: 'Brak dostępu do Internetu');
+                  showAppToast(context, text: noInternetMessage);
                   return;
                 }
                 bool adminOrMod = comp.myProfile?.role == CompRole.ADMIN || comp.myProfile?.role == CompRole.MODERATOR;
@@ -773,54 +773,15 @@ class ParticipantsWidgetState extends State<ParticipantsWidget>{
   IndivComp get comp => widget.comp;
   EdgeInsets get padding => widget.padding;
 
-  late bool isLoading;
-
   late IndivCompParticipantsLoaderListener participsLoaderListener;
 
   Future<void> loadMore() async {
-    setState(() => isLoading = true);
-    if(!await isNetworkAvailable()){
-      setState(() => isLoading = false);
+    if(!await isNetworkAvailable()) {
+      if(mounted) showAppToast(context, text: noInternetMessage);
       return;
     }
 
-    await comp.reloadParticipsPage(
-      awaitFinish: true,
-      pageSize: IndivComp.participsPageSize,
-    );
-
-    // await ApiIndivComp.getParticipants(
-    //   comp: comp,
-    //   pageSize: IndivComp.participsPageSize,
-    //   lastRole: comp.loadedParticips.length==1?null:comp.loadedParticips.last.profile.role,
-    //   lastUserName: comp.loadedParticips.length==1?null:comp.loadedParticips.last.name,
-    //   lastUserKey: comp.loadedParticips.length==1?null:comp.loadedParticips.last.key,
-    //   onSuccess: (participsPage){
-    //     IndivCompParticip me = comp.getParticip(AccountData.key!)!;
-    //     participsPage.removeWhere((member) => member.key == me.key);
-    //     participsPage.insert(0, me);
-    //     comp.addLoadedParticips(participsPage, context: context);
-    //     setState((){});
-    //   },
-    //   onForceLoggedOut: (){
-    //     if(!mounted) return true;
-    //     showAppToast(context, text: forceLoggedOutMessage);
-    //     setState(() {});
-    //     return true;
-    //   },
-    //   onServerMaybeWakingUp: (){
-    //     if(!mounted) return true;
-    //     showServerWakingUpToast(context);
-    //     return true;
-    //   },
-    //   onError: (){
-    //     if(!mounted) return;
-    //     showAppToast(context, text: simpleErrorMessage);
-    //   },
-    // );
-
-    setState(() => isLoading = false);
-
+    await comp.loadParticipsPage(awaitFinish: true);
   }
 
   @override
@@ -831,6 +792,7 @@ class ParticipantsWidgetState extends State<ParticipantsWidget>{
     IndivCompParticipsProvider indivCompParticipsProv = IndivCompParticipsProvider.of(context);
 
     participsLoaderListener = IndivCompParticipantsLoaderListener(
+      onStart: () => setState((){}),
       onParticipantsLoaded: (participsPage, reloaded){
         IndivComp.callProvidersWithParticips(indivCompProv, indivCompListProv, indivCompParticipsProv);
         setState((){});
@@ -853,8 +815,8 @@ class ParticipantsWidgetState extends State<ParticipantsWidget>{
     );
 
     comp.addParticipLoaderListener(participsLoaderListener);
-    isLoading = comp.loadedParticips.length == 1 && comp.participCount > 1;
-    if(isLoading) loadMore();
+    if(comp.loadedParticips.length == 1 && comp.participCount > 1 && !comp.isParticipsLoading())
+      loadMore();
     super.initState();
   }
 
@@ -878,7 +840,7 @@ class ParticipantsWidgetState extends State<ParticipantsWidget>{
               onTap: () => ParticipantsWidget.onTap(comp, context),
 
               onLoadMore: () => loadMore(),
-              isLoading: isLoading,
+              isLoading: comp.isParticipsLoading(),
               isMoreToLoad: comp.loadedParticips.length < comp.participCount,
             ),
           ),

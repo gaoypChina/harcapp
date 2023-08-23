@@ -129,7 +129,7 @@ class ParticipTileExtendedState extends State<ParticipTileExtended>{
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppCard.bigRadius)),
               onTap: particip.profile.active? () async {
                 if(!await isNetworkAvailable()){
-                  showAppToast(context, text: 'Brak dostępu do Internetu');
+                  if(mounted) showAppToast(context, text: noInternetMessage);
                   return;
                 }
 

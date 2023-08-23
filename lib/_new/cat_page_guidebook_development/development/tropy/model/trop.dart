@@ -1111,9 +1111,9 @@ class Trop extends TropBaseData with SyncableParamGroupMixin, SyncGetRespNode<Tr
     awaitFinish: awaitFinish,
     trop: this,
     pageSize: pageSize,
-    lastRole: loadedUsers.length == 1 ? null : loadedUsers.last.role,
-    lastUserName: loadedUsers.length == 1 ? null : loadedUsers.last.name,
-    lastUserKey: loadedUsers.length == 1 ? null : loadedUsers.last.key,
+    lastRole: loadedUsers.length <= 1 ? null : loadedUsers.last.role,
+    lastUserName: loadedUsers.length <= 1 ? null : loadedUsers.last.name,
+    lastUserKey: loadedUsers.length <= 1 ? null : loadedUsers.last.key,
   );
 
   Future<bool> reloadUsersPage({

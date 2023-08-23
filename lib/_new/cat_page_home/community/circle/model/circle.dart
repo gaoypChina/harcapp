@@ -233,6 +233,7 @@ class Circle extends CircleBasicData{
     awaitFinish: awaitFinish,
     circle: this,
     pageSize: pageSize,
+    lastRole: loadedMembers.length == 1 ? null : loadedMembers.last.role,
     lastUserName: loadedMembers.length == 1 ? null : loadedMembers.last.name,
     lastUserKey: loadedMembers.length == 1 ? null : loadedMembers.last.key,
   );

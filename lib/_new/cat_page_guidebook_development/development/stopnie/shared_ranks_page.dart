@@ -42,7 +42,8 @@ class SharedRanksPageState extends State<SharedRanksPage>{
       return;
 
     if(!await isNetworkAvailable()){
-      if(mounted) showAppToast(context, text: 'Brak dostępu do Internetu');
+      if(!mounted) return;
+      showAppToast(context, text: noInternetMessage);
       refreshController.refreshCompleted();
       loading = false;
       return;

@@ -83,7 +83,6 @@ class ParticipantsExtendedPageState extends State<ParticipantsExtendedPage>{
 
     IndivCompProvider indivCompProv = IndivCompProvider.of(context);
     IndivCompListProvider indivCompListProv = IndivCompListProvider.of(context);
-    IndivCompParticipsProvider indivCompParticipsProv = IndivCompParticipsProvider.of(context);
 
     participsLoaderListener = IndivCompParticipantsLoaderListener(
       onParticipantsLoaded: (participsPage, reloaded){

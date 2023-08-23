@@ -217,7 +217,7 @@ class _SearchTextFieldCard extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return SearchField(
-      hint: 'Tytuł, autor, wykonawca, słowa:',
+      hint: 'Tytuł, autor, słowa',
 
       controller: textController,
       onChanged: (String text) async {
@@ -231,25 +231,33 @@ class _SearchTextFieldCard extends StatelessWidget{
         }
       },
 
-      leading: AnimatedChildSlider(
-        index: searchOptions.isEmpty?0:1,
-        children: [
-          SearchField.defLeadWidget(context),
-          IconButton(
-            icon: Icon(MdiIcons.close, color: iconEnab_(context)),
-            onPressed: () async{
+      canClearText: () => searchOptions.isNotEmpty,
+      onTextCleared: () async {
+        searchOptions.clear();
+        onCleared?.call();
+        onChanged?.call('');
 
-              textController!.clear();
-              searchOptions.clear();
-              if(onCleared!=null) onCleared!();
-              if(onChanged != null) onChanged!('');
-
-              await searcher.run('');
-
-            },
-          )
-        ],
-      ),
+        await searcher.run('');
+      },
+      // leading: AnimatedChildSlider(
+      //   index: searchOptions.isEmpty?0:1,
+      //   children: [
+      //     SearchField.defLeadWidget(context),
+      //     IconButton(
+      //       icon: Icon(MdiIcons.close, color: iconEnab_(context)),
+      //       onPressed: () async{
+      //
+      //         textController!.clear();
+      //         searchOptions.clear();
+      //         if(onCleared!=null) onCleared!();
+      //         if(onChanged != null) onChanged!('');
+      //
+      //         await searcher.run('');
+      //
+      //       },
+      //     )
+      //   ],
+      // ),
       trailing: IconButton(
           icon: Icon(MdiIcons.cogOutline, color: iconEnab_(context)),
           onPressed: () async {

@@ -113,9 +113,10 @@ class FeedPageState extends State<FeedPage>{
           onRefresh: () async {
 
             if(!await isNetworkAvailable()){
-              if(mounted) showAppToast(context, text: 'Brak dostępu do Internetu');
-              if(mounted) refreshController.refreshCompleted(); // This is called in `post()` inside.
-              post(() => mounted?setState(() {}):null);
+              if(!mounted) return;
+              showAppToast(context, text: noInternetMessage);
+              refreshController.refreshCompleted(); // This is called in `post()` inside.
+              post(() => setState(() {}));
               return;
             }
 
@@ -173,7 +174,8 @@ class FeedPageState extends State<FeedPage>{
             }
 
             if(!await isNetworkAvailable()){
-              showAppToast(context, text: 'Brak dostępu do Internetu');
+              if(!mounted) return;
+              showAppToast(context, text: noInternetMessage);
               refreshController.loadComplete();
               return;
             }

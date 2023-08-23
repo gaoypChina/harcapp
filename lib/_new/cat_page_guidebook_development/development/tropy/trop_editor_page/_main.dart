@@ -821,7 +821,7 @@ class AssigneeButton extends StatelessWidget{
                     }
 
                     if(!await isNetworkAvailable()){
-                      showAppToast(context, text: 'Brak dostępu do Internetu');
+                      showAppToast(context, text: noInternetMessage);
                       return;
                     }
 
@@ -876,7 +876,7 @@ class AssigneeButton extends StatelessWidget{
                     }
 
                     if(!await isNetworkAvailable()){
-                      showAppToast(context, text: 'Brak dostępu do Internetu');
+                      showAppToast(context, text: noInternetMessage);
                       return;
                     }
 
@@ -919,7 +919,7 @@ class AssigneeButton extends StatelessWidget{
                     }
 
                     if(!await isNetworkAvailable()){
-                      showAppToast(context, text: 'Brak dostępu do Internetu');
+                      showAppToast(context, text: noInternetMessage);
                       return;
                     }
 
@@ -1315,17 +1315,14 @@ class LoadableUserSelectorState extends State<LoadableUserSelector>{
     callLoadOnInit: false,
     callReloadOnInit: trop.loadedUsers.length == 1 && trop.isUsersLoading(),
 
-    sliverBody: (context, isLoading){
+    sliverBody: (context, isLoading) => SliverList(delegate: SliverChildBuilderDelegate(
+      (context, index) => TropUserTile(
+        user: trop.loadedUsers[index],
+        onTap: () => onUserSelected?.call(trop.loadedUsers[index]),
+      ),
+      childCount: trop.loadedUsers.length
+    ))
 
-      return SliverList(delegate: SliverChildBuilderDelegate(
-          (context, index) => TropUserTile(
-            user: trop.loadedUsers[index],
-            onTap: () => onUserSelected?.call(trop.loadedUsers[index]),
-          ),
-          childCount: trop.loadedUsers.length
-      ));
-
-    }
   );
   
 }

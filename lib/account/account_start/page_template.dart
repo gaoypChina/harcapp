@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_widgets/app_scaffold.dart';
 import 'package:provider/provider.dart';
 import 'package:harcapp/_new/common.dart';
@@ -92,7 +93,7 @@ class PageTemplate extends StatelessWidget {
                               const SizedBox(width: Dimen.ICON_MARG),
 
                               Text(
-                                'Brak połączenia z Internetem',
+                                noInternetMessage,
                                 style: AppTextStyle(color: Colors.white),
                               ),
                             ],

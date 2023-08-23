@@ -137,7 +137,10 @@ class API{
 
       } else if (e.response?.statusCode == jwtInvalidHttpStatus) {
 
-        if(!jwtTokenRefreshed && e.response?.data is Map && e.response?.data['error'] == 'jwt_expired'){
+        String respData = '';
+        if(e.response?.data is Map) respData = e.response?.data['error'];
+
+        if(!jwtTokenRefreshed && (respData == 'jwt_expired' || respData == 'invalid_signature')){
 
           Response? response;
 

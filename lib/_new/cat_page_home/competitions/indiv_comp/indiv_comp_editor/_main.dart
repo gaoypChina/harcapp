@@ -116,7 +116,7 @@ class IndivCompEditorPageState extends State<IndivCompEditorPage>{
                         AwardsProvider awardsProv = AwardsProvider.of(context);
 
                         if(!await isNetworkAvailable()){
-                          if(mounted) showAppToast(context, text: 'Brak dostępu do Internetu');
+                          if(mounted) showAppToast(context, text: noInternetMessage);
                           return;
                         }
 

@@ -12,6 +12,15 @@ import 'song_management/song.dart';
 
 class AddPersEmailResolver extends AddPersResolver{
 
+  static String? name(AddPerson data){
+    if(data.emailRef != null && allPeopleByEmailMap.containsKey(data.emailRef))
+      return allPeopleByEmailMap[data.emailRef]!.name;
+    else if(data.name != null && data.name!.isNotEmpty)
+      return AddPersSimpleResolver.name(data);
+
+    return null;
+  }
+
   final double textSize;
   final Color? textColor;
   final bool showSongCount;
@@ -76,7 +85,6 @@ class AddPersEmailResolver extends AddPersResolver{
 
     logger.e('All null addPers found. Use null instead.');
     return Container();
-
 
   }
 

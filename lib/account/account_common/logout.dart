@@ -122,10 +122,13 @@ class LogoutDialogState extends State<LogoutDialog> with TickerProviderStateMixi
                       size: Dimen.ICON_SIZE - 4),
                 ),
                 const SizedBox(width: Dimen.defMarg),
-                Text('Trwa synchronizacja...',
+                Text(
+                    'Trwa synchronizacja...',
                     style: AppTextStyle(
                         fontSize: Dimen.TEXT_SIZE_NORMAL,
-                        color: hintEnab_(context))),
+                        color: hintEnab_(context)
+                    )
+                ),
               ],
             )
           else

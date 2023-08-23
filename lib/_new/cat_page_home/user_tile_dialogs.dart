@@ -4,6 +4,8 @@ import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 
+import '../../values/consts.dart';
+
 Future<void> showUpdateDialog({
   required BuildContext context,
   required bool isMe,
@@ -16,7 +18,7 @@ Future<void> showUpdateDialog({
 }) async {
 
   if(!await isNetworkAvailable()){
-    showAppToast(context, text: 'Brak dostępu do Internetu');
+    showAppToast(context, text: noInternetMessage);
     return;
   }
 
@@ -66,7 +68,7 @@ Future<void> showRemoveDialog({
 }) async {
 
   if(!await isNetworkAvailable()){
-    showAppToast(context, text: 'Brak dostępu do Internetu');
+    showAppToast(context, text: noInternetMessage);
     return;
   }
 

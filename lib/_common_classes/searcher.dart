@@ -9,6 +9,7 @@ import 'package:tuple/tuple.dart';
 abstract class SearchOptions{
 
   bool get isEmpty;
+  bool get isNotEmpty => !isEmpty;
   void clear();
 }
 

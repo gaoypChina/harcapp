@@ -110,7 +110,6 @@ class MembersPageState extends State<MembersPage>{
 
     CircleProvider circleProv = CircleProvider.of(context);
     CircleListProvider circleListProv = CircleListProvider.of(context);
-    CircleMembersProvider circleMembersProv = CircleMembersProvider.of(context);
 
     membersLoaderListener = CircleMembersLoaderListener(
       onMembersLoaded: (usersPage, reloaded){

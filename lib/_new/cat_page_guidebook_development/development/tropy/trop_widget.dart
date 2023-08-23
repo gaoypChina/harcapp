@@ -3,8 +3,8 @@ import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_widgets/border_material.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_common_widgets/duration_date_widget.dart';
-import 'package:harcapp/_new/api/trop.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/model/trop_role.dart';
+import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_users_loader.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_users_page/trop_users_page.dart';
 import 'package:harcapp/logger.dart';
 import 'package:harcapp/values/app_values.dart';
@@ -236,28 +236,32 @@ class TropUsersWidgetState extends State<TropUsersWidget>{
 
   List<TropUser> get loadedUsers => trop.loadedUsers;
 
-  late bool isLoading;
+  late TropUsersLoaderListener tropUsersLoaderListener;
 
   Future<void> loadMoreUsers() async{
     if(trop.key == null){
       logger.e("Registered a failed attempt to call `getUsers` on trop with no trop key.");
       return;
     }
-    setState(() => isLoading = true);
     if(!await isNetworkAvailable()){
-      setState(() => isLoading = false);
+      if(mounted) showAppToast(context, text: noInternetMessage);
       return;
     }
-    await ApiTrop.getUsers(
-      tropKey: trop.key!,
-      pageSize: Trop.userPageSize,
-      lastRole: loadedUsers.length<=1?null:loadedUsers.last.role,
-      lastUserName: loadedUsers.length<=1?null:loadedUsers.last.name,
-      lastUserKey: loadedUsers.length<=1?null:loadedUsers.last.key,
-      onSuccess: (observersPage){
-        trop.addLoadedUsers(observersPage, context: context);
-        trop.saveOwn(localOnly: true, synced: true);
-        if(mounted) setState((){});
+    await trop.loadUsersPage(awaitFinish: true);
+  }
+
+  @override
+  void initState() {
+
+    TropProvider tropProv = TropProvider.of(context);
+    TropListProvider tropListProv = TropListProvider.of(context);
+    TropLoadedUsersProvider tropLoadedUsersProv = TropLoadedUsersProvider.of(context);
+
+    tropUsersLoaderListener = TropUsersLoaderListener(
+      onStart: () => setState((){}),
+      onUsersLoaded: (usersPage, reloaded){
+        Trop.callProvidersWithLoadedUsers(tropProv, tropListProv, tropLoadedUsersProv);
+        setState((){});
       },
       onForceLoggedOut: (){
         if(!mounted) return true;
@@ -270,19 +274,22 @@ class TropUsersWidgetState extends State<TropUsersWidget>{
         showServerWakingUpToast(context);
         return true;
       },
-      onError: (){
+      onError: (_){
         if(!mounted) return;
         showAppToast(context, text: simpleErrorMessage);
       },
     );
-    setState(() => isLoading = false);
+
+    trop.addUsersLoaderListener(tropUsersLoaderListener);
+    if(AccountData.loggedIn && loadedUsers.length <= 1 && trop.userCount > 1 && trop.isUsersLoading())
+      loadMoreUsers();
+    super.initState();
   }
 
   @override
-  void initState() {
-    isLoading = AccountData.loggedIn && loadedUsers.length <= 1 && trop.userCount > 1;
-    if(isLoading) loadMoreUsers();
-    super.initState();
+  void dispose() {
+    trop.removeUsersLoaderListener(tropUsersLoaderListener);
+    super.dispose();
   }
 
   @override
@@ -295,7 +302,7 @@ class TropUsersWidgetState extends State<TropUsersWidget>{
               Expanded(child: AccountThumbnailLoadableRowWidget(
                 loadedUsers.map((p) => p.name).toList(),
                 onLoadMore: loadMoreUsers,
-                isLoading: isLoading,
+                isLoading: trop.isUsersLoading(),
                 isMoreToLoad: loadedUsers.length < trop.userCount,
                   onTap: (){
                     if(AccountData.loggedIn) openTropUsersPage(context);

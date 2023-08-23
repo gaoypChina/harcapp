@@ -9,6 +9,7 @@ import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/app_tab_bar_indicator.dart';
 import 'package:harcapp/_common_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/common_contact_data.dart';
+import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_widgets/app_text.dart';
 import 'package:harcapp/_common_widgets/gradient_icon.dart';
 import 'package:harcapp/_common_widgets/harc_app.dart';
@@ -272,7 +273,7 @@ class CatPageHomeState extends State<CatPageHome> with AfterLayoutMixin, TickerP
                             color: Colors.red,
                             child: Center(
                               child: Text(
-                                'Brak połączenia z siecią',
+                                noInternetMessage,
                                 style: AppTextStyle(
                                     fontSize: Dimen.TEXT_SIZE_BIG,
                                     color: Colors.white

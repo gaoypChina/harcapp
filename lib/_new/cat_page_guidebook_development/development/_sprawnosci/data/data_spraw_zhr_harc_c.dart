@@ -1692,11 +1692,8 @@ SprawBook sprawBookZHRC = SprawBookData(
                       title: 'Fuks',
                       level: 1,
                       tasks: [
-                        'Umie płynnie (w ruchu) zmieniać styl z jazdy przodem na jazdę tyłem, a także przejechać dowolną odległość każdym z nich.',
-                        'Potrafi jeździć przeplatanką zarówno przodem jak i tyłem.',
-                        'Umie bez zatrzymania podnieść przedmiot z lodowiska (np. upuszczoną czapkę).',
-                        'Potrafi hamować ślizgiem.',
-                        'Umie ocenić czy łyżwy są właściwie naostrzone.',
+                        'Umie posługiwać się wiatrówką lub karabinkiem pneumatycznym, zgodnie z zasadami bezpieczeństwa. Umie wytłumaczyć zasady wynikające z rozwinięcia skrótu BLOS: broń, lufa, otoczenie, spust.',
+                        'Strzelając z wiatrówki lub karabinku pneumatycznego potrafi trafić z odległości 10 m do celu o średnicy ok. 15 cm.',
                       ]
                   ),
 
@@ -2326,8 +2323,8 @@ SprawBook sprawBookZHRC = SprawBookData(
                 sprawData: [
 
                   SprawData(
-                      id: 'plantator',
-                      title: 'Plantator',
+                      id: 'kuchcik',
+                      title: 'Kuchcik',
                       level: 1,
                       tasks: [
                         'Umie przygotować potrawę na ciepło, taką jak jajecznica na boczku, naleśniki lub jajko sadzone z ziemniakami.',

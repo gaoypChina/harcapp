@@ -6,6 +6,7 @@ import 'package:harcapp/_common_classes/app_tab_bar_indicator.dart';
 import 'package:harcapp/_common_widgets/app_custom_footer.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/logger.dart';
+import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
@@ -162,7 +163,8 @@ class PagingLoadablePageViewPageState extends State<PagingLoadablePageViewPage> 
     }
 
     if(!await isNetworkAvailable()){
-      showAppToast(context, text: 'Brak dostępu do Internetu');
+      if(!mounted) return;
+      showAppToast(context, text: noInternetMessage);
       refreshController.loadComplete();
       return;
     }
@@ -194,7 +196,7 @@ class PagingLoadablePageViewPageState extends State<PagingLoadablePageViewPage> 
         onRefresh: () async {
 
           if(!await isNetworkAvailable()){
-            if(mounted) showAppToast(context, text: 'Brak dostępu do Internetu');
+            if(mounted) showAppToast(context, text: noInternetMessage);
             if(mounted) refreshController.refreshCompleted(); // This is called in `post()` inside.
             post(() => mounted?setState(() {}):null);
             return;

@@ -339,7 +339,7 @@ class ReviewButtonsState extends State<ReviewButtons>{
               onTap: () async {
 
                 if(!await isNetworkAvailable()){
-                  showAppToast(context, text: 'Brak połączenia.');
+                  showAppToast(context, text: noInternetMessage);
                   return;
                 }
 
@@ -391,7 +391,7 @@ class ReviewButtonsState extends State<ReviewButtons>{
               text: 'Zaakceptuj',
               onTap: () async {
                 if(!await isNetworkAvailable()){
-                  showAppToast(context, text: 'Brak połączenia.');
+                  showAppToast(context, text: noInternetMessage);
                   return;
                 }
 

@@ -15,7 +15,6 @@ import 'package:harcapp_core/comm_widgets/app_scaffold.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
-import 'package:harcapp_core/comm_widgets/animated_child_slider.dart';
 import 'package:harcapp_core_song_widget/song_rate.dart';
 import 'package:harcapp_core_tags/tag_layout.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -305,7 +304,7 @@ class _SearchTextFieldState extends State<_SearchTextField>{
   @override
   Widget build(BuildContext context) => SearchField(
     elevation: AppCard.defElevation,
-    hint: 'Tytuł, autor, wykonawca, słowa:',
+    hint: 'Tytuł, autor, wykonawca, słowa',
 
     controller: textController,
     margin: SearchField.normMargin,
@@ -324,27 +323,38 @@ class _SearchTextFieldState extends State<_SearchTextField>{
 
     },
 
-    leading: AnimatedChildSlider(
-      index: tabOfContController.searchOptions.isEmpty && textController.text.isEmpty?0:1,
-      children: [
-        SearchField.defLeadWidget(context),
-        IconButton(
-          icon: Icon(MdiIcons.close, color: iconEnab_(context)),
-          onPressed: () async{
+    canClearText: () => tabOfContController.searchOptions.isNotEmpty || textController.text.isNotEmpty,
+    onTextCleared: () async {
+      tabOfContController.phrase = '';
+      tabOfContController.searchOptions.clear();
+      await searcher.init(searcher.allItems, tabOfContController.searchOptions);
+      await searcher.run('');
 
-            textController.clear();
-            tabOfContController.phrase = '';
-            tabOfContController.searchOptions.clear();
-            await searcher.init(searcher.allItems, tabOfContController.searchOptions);
-            await searcher.run('');
+      onCleared?.call();
+      onSearchOptionChanged();
+    },
 
-            onCleared?.call();
-            onSearchOptionChanged();
-
-          },
-        )
-      ],
-    ),
+    // leading: AnimatedChildSlider(
+    //   index: tabOfContController.searchOptions.isEmpty && textController.text.isEmpty?0:1,
+    //   children: [
+    //     SearchField.defLeadWidget(context),
+    //     IconButton(
+    //       icon: Icon(MdiIcons.close, color: iconEnab_(context)),
+    //       onPressed: () async{
+    //
+    //         textController.clear();
+    //         tabOfContController.phrase = '';
+    //         tabOfContController.searchOptions.clear();
+    //         await searcher.init(searcher.allItems, tabOfContController.searchOptions);
+    //         await searcher.run('');
+    //
+    //         onCleared?.call();
+    //         onSearchOptionChanged();
+    //
+    //       },
+    //     )
+    //   ],
+    // ),
     trailing: IconButton(
         icon: Icon(MdiIcons.cogOutline, color: iconEnab_(context)),
         onPressed: () async {

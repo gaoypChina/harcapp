@@ -87,7 +87,6 @@ class ManagersPageState extends State<ManagersPage>{
 
     ForumProvider forumProv = ForumProvider.of(context);
     ForumListProvider forumListProv = ForumListProvider.of(context);
-    ForumManagersProvider forumManagersProv = ForumManagersProvider.of(context);
 
     managersLoaderListener = ForumManagersLoaderListener(
       onManagersLoaded: (managersPage, reloaded){

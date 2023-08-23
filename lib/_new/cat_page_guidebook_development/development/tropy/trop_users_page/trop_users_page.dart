@@ -182,12 +182,11 @@ class TropUsersPageState extends State<TropUsersPage>{
 
     TropProvider tropProv = TropProvider.of(context);
     TropListProvider tropListProv = TropListProvider.of(context);
-    TropLoadedUsersProvider tropUsersProv = TropLoadedUsersProvider.of(context);
 
     usersLoaderListener = TropUsersLoaderListener(
       onUsersLoaded: (usersPage, reloaded){
         updateUserSets();
-        Trop.callProvidersWithLoadedUsers(tropProv, tropListProv, tropUsersProv);
+        Trop.callProvidersWithLoadedUsers(tropProv, tropListProv, tropLoadedUsersProv);
         if(mounted) setState((){});
       },
       onForceLoggedOut: (){

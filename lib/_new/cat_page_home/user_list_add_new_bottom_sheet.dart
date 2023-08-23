@@ -4,6 +4,7 @@ import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/account/search_user_dialog.dart';
 import 'package:harcapp/account/shadow_user_manager_page.dart';
+import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
@@ -67,7 +68,7 @@ class UserListAddNewBottomSheet extends StatelessWidget{
                     Navigator.pop(context); // Close bottom sheet.
 
                     if(!await isNetworkAvailable()){
-                      showAppToast(context, text: 'Brak dostępu do Internetu');
+                      showAppToast(context, text: noInternetMessage);
                       return;
                     }
 

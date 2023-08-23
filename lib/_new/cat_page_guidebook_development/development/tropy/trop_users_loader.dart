@@ -80,7 +80,7 @@ class TropUsersLoader extends SingleComputer<String?, TropUsersLoaderListener>{
           else
             _trop.addLoadedUsers(usersPage);
 
-          _trop.saveOwn(localOnly: true, synced: true);
+          _trop.saveShared();
 
           for(TropUsersLoaderListener listener in listeners)
             listener.onUsersLoaded?.call(usersPage, reloaded);

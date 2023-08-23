@@ -46,6 +46,7 @@ import 'announcement_extended_page.dart';
 import 'circle_description_page.dart';
 import 'circle_editor/_main.dart';
 import 'circle_editor/common.dart';
+import 'circle_members_loader.dart';
 import 'circle_role.dart';
 import 'members_page/members_page.dart';
 import 'model/announcement.dart';
@@ -284,9 +285,10 @@ class CirclePageState extends State<CirclePage>{
           onRefresh: () async {
 
             if(!await isNetworkAvailable()){
-              if(mounted) showAppToast(context, text: 'Brak dostępu do Internetu');
-              if(mounted) refreshController.refreshCompleted(); // This is called in `post()` inside.
-              post(() => mounted?setState(() {}):null);
+              if(!mounted) return;
+              showAppToast(context, text: noInternetMessage);
+              refreshController.refreshCompleted(); // This is called in `post()` inside.
+              post(() => setState(() {}));
               return;
             }
 
@@ -351,7 +353,8 @@ class CirclePageState extends State<CirclePage>{
             }
 
             if(!await isNetworkAvailable()){
-              showAppToast(context, text: 'Brak dostępu do Internetu');
+              if(!mounted) return;
+              showAppToast(context, text: noInternetMessage);
               refreshController.loadComplete();
               return;
             }
@@ -916,26 +919,29 @@ class MembersWidgetState extends State<MembersWidget>{
   PaletteGenerator? get palette => widget.palette;
   EdgeInsets get padding => widget.padding;
 
-  late bool isLoading;
+  late CircleMembersLoaderListener membersLoaderListener;
 
   Future<void> loadMoreMembers() async {
-    setState(() => isLoading = true);
     if(!await isNetworkAvailable()){
-      setState(() => isLoading = false);
+      if(mounted) showAppToast(context, text: noInternetMessage);
       return;
     }
-    await ApiCircle.getMembers(
-      circleKey: circle.key,
-      pageSize: Circle.memberPageSize,
-      lastRole: circle.loadedMembers.length==1?null:circle.loadedMembers.last.role,
-      lastUserName: circle.loadedMembers.length==1?null:circle.loadedMembers.last.name,
-      lastUserKey: circle.loadedMembers.length==1?null:circle.loadedMembers.last.key,
-      onSuccess: (membersPage){
-        Member me = circle.loadedMembersMap[AccountData.key]!;
-        membersPage.removeWhere((member) => member.key == me.key);
-        membersPage.insert(0, me);
-        circle.addLoadedMembers(membersPage, context: context);
-        setState((){});
+    await circle.loadMembersPage(awaitFinish: true);
+
+  }
+
+  @override
+  void initState() {
+
+    CircleProvider circleProv = CircleProvider.of(context);
+    CircleListProvider circleListProv = CircleListProvider.of(context);
+    CircleMembersProvider circleMembersProv = CircleMembersProvider.of(context);
+
+    membersLoaderListener = CircleMembersLoaderListener(
+      onStart: () => setState((){}),
+      onMembersLoaded: (usersPage, reloaded){
+        Circle.callProvidersWithMembers(circleProv, circleListProv, circleMembersProv);
+        if(mounted) setState((){});
       },
       onForceLoggedOut: (){
         if(!mounted) return true;
@@ -948,21 +954,23 @@ class MembersWidgetState extends State<MembersWidget>{
         showServerWakingUpToast(context);
         return true;
       },
-      onError: (){
+      onError: (_){
         if(!mounted) return;
         showAppToast(context, text: simpleErrorMessage);
       },
     );
 
-    setState(() => isLoading = false);
+    circle.addMembersLoaderListener(membersLoaderListener);
+    if(circle.loadedMembers.length == 1 && circle.memberCount > 1 && !circle.isMembersLoading())
+      loadMoreMembers();
 
+    super.initState();
   }
 
   @override
-  void initState() {
-    isLoading = circle.loadedMembers.length == 1 && circle.memberCount > 1;
-    if(isLoading) loadMoreMembers();
-    super.initState();
+  void dispose() {
+    circle.removeMembersLoaderListener(membersLoaderListener);
+    super.dispose();
   }
 
   @override
@@ -987,7 +995,7 @@ class MembersWidgetState extends State<MembersWidget>{
                 heroBuilder: (index) => circle.loadedMembers[index],
 
                 onLoadMore: loadMoreMembers,
-                isLoading: isLoading,
+                isLoading: circle.isMembersLoading(),
                 isMoreToLoad: circle.loadedMembers.length < circle.memberCount,
               ),
             ),
