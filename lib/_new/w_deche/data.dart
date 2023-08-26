@@ -13,6 +13,12 @@ class WDecheData{
 
   static const List<WDecheData> all = [
 
+    WDecheData(text: 'Co ma harcerz w cukierni?'
+        '\n\nMa finkę.'),
+
+    WDecheData(text: 'Dlaczego iskierka szybko przechodzi w kręgu gdy stoją w niej instruktorzy?'
+        '\n\nBo są dobrymi przewodnikami.'),
+
     WDecheData(text: 'Co Wy robicie z tą kulką, jak już wypijecie mozzarellę?'),
 
     WDecheData(text: 'Nie jestem pomidorową, żebyście mnie wszyscy lubili'),

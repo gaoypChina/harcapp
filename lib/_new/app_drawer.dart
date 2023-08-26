@@ -163,8 +163,8 @@ class AccountHeader extends StatelessWidget{
               IconButton(
                   icon: Icon(AppDetails.icon),
                   onPressed: (){
-                    Navigator.pop(context);
-                    pushPage(context, builder: (context) => const AppDetails());
+                    // Navigator.pop(context);
+                    pushReplacePage(context, builder: (context) => const AppDetails());
                   }
               )
             else

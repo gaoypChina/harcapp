@@ -242,9 +242,9 @@ class ParticipantsPageState extends State<ParticipantsPage>{
           // );
           return comp.loadedParticips.length;
         },
-        callLoadOnInit: false,
         callReloadOnInit: comp.loadedParticips.length == 1 && !comp.isParticipsLoading(),
-
+        showReloadStatusOnInit: comp.loadedParticips.length == 1 && comp.isParticipsLoading(),
+        showLoadStatusOnInit: comp.loadedParticips.length > 1 && comp.isParticipsLoading(),
       )
   );
 

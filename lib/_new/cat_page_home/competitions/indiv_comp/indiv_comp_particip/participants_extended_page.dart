@@ -105,7 +105,7 @@ class ParticipantsExtendedPageState extends State<ParticipantsExtendedPage>{
       onError: (_){
         if(!mounted) return;
         showAppToast(context, text: simpleErrorMessage);
-      },
+      }
     );
 
     indivCompParticipsProv = IndivCompParticipsProvider.of(context);
@@ -146,7 +146,7 @@ class ParticipantsExtendedPageState extends State<ParticipantsExtendedPage>{
 
     IndivCompProvider.notify_(context);
     IndivCompListProvider.notify_(context);
-    
+
     setState(() {});
   }
 
@@ -350,8 +350,9 @@ class ParticipantsExtendedPageState extends State<ParticipantsExtendedPage>{
               return comp.loadedParticips.length;
 
             },
-            callLoadOnInit: false,
             callReloadOnInit: comp.loadedParticips.length == 1 && !comp.isParticipsLoading(),
+            showReloadStatusOnInit: comp.loadedParticips.length == 1 && comp.isParticipsLoading(),
+            showLoadStatusOnInit: comp.loadedParticips.length > 1 && comp.isParticipsLoading(),
 
           ),
 

@@ -9,19 +9,23 @@ Future<void> popPage(BuildContext context) async {
   await Future.delayed(pageTransDuration);
 }
 
-pushPage(BuildContext context, {required Widget Function(BuildContext) builder}) => Navigator.push(
+Future pushPage(BuildContext context, {required Widget Function(BuildContext) builder}) => Navigator.push(
     context,
     MaterialPageRoute(builder: builder)
 );
 
-pushReplacePage(BuildContext context, {required Widget Function(BuildContext) builder}){
-  bool popped = false;
-  Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(builder: builder), (route){
-        bool result = popped;
-        popped = true;
-        return result;
-      }
-  );
+Future pushReplacePage(BuildContext context, {required Widget Function(BuildContext) builder}) {
+  ScaffoldState? state;
+  try{
+    state = Scaffold.of(context);
+  } catch(e) {}
+  if(state != null && state.isDrawerOpen){
+    state.closeDrawer();
+    return pushPage(context, builder: builder);
+  }else
+    return Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: builder)
+    );
 }
+

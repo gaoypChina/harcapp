@@ -46,7 +46,9 @@ class UserListManagementLoadablePage<T extends UserData> extends StatelessWidget
   final FutureOr<int> Function() callReload;
   final FutureOr<int> Function() callLoadMore;
   final bool callReloadOnInit;
+  final bool showReloadStatusOnInit;
   final bool callLoadOnInit;
+  final bool showLoadStatusOnInit;
 
   const UserListManagementLoadablePage({
     required this.userSets,
@@ -71,14 +73,13 @@ class UserListManagementLoadablePage<T extends UserData> extends StatelessWidget
     required this.userCount,
     required this.callReload,
     required this.callLoadMore,
-    required this.callReloadOnInit,
-    required this.callLoadOnInit,
+    this.callReloadOnInit = false,
+    this.showReloadStatusOnInit = false,
+    this.callLoadOnInit = false,
+    this.showLoadStatusOnInit = false,
 
     super.key
   });
-
-  // @override
-  // State<StatefulWidget> createState() => UserListManagementLoadablePageState<T>();
 
   static Future<void> openPermissionsDialog({
     required BuildContext context,
@@ -119,7 +120,9 @@ class UserListManagementLoadablePage<T extends UserData> extends StatelessWidget
     callReload: callReload,
     callLoadMore: callLoadMore,
     callReloadOnInit: callReloadOnInit,
+    showReloadStatusOnInit: showReloadStatusOnInit,
     callLoadOnInit: callLoadOnInit,
+    showLoadStatusOnInit: showLoadStatusOnInit,
 
     sliverBody: (context, isLoading){
 

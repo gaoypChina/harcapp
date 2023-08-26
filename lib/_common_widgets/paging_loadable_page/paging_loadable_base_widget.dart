@@ -22,7 +22,9 @@ class PagingLoadableBaseWidget extends StatefulWidget{
   final FutureOr<int> Function() callReload;
   final FutureOr<int> Function() callLoadMore;
   final bool callReloadOnInit;
+  final bool showReloadStatusOnInit;
   final bool callLoadOnInit;
+  final bool showLoadStatusOnInit;
   final bool loadMoreIfHeightNotExceeding;
 
   final List<Widget> Function(BuildContext, bool, GlobalKey) sliversBuilder;
@@ -37,8 +39,10 @@ class PagingLoadableBaseWidget extends StatefulWidget{
 
     required this.callReload,
     required this.callLoadMore,
-    required this.callReloadOnInit,
-    required this.callLoadOnInit,
+    this.callReloadOnInit = false,
+    this.showReloadStatusOnInit = false,
+    this.callLoadOnInit = false,
+    this.showLoadStatusOnInit = false,
 
     this.loadMoreIfHeightNotExceeding = true,
 
@@ -63,7 +67,9 @@ class PagingLoadableBaseWidgetState extends State<PagingLoadableBaseWidget>{
   FutureOr<int> Function() get callReload => widget.callReload;
   FutureOr<int> Function() get callLoadMore => widget.callLoadMore;
   bool get callReloadOnInit => widget.callReloadOnInit;
+  bool get showReloadStatusOnInit => widget.showReloadStatusOnInit;
   bool get callLoadOnInit => widget.callLoadOnInit;
+  bool get showLoadStatusOnInit => widget.showLoadStatusOnInit;
   bool get loadMoreIfHeightNotExceeding => widget.loadMoreIfHeightNotExceeding;
 
   List<Widget> Function(BuildContext, bool, GlobalKey) get sliversBuilder => widget.sliversBuilder;
@@ -82,15 +88,19 @@ class PagingLoadableBaseWidgetState extends State<PagingLoadableBaseWidget>{
 
     refreshController = RefreshController(
         initialRefresh: callReloadOnInit,
+        initialRefreshStatus: showReloadStatusOnInit?
+        RefreshStatus.refreshing:
+        RefreshStatus.idle,
 
         initialLoadStatus:
-        callLoadOnInit?
+        callLoadOnInit || showLoadStatusOnInit?
         LoadStatus.loading:
         LoadStatus.idle
     );
-    if(callReloadOnInit)
-      onReloading();
-    else if(callLoadOnInit)
+    // `initialRefresh` is handling this.
+    // if(callReloadOnInit)
+    //   onReloading();
+    if(callLoadOnInit)
       onLoading();
     else
       post(() => handleOnExceedingHeightLoader(0));
@@ -167,7 +177,7 @@ class PagingLoadableBaseWidgetState extends State<PagingLoadableBaseWidget>{
 
   @override
   Widget build(BuildContext context) => SmartRefresher(
-    enablePullDown: true,
+    enablePullDown: !refreshController.isLoading,
     enablePullUp: !refreshController.isRefresh,
     footer: AppCustomFooter(
         moreToLoad: moreToLoad,

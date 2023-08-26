@@ -21,7 +21,9 @@ class PagingLoadableBaseScrollViewPage extends StatefulWidget{
   final FutureOr<int> Function() callReload;
   final FutureOr<int> Function() callLoadMore;
   final bool callReloadOnInit;
+  final bool showReloadStatusOnInit;
   final bool callLoadOnInit;
+  final bool showLoadStatusOnInit;
   final bool loadMoreIfHeightNotExceeding;
 
   final Widget Function(BuildContext, bool) sliverBody;
@@ -41,8 +43,10 @@ class PagingLoadableBaseScrollViewPage extends StatefulWidget{
 
     required this.callReload,
     required this.callLoadMore,
-    required this.callReloadOnInit,
-    required this.callLoadOnInit,
+    this.callReloadOnInit = false,
+    this.showReloadStatusOnInit = false,
+    this.callLoadOnInit = false,
+    this.showLoadStatusOnInit = false,
     this.loadMoreIfHeightNotExceeding = true,
 
     required this.sliverBody,
@@ -72,7 +76,9 @@ class PagingLoadableBaseScrollViewPageState extends State<PagingLoadableBaseScro
   FutureOr<int> Function() get callReload => widget.callReload;
   FutureOr<int> Function() get callLoadMore => widget.callLoadMore;
   bool get callReloadOnInit => widget.callReloadOnInit;
+  bool get showReloadStatusOnInit => widget.showReloadStatusOnInit;
   bool get callLoadOnInit => widget.callLoadOnInit;
+  bool get showLoadStatusOnInit => widget.showLoadStatusOnInit;
   bool get loadMoreIfHeightNotExceeding => widget.loadMoreIfHeightNotExceeding;
 
   Widget Function(BuildContext, bool) get sliverBody => widget.sliverBody;
@@ -90,7 +96,9 @@ class PagingLoadableBaseScrollViewPageState extends State<PagingLoadableBaseScro
         callReload: callReload,
         callLoadMore: callLoadMore,
         callReloadOnInit: callReloadOnInit,
+        showReloadStatusOnInit: showReloadStatusOnInit,
         callLoadOnInit: callLoadOnInit,
+        showLoadStatusOnInit: showLoadStatusOnInit,
         loadMoreIfHeightNotExceeding: loadMoreIfHeightNotExceeding,
         sliversBuilder: (context, isLoading, innerScrollViewKey) => [
 
