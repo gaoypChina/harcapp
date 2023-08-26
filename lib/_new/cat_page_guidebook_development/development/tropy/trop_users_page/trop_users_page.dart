@@ -15,6 +15,7 @@ import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../model/trop_role.dart';
 import '../model/trop_user.dart';
@@ -153,6 +154,8 @@ class TropUsersPageState extends State<TropUsersPage>{
   List<TropUser> userRegulars = [];
   List<TropUser> userObservers = [];
 
+  late RefreshController controller;
+
   void updateUserSets(){
     userOwners.clear();
     userRegulars.clear();
@@ -204,6 +207,11 @@ class TropUsersPageState extends State<TropUsersPage>{
         if(!mounted) return;
         showAppToast(context, text: simpleErrorMessage);
       },
+      onEnd: (_, __){
+        if(!mounted) return;
+        controller.loadComplete();
+        controller.refreshCompleted();
+      }
     );
 
     tropLoadedUsersProv = TropLoadedUsersProvider.of(context);
@@ -212,6 +220,20 @@ class TropUsersPageState extends State<TropUsersPage>{
     trop.addUsersLoaderListener(usersLoaderListener);
     updateUserSets();
 
+    controller = RefreshController(
+      initialRefresh: trop.loadedUsers.length == 1 && !trop.isUsersLoading(),
+
+      initialRefreshStatus:
+      trop.loadedUsers.length == 1 && trop.isUsersLoading()?
+      RefreshStatus.refreshing:
+      RefreshStatus.idle,
+
+      initialLoadStatus:
+      trop.loadedUsers.length > 1 && trop.isUsersLoading()?
+      LoadStatus.loading:
+      LoadStatus.idle,
+    );
+
     super.initState();
   }
 
@@ -219,6 +241,7 @@ class TropUsersPageState extends State<TropUsersPage>{
   void dispose() {
     tropLoadedUsersProv.removeListener(onTropUserProviderNotified);
     trop.removeUsersLoaderListener(usersLoaderListener);
+    controller.dispose();
     super.dispose();
   }
 
@@ -289,8 +312,7 @@ class TropUsersPageState extends State<TropUsersPage>{
           await trop.loadUsersPage(awaitFinish: true);
           return trop.loadedUsers.length;
         },
-        callLoadOnInit: false,
-        callReloadOnInit: trop.loadedUsers.length == 1 && trop.isUsersLoading(),
+        controller: controller,
 
         emptyWidget: Center(
           child: SimpleButton(

@@ -9,6 +9,7 @@ import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/task_accept_s
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp_core/dimen.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../models/indiv_comp_task.dart';
 import 'completed_task_widget.dart';
@@ -113,7 +114,7 @@ class CompletedTasksPageState extends State<CompletedTasksPage>{
 
   bool get moreToLoad => loadedCompletedTasks.length < totalCount;
 
-  bool get callReloadOnInit => loadedCompletedTasks.isEmpty;
+  late RefreshController controller;
 
   @override
   void initState() {
@@ -122,7 +123,16 @@ class CompletedTasksPageState extends State<CompletedTasksPage>{
     if(initLoadedCompletedTasks != null)
       loadedCompletedTasks.addAll(initLoadedCompletedTasks!);
 
+    // TODO: Handle situations when they are already loading - create a completed task loader just like participants loader.
+    controller = RefreshController(initialRefresh: loadedCompletedTasks.isEmpty);
+
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -194,8 +204,7 @@ class CompletedTasksPageState extends State<CompletedTasksPage>{
         );
         return loadedCompletedTasks.length;
       },
-      callReloadOnInit: callReloadOnInit,
-      callLoadOnInit: false,
+      controller: controller,
       loadedItemBuilder: (index) => CompletedTaskWidget(
           loadedCompletedTasks[index],
           comp.colors,

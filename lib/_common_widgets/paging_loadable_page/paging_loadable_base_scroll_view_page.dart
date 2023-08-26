@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_common_widgets/paging_loadable_page/paging_loadable_base_widget.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 
 class PagingLoadableBaseScrollViewPage extends StatefulWidget{
@@ -20,10 +21,11 @@ class PagingLoadableBaseScrollViewPage extends StatefulWidget{
 
   final FutureOr<int> Function() callReload;
   final FutureOr<int> Function() callLoadMore;
-  final bool callReloadOnInit;
-  final bool showReloadStatusOnInit;
-  final bool callLoadOnInit;
-  final bool showLoadStatusOnInit;
+  // final bool callReloadOnInit;
+  // final bool showReloadStatusOnInit;
+  // final bool callLoadOnInit;
+  // final bool showLoadStatusOnInit;
+  final RefreshController? controller;
   final bool loadMoreIfHeightNotExceeding;
 
   final Widget Function(BuildContext, bool) sliverBody;
@@ -43,10 +45,11 @@ class PagingLoadableBaseScrollViewPage extends StatefulWidget{
 
     required this.callReload,
     required this.callLoadMore,
-    this.callReloadOnInit = false,
-    this.showReloadStatusOnInit = false,
-    this.callLoadOnInit = false,
-    this.showLoadStatusOnInit = false,
+    // this.callReloadOnInit = false,
+    // this.showReloadStatusOnInit = false,
+    // this.callLoadOnInit = false,
+    // this.showLoadStatusOnInit = false,
+    this.controller,
     this.loadMoreIfHeightNotExceeding = true,
 
     required this.sliverBody,
@@ -75,10 +78,11 @@ class PagingLoadableBaseScrollViewPageState extends State<PagingLoadableBaseScro
 
   FutureOr<int> Function() get callReload => widget.callReload;
   FutureOr<int> Function() get callLoadMore => widget.callLoadMore;
-  bool get callReloadOnInit => widget.callReloadOnInit;
-  bool get showReloadStatusOnInit => widget.showReloadStatusOnInit;
-  bool get callLoadOnInit => widget.callLoadOnInit;
-  bool get showLoadStatusOnInit => widget.showLoadStatusOnInit;
+  // bool get callReloadOnInit => widget.callReloadOnInit;
+  // bool get showReloadStatusOnInit => widget.showReloadStatusOnInit;
+  // bool get callLoadOnInit => widget.callLoadOnInit;
+  // bool get showLoadStatusOnInit => widget.showLoadStatusOnInit;
+  RefreshController? get controller => widget.controller;
   bool get loadMoreIfHeightNotExceeding => widget.loadMoreIfHeightNotExceeding;
 
   Widget Function(BuildContext, bool) get sliverBody => widget.sliverBody;
@@ -95,10 +99,11 @@ class PagingLoadableBaseScrollViewPageState extends State<PagingLoadableBaseScro
         loadedItemsCount: loadedItemsCount,
         callReload: callReload,
         callLoadMore: callLoadMore,
-        callReloadOnInit: callReloadOnInit,
-        showReloadStatusOnInit: showReloadStatusOnInit,
-        callLoadOnInit: callLoadOnInit,
-        showLoadStatusOnInit: showLoadStatusOnInit,
+        // callReloadOnInit: callReloadOnInit,
+        // showReloadStatusOnInit: showReloadStatusOnInit,
+        // callLoadOnInit: callLoadOnInit,
+        // showLoadStatusOnInit: showLoadStatusOnInit,
+        controller: controller,
         loadMoreIfHeightNotExceeding: loadMoreIfHeightNotExceeding,
         sliversBuilder: (context, isLoading, innerScrollViewKey) => [
 

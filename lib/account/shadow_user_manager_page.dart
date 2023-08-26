@@ -45,20 +45,11 @@ class ShadowUserManagerPageState extends State<ShadowUserManagerPage>{
   Widget? Function(UserDataNick)? get itemSubtitleBuilder => widget.itemSubtitleBuilder;
   void Function(UserDataNick)? get onTap => widget.onTap;
 
-  late RefreshController refreshController;
-
   List<UserDataNick> get loadedShadowUsers => AccountData.loadedShadowUsers;
 
   bool get moreToLoad => AccountData.shadowUserCount > loadedShadowUsers.length;
 
-  @override
-  void initState() {
-
-    refreshController = RefreshController();
-
-    super.initState();
-  }
-
+  // TODO: Dorobić shadow user loadera tak jak participants loadera.
   @override
   Widget build(BuildContext context) => PagingLoadableBaseScrollViewPage(
     appBarTitle: 'Moi użytkownicy widmo',
@@ -99,8 +90,6 @@ class ShadowUserManagerPageState extends State<ShadowUserManagerPage>{
       );
       return loadedShadowUsers.length;
     },
-    callReloadOnInit: false,
-    callLoadOnInit: false,
     sliverBody: (context, isLoading){
 
       if(loadedShadowUsers.isEmpty)

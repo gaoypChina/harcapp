@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
-import 'package:harcapp/_new/api/community.dart';
 import 'package:harcapp/_new/cat_page_home/community/model/community.dart';
 import 'package:harcapp/_new/cat_page_home/user_list_managment_loadable_page.dart';
-import 'package:harcapp/account/account.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import '../community_managers_loader.dart';
 import '../model/community_role.dart';
 import '../model/community_manager.dart';
 import 'add_user_bottom_sheet.dart';
@@ -50,9 +50,12 @@ class CommunityManagersPageState extends State<CommunityManagersPage>{
   List<CommunityManager> get managers => community.loadedManagers;
 
   late CommunityManagersProvider communityManagersProv;
+  late CommunityManagersLoaderListener managersLoaderListener;
 
   List<CommunityManager> managAdmins = [];
   List<CommunityManager> managRegulars = [];
+
+  late RefreshController controller;
 
   void updateUserSets(){
     managAdmins.clear();
@@ -76,15 +79,65 @@ class CommunityManagersPageState extends State<CommunityManagersPage>{
 
   @override
   void initState() {
+    CommunityProvider communityProv = CommunityProvider.of(context);
+    CommunityListProvider communityListProv = CommunityListProvider.of(context);
+
+    managersLoaderListener = CommunityManagersLoaderListener(
+        onManagersLoaded: (managersPage, reloaded){
+          updateUserSets();
+          Community.callProvidersWithManagers(communityProv, communityListProv, communityManagersProv);
+          if(mounted) setState((){});
+        },
+        onForceLoggedOut: (){
+          if(!mounted) return true;
+          showAppToast(context, text: forceLoggedOutMessage);
+          setState(() {});
+          return true;
+        },
+        onServerMaybeWakingUp: (){
+          if(!mounted) return true;
+          showServerWakingUpToast(context);
+          return true;
+        },
+        onError: (_){
+          if(!mounted) return;
+          showAppToast(context, text: simpleErrorMessage);
+        },
+        onEnd: (_, __){
+          if(!mounted) return;
+          controller.loadComplete();
+          controller.refreshCompleted();
+        }
+    );
+
     communityManagersProv = CommunityManagersProvider.of(context);
     communityManagersProv.addListener(onManagersProviderNotified);
+
+    community.addManagersLoaderListener(managersLoaderListener);
     updateUserSets();
+
+    controller = RefreshController(
+      initialRefresh: community.loadedManagers.length == 1 && !community.isManagersLoading(),
+
+      initialRefreshStatus:
+      community.loadedManagers.length == 1 && community.isManagersLoading()?
+      RefreshStatus.refreshing:
+      RefreshStatus.idle,
+
+      initialLoadStatus:
+      community.loadedManagers.length > 1 && community.isManagersLoading()?
+      LoadStatus.loading:
+      LoadStatus.idle,
+    );
+
     super.initState();
   }
 
   @override
   void dispose() {
     communityManagersProv.removeListener(onManagersProviderNotified);
+    community.removeManagersLoaderListener(managersLoaderListener);
+    controller.dispose();
     super.dispose();
   }
 
@@ -134,73 +187,15 @@ class CommunityManagersPageState extends State<CommunityManagersPage>{
 
           userCount: community.managerCount??0,
           callReload: () async {
-            // TODO: Zmienić to na loadera
-            await ApiCommunity.getManagers(
-              communityKey: community.key,
-              pageSize: Community.managerPageSize,
-              lastRole: null,
-              lastUserName: null,
-              lastUserKey: null,
-              onSuccess: (managersPage){
-                CommunityManager me = community.loadedManagersMap[AccountData.key]!;
-                managersPage.removeWhere((manager) => manager.key == me.key);
-                managersPage.insert(0, me);
-                community.setAllLoadedManagers(managersPage, context: context);
-                updateUserSets();
-                if(mounted) setState((){});
-              },
-              onForceLoggedOut: (){
-                if(!mounted) return true;
-                showAppToast(context, text: forceLoggedOutMessage);
-                setState(() {});
-                return true;
-              },
-              onServerMaybeWakingUp: (){
-                if(!mounted) return true;
-                showServerWakingUpToast(context);
-                return true;
-              },
-              onError: (){
-                if(!mounted) return;
-                showAppToast(context, text: simpleErrorMessage);
-              },
-            );
+            await community.reloadManagersPage(awaitFinish: true);
             return community.loadedManagers.length;
           },
           callLoadMore: () async {
-            await ApiCommunity.getManagers(
-              communityKey: community.key,
-              pageSize: Community.managerPageSize,
-              lastRole: managers.length==1?null:managers.last.role,
-              lastUserName: managers.length==1?null:managers.last.name,
-              lastUserKey: managers.length==1?null:managers.last.key,
-              onSuccess: (managersPage){
-                community.addLoadedManagers(managersPage, context: context);
-                updateUserSets();
-                if(mounted) setState((){});
-              },
-              onForceLoggedOut: (){
-                if(!mounted) return true;
-                showAppToast(context, text: forceLoggedOutMessage);
-                setState(() {});
-                return true;
-              },
-              onServerMaybeWakingUp: (){
-                if(!mounted) return true;
-                showServerWakingUpToast(context);
-                return true;
-              },
-              onError: (){
-                if(!mounted) return;
-                showAppToast(context, text: simpleErrorMessage);
-              },
-            );
-
+            await community.loadManagersPage(awaitFinish: true);
             return community.loadedManagers.length;
 
           },
-          callReloadOnInit: community.loadedManagers.length == 1,
-          callLoadOnInit: false,
+          controller: controller,
 
         );
 

@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 
 import '../../../api/_api.dart';
 import '../circle/model/circle.dart';
+import '../community_managers_loader.dart';
 import 'community_role.dart';
 import '../forum/model/forum.dart';
 import 'community_category.dart';
@@ -160,7 +161,7 @@ class CommunityPreviewData extends CommunityBasicData{
 
 class Community extends CommunityBasicData{
 
-  static const int managerPageSize = 10;
+  static const int managersPageSize = 10;
 
   static IconData icon = MdiIcons.googleCirclesCommunities;
 
@@ -411,6 +412,8 @@ class Community extends CommunityBasicData{
 
   final Map<String, MarkerData> markersMap;
 
+  late final CommunityManagersLoader _managersLoader;
+
   void update(Community updatedCommunity){
     name = updatedCommunity.name;
     iconKey = updatedCommunity.iconKey;
@@ -418,6 +421,10 @@ class Community extends CommunityBasicData{
     contact = updatedCommunity.contact;
   }
 
+
+  CommunityManager? getManager(String key){
+    return loadedManagersMap[key];
+  }
 
   void addLoadedManagers(List<CommunityManager> newManagers, {BuildContext? context}){
 
@@ -490,6 +497,36 @@ class Community extends CommunityBasicData{
         compareText(manager.name, lastLoaded.name) < 0 ||
         compareText(manager.key, lastLoaded.key) < 0;
   }
+
+
+  Future<bool> loadManagersPage({
+    bool awaitFinish = false,
+    int pageSize = managersPageSize,
+  }) => _managersLoader.run(
+    awaitFinish: awaitFinish,
+    community: this,
+    pageSize: pageSize,
+    lastRole: loadedManagers.length == 1 ? null : loadedManagers.last.role,
+    lastUserName: loadedManagers.length == 1 ? null : loadedManagers.last.name,
+    lastUserKey: loadedManagers.length == 1 ? null : loadedManagers.last.key,
+  );
+
+  Future<bool> reloadManagersPage({
+    bool awaitFinish = false,
+    int pageSize = managersPageSize,
+  }) => _managersLoader.run(
+    awaitFinish: awaitFinish,
+    community: this,
+    pageSize: pageSize,
+  );
+
+  bool isManagersLoading() => _managersLoader.running;
+
+  void addManagersLoaderListener(CommunityManagersLoaderListener listener) =>
+      _managersLoader.addListener(listener);
+
+  void removeManagersLoaderListener(CommunityManagersLoaderListener listener) =>
+      _managersLoader.removeListener(listener);
 
 
   void addMarker(List<MarkerData> newMarker, {BuildContext? context}){
@@ -574,7 +611,8 @@ class Community extends CommunityBasicData{
       _forum = forum,
       _loadedManagers = managers,
       _loadedManagersMap = {for (CommunityManager m in managers) m.key: m},
-      markersMap = {for (MarkerData m in markers) m.key: m}
+      markersMap = {for (MarkerData m in markers) m.key: m},
+      _managersLoader = CommunityManagersLoader()
   {
     _loadedManagers.sort((m1, m2) => m1.name.compareTo(m2.name));
   }

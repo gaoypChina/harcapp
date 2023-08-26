@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/sliver_child_builder_separated_delegate.dart';
 import 'package:harcapp/_common_widgets/paging_loadable_page/paging_loadable_base_scroll_view_page.dart';
 import 'package:harcapp_core/dimen.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 
 class PagingLoadableScrollViewPage extends StatelessWidget{
@@ -21,8 +22,9 @@ class PagingLoadableScrollViewPage extends StatelessWidget{
 
   final FutureOr<int> Function() callReload;
   final FutureOr<int> Function() callLoadMore;
-  final bool callReloadOnInit;
-  final bool callLoadOnInit;
+  // final bool callReloadOnInit;
+  // final bool callLoadOnInit;
+  final RefreshController? controller;
   final bool loadMoreIfHeightNotExceeding;
 
   final EdgeInsets? padding;
@@ -45,8 +47,9 @@ class PagingLoadableScrollViewPage extends StatelessWidget{
 
     required this.callReload,
     required this.callLoadMore,
-    required this.callReloadOnInit,
-    required this.callLoadOnInit,
+    // required this.callReloadOnInit,
+    // required this.callLoadOnInit,
+    this.controller,
     this.loadMoreIfHeightNotExceeding = true,
 
     this.padding,
@@ -73,8 +76,9 @@ class PagingLoadableScrollViewPage extends StatelessWidget{
 
     callReload: callReload,
     callLoadMore: callLoadMore,
-    callReloadOnInit: callReloadOnInit,
-    callLoadOnInit: callLoadOnInit,
+    // callReloadOnInit: callReloadOnInit,
+    // callLoadOnInit: callLoadOnInit,
+    controller: controller,
     loadMoreIfHeightNotExceeding: loadMoreIfHeightNotExceeding,
 
     sliverBody: (context, isLoading) => SliverPadding(

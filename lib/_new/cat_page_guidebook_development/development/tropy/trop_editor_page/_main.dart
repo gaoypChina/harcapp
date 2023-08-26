@@ -33,6 +33,7 @@ import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:optional/optional_internal.dart';
 import 'package:provider/provider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../model/trop.dart';
 import '../model/trop_role.dart';
@@ -1240,6 +1241,8 @@ class LoadableUserSelectorState extends State<LoadableUserSelector>{
 
   late TropUsersLoaderListener usersLoaderListener;
 
+  late RefreshController controller;
+
   @override
   void initState() {
 
@@ -1267,9 +1270,28 @@ class LoadableUserSelectorState extends State<LoadableUserSelector>{
         if(!mounted) return;
         showAppToast(context, text: simpleErrorMessage);
       },
+      onEnd: (_, __){
+        if(!mounted) return;
+        controller.loadComplete();
+        controller.refreshCompleted();
+      }
     );
 
     trop.addUsersLoaderListener(usersLoaderListener);
+
+    controller = RefreshController(
+      initialRefresh: trop.loadedUsers.length == 1 && !trop.isUsersLoading(),
+
+      initialRefreshStatus:
+      trop.loadedUsers.length == 1 && trop.isUsersLoading()?
+      RefreshStatus.refreshing:
+      RefreshStatus.idle,
+
+      initialLoadStatus:
+      trop.loadedUsers.length > 1 && trop.isUsersLoading()?
+      LoadStatus.loading:
+      LoadStatus.idle,
+    );
 
     super.initState();
   }
@@ -1277,6 +1299,7 @@ class LoadableUserSelectorState extends State<LoadableUserSelector>{
   @override
   void dispose() {
     trop.removeUsersLoaderListener(usersLoaderListener);
+    controller.dispose();
     super.dispose();
   }
 
@@ -1312,8 +1335,7 @@ class LoadableUserSelectorState extends State<LoadableUserSelector>{
       await trop.loadUsersPage(awaitFinish: true);
       return trop.loadedUsers.length;
     },
-    callLoadOnInit: false,
-    callReloadOnInit: trop.loadedUsers.length == 1 && trop.isUsersLoading(),
+    controller: controller,
 
     sliverBody: (context, isLoading) => SliverList(delegate: SliverChildBuilderDelegate(
       (context, index) => TropUserTile(

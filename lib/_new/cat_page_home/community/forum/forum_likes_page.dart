@@ -9,6 +9,7 @@ import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'forum_likes_loader.dart';
 import 'model/forum.dart';
@@ -35,6 +36,8 @@ class ForumLikesPageState extends State<ForumLikesPage>{
   List<UserData> get likes => forum.loadedLikes;
 
   late ForumLikesLoaderListener likesLoaderListener;
+
+  late RefreshController controller;
 
   @override
   void initState() {
@@ -63,9 +66,28 @@ class ForumLikesPageState extends State<ForumLikesPage>{
         if(!mounted) return;
         showAppToast(context, text: simpleErrorMessage);
       },
+      onEnd: (_, __){
+        if(!mounted) return;
+        controller.loadComplete();
+        controller.refreshCompleted();
+      }
     );
 
     forum.addLikesLoaderListener(likesLoaderListener);
+
+    controller = RefreshController(
+      initialRefresh: forum.loadedLikes.isEmpty && !forum.isLikesLoading(),
+
+      initialRefreshStatus:
+      forum.loadedLikes.isEmpty && forum.isLikesLoading()?
+      RefreshStatus.refreshing:
+      RefreshStatus.idle,
+
+      initialLoadStatus:
+      forum.loadedLikes.isNotEmpty && forum.isLikesLoading()?
+      LoadStatus.loading:
+      LoadStatus.idle,
+    );
 
     super.initState();
   }
@@ -73,6 +95,7 @@ class ForumLikesPageState extends State<ForumLikesPage>{
   @override
   void dispose() {
     forum.removeLikesLoaderListener(likesLoaderListener);
+    controller.dispose();
     super.dispose();
   }
 
@@ -166,8 +189,7 @@ class ForumLikesPageState extends State<ForumLikesPage>{
             return forum.loadedLikes.length;
 
           },
-          callLoadOnInit: false,
-          callReloadOnInit: forum.loadedLikes.isEmpty && !forum.isLikesLoading(),
+          controller: controller,
 
           emptyWidget: EmptyMessageWidget(
             text: 'Brak polubień',

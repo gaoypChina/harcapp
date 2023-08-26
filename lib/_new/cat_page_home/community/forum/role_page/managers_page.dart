@@ -9,6 +9,7 @@ import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../forum_managers_loader.dart';
 import '../forum_role.dart';
@@ -62,6 +63,8 @@ class ManagersPageState extends State<ManagersPage>{
   List<ForumManager> managAdmins = [];
   List<ForumManager> managEditors = [];
 
+  late RefreshController controller;
+
   void updateUserSets(){
     managAdmins.clear();
     managEditors.clear();
@@ -109,6 +112,11 @@ class ManagersPageState extends State<ManagersPage>{
         if(!mounted) return;
         showAppToast(context, text: simpleErrorMessage);
       },
+      onEnd: (_, __){
+        if(!mounted) return;
+        controller.loadComplete();
+        controller.refreshCompleted();
+      }
     );
 
     forumManagersProv = ForumManagersProvider.of(context);
@@ -117,6 +125,20 @@ class ManagersPageState extends State<ManagersPage>{
     forum.addManagersLoaderListener(managersLoaderListener);
     updateUserSets();
 
+    controller = RefreshController(
+      initialRefresh: forum.loadedManagers.length == 1 && !forum.isManagersLoading(),
+
+      initialRefreshStatus:
+      forum.loadedManagers.length == 1 && forum.isManagersLoading()?
+      RefreshStatus.refreshing:
+      RefreshStatus.idle,
+
+      initialLoadStatus:
+      forum.loadedManagers.length > 1 && forum.isManagersLoading()?
+      LoadStatus.loading:
+      LoadStatus.idle,
+    );
+
     super.initState();
   }
 
@@ -124,6 +146,7 @@ class ManagersPageState extends State<ManagersPage>{
   void dispose() {
     forumManagersProv.removeListener(onManagersProviderNotified);
     forum.removeManagersLoaderListener(managersLoaderListener);
+    controller.dispose();
     super.dispose();
   }
 
@@ -242,8 +265,7 @@ class ManagersPageState extends State<ManagersPage>{
             return forum.loadedManagers.length;
 
           },
-          callLoadOnInit: false,
-          callReloadOnInit: forum.loadedManagers.length == 1 && !forum.isManagersLoading(),
+          controller: controller,
       )
   );
 

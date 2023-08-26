@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
-import 'package:harcapp/_new/api/harc_map.dart';
+import 'package:harcapp/_new/cat_page_harc_map/marker_managers_loader.dart';
 import 'package:harcapp/_new/cat_page_home/user_list_managment_loadable_page.dart';
-import 'package:harcapp/account/account.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../model/marker_data.dart';
 import '../model/marker_role.dart';
@@ -50,9 +50,12 @@ class MarkerManagersPageState extends State<MarkerManagersPage>{
   List<MarkerManager> get managers => marker.loadedManagers;
 
   late MarkerManagersProvider markerManagersProv;
+  late MarkerManagersLoaderListener managersLoaderListener;
 
   List<MarkerManager> managAdmins = [];
   List<MarkerManager> managCommMods = [];
+
+  late RefreshController controller;
 
   void updateUserSets(){
     managAdmins.clear();
@@ -76,15 +79,66 @@ class MarkerManagersPageState extends State<MarkerManagersPage>{
 
   @override
   void initState() {
+
+    MarkerProvider markerProv = MarkerProvider.of(context);
+    MarkerListProvider markerListProv = MarkerListProvider.of(context);
+
+    managersLoaderListener = MarkerManagersLoaderListener(
+        onManagersLoaded: (managersPage, reloaded){
+          updateUserSets();
+          MarkerData.callProvidersWithManagers(markerProv, markerListProv, markerManagersProv);
+          if(mounted) setState((){});
+        },
+        onForceLoggedOut: (){
+          if(!mounted) return true;
+          showAppToast(context, text: forceLoggedOutMessage);
+          setState(() {});
+          return true;
+        },
+        onServerMaybeWakingUp: (){
+          if(!mounted) return true;
+          showServerWakingUpToast(context);
+          return true;
+        },
+        onError: (_){
+          if(!mounted) return;
+          showAppToast(context, text: simpleErrorMessage);
+        },
+        onEnd: (_, __){
+          if(!mounted) return;
+          controller.loadComplete();
+          controller.refreshCompleted();
+        }
+    );
+
     markerManagersProv = MarkerManagersProvider.of(context);
     markerManagersProv.addListener(onManagersProviderNotified);
+
+    marker.addManagersLoaderListener(managersLoaderListener);
     updateUserSets();
+
+    controller = RefreshController(
+      initialRefresh: marker.loadedManagers.length == 1 && !marker.isManagersLoading(),
+
+      initialRefreshStatus:
+      marker.loadedManagers.length == 1 && marker.isManagersLoading()?
+      RefreshStatus.refreshing:
+      RefreshStatus.idle,
+
+      initialLoadStatus:
+      marker.loadedManagers.length > 1 && marker.isManagersLoading()?
+      LoadStatus.loading:
+      LoadStatus.idle,
+    );
+
     super.initState();
   }
 
   @override
   void dispose() {
     markerManagersProv.removeListener(onManagersProviderNotified);
+    marker.removeManagersLoaderListener(managersLoaderListener);
+    controller.dispose();
     super.dispose();
   }
 
@@ -141,72 +195,14 @@ class MarkerManagersPageState extends State<MarkerManagersPage>{
 
           userCount: marker.managerCount!,
           callReload: () async {
-            // TODO: Wymienić to na loadera tak jak w forum managerze
-            await ApiHarcMap.getManagers(
-              markerKey: marker.key,
-              pageSize: MarkerData.managerPageSize,
-              lastRole: null,
-              lastUserName: null,
-              lastUserKey: null,
-              onSuccess: (managersPage){
-                MarkerManager me = marker.loadedManagersMap[AccountData.key]!;
-                managersPage.removeWhere((manager) => manager.key == me.key);
-                managersPage.insert(0, me);
-                marker.setAllLoadedManagers(managersPage, context: context);
-                updateUserSets();
-
-                if(mounted) setState((){});
-              },
-              onForceLoggedOut: (){
-                if(!mounted) return true;
-                showAppToast(context, text: forceLoggedOutMessage);
-                setState(() {});
-                return true;
-              },
-              onServerMaybeWakingUp: (){
-                if(!mounted) return true;
-                showServerWakingUpToast(context);
-                return true;
-              },
-              onError: (){
-                if(!mounted) return;
-                showAppToast(context, text: simpleErrorMessage);
-              },
-            );
+            await marker.reloadManagersPage(awaitFinish: true);
             return marker.loadedManagers.length;
           },
           callLoadMore: () async {
-            await ApiHarcMap.getManagers(
-              markerKey: marker.key,
-              pageSize: MarkerData.managerPageSize,
-              lastRole: managers.length==1?null:managers.last.role,
-              lastUserName: managers.length==1?null:managers.last.name,
-              lastUserKey: managers.length==1?null:managers.last.key,
-              onSuccess: (managersPage){
-                marker.addLoadedManagers(managersPage, context: context);
-                updateUserSets();
-                if(mounted) setState((){});
-              },
-              onForceLoggedOut: (){
-                if(!mounted) return true;
-                showAppToast(context, text: forceLoggedOutMessage);
-                setState(() {});
-                return true;
-              },
-              onServerMaybeWakingUp: (){
-                if(!mounted) return true;
-                showServerWakingUpToast(context);
-                return true;
-              },
-              onError: (){
-                if(!mounted) return;
-                showAppToast(context, text: simpleErrorMessage);
-              },
-            );
+            await marker.loadManagersPage(awaitFinish: true);
             return marker.loadedManagers.length;
           },
-          callReloadOnInit: marker.loadedManagers.length == 1,
-          callLoadOnInit: false,
+          controller: controller,
       )
   );
 

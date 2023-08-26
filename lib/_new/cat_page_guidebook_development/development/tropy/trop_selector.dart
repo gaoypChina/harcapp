@@ -14,6 +14,7 @@ import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'trop_shared_previews_loader.dart';
 
@@ -37,6 +38,8 @@ class TropSelectorState extends State<TropSelector>{
   late List<Trop> searchedOwnTrops;
   late List<TropSharedPreviewData> searchedSharedTrops;
 
+  late RefreshController refreshController;
+
   @override
   void initState() {
     searchedOwnTrops = Trop.allOwn;
@@ -45,7 +48,17 @@ class TropSelectorState extends State<TropSelector>{
     if(AccountData.loggedIn && TropSharedPreviewData.all == null)
       tropSharedPreviewsLoader.run();
 
+    refreshController = RefreshController(
+      initialRefresh: AccountData.loggedIn && Trop.allLoadedShared.isEmpty
+    );
+
     super.initState();
+  }
+
+  @override
+  void dispose(){
+    refreshController.dispose();
+    super.dispose();
   }
 
   List<Widget> getSlivers(GlobalKey innerScrollViewKey){
@@ -198,6 +211,7 @@ class TropSelectorState extends State<TropSelector>{
       totalItemsCount: Trop.allOwn.length + (Trop.allSharedCount??0),
       loadedItemsCount: Trop.allOwn.length + (TropSharedPreviewData.all?.length??0),
       callReload: () async {
+        // TODO: Create loader for this
         await ApiTrop.getSharedTropPreviews(
             pageSize: Trop.tropPageSize,
             lastStartDate: null,
@@ -250,8 +264,7 @@ class TropSelectorState extends State<TropSelector>{
         );
         return Trop.allOwn.length + (TropSharedPreviewData.all?.length??0);
       },
-      callReloadOnInit: AccountData.loggedIn && Trop.allLoadedShared.isEmpty,
-      callLoadOnInit: false,
+      controller: refreshController,
       sliversBuilder: (context, isLoading, innerScrollViewKey) => getSlivers(innerScrollViewKey),
     );
   }

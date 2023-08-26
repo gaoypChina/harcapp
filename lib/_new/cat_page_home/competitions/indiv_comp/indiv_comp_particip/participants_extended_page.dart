@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/common.dart';
+import 'package:harcapp/logger.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_widgets/app_text.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_particip/participants_page.dart';
@@ -21,6 +22,7 @@ import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../common/accept_task_dialog.dart';
 import '../common/particip_tile_extended.dart';
@@ -53,6 +55,8 @@ class ParticipantsExtendedPageState extends State<ParticipantsExtendedPage>{
   List<IndivCompParticip> participAdmins = [];
   List<IndivCompParticip> participModerators = [];
   List<IndivCompParticip> participObservers = [];
+
+  late RefreshController controller;
 
   void updateUserSets(){
     participAdmins.clear();
@@ -105,6 +109,11 @@ class ParticipantsExtendedPageState extends State<ParticipantsExtendedPage>{
       onError: (_){
         if(!mounted) return;
         showAppToast(context, text: simpleErrorMessage);
+      },
+      onEnd: (_, __){
+        if(!mounted) return;
+        controller.loadComplete();
+        controller.refreshCompleted();
       }
     );
 
@@ -113,6 +122,25 @@ class ParticipantsExtendedPageState extends State<ParticipantsExtendedPage>{
 
     comp.addParticipLoaderListener(participsLoaderListener);
     updateUserSets();
+
+    controller = RefreshController(
+      initialRefresh: comp.loadedParticips.length == 1 && !comp.isParticipsLoading(),
+
+      initialRefreshStatus:
+      comp.loadedParticips.length == 1 && comp.isParticipsLoading()?
+      RefreshStatus.refreshing:
+      RefreshStatus.idle,
+
+      initialLoadStatus:
+      comp.loadedParticips.length > 1 && comp.isParticipsLoading()?
+      LoadStatus.loading:
+      LoadStatus.idle,
+    );
+    logger.d(
+      'initialRefresh: ${comp.loadedParticips.length == 1 && !comp.isParticipsLoading()}'
+      '\ninitialRefreshStatus: ${comp.loadedParticips.length == 1 && comp.isParticipsLoading()?'refreshing':'idle'}'
+      '\ninitialLoadStatus: ${comp.loadedParticips.length > 1 && comp.isParticipsLoading()?'loading':'idle'}',
+    );
 
     selectedParticips = [];
 
@@ -123,6 +151,7 @@ class ParticipantsExtendedPageState extends State<ParticipantsExtendedPage>{
   void dispose() {
     indivCompParticipsProv.removeListener(onParticipProviderNotified);
     comp.removeParticipLoaderListener(participsLoaderListener);
+    controller.dispose();
     super.dispose();
   }
 
@@ -350,9 +379,7 @@ class ParticipantsExtendedPageState extends State<ParticipantsExtendedPage>{
               return comp.loadedParticips.length;
 
             },
-            callReloadOnInit: comp.loadedParticips.length == 1 && !comp.isParticipsLoading(),
-            showReloadStatusOnInit: comp.loadedParticips.length == 1 && comp.isParticipsLoading(),
-            showLoadStatusOnInit: comp.loadedParticips.length > 1 && comp.isParticipsLoading(),
+            controller: controller,
 
           ),
 

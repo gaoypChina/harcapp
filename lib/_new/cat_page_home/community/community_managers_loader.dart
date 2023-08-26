@@ -1,0 +1,103 @@
+import 'dart:async';
+
+import 'package:harcapp/_app_common/accounts/user_data.dart';
+import 'package:harcapp/_common_classes/single_computer/single_computer.dart';
+import 'package:harcapp/_common_classes/single_computer/single_computer_listener.dart';
+import 'package:harcapp/_new/api/community.dart';
+import 'package:harcapp/account/account.dart';
+import 'package:harcapp_core/comm_classes/network.dart';
+
+import 'model/community.dart';
+import 'model/community_manager.dart';
+import 'model/community_role.dart';
+
+class CommunityManagersLoaderListener extends SingleComputerApiListener<String>{
+
+  final FutureOr<void> Function(List<UserData>, bool)? onManagersLoaded;
+
+  const CommunityManagersLoaderListener({
+    super.onStart,
+    super.onError,
+    super.onForceLoggedOut,
+    super.onServerMaybeWakingUp,
+    super.onEnd,
+    this.onManagersLoaded,
+  });
+
+}
+
+class CommunityManagersLoader extends SingleComputer<String?, CommunityManagersLoaderListener>{
+
+  @override
+  String get computerName => 'CommunityManagersLoader';
+
+  late Community _community;
+  late int _pageSize;
+  CommunityRole? _lastRole;
+  String? _lastUserName;
+  String? _lastUserKey;
+
+  @override
+  Future<bool> run({
+    bool awaitFinish = false,
+    Community? community,
+    int pageSize = Community.managersPageSize,
+    CommunityRole? lastRole,
+    String? lastUserName,
+    String? lastUserKey,
+  }){
+    assert(community != null);
+    _community = community!;
+    _pageSize = pageSize;
+    _lastRole = lastRole;
+    _lastUserName = lastUserName;
+    _lastUserKey = lastUserKey;
+    return super.run(awaitFinish: awaitFinish);
+  }
+
+  @override
+  Future<bool> perform() async {
+    if(!await isNetworkAvailable())
+      return false;
+
+    await ApiCommunity.getManagers(
+        communityKey: _community.key,
+        pageSize: _pageSize,
+        lastRole: _lastRole,
+        lastUserName: _lastUserName,
+        lastUserKey: _lastUserKey,
+        onSuccess: (List<CommunityManager> managersPage){
+
+          CommunityManager me = _community.getManager(AccountData.key!)!;
+          managersPage.removeWhere((follower) => follower.key == me.key);
+          managersPage.insert(0, me);
+
+          bool reloaded = _lastUserName == null && _lastUserKey == null;
+
+          if(reloaded)
+            _community.setAllLoadedManagers(managersPage);
+          else
+            _community.addLoadedManagers(managersPage);
+
+          for(CommunityManagersLoaderListener listener in listeners)
+            listener.onManagersLoaded?.call(managersPage, reloaded);
+        },
+        onServerMaybeWakingUp: () async {
+          for(CommunityManagersLoaderListener listener in listeners)
+            listener.onServerMaybeWakingUp?.call();
+
+          return true;
+        },
+        onForceLoggedOut: () async {
+          for(CommunityManagersLoaderListener listener in listeners)
+            listener.onForceLoggedOut?.call();
+
+          return true;
+        },
+        onError: () => callError(null),
+    );
+
+    return true;
+  }
+
+}

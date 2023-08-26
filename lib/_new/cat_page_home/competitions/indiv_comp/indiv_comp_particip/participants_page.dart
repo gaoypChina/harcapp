@@ -5,6 +5,7 @@ import 'package:harcapp/_new/cat_page_home/user_list_managment_loadable_page.dar
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:provider/provider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../common/particip_tile.dart';
 import '../comp_role.dart';
@@ -75,6 +76,8 @@ class ParticipantsPageState extends State<ParticipantsPage>{
   List<IndivCompParticip> participModerators = [];
   List<IndivCompParticip> participObservers = [];
 
+  late RefreshController controller;
+
   void updateUserSets(){
     participAdmins.clear();
     participModerators.clear();
@@ -126,6 +129,11 @@ class ParticipantsPageState extends State<ParticipantsPage>{
         if(!mounted) return;
         showAppToast(context, text: simpleErrorMessage);
       },
+      onEnd: (_, __){
+        if(!mounted) return;
+        controller.loadComplete();
+        controller.refreshCompleted();
+      }
     );
 
     indivCompParticipsProv = IndivCompParticipsProvider.of(context);
@@ -134,6 +142,20 @@ class ParticipantsPageState extends State<ParticipantsPage>{
     comp.addParticipLoaderListener(participsLoaderListener);
     updateUserSets();
 
+    controller = RefreshController(
+      initialRefresh: comp.loadedParticips.length == 1 && !comp.isParticipsLoading(),
+
+      initialRefreshStatus:
+      comp.loadedParticips.length == 1 && comp.isParticipsLoading()?
+      RefreshStatus.refreshing:
+      RefreshStatus.idle,
+
+      initialLoadStatus:
+      comp.loadedParticips.length > 1 && comp.isParticipsLoading()?
+      LoadStatus.loading:
+      LoadStatus.idle,
+    );
+
     super.initState();
   }
 
@@ -141,6 +163,7 @@ class ParticipantsPageState extends State<ParticipantsPage>{
   void dispose() {
     indivCompParticipsProv.removeListener(onParticipantsProviderNotified);
     comp.removeParticipLoaderListener(participsLoaderListener);
+    controller.dispose();
     super.dispose();
   }
 
@@ -179,36 +202,6 @@ class ParticipantsPageState extends State<ParticipantsPage>{
         userCount: comp.participCount,
         callReload: () async {
           await comp.reloadParticipsPage(awaitFinish: true);
-          // await ApiIndivComp.getParticipants(
-          //   comp: comp,
-          //   pageSize: IndivComp.participsPageSize,
-          //   lastRole: null,
-          //   lastUserName: null,
-          //   lastUserKey: null,
-          //   onSuccess: (participsPage){
-          //     IndivCompParticip me = comp.getParticip(AccountData.key!)!;
-          //     participsPage.removeWhere((member) => member.key == me.key);
-          //     participsPage.insert(0, me);
-          //     comp.setAllLoadedParticips(participsPage, context: context);
-          //     updateUserSets();
-          //     setState((){});
-          //   },
-          //   onForceLoggedOut: (){
-          //     if(!mounted) return true;
-          //     showAppToast(context, text: forceLoggedOutMessage);
-          //     setState(() {});
-          //     return true;
-          //   },
-          //   onServerMaybeWakingUp: (){
-          //     if(!mounted) return true;
-          //     showServerWakingUpToast(context);
-          //     return true;
-          //   },
-          //   onError: (){
-          //     if(!mounted) return;
-          //     showAppToast(context, text: simpleErrorMessage);
-          //   },
-          // );
           return comp.loadedParticips.length;
         },
         callLoadMore: () async {
@@ -242,9 +235,7 @@ class ParticipantsPageState extends State<ParticipantsPage>{
           // );
           return comp.loadedParticips.length;
         },
-        callReloadOnInit: comp.loadedParticips.length == 1 && !comp.isParticipsLoading(),
-        showReloadStatusOnInit: comp.loadedParticips.length == 1 && comp.isParticipsLoading(),
-        showLoadStatusOnInit: comp.loadedParticips.length > 1 && comp.isParticipsLoading(),
+        controller: controller,
       )
   );
 

@@ -9,6 +9,7 @@ import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../circle_members_loader.dart';
 import '../circle_role.dart';
@@ -81,6 +82,8 @@ class MembersPageState extends State<MembersPage>{
   List<Member> memberEditors = [];
   List<Member> memberObservers = [];
 
+  late RefreshController controller;
+
   void updateUserSets(){
     memberAdmins.clear();
     memberEditors.clear();
@@ -132,6 +135,11 @@ class MembersPageState extends State<MembersPage>{
         if(!mounted) return;
         showAppToast(context, text: simpleErrorMessage);
       },
+      onEnd: (_, __){
+        if(!mounted) return;
+        controller.loadComplete();
+        controller.refreshCompleted();
+      }
     );
     
     circleMembersProv = CircleMembersProvider.of(context);
@@ -139,12 +147,28 @@ class MembersPageState extends State<MembersPage>{
 
     circle.addMembersLoaderListener(membersLoaderListener);
     updateUserSets();
+
+    controller = RefreshController(
+      initialRefresh: circle.loadedMembers.length == 1 && !circle.isMembersLoading(),
+
+      initialRefreshStatus:
+      circle.loadedMembers.length == 1 && circle.isMembersLoading()?
+      RefreshStatus.refreshing:
+      RefreshStatus.idle,
+
+      initialLoadStatus:
+      circle.loadedMembers.length > 1 && circle.isMembersLoading()?
+      LoadStatus.loading:
+      LoadStatus.idle,
+    );
+
     super.initState();
   }
 
   @override
   void dispose() {
     circleMembersProv.removeListener(onMembersProviderNotified);
+    controller.dispose();
     super.dispose();
   }
 
@@ -211,8 +235,7 @@ class MembersPageState extends State<MembersPage>{
           await circle.loadMembersPage(awaitFinish: true);
           return circle.loadedMembers.length;
         },
-        callLoadOnInit: false,
-        callReloadOnInit: circle.loadedMembers.length == 1 && circle.isMembersLoading(),
+        controller: controller,
 
       )
   );

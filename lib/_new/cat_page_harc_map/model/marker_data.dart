@@ -15,6 +15,7 @@ import 'package:provider/provider.dart';
 
 import '../../api/_api.dart';
 import '../../cat_page_home/community/model/community_category.dart';
+import '../marker_managers_loader.dart';
 import 'marker_manager.dart';
 import 'marker_role.dart';
 
@@ -76,7 +77,7 @@ class MarkerData{
     markerManagersProv.notify();
   }
 
-  static const int managerPageSize = 10;
+  static const int managersPageSize = 10;
 
   static List<MarkerData>? _all;
   static Map<String, MarkerData>? _allMap;
@@ -398,7 +399,8 @@ class MarkerData{
     required this.communitiesBasicData,
   }):
       _loadedManagers = managers,
-      _loadedManagersMap = {for (MarkerManager m in managers) m.key: m}
+      _loadedManagersMap = {for (MarkerManager m in managers) m.key: m},
+      _managersLoader = MarkerManagersLoader()
   {
     CustomPoint latLngPoint = const SphericalMercator().project(LatLng(lat, lng));
     lngDist = latLngPoint.x.toDouble();
@@ -480,6 +482,8 @@ class MarkerData{
     communitiesBasicData: {}
   );
 
+  late MarkerManagersLoader _managersLoader;
+
   void update(MarkerData updatedMarker){
 
     name = updatedMarker.name;
@@ -494,6 +498,10 @@ class MarkerData{
     if(updatedMarker.communities != null)
       communities = updatedMarker.communities;
 
+  }
+
+  MarkerManager? getManager(String key){
+    return _loadedManagersMap[key];
   }
 
   void addLoadedManagers(List<MarkerManager> newManagers, {BuildContext? context}){
@@ -564,5 +572,34 @@ class MarkerData{
         compareText(manager.name, lastLoaded.name) < 0 ||
         compareText(manager.key, lastLoaded.key) < 0;
   }
+
+  Future<bool> loadManagersPage({
+    bool awaitFinish = false,
+    int pageSize = managersPageSize,
+  }) => _managersLoader.run(
+    awaitFinish: awaitFinish,
+    marker: this,
+    pageSize: pageSize,
+    lastRole: loadedManagers.length == 1 ? null : loadedManagers.last.role,
+    lastUserName: loadedManagers.length == 1 ? null : loadedManagers.last.name,
+    lastUserKey: loadedManagers.length == 1 ? null : loadedManagers.last.key,
+  );
+
+  Future<bool> reloadManagersPage({
+    bool awaitFinish = false,
+    int pageSize = managersPageSize,
+  }) => _managersLoader.run(
+    awaitFinish: awaitFinish,
+    marker: this,
+    pageSize: pageSize,
+  );
+
+  bool isManagersLoading() => _managersLoader.running;
+
+  void addManagersLoaderListener(MarkerManagersLoaderListener listener) =>
+      _managersLoader.addListener(listener);
+
+  void removeManagersLoaderListener(MarkerManagersLoaderListener listener) =>
+      _managersLoader.removeListener(listener);
 
 }

@@ -21,10 +21,7 @@ class PagingLoadableBaseWidget extends StatefulWidget{
 
   final FutureOr<int> Function() callReload;
   final FutureOr<int> Function() callLoadMore;
-  final bool callReloadOnInit;
-  final bool showReloadStatusOnInit;
-  final bool callLoadOnInit;
-  final bool showLoadStatusOnInit;
+  final RefreshController? controller;
   final bool loadMoreIfHeightNotExceeding;
 
   final List<Widget> Function(BuildContext, bool, GlobalKey) sliversBuilder;
@@ -39,10 +36,7 @@ class PagingLoadableBaseWidget extends StatefulWidget{
 
     required this.callReload,
     required this.callLoadMore,
-    this.callReloadOnInit = false,
-    this.showReloadStatusOnInit = false,
-    this.callLoadOnInit = false,
-    this.showLoadStatusOnInit = false,
+    this.controller,
 
     this.loadMoreIfHeightNotExceeding = true,
 
@@ -66,15 +60,10 @@ class PagingLoadableBaseWidgetState extends State<PagingLoadableBaseWidget>{
 
   FutureOr<int> Function() get callReload => widget.callReload;
   FutureOr<int> Function() get callLoadMore => widget.callLoadMore;
-  bool get callReloadOnInit => widget.callReloadOnInit;
-  bool get showReloadStatusOnInit => widget.showReloadStatusOnInit;
-  bool get callLoadOnInit => widget.callLoadOnInit;
-  bool get showLoadStatusOnInit => widget.showLoadStatusOnInit;
+  RefreshController get refreshController => widget.controller??_controller!;
   bool get loadMoreIfHeightNotExceeding => widget.loadMoreIfHeightNotExceeding;
 
   List<Widget> Function(BuildContext, bool, GlobalKey) get sliversBuilder => widget.sliversBuilder;
-
-  late RefreshController refreshController;
 
   bool get moreToLoad => loadedItemsCount < totalItemsCount;
 
@@ -83,32 +72,43 @@ class PagingLoadableBaseWidgetState extends State<PagingLoadableBaseWidget>{
   late GlobalKey outerScrollViewKey;
   late GlobalKey innerScrollViewKey;
 
+  RefreshController? _controller;
+
   @override
   void initState() {
 
-    refreshController = RefreshController(
-        initialRefresh: callReloadOnInit,
-        initialRefreshStatus: showReloadStatusOnInit?
-        RefreshStatus.refreshing:
-        RefreshStatus.idle,
+    if(widget.controller == null)
+      _controller = RefreshController();
 
-        initialLoadStatus:
-        callLoadOnInit || showLoadStatusOnInit?
-        LoadStatus.loading:
-        LoadStatus.idle
-    );
-    // `initialRefresh` is handling this.
-    // if(callReloadOnInit)
-    //   onReloading();
-    if(callLoadOnInit)
-      onLoading();
-    else
-      post(() => handleOnExceedingHeightLoader(0));
+    //   _controller = RefreshController(
+    //     initialRefresh: callReloadOnInit,
+    //     initialRefreshStatus: showReloadStatusOnInit?
+    //     RefreshStatus.refreshing:
+    //     RefreshStatus.idle,
+    //
+    //     initialLoadStatus:
+    //     callLoadOnInit || showLoadStatusOnInit?
+    //     LoadStatus.loading:
+    //     LoadStatus.idle
+    // );
+    // // `initialRefresh` is handling this.
+    // // if(callReloadOnInit)
+    // //   onReloading();
+    // if(callLoadOnInit)
+    //   onLoading();
+    // else
+    //   post(() => handleOnExceedingHeightLoader(0));
 
     outerScrollViewKey = GlobalKey();
     innerScrollViewKey = GlobalKey();
 
     super.initState();
+  }
+
+  @override
+  dispose(){
+    _controller?.dispose();
+    super.dispose();
   }
 
   Future<void> handleOnExceedingHeightLoader(int allLoadedItems) async {
@@ -204,8 +204,9 @@ class PagingLoadableBaseWidgetState extends State<PagingLoadableBaseWidget>{
 
       await handleOnExceedingHeightLoader(allLoadedItems);
 
-      if(mounted) refreshController.refreshCompleted(); // This is called in `post()` inside.
-      post(() => mounted?setState(() {}):null);
+      if(!mounted) return;
+      refreshController.refreshCompleted(); // This is called in `post()` inside.
+      post(() => setState(() {}));
 
     },
     onLoading: onLoading,

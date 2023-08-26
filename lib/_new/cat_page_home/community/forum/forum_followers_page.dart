@@ -9,6 +9,7 @@ import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'forum_followers_loader.dart';
 import 'model/forum.dart';
@@ -35,6 +36,8 @@ class ForumFollowersPageState extends State<ForumFollowersPage>{
   List<UserData> get followers => forum.loadedFollowers;
 
   late ForumFollowersLoaderListener followersLoaderListener;
+
+  late RefreshController controller;
 
   @override
   void initState() {
@@ -63,9 +66,28 @@ class ForumFollowersPageState extends State<ForumFollowersPage>{
         if(!mounted) return;
         showAppToast(context, text: simpleErrorMessage);
       },
+      onEnd: (_, __){
+        if(!mounted) return;
+        controller.loadComplete();
+        controller.refreshCompleted();
+      }
     );
 
     forum.addFollowersLoaderListener(followersLoaderListener);
+
+    controller = RefreshController(
+      initialRefresh: forum.loadedFollowers.isEmpty && !forum.isFollowersLoading(),
+
+      initialRefreshStatus:
+      forum.loadedFollowers.isEmpty && forum.isFollowersLoading()?
+      RefreshStatus.refreshing:
+      RefreshStatus.idle,
+
+      initialLoadStatus:
+      forum.loadedFollowers.isNotEmpty && forum.isFollowersLoading()?
+      LoadStatus.loading:
+      LoadStatus.idle,
+    );
 
     super.initState();
   }
@@ -73,6 +95,7 @@ class ForumFollowersPageState extends State<ForumFollowersPage>{
   @override
   void dispose() {
     forum.removeFollowersLoaderListener(followersLoaderListener);
+    controller.dispose();
     super.dispose();
   }
 
@@ -161,8 +184,7 @@ class ForumFollowersPageState extends State<ForumFollowersPage>{
             // );
             return forum.loadedFollowers.length;
           },
-          callLoadOnInit: false,
-          callReloadOnInit: forum.loadedFollowers.isEmpty && !forum.isFollowersLoading(),
+          controller: controller,
 
           emptyWidget: EmptyMessageWidget(
             text: 'Brak obserwujących',

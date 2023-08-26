@@ -11,6 +11,7 @@ import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class UserSet<T extends UserData>{
 
@@ -45,10 +46,7 @@ class UserListManagementLoadablePage<T extends UserData> extends StatelessWidget
   final int userCount;
   final FutureOr<int> Function() callReload;
   final FutureOr<int> Function() callLoadMore;
-  final bool callReloadOnInit;
-  final bool showReloadStatusOnInit;
-  final bool callLoadOnInit;
-  final bool showLoadStatusOnInit;
+  final RefreshController? controller;
 
   const UserListManagementLoadablePage({
     required this.userSets,
@@ -73,10 +71,7 @@ class UserListManagementLoadablePage<T extends UserData> extends StatelessWidget
     required this.userCount,
     required this.callReload,
     required this.callLoadMore,
-    this.callReloadOnInit = false,
-    this.showReloadStatusOnInit = false,
-    this.callLoadOnInit = false,
-    this.showLoadStatusOnInit = false,
+    this.controller,
 
     super.key
   });
@@ -119,10 +114,7 @@ class UserListManagementLoadablePage<T extends UserData> extends StatelessWidget
     loadedItemsCount: loadedItemsCount,
     callReload: callReload,
     callLoadMore: callLoadMore,
-    callReloadOnInit: callReloadOnInit,
-    showReloadStatusOnInit: showReloadStatusOnInit,
-    callLoadOnInit: callLoadOnInit,
-    showLoadStatusOnInit: showLoadStatusOnInit,
+    controller: controller,
 
     sliverBody: (context, isLoading){
 

@@ -59,6 +59,8 @@ class IndivCompParticipantsLoader extends SingleComputer<String?, IndivCompParti
     if(!await isNetworkAvailable())
       return false;
 
+    await Future.delayed(Duration(seconds: 4));
+
     await ApiIndivComp.getParticipants(
         comp: _comp,
         pageSize: _pageSize,
