@@ -6,14 +6,13 @@ import 'package:harcapp/_new/cat_page_home/super_search_field.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_new/api/community.dart';
-import 'package:harcapp/account/account.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
 import 'package:harcapp_core/comm_classes/no_glow_behavior.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/dimen.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -59,6 +58,10 @@ class FeedPageState extends State<FeedPage>{
   void initState() {
     communitiesLoaderListener = CommunityLoaderListener(
       onStart: () => setState((){}),
+      onNoInternet: (){
+        if(!mounted) return;
+        showAppToast(context, text: noInternetMessage);
+      },
       onCommunitiesLoaded: (communities) async {
         if(refreshController.isRefresh)
           return;

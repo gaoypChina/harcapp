@@ -3,10 +3,11 @@ import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_new/cat_page_home/community/model/community.dart';
 import 'package:harcapp/_new/cat_page_home/user_list_managment_loadable_page.dart';
 import 'package:harcapp/values/consts.dart';
+import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 import '../community_managers_loader.dart';
 import '../model/community_role.dart';
@@ -83,15 +84,17 @@ class CommunityManagersPageState extends State<CommunityManagersPage>{
     CommunityListProvider communityListProv = CommunityListProvider.of(context);
 
     managersLoaderListener = CommunityManagersLoaderListener(
+        onNoInternet: (){
+          if(!mounted) return;
+          showAppToast(context, text: noInternetMessage);
+        },
         onManagersLoaded: (managersPage, reloaded){
           updateUserSets();
           Community.callProvidersWithManagers(communityProv, communityListProv, communityManagersProv);
-          if(mounted) setState((){});
         },
         onForceLoggedOut: (){
           if(!mounted) return true;
           showAppToast(context, text: forceLoggedOutMessage);
-          setState(() {});
           return true;
         },
         onServerMaybeWakingUp: (){
@@ -107,6 +110,7 @@ class CommunityManagersPageState extends State<CommunityManagersPage>{
           if(!mounted) return;
           controller.loadComplete();
           controller.refreshCompleted();
+          post(() => mounted?setState(() {}):null);
         }
     );
 
@@ -118,17 +122,15 @@ class CommunityManagersPageState extends State<CommunityManagersPage>{
 
     controller = RefreshController(
       initialRefresh: community.loadedManagers.length == 1 && !community.isManagersLoading(),
-
-      initialRefreshStatus:
-      community.loadedManagers.length == 1 && community.isManagersLoading()?
-      RefreshStatus.refreshing:
-      RefreshStatus.idle,
-
-      initialLoadStatus:
-      community.loadedManagers.length > 1 && community.isManagersLoading()?
-      LoadStatus.loading:
-      LoadStatus.idle,
     );
+    post((){
+      // `initialRefreshStatus` and `initialLoadStatus` in RefreshController don't work.
+      if(!mounted) return;
+      if(community.loadedManagers.length == 1 && community.isManagersLoading())
+        controller.headerMode!.value = RefreshStatus.refreshing;
+      if(community.loadedManagers.length > 1 && community.isManagersLoading())
+        controller.footerMode!.value = LoadStatus.loading;
+    });
 
     super.initState();
   }

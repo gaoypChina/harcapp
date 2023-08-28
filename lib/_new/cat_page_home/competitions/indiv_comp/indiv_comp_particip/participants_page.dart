@@ -3,9 +3,10 @@ import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/providers/indiv_comp_particips_provider.dart';
 import 'package:harcapp/_new/cat_page_home/user_list_managment_loadable_page.dart';
 import 'package:harcapp/values/consts.dart';
+import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:provider/provider.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 import '../common/particip_tile.dart';
 import '../comp_role.dart';
@@ -109,15 +110,17 @@ class ParticipantsPageState extends State<ParticipantsPage>{
     IndivCompListProvider indivCompListProv = IndivCompListProvider.of(context);
 
     participsLoaderListener = IndivCompParticipantsLoaderListener(
+      onNoInternet: (){
+        if(!mounted) return;
+        showAppToast(context, text: noInternetMessage);
+      },
       onParticipantsLoaded: (participsPage, reloaded){
         updateUserSets();
         IndivComp.callProvidersWithParticips(indivCompProv, indivCompListProv, indivCompParticipsProv);
-        if(mounted) setState((){});
       },
       onForceLoggedOut: (){
         if(!mounted) return true;
         showAppToast(context, text: forceLoggedOutMessage);
-        setState(() {});
         return true;
       },
       onServerMaybeWakingUp: (){
@@ -133,6 +136,7 @@ class ParticipantsPageState extends State<ParticipantsPage>{
         if(!mounted) return;
         controller.loadComplete();
         controller.refreshCompleted();
+        post(() => mounted?setState(() {}):null);
       }
     );
 
@@ -144,17 +148,14 @@ class ParticipantsPageState extends State<ParticipantsPage>{
 
     controller = RefreshController(
       initialRefresh: comp.loadedParticips.length == 1 && !comp.isParticipsLoading(),
-
-      initialRefreshStatus:
-      comp.loadedParticips.length == 1 && comp.isParticipsLoading()?
-      RefreshStatus.refreshing:
-      RefreshStatus.idle,
-
-      initialLoadStatus:
-      comp.loadedParticips.length > 1 && comp.isParticipsLoading()?
-      LoadStatus.loading:
-      LoadStatus.idle,
     );
+    post((){
+      // `initialRefreshStatus` and `initialLoadStatus` in RefreshController don't work.
+      if(comp.loadedParticips.length == 1 && comp.isParticipsLoading())
+        controller.headerMode!.value = RefreshStatus.refreshing;
+      if(comp.loadedParticips.length > 1 && comp.isParticipsLoading())
+        controller.footerMode!.value = LoadStatus.loading;
+    });
 
     super.initState();
   }

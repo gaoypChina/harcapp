@@ -4,7 +4,6 @@ import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_common_classes/single_computer/single_computer.dart';
 import 'package:harcapp/_common_classes/single_computer/single_computer_listener.dart';
 import 'package:harcapp/_new/api/forum.dart';
-import 'package:harcapp/account/account.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
 
 import 'model/forum.dart';
@@ -16,6 +15,7 @@ class ForumLikesLoaderListener extends SingleComputerApiListener<String>{
   const ForumLikesLoaderListener({
     super.onStart,
     super.onError,
+    required super.onNoInternet,
     super.onForceLoggedOut,
     super.onServerMaybeWakingUp,
     super.onEnd,
@@ -51,9 +51,12 @@ class ForumLikesLoader extends SingleComputer<String?, ForumLikesLoaderListener>
   }
 
   @override
-  Future<bool> perform() async {
-    if(!await isNetworkAvailable())
-      return false;
+  Future<void> perform() async {
+    if(!await isNetworkAvailable()) {
+      for (ForumLikesLoaderListener listener in listeners)
+        listener.onNoInternet?.call();
+      return;
+    }
 
     await ApiForum.getFollowers(
         forumKey: _forum.key,
@@ -61,10 +64,6 @@ class ForumLikesLoader extends SingleComputer<String?, ForumLikesLoaderListener>
         lastUserName: _lastUserName,
         lastUserKey: _lastUserKey,
         onSuccess: (List<UserData> followersPage){
-
-          UserData me = _forum.getFollower(AccountData.key!)!;
-          followersPage.removeWhere((follower) => follower.key == me.key);
-          followersPage.insert(0, me);
 
           bool reloaded = _lastUserName == null && _lastUserKey == null;
 
@@ -91,7 +90,6 @@ class ForumLikesLoader extends SingleComputer<String?, ForumLikesLoaderListener>
         onError: () => callError(null),
     );
 
-    return true;
   }
 
 }

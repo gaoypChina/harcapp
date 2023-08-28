@@ -29,7 +29,7 @@ import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import 'package:tuple/tuple.dart';
 
 import '../../../../_common_widgets/bottom_sheet.dart';
@@ -72,7 +72,9 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
 
   IndivComp get comp => widget.comp;
 
-  Color? get compIconColor => !comp.colors.iconWhite&&!AppSettings.isDark?textEnab_(context):background_(context);//comp.colors.iconWhite?Colors.white:(Settings.isDark?background_(context):textEnab_(context));
+  Color? get compIconColor => !comp.colors.iconWhite&&!AppSettings.isDark?
+  textEnab_(context):
+  background_(context);
 
   late RefreshController refreshController;
 
@@ -84,6 +86,7 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
   void initState() {
     changeShareCodeProcessing = false;
     refreshController = RefreshController();
+
     loginListener = LoginListener(
       onLogout: (force) => Navigator.pop(context)
     );
@@ -359,7 +362,9 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
                 ]))
 
               ],
-            ))),
+            )
+        )
+    ),
   );
 
 }
@@ -775,15 +780,6 @@ class ParticipantsWidgetState extends State<ParticipantsWidget>{
 
   late IndivCompParticipantsLoaderListener participsLoaderListener;
 
-  Future<void> loadMore() async {
-    if(!await isNetworkAvailable()) {
-      if(mounted) showAppToast(context, text: noInternetMessage);
-      return;
-    }
-
-    await comp.loadParticipsPage(awaitFinish: true);
-  }
-
   @override
   void initState() {
 
@@ -793,14 +789,16 @@ class ParticipantsWidgetState extends State<ParticipantsWidget>{
 
     participsLoaderListener = IndivCompParticipantsLoaderListener(
       onStart: () => setState((){}),
+      onNoInternet: (){
+        if(!mounted) return;
+        showAppToast(context, text: noInternetMessage);
+      },
       onParticipantsLoaded: (participsPage, reloaded){
         IndivComp.callProvidersWithParticips(indivCompProv, indivCompListProv, indivCompParticipsProv);
-        setState((){});
       },
       onForceLoggedOut: (){
         if(!mounted) return true;
         showAppToast(context, text: forceLoggedOutMessage);
-        setState(() {});
         return true;
       },
       onServerMaybeWakingUp: (){
@@ -816,7 +814,7 @@ class ParticipantsWidgetState extends State<ParticipantsWidget>{
 
     comp.addParticipLoaderListener(participsLoaderListener);
     if(comp.loadedParticips.length == 1 && comp.participCount > 1 && !comp.isParticipsLoading())
-      loadMore();
+      comp.reloadParticipsPage();
     super.initState();
   }
 
@@ -839,7 +837,7 @@ class ParticipantsWidgetState extends State<ParticipantsWidget>{
               heroBuilder: (index) => comp.loadedParticips[index],
               onTap: () => ParticipantsWidget.onTap(comp, context),
 
-              onLoadMore: () => loadMore(),
+              onLoadMore: () => comp.loadParticipsPage(),
               isLoading: comp.isParticipsLoading(),
               isMoreToLoad: comp.loadedParticips.length < comp.participCount,
             ),

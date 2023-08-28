@@ -26,7 +26,7 @@ import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 import 'ideas/data_h.dart';
 import 'ideas/data_hs.dart';
@@ -65,55 +65,56 @@ class TropyPageState extends State<TropyPage>{
 
     bool loggedIn = LoginProvider.of(context).loggedIn;
     bool loadInit = loggedIn && !TropSharedPreviewData.hasAny && TropSharedPreviewData.moreToLoad;
-    refreshController = RefreshController(
-        initialRefresh: loadInit,
-        initialRefreshStatus:
-        loadInit || tropSharedPreviewsLoader.running?
-        RefreshStatus.refreshing:
-        RefreshStatus.idle
-    );
+    refreshController = RefreshController(initialRefresh: loadInit);
+    post((){
+      // `initialRefreshStatus` and `initialLoadStatus` in RefreshController don't work.
+      if(!mounted) return;
+      if(loadInit || tropSharedPreviewsLoader.running)
+        refreshController.headerMode!.value = RefreshStatus.refreshing;
+    });
+
     if(loadInit && AccountData.loggedIn)
       tropSharedPreviewsLoader.run(reloadAll: true);
 
+    TropListProvider tropListProv = TropListProvider.of(context);
+
     tropSharedPreviewsLoaderListener = TropSharedPreviewsLoaderListener(
-        onSuccess: (){
-          TropListProvider.notify_(context);
-          if(mounted) setState((){});
+        onNoInternet: (){
+          if(!mounted) return;
+          showAppToast(context, text: noInternetMessage);
+        },
+        onSharedPrevsLoaded: (tropsPage, reloaded){
+          tropListProv.notify();
         },
         onForceLoggedOut: (){
-          if(!mounted) return;
+          if(!mounted) return true;
           showAppToast(context, text: forceLoggedOutMessage);
-          setState(() {});
-          return;
+          return true;
         },
         onServerMaybeWakingUp: (){
-          if(!mounted) return;
+          if(!mounted) return true;
           showServerWakingUpToast(context);
-          return;
+          return true;
         },
         onError: (_){
           if(!mounted) return;
           showAppToast(context, text: simpleErrorMessage);
         },
-        onNoInternet: (){
-          if(!mounted) return;
-          showAppToast(context, text: noInternetMessage);
-          refreshController.loadComplete(); // This is called in `post()` inside.
-          post(() => setState(() {}));
-        },
         onEnd: (_, __){
           if(!mounted) return;
-          refreshController.loadComplete();
-          refreshController.refreshCompleted();
-          post(() => setState(() {}));
+          refreshController.loadComplete();  // This is called in `post()` inside.
+          refreshController.refreshCompleted();  // This is called in `post()` inside.
+          post(() => mounted?setState(() {}):null);
         }
     );
     tropSharedPreviewsLoader.addListener(tropSharedPreviewsLoaderListener);
 
+    TropLoadedUsersProvider tropLoadedUsersProv = TropLoadedUsersProvider.of(context);
+
     syncListener = SynchronizerListener(
       onEnd: (syncOper){
-        if(syncOper == SyncOper.post && mounted)
-          TropLoadedUsersProvider.notify_(context);
+        if(syncOper == SyncOper.post)
+          tropLoadedUsersProv.notify();
       }
     );
 

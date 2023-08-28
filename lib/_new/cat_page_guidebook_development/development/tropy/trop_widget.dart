@@ -258,15 +258,17 @@ class TropUsersWidgetState extends State<TropUsersWidget>{
     TropLoadedUsersProvider tropLoadedUsersProv = TropLoadedUsersProvider.of(context);
 
     tropUsersLoaderListener = TropUsersLoaderListener(
+      onNoInternet: (){
+        if(!mounted) return;
+        showAppToast(context, text: noInternetMessage);
+      },
       onStart: () => setState((){}),
       onUsersLoaded: (usersPage, reloaded){
         Trop.callProvidersWithLoadedUsers(tropProv, tropListProv, tropLoadedUsersProv);
-        setState((){});
       },
       onForceLoggedOut: (){
         if(!mounted) return true;
         showAppToast(context, text: forceLoggedOutMessage);
-        setState(() {});
         return true;
       },
       onServerMaybeWakingUp: (){
@@ -278,6 +280,10 @@ class TropUsersWidgetState extends State<TropUsersWidget>{
         if(!mounted) return;
         showAppToast(context, text: simpleErrorMessage);
       },
+      onEnd: (_, __){
+        if(!mounted) return;
+        setState(() {});
+      }
     );
 
     trop.addUsersLoaderListener(tropUsersLoaderListener);

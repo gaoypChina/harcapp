@@ -18,6 +18,7 @@ class MarkerManagersLoaderListener extends SingleComputerApiListener<String>{
   const MarkerManagersLoaderListener({
     super.onStart,
     super.onError,
+    required super.onNoInternet,
     super.onForceLoggedOut,
     super.onServerMaybeWakingUp,
     super.onEnd,
@@ -56,9 +57,12 @@ class MarkerManagersLoader extends SingleComputer<String?, MarkerManagersLoaderL
   }
 
   @override
-  Future<bool> perform() async {
-    if(!await isNetworkAvailable())
-      return false;
+  Future<void> perform() async {
+    if(!await isNetworkAvailable()) {
+      for (MarkerManagersLoaderListener listener in listeners)
+        listener.onNoInternet?.call();
+      return;
+    }
 
     await ApiHarcMap.getManagers(
       markerKey: _marker.key,
@@ -97,7 +101,6 @@ class MarkerManagersLoader extends SingleComputer<String?, MarkerManagersLoaderL
         onError: () => callError(null),
     );
 
-    return true;
   }
 
 }

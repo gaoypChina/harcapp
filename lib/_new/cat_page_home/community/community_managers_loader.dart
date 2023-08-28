@@ -18,6 +18,7 @@ class CommunityManagersLoaderListener extends SingleComputerApiListener<String>{
   const CommunityManagersLoaderListener({
     super.onStart,
     super.onError,
+    required super.onNoInternet,
     super.onForceLoggedOut,
     super.onServerMaybeWakingUp,
     super.onEnd,
@@ -56,9 +57,12 @@ class CommunityManagersLoader extends SingleComputer<String?, CommunityManagersL
   }
 
   @override
-  Future<bool> perform() async {
-    if(!await isNetworkAvailable())
-      return false;
+  Future<void> perform() async {
+    if(!await isNetworkAvailable()) {
+      for (CommunityManagersLoaderListener listener in listeners)
+        listener.onNoInternet?.call();
+      return;
+    }
 
     await ApiCommunity.getManagers(
         communityKey: _community.key,
@@ -97,7 +101,6 @@ class CommunityManagersLoader extends SingleComputer<String?, CommunityManagersL
         onError: () => callError(null),
     );
 
-    return true;
   }
 
 }

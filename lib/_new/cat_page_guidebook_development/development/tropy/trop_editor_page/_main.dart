@@ -22,6 +22,7 @@ import 'package:harcapp/values/colors.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
+import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_classes/date_to_str.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
@@ -33,7 +34,7 @@ import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:optional/optional_internal.dart';
 import 'package:provider/provider.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 import '../model/trop.dart';
 import '../model/trop_role.dart';
@@ -1251,6 +1252,10 @@ class LoadableUserSelectorState extends State<LoadableUserSelector>{
     TropLoadedUsersProvider tropUsersProv = TropLoadedUsersProvider.of(context);
 
     usersLoaderListener = TropUsersLoaderListener(
+      onNoInternet: (){
+        if(!mounted) return;
+        showAppToast(context, text: noInternetMessage);
+      },
       onUsersLoaded: (usersPage, reloaded){
         Trop.callProvidersWithLoadedUsers(tropProv, tropListProv, tropUsersProv);
         if(mounted) setState((){});
@@ -1274,6 +1279,7 @@ class LoadableUserSelectorState extends State<LoadableUserSelector>{
         if(!mounted) return;
         controller.loadComplete();
         controller.refreshCompleted();
+        post(() => mounted?setState(() {}):null);
       }
     );
 
@@ -1281,18 +1287,15 @@ class LoadableUserSelectorState extends State<LoadableUserSelector>{
 
     controller = RefreshController(
       initialRefresh: trop.loadedUsers.length == 1 && !trop.isUsersLoading(),
-
-      initialRefreshStatus:
-      trop.loadedUsers.length == 1 && trop.isUsersLoading()?
-      RefreshStatus.refreshing:
-      RefreshStatus.idle,
-
-      initialLoadStatus:
-      trop.loadedUsers.length > 1 && trop.isUsersLoading()?
-      LoadStatus.loading:
-      LoadStatus.idle,
     );
-
+    post((){
+      // `initialRefreshStatus` and `initialLoadStatus` in RefreshController don't work.
+      if(!mounted) return;
+      if(trop.loadedUsers.length == 1 && trop.isUsersLoading())
+        controller.headerMode!.value = RefreshStatus.refreshing;
+      if(trop.loadedUsers.length > 1 && trop.isUsersLoading())
+        controller.footerMode!.value = LoadStatus.loading;
+    });
     super.initState();
   }
 

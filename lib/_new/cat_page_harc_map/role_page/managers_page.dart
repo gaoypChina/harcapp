@@ -3,10 +3,11 @@ import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_new/cat_page_harc_map/marker_managers_loader.dart';
 import 'package:harcapp/_new/cat_page_home/user_list_managment_loadable_page.dart';
 import 'package:harcapp/values/consts.dart';
+import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 import '../model/marker_data.dart';
 import '../model/marker_role.dart';
@@ -84,6 +85,10 @@ class MarkerManagersPageState extends State<MarkerManagersPage>{
     MarkerListProvider markerListProv = MarkerListProvider.of(context);
 
     managersLoaderListener = MarkerManagersLoaderListener(
+        onNoInternet: (){
+          if(!mounted) return;
+          showAppToast(context, text: noInternetMessage);
+        },
         onManagersLoaded: (managersPage, reloaded){
           updateUserSets();
           MarkerData.callProvidersWithManagers(markerProv, markerListProv, markerManagersProv);
@@ -108,6 +113,7 @@ class MarkerManagersPageState extends State<MarkerManagersPage>{
           if(!mounted) return;
           controller.loadComplete();
           controller.refreshCompleted();
+          post(() => mounted?setState(() {}):null);
         }
     );
 
@@ -119,17 +125,16 @@ class MarkerManagersPageState extends State<MarkerManagersPage>{
 
     controller = RefreshController(
       initialRefresh: marker.loadedManagers.length == 1 && !marker.isManagersLoading(),
-
-      initialRefreshStatus:
-      marker.loadedManagers.length == 1 && marker.isManagersLoading()?
-      RefreshStatus.refreshing:
-      RefreshStatus.idle,
-
-      initialLoadStatus:
-      marker.loadedManagers.length > 1 && marker.isManagersLoading()?
-      LoadStatus.loading:
-      LoadStatus.idle,
     );
+
+    post((){
+      // `initialRefreshStatus` and `initialLoadStatus` in RefreshController don't work.
+      if(!mounted) return;
+      if(marker.loadedManagers.length == 1 && marker.isManagersLoading())
+        controller.headerMode!.value = RefreshStatus.refreshing;
+      if(marker.loadedManagers.length > 1 && marker.isManagersLoading())
+        controller.footerMode!.value = LoadStatus.loading;
+    });
 
     super.initState();
   }

@@ -18,7 +18,6 @@ import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../_common_widgets/empty_message_widget.dart';
 import 'account.dart';
@@ -32,8 +31,9 @@ class ShadowUserManagerPage extends StatefulWidget{
 
   final Widget? Function(UserDataNick)? itemSubtitleBuilder;
   final void Function(UserDataNick)? onTap;
+  final String Function(UserDataNick)? selectAddedUserMessage;
 
-  const ShadowUserManagerPage({this.itemSubtitleBuilder, this.onTap, super.key});
+  const ShadowUserManagerPage({this.itemSubtitleBuilder, this.onTap, this.selectAddedUserMessage, super.key});
 
   @override
   State<StatefulWidget> createState() => ShadowUserManagerPageState();
@@ -44,6 +44,7 @@ class ShadowUserManagerPageState extends State<ShadowUserManagerPage>{
 
   Widget? Function(UserDataNick)? get itemSubtitleBuilder => widget.itemSubtitleBuilder;
   void Function(UserDataNick)? get onTap => widget.onTap;
+  String Function(UserDataNick)? get selectAddedUserMessage => widget.selectAddedUserMessage;
 
   List<UserDataNick> get loadedShadowUsers => AccountData.loadedShadowUsers;
 
@@ -59,7 +60,27 @@ class ShadowUserManagerPageState extends State<ShadowUserManagerPage>{
         onPressed: () => openDialog(
           context: context,
           builder: (context) => AddShadowUserDialog(
-            onSuccess: (user) async => setState((){})
+            onSuccess: (user){
+              setState((){});
+              showAlertDialog(
+                  context,
+                  title: 'Dobrze myślę?',
+                  content: selectAddedUserMessage?.call(user)??'Czy chcesz użyć stworzonego właśnie konta widmo użytkownika <b>${user.name}</b>?',
+                  actionBuilder: (context) => [
+                    AlertDialogButton(
+                      text: 'Nie',
+                      onTap: () => Navigator.pop(context)
+                    ),
+                    AlertDialogButton(
+                        text: 'Tak',
+                        onTap: (){
+                          Navigator.pop(context);
+                          onTap?.call(user);
+                        }
+                    ),
+                  ]
+              );
+            }
           )
         )
       )

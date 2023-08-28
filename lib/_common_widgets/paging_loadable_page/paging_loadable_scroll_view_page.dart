@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/sliver_child_builder_separated_delegate.dart';
 import 'package:harcapp/_common_widgets/paging_loadable_page/paging_loadable_base_scroll_view_page.dart';
 import 'package:harcapp_core/dimen.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 
 class PagingLoadableScrollViewPage extends StatelessWidget{

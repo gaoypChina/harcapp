@@ -16,7 +16,6 @@ import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:harcapp_core/comm_classes/color_pack_provider.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:provider/provider.dart';
-import 'package:tuple/tuple.dart';
 import 'package:uuid/uuid.dart';
 
 import 'off_song.dart';
@@ -235,8 +234,7 @@ abstract class SelectableAlbum<T extends AlbumGetResp> extends BaseAlbum with Sy
       ownSongs.remove(song);
   }
 
-  // TODO: replace with multiple return;
-  static Tuple2<List<OffSong>, List<OwnSong>> songsFromRespMap(Map<String, dynamic> respMap){
+  static (List<OffSong>, List<OwnSong>) songsFromRespMap(Map<String, dynamic> respMap){
 
     List<String> offSongsLclIds = ((respMap[SelectableAlbum.paramOffSongs]??[]) as List).cast<String>();
     List<String> ownSongsLclIds = ((respMap[SelectableAlbum.paramOwnSongs]??[]) as List).cast<String>();
@@ -251,7 +249,7 @@ abstract class SelectableAlbum<T extends AlbumGetResp> extends BaseAlbum with Sy
       if(ownSongsLclIds.contains(song.lclId))
         ownSongs.add(song as OwnSong);
 
-    return Tuple2(offSongs, ownSongs);
+    return (offSongs, ownSongs);
 
   }
 
@@ -384,9 +382,9 @@ class OwnAlbum extends SelectableAlbum<OwnAlbumGetResp> with RemoveSyncItem{
     String iconKey = respMap[paramIconKey]??CommonIconData.defIconKey;
     String colorsKey = respMap[paramColorsKey]??CommonColorData.defColorsKey;
 
-    Tuple2<List<OffSong>, List<OwnSong>> songs = SelectableAlbum.songsFromRespMap(respMap);
+    var (offSongs, ownSongs) = SelectableAlbum.songsFromRespMap(respMap);
 
-    return OwnAlbum(lclId!, title, songs.item1, songs.item2, colorsKey, iconKey);
+    return OwnAlbum(lclId!, title, offSongs, ownSongs, colorsKey, iconKey);
   }
 
   static OwnAlbum create({
@@ -579,8 +577,8 @@ class ToLearnAlbum extends SelectableAlbum<ToLearnAlbumGetResp>{
   }
 
   static ToLearnAlbum fromRespMap(Map<String, dynamic> respMap) {
-    Tuple2<List<OffSong>, List<OwnSong>> songs = SelectableAlbum.songsFromRespMap(respMap);
-    return ToLearnAlbum(songs.item1, songs.item2);
+    var (offSongs, ownSongs) = SelectableAlbum.songsFromRespMap(respMap);
+    return ToLearnAlbum(offSongs, ownSongs);
   }
 
   static ToLearnAlbum? read(List<Song> allSongs){

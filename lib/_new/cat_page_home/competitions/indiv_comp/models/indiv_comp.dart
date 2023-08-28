@@ -11,6 +11,7 @@ import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/rank_d
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_particip.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/providers/compl_tasks_provider.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/providers/indiv_comp_particips_provider.dart';
+import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/task_accept_state.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/logger.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
@@ -18,6 +19,7 @@ import 'package:provider/provider.dart';
 
 import '../../../community/circle/model/circle.dart';
 import '../comp_role.dart';
+import '../indiv_comp_completed_tasks_loader.dart';
 import 'indiv_comp_task_compl.dart';
 import 'show_rank_data.dart';
 import 'indiv_comp_profile.dart';
@@ -340,6 +342,7 @@ class IndivComp{
   List<IndivCompCompletedTask> loadedPendingCompletedTasks;
 
   late IndivCompParticipantsLoader _participantsLoader;
+  late IndivCompCompletedTasksLoader _completedTasksPendingLoader;
 
   void update(IndivComp updatedComp){
     name = updatedComp.name;
@@ -486,10 +489,14 @@ class IndivComp{
   void removeParticipLoaderListener(IndivCompParticipantsLoaderListener listener) =>
       _participantsLoader.removeListener(listener);
 
-  void addCompletedTasksForParticip(String participKey, List<IndivCompCompletedTask> completedTasks, {required bool increaseTotalCount}){
+  void addLoadedCompletedTasksForParticip(String participKey, List<IndivCompCompletedTask> completedTasks, {required bool increaseTotalCount}){
     _loadedParticipMap[participKey]!.profile.addLoadedCompletedTasks(completedTasks, increaseTotalCount: increaseTotalCount);
   }
 
+  void setAllLoadedCompletedTasksForParticip(String participKey, List<IndivCompCompletedTask> completedTasks, {required bool increaseTotalCount}){
+    _loadedParticipMap[participKey]!.profile.setAllLoadedCompletedTasks(completedTasks);
+  }
+  
   void removeCompletedTaskForParticip(String participKey, String complTaskKey, {BuildContext? context, bool shrinkTotalCount=true}){
     _loadedParticipMap[participKey]!.profile.removeCompletedTaskByKey(complTaskKey, shrinkTotalCount: shrinkTotalCount);
 
@@ -512,6 +519,35 @@ class IndivComp{
       completedTasksPendingCount = completedTasksPendingCount! - 1;
   }
 
+
+  Future<bool> loadPendingCompletedTasksPage({
+    bool awaitFinish = false,
+    int pageSize = IndivCompCompletedTask.pageSize,
+  }) => _completedTasksPendingLoader.run(
+    awaitFinish: awaitFinish,
+    comp: this,
+    pageSize: pageSize,
+    lastReqTime: loadedPendingCompletedTasks.isEmpty ? null : loadedPendingCompletedTasks.last.reqTime,
+  );
+
+  Future<bool> reloadPendingCompletedTasksPage({
+    bool awaitFinish = false,
+    int pageSize = IndivCompCompletedTask.pageSize,
+  }) => _completedTasksPendingLoader.run(
+    awaitFinish: awaitFinish,
+    comp: this,
+    pageSize: pageSize,
+  );
+
+  bool isPendingCompletedTasksLoading() => _completedTasksPendingLoader.running;
+
+  void addPendingCompletedTasksLoaderListener(IndivCompCompletedTasksLoaderListener listener) =>
+      _completedTasksPendingLoader.addListener(listener);
+
+  void removePendingCompletedTasksLoaderListener(IndivCompCompletedTasksLoaderListener listener) =>
+      _completedTasksPendingLoader.removeListener(listener);
+  
+  
   bool addPoints(String participKey, int points){
     IndivCompParticip? particip = _loadedParticipMap[participKey];
     if(particip == null)
@@ -561,7 +597,12 @@ class IndivComp{
         sideLoadedParticipMap = {},
 
         loadedPendingCompletedTasks = [],
-        _participantsLoader = IndivCompParticipantsLoader();
+        _participantsLoader = IndivCompParticipantsLoader(),
+        _completedTasksPendingLoader = IndivCompCompletedTasksLoader(
+          taskKey: null,
+          participKey: null,
+          acceptState: TaskAcceptState.PENDING
+        );
 
   static List<IndivCompAward> awardListFromRaw(List<String?> awards){
 

@@ -17,7 +17,6 @@ import 'package:harcapp/values/colors.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/providers.dart';
-import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp_core/comm_widgets/gradient_widget.dart';
@@ -54,14 +53,18 @@ class DevelopmentSubpageState extends State<DevelopmentSubpage>{
   @override
   void initState() {
 
+    SprawSavedListProv sprawSavedListProv = SprawSavedListProv.of(context);
+    SprawInProgressListProv sprawInProgressListProv = SprawInProgressListProv.of(context);
+    SprawCompletedListProv sprawCompletedListProv = SprawCompletedListProv.of(context);
+
     syncListener = SynchronizerListener(
-      onEnd: (oper){
-        if(oper == SyncOper.get){
-          Provider.of<SprawInProgressListProv>(context, listen: false).notify();
-          Provider.of<SprawCompletedListProv>(context, listen: false).notify();
-          Provider.of<SprawSavedListProv>(context, listen: false).notify();
+        onEnd: (oper){
+          if(oper == SyncOper.get){
+            sprawSavedListProv.notify();
+            sprawInProgressListProv.notify();
+            sprawCompletedListProv.notify();
+          }
         }
-      }
     );
     synchronizer.addListener(syncListener);
 
@@ -510,30 +513,30 @@ class TropyPreviewListState extends State<TropyPreviewList>{
 
   @override
   void initState() {
+    TropListProvider tropListProv = TropListProvider.of(context);
     tropSharedPreviewsLoaderListener = TropSharedPreviewsLoaderListener(
-        onSuccess: (){
-          TropListProvider.notify_(context);
+        onNoInternet: (){
+          if(!mounted) return;
+          showAppToast(context, text: noInternetMessage);
+        },
+        onSharedPrevsLoaded: (tropsPage, reloadAll){
+          tropListProv.notify();
           if(mounted) setState((){});
         },
         onForceLoggedOut: (){
-          if(!mounted) return;
+          if(!mounted) return true;
           showAppToast(context, text: forceLoggedOutMessage);
           setState(() {});
-          return;
+          return true;
         },
         onServerMaybeWakingUp: (){
-          if(!mounted) return;
+          if(!mounted) return true;
           showServerWakingUpToast(context);
-          return;
+          return true;
         },
         onError: (_){
           if(!mounted) return;
           showAppToast(context, text: simpleErrorMessage);
-        },
-        onNoInternet: (){
-          if(!mounted) return;
-          showAppToast(context, text: noInternetMessage);
-          post(() => setState(() {}));
         },
         onEnd: (_, __){
           if(mounted) setState(() {});

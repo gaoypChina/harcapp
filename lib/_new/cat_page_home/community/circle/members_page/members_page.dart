@@ -5,11 +5,12 @@ import 'package:harcapp/_new/cat_page_home/community/circle/model/member.dart';
 import 'package:harcapp/_new/cat_page_home/community/common/community_cover_colors.dart';
 import 'package:harcapp/_new/cat_page_home/user_list_managment_loadable_page.dart';
 import 'package:harcapp/values/consts.dart';
+import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 import '../circle_members_loader.dart';
 import '../circle_role.dart';
@@ -115,15 +116,17 @@ class MembersPageState extends State<MembersPage>{
     CircleListProvider circleListProv = CircleListProvider.of(context);
 
     membersLoaderListener = CircleMembersLoaderListener(
+      onNoInternet: (){
+        if(!mounted) return;
+        showAppToast(context, text: noInternetMessage);
+      },
       onMembersLoaded: (usersPage, reloaded){
         updateUserSets();
         Circle.callProvidersWithMembers(circleProv, circleListProv, circleMembersProv);
-        if(mounted) setState((){});
       },
       onForceLoggedOut: (){
         if(!mounted) return true;
         showAppToast(context, text: forceLoggedOutMessage);
-        setState(() {});
         return true;
       },
       onServerMaybeWakingUp: (){
@@ -139,6 +142,7 @@ class MembersPageState extends State<MembersPage>{
         if(!mounted) return;
         controller.loadComplete();
         controller.refreshCompleted();
+        post(() => mounted?setState(() {}):null);
       }
     );
     
@@ -150,17 +154,15 @@ class MembersPageState extends State<MembersPage>{
 
     controller = RefreshController(
       initialRefresh: circle.loadedMembers.length == 1 && !circle.isMembersLoading(),
-
-      initialRefreshStatus:
-      circle.loadedMembers.length == 1 && circle.isMembersLoading()?
-      RefreshStatus.refreshing:
-      RefreshStatus.idle,
-
-      initialLoadStatus:
-      circle.loadedMembers.length > 1 && circle.isMembersLoading()?
-      LoadStatus.loading:
-      LoadStatus.idle,
     );
+    post((){
+      // `initialRefreshStatus` and `initialLoadStatus` in RefreshController don't work.
+      if(!mounted) return;
+      if(circle.loadedMembers.length == 1 && circle.isMembersLoading())
+        controller.headerMode!.value = RefreshStatus.refreshing;
+      if(circle.loadedMembers.length > 1 && circle.isMembersLoading())
+        controller.footerMode!.value = LoadStatus.loading;
+    });
 
     super.initState();
   }

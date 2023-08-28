@@ -158,7 +158,7 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
 
     syncListener = SynchronizerListener(
         onEnd: (oper){
-          if(oper == SyncOper.get)
+          if(oper == SyncOper.get && mounted)
             setState((){});
         }
     );

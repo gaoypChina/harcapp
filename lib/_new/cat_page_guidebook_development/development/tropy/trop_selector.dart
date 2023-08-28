@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/empty_message_widget.dart';
 import 'package:harcapp/_common_widgets/paging_loadable_page/paging_loadable_base_widget.dart';
-import 'package:harcapp/_new/api/trop.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/_sprawnosci/widgets/spraw_tile_template_widget.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/model/trop.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_tile.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
+import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 import 'trop_shared_previews_loader.dart';
 
@@ -40,18 +40,65 @@ class TropSelectorState extends State<TropSelector>{
 
   late RefreshController refreshController;
 
+  late TropSharedPreviewsLoaderListener tropSharedPreviewsLoaderListener;
+
   @override
   void initState() {
     searchedOwnTrops = Trop.allOwn;
     searchedSharedTrops = TropSharedPreviewData.all??[];
 
-    if(AccountData.loggedIn && TropSharedPreviewData.all == null)
-      tropSharedPreviewsLoader.run();
+    TropListProvider tropListProv = TropListProvider.of(context);
 
-    refreshController = RefreshController(
-      initialRefresh: AccountData.loggedIn && Trop.allLoadedShared.isEmpty
+    tropSharedPreviewsLoaderListener = TropSharedPreviewsLoaderListener(
+      onStart: () => setState((){}),
+      onNoInternet: (){
+        if(!mounted) return;
+        showAppToast(context, text: noInternetMessage);
+      },
+      onSharedPrevsLoaded: (tropsPage, reloaded){
+        tropListProv.notify();
+      },
+      onForceLoggedOut: (){
+        if(!mounted) return true;
+        showAppToast(context, text: forceLoggedOutMessage);
+        Navigator.pop(context);
+        return true;
+      },
+      onServerMaybeWakingUp: (){
+        if(!mounted) return true;
+        showServerWakingUpToast(context);
+        Navigator.pop(context);
+        return true;
+      },
+      onError: (_){
+        if(!mounted) return;
+        showAppToast(context, text: simpleErrorMessage);
+      },
+      onEnd: (_, __){
+        if(!mounted) return;
+        refreshController.loadComplete();
+        refreshController.refreshCompleted();
+        post(() => mounted?setState(() {}):null);
+      }
     );
 
+    tropSharedPreviewsLoader.addListener(tropSharedPreviewsLoaderListener);
+
+    // if(AccountData.loggedIn && TropSharedPreviewData.all == null)
+    //   tropSharedPreviewsLoader.run();
+
+    refreshController = RefreshController(
+      initialRefresh: AccountData.loggedIn && Trop.allLoadedShared.isEmpty && !tropSharedPreviewsLoader.running,
+    );
+    post((){
+      // `initialRefreshStatus` and `initialLoadStatus` in RefreshController don't work.
+      if(!mounted) return;
+      if(!AccountData.loggedIn) return;
+      if(Trop.allLoadedShared.isEmpty && tropSharedPreviewsLoader.running)
+        refreshController.headerMode!.value = RefreshStatus.refreshing;
+      if(Trop.allLoadedShared.isNotEmpty && tropSharedPreviewsLoader.running)
+        refreshController.footerMode!.value = LoadStatus.loading;
+    });
     super.initState();
   }
 
@@ -211,57 +258,11 @@ class TropSelectorState extends State<TropSelector>{
       totalItemsCount: Trop.allOwn.length + (Trop.allSharedCount??0),
       loadedItemsCount: Trop.allOwn.length + (TropSharedPreviewData.all?.length??0),
       callReload: () async {
-        // TODO: Create loader for this
-        await ApiTrop.getSharedTropPreviews(
-            pageSize: Trop.tropPageSize,
-            lastStartDate: null,
-            lastName: null,
-            lastTropKey: null,
-            // searchPhrase: '',
-            onSuccess: (List<TropSharedPreviewData> page){
-              TropSharedPreviewData.setAll(page);
-              setState(() {});
-            },
-            onServerMaybeWakingUp: () async {
-              showServerWakingUpToast(context);
-              Navigator.pop(context);
-              return true;
-            },
-            onForceLoggedOut: (){
-              showAppToast(context, text: forceLoggedOutMessage);
-              return true;
-            },
-            onError: () async {
-              showAppToast(context, text: simpleErrorMessage);
-            }
-        );
+        await tropSharedPreviewsLoader.run(awaitFinish: true, reloadAll: true);
         return Trop.allOwn.length + (TropSharedPreviewData.all?.length??0);
       },
       callLoadMore: () async {
-        await ApiTrop.getSharedTropPreviews(
-            pageSize: Trop.tropPageSize,
-            lastStartDate: TropSharedPreviewData.all!.last.startDate,
-            lastName: TropSharedPreviewData.all!.last.name,
-            lastTropKey: TropSharedPreviewData.all!.last.key,
-            // searchPhrase: '',
-            onSuccess: (List<TropSharedPreviewData> page){
-              TropSharedPreviewData.addAllToAll(page);
-              setState(() {});
-            },
-            onServerMaybeWakingUp: () async {
-              showServerWakingUpToast(context);
-              Navigator.pop(context);
-
-              return true;
-            },
-            onForceLoggedOut: (){
-              showAppToast(context, text: forceLoggedOutMessage);
-              return true;
-            },
-            onError: () async {
-              showAppToast(context, text: simpleErrorMessage);
-            }
-        );
+        await tropSharedPreviewsLoader.run(awaitFinish: true, reloadAll: false);
         return Trop.allOwn.length + (TropSharedPreviewData.all?.length??0);
       },
       controller: refreshController,

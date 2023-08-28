@@ -43,12 +43,16 @@ class CatPageGuidebookDevelopmentState extends State<CatPageGuidebookDevelopment
   @override
   void initState() {
 
+    SprawSavedListProv sprawSavedListProv = SprawSavedListProv.of(context);
+    SprawInProgressListProv sprawInProgressListProv = SprawInProgressListProv.of(context);
+    SprawCompletedListProv sprawCompletedListProv = SprawCompletedListProv.of(context);
+
     syncListener = SynchronizerListener(
       onEnd: (oper){
         if(oper == SyncOper.get){
-          Provider.of<SprawInProgressListProv>(context, listen: false).notify();
-          Provider.of<SprawCompletedListProv>(context, listen: false).notify();
-          Provider.of<SprawSavedListProv>(context, listen: false).notify();
+          sprawSavedListProv.notify();
+          sprawInProgressListProv.notify();
+          sprawCompletedListProv.notify();
         }
       }
     );

@@ -17,6 +17,7 @@ class ForumManagersLoaderListener extends SingleComputerApiListener<String>{
   const ForumManagersLoaderListener({
     super.onStart,
     super.onError,
+    required super.onNoInternet,
     super.onForceLoggedOut,
     super.onServerMaybeWakingUp,
     super.onEnd,
@@ -55,9 +56,12 @@ class ForumManagersLoader extends SingleComputer<String?, ForumManagersLoaderLis
   }
 
   @override
-  Future<bool> perform() async {
-    if(!await isNetworkAvailable())
-      return false;
+  Future<void> perform() async {
+    if(!await isNetworkAvailable()) {
+      for (ForumManagersLoaderListener listener in listeners)
+        listener.onNoInternet?.call();
+      return;
+    }
 
     await ApiForum.getManagers(
         forumKey: _forum.key,
@@ -96,7 +100,6 @@ class ForumManagersLoader extends SingleComputer<String?, ForumManagersLoaderLis
         onError: () => callError(null),
     );
 
-    return true;
   }
 
 }

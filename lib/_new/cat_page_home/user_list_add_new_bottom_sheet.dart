@@ -123,7 +123,8 @@ class UserListAddNewBottomSheet extends StatelessWidget{
                             handleAddingUser(shadowUser);
 
                           },
-                        )
+                          selectAddedUserMessage: (user) => 'Czy chcesz dodać stworzone właśnie konto widmo użytkownika <b>${user.name}</b> do współzawodnictwa?',
+                        ),
                     );
 
                   },

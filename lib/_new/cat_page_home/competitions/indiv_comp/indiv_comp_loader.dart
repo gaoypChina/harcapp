@@ -14,6 +14,7 @@ class IndivCompLoaderListener extends SingleComputerApiListener<String>{
   const IndivCompLoaderListener({
     super.onStart,
     super.onError,
+    required super.onNoInternet,
     super.onForceLoggedOut,
     super.onServerMaybeWakingUp,
     super.onEnd,
@@ -31,9 +32,12 @@ class IndivCompLoader extends SingleComputer<String?, IndivCompLoaderListener>{
   IndivCompLoader();
 
   @override
-  Future<bool> perform() async {
-    if(!await isNetworkAvailable())
-      return false;
+  Future<void> perform() async {
+    if(!await isNetworkAvailable()) {
+      for (IndivCompLoaderListener listener in listeners)
+        listener.onNoInternet?.call();
+      return;
+    }
 
     await ApiIndivComp.getAll(
         onSuccess: (List<IndivComp> comps){
@@ -58,7 +62,6 @@ class IndivCompLoader extends SingleComputer<String?, IndivCompLoaderListener>{
         onError: (resp) => callError(null),
     );
 
-    return true;
   }
 
 }

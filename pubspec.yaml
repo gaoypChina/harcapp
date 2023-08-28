@@ -73,7 +73,7 @@ dependencies:
   polybool: ^0.2.0
   pretty_json: ^2.0.0
   printing: ^5.9.1
-  pull_to_refresh: ^2.0.0
+  pull_to_refresh_flutter3: ^2.0.1
   qr_flutter: ^4.1.0 #generator
 #  qr_flutter:
 #    git:

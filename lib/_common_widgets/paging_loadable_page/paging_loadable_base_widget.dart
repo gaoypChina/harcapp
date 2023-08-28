@@ -8,11 +8,13 @@ import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 
 class PagingLoadableBaseWidget extends StatefulWidget{
 
+  final double headerHeight;
+  final double headerDistance;
   final Color? backgroundColor;
   final Color? loadingIndicatorColor;
 
@@ -28,6 +30,8 @@ class PagingLoadableBaseWidget extends StatefulWidget{
 
   const PagingLoadableBaseWidget({
 
+    this.headerHeight = defRefreshHeaderHeight,
+    this.headerDistance = defRefreshHeaderDistance,
     this.backgroundColor,
     this.loadingIndicatorColor,
 
@@ -187,7 +191,9 @@ class PagingLoadableBaseWidgetState extends State<PagingLoadableBaseWidget>{
     physics: const BouncingScrollPhysics(),
     header: MaterialClassicHeader(
         backgroundColor: cardEnab_(context),
-        color: loadingIndicatorColor??iconEnab_(context)
+        color: loadingIndicatorColor??iconEnab_(context),
+        height: widget.headerHeight,
+        distance: widget.headerDistance,
     ),
     controller: refreshController,
     onRefresh: () async {

@@ -442,19 +442,28 @@ class AppState extends State<App> with WidgetsBindingObserver {
     );
     AccountData.addLoginListener(_loginListener);
 
+    ThemeProvider themeProv = ThemeProvider.of(context);
+    AlbumProvider albumProvider = AlbumProvider.of(context);
+
+    RankProv rankProv = RankProv.of(context);
+
+    SprawSavedListProv sprawSavedListProv = SprawSavedListProv.of(context);
+    SprawInProgressListProv sprawInProgressListProv = SprawInProgressListProv.of(context);
+    SprawCompletedListProv sprawCompletedListProv = SprawCompletedListProv.of(context);
+
     syncListener = SynchronizerListener(
       onEnd: (syncOper){
         if(syncOper == SyncOper.get){
 
           // Tutaj odświeżyć wszystkie providery, które zawierają jakieś synchronizowalne dane.
-          ThemeProvider.notify_(context);
-          AlbumProvider.notify_(context);
+          themeProv.notify();
+          albumProvider.notify();
 
-          RankProv.notify_(context);
+          rankProv.notify();
 
-          SprawSavedListProv.notify_(context);
-          SprawInProgressListProv.notify_(context);
-          SprawCompletedListProv.notify_(context);
+          sprawSavedListProv.notify();
+          sprawInProgressListProv.notify();
+          sprawCompletedListProv.notify();
 
         }
       }

@@ -30,7 +30,7 @@ import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
@@ -51,7 +51,6 @@ import 'circle_role.dart';
 import 'members_page/members_page.dart';
 import 'model/announcement.dart';
 import 'model/circle.dart';
-import 'model/member.dart';
 
 enum AnnouncementCategories{
   all, pinned, awaiting
@@ -939,6 +938,10 @@ class MembersWidgetState extends State<MembersWidget>{
 
     membersLoaderListener = CircleMembersLoaderListener(
       onStart: () => setState((){}),
+      onNoInternet: (){
+        if(!mounted) return;
+        showAppToast(context, text: noInternetMessage);
+      },
       onMembersLoaded: (usersPage, reloaded){
         Circle.callProvidersWithMembers(circleProv, circleListProv, circleMembersProv);
         if(mounted) setState((){});
@@ -946,7 +949,6 @@ class MembersWidgetState extends State<MembersWidget>{
       onForceLoggedOut: (){
         if(!mounted) return true;
         showAppToast(context, text: forceLoggedOutMessage);
-        setState(() {});
         return true;
       },
       onServerMaybeWakingUp: (){
@@ -958,6 +960,10 @@ class MembersWidgetState extends State<MembersWidget>{
         if(!mounted) return;
         showAppToast(context, text: simpleErrorMessage);
       },
+      onEnd: (_, __){
+        if(!mounted) return;
+        setState((){});
+      }
     );
 
     circle.addMembersLoaderListener(membersLoaderListener);

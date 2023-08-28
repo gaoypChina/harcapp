@@ -18,6 +18,7 @@ class TropUsersLoaderListener extends SingleComputerApiListener<String>{
   const TropUsersLoaderListener({
     super.onStart,
     super.onError,
+    required super.onNoInternet,
     super.onForceLoggedOut,
     super.onServerMaybeWakingUp,
     super.onEnd,
@@ -57,9 +58,12 @@ class TropUsersLoader extends SingleComputer<String?, TropUsersLoaderListener>{
   }
 
   @override
-  Future<bool> perform() async {
-    if(!await isNetworkAvailable())
-      return false;
+  Future<void> perform() async {
+    if(!await isNetworkAvailable()) {
+      for (TropUsersLoaderListener listener in listeners)
+        listener.onNoInternet?.call();
+      return;
+    }
 
     await ApiTrop.getUsers(
         tropKey: _trop.key!,
@@ -100,7 +104,6 @@ class TropUsersLoader extends SingleComputer<String?, TropUsersLoaderListener>{
         onError: () => callError(null),
     );
 
-    return true;
   }
 
 }

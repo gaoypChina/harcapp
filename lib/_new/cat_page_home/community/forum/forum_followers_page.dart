@@ -5,11 +5,12 @@ import 'package:harcapp/_new/cat_page_home/community/common/community_cover_colo
 import 'package:harcapp/_new/cat_page_home/user_list_managment_loadable_page.dart';
 import 'package:harcapp/account/account_tile.dart';
 import 'package:harcapp/values/consts.dart';
+import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 import 'forum_followers_loader.dart';
 import 'model/forum.dart';
@@ -47,6 +48,10 @@ class ForumFollowersPageState extends State<ForumFollowersPage>{
     ForumFollowersProvider forumFollowersProv = ForumFollowersProvider.of(context);
 
     followersLoaderListener = ForumFollowersLoaderListener(
+      onNoInternet: (){
+        if(!mounted) return;
+        showAppToast(context, text: noInternetMessage);
+      },
       onFollowersLoaded: (followersPage, reloaded){
         Forum.callProvidersWithFollowers(forumProv, forumListProv, forumFollowersProv);
         setState((){});
@@ -70,6 +75,7 @@ class ForumFollowersPageState extends State<ForumFollowersPage>{
         if(!mounted) return;
         controller.loadComplete();
         controller.refreshCompleted();
+        post(() => mounted?setState(() {}):null);
       }
     );
 
@@ -77,17 +83,15 @@ class ForumFollowersPageState extends State<ForumFollowersPage>{
 
     controller = RefreshController(
       initialRefresh: forum.loadedFollowers.isEmpty && !forum.isFollowersLoading(),
-
-      initialRefreshStatus:
-      forum.loadedFollowers.isEmpty && forum.isFollowersLoading()?
-      RefreshStatus.refreshing:
-      RefreshStatus.idle,
-
-      initialLoadStatus:
-      forum.loadedFollowers.isNotEmpty && forum.isFollowersLoading()?
-      LoadStatus.loading:
-      LoadStatus.idle,
     );
+    post((){
+      // `initialRefreshStatus` and `initialLoadStatus` in RefreshController don't work.
+      if(!mounted) return;
+      if(forum.loadedFollowers.isEmpty && forum.isFollowersLoading())
+        controller.headerMode!.value = RefreshStatus.refreshing;
+      if(forum.loadedFollowers.isNotEmpty && forum.isFollowersLoading())
+        controller.footerMode!.value = LoadStatus.loading;
+    });
 
     super.initState();
   }

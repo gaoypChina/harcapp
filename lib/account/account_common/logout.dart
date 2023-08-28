@@ -75,7 +75,10 @@ class LogoutDialogState extends State<LogoutDialog> with TickerProviderStateMixi
 
     state = _STATE_CHECKING;
 
-    listener = SynchronizerListener(onEnd: (oper) => setState((){}));
+    listener = SynchronizerListener(onEnd: (oper){
+      if(!mounted) return;
+      setState((){});
+    });
     synchronizer.addListener(listener);
     setSyncState();
 

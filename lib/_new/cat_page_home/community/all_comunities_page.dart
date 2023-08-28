@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_new/cat_page_home/community/start_widgets/communities_preview_message_widget.dart';
 import 'package:harcapp/_new/cat_page_home/community/start_widgets/communities_preview_widget.dart';
+import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_new/cat_page_home/community/search_forum_page.dart';
 import 'package:harcapp/account/account.dart';
@@ -17,7 +18,7 @@ import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 import '../../account_test_widget.dart';
 import '../super_search_field.dart';
@@ -64,36 +65,34 @@ class AllCommunitiesPageState extends State<AllCommunitiesPage>{
     CommunityListProvider communityListProv = CommunityListProvider.of(context);
 
     _listener = CommunityLoaderListener(
+      onNoInternet: (){
+        if(!mounted) return;
+        showAppToast(context, text: noInternetMessage);
+      },
       onCommunitiesLoaded: (List<Community> communities){
-
         communityProv.notify();
         communityListProv.notify();
-
-        if(!mounted) return;
-
-        refreshController.refreshCompleted();
-        setState(() {});
       },
       onForceLoggedOut: (){
         if(!mounted) return true;
-        refreshController.refreshCompleted();
         showAppToast(context, text: forceLoggedOutMessage);
-        setState(() {});
         return true;
       },
       onServerMaybeWakingUp: (){
         if(!mounted) return true;
-        refreshController.refreshCompleted();
         showServerWakingUpToast(context);
-        setState(() {});
         return true;
       },
       onError: (message) async {
         if(!mounted) return;
-        refreshController.refreshCompleted();
         showAppToast(context, text: simpleErrorMessage);
-        setState(() {});
       },
+      onEnd: (_, __){
+        if(!mounted) return;
+        refreshController.loadComplete();
+        refreshController.refreshCompleted();
+        post(() => mounted?setState(() {}):null);
+      }
     );
     communitiesLoader.addListener(_listener);
 

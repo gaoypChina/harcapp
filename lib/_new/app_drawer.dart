@@ -310,8 +310,12 @@ class SyncWidgetState extends State<SyncWidget>{
   void initState() {
     syncing = synchronizer.runningOper;
     listener = SynchronizerListener(
-      onStart: (oper) => setState(() => syncing = oper),
-      onEnd: (oper) => setState(() => syncing = null),
+      onStart: (oper){
+        if(mounted) setState(() => syncing = oper);
+      },
+      onEnd: (oper){
+        if(mounted) setState(() => syncing = null);
+      },
     );
 
     synchronizer.addListener(listener);

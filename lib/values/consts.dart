@@ -6,7 +6,8 @@ import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp_core/dimen.dart';
 
 const double communityRadius = 8.0;
-
+const double defRefreshHeaderHeight = 80.0;
+const double defRefreshHeaderDistance = 50.0;
 AppTextStyle settingsHintStyle(BuildContext context) => AppTextStyle(fontSize: Dimen.TEXT_SIZE_NORMAL, color: hintEnab_(context));
 AppTextStyle settingsTextStyle(BuildContext context) => AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, color: textEnab_(context), fontWeight: weight.halfBold);
 

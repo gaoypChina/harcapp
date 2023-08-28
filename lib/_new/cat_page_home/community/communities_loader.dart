@@ -16,6 +16,7 @@ class CommunityLoaderListener extends SingleComputerApiListener<String>{
   const CommunityLoaderListener({
     super.onStart,
     super.onError,
+    required super.onNoInternet,
     super.onForceLoggedOut,
     super.onServerMaybeWakingUp,
     super.onEnd,
@@ -33,9 +34,12 @@ class CommunitiesLoader extends SingleComputer<String?, CommunityLoaderListener>
   CommunitiesLoader();
 
   @override
-  Future<bool> perform() async {
-    if(!await isNetworkAvailable())
-      return false;
+  Future<void> perform() async {
+    if(!await isNetworkAvailable()) {
+      for (CommunityLoaderListener listener in listeners)
+        listener.onNoInternet?.call();
+      return;
+    }
 
     await ApiCommunity.getAll(
         onSuccess: (List<Community> communities) async {
@@ -76,7 +80,6 @@ class CommunitiesLoader extends SingleComputer<String?, CommunityLoaderListener>
         onError: (resp) => callError(null),
     );
 
-    return true;
   }
 
 }

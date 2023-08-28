@@ -18,6 +18,7 @@ class CircleMembersLoaderListener extends SingleComputerApiListener<String>{
   const CircleMembersLoaderListener({
     super.onStart,
     super.onError,
+    required super.onNoInternet,
     super.onForceLoggedOut,
     super.onServerMaybeWakingUp,
     super.onEnd,
@@ -56,9 +57,12 @@ class CircleMembersLoader extends SingleComputer<String?, CircleMembersLoaderLis
   }
 
   @override
-  Future<bool> perform() async {
-    if(!await isNetworkAvailable())
-      return false;
+  Future<void> perform() async {
+    if(!await isNetworkAvailable()) {
+      for (CircleMembersLoaderListener listener in listeners)
+        listener.onNoInternet?.call();
+      return;
+    }
 
     await ApiCircle.getMembers(
         circleKey: _circle.key,
@@ -97,7 +101,6 @@ class CircleMembersLoader extends SingleComputer<String?, CircleMembersLoaderLis
         onError: () => callError(null),
     );
 
-    return true;
   }
 
 }

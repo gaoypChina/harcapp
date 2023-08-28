@@ -5,11 +5,12 @@ import 'package:harcapp/_new/cat_page_home/community/forum/model/forum_manager.d
 import 'package:harcapp/_new/cat_page_home/community/forum/role_page/manager_tile_extended.dart';
 import 'package:harcapp/_new/cat_page_home/user_list_managment_loadable_page.dart';
 import 'package:harcapp/values/consts.dart';
+import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 import '../forum_managers_loader.dart';
 import '../forum_role.dart';
@@ -92,6 +93,10 @@ class ManagersPageState extends State<ManagersPage>{
     ForumListProvider forumListProv = ForumListProvider.of(context);
 
     managersLoaderListener = ForumManagersLoaderListener(
+      onNoInternet: (){
+        if(!mounted) return;
+        showAppToast(context, text: noInternetMessage);
+      },
       onManagersLoaded: (managersPage, reloaded){
         updateUserSets();
         Forum.callProvidersWithManagers(forumProv, forumListProv, forumManagersProv);
@@ -116,6 +121,7 @@ class ManagersPageState extends State<ManagersPage>{
         if(!mounted) return;
         controller.loadComplete();
         controller.refreshCompleted();
+        post(() => mounted?setState(() {}):null);
       }
     );
 
@@ -127,17 +133,15 @@ class ManagersPageState extends State<ManagersPage>{
 
     controller = RefreshController(
       initialRefresh: forum.loadedManagers.length == 1 && !forum.isManagersLoading(),
-
-      initialRefreshStatus:
-      forum.loadedManagers.length == 1 && forum.isManagersLoading()?
-      RefreshStatus.refreshing:
-      RefreshStatus.idle,
-
-      initialLoadStatus:
-      forum.loadedManagers.length > 1 && forum.isManagersLoading()?
-      LoadStatus.loading:
-      LoadStatus.idle,
     );
+    post((){
+      // `initialRefreshStatus` and `initialLoadStatus` in RefreshController don't work.
+      if(!mounted) return;
+      if(forum.loadedManagers.length == 1 && forum.isManagersLoading())
+        controller.headerMode!.value = RefreshStatus.refreshing;
+      if(forum.loadedManagers.length > 1 && forum.isManagersLoading())
+        controller.footerMode!.value = LoadStatus.loading;
+    });
 
     super.initState();
   }

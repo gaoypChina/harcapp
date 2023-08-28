@@ -9,7 +9,7 @@ import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/task_accept_s
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp_core/dimen.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 import '../models/indiv_comp_task.dart';
 import 'completed_task_widget.dart';
@@ -124,6 +124,7 @@ class CompletedTasksPageState extends State<CompletedTasksPage>{
       loadedCompletedTasks.addAll(initLoadedCompletedTasks!);
 
     // TODO: Handle situations when they are already loading - create a completed task loader just like participants loader.
+    // TODO: Loader is implemeneted, but not used yet.
     controller = RefreshController(initialRefresh: loadedCompletedTasks.isEmpty);
 
     super.initState();

@@ -5,11 +5,12 @@ import 'package:harcapp/_new/cat_page_home/community/common/community_cover_colo
 import 'package:harcapp/_new/cat_page_home/user_list_managment_loadable_page.dart';
 import 'package:harcapp/account/account_tile.dart';
 import 'package:harcapp/values/consts.dart';
+import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 import 'forum_likes_loader.dart';
 import 'model/forum.dart';
@@ -47,14 +48,16 @@ class ForumLikesPageState extends State<ForumLikesPage>{
     ForumLikesProvider forumLikesProv = ForumLikesProvider.of(context);
 
     likesLoaderListener = ForumLikesLoaderListener(
+      onNoInternet: (){
+        if(!mounted) return;
+        showAppToast(context, text: noInternetMessage);
+      },
       onLikesLoaded: (likesPage, reloaded){
         Forum.callProvidersWithLikes(forumProv, forumListProv, forumLikesProv);
-        setState((){});
       },
       onForceLoggedOut: (){
         if(!mounted) return true;
         showAppToast(context, text: forceLoggedOutMessage);
-        setState(() {});
         return true;
       },
       onServerMaybeWakingUp: (){
@@ -70,6 +73,7 @@ class ForumLikesPageState extends State<ForumLikesPage>{
         if(!mounted) return;
         controller.loadComplete();
         controller.refreshCompleted();
+        post(() => mounted?setState(() {}):null);
       }
     );
 
@@ -77,17 +81,15 @@ class ForumLikesPageState extends State<ForumLikesPage>{
 
     controller = RefreshController(
       initialRefresh: forum.loadedLikes.isEmpty && !forum.isLikesLoading(),
-
-      initialRefreshStatus:
-      forum.loadedLikes.isEmpty && forum.isLikesLoading()?
-      RefreshStatus.refreshing:
-      RefreshStatus.idle,
-
-      initialLoadStatus:
-      forum.loadedLikes.isNotEmpty && forum.isLikesLoading()?
-      LoadStatus.loading:
-      LoadStatus.idle,
     );
+    post((){
+      // `initialRefreshStatus` and `initialLoadStatus` in RefreshController don't work.
+      if(!mounted) return;
+      if(forum.loadedLikes.isEmpty && forum.isLikesLoading())
+        controller.headerMode!.value = RefreshStatus.refreshing;
+      if(forum.loadedLikes.isNotEmpty && forum.isLikesLoading())
+        controller.footerMode!.value = LoadStatus.loading;
+    });
 
     super.initState();
   }

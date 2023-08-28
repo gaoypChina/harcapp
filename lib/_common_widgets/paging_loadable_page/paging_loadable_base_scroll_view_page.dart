@@ -3,7 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_common_widgets/paging_loadable_page/paging_loadable_base_widget.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:harcapp/values/consts.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 
 class PagingLoadableBaseScrollViewPage extends StatefulWidget{
@@ -93,16 +94,14 @@ class PagingLoadableBaseScrollViewPageState extends State<PagingLoadableBaseScro
       backgroundColor: backgroundColor,
       appBottomNavColor: appBottomNavColor,
       body: PagingLoadableBaseWidget(
+        headerHeight: defRefreshHeaderHeight + kToolbarHeight,
+        headerDistance: defRefreshHeaderDistance + kToolbarHeight,
         backgroundColor: backgroundColor,
         loadingIndicatorColor: loadingIndicatorColor,
         totalItemsCount: totalItemsCount,
         loadedItemsCount: loadedItemsCount,
         callReload: callReload,
         callLoadMore: callLoadMore,
-        // callReloadOnInit: callReloadOnInit,
-        // showReloadStatusOnInit: showReloadStatusOnInit,
-        // callLoadOnInit: callLoadOnInit,
-        // showLoadStatusOnInit: showLoadStatusOnInit,
         controller: controller,
         loadMoreIfHeightNotExceeding: loadMoreIfHeightNotExceeding,
         sliversBuilder: (context, isLoading, innerScrollViewKey) => [
@@ -124,65 +123,6 @@ class PagingLoadableBaseScrollViewPageState extends State<PagingLoadableBaseScro
         ],
       ),
 
-      /*
-      SmartRefresher(
-        enablePullDown: true,
-        enablePullUp: !refreshController.isRefresh,
-        footer: AppCustomFooter(
-          moreToLoad: moreToLoad,
-          color: loadingIndicatorColor,
-          showDotWhenAllLoaded: false
-        ),
-        physics: const BouncingScrollPhysics(),
-        header: MaterialClassicHeader(
-            backgroundColor: cardEnab_(context),
-            color: loadingIndicatorColor??iconEnab_(context)
-        ),
-        controller: refreshController,
-        onRefresh: () async {
-
-          if(!await isNetworkAvailable()){
-            if(mounted) showAppToast(context, text: 'Brak dostępu do Internetu');
-            if(mounted) refreshController.refreshCompleted(); // This is called in `post()` inside.
-            post(() => mounted?setState(() {}):null);
-            return;
-          }
-
-          int allLoadedItems = await callReload();
-
-          await handleOnExceedingHeightLoader(allLoadedItems);
-
-          if(mounted) refreshController.refreshCompleted(); // This is called in `post()` inside.
-          post(() => mounted?setState(() {}):null);
-
-        },
-        onLoading: onLoading,
-        child: CustomScrollView(
-          key: outerScrollViewKey,
-          physics: const BouncingScrollPhysics(),
-          shrinkWrap: true,
-          slivers: [
-
-            SliverAppBar(
-              floating: true,
-              title: Text(appBarTitle),
-              leading: appBarLeading,
-              actions: appBarActions,
-              centerTitle: true,
-              backgroundColor: backgroundColor,
-            ),
-
-            Container(
-              key: innerScrollViewKey,
-              child: sliverBody(context, isLoading),
-            )
-
-            //sliverBody,
-            
-          ],
-        ),
-      ),
-      */
       bottomNavigationBar: bottomNavigationBar
   );
 

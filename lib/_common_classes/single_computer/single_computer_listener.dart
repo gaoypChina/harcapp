@@ -12,12 +12,14 @@ class SingleComputerListener<TErr>{
 
 class SingleComputerApiListener<TErr> extends SingleComputerListener<TErr>{
 
+  final FutureOr<void> Function()? onNoInternet;
   final FutureOr<bool> Function()? onForceLoggedOut;
   final FutureOr<bool> Function()? onServerMaybeWakingUp;
 
   const SingleComputerApiListener({
     super.onStart,
     super.onError,
+    required this.onNoInternet,
     this.onForceLoggedOut,
     this.onServerMaybeWakingUp,
     super.onEnd

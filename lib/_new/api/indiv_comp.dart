@@ -211,7 +211,7 @@ class ApiIndivComp{
     onSuccess: (Response response, DateTime now) async => await onSuccess?.call(),
     onForceLoggedOut: onForceLoggedOut,
     onServerMaybeWakingUp: onServerMaybeWakingUp,
-    onError: (DioError err) async => onError?.call(),
+    onError: (DioException err) async => onError?.call(),
   );
 
   static Future<Response?> resetShareCode({
@@ -228,7 +228,7 @@ class ApiIndivComp{
     onSuccess: (Response response, DateTime now) async => await onSuccess?.call(response.data),
     onForceLoggedOut: onForceLoggedOut,
     onServerMaybeWakingUp: onServerMaybeWakingUp,
-    onError: (DioError err) async => onError?.call(err.response!.data),
+    onError: (DioException err) async => onError?.call(err.response!.data),
   );
 
   static Future<Response?> setShareCodeSearchable({
@@ -247,7 +247,7 @@ class ApiIndivComp{
     onSuccess: (Response response, DateTime now) async => await onSuccess?.call(response.data['shareCodeSearchable']??false),
     onForceLoggedOut: onForceLoggedOut,
     onServerMaybeWakingUp: onServerMaybeWakingUp,
-    onError: (DioError err) async => onError?.call(),
+    onError: (DioException err) async => onError?.call(),
   );
 
   static Future<Response?> joinByShareCode({
@@ -270,7 +270,7 @@ class ApiIndivComp{
     },
     onForceLoggedOut: onForceLoggedOut,
     onServerMaybeWakingUp: onServerMaybeWakingUp,
-    onError: (DioError err) async => await onError?.call(),
+    onError: (DioException err) async => await onError?.call(),
   );
 
   static Future<Response?> update({
@@ -522,10 +522,10 @@ class ApiIndivComp{
     required IndivComp comp,
     String? taskKey,
     String? participKey,
+    TaskAcceptState? acceptState,
 
     required int? pageSize,
     required DateTime? lastReqTime,
-    TaskAcceptState? acceptState,
 
     FutureOr<void> Function(List<IndivCompCompletedTask>)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
