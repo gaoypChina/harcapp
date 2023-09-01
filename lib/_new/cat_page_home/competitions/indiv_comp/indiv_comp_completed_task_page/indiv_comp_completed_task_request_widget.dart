@@ -1,5 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:harcapp/_common_widgets/border_material.dart';
+import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/common/particip_tile.dart';
+import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/loadable_particip_selector.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
+import 'package:harcapp/account/account_thumbnail_widget.dart';
+import 'package:harcapp/account/account_tile.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/show_rank_data.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_task.dart';
@@ -17,6 +24,7 @@ import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import '../indiv_comp_task_widget.dart';
+import '../models/indiv_comp_particip.dart';
 
 class IndivCompCompetedTaskRequestWidget extends StatefulWidget{
 
@@ -46,6 +54,15 @@ class IndivCompCompetedTaskRequestWidgetState extends State<IndivCompCompetedTas
 
   late TextEditingController controller;
   late bool sending;
+  IndivCompParticip? particip;
+
+  void onParticipTileTap() async {
+    IndivCompParticip? selected = await selectParticip(
+      context: context,
+      comp: comp,
+    );
+    setState(() => particip = selected);
+  }
 
   @override
   void initState() {
@@ -55,87 +72,141 @@ class IndivCompCompetedTaskRequestWidgetState extends State<IndivCompCompetedTas
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => Padding(
+    padding: MediaQuery.of(context).viewInsets,
+    child: AppCard(
+        color: background_(context),
+        radius: AppCard.bigRadius,
+        margin: const EdgeInsets.all(Dimen.SIDE_MARG),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
+          children: [
 
-    return Padding(
-      padding: MediaQuery.of(context).viewInsets,
-      child: AppCard(
-          color: background_(context),
-          radius: AppCard.bigRadius,
-          margin: const EdgeInsets.all(Dimen.SIDE_MARG),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-
-              TitleShortcutRowWidget(
-                leading: IconButton(
-                  icon: Icon(MdiIcons.arrowLeft),
-                  onPressed: () => Navigator.pop(context),
-                ),
-                trailing: const SizedBox(width: Dimen.ICON_FOOTPRINT),
-                title: adminOrMod?'Zalicz zadanie':'Wniosek o zaliczenie',
+            TitleShortcutRowWidget(
+              leading: IconButton(
+                icon: Icon(MdiIcons.arrowLeft),
+                onPressed: () => Navigator.pop(context),
               ),
+              trailing: const SizedBox(width: Dimen.ICON_FOOTPRINT),
+              title: adminOrMod?'Zalicz zadanie':'Wniosek o zaliczenie',
+            ),
 
-              const SizedBox(height: Dimen.defMarg),
+            const SizedBox(height: Dimen.defMarg),
 
-              IndivCompTaskWidget(task),
-
-              Padding(
-                padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-                child: AppTextFieldHint(
-                  hint: 'Wiadomość do admina',
-                  hintStyle: AppTextStyle(color: hintEnab_(context)),
-                  hintTop: 'Wiadomość',
-                  controller: controller,
-                  maxLines: null,
-                  maxLength: IndivCompCompletedTask.MAX_LEN_REQ_COMMENT,
-                ),
-              ),
-
-              SimpleButton.from(
-                  textColor: sending?iconDisab_(context):iconEnab_(context),
-                  iconLeading: false,
-                  margin: EdgeInsets.zero,
-                  icon: adminOrMod?MdiIcons.check:MdiIcons.cubeSend,
-                  text: adminOrMod?'Zalicz sobie':'Prześlij',
-                  onTap: sending?null:() async {
-
-                    if(!await isNetworkAvailable()) {
-                      showAppToast(context, text: 'Brak internetu.');
-                      return;
-                    }
-
-                    setState(() => sending = true);
-                    showAppToast(context, text: 'Przesyłanie...');
-                    await ApiIndivComp.createCompletedTask(
-                        comp: comp,
-                        taskKey: task.key,
-                        comment: controller.text,
-                        onSuccess: (List<IndivCompCompletedTask> taskComplRespMap, Map<String, ShowRankData> idRank){
-                          if(mounted) showAppToast(context, text: adminOrMod?'Zaliczono':'Przesłano. Wniosek oczekuje na rozpatrzenie.');
-                          if(mounted) Navigator.pop(context);
-                          widget.onSuccess?.call(taskComplRespMap, idRank);
-                        },
-                        onServerMaybeWakingUp: () {
-                          if(mounted) showServerWakingUpToast(context);
-                          return true;
-                        },
-                        onError: (){
-                          if(mounted) showAppToast(context, text: simpleErrorMessage);
-                        }
-                    );
-                    if(!mounted) return;
-                    setState(() => sending = false);
-
-                  }
+            BorderMaterial(
+              child:
+              particip == null?
+              NoParticipSelectedWidget(
+                comp: comp,
+                onTap: onParticipTileTap,
+              ):
+              ParticipTile(
+                particip: particip!,
+                onTap: onParticipTileTap,
               )
+            ),
 
-            ],
-          )
+            const SizedBox(height: Dimen.defMarg),
+
+            IndivCompTaskWidget(task),
+
+            Padding(
+              padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+              child: AppTextFieldHint(
+                hint: 'Wiadomość do admina',
+                hintStyle: AppTextStyle(color: hintEnab_(context)),
+                hintTop: 'Wiadomość',
+                controller: controller,
+                maxLines: null,
+                maxLength: IndivCompCompletedTask.MAX_LEN_REQ_COMMENT,
+              ),
+            ),
+
+            SimpleButton.from(
+                textColor: sending?iconDisab_(context):iconEnab_(context),
+                iconLeading: false,
+                margin: EdgeInsets.zero,
+                icon: adminOrMod?MdiIcons.check:MdiIcons.cubeSend,
+                text: adminOrMod?'Zalicz zadanie':'Prześlij ',
+                onTap: sending?null:() async {
+
+                  if(!await isNetworkAvailable()) {
+                    showAppToast(context, text: 'Brak internetu.');
+                    return;
+                  }
+
+                  setState(() => sending = true);
+                  showAppToast(context, text: 'Przesyłanie...');
+                  await ApiIndivComp.createCompletedTask(
+                      comp: comp,
+                      taskKey: task.key,
+                      comment: controller.text,
+                      onSuccess: (List<IndivCompCompletedTask> taskComplRespMap, Map<String, ShowRankData> idRank){
+                        if(mounted) showAppToast(context, text: adminOrMod?'Zaliczono':'Przesłano. Wniosek oczekuje na rozpatrzenie.');
+                        if(mounted) Navigator.pop(context);
+                        widget.onSuccess?.call(taskComplRespMap, idRank);
+                      },
+                      onServerMaybeWakingUp: () {
+                        if(mounted) showServerWakingUpToast(context);
+                        return true;
+                      },
+                      onError: (){
+                        if(mounted) showAppToast(context, text: simpleErrorMessage);
+                      }
+                  );
+                  if(!mounted) return;
+                  setState(() => sending = false);
+
+                }
+            )
+
+          ],
+        )
+    ),
+  );
+
+}
+
+class NoParticipSelectedWidget extends StatelessWidget{
+
+  final IndivComp comp;
+  final FutureOr<void> Function()? onTap;
+
+  const NoParticipSelectedWidget({
+    required this.comp,
+    this.onTap,
+    super.key
+  });
+
+  @override
+  Widget build(BuildContext context) => AccountTile(
+      'Wybierz uczestnika',
+      textColor: hintEnab_(context),
+      showThumbnail: false,
+      contentPadding: const EdgeInsets.only(
+        top: Dimen.ICON_MARG/2,
+        bottom: Dimen.ICON_MARG/2,
+        right: Dimen.ICON_MARG/2,
+        left: Dimen.ICON_MARG,
       ),
-    );
+      trailing: AccountThumbnailWidget(
+        icon: MdiIcons.accountOutline,
+        verified: false,
+        elevated: false,
+      ),
+      onTap: onTap
+  );
 
-  }
+
+  //     ListTile(
+  //   leading: AccountThumbnailWidget(
+  //     icon: MdiIcons.accountOutline,
+  //     verified: false,
+  //     elevated: false,
+  //   ),
+  //   // leading: Icon(MdiIcons.accountOutline, color: textEnab_(context)),
+  //   title: Text('Wybierz uczestnika', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG)),
+  // );
 
 }

@@ -59,6 +59,7 @@ List<Person> allPeople = [
   FRANCISZEK_LINKE,
   FRANCISZEK_MICHALSKI,
   FRANCISZEK_TOMASZCZYK,
+  GABRIEL_POZNANSKI,
   GRZEGORZ_BOROWIEC,
   GRZEGORZ_FRANKOW,
   GRZEGORZ_PAWLAK,
@@ -126,8 +127,10 @@ List<Person> allPeople = [
   KAMIL_GORNIK,
   KAMIL_ORGANISTA,
   KAMIL_ZAK,
+  KAROL_FRANKOWSKI,
   KAROL_GOLABEK,
   KAROL_MALUS,
+  KATARZYNA_LISAK,
   KATARZYNA_STUDNICKA,
   KLARA_MAZEK,
   KLAUDIA_STASINSKA,
@@ -263,6 +266,7 @@ List<Person> allPeople = [
   ZOFIA_ZAWADZKA,
   ZOFIA_ZBRUK,
   ZUZANNA_ANDRZEJCZAK,
+  ZUZANNA_DUDEK,
   ZUZANNA_JAWORSKA,
   ZUZANNA_KOLIS,
   ZUZANNA_KOWALCZYK,
@@ -569,6 +573,15 @@ const Person FRANCISZEK_TOMASZCZYK = Person(
   stopH: StopHarc.zhpWywiadowca, hufiec: huf_zhp_ziemi_cieszynskiej,
   druzyna: '33. CDH "Czarne stopy", 4. GZ "Radosne Misie"',
   org: Org.zhp
+);
+const Person GABRIEL_POZNANSKI = Person(
+    name: 'Gabriel Poznański',
+    druzyna: '6GZ "Jeźdźcy Smoków"',
+    hufiec: huf_zhp_chodziez,
+    stopI: 'pwd.',
+    stopH: StopHarc.zhpHOc,
+    org: Org.zhp,
+    email: ['gabriel.poznanski455@gmail.com']
 );
 const Person GRZEGORZ_BOROWIEC = Person(
   name: 'Grzegorz Borowiec',
@@ -965,11 +978,26 @@ const Person KAMIL_ORGANISTA = Person(
     email: ['k.furiao@gmail.com', 'k.organista@onet.pl']
 );
 const Person KAMIL_ZAK = Person(name: 'Kamil Żak', stopH: StopHarc.zhpHOc);
+const Person KAROL_FRANKOWSKI = Person(
+    name: 'Karol Frankowski',
+    druzyna: '1. PDH "Borek"',
+    stopH: StopHarc.zhpCwik,
+    org: Org.zhr_o,
+    email: ['karol.frankowski@zhr.pl']
+);
 const Person KAROL_GOLABEK = Person(
   name: 'Karol Gołąbek',
   stopH: StopHarc.zhpMlodzik,
   druzyna: '44. Drużyna Starszoharcerska "Potok" w Miękinii',);
 const Person KAROL_MALUS = Person(name: 'Karol Malus', stopH: StopHarc.dhc);
+const Person KATARZYNA_LISAK = Person(
+    name: 'Katarzyna Lisak',
+    druzyna: '88 DW "Wierchy"',
+    hufiec: huf_zhp_beskidzki,
+    stopH: StopHarc.zhpSamarytanka,
+    org: Org.zhp,
+    email: ['katarzyna.lisak@zhp.net.pl']
+);
 const Person KATARZYNA_STUDNICKA = Person(
     name: 'Katarzyna Studnicka',
     stopI: 'pwd.',
@@ -1766,6 +1794,14 @@ const Person ZUZANNA_ANDRZEJCZAK = Person(
     druzyna: '15. ZWDH "Atlantyda',
     hufiec: huf_zhp_zgierz,
     email: ['zuzannaandrzejczak12@gmail.com']
+);
+const Person ZUZANNA_DUDEK = Person(
+    name: 'Zuzanna Dudek',
+    druzyna: '8. Drużyna Harcerska "Tajne Śledzie"',
+    hufiec: huf_zhp_olkusz,
+    stopH: StopHarc.dhd,
+    org: Org.zhp,
+    email: ['z.dudek2011@gmail.com', 'zizigames2011@gmail.com']
 );
 const Person ZUZANNA_JAWORSKA = Person(
     name: 'Zuzanna Jaworska',

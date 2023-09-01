@@ -6,6 +6,8 @@ import 'account_thumbnail_widget.dart';
 
 class AccountTile extends StatelessWidget{
 
+  static const double height = 72;
+
   final String name;
   final Widget? subtitle;
   final bool showVerified;
@@ -20,7 +22,9 @@ class AccountTile extends StatelessWidget{
 
   final Widget? leading;
   final Widget? trailing;
+  final bool showThumbnail;
   final dynamic thumbnailHeroTag;
+  final EdgeInsets? contentPadding;
   final void Function()? onTap;
   final void Function()? onLongPress;
   final IconData? markIcon;
@@ -39,7 +43,9 @@ class AccountTile extends StatelessWidget{
 
         this.leading,
         this.trailing,
+        this.showThumbnail = true,
         this.thumbnailHeroTag,
+        this.contentPadding,
         this.onTap,
         this.onLongPress,
         this.markIcon,
@@ -54,19 +60,21 @@ class AccountTile extends StatelessWidget{
     child: ListTile(
         onTap: onTap,
         onLongPress: onLongPress,
-        contentPadding: const EdgeInsets.only(
+        contentPadding: contentPadding??const EdgeInsets.only(
             left: Dimen.SIDE_MARG,
             right: Dimen.SIDE_MARG,
             top: Dimen.ICON_MARG/2,
             bottom: Dimen.ICON_MARG/2
         ),
-        leading: Row(
+        leading: !showThumbnail && leading == null?
+        null:
+        Row(
           mainAxisSize: MainAxisSize.min,
           children: [
 
             if(leading != null) leading!,
 
-            if(thumbnailHeroTag == null)
+            if(showThumbnail && thumbnailHeroTag == null)
               AccountThumbnailWidget(
                   name: name,
                   showVerified: showVerified,
@@ -79,7 +87,7 @@ class AccountTile extends StatelessWidget{
                   backgroundColor: backgroundColor,
                   markIcon: markIcon
               )
-            else
+            else if(showThumbnail)
               Hero(
                 tag: thumbnailHeroTag,
                 child: AccountThumbnailWidget(

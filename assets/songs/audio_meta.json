@@ -99,6 +99,22 @@
         }
     ],
 
+    "o!_nasz_bog": [
+        {
+            "file": "nasz_bog.khm_agricola_pokoj_2023.mp3",
+            "performer": "KMH Agricola Pokój 2023 Mazowiecka Chorągiew Harcerek ZHR",
+            "source": "https://www.youtube.com/watch?v=NFO7hWuWz-w"
+        }
+    ],
+
+    "o!_nasz_polski_lesie": [
+        {
+            "file": "nasz_polski_lesie.barbara_kurleto.mp3",
+            "performer": "dh. Barbara Kurleto",
+            "source": "https://www.youtube.com/watch?v=xcDPKussnLY"
+        }
+    ],
+
     "o!_ogniobranie": [
         {
             "file": "ogniobranie.malgorzata_masko_horyza.mp3",

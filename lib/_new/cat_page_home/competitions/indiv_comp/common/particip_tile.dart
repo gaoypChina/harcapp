@@ -6,6 +6,7 @@ import '../../../../../account/account_tile.dart';
 
 class ParticipTile extends StatelessWidget{
 
+  static const double height = AccountTile.height;
   static const double horizontalPadding = 16.0;
 
   final IndivCompParticip particip;

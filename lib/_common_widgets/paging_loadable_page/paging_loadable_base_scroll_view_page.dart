@@ -79,10 +79,6 @@ class PagingLoadableBaseScrollViewPageState extends State<PagingLoadableBaseScro
 
   FutureOr<int> Function() get callReload => widget.callReload;
   FutureOr<int> Function() get callLoadMore => widget.callLoadMore;
-  // bool get callReloadOnInit => widget.callReloadOnInit;
-  // bool get showReloadStatusOnInit => widget.showReloadStatusOnInit;
-  // bool get callLoadOnInit => widget.callLoadOnInit;
-  // bool get showLoadStatusOnInit => widget.showLoadStatusOnInit;
   RefreshController? get controller => widget.controller;
   bool get loadMoreIfHeightNotExceeding => widget.loadMoreIfHeightNotExceeding;
 

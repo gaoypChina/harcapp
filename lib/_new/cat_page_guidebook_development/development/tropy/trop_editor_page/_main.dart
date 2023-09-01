@@ -7,22 +7,18 @@ import 'package:harcapp/_common_widgets/border_material.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_common_widgets/loading_widget.dart';
-import 'package:harcapp/_common_widgets/paging_loadable_page/paging_loadable_base_scroll_view_page.dart';
 import 'package:harcapp/_new/api/trop.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_editor_page/providers.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_icon.dart';
-import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_users_page/trop_user_tile.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/account_page/account_page.dart';
 import 'package:harcapp/account/search_user_dialog.dart';
-import 'package:harcapp/logger.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:harcapp/values/app_values.dart';
 import 'package:harcapp/values/colors.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
-import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_classes/date_to_str.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
@@ -34,12 +30,11 @@ import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:optional/optional_internal.dart';
 import 'package:provider/provider.dart';
-import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
+import '../loadable_trop_user_selector.dart';
 import '../model/trop.dart';
 import '../model/trop_role.dart';
 import '../model/trop_user.dart';
-import '../trop_users_loader.dart';
 
 class TropEditorPage extends StatefulWidget{
 
@@ -829,31 +824,12 @@ class AssigneeButton extends StatelessWidget{
 
                     Navigator.pop(context); // Hide bottom sheet.
 
-                    TropUser? tropUser;
-
-                    await openDialog(
-                        context: context,
-                        builder: (context) => Padding(
-                          padding: const EdgeInsets.all(Dimen.defMarg),
-                          child: Material(
-                            clipBehavior: Clip.hardEdge,
-                            color: background_(context),
-                            borderRadius: BorderRadius.circular(AppCard.bigRadius),
-                            child: LoadableUserSelector(
-                                trop!,
-                                onUserSelected: (user){
-                                  tropUser = user;
-                                  Navigator.pop(context);
-                                }
-                            ),
-                          ),
-                        )
-                    );
+                    TropUser? tropUser = await selectTropUser(context: context, trop: trop!);
 
                     if(tropUser == null)
                       return;
 
-                    if(tropUser!.key != task.currentAssignee?.key) {
+                    if(tropUser.key != task.currentAssignee?.key) {
                       task.newAssigneeByNick = null;
                       task.newAssigneeByKey = tropUser;
                       task.removed = false;
@@ -1223,131 +1199,3 @@ class LeaveSharedTropButton extends StatelessWidget{
 
 }
 
-class LoadableUserSelector extends StatefulWidget{
-
-  final Trop trop;
-  final void Function(TropUser)? onUserSelected;
-
-  const LoadableUserSelector(this.trop, {required this.onUserSelected, super.key});
-  
-  @override
-  State<StatefulWidget> createState() => LoadableUserSelectorState();
-
-}
-
-class LoadableUserSelectorState extends State<LoadableUserSelector>{
-
-  Trop get trop => widget.trop;
-  void Function(TropUser)? get onUserSelected => widget.onUserSelected;
-
-  late TropUsersLoaderListener usersLoaderListener;
-
-  late RefreshController controller;
-
-  @override
-  void initState() {
-
-    TropProvider tropProv = TropProvider.of(context);
-    TropListProvider tropListProv = TropListProvider.of(context);
-    TropLoadedUsersProvider tropUsersProv = TropLoadedUsersProvider.of(context);
-
-    usersLoaderListener = TropUsersLoaderListener(
-      onNoInternet: (){
-        if(!mounted) return;
-        showAppToast(context, text: noInternetMessage);
-      },
-      onUsersLoaded: (usersPage, reloaded){
-        Trop.callProvidersWithLoadedUsers(tropProv, tropListProv, tropUsersProv);
-        if(mounted) setState((){});
-      },
-      onForceLoggedOut: (){
-        if(!mounted) return true;
-        showAppToast(context, text: forceLoggedOutMessage);
-        setState(() {});
-        return true;
-      },
-      onServerMaybeWakingUp: (){
-        if(!mounted) return true;
-        showServerWakingUpToast(context);
-        return true;
-      },
-      onError: (_){
-        if(!mounted) return;
-        showAppToast(context, text: simpleErrorMessage);
-      },
-      onEnd: (_, __){
-        if(!mounted) return;
-        controller.loadComplete();
-        controller.refreshCompleted();
-        post(() => mounted?setState(() {}):null);
-      }
-    );
-
-    trop.addUsersLoaderListener(usersLoaderListener);
-
-    controller = RefreshController(
-      initialRefresh: trop.loadedUsers.length == 1 && !trop.isUsersLoading(),
-    );
-    post((){
-      // `initialRefreshStatus` and `initialLoadStatus` in RefreshController don't work.
-      if(!mounted) return;
-      if(trop.loadedUsers.length == 1 && trop.isUsersLoading())
-        controller.headerMode!.value = RefreshStatus.refreshing;
-      if(trop.loadedUsers.length > 1 && trop.isUsersLoading())
-        controller.footerMode!.value = LoadStatus.loading;
-    });
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    trop.removeUsersLoaderListener(usersLoaderListener);
-    controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) => PagingLoadableBaseScrollViewPage(
-    appBarTitle: 'Wybierz ogarniacza',
-    appBarLeading: IconButton(
-      icon: Icon(MdiIcons.arrowLeft),
-      onPressed: () => Navigator.pop(context),
-    ),
-
-    loadingIndicatorColor: AppColors.zhpTropColor,
-
-    totalItemsCount: trop.userCount,
-    loadedItemsCount: trop.loadedUsers.length,
-    callReload: () async {
-
-      if(trop.key == null){
-        logger.e("Registered a failed attempt to call `getUsers` on trop with no trop key.");
-        return trop.assignedUsers.length + trop.loadedUsers.length;
-      }
-
-      await trop.reloadUsersPage(awaitFinish: true);
-      return trop.loadedUsers.length;
-    },
-    callLoadMore: () async {
-
-      if(trop.key == null){
-        logger.e("Registered a failed attempt to call `getUsers` on trop with no trop key.");
-        return trop.loadedUsers.length;
-      }
-
-      await trop.loadUsersPage(awaitFinish: true);
-      return trop.loadedUsers.length;
-    },
-    controller: controller,
-
-    sliverBody: (context, isLoading) => SliverList(delegate: SliverChildBuilderDelegate(
-      (context, index) => TropUserTile(
-        user: trop.loadedUsers[index],
-        onTap: () => onUserSelected?.call(trop.loadedUsers[index]),
-      ),
-      childCount: trop.loadedUsers.length
-    ))
-
-  );
-  
-}

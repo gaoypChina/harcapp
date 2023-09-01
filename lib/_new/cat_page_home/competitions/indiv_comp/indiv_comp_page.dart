@@ -598,67 +598,70 @@ class TaskWidget extends StatelessWidget{
     Row(
       children: [
 
-        Expanded(
-          child: SimpleButton.from(
-              textColor:
-              comp.myProfile?.pendingTasksCount[task.key] == null || comp.myProfile?.pendingTasksCount[task.key] == 0?
-              iconDisab_(context):
-              iconEnab_(context),
+        if(comp.myProfile?.role == CompRole.OBSERVER)
+          Expanded(
+            child: SimpleButton.from(
+                radius: 0,
+                textColor:
+                comp.myProfile?.pendingTasksCount[task.key] == null || comp.myProfile?.pendingTasksCount[task.key] == 0?
+                iconDisab_(context):
+                iconEnab_(context),
 
-              margin: EdgeInsets.zero,
-              icon: MdiIcons.clockOutline,
+                margin: EdgeInsets.zero,
+                icon: MdiIcons.clockOutline,
 
-              text:
-              comp.myProfile?.pendingTasksCount[task.key] == null || comp.myProfile?.pendingTasksCount[task.key] == 0?
-              null:
-              '${comp.myProfile?.pendingTasksCount[task.key]??0}',
-              onTap:
-              comp.myProfile?.pendingTasksCount[task.key] == null || comp.myProfile?.pendingTasksCount[task.key] == 0?
-              null:
-              () => pushPage(
-                context,
-                builder: (context) => CompletedTasksPage(
-                    comp,
-                    particip: comp.getParticip(AccountData.key!),
-                    task: task,
-                    acceptState: TaskAcceptState.PENDING,
-                    title: 'Prośby o zaliczenie',
-                    initLoadedCompletedTasks: comp.myProfile!.loadedPendingTasks[task.key],
-                    onCompletedTasksRefreshed: (completedTasksPage) =>
-                        comp.myProfile!.setAllLoadedPendingCompletedTasks(completedTasksPage),
-                    onCompletedTasksPageLoaded: (completedTasksPage) =>
-                        comp.myProfile!.addLoadedPendingCompletedTasks(completedTasksPage),
-                    onCompletedTaskRemoved: (completedTask){
-                        comp.myProfile!.removeLoadedPendingCompletedTaskByKey(completedTask.key);
-                        comp.myProfile!.removeCompletedTaskByKey(completedTask.key);
-                        IndivCompProvider.notify_(context);
-                    },
-                ),
-              )
+                text:
+                comp.myProfile?.pendingTasksCount[task.key] == null || comp.myProfile?.pendingTasksCount[task.key] == 0?
+                null:
+                '${comp.myProfile?.pendingTasksCount[task.key]??0}',
+                onTap:
+                comp.myProfile?.pendingTasksCount[task.key] == null || comp.myProfile?.pendingTasksCount[task.key] == 0?
+                null:
+                () => pushPage(
+                  context,
+                  builder: (context) => CompletedTasksPage(
+                      comp,
+                      particip: comp.getParticip(AccountData.key!),
+                      task: task,
+                      acceptState: TaskAcceptState.PENDING,
+                      title: 'Prośby o zaliczenie',
+                      initLoadedCompletedTasks: comp.myProfile!.loadedPendingTasks[task.key],
+                      onCompletedTasksRefreshed: (completedTasksPage) =>
+                          comp.myProfile!.setAllLoadedPendingCompletedTasks(completedTasksPage),
+                      onCompletedTasksPageLoaded: (completedTasksPage) =>
+                          comp.myProfile!.addLoadedPendingCompletedTasks(completedTasksPage),
+                      onCompletedTaskRemoved: (completedTask){
+                          comp.myProfile!.removeLoadedPendingCompletedTaskByKey(completedTask.key);
+                          comp.myProfile!.removeCompletedTaskByKey(completedTask.key);
+                          IndivCompProvider.notify_(context);
+                      },
+                  ),
+                )
 
-              //     openDialog(
-              //     context: context,
-              //     builder: (context) => PendingCompletedTasksPage(
-              //       comp,
-              //       pendingTasks,
-              //       onRemoved: (complTask){
-              //         IndivCompProfile? myProfile = comp.myProfile;
-              //         if(myProfile == null) return;
-              //         myProfile.completedTasks.remove(complTask);
-              //         Provider.of<IndivCompProvider>(context, listen: false).notify();
-              //       },
-              //     )
-              // )
+                //     openDialog(
+                //     context: context,
+                //     builder: (context) => PendingCompletedTasksPage(
+                //       comp,
+                //       pendingTasks,
+                //       onRemoved: (complTask){
+                //         IndivCompProfile? myProfile = comp.myProfile;
+                //         if(myProfile == null) return;
+                //         myProfile.completedTasks.remove(complTask);
+                //         Provider.of<IndivCompProvider>(context, listen: false).notify();
+                //       },
+                //     )
+                // )
 
+            ),
           ),
-        ),
 
         Expanded(
           child: SimpleButton.from(
               context: context,
+              radius: 0,
               margin: EdgeInsets.zero,
               iconLeading: false,
-              text: comp.myProfile?.role == CompRole.OBSERVER?'Wnioskuj':'Zalicz sobie',
+              text: comp.myProfile?.role == CompRole.OBSERVER?'Wnioskuj':'Zalicz zadanie',
               icon: MdiIcons.cubeSend,
               onTap: () async {
 
