@@ -194,7 +194,7 @@ class SuperSearchPageState extends State<SuperSearchPage>{
                 ),
 
                 ListTile(
-                  leading: Icon(MdiIcons.plusCircleMultipleOutline, color: iconDisab_(context)),
+                  leading: Icon(IndivComp.pointsIcon, color: iconDisab_(context)),
                   dense: true,
                   title: Text(
                     'Współzawodnictwo',

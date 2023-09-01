@@ -19,7 +19,6 @@ import 'package:harcapp_core/comm_classes/network.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/app_text_field_hint.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
-import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -73,92 +72,106 @@ class IndivCompCompetedTaskRequestWidgetState extends State<IndivCompCompetedTas
 
   @override
   Widget build(BuildContext context) => Padding(
-    padding: MediaQuery.of(context).viewInsets,
-    child: AppCard(
+    padding: const EdgeInsets.all(Dimen.defMarg).add(MediaQuery.of(context).viewInsets),
+    child: Material(
         color: background_(context),
-        radius: AppCard.bigRadius,
-        margin: const EdgeInsets.all(Dimen.SIDE_MARG),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisSize: MainAxisSize.min,
-          children: [
+        borderRadius: BorderRadius.circular(AppCard.bigRadius),
+        clipBehavior: Clip.hardEdge,
+        child: CustomScrollView(
+          physics: const BouncingScrollPhysics(),
+          shrinkWrap: true,
+          slivers: [
 
-            TitleShortcutRowWidget(
-              leading: IconButton(
-                icon: Icon(MdiIcons.arrowLeft),
-                onPressed: () => Navigator.pop(context),
+            SliverAppBar(
+              title: Text(adminOrMod?'Zalicz zadanie':'Wniosek o zaliczenie'),
+              centerTitle: true,
+            ),
+
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(horizontal: Dimen.defMarg),
+              sliver: SliverList(
+                delegate: SliverChildListDelegate([
+
+                  const SizedBox(height: Dimen.defMarg),
+
+                  if(adminOrMod)
+                    BorderMaterial(
+                        child:
+                        particip == null?
+                        NoParticipSelectedWidget(
+                          comp: comp,
+                          onTap: onParticipTileTap,
+                        ):
+                        ParticipTile(
+                          particip: particip!,
+                          onTap: onParticipTileTap,
+                          thumbnailTapable: false,
+                        )
+                    ),
+
+                  if(adminOrMod)
+                    const SizedBox(height: Dimen.defMarg),
+
+                  IndivCompTaskWidget(task),
+
+                  Padding(
+                    padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+                    child: AppTextFieldHint(
+                      hint: adminOrMod?'Wiadomość':'Wiadomość do admina',
+                      hintStyle: AppTextStyle(color: hintEnab_(context)),
+                      hintTop: 'Wiadomość',
+                      controller: controller,
+                      maxLines: null,
+                      maxLength: IndivCompCompletedTask.MAX_LEN_REQ_COMMENT,
+                    ),
+                  ),
+
+                ]),
               ),
-              trailing: const SizedBox(width: Dimen.ICON_FOOTPRINT),
-              title: adminOrMod?'Zalicz zadanie':'Wniosek o zaliczenie',
             ),
 
-            const SizedBox(height: Dimen.defMarg),
+            SliverList(
+                delegate: SliverChildListDelegate([
 
-            BorderMaterial(
-              child:
-              particip == null?
-              NoParticipSelectedWidget(
-                comp: comp,
-                onTap: onParticipTileTap,
-              ):
-              ParticipTile(
-                particip: particip!,
-                onTap: onParticipTileTap,
-              )
-            ),
+                  SimpleButton.from(
+                      textColor: sending || (adminOrMod && particip == null)?iconDisab_(context):iconEnab_(context),
+                      iconLeading: false,
+                      margin: EdgeInsets.zero,
+                      icon: adminOrMod?MdiIcons.check:MdiIcons.cubeSend,
+                      text: adminOrMod?'Zalicz zadanie':'Prześlij ',
+                      onTap: sending || (adminOrMod && particip == null)?null:() async {
 
-            const SizedBox(height: Dimen.defMarg),
+                        if(!await isNetworkAvailable()) {
+                          showAppToast(context, text: 'Brak internetu.');
+                          return;
+                        }
 
-            IndivCompTaskWidget(task),
+                        setState(() => sending = true);
+                        showAppToast(context, text: 'Przesyłanie...');
+                        await ApiIndivComp.createCompletedTask(
+                            comp: comp,
+                            taskKey: task.key,
+                            comment: controller.text,
+                            onSuccess: (List<IndivCompCompletedTask> taskComplRespMap, Map<String, ShowRankData> idRank){
+                              if(mounted) showAppToast(context, text: adminOrMod?'Zaliczono':'Przesłano. Wniosek oczekuje na rozpatrzenie.');
+                              if(mounted) Navigator.pop(context);
+                              widget.onSuccess?.call(taskComplRespMap, idRank);
+                            },
+                            onServerMaybeWakingUp: () {
+                              if(mounted) showServerWakingUpToast(context);
+                              return true;
+                            },
+                            onError: (){
+                              if(mounted) showAppToast(context, text: simpleErrorMessage);
+                            }
+                        );
+                        if(!mounted) return;
+                        setState(() => sending = false);
 
-            Padding(
-              padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-              child: AppTextFieldHint(
-                hint: 'Wiadomość do admina',
-                hintStyle: AppTextStyle(color: hintEnab_(context)),
-                hintTop: 'Wiadomość',
-                controller: controller,
-                maxLines: null,
-                maxLength: IndivCompCompletedTask.MAX_LEN_REQ_COMMENT,
-              ),
-            ),
-
-            SimpleButton.from(
-                textColor: sending?iconDisab_(context):iconEnab_(context),
-                iconLeading: false,
-                margin: EdgeInsets.zero,
-                icon: adminOrMod?MdiIcons.check:MdiIcons.cubeSend,
-                text: adminOrMod?'Zalicz zadanie':'Prześlij ',
-                onTap: sending?null:() async {
-
-                  if(!await isNetworkAvailable()) {
-                    showAppToast(context, text: 'Brak internetu.');
-                    return;
-                  }
-
-                  setState(() => sending = true);
-                  showAppToast(context, text: 'Przesyłanie...');
-                  await ApiIndivComp.createCompletedTask(
-                      comp: comp,
-                      taskKey: task.key,
-                      comment: controller.text,
-                      onSuccess: (List<IndivCompCompletedTask> taskComplRespMap, Map<String, ShowRankData> idRank){
-                        if(mounted) showAppToast(context, text: adminOrMod?'Zaliczono':'Przesłano. Wniosek oczekuje na rozpatrzenie.');
-                        if(mounted) Navigator.pop(context);
-                        widget.onSuccess?.call(taskComplRespMap, idRank);
-                      },
-                      onServerMaybeWakingUp: () {
-                        if(mounted) showServerWakingUpToast(context);
-                        return true;
-                      },
-                      onError: (){
-                        if(mounted) showAppToast(context, text: simpleErrorMessage);
                       }
-                  );
-                  if(!mounted) return;
-                  setState(() => sending = false);
+                  )
 
-                }
+                ])
             )
 
           ],
@@ -194,6 +207,7 @@ class NoParticipSelectedWidget extends StatelessWidget{
         icon: MdiIcons.accountOutline,
         verified: false,
         elevated: false,
+        tapable: false,
       ),
       onTap: onTap
   );

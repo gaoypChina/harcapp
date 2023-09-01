@@ -29,6 +29,7 @@ class PagingLoadableScrollViewPage extends StatelessWidget{
 
   final EdgeInsets? padding;
   final Widget Function(int) loadedItemBuilder;
+  final Widget? emptyWidget;
   final double itemSeparatorHeight;
 
   final Widget? bottomNavigationBar;
@@ -54,6 +55,7 @@ class PagingLoadableScrollViewPage extends StatelessWidget{
 
     this.padding,
     required this.loadedItemBuilder,
+    this.emptyWidget,
     this.itemSeparatorHeight = 0,
 
     this.bottomNavigationBar,
@@ -81,7 +83,15 @@ class PagingLoadableScrollViewPage extends StatelessWidget{
     controller: controller,
     loadMoreIfHeightNotExceeding: loadMoreIfHeightNotExceeding,
 
-    sliverBody: (context, isLoading) => SliverPadding(
+    sliverBody: (context, isLoading) => totalItemsCount==0 && emptyWidget != null?
+    SliverPadding(
+      padding: padding??const EdgeInsets.all(Dimen.SIDE_MARG),
+      sliver: SliverFillRemaining(
+        hasScrollBody: false,
+        child: emptyWidget,
+      )
+    ):
+    SliverPadding(
       padding: padding??const EdgeInsets.all(Dimen.SIDE_MARG),
       sliver: SliverList(
         delegate: SliverChildSeparatedBuilderDelegate((context, index) =>

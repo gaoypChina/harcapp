@@ -638,20 +638,6 @@ class TaskWidget extends StatelessWidget{
                   ),
                 )
 
-                //     openDialog(
-                //     context: context,
-                //     builder: (context) => PendingCompletedTasksPage(
-                //       comp,
-                //       pendingTasks,
-                //       onRemoved: (complTask){
-                //         IndivCompProfile? myProfile = comp.myProfile;
-                //         if(myProfile == null) return;
-                //         myProfile.completedTasks.remove(complTask);
-                //         Provider.of<IndivCompProvider>(context, listen: false).notify();
-                //       },
-                //     )
-                // )
-
             ),
           ),
 
@@ -661,8 +647,8 @@ class TaskWidget extends StatelessWidget{
               radius: 0,
               margin: EdgeInsets.zero,
               iconLeading: false,
-              text: comp.myProfile?.role == CompRole.OBSERVER?'Wnioskuj':'Zalicz zadanie',
-              icon: MdiIcons.cubeSend,
+              text: comp.myProfile?.role == CompRole.OBSERVER?'Wnioskuj':'Przyznaj punkty',
+              icon: comp.myProfile?.role == CompRole.OBSERVER?MdiIcons.cubeSend:IndivComp.pointsIcon,
               onTap: () async {
 
                 if(!await isNetworkAvailable()){

@@ -15,6 +15,7 @@ import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/task_accept_s
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/logger.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
 import '../../../community/circle/model/circle.dart';
@@ -105,6 +106,7 @@ class IndivCompBasicData{
 class IndivComp{
 
   static const int participsPageSize = 10;
+  static IconData pointsIcon = MdiIcons.plusCircleMultipleOutline;
 
   static List<IndivCompTask> previewTasks = [
 

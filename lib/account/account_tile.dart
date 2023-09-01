@@ -27,6 +27,7 @@ class AccountTile extends StatelessWidget{
   final EdgeInsets? contentPadding;
   final void Function()? onTap;
   final void Function()? onLongPress;
+  final bool thumbnailTapable;
   final IconData? markIcon;
 
   const AccountTile(
@@ -48,6 +49,7 @@ class AccountTile extends StatelessWidget{
         this.contentPadding,
         this.onTap,
         this.onLongPress,
+        this.thumbnailTapable = false,
         this.markIcon,
         Key? key
       }) : super(key: key);
@@ -85,7 +87,8 @@ class AccountTile extends StatelessWidget{
                   borderColor: thumbnailBorderColor,
                   markerColor: thumbnailMarkerColor,
                   backgroundColor: backgroundColor,
-                  markIcon: markIcon
+                  markIcon: markIcon,
+                  tapable: thumbnailTapable,
               )
             else if(showThumbnail)
               Hero(

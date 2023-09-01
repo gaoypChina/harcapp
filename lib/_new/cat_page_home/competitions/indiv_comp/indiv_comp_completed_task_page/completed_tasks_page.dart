@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:harcapp/_app_common/accounts/user_data.dart';
+import 'package:harcapp/_common_widgets/empty_message_widget.dart';
 import 'package:harcapp/_common_widgets/paging_loadable_page/paging_loadable_scroll_view_page.dart';
 import 'package:harcapp/_new/api/indiv_comp.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_completed_task_page/review_page/completed_task_details_widget.dart';
@@ -6,9 +8,11 @@ import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_particip.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_task_compl.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/task_accept_state.dart';
+import 'package:harcapp/account/account.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp_core/dimen.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 import '../models/indiv_comp_task.dart';
@@ -225,6 +229,14 @@ class CompletedTasksPageState extends State<CompletedTasksPage>{
             comp,
             loadedCompletedTasks[index],
           )
+      ),
+      emptyWidget: Center(
+        child: EmptyMessageWidget(
+          icon: MdiIcons.cubeOff,
+          text: particip?.key == AccountData.key?
+          'Brak zrealizowanych zadań\n\nWeź się do roboty ${AccountData.sex == Sex.male?'druhnu':'druhno'}!':
+          'Brak zrealizowanych zadań',
+        ),
       ),
       itemSeparatorHeight: Dimen.SIDE_MARG,
   );

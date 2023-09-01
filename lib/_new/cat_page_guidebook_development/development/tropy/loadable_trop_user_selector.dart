@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/common.dart';
-import 'package:harcapp/_common_widgets/paging_loadable_page/paging_loadable_base_scroll_view_page.dart';
+import 'package:harcapp/_common_widgets/paging_loadable_page/paging_loadable_base_widget.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_users_loader.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_users_page/trop_user_tile.dart';
 import 'package:harcapp/logger.dart';
@@ -11,7 +11,6 @@ import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp_core/dimen.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 import 'model/trop.dart';
@@ -102,13 +101,7 @@ class LoadableTropUserSelectorState extends State<LoadableTropUserSelector>{
   }
 
   @override
-  Widget build(BuildContext context) => PagingLoadableBaseScrollViewPage(
-      appBarTitle: 'Wybierz ogarniacza',
-      appBarLeading: IconButton(
-        icon: Icon(MdiIcons.arrowLeft),
-        onPressed: () => Navigator.pop(context),
-      ),
-
+  Widget build(BuildContext context) => PagingLoadableBaseWidget(
       loadingIndicatorColor: AppColors.zhpTropColor,
 
       totalItemsCount: trop.userCount,
@@ -135,13 +128,26 @@ class LoadableTropUserSelectorState extends State<LoadableTropUserSelector>{
       },
       controller: controller,
 
-      sliverBody: (context, isLoading) => SliverList(delegate: SliverChildBuilderDelegate(
-              (context, index) => TropUserTile(
-            user: trop.loadedUsers[index],
-            onTap: () => onUserSelected?.call(trop.loadedUsers[index]),
-          ),
-          childCount: trop.loadedUsers.length
-      ))
+    sliversBuilder: (context, isLoading, innerScrollViewKey) => [
+
+      const SliverAppBar(
+        floating: true,
+        title: Text('Wybierz ogarniacza'),
+        centerTitle: true,
+      ),
+
+      Container(
+          key: innerScrollViewKey,
+          child: SliverList(delegate: SliverChildBuilderDelegate(
+                  (context, index) => TropUserTile(
+                user: trop.loadedUsers[index],
+                onTap: () => onUserSelected?.call(trop.loadedUsers[index]),
+              ),
+              childCount: trop.loadedUsers.length
+          )),
+      )
+
+    ],
 
   );
 
@@ -156,18 +162,20 @@ Future<TropUser?> selectTropUser({
 
   await openDialog(
   context: context,
-  builder: (context) => Padding(
-    padding: const EdgeInsets.all(Dimen.defMarg),
-    child: Material(
-      clipBehavior: Clip.hardEdge,
-      color: background_(context),
-      borderRadius: BorderRadius.circular(AppCard.bigRadius),
-      child: LoadableTropUserSelector(
-          trop,
-          onUserSelected: (user){
-            selected = user;
-            Navigator.pop(context);
-          }
+  builder: (context) => Center(
+    child: Padding(
+      padding: const EdgeInsets.all(Dimen.defMarg),
+      child: Material(
+        clipBehavior: Clip.hardEdge,
+        color: background_(context),
+        borderRadius: BorderRadius.circular(AppCard.bigRadius),
+        child: LoadableTropUserSelector(
+            trop,
+            onUserSelected: (user){
+              selected = user;
+              Navigator.pop(context);
+            }
+        ),
       ),
     ),
   )

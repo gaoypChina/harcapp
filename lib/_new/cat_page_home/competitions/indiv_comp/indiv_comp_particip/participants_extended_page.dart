@@ -298,7 +298,7 @@ class ParticipantsExtendedPageState extends State<ParticipantsExtendedPage>{
               color: comp.colors.colorStart,
               colorEnd: comp.colors.colorEnd,
               child: TitleShortcutRowWidget(
-                  icon: MdiIcons.plusCircleMultipleOutline,
+                  icon: IndivComp.pointsIcon,
                   titleColor: background_(context),
                   iconColor: background_(context),
                   title: 'Zalicz zadanie'
@@ -309,37 +309,6 @@ class ParticipantsExtendedPageState extends State<ParticipantsExtendedPage>{
             userCount: comp.participCount,
             callReload: () async {
               await comp.reloadParticipsPage(awaitFinish: true);
-              // await ApiIndivComp.getParticipants(
-              //   comp: comp,
-              //   pageSize: IndivComp.participsPageSize,
-              //   lastRole: null,
-              //   lastUserName: null,
-              //   lastUserKey: null,
-              //   onSuccess: (participsPage){
-              //     IndivCompParticip me = comp.getParticip(AccountData.key!)!;
-              //     participsPage.removeWhere((member) => member.key == me.key);
-              //     participsPage.insert(0, me);
-              //     comp.setAllLoadedParticips(participsPage, context: context);
-              //     updateUserSets();
-              //     selectedParticips.clear();
-              //     setState((){});
-              //   },
-              //   onForceLoggedOut: (){
-              //     if(!mounted) return true;
-              //     showAppToast(context, text: forceLoggedOutMessage);
-              //     setState(() {});
-              //     return true;
-              //   },
-              //   onServerMaybeWakingUp: (){
-              //     if(!mounted) return true;
-              //     showServerWakingUpToast(context);
-              //     return true;
-              //   },
-              //   onError: (){
-              //     if(!mounted) return;
-              //     showAppToast(context, text: simpleErrorMessage);
-              //   },
-              // );
               return comp.loadedParticips.length;
             },
             callLoadMore: () async {

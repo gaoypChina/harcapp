@@ -18,8 +18,9 @@ class ParticipTile extends StatelessWidget{
   final Widget? leading;
   final Widget? trailing;
   final Widget? subtitle;
-  final IconData? mardIcon;
+  final IconData? markIcon;
   final dynamic heroTag;
+  final bool thumbnailTapable;
 
   const ParticipTile({
     required this.particip,
@@ -30,8 +31,9 @@ class ParticipTile extends StatelessWidget{
     this.leading,
     this.trailing,
     this.subtitle,
-    this.mardIcon,
+    this.markIcon,
     this.heroTag,
+    this.thumbnailTapable = false,
     super.key
   });
 
@@ -45,11 +47,12 @@ class ParticipTile extends StatelessWidget{
     leading: leading,
     trailing: trailing,
     subtitle: subtitle,
-    markIcon: mardIcon,
+    markIcon: markIcon,
     thumbnailHeroTag: heroTag,
 
     onTap: onTap,
     onLongPress: onLongPress,
+    thumbnailTapable: thumbnailTapable,
   );
   
 }

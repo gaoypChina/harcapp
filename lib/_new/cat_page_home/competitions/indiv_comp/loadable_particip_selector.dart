@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/common.dart';
-import 'package:harcapp/_common_widgets/paging_loadable_page/paging_loadable_base_scroll_view_page.dart';
 import 'package:harcapp/_common_widgets/paging_loadable_page/paging_loadable_base_widget.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/common/particip_tile.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_participants_loader.dart';
@@ -13,7 +12,6 @@ import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp_core/dimen.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 import 'models/indiv_comp.dart';
@@ -104,12 +102,6 @@ class LoadableParticipantSelectorState extends State<LoadableParticipantSelector
 
   @override
   Widget build(BuildContext context) => PagingLoadableBaseWidget(
-      appBarTitle: 'Wybierz ogarniacza',
-      appBarLeading: IconButton(
-        icon: Icon(MdiIcons.arrowLeft),
-        onPressed: () => Navigator.pop(context),
-      ),
-
       loadingIndicatorColor: AppColors.zhpTropColor,
 
       totalItemsCount: comp.participCount,
@@ -124,13 +116,26 @@ class LoadableParticipantSelectorState extends State<LoadableParticipantSelector
       },
       controller: controller,
 
-      sliverBody: (context, isLoading) => SliverList(delegate: SliverChildBuilderDelegate(
-          (context, index) => ParticipTile(
-            particip: comp.loadedParticips[index],
-            onTap: () => onParticipSelected?.call(comp.loadedParticips[index]),
-          ),
-          childCount: comp.loadedParticips.length
-      ))
+    sliversBuilder: (context, isLoading, innerScrollViewKey) => [
+
+      const SliverAppBar(
+        floating: true,
+        title: Text('Wybierz uczestnika'),
+        centerTitle: true,
+      ),
+
+      Container(
+          key: innerScrollViewKey,
+          child: SliverList(delegate: SliverChildBuilderDelegate(
+                  (context, index) => ParticipTile(
+                particip: comp.loadedParticips[index],
+                onTap: () => onParticipSelected?.call(comp.loadedParticips[index]),
+              ),
+              childCount: comp.loadedParticips.length
+          ))
+      )
+
+    ],
 
   );
 
@@ -145,18 +150,20 @@ Future<IndivCompParticip?> selectParticip({
 
   await openDialog(
   context: context,
-  builder: (context) => Padding(
-    padding: const EdgeInsets.all(Dimen.defMarg),
-    child: Material(
-      clipBehavior: Clip.hardEdge,
-      color: background_(context),
-      borderRadius: BorderRadius.circular(AppCard.bigRadius),
-      child: LoadableParticipantSelector(
-          comp,
-          onParticipSelected: (particip){
-            selected = particip;
-            Navigator.pop(context);
-          }
+  builder: (context) => Center(
+    child: Padding(
+      padding: const EdgeInsets.all(Dimen.defMarg),
+      child: Material(
+        clipBehavior: Clip.hardEdge,
+        color: background_(context),
+        borderRadius: BorderRadius.circular(AppCard.bigRadius),
+        child: LoadableParticipantSelector(
+            comp,
+            onParticipSelected: (particip){
+              selected = particip;
+              Navigator.pop(context);
+            }
+        ),
       ),
     ),
   )

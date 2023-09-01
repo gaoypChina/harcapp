@@ -46,6 +46,7 @@ class AccountThumbnailWidget extends StatelessWidget{
   final bool enabled;
   final IconData? markIcon;
   final void Function()? onTap;
+  final bool tapable;
 
   const AccountThumbnailWidget(
       { this.name,
@@ -65,6 +66,7 @@ class AccountThumbnailWidget extends StatelessWidget{
         this.markIcon,
         this.enabled = true,
         this.onTap,
+        this.tapable = true,
         super.key
       }):assert(name != null || icon != null || child != null);
 
@@ -104,7 +106,9 @@ class AccountThumbnailWidget extends StatelessWidget{
         children: [
 
           SimpleButton(
-            onTap: onTap??(name==null?null:() => showAppToast(context, text: '$name${shadow?' (konto widmo)':''}')),
+            onTap: tapable?
+            (onTap??(name==null?null:() => showAppToast(context, text: '$name${shadow?' (konto widmo)':''}'))):
+            null,
             padding: EdgeInsets.zero,
             margin: EdgeInsets.zero,
             elevation: elevated?AppCard.bigElevation:0,
