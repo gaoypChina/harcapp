@@ -226,6 +226,7 @@ List<Person> allPeople = [
   RAFAL_BARAN,
   RAFAL_KOWALSKI,
   RAFAL_LALIK,
+  ROBERT_LISZEWSKI,
   ROBERT_MAZUR,
   ROBERT_ROBOTYCKI,
   SANDRA_RZESZUREK,
@@ -251,6 +252,7 @@ List<Person> allPeople = [
   WANDA_MARCHEL,
   WERONIKA_ZAWIERUCHA,
   WIKTOR_KARPALA,
+  WIKTORIA_PINKOWSKA,
   WIKTORIA_WOJCIK,
   WINCENTY_DIETRYCH,
   WITOLD_JAKUBOWSKI,
@@ -876,7 +878,12 @@ const Person JULIANNA_KLUS = Person(
 );
 const Person JULITA_STEPIEN = Person(name: 'Julita Stępień');
 
-const Person KACPER_BACZKOWSKI = Person(name: 'Kacper Bączkowski', stopH: StopHarc.dhc, org: Org.zhp);
+const Person KACPER_BACZKOWSKI = Person(
+  name: 'Kacper Bączkowski',
+  stopH: StopHarc.dhc,
+  org: Org.zhp,
+  email: ['baczkowski.kacper.04@gmail.com']
+);
 const Person KACPER_CIESIELSKI = Person(
     name: 'Kacper Ciesielski',
     druzyna: '17. Zgierska Obronną Drużyna Harcerska "Sokoły"',
@@ -1573,6 +1580,14 @@ const Person RAFAL_LALIK = Person(name: 'Rafał Lalik', stopH: StopHarc.zhpHOc,
   hufiec: huf_zhp_krakow_pdg,
   org: Org.zhp,
 );
+const Person ROBERT_LISZEWSKI = Person(
+    name: 'Robert Liszewski',
+    druzyna: '25. Środowiskowa Drużyna Harcerska "Echo" ' "im. Tony'ego Halika",
+    hufiec: huf_zhp_sochaczew,
+    stopH: StopHarc.zhpCwik,
+    org: Org.zhp,
+    email: ['liszewskir25@gmail.com']
+);
 const Person ROBERT_MAZUR = Person(name: 'Robert Mazur', stopH: StopHarc.zhpOdkrywca);
 const Person ROBERT_ROBOTYCKI = Person(name: 'Robert Rybotycki', stopH: StopHarc.zhpOdkrywca, org: Org.zhp,);
 const Person SANDRA_RZESZUREK = Person(name: 'Sandra Rzeszutek', email: ['sandrarzeszutek@wp.pl']);
@@ -1699,6 +1714,12 @@ const Person WIKTOR_KARPALA = Person(name: 'Wiktor Karpała', stopH: StopHarc.zh
   druzyna:'74. DH "Desant" im. 1. SBS gen. bryg. Stanisława Sosabowskiego',
   hufiec: huf_zhp_podkrakowski,
   org: Org.zhp,
+);
+const Person WIKTORIA_PINKOWSKA = Person(
+    name: 'Wiktoria Pinkowska',
+    druzyna: '8. Zgierska Wodna Drużyna Harcerzy Starszych „Nieskończoność”',
+    hufiec: huf_zhp_zgierz,
+    email: ['wiktoria.pinkowska@zhp.net.pl', 'w.pinkowskaa@gmail.com']
 );
 const Person WIKTORIA_PRUSZYNSKA = Person(
   name: 'Wiktoria Pruszyńska',

@@ -15,6 +15,7 @@ class PatronListWidget extends StatelessWidget{
     KLAUDIUSZ_PALUCH,
     PAWEL_KIMEL,
     Person(name: 'Anna Kaczorowska'),
+    Person(name: 'Krzysiek Marciniak'),
   ];
 
   static const List<Person> PLN10Patrons = [
@@ -24,7 +25,6 @@ class PatronListWidget extends StatelessWidget{
     Person(name: 'Filip Skura'),
     Person(name: 'Karol Kociołek'),
     Person(name: 'Maciej Marciniak'),
-    Person(name: 'Krzysiek Marciniak'),
   ];
 
   static const List<Person> PLN5Patrons = [

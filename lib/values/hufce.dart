@@ -253,6 +253,7 @@ const String huf_zhp_redukta = 'Hufiec ZHP Reduta';
 const String huf_zhp_ruda_slaska = 'Hufiec ZHP Ruda Śląska';
 const String huf_zhp_rybnik = 'Hufiec ZHP Rybnik';
 const String huf_zhp_rzeszow = 'Hufiec ZHP Rzeszów';
+const String huf_zhp_sochaczew = 'Hufiec ZHP Sochaczew';
 const String huf_zhp_stargard = 'Hufiec ZHP Stargard';
 const String huf_zhp_szczecin_dabie = 'Hufiec ZHP Szczecin Dąbie';
 const String huf_zhp_szczecin_pogodno = 'Hufiec ZHP Szczecin Pogodno';
