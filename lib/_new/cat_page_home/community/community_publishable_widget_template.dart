@@ -346,26 +346,64 @@ class PublishInfoWidget extends StatelessWidget{
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
 
-              Padding(
-                padding: const EdgeInsets.only(top: 6.0),
-                child:
-                showCommunityInfo || publishable.author == null?
-                Text(
-                  publishable.community.name,
-                  style: AppTextStyle(
-                      fontSize: Dimen.TEXT_SIZE_NORMAL,
-                      fontWeight: weight.halfBold
+              Row(
+                children: [
+
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 4.0),
+                    child:
+                    showCommunityInfo || publishable.author == null?
+                    Text(
+                      publishable.community.name,
+                      style: AppTextStyle(
+                          fontSize: Dimen.TEXT_SIZE_NORMAL,
+                          fontWeight: weight.halfBold
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.clip,
+                    ):
+                    Text(publishable.author!.name, style: AppTextStyle()),
                   ),
-                  maxLines: 2,
-                  overflow: TextOverflow.clip,
-                ):
-                Text(publishable.author!.name, style: AppTextStyle()),
+
+                  Expanded(child: Container()),
+
+                  SimpleButton(
+                    onTap: onCommunityButtonTap,
+                    color: CommunityCoverColors.backgroundColor(context, palette),
+                    radius: AppCard.defRadius,
+                    child: Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+
+                          Icon(
+                            publishable is Post?Forum.icon:Circle.icon,
+                            size: Dimen.TEXT_SIZE_NORMAL + 2,
+                            color: textEnab_(context),
+                          ),
+
+                          const SizedBox(width: 4.0),
+
+                          Text(
+                            publishable is Post?'Forum':'Krąg',
+                            style: AppTextStyle(
+                                fontSize: Dimen.TEXT_SIZE_NORMAL,
+                                fontWeight: weight.halfBold
+                            ),
+                          ),
+
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
 
               Row(
                 children: [
 
-                  const SizedBox(height: Dimen.TEXT_SIZE_NORMAL + 2 + 2*4),
+                  const SizedBox(height: Dimen.TEXT_SIZE_NORMAL + 2*4),
 
                   if(showCommunityInfo && publishable.author != null)
                     Text('${publishable.author!.name}  ', style: AppTextStyle()),
@@ -415,40 +453,6 @@ class PublishInfoWidget extends StatelessWidget{
             ],
           ),
         ),
-
-        const SizedBox(width: 6.0),
-
-        SimpleButton(
-          onTap: onCommunityButtonTap,
-          color: CommunityCoverColors.backgroundColor(context, palette),
-          radius: AppCard.defRadius,
-          child: Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-
-                Icon(
-                  publishable is Post?Forum.icon:Circle.icon,
-                  size: Dimen.TEXT_SIZE_NORMAL + 2,
-                  color: textEnab_(context),
-                ),
-
-                const SizedBox(width: 4.0),
-
-                Text(
-                  publishable is Post?'Forum':'Krąg',
-                  style: AppTextStyle(
-                      fontSize: Dimen.TEXT_SIZE_NORMAL,
-                      fontWeight: weight.halfBold
-                  ),
-                ),
-
-              ],
-            ),
-          ),
-        ),
-
 
       ],
     )

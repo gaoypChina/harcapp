@@ -96,6 +96,10 @@ class IndivCompCompetedTaskRequestWidgetState extends State<IndivCompCompetedTas
 
                   if(adminOrMod)
                     BorderMaterial(
+                        elevation: particip == null?
+                        AppCard.bigElevation:
+                        0,
+
                         child:
                         particip == null?
                         NoParticipSelectedWidget(
@@ -137,8 +141,17 @@ class IndivCompCompetedTaskRequestWidgetState extends State<IndivCompCompetedTas
                       textColor: sending || (adminOrMod && particip == null)?iconDisab_(context):iconEnab_(context),
                       iconLeading: false,
                       margin: EdgeInsets.zero,
-                      icon: adminOrMod?MdiIcons.check:MdiIcons.cubeSend,
-                      text: adminOrMod?'Zalicz zadanie':'Prześlij ',
+                      radius: 0,
+
+                      icon: (adminOrMod && particip == null)?MdiIcons.accountAlertOutline:
+                      (adminOrMod && particip != null)?MdiIcons.check:
+                      MdiIcons.cubeSend,
+
+                      text:
+                      (adminOrMod && particip == null)?'Wybierz uczestnika':
+                      (adminOrMod && particip != null)?'Zalicz zadanie':
+                      'Prześlij ',
+
                       onTap: sending || (adminOrMod && particip == null)?null:() async {
 
                         if(!await isNetworkAvailable()) {
@@ -151,6 +164,7 @@ class IndivCompCompetedTaskRequestWidgetState extends State<IndivCompCompetedTas
                         await ApiIndivComp.createCompletedTask(
                             comp: comp,
                             taskKey: task.key,
+                            userKeys: particip == null?null:[particip!.key],
                             comment: controller.text,
                             onSuccess: (List<IndivCompCompletedTask> taskComplRespMap, Map<String, ShowRankData> idRank){
                               if(mounted) showAppToast(context, text: adminOrMod?'Zaliczono':'Przesłano. Wniosek oczekuje na rozpatrzenie.');
@@ -195,7 +209,7 @@ class NoParticipSelectedWidget extends StatelessWidget{
   @override
   Widget build(BuildContext context) => AccountTile(
       'Wybierz uczestnika',
-      textColor: hintEnab_(context),
+      textColor: textEnab_(context),
       showThumbnail: false,
       contentPadding: const EdgeInsets.only(
         top: Dimen.ICON_MARG/2,
@@ -204,7 +218,7 @@ class NoParticipSelectedWidget extends StatelessWidget{
         left: Dimen.ICON_MARG,
       ),
       trailing: AccountThumbnailWidget(
-        icon: MdiIcons.accountOutline,
+        icon: MdiIcons.accountAlertOutline,
         verified: false,
         elevated: false,
         tapable: false,

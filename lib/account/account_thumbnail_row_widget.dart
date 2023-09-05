@@ -20,10 +20,11 @@ class AccountThumbnailRowWidget extends StatelessWidget{
   final Color? borderColor;
   final Color? backgroundColor;
   final bool elevated;
+  final bool squeezable;
   final Clip? clipBehavior;
-  final double? screenWidth;
   final Widget? leading;
   final Widget? lastChild;
+  final Widget? Function(BuildContext context, double size, int index)? thumbnailMarkBuilder;
   final dynamic Function(int)? heroBuilder;
   final void Function()? onTap;
 
@@ -35,10 +36,11 @@ class AccountThumbnailRowWidget extends StatelessWidget{
         this.borderColor,
         this.backgroundColor,
         this.elevated = false,
+        this.squeezable = true,
         this.clipBehavior,
-        this.screenWidth,
         this.leading,
         this.lastChild,
+        this.thumbnailMarkBuilder,
         this.heroBuilder,
         this.onTap,
         super.key
@@ -65,7 +67,9 @@ class AccountThumbnailRowWidget extends StatelessWidget{
 
                     double width = constraints.maxWidth;
 
-                    bool big = scrollViewWidth(big: true) + padding.left + padding.right < width;
+                    bool big = true;
+                    if(squeezable)
+                      big = scrollViewWidth(big: true) + padding.left + padding.right < width;
 
                     List<Widget> children = [];
 
@@ -86,6 +90,7 @@ class AccountThumbnailRowWidget extends StatelessWidget{
                               color: color,
                               borderColor: borderColor,
                               onTap: onTap,
+                              markBuilder: (context, size) => thumbnailMarkBuilder?.call(context, size, i),
                             ),
                           )
                       );
@@ -153,9 +158,11 @@ class AccountThumbnailLoadableRowWidget extends StatelessWidget{
   final Color? borderColor;
   final Color? backgroundColor;
   final bool elevated;
+  final bool squeezable;
   final Clip? clipBehavior;
   final double? screenWidth;
   final Widget? leading;
+  final Widget? Function(BuildContext, double size, int index)? thumbnailMarkBuilder;
   final dynamic Function(int)? heroBuilder;
   final void Function()? onTap;
 
@@ -171,9 +178,11 @@ class AccountThumbnailLoadableRowWidget extends StatelessWidget{
         this.borderColor,
         this.backgroundColor,
         this.elevated = false,
+        this.squeezable = true,
         this.clipBehavior,
         this.screenWidth,
         this.leading,
+        this.thumbnailMarkBuilder,
         this.heroBuilder,
         this.onTap,
 
@@ -208,8 +217,8 @@ class AccountThumbnailLoadableRowWidget extends StatelessWidget{
         borderColor: borderColor,
         backgroundColor: backgroundColor,
         elevated: elevated,
+        squeezable: squeezable,
         clipBehavior: clipBehavior,
-        screenWidth: screenWidth,
         leading: leading,
 
         lastChild: isLoading?Center(
@@ -225,6 +234,7 @@ class AccountThumbnailLoadableRowWidget extends StatelessWidget{
           ),
         ):null,
 
+        thumbnailMarkBuilder: thumbnailMarkBuilder,
         heroBuilder: heroBuilder,
         onTap: onTap,
       )

@@ -29,6 +29,14 @@ class PartChangelog extends StatelessWidget{
                 '3.1.25',
                 [
                   'Dodano nowe piosenki,',
+                  'Poprawiono błąd wracania z niektórych ekranów.',
+                ]
+            ),
+
+            const ListCard(
+                '3.1.25',
+                [
+                  'Dodano nowe piosenki,',
                   'Dodano możliwość wyszukiwania osób w "Rankingu dodanych pieśni",',
                   'Poprawiono błędy w sprawnościach harcerzy ZHR,',
                   'Poprawiono moduł dodawania nowych piosenek.',

@@ -108,7 +108,6 @@ class TropSharedPreviewTileState extends State<TropSharedPreviewTile>{
               onPressed: loadTrop,
             ),
 
-
           ],
         ),
       );
@@ -122,7 +121,8 @@ class TropSharedPreviewTileState extends State<TropSharedPreviewTile>{
           completenessPercent: trop!.completenessPercent,
           iconSize: widget.iconSize,
           padding: widget.padding,
-          withHero: widget.withHero,
+          tropLclIdForHero: trop!.lclId,
+          tropKeyForHero: trop!.key,
         )
     );
 

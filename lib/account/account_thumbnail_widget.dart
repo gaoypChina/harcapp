@@ -43,8 +43,9 @@ class AccountThumbnailWidget extends StatelessWidget{
   final Color? markerColor;
   final Color? backgroundColor;
   final double? size;
-  final bool enabled;
+  final Widget? Function(BuildContext context, double size)? markBuilder;
   final IconData? markIcon;
+  final bool enabled;
   final void Function()? onTap;
   final bool tapable;
 
@@ -63,6 +64,7 @@ class AccountThumbnailWidget extends StatelessWidget{
         this.markerColor,
         this.backgroundColor,
         this.size,
+        this.markBuilder,
         this.markIcon,
         this.enabled = true,
         this.onTap,
@@ -169,11 +171,11 @@ class AccountThumbnailWidget extends StatelessWidget{
                   ),
                 )
             )
-          else if(markIcon != null)
+          else if(markBuilder != null || markIcon != null)
             Positioned(
                 bottom: -.04*size,
                 right: -.04*size,
-                child: Material(
+                child: markBuilder?.call(context, size/2.2)??Material(
                   borderRadius: BorderRadius.circular(size),
                   color: backgroundColor??background_(context),
                   child: Icon(

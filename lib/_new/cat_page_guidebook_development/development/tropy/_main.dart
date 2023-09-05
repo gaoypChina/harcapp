@@ -203,6 +203,8 @@ class TropyPageState extends State<TropyPage>{
                         zuchTropName: Trop.allOwn[index].customIconTropName,
                         completenessPercent: Trop.allOwn[index].completenessPercent,
                         iconSize: TropIcon.defSize,
+                        tropLclIdForHero: Trop.allOwn[index].lclId,
+                        tropKeyForHero: Trop.allOwn[index].key,
                       ),
                       onTap: () => pushPage(
                           context,
@@ -242,6 +244,8 @@ class TropyPageState extends State<TropyPage>{
                           zuchTropName: TropSharedPreviewData.all![index].customIconTropName,
                           completenessPercent: TropSharedPreviewData.all![index].completenessPercent,
                           iconSize: TropIcon.defSize,
+                          tropLclIdForHero: null,
+                          tropKeyForHero: TropSharedPreviewData.all![index].key,
                         ),
                         onTap: () => loadPushTropPage(context, TropSharedPreviewData.all![index])
                     ),

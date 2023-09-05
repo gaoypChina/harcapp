@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:harcapp/_app_common/common_color_data.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_widgets/border_material.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
@@ -123,7 +124,7 @@ class TropWidgetState extends State<TropWidget>{
                   DurationDateWidget(
                     startDate: trop.startDate,
                     endDate: trop.endDate,
-                    color: AppColors.zhpTropColor,
+                    colors: const CommonColorData(AppColors.zhpTropColor, AppColors.zhpTropColor, false),
                   ),
 
                   const SizedBox(height: Dimen.SIDE_MARG),
@@ -134,6 +135,8 @@ class TropWidgetState extends State<TropWidget>{
                     zuchTropName: trop.customIconTropName,
                     completenessPercent: trop.completenessPercent,
                     iconSize: iconSize,
+                    tropLclIdForHero: trop.lclId,
+                    tropKeyForHero: trop.key,
                   ),
 
                   if(account)
@@ -236,7 +239,7 @@ class TropUsersWidgetState extends State<TropUsersWidget>{
 
   List<TropUser> get loadedUsers => trop.loadedUsers;
 
-  late TropUsersLoaderListener tropUsersLoaderListener;
+  late TropUsersLoaderListener usersLoaderListener;
 
   Future<void> loadMoreUsers() async{
     if(trop.key == null){
@@ -257,7 +260,7 @@ class TropUsersWidgetState extends State<TropUsersWidget>{
     TropListProvider tropListProv = TropListProvider.of(context);
     TropLoadedUsersProvider tropLoadedUsersProv = TropLoadedUsersProvider.of(context);
 
-    tropUsersLoaderListener = TropUsersLoaderListener(
+    usersLoaderListener = TropUsersLoaderListener(
       onNoInternet: (){
         if(!mounted) return;
         showAppToast(context, text: noInternetMessage);
@@ -286,7 +289,7 @@ class TropUsersWidgetState extends State<TropUsersWidget>{
       }
     );
 
-    trop.addUsersLoaderListener(tropUsersLoaderListener);
+    trop.addUsersLoaderListener(usersLoaderListener);
     if(AccountData.loggedIn && loadedUsers.length <= 1 && trop.userCount > 1 && trop.isUsersLoading())
       loadMoreUsers();
     super.initState();
@@ -294,7 +297,7 @@ class TropUsersWidgetState extends State<TropUsersWidget>{
 
   @override
   void dispose() {
-    trop.removeUsersLoaderListener(tropUsersLoaderListener);
+    trop.removeUsersLoaderListener(usersLoaderListener);
     super.dispose();
   }
 

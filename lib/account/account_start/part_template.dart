@@ -57,8 +57,9 @@ class PartTemplate extends StatelessWidget {
     );
 
     return SingleChildScrollView(
-      physics: BouncingScrollPhysics(),
+      physics: const BouncingScrollPhysics(),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
 
           Stack(

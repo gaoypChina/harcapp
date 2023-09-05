@@ -13,7 +13,6 @@ import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/tr
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/account_page/account_page.dart';
 import 'package:harcapp/account/search_user_dialog.dart';
-import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:harcapp/values/app_values.dart';
 import 'package:harcapp/values/colors.dart';
 import 'package:harcapp/values/consts.dart';
@@ -233,8 +232,7 @@ class TropEditorPageState extends State<TropEditorPage>{
                       initTrop!.startDate = startTime;
                       initTrop!.endDate = endTime;
                       initTrop!.tasks = tasks.map((t) => t.toTaskData(setLclIdIfNull: true).toTask(initTrop!)).toList();
-                      initTrop!.saveOwn();
-                      synchronizer.post();
+                      initTrop!.saveOwn(); // This calls `synchronizer.post();`
 
                       await popPage(context); // Close loading widget.
                       await popPage(context);
@@ -296,9 +294,9 @@ class TropEditorPageState extends State<TropEditorPage>{
                           tasks: tasks.map((t) => t.toTaskData(setLclIdIfNull: true)).toList(),
                           lastUpdateTime: null
                       );
-                      trop.saveOwn();
+                      trop.saveOwn(); // This calls `synchronizer.post();`
                       Trop.addOwnToAll(trop);
-                      synchronizer.post();
+
                       await popPage(context); // Close loading widget.
                       await popPage(context);
                       onSaved?.call(trop);

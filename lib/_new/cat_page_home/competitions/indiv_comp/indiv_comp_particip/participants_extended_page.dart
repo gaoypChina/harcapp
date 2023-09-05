@@ -313,34 +313,6 @@ class ParticipantsExtendedPageState extends State<ParticipantsExtendedPage>{
             },
             callLoadMore: () async {
               await comp.loadParticipsPage(awaitFinish: true);
-              // await ApiIndivComp.getParticipants(
-              //   comp: comp,
-              //   pageSize: IndivComp.participsPageSize,
-              //   lastRole: comp.loadedParticips.length==1?null:comp.loadedParticips.last.profile.role,
-              //   lastUserName: comp.loadedParticips.length==1?null:comp.loadedParticips.last.name,
-              //   lastUserKey: comp.loadedParticips.length==1?null:comp.loadedParticips.last.key,
-              //   onSuccess: (participsPage){
-              //     comp.addLoadedParticips(participsPage, context: context);
-              //     updateUserSets();
-              //     if(mounted) setState((){});
-              //   },
-              //   onForceLoggedOut: (){
-              //     if(!mounted) return true;
-              //     showAppToast(context, text: forceLoggedOutMessage);
-              //     setState(() {});
-              //     return true;
-              //   },
-              //   onServerMaybeWakingUp: (){
-              //     if(!mounted) return true;
-              //     showServerWakingUpToast(context);
-              //     return true;
-              //   },
-              //   onError: (){
-              //     if(!mounted) return;
-              //     showAppToast(context, text: simpleErrorMessage);
-              //   },
-              // );
-
               return comp.loadedParticips.length;
 
             },

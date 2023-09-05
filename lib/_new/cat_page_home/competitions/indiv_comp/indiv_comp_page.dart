@@ -264,14 +264,14 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
                 ),
 
                 if(comp.myProfile?.role == CompRole.ADMIN || comp.myProfile?.role == CompRole.MODERATOR)
-                  SliverPadding(
-                    padding: const EdgeInsets.only(
-                      top: Dimen.SIDE_MARG,
-                      left: Dimen.SIDE_MARG,
-                      right: Dimen.SIDE_MARG,
-                    ),
-                    sliver: FloatingContainer(
-                      builder: (context, _, __) => PendingCompletedTasksReviewWidget(
+                  FloatingContainer(
+                    builder: (context, _, __) => Padding(
+                      padding: const EdgeInsets.only(
+                        top: Dimen.ICON_MARG,
+                        left: Dimen.ICON_MARG,
+                        right: Dimen.ICON_MARG,
+                      ),
+                      child: PendingCompletedTasksReviewWidget(
                         comp,
                         onAccepted: (IndivCompParticip particip, IndivCompCompletedTask complTask){
                           comp.getParticip(particip.key)!.profile.loadedCompletedTaskMap[complTask.key]!.acceptState = TaskAcceptState.ACCEPTED;
@@ -282,9 +282,9 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
                           setState(() {});
                         },
                       ),
-                      height: PendingCompletedTasksReviewWidget.height,
-                      rebuild: true,
                     ),
+                    height: PendingCompletedTasksReviewWidget.height + Dimen.ICON_MARG,
+                    rebuild: true,
                   ),
 
                 SliverList(delegate: SliverChildListDelegate([
@@ -299,7 +299,7 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
                     child: DurationDateWidget(
                       startDate: comp.startTime,
                       endDate: comp.endTime,
-                      color: comp.colors.avgColor,
+                      colors: comp.colors,
                     ),
                   ),
 
@@ -404,7 +404,7 @@ class CompHeaderWidget extends StatelessWidget{
                           'Rank',
                           style: AppTextStyle(
                               fontSize: 42.0*PointsWidget.fontSizeCoeff,
-                              fontWeight: weight.bold,
+                              fontWeight: weight.halfBold,
                               color: hintEnab_(context)
                           ),
                         ),
@@ -432,15 +432,11 @@ class CompHeaderWidget extends StatelessWidget{
                           comp,
                           title: 'Moje zadania',
                           particip: comp.getParticip(AccountData.key!),
+                          initLoadedCompletedTasks: comp.myProfile!.loadedCompletedTasks,
                           acceptState: TaskAcceptState.ACCEPTED,
+                          onCompletedTasksPageLoaded: (tasksPage) => comp.myProfile!.addLoadedCompletedTasks(tasksPage, increaseTotalCount: false),
+                          onCompletedTasksRefreshed: (tasksPage) => comp.myProfile!.setAllLoadedCompletedTasks(tasksPage),
                       )),
-                      // pushPage(context, builder: (context) => CompletedTasksPage(
-                      //   comp,
-                      //   comp.myProfile?.completedTasks,
-                      //   comp.taskMap,
-                      //   comp.participMap,
-                      //   comp.colors
-                      // )),
                   child: Row(
                     children: [
                       Expanded(
@@ -448,7 +444,7 @@ class CompHeaderWidget extends StatelessWidget{
                           'Pkt',
                           style: AppTextStyle(
                               fontSize: 42.0*PointsWidget.fontSizeCoeff,
-                              fontWeight: weight.bold,
+                              fontWeight: weight.halfBold,
                               color: hintEnab_(context)
                           ),
                         ),
@@ -478,35 +474,6 @@ class CompHeaderWidget extends StatelessWidget{
 
       ],
     ),
-  );
-
-}
-
-class AwardsWidget extends StatelessWidget{
-
-  final IndivComp comp;
-  final EdgeInsets? padding;
-
-  const AwardsWidget(this.comp, {this.padding, super.key});
-
-  @override
-  Widget build(BuildContext context) => Column(
-    crossAxisAlignment: CrossAxisAlignment.stretch,
-    children: [
-
-      Padding(
-        padding: padding!,
-        child: TitleShortcutRowWidget(
-          title: 'Nagrody',
-          textAlign: TextAlign.start,
-          titleColor: hintEnab_(context),
-          onOpen: () => pushPage(context, builder: (context) => IndivCompAwardsPage(comp)),
-        ),
-      ),
-
-      AwardPageViewWidget(comp, padding: padding)
-
-    ],
   );
 
 }
@@ -570,175 +537,6 @@ class PendingCompletedTasksReviewWidget extends StatelessWidget{
         ),
       )
   );
-
-}
-
-class TaskWidget extends StatelessWidget{
-
-  final IndivComp comp;
-  final IndivCompTask task;
-  final void Function(List<IndivCompCompletedTask>)? onReqSent;
-  final void Function(List<IndivCompCompletedTask>, Map<String, ShowRankData>)? onSelfGranted;
-
-  const TaskWidget(
-      this.comp,
-      this.task,
-      { this.onReqSent,
-        this.onSelfGranted,
-        Key? key
-      }) : super(key: key);
-
-  int? get completedTasksPendingCount => comp.myProfile!.completedTasksPendingCount;
-
-  @override
-  Widget build(BuildContext context) => IndivCompTaskWidget(
-    task,
-    bottom:
-    comp.myProfile?.active == true?
-    Row(
-      children: [
-
-        if(comp.myProfile?.role == CompRole.OBSERVER)
-          Expanded(
-            child: SimpleButton.from(
-                radius: 0,
-                textColor:
-                comp.myProfile?.pendingTasksCount[task.key] == null || comp.myProfile?.pendingTasksCount[task.key] == 0?
-                iconDisab_(context):
-                iconEnab_(context),
-
-                margin: EdgeInsets.zero,
-                icon: MdiIcons.clockOutline,
-
-                text:
-                comp.myProfile?.pendingTasksCount[task.key] == null || comp.myProfile?.pendingTasksCount[task.key] == 0?
-                null:
-                '${comp.myProfile?.pendingTasksCount[task.key]??0}',
-                onTap:
-                comp.myProfile?.pendingTasksCount[task.key] == null || comp.myProfile?.pendingTasksCount[task.key] == 0?
-                null:
-                () => pushPage(
-                  context,
-                  builder: (context) => CompletedTasksPage(
-                      comp,
-                      particip: comp.getParticip(AccountData.key!),
-                      task: task,
-                      acceptState: TaskAcceptState.PENDING,
-                      title: 'Prośby o zaliczenie',
-                      initLoadedCompletedTasks: comp.myProfile!.loadedPendingTasks[task.key],
-                      onCompletedTasksRefreshed: (completedTasksPage) =>
-                          comp.myProfile!.setAllLoadedPendingCompletedTasks(completedTasksPage),
-                      onCompletedTasksPageLoaded: (completedTasksPage) =>
-                          comp.myProfile!.addLoadedPendingCompletedTasks(completedTasksPage),
-                      onCompletedTaskRemoved: (completedTask){
-                          comp.myProfile!.removeLoadedPendingCompletedTaskByKey(completedTask.key);
-                          comp.myProfile!.removeCompletedTaskByKey(completedTask.key);
-                          IndivCompProvider.notify_(context);
-                      },
-                  ),
-                )
-
-            ),
-          ),
-
-        Expanded(
-          child: SimpleButton.from(
-              context: context,
-              radius: 0,
-              margin: EdgeInsets.zero,
-              iconLeading: false,
-              text: comp.myProfile?.role == CompRole.OBSERVER?'Wnioskuj':'Przyznaj punkty',
-              icon: comp.myProfile?.role == CompRole.OBSERVER?MdiIcons.cubeSend:IndivComp.pointsIcon,
-              onTap: () async {
-
-                if(!await isNetworkAvailable()){
-                  showAppToast(context, text: noInternetMessage);
-                  return;
-                }
-                bool adminOrMod = comp.myProfile?.role == CompRole.ADMIN || comp.myProfile?.role == CompRole.MODERATOR;
-
-                await openDialog(
-                    context: context,
-                    builder: (context) =>
-                        Center(
-                          child: IndivCompCompetedTaskRequestWidget(
-                            comp,
-                            task,
-                            adminOrMod: adminOrMod,
-
-                            onSuccess:
-                            adminOrMod?
-                            onSelfGranted:
-                            (complTaskList, _) => onReqSent?.call(complTaskList),
-                          ),
-                        )
-                );
-
-              }
-          ),
-        ),
-
-      ],
-    ):null,
-  );
-
-}
-
-class TaskListWidget extends StatelessWidget{
-
-  static const double separatorHeight = 12.0;
-
-  final IndivComp comp;
-  final void Function(List<IndivCompCompletedTask>)? onReqSent;
-  final void Function(List<IndivCompCompletedTask>, Map<String, ShowRankData>)? onGranted;
-
-  const TaskListWidget(
-      this.comp,
-      { this.onReqSent,
-        this.onGranted,
-        super.key
-      });
-
-  @override
-  Widget build(BuildContext context) {
-
-    List<Widget> children = [];
-
-    // Map<String, List<IndivCompCompletedTask>> pendingComplTasksMap = {};
-    // for(IndivCompCompletedTask complTask in comp.myProfile?.completedTasks??[]){
-    //   if(pendingComplTasksMap[complTask.task.key] == null)
-    //     pendingComplTasksMap[complTask.task.key] = [];
-    //
-    //   if(complTask.acceptState == TaskAcceptState.PENDING)
-    //     pendingComplTasksMap[complTask.task.key]!.add(complTask);
-    // }
-
-    for(int i=0; i<comp.tasks.length; i++) {
-      IndivCompTask task = comp.tasks[i];
-
-      if(task.state != TaskState.OPEN)
-        continue;
-
-      children.add(
-        TaskWidget(
-          comp,
-          task,
-          onReqSent: onReqSent,
-          onSelfGranted: onGranted,
-        )
-      );
-
-      if(i < comp.tasks.length-1)
-        children.add(const SizedBox(height: separatorHeight));
-    }
-
-    return Padding(
-      padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
-      child: Column(
-        children: children,
-      )
-    );
-  }
 
 }
 
@@ -813,6 +611,8 @@ class ParticipantsWidgetState extends State<ParticipantsWidget>{
     super.dispose();
   }
 
+  bool get hideMiniRanks => comp.rankDispType == RankDispType.RANGE && comp.myProfile?.role == CompRole.OBSERVER;
+
   @override
   Widget build(BuildContext context) => Padding(
     padding: padding,
@@ -829,7 +629,14 @@ class ParticipantsWidgetState extends State<ParticipantsWidget>{
               onLoadMore: () => comp.loadParticipsPage(),
               isLoading: comp.isParticipsLoading(),
               isMoreToLoad: comp.loadedParticips.length < comp.participCount,
-            ),
+              squeezable: hideMiniRanks,
+              thumbnailMarkBuilder: hideMiniRanks?null:(context, size, index) => IndivCompRankIcon(
+                  comp.loadedParticips[index].profile,
+                  activeParticipCnt: comp.activeParticipCount,
+                  colors: comp.colors,
+                  size: size,
+              ),
+            )
           ),
 
           if(comp.participCount == 1)
@@ -865,6 +672,196 @@ class ParticipantsWidgetState extends State<ParticipantsWidget>{
         ],
       ),
     ),
+  );
+
+}
+
+class TaskWidget extends StatelessWidget{
+
+  final IndivComp comp;
+  final IndivCompTask task;
+  final void Function(List<IndivCompCompletedTask>)? onReqSent;
+  final void Function(List<IndivCompCompletedTask>, Map<String, ShowRankData>)? onSelfGranted;
+
+  const TaskWidget(
+      this.comp,
+      this.task,
+      { this.onReqSent,
+        this.onSelfGranted,
+        Key? key
+      }) : super(key: key);
+
+  int? get completedTasksPendingCount => comp.myProfile!.completedTasksPendingCount;
+
+  @override
+  Widget build(BuildContext context) => IndivCompTaskWidget(
+    task,
+    bottom:
+    comp.myProfile?.active == true?
+    Row(
+      children: [
+
+        if(comp.myProfile?.role == CompRole.OBSERVER)
+          Expanded(
+            child: SimpleButton.from(
+                radius: 0,
+                textColor:
+                comp.myProfile?.pendingTasksCount[task.key] == null || comp.myProfile?.pendingTasksCount[task.key] == 0?
+                iconDisab_(context):
+                iconEnab_(context),
+
+                margin: EdgeInsets.zero,
+                icon: MdiIcons.clockOutline,
+
+                text:
+                comp.myProfile?.pendingTasksCount[task.key] == null || comp.myProfile?.pendingTasksCount[task.key] == 0?
+                null:
+                '${comp.myProfile?.pendingTasksCount[task.key]??0}',
+                onTap:
+                comp.myProfile?.pendingTasksCount[task.key] == null || comp.myProfile?.pendingTasksCount[task.key] == 0?
+                null:
+                    () => pushPage(
+                  context,
+                  builder: (context) => CompletedTasksPage(
+                    comp,
+                    particip: comp.getParticip(AccountData.key!),
+                    task: task,
+                    acceptState: TaskAcceptState.PENDING,
+                    title: 'Prośby o zaliczenie',
+                    initLoadedCompletedTasks: comp.myProfile!.loadedPendingTasks[task.key],
+                    onCompletedTasksRefreshed: (completedTasksPage) =>
+                        comp.myProfile!.setAllLoadedPendingCompletedTasks(completedTasksPage),
+                    onCompletedTasksPageLoaded: (completedTasksPage) =>
+                        comp.myProfile!.addLoadedPendingCompletedTasks(completedTasksPage),
+                    onCompletedTaskRemoved: (completedTask){
+                      comp.myProfile!.removeLoadedPendingCompletedTaskByKey(completedTask.key);
+                      comp.myProfile!.removeCompletedTaskByKey(completedTask.key);
+                      IndivCompProvider.notify_(context);
+                    },
+                  ),
+                )
+
+            ),
+          ),
+
+        Expanded(
+          child: SimpleButton.from(
+              context: context,
+              radius: 0,
+              margin: EdgeInsets.zero,
+              color: cardEnab_(context),
+              iconLeading: false,
+              text: comp.myProfile?.role == CompRole.OBSERVER?'Wnioskuj':'Rozdaj punkty',
+              icon: comp.myProfile?.role == CompRole.OBSERVER?MdiIcons.cubeSend:IndivComp.pointsIcon,
+              onTap: () async {
+
+                if(!await isNetworkAvailable()){
+                  showAppToast(context, text: noInternetMessage);
+                  return;
+                }
+                bool adminOrMod = comp.myProfile?.role == CompRole.ADMIN || comp.myProfile?.role == CompRole.MODERATOR;
+
+                await openDialog(
+                    context: context,
+                    builder: (context) =>
+                        Center(
+                          child: IndivCompCompetedTaskRequestWidget(
+                            comp,
+                            task,
+                            adminOrMod: adminOrMod,
+
+                            onSuccess:
+                            adminOrMod?
+                            onSelfGranted:
+                                (complTaskList, _) => onReqSent?.call(complTaskList),
+                          ),
+                        )
+                );
+
+              }
+          ),
+        ),
+
+      ],
+    ):null,
+  );
+
+}
+
+class TaskListWidget extends StatelessWidget{
+
+  static const double separatorHeight = 12.0;
+
+  final IndivComp comp;
+  final void Function(List<IndivCompCompletedTask>)? onReqSent;
+  final void Function(List<IndivCompCompletedTask>, Map<String, ShowRankData>)? onGranted;
+
+  const TaskListWidget(
+      this.comp,
+      { this.onReqSent,
+        this.onGranted,
+        super.key
+      });
+
+  @override
+  Widget build(BuildContext context) {
+
+    List<Widget> children = [];
+
+    for(int i=0; i<comp.tasks.length; i++) {
+      IndivCompTask task = comp.tasks[i];
+
+      if(task.state != TaskState.OPEN)
+        continue;
+
+      children.add(
+          TaskWidget(
+            comp,
+            task,
+            onReqSent: onReqSent,
+            onSelfGranted: onGranted,
+          )
+      );
+
+      if(i < comp.tasks.length-1)
+        children.add(const SizedBox(height: separatorHeight));
+    }
+
+    return Padding(
+        padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
+        child: Column(
+          children: children,
+        )
+    );
+  }
+
+}
+
+class AwardsWidget extends StatelessWidget{
+
+  final IndivComp comp;
+  final EdgeInsets? padding;
+
+  const AwardsWidget(this.comp, {this.padding, super.key});
+
+  @override
+  Widget build(BuildContext context) => Column(
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: [
+
+      Padding(
+        padding: padding!,
+        child: TitleShortcutRowWidget(
+          title: 'Nagrody',
+          textAlign: TextAlign.start,
+          titleColor: hintEnab_(context),
+          onOpen: () => pushPage(context, builder: (context) => IndivCompAwardsPage(comp)),
+        ),
+      ),
+
+      AwardPageViewWidget(comp, padding: padding)
+
+    ],
   );
 
 }

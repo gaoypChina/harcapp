@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
+import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/dimen.dart';
 
 import '../../../../../_app_common/common_color_data.dart';
@@ -36,7 +37,8 @@ class AwardTileSkeletonWidget extends StatelessWidget{
                     'Miejsce ${award.place}',
                     style: AppTextStyle(
                         fontSize: Dimen.TEXT_SIZE_APPBAR,
-                        fontWeight: weight.bold
+                        fontWeight: weight.halfBold,
+                        color: textEnab_(context)
                     )
                 ),
               ),

@@ -4,8 +4,10 @@ import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:harcapp/_app_common/accounts/account_header_widget.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/common.dart';
+import 'package:harcapp/account/account_page/account_nick_dialog.dart';
 import 'package:harcapp_core/comm_widgets/app_text.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_new/api/user.dart';
@@ -219,52 +221,33 @@ class AccountSettingsPartState extends State<AccountSettingsPart>{
     emailController!.text.isNotEmpty && nameController!.text.isNotEmpty && sex != null;
 
   @override
-  Widget build(BuildContext context) => ListView(
-    padding: widget.padding,
-    physics: const BouncingScrollPhysics(),
+  Widget build(BuildContext context) => Column(
     children: [
 
+      const SizedBox(height: Dimen.SIDE_MARG),
+
+      AccountHeaderWidget(
+          AccountData.name!,
+          verified: AccountData.verified,
+          leading: const SizedBox(width: Dimen.ICON_FOOTPRINT),
+          trailing: IconButton(
+            padding: const EdgeInsets.symmetric(horizontal: Dimen.ICON_MARG),
+            icon: Icon(MdiIcons.shareVariant),
+            onPressed: () => openDialog(
+                context: context,
+                builder: (context) => const AccountNickDialog()
+            )
+          ),
+      ),
+
+      const SizedBox(height: Dimen.SIDE_MARG),
+
       PartTemplate(
-          title: 'Moje informacje',
+          title: 'Moje dane',
           errorMessage: errMessage,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-
-              TitleShortcutRowWidget(
-                  title: 'Email',
-                  leading: const SizedBox(width: Dimen.SIDE_MARG),
-                  textAlign: TextAlign.start,
-                  titleColor: hintEnab_(context),
-                  trailing:
-                  AccountData.microsoftAcc?
-                  IconButton(
-                    onPressed: () => showAppToast(context, text: 'Konto powiązane z Microsoft ZHP'),
-                    icon: Icon(MdiIcons.microsoft, color: iconEnab_(context)),
-                  ):null
-              ),
-
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: Dimen.SIDE_MARG,
-                    right: Dimen.SIDE_MARG,
-                    bottom: Dimen.SIDE_MARG
-                ),
-                child: Text(
-                  'Adres email jest widoczny tylko dla Ciebie. Służy do weryfikacji i odzyskiwania konta.',
-                  style: AppTextStyle(color: hintEnab_(context)),
-                ),
-              ),
-
-              InputField(
-                hint: 'Email:',
-                controller: emailController,
-                enabled: !AccountData.microsoftAcc && editMode,
-                maxLength: ApiUser.EMAIL_MAX_LENGTH,
-                leading: Icon(MdiIcons.email, color: iconDisab_(context)),
-              ),
-
-              const SizedBox(height: Dimen.SIDE_MARG),
 
               TitleShortcutRowWidget(
                   title: 'Ja u innych',
@@ -301,6 +284,41 @@ class AccountSettingsPartState extends State<AccountSettingsPart>{
                   enabled: editMode,
                   controller: sexController,
                   onSexChanged: (sex) => setState(() => this.sex = sex)
+              ),
+
+              const SizedBox(height: Dimen.SIDE_MARG),
+
+              TitleShortcutRowWidget(
+                  title: 'Email',
+                  leading: const SizedBox(width: Dimen.SIDE_MARG),
+                  textAlign: TextAlign.start,
+                  titleColor: hintEnab_(context),
+                  trailing:
+                  AccountData.microsoftAcc?
+                  IconButton(
+                    onPressed: () => showAppToast(context, text: 'Konto powiązane z Microsoft ZHP'),
+                    icon: Icon(MdiIcons.microsoft, color: iconEnab_(context)),
+                  ):null
+              ),
+
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: Dimen.SIDE_MARG,
+                    right: Dimen.SIDE_MARG,
+                    bottom: Dimen.SIDE_MARG
+                ),
+                child: Text(
+                  'Adres email jest widoczny tylko dla Ciebie. Służy do weryfikacji i odzyskiwania konta.',
+                  style: AppTextStyle(color: hintEnab_(context)),
+                ),
+              ),
+
+              InputField(
+                hint: 'Email:',
+                controller: emailController,
+                enabled: !AccountData.microsoftAcc && editMode,
+                maxLength: ApiUser.EMAIL_MAX_LENGTH,
+                leading: Icon(MdiIcons.email, color: iconDisab_(context)),
               ),
 
               if(AccountData.regularAcc)
@@ -598,61 +616,6 @@ class DeleteAccountDialogState extends State<DeleteAccountDialog>{
         ),
       ),
     ),
-  );
-
-}
-
-class RotatingHarcAppLogo extends StatefulWidget{
-
-  static const defSize = 48.0;
-
-  final double size;
-  final Color? color;
-
-  const RotatingHarcAppLogo({this.size = defSize, this.color, super.key});
-
-  @override
-  State<StatefulWidget> createState() => RotatingHarcAppLogoState();
-
-}
-
-class RotatingHarcAppLogoState extends State<RotatingHarcAppLogo>{
-
-  static const List<Color> colors = [Colors.red, Colors.orange, Colors.amber, Colors.teal, Colors.green, Colors.blue, Colors.deepPurple];
-
-  FlipCardController? controller;
-
-  void flip()async{
-    while(true){
-      if(!mounted)
-        return;
-      controller!.toggleCard();
-      setState((){
-        if(colorIdx < colors.length - 2)
-          colorIdx++;
-        else
-          colorIdx = 0;
-      });
-      await Future.delayed(const Duration(milliseconds: 800));
-    }
-  }
-
-  late int colorIdx;
-
-  @override
-  void initState() {
-    controller = FlipCardController();
-    colorIdx = 0;
-    flip();
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) => FlipCard(
-    front: HarcAppWidget(color: colors[colorIdx + 1 - (colorIdx % 2)]),
-    back: HarcAppWidget(color: colors[colorIdx - (colorIdx % 2)]),
-    controller: controller,
-    flipOnTouch: false,
   );
 
 }

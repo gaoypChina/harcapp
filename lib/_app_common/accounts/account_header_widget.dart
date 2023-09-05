@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:harcapp/account/account_thumbnail_widget.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
+import 'package:harcapp_core/dimen.dart';
 
 class AccountHeaderWidget extends StatelessWidget{
 
@@ -8,6 +9,7 @@ class AccountHeaderWidget extends StatelessWidget{
   final Color? thumbnailColor;
   final Color? thumbnailBorderColor;
   final bool verified;
+  final bool showSex;
   final bool shadow;
   final Widget? leading;
   final Widget? trailing;
@@ -18,6 +20,7 @@ class AccountHeaderWidget extends StatelessWidget{
       { this.thumbnailColor,
         this.thumbnailBorderColor,
         required this.verified,
+        this.showSex = false,
         this.shadow = false,
         this.leading,
         this.trailing,
@@ -42,12 +45,13 @@ class AccountHeaderWidget extends StatelessWidget{
             onTap: null
         ),
 
-        const SizedBox(height: 24),
+        const SizedBox(height: 12),
 
         IntrinsicWidth(
           child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              const SizedBox(height: Dimen.ICON_FOOTPRINT),
               if(leading != null) leading!,
               Expanded(
                 child: Text(name, style: AppTextStyle(fontSize: 24.0, fontWeight: weight.bold)),

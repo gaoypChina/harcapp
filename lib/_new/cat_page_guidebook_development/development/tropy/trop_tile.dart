@@ -17,7 +17,8 @@ class TropTile extends StatelessWidget{
   final double iconSize;
   // final Widget? trailing;
   final EdgeInsets padding;
-  final bool withHero;
+  final String? tropLclIdForHero;
+  final String? tropKeyForHero;
 
   const TropTile({
     required this.name,
@@ -27,7 +28,8 @@ class TropTile extends StatelessWidget{
     this.iconSize = TropIcon.tileSize,
     // this.trailing,
     this.padding = EdgeInsets.zero,
-    this.withHero = true,
+    this.tropLclIdForHero,
+    this.tropKeyForHero,
     super.key
   });
 
@@ -84,9 +86,9 @@ class TropTile extends StatelessWidget{
       ),
     );
 
-    if(withHero)
+    if(tropLclIdForHero != null && tropKeyForHero != null)
       return Hero(
-          tag: Tuple3(name, category, zuchTropName),
+          tag: Tuple2(tropLclIdForHero, tropKeyForHero),
           child: child
       );
 

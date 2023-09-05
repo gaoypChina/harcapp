@@ -1,14 +1,9 @@
-import 'dart:async';
-
-import 'package:flip_card/flip_card.dart';
-import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
-import 'package:harcapp/_common_classes/app_tab_bar_indicator.dart';
 import 'package:harcapp/_common_classes/common.dart';
-import 'package:harcapp/_new/account_test_widget.dart';
+import 'package:harcapp_core/comm_widgets/app_scaffold.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_new/api/login_register.dart';
 import 'package:harcapp/account/account.dart';
@@ -24,7 +19,6 @@ import 'package:provider/provider.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import '../../_app_common/accounts/user_data.dart';
-import 'account_nick_part.dart';
 import 'account_settings_part.dart';
 import '../account_start/input_field_controller.dart';
 import '../account_start/login_part.dart';
@@ -76,8 +70,6 @@ class AccountPageState extends State<AccountPage> with TickerProviderStateMixin{
 
   String? errMessage;
 
-  TabController? controller;
-
   late bool mergingMsAcc;
 
   @override
@@ -96,189 +88,198 @@ class AccountPageState extends State<AccountPage> with TickerProviderStateMixin{
     editMode = false;
     processing = false;
 
-    controller = TabController(
-      length: 2,
-      vsync: this
-    );
-
     mergingMsAcc = false;
 
     super.initState();
   }
 
   @override
-  Widget build(BuildContext context) => PageTemplate(
-      title: 'Panel konta HarcApp',
-      actions: [
+  Widget build(BuildContext context) => AppScaffold(
+    body: CustomScrollView(
+      physics: const BouncingScrollPhysics(),
+      slivers: [
 
-        Consumer<ConnectivityProvider>(
-            builder: (context, prov, child) => IconButton(
-                icon: Icon(MdiIcons.exitToApp),
-                onPressed: prov.connected?() => openLogoutDialog(context):null
+        SliverAppBar(
+          title: const Text('Konto HarcApp'),
+          centerTitle: true,
+          floating: true,
+          actions: [
+
+            Consumer<ConnectivityProvider>(
+                builder: (context, prov, child) => IconButton(
+                    icon: Icon(MdiIcons.exitToApp),
+                    onPressed: prov.connected?() => openLogoutDialog(context):null
+                )
             )
-        )
+
+          ],
+        ),
+
+        SliverList(delegate: SliverChildListDelegate([
+
+
+          if(AccountData.convertableToMicrosoft)
+            Padding(
+              padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+              child: MicrosoftLoginButton(
+                  'Połącz z kontem ZHP',
+                  trailing: mergingMsAcc?
+                  const SpinKitChasingDots(color: Colors.black, size: Dimen.ICON_SIZE):
+                  Icon(MdiIcons.loginVariant, color: Colors.black),
+                  onTap: () async {
+
+                    showAlertDialog(
+                      context,
+                      dismissible: false,
+                      title: 'Logowanie',
+                      content: 'Trwa logowanie przez konto ZHP...',
+                    );
+
+                    await ZhpAccAuth.login();
+                    String? azureToken = await ZhpAccAuth.azureToken;
+                    if(azureToken == null){
+                      Navigator.pop(context);
+                      return;
+                    }
+                    await ApiRegLog.mergeMicrosoft(
+                      azureToken,
+                      onSuccess: (response){
+                        Navigator.pop(context);
+                        if(mounted) showAppToast(context, text: 'Połączono konto ZHP z kontem HarcApp.');
+                        if(mounted) setState(() {});
+                      },
+                      onServerMaybeWakingUp: () {
+                        if(mounted) showServerWakingUpToast(context);
+                        return true;
+                      },
+                      onError: (err) async {
+                        Navigator.pop(context);
+                        await ZhpAccAuth.logout();
+                        if(err!.data['error'] == 'microsoft_merge_email_mismatch')
+                          await showAlertDialog(
+                              context,
+                              title: 'To nie przejdzie...',
+                              content: 'Aby połączyć konta, zaloguj się kontem ZHP o tym samym adresie email co konto HarcApp: ${AccountData.email}.',
+                              actionBuilder: (context) => [
+                                AlertDialogButton(text: 'No dobrze', onTap: () => Navigator.pop(context))
+                              ]
+                          );
+                        else
+                          showAppToast(context, text: simpleErrorMessage);
+
+                      },
+                    );
+
+                  }
+              ),
+            ),
+
+          AccountSettingsPart(
+              padding: EdgeInsets.only(
+                  top: AccountData.convertableToMicrosoft?
+                  (MicrosoftLoginButton.height + Dimen.SIDE_MARG):
+                  Dimen.SIDE_MARG
+              )
+          ),
+
+        ]))
 
       ],
-      appBarBottom: TabBar(
-        indicator: AppTabBarIncdicator(context: context),
-        physics: const BouncingScrollPhysics(),
-        controller: controller,
-        tabs: [
-          Tab(icon: Icon(MdiIcons.accountEditOutline)),
-          Tab(icon: Icon(MdiIcons.broadcast))
-        ],
-      ),
-      child: Column(
-        children: [
-
-          const AccountTestWidget(),
-
-          Expanded(
-            child: Stack(
-              children: [
-
-                TabBarView(
-                  physics: const BouncingScrollPhysics(),
-                  controller: controller,
-                  children: [
-
-                    AccountSettingsPart(
-                        padding: EdgeInsets.only(
-                            top: AccountData.convertableToMicrosoft?
-                            (MicrosoftLoginButton.height + Dimen.SIDE_MARG):
-                            Dimen.SIDE_MARG
-                        )
-                    ),
-
-                    AccountNickPart(
-                        padding: EdgeInsets.only(
-                            top: AccountData.convertableToMicrosoft?
-                            (MicrosoftLoginButton.height + Dimen.SIDE_MARG):
-                            Dimen.SIDE_MARG,
-                        )
-                    ),
-
-                  ],
-                ),
-
-                if(AccountData.convertableToMicrosoft)
-                  Padding(
-                    padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-                    child: MicrosoftLoginButton(
-                        'Połącz z kontem ZHP',
-                        trailing: mergingMsAcc?
-                        const SpinKitChasingDots(color: Colors.black, size: Dimen.ICON_SIZE):
-                        Icon(MdiIcons.loginVariant, color: Colors.black),
-                        onTap: () async {
-
-                          showAlertDialog(
-                            context,
-                            dismissible: false,
-                            title: 'Logowanie',
-                            content: 'Trwa logowanie przez konto ZHP...',
-                          );
-
-                          await ZhpAccAuth.login();
-                          String? azureToken = await ZhpAccAuth.azureToken;
-                          if(azureToken == null){
-                            Navigator.pop(context);
-                            return;
-                          }
-                          await ApiRegLog.mergeMicrosoft(
-                            azureToken,
-                            onSuccess: (response){
-                              Navigator.pop(context);
-                              if(mounted) showAppToast(context, text: 'Połączono konto ZHP z kontem HarcApp.');
-                              if(mounted) setState(() {});
-                            },
-                            onServerMaybeWakingUp: () {
-                              if(mounted) showServerWakingUpToast(context);
-                              return true;
-                            },
-                            onError: (err) async {
-                              Navigator.pop(context);
-                              await ZhpAccAuth.logout();
-                              if(err!.data['error'] == 'microsoft_merge_email_mismatch')
-                                await showAlertDialog(
-                                    context,
-                                    title: 'To nie przejdzie...',
-                                    content: 'Aby połączyć konta, zaloguj się kontem ZHP o tym samym adresie email co konto HarcApp: ${AccountData.email}.',
-                                    actionBuilder: (context) => [
-                                      AlertDialogButton(text: 'No dobrze', onTap: () => Navigator.pop(context))
-                                    ]
-                                );
-                              else
-                                showAppToast(context, text: simpleErrorMessage);
-
-                            },
-                          );
-
-                        }
-                    ),
-                  ),
-
-              ],
-            ),
-          )
-
-        ],
-      )
+    ),
   );
 
-}
-
-class RotatingHarcAppLogo extends StatefulWidget{
-
-  static const defSize = 48.0;
-
-  final double size;
-  final Color? color;
-
-  const RotatingHarcAppLogo({this.size = defSize, this.color, super.key});
-
-  @override
-  State<StatefulWidget> createState() => RotatingHarcAppLogoState();
-
-}
-
-class RotatingHarcAppLogoState extends State<RotatingHarcAppLogo>{
-
-  static const List<Color> colors = [Colors.red, Colors.orange, Colors.amber, Colors.teal, Colors.green, Colors.blue, Colors.deepPurple];
-
-  FlipCardController? controller;
-
-  void flip()async{
-    while(true){
-      if(!mounted)
-        return;
-      controller!.toggleCard();
-      setState((){
-        if(colorIdx < colors.length - 2)
-          colorIdx++;
-        else
-          colorIdx = 0;
-      });
-      await Future.delayed(const Duration(milliseconds: 800));
-    }
-  }
-
-  late int colorIdx;
-
-  @override
-  void initState() {
-    controller = FlipCardController();
-    colorIdx = 0;
-    flip();
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) => FlipCard(
-    front: HarcAppWidget(color: colors[colorIdx + 1 - (colorIdx % 2)]),
-    back: HarcAppWidget(color: colors[colorIdx - (colorIdx % 2)]),
-    controller: controller,
-    flipOnTouch: false,
-  );
+  //     PageTemplate(
+  //     title: 'Panel konta HarcApp',
+  //     actions: [
+  //
+  //       Consumer<ConnectivityProvider>(
+  //           builder: (context, prov, child) => IconButton(
+  //               icon: Icon(MdiIcons.exitToApp),
+  //               onPressed: prov.connected?() => openLogoutDialog(context):null
+  //           )
+  //       )
+  //
+  //     ],
+  //     child: Column(
+  //       children: [
+  //
+  //         const AccountTestWidget(),
+  //
+  //         // Expanded(
+  //         //   child: Stack(
+  //         //     children: [
+  //         //
+  //         //       AccountSettingsPart(
+  //         //           padding: EdgeInsets.only(
+  //         //               top: AccountData.convertableToMicrosoft?
+  //         //               (MicrosoftLoginButton.height + Dimen.SIDE_MARG):
+  //         //               Dimen.SIDE_MARG
+  //         //           )
+  //         //       ),
+  //         //
+  //         //       if(AccountData.convertableToMicrosoft)
+  //         //         Padding(
+  //         //           padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+  //         //           child: MicrosoftLoginButton(
+  //         //               'Połącz z kontem ZHP',
+  //         //               trailing: mergingMsAcc?
+  //         //               const SpinKitChasingDots(color: Colors.black, size: Dimen.ICON_SIZE):
+  //         //               Icon(MdiIcons.loginVariant, color: Colors.black),
+  //         //               onTap: () async {
+  //         //
+  //         //                 showAlertDialog(
+  //         //                   context,
+  //         //                   dismissible: false,
+  //         //                   title: 'Logowanie',
+  //         //                   content: 'Trwa logowanie przez konto ZHP...',
+  //         //                 );
+  //         //
+  //         //                 await ZhpAccAuth.login();
+  //         //                 String? azureToken = await ZhpAccAuth.azureToken;
+  //         //                 if(azureToken == null){
+  //         //                   Navigator.pop(context);
+  //         //                   return;
+  //         //                 }
+  //         //                 await ApiRegLog.mergeMicrosoft(
+  //         //                   azureToken,
+  //         //                   onSuccess: (response){
+  //         //                     Navigator.pop(context);
+  //         //                     if(mounted) showAppToast(context, text: 'Połączono konto ZHP z kontem HarcApp.');
+  //         //                     if(mounted) setState(() {});
+  //         //                   },
+  //         //                   onServerMaybeWakingUp: () {
+  //         //                     if(mounted) showServerWakingUpToast(context);
+  //         //                     return true;
+  //         //                   },
+  //         //                   onError: (err) async {
+  //         //                     Navigator.pop(context);
+  //         //                     await ZhpAccAuth.logout();
+  //         //                     if(err!.data['error'] == 'microsoft_merge_email_mismatch')
+  //         //                       await showAlertDialog(
+  //         //                           context,
+  //         //                           title: 'To nie przejdzie...',
+  //         //                           content: 'Aby połączyć konta, zaloguj się kontem ZHP o tym samym adresie email co konto HarcApp: ${AccountData.email}.',
+  //         //                           actionBuilder: (context) => [
+  //         //                             AlertDialogButton(text: 'No dobrze', onTap: () => Navigator.pop(context))
+  //         //                           ]
+  //         //                       );
+  //         //                     else
+  //         //                       showAppToast(context, text: simpleErrorMessage);
+  //         //
+  //         //                   },
+  //         //                 );
+  //         //
+  //         //               }
+  //         //           ),
+  //         //         ),
+  //         //
+  //         //     ],
+  //         //   ),
+  //         // )
+  //
+  //       ],
+  //     )
+  // );
 
 }
 

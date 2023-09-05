@@ -47,7 +47,6 @@ class TropIdeasSearchPage extends StatelessWidget{
                   category: ideas[index].category,
                   completenessPercent: null,
                   iconSize: 52.0,
-                  withHero: false,
                 ),
               ),
               separatorBuilder: (context, index) => const SizedBox(height: Dimen.SIDE_MARG),

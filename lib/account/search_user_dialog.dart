@@ -156,7 +156,7 @@ class SearchUserWidgetState extends State<SearchUserWidget>{
                             horizontal: Dimen.SIDE_MARG,
                           ),
                           child: AppText(
-                            'Gdzie znaleźć kod publiczny?\nUżytkownik, którego szukasz ma go\nw <b>panelu konta HarcApp</b>,\nw zakładce <b>kod publiczny</b>.',
+                            'Gdzie znaleźć kod publiczny?\nUżytkownik, którego szukasz ma go\nw <b>panelu konta HarcApp</b></b>.',
                             textAlign: TextAlign.center,
                             color: hintEnab_(context),
                             size: Dimen.TEXT_SIZE_BIG,

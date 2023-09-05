@@ -495,7 +495,6 @@ class SharedUsersWidgetState extends State<SharedUsersWidget>{
                           sharedUsersProv!.users.map((user) => user.name).toList(),
                           clipBehavior: Clip.hardEdge,
                           //padding: EdgeInsets.all(Dimen.defMarg),
-                          screenWidth: MediaQuery.of(context).size.width - 2*Dimen.defMarg - Dimen.ICON_FOOTPRINT,
                           elevated: false,
                           heroBuilder: (index) => sharedUsersProv!.users[index],
                         ),
