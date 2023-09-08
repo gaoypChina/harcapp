@@ -13,18 +13,19 @@ import '../../_app_common/accounts/user_data.dart';
 
 class SexInputField extends StatelessWidget{
 
-  static const String male = 'Mężczyzna';
-  static const String female = 'Kobieta';
+  static const String male = 'Facet'; // 'Mężczyzna';
+  static const String female = 'Dziewoja'; // 'Kobieta';
 
   static IconData maleIcon = MdiIcons.faceMan;
   static IconData femaleIcon = MdiIcons.faceWoman;
 
   final Sex? sex;
-  final bool? enabled;
+  final bool enabled;
+  final bool dimTextOnDisabled;
   final InputFieldController? controller;
   final void Function(Sex)? onSexChanged;
 
-  const SexInputField(this.sex, {this.enabled = true, this.controller, this.onSexChanged, super.key});
+  const SexInputField(this.sex, {this.enabled = true, this.dimTextOnDisabled = true, this.controller, this.onSexChanged, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -55,11 +56,11 @@ class SexInputField extends StatelessWidget{
       children: [
 
         GestureDetector(
-          onTap: enabled!?onTap:null,
+          onTap: enabled?onTap:null,
           child: InputField(
             hint: 'Płeć:',
             controller: _controller,
-            hintTextColor: enabled! && sex != null?textEnab_(context):textDisab_(context),
+            hintTextColor: enabled && sex != null?textEnab_(context):(dimTextOnDisabled?textDisab_(context):textEnab_(context)),
             enabled: false,
             leading: Icon(MdiIcons.genderMaleFemale, color: iconDisab_(context)),
           ),
@@ -70,11 +71,11 @@ class SexInputField extends StatelessWidget{
           child: SimpleButton.from(
               context: context,
               margin: EdgeInsets.zero,
-              textColor: enabled!?iconEnab_(context):iconDisab_(context),
+              textColor: enabled?iconEnab_(context):dimTextOnDisabled?textDisab_(context):textEnab_(context),
               icon: sex==null?MdiIcons.circleOutline:(sex==Sex.male?maleIcon:femaleIcon),
               text: sex==null?'Wybierz':(sex==Sex.male?male:female),
               iconLeading: false,
-              onTap: enabled!?onTap:null
+              onTap: enabled?onTap:null
           ),
         )
 

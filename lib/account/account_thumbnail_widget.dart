@@ -173,9 +173,9 @@ class AccountThumbnailWidget extends StatelessWidget{
             )
           else if(markBuilder != null || markIcon != null)
             Positioned(
-                bottom: -.04*size,
-                right: -.04*size,
-                child: markBuilder?.call(context, size/2.2)??Material(
+                bottom: markBuilder==null?-.04*size:-.07*size,
+                right: markBuilder==null?-.04*size:-.07*size,
+                child: markBuilder?.call(context, size/2)??Material(
                   borderRadius: BorderRadius.circular(size),
                   color: backgroundColor??background_(context),
                   child: Icon(

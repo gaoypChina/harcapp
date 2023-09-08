@@ -3,7 +3,6 @@ import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_classes/org/org.dart';
 import 'package:harcapp/_common_classes/sha_pref.dart';
-import 'package:harcapp/values/hufce.dart';
 import 'package:harcapp/values/people.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
@@ -12,6 +11,7 @@ import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
 
+import '../values/rank_harc.dart';
 import 'hint_dropdown_widget.dart';
 
 class PersonDataDialog extends StatefulWidget{
@@ -38,7 +38,7 @@ class PersonDataDialogState extends State<PersonDataDialog>{
   late TextEditingController druzynaController;
   late TextEditingController hufiecController;
   String? stopInstr;
-  StopHarc? stopHarc;
+  RankHarc? stopHarc;
   Org? org;
 
   Person get currentPerson => Person(
@@ -119,7 +119,7 @@ class PersonDataDialogState extends State<PersonDataDialog>{
                 ),
               ),
 
-              HintDropdownWidget<StopHarc?>(
+              HintDropdownWidget<RankHarc?>(
                 hint: 'Stopień harcerski:',
                 hintTop: 'Stopień harcerski',
                 value: stopHarc,
@@ -128,64 +128,64 @@ class PersonDataDialogState extends State<PersonDataDialog>{
                   widget.onChanged(currentPerson);
                 },
                 onCleared: (){
-                  setState(() => stopInstr = null);
+                  setState(() => stopHarc = null);
                   widget.onChanged(currentPerson);
                 },
                 items: [
-                  DropdownMenuItem<StopHarc>(
-                    value: StopHarc.dhc,
+                  DropdownMenuItem<RankHarc>(
+                    value: RankHarc.dhc,
                     child: Text('Druh', style: AppTextStyle()),
                   ),
-                  DropdownMenuItem<StopHarc>(
-                    value: StopHarc.dhd,
+                  DropdownMenuItem<RankHarc>(
+                    value: RankHarc.dhd,
                     child: Text('Druhna', style: AppTextStyle()),
                   ),
-                  DropdownMenuItem<StopHarc>(
-                    value: StopHarc.zhpMlodzik,
+                  DropdownMenuItem<RankHarc>(
+                    value: RankHarc.zhpMlodzik,
                     child: Text('Młodzik', style: AppTextStyle()),
                   ),
-                  DropdownMenuItem<StopHarc>(
-                    value: StopHarc.zhpOchotniczka,
+                  DropdownMenuItem<RankHarc>(
+                    value: RankHarc.zhpOchotniczka,
                     child: Text('Ochotniczka', style: AppTextStyle()),
                   ),
-                  DropdownMenuItem<StopHarc>(
-                    value: StopHarc.zhpWywiadowca,
+                  DropdownMenuItem<RankHarc>(
+                    value: RankHarc.zhpWywiadowca,
                     child: Text('Wywiadowca', style: AppTextStyle()),
                   ),
-                  DropdownMenuItem<StopHarc>(
-                    value: StopHarc.zhpTropicielka,
+                  DropdownMenuItem<RankHarc>(
+                    value: RankHarc.zhpTropicielka,
                     child: Text('Tropicielka', style: AppTextStyle()),
                   ),
-                  DropdownMenuItem<StopHarc>(
-                    value: StopHarc.zhpOdkrywca,
+                  DropdownMenuItem<RankHarc>(
+                    value: RankHarc.zhpOdkrywca,
                     child: Text('Odkrywca', style: AppTextStyle()),
                   ),
-                  DropdownMenuItem<StopHarc>(
-                    value: StopHarc.zhpPionierka,
+                  DropdownMenuItem<RankHarc>(
+                    value: RankHarc.zhpPionierka,
                     child: Text('Pionierka', style: AppTextStyle()),
                   ),
-                  DropdownMenuItem<StopHarc>(
-                    value: StopHarc.zhpCwik,
+                  DropdownMenuItem<RankHarc>(
+                    value: RankHarc.zhpCwik,
                     child: Text('Ćwik', style: AppTextStyle()),
                   ),
-                  DropdownMenuItem<StopHarc>(
-                    value: StopHarc.zhpSamarytanka,
+                  DropdownMenuItem<RankHarc>(
+                    value: RankHarc.zhpSamarytanka,
                     child: Text('Samarytanka', style: AppTextStyle()),
                   ),
-                  DropdownMenuItem<StopHarc>(
-                    value: StopHarc.zhpHOc,
+                  DropdownMenuItem<RankHarc>(
+                    value: RankHarc.zhpHOc,
                     child: Text('Harcerz Orli', style: AppTextStyle()),
                   ),
-                  DropdownMenuItem<StopHarc>(
-                    value: StopHarc.zhpHOd,
+                  DropdownMenuItem<RankHarc>(
+                    value: RankHarc.zhpHOd,
                     child: Text('Harcerka Orla', style: AppTextStyle()),
                   ),
-                  DropdownMenuItem<StopHarc>(
-                    value: StopHarc.zhpHRc,
+                  DropdownMenuItem<RankHarc>(
+                    value: RankHarc.zhpHRc,
                     child: Text('Harcerz Rzeczypospolitej', style: AppTextStyle()),
                   ),
-                  DropdownMenuItem<StopHarc>(
-                    value: StopHarc.zhpHRd,
+                  DropdownMenuItem<RankHarc>(
+                    value: RankHarc.zhpHRd,
                     child: Text('Harcerka Rzeczypospolitej', style: AppTextStyle()),
                   ),
                 ],
@@ -289,7 +289,7 @@ Future<Person?> getMyPersonData(BuildContext context) async {
     druzyna: ShaPref.getStringOrNull(ShaPref.SHA_PREF_MY_PERSON_DATA_DRUZYNA),
     hufiec: ShaPref.getStringOrNull(ShaPref.SHA_PREF_MY_PERSON_DATA_HUFIEC),
     stopI: ShaPref.getStringOrNull(ShaPref.SHA_PREF_MY_PERSON_DATA_STOP_INSTR),
-    stopH: stringToStopHarc[ShaPref.getStringOrNull(ShaPref.SHA_PREF_MY_PERSON_DATA_STOP_HARC)],
+    stopH: paramToRankHarc[ShaPref.getStringOrNull(ShaPref.SHA_PREF_MY_PERSON_DATA_STOP_HARC)],
     org: orgFromInt[ShaPref.getInt(ShaPref.SHA_PREF_MY_PERSON_DATA_ORG, -1)],
   );
 
@@ -313,7 +313,7 @@ Future<Person?> getMyPersonData(BuildContext context) async {
   if(person!.stopI == null) ShaPref.remove(ShaPref.SHA_PREF_MY_PERSON_DATA_STOP_INSTR);
   else ShaPref.setString(ShaPref.SHA_PREF_MY_PERSON_DATA_STOP_INSTR, person!.stopI!);
 
-  String? stopHStr = stopHarcToString[person!.stopH];
+  String? stopHStr = person!.stopH==null?null:rankHarcToStr(person!.stopH!);
   if(stopHStr == null) ShaPref.remove(ShaPref.SHA_PREF_MY_PERSON_DATA_STOP_HARC);
   else ShaPref.setString(ShaPref.SHA_PREF_MY_PERSON_DATA_STOP_HARC, stopHStr);
 

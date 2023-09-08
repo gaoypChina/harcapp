@@ -384,6 +384,33 @@ class TropExampleData{
 
 }
 
+class _TropUsersLoaderContainer{
+
+  /*
+  It would be best if loaders were in each `trop` class. Unfortunately in such
+  case loaders are copied when trop is copied into an isolate. This is why loaders
+  are kept here - in a separate object and only accessed by the trop when needed.
+   */
+
+  static final Map<Trop, TropUsersLoader> _map = {};
+
+  _TropUsersLoaderContainer();
+
+  static TropUsersLoader get(Trop trop){
+    TropUsersLoader? loader = _map[trop];
+    if(loader == null){
+      loader = TropUsersLoader();
+      _map[trop] = loader;
+    }
+    return loader;
+  }
+
+  static remove(Trop trop){
+    _map.remove(trop);
+  }
+
+}
+
 class Trop extends TropBaseData with SyncableParamGroupMixin, SyncGetRespNode<TropGetResp>{
 
   static const int tropPageSize = 10;
@@ -462,6 +489,7 @@ class Trop extends TropBaseData with SyncableParamGroupMixin, SyncGetRespNode<Tr
 
     allLoadedShared.remove(t);
     allLoadedSharedMapByKey.remove(t.key);
+    _TropUsersLoaderContainer.remove(t);
 
     if(context == null) return;
     callProvidersOf(context);
@@ -473,6 +501,7 @@ class Trop extends TropBaseData with SyncableParamGroupMixin, SyncGetRespNode<Tr
 
     allLoadedShared.remove(trop);
     allLoadedSharedMapByKey.remove(trop.key);
+    _TropUsersLoaderContainer.remove(trop);
 
     if(context == null) return;
     callProvidersOf(context);
@@ -646,10 +675,9 @@ class Trop extends TropBaseData with SyncableParamGroupMixin, SyncGetRespNode<Tr
       _assignedUsersMap = assignedUsersMap,
       _assignedUsers = assignedUsersMap.values.toList(),
       _loadedUsersMap = loadedUsersMap,
-      _loadedUsers = loadedUsersMap.values.toList(),
-      _tropUsersLoader = TropUsersLoader();
+      _loadedUsers = loadedUsersMap.values.toList();
 
-  late final TropUsersLoader _tropUsersLoader;
+  TropUsersLoader get _tropUsersLoader => _TropUsersLoaderContainer.get(this);
 
   void update(Trop trop){
     name = trop.name;

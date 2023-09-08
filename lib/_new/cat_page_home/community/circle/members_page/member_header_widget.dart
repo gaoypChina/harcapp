@@ -21,7 +21,11 @@ class MemberHeaderWidget extends StatelessWidget{
     member.name,
     thumbnailColor: CommunityCoverColors.cardColor(context, palette),
     thumbnailBorderColor: CommunityCoverColors.cardColor(context, palette),
+    backgroundColor: CommunityCoverColors.backgroundColor(context, palette),
     verified: member.verified,
+    showDetails: false,
+    showDetailsButton: true,
+    detailsBorderColor: CommunityCoverColors.cardColor(context, palette),
     shadow: member.shadow,
     leading: const SizedBox(width: Dimen.ICON_SIZE + Dimen.ICON_MARG),
     trailing: Row(

@@ -15,9 +15,7 @@ import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:optional/optional_internal.dart';
-import 'package:palette_generator/palette_generator.dart';
 
-import '../common/community_cover_colors.dart';
 import '../model/community_role.dart';
 import '../model/community.dart';
 import '../model/community_manager.dart';
@@ -29,13 +27,11 @@ class CommunityManagerTileExtended extends StatefulWidget{
 
   final Community community;
   final CommunityManager manager;
-  final PaletteGenerator? palette;
   final dynamic heroTag;
 
   const CommunityManagerTileExtended({
     required this.community,
     required this.manager,
-    this.palette,
     this.heroTag,
     super.key
   });
@@ -48,7 +44,6 @@ class CommunityManagerTileExtended extends StatefulWidget{
 class CommunityManagerTileExtendedState extends State<CommunityManagerTileExtended>{
 
   Community get community => widget.community;
-  PaletteGenerator? get palette => widget.palette;
   CommunityManager get manager => widget.manager;
 
   get heroTag => widget.heroTag;
@@ -56,13 +51,12 @@ class CommunityManagerTileExtendedState extends State<CommunityManagerTileExtend
   void openDetails() => showScrollBottomSheet(
       context: context,
       builder: (context) => BottomSheetDef(
-        color: CommunityCoverColors.backgroundColor(context, palette),
+        color: background_(context),
         builder: (context) => Column(
           children: [
 
             ManagerHeaderWidget(
               manager,
-              palette: palette,
               heroTag: manager.key
             ),
 
@@ -88,7 +82,7 @@ class CommunityManagerTileExtendedState extends State<CommunityManagerTileExtend
                       icon: communityRoleToIcon[CommunityRole.REGULAR]!,
                       title: CommunityManagersPage.regularsHeaderTitle,
                       permissions: CommunityManagersPage.regularPersmissions,
-                      color: CommunityCoverColors.backgroundColor(context, palette),
+                      color: background_(context),
                     );
                     openDetails();
                   },
@@ -122,7 +116,7 @@ class CommunityManagerTileExtendedState extends State<CommunityManagerTileExtend
                       icon: communityRoleToIcon[CommunityRole.ADMIN]!,
                       title: CommunityManagersPage.adminsHeaderTitle,
                       permissions: CommunityManagersPage.adminPersmissions,
-                      color: CommunityCoverColors.backgroundColor(context, palette),
+                      color: background_(context),
                     );
                     openDetails();
                   },
@@ -201,7 +195,7 @@ class CommunityManagerTileExtendedState extends State<CommunityManagerTileExtend
         removingUserDetailMess: '${manager.name} nie będzie mieć dłużej dostępu do zarządzania środowiskiem.\n\nNa pewno chcesz ${manager.isMale?'go':'ją'} wyprosić?',
         handleRemove: () async {
 
-          showLoadingWidget(context, 'Wypraszanie ogarniacza...', color: CommunityCoverColors.strongColor(context, palette), );
+          showLoadingWidget(context, 'Wypraszanie ogarniacza...', color: iconEnab_(context), );
           await ApiCommunity.removeManagers(
               communityKey: community.key,
               userKeys: [manager.key],

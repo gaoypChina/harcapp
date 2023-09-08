@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:harcapp/_common_classes/common.dart';
+import 'package:harcapp/_common_classes/org/org.dart';
 import 'package:harcapp/_new/cat_page_home/community/forum/model/forum.dart';
 import 'package:harcapp/_new/cat_page_home/community/forum/model/post.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
@@ -10,9 +11,11 @@ import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/common.dart';
 import 'package:harcapp/sync/init_sync_analyser.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
+import 'package:harcapp/values/rank_harc.dart';
 
 import '../../_app_common/accounts/user_data.dart';
 import '../../logger.dart';
+import '../../values/rank_instr.dart';
 import '../cat_page_home/community/circle/model/announcement.dart';
 import '../cat_page_home/community/circle/model/circle.dart';
 import '../cat_page_home/community/community_publishable.dart';
@@ -396,6 +399,11 @@ class ApiRegLog{
   static String REGISTER_REQ_PASSWORD_REP = 'password_rep';
   static String REGISTER_REQ_NAME = 'name';
   static String REGISTER_REQ_SEX = 'sex';
+  static String REGISTER_REQ_ORG = 'harcOrg';
+  static String REGISTER_REQ_HUFIEC = 'hufiec';
+  static String REGISTER_REQ_DRUZYNA = 'druzyna';
+  static String REGISTER_REQ_RANK_HARC = 'rankHarc';
+  static String REGISTER_REQ_RANK_INSTR = 'rankInstr';
   static String REGISTER_REQ_POLICY = 'policy_v1';
   static String REGISTER_REQ_GDPR = 'gdpr_v1';
 
@@ -403,11 +411,29 @@ class ApiRegLog{
       String email,
       String name,
       Sex? sex,
+      Org? org,
+      String? hufiec,
+      String? druzyna,
+      RankHarc? rankHarc,
+      RankInstr? rankInstr,
       bool? regulaminAccept,
       bool? gdprAccept,
       String password,
       String passwordRep,
-      { Future<void> Function(Response response, String? key, String? jwt, String? email, String? name, String? nick, Sex? sex)? onSuccess,
+      { Future<void> Function(
+          Response response,
+          String? key,
+          String? jwt,
+          String? email,
+          String? name,
+          String? nick,
+          Sex sex,
+          Org? org,
+          String? hufiec,
+          String? druzyna,
+          RankHarc? rankHarc,
+          RankInstr? rankInstr,
+        )? onSuccess,
         FutureOr<bool> Function()? onServerMaybeWakingUp,
         Future<void> Function(Response? response)? onError,
       }) async {
@@ -458,6 +484,11 @@ class ApiRegLog{
             REGISTER_REQ_EMAIL: email,
             REGISTER_REQ_NAME: name,
             REGISTER_REQ_SEX: sexToBool[sex!],
+            if(org != null) REGISTER_REQ_ORG: orgToParam(org),
+            if(hufiec != null) REGISTER_REQ_HUFIEC: hufiec,
+            if(druzyna != null) REGISTER_REQ_DRUZYNA: druzyna,
+            if(rankHarc != null) REGISTER_REQ_RANK_HARC: rankHarcToParam(rankHarc),
+            if(rankInstr != null) REGISTER_REQ_RANK_INSTR: rankInstrToParam(rankInstr),
             REGISTER_REQ_POLICY: regulaminAccept,
             REGISTER_REQ_GDPR: gdprAccept,
             REGISTER_REQ_PASSWORD: password,
@@ -469,7 +500,12 @@ class ApiRegLog{
         String? email = response.data['email'];
         String? name = response.data['name'];
         String? nick = response.data['nick'];
-        Sex? sex = boolToSex[response.data['sex']];
+        Sex sex = boolToSex[response.data['sex']]??Sex.male;
+        Org? org = paramToOrg[response.data['harcOrg']];
+        String? hufiec = response.data['hufiec'];
+        String? druzyna = response.data['druzyna'];
+        RankHarc? rankHarc = paramToRankHarc[response.data['rankHarc']];
+        RankInstr? rankInstr = paramToRankInstr[response.data['rankInstr']];
 
         await AccountData.saveLoginData(email, response);
 
@@ -481,6 +517,11 @@ class ApiRegLog{
           name,
           nick,
           sex,
+          org,
+          hufiec,
+          druzyna,
+          rankHarc,
+          rankInstr,
         );
       },
       onServerMaybeWakingUp: onServerMaybeWakingUp,
@@ -490,15 +531,38 @@ class ApiRegLog{
 
   static String REGISTER_MICROSOFT_REQ_AZURE_TOKEN = 'azureToken';
   static String REGISTER_MICROSOFT_REQ_SEX = 'sex';
+  static String REGISTER_MICROSOFT_REQ_ORG = 'harcOrg';
+  static String REGISTER_MICROSOFT_REQ_HUFIEC = 'hufiec';
+  static String REGISTER_MICROSOFT_REQ_DRUZYNA = 'druzyna';
+  static String REGISTER_MICROSOFT_REQ_RANK_HARC = 'rankHarc';
+  static String REGISTER_MICROSOFT_REQ_RANK_INSTR = 'rankInstr';
   static String REGISTER_MICROSOFT_REQ_POLICY = 'policy_v1';
   static String REGISTER_MICROSOFT_REQ_GDPR = 'gdpr_v1';
 
   static Future<Response?> registerMicrosoft(
       String? azureToken,
       Sex? sex,
+      Org? org,
+      String? hufiec,
+      String? druzyna,
+      RankHarc? rankHarc,
+      RankInstr? rankInstr,
       bool? regulaminAccept,
       bool? gdprAccept,
-      { FutureOr<void> Function(Response response, String? key, String? jwt, String? email, String? name, String? nick, Sex? sex)? onSuccess,
+      { FutureOr<void> Function(
+          Response response,
+          String? key,
+          String? jwt,
+          String? email,
+          String? name,
+          String? nick,
+          Sex sex,
+          Org? org,
+          String? hufiec,
+          String? druzyna,
+          RankHarc? rankHarc,
+          RankInstr? rankInstr,
+        )? onSuccess,
         FutureOr<bool> Function()? onServerMaybeWakingUp,
         FutureOr<void> Function(Response? response)? onError,
       }) async {
@@ -533,6 +597,11 @@ class ApiRegLog{
           data: FormData.fromMap({
             REGISTER_MICROSOFT_REQ_AZURE_TOKEN: azureToken,
             REGISTER_MICROSOFT_REQ_SEX: sexToBool[sex!],
+            if(org != null) REGISTER_MICROSOFT_REQ_ORG: orgToParam(org),
+            if(hufiec != null) REGISTER_MICROSOFT_REQ_HUFIEC: hufiec,
+            if(druzyna != null) REGISTER_MICROSOFT_REQ_DRUZYNA: druzyna,
+            if(rankHarc != null) REGISTER_MICROSOFT_REQ_RANK_HARC: rankHarcToParam(rankHarc),
+            if(rankInstr != null) REGISTER_MICROSOFT_REQ_RANK_INSTR: rankInstrToParam(rankInstr),
             REGISTER_MICROSOFT_REQ_POLICY: regulaminAccept,
             REGISTER_MICROSOFT_REQ_GDPR: gdprAccept,
           })
@@ -543,7 +612,12 @@ class ApiRegLog{
         String? email = response.data['email'];
         String? name = response.data['name'];
         String? nick = response.data['nick'];
-        Sex? sex = boolToSex[response.data['sex']];
+        Sex sex = boolToSex[response.data['sex']]??Sex.male;
+        Org? org = paramToOrg[response.data['harcOrg']];
+        String? hufiec = response.data['hufiec'];
+        String? druzyna = response.data['druzyna'];
+        RankHarc? rankHarc = paramToRankHarc[response.data['rankHarc']];
+        RankInstr? rankInstr = paramToRankInstr[response.data['rankInstr']];
 
         await AccountData.saveLoginData(email, response);
 
@@ -555,6 +629,11 @@ class ApiRegLog{
           name,
           nick,
           sex,
+          org,
+          hufiec,
+          druzyna,
+          rankHarc,
+          rankInstr,
         );
       },
       onServerMaybeWakingUp: onServerMaybeWakingUp,
@@ -692,7 +771,7 @@ class ApiRegLog{
     ),
     onSuccess: (Response response, DateTime now) async => await onSuccess?.call(),
     onServerMaybeWakingUp: onServerMaybeWakingUp,
-    onError: (DioError error) async {
+    onError: (DioException error) async {
       String? response;
 
       try{

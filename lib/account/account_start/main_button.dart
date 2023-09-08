@@ -22,6 +22,7 @@ class MainButton extends StatelessWidget{
   final bool? processing;
   final bool enabled;
   final void Function()? onTap;
+  final bool hero;
 
   const MainButton({
     this.icon,
@@ -29,57 +30,63 @@ class MainButton extends StatelessWidget{
     this.processing,
     this.enabled = true,
     this.onTap,
+    this.hero = true,
     super.key
   });
 
   @override
   Widget build(BuildContext context) {
+
+    Widget child = Material(
+        clipBehavior: Clip.hardEdge,
+        borderRadius: BorderRadius.circular(outerRadius),
+        color: borderColor(context),
+        child: Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: Material(
+              clipBehavior: Clip.hardEdge,
+              borderRadius: BorderRadius.circular(innerRadius),
+              color: cardEnab_(context),
+              child: Consumer<ConnectivityProvider>(
+                  builder: (context, prov, child) => InkWell(
+                    onTap: !prov.connected || processing! || !enabled?null:onTap,
+                    child: SizedBox(
+                      height: Dimen.ICON_FOOTPRINT,
+                      width: double.infinity,
+                      child: AnimatedChildSlider(
+                        isCenter: false,
+                        index: processing!?1:0,
+                        withOpacity: true,
+                        direction: Axis.horizontal,
+                        children: [
+                          SimpleButton.from(
+                              context: context,
+                              text: text,
+                              margin: EdgeInsets.zero,
+                              icon: icon,
+                              textColor: enabled && prov.connected?iconEnab_(context):iconDisab_(context),
+                              iconLeading: false,
+                              onTap: null
+                          ),
+                          SpinKitThreeBounce(
+                            color: PartTemplate.accentColor(context),
+                            size: Dimen.ICON_SIZE,
+                          ),
+
+                        ],
+                      ),
+                    ),
+                  )
+              )
+          ),
+        )
+    );
+
+    if(!hero) return child;
+
     return Hero(
         tag: PartTemplate.mainButtonHeroTag,
-        child: Material(
-            clipBehavior: Clip.hardEdge,
-            borderRadius: BorderRadius.circular(outerRadius),
-            color: borderColor(context),
-            child: Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: Material(
-                  clipBehavior: Clip.hardEdge,
-                  borderRadius: BorderRadius.circular(innerRadius),
-                  color: cardEnab_(context),
-                  child: Consumer<ConnectivityProvider>(
-                      builder: (context, prov, child) => InkWell(
-                        onTap: !prov.connected || processing! || !enabled?null:onTap,
-                        child: SizedBox(
-                          height: Dimen.ICON_FOOTPRINT,
-                          width: double.infinity,
-                          child: AnimatedChildSlider(
-                            isCenter: false,
-                            index: processing!?1:0,
-                            withOpacity: true,
-                            direction: Axis.horizontal,
-                            children: [
-                              SimpleButton.from(
-                                  context: context,
-                                  text: text,
-                                  margin: EdgeInsets.zero,
-                                  icon: icon,
-                                  textColor: enabled && prov.connected?iconEnab_(context):iconDisab_(context),
-                                  iconLeading: false,
-                                  onTap: null
-                              ),
-                              SpinKitThreeBounce(
-                                color: PartTemplate.accentColor(context),
-                                size: Dimen.ICON_SIZE,
-                              ),
-
-                            ],
-                          ),
-                        ),
-                      )
-                  )
-              ),
-            )
-        )
+        child: child
     );
   }
 

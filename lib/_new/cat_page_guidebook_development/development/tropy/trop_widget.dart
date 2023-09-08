@@ -260,44 +260,48 @@ class TropUsersWidgetState extends State<TropUsersWidget>{
     TropListProvider tropListProv = TropListProvider.of(context);
     TropLoadedUsersProvider tropLoadedUsersProv = TropLoadedUsersProvider.of(context);
 
-    usersLoaderListener = TropUsersLoaderListener(
-      onNoInternet: (){
-        if(!mounted) return;
-        showAppToast(context, text: noInternetMessage);
-      },
-      onStart: () => setState((){}),
-      onUsersLoaded: (usersPage, reloaded){
-        Trop.callProvidersWithLoadedUsers(tropProv, tropListProv, tropLoadedUsersProv);
-      },
-      onForceLoggedOut: (){
-        if(!mounted) return true;
-        showAppToast(context, text: forceLoggedOutMessage);
-        return true;
-      },
-      onServerMaybeWakingUp: (){
-        if(!mounted) return true;
-        showServerWakingUpToast(context);
-        return true;
-      },
-      onError: (_){
-        if(!mounted) return;
-        showAppToast(context, text: simpleErrorMessage);
-      },
-      onEnd: (_, __){
-        if(!mounted) return;
-        setState(() {});
-      }
-    );
+    if(trop.isShared) {
+      usersLoaderListener = TropUsersLoaderListener(
+          onNoInternet: () {
+            if (!mounted) return;
+            showAppToast(context, text: noInternetMessage);
+          },
+          onStart: () => setState(() {}),
+          onUsersLoaded: (usersPage, reloaded) {
+            Trop.callProvidersWithLoadedUsers(
+                tropProv, tropListProv, tropLoadedUsersProv);
+          },
+          onForceLoggedOut: () {
+            if (!mounted) return true;
+            showAppToast(context, text: forceLoggedOutMessage);
+            return true;
+          },
+          onServerMaybeWakingUp: () {
+            if (!mounted) return true;
+            showServerWakingUpToast(context);
+            return true;
+          },
+          onError: (_) {
+            if (!mounted) return;
+            showAppToast(context, text: simpleErrorMessage);
+          },
+          onEnd: (_, __) {
+            if (!mounted) return;
+            setState(() {});
+          }
+      );
 
-    trop.addUsersLoaderListener(usersLoaderListener);
-    if(AccountData.loggedIn && loadedUsers.length <= 1 && trop.userCount > 1 && trop.isUsersLoading())
-      loadMoreUsers();
+      trop.addUsersLoaderListener(usersLoaderListener);
+      if (AccountData.loggedIn && loadedUsers.length <= 1 && trop.userCount > 1 && trop.isUsersLoading())
+        loadMoreUsers();
+    }
     super.initState();
   }
 
   @override
   void dispose() {
-    trop.removeUsersLoaderListener(usersLoaderListener);
+    if(trop.isShared)
+      trop.removeUsersLoaderListener(usersLoaderListener);
     super.dispose();
   }
 

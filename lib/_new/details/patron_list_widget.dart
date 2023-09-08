@@ -38,6 +38,7 @@ class PatronListWidget extends StatelessWidget{
     Person(name: 'Witek Marszał'),
     // MALGORZATA_MASKO_HORYZA, // anonim
     Person(name: 'Franek Janiak'),
+    Person(name: 'Patrycja Giermakowska'),
   ];
 
   @override

@@ -2,14 +2,17 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:harcapp/_common_classes/org/org.dart';
 import 'package:harcapp/_new/api/_api.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/model/trop.dart';
 import 'package:harcapp/_new/cat_page_home/community/community_publishable.dart';
 import 'package:harcapp/_new/cat_page_home/community/model/community.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
+import 'package:harcapp/values/rank_instr.dart';
 
 import '../_app_common/accounts/user_data.dart';
 import '../_new/cat_page_home/community/circle/model/announcement.dart';
+import '../values/rank_harc.dart';
 import 'ms_oauth.dart';
 
 //bool isLoggedIn = null; //true - logged in. false - not logged in. null - logging in;
@@ -67,6 +70,13 @@ class AccountData {
   static String? _nick;
   static String? _nickSearchable;
   static Sex? _sex;
+
+  static Org? _org;
+  static String? _hufiec;
+  static String? _druzyna;
+  static RankHarc? _rankHarc;
+  static RankInstr? _rankInstr;
+
   static String? _nameEditable;
   static String? _nickEditable;
   static String? _microsoftAcc;
@@ -89,6 +99,13 @@ class AccountData {
   static const String _keyNick = 'acc_nick';
   static const String _keyNickSearchable = 'acc_nick_searchable';
   static const String _keySex = 'acc_sex';
+
+  static const String _keyOrg = 'acc_org';
+  static const String _keyHufiec = 'acc_hufiec';
+  static const String _keyDruzyna = 'acc_druzyna';
+  static const String _keyRankHarc = 'acc_rank_harc';
+  static const String _keyRankInstr = 'acc_rank_instr';
+  
   static const String _keyNameEditable = 'acc_name_editable';
   static const String _keyNickEditable = 'acc_nick_editable';
   static const String _keyMicrosoftAcc = 'acc_microsoft_acc';
@@ -113,6 +130,13 @@ class AccountData {
     _nick = await storage.read(key: _keyNick);
     _nickSearchable = await storage.read(key: _keyNickSearchable);
     _sex = strToSex[await (storage.read(key: _keySex))];
+    
+    _org = orgFromInt[int.tryParse(await storage.read(key: _keyOrg)??'')??-1];
+    _hufiec = await storage.read(key: _keyHufiec);
+    _druzyna = await storage.read(key: _keyDruzyna);
+    _rankHarc = paramToRankHarc[await storage.read(key: _keyRankHarc)];
+    _rankInstr = strToRankInstr[await storage.read(key: _keyRankInstr)];
+    
     _nameEditable = await storage.read(key: _keyNameEditable);
     _nickEditable = await storage.read(key: _keyNickEditable);
     _microsoftAcc = await storage.read(key: _keyMicrosoftAcc);
@@ -139,6 +163,12 @@ class AccountData {
     await AccountData.writeNickSearchable(response.data['nickSearchable']??(throw InvalidResponseError('nickSearchable')));
     await AccountData.writeSex(boolToSex[response.data['sex']??(throw InvalidResponseError('sex'))]);
 
+    await AccountData.writeOrg(paramToOrg[response.data['harcOrg']]);
+    await AccountData.writeHufiec(response.data['hufiec']);
+    await AccountData.writeDruzyna(response.data['druzyna']);
+    await AccountData.writeRankHarc(paramToRankHarc[response.data['rankHarc']]);
+    await AccountData.writeRankInstr(paramToRankInstr[response.data['rankInstr']]);
+    
     await AccountData.writeNameEditable(response.data['nameEditable']??(throw InvalidResponseError('nameEditable')));
     await AccountData.writeNickEditable(response.data['nickEditable']??(throw InvalidResponseError('nickEditable')));
     await AccountData.writeMicrosoftAcc(response.data['microsoftLogin']??(throw InvalidResponseError('microsoftLogin')));
@@ -336,6 +366,86 @@ class AccountData {
       return await removeSex();
     else
       return await const FlutterSecureStorage().write(key: _keySex, value: sexToString[value]);
+  }
+
+
+  static Org? get org => _org;
+
+  static Future<void> removeOrg() async {
+    _org = null;
+    await const FlutterSecureStorage().delete(key: _keyOrg);
+  }
+
+  static Future<void> writeOrg(Org? value) async {
+    _org = value;
+    if (value == null)
+      return await removeOrg();
+    else
+      return await const FlutterSecureStorage().write(key: _keyOrg, value: orgToInt[value].toString());
+  }
+
+
+  static String? get hufiec => _hufiec;
+
+  static Future<void> removeHufiec() async {
+    _hufiec = null;
+    await const FlutterSecureStorage().delete(key: _keyHufiec);
+  }
+
+  static Future<void> writeHufiec(String? value) async {
+    _hufiec = value;
+    if (value == null)
+      return await removeHufiec();
+    else
+      return await const FlutterSecureStorage().write(key: _keyHufiec, value: value);
+  }
+
+
+  static String? get druzyna => _druzyna;
+
+  static Future<void> removeDruzyna() async {
+    _druzyna = null;
+    await const FlutterSecureStorage().delete(key: _keyDruzyna);
+  }
+
+  static Future<void> writeDruzyna(String? value) async {
+    _druzyna = value;
+    if (value == null)
+      return await removeDruzyna();
+    else
+      return await const FlutterSecureStorage().write(key: _keyDruzyna, value: value);
+  }
+
+
+  static RankHarc? get rankHarc => _rankHarc;
+
+  static Future<void> removeRankHarc() async {
+    _rankHarc = null;
+    await const FlutterSecureStorage().delete(key: _keyRankHarc);
+  }
+
+  static Future<void> writeRankHarc(RankHarc? value) async {
+    _rankHarc = value;
+    if (value == null)
+      return await removeRankHarc();
+    else
+      return await const FlutterSecureStorage().write(key: _keyRankHarc, value: rankHarcToStr(value));
+  }
+
+
+  static RankInstr? get rankInstr => _rankInstr;
+
+  static Future<void> removeRankInstr() async {
+    _rankInstr = null;
+    await const FlutterSecureStorage().delete(key: _keyRankInstr);
+  }
+
+  static Future<void> writeRankInstr(RankInstr? value) async {
+    _rankInstr = value;
+    if (value == null)
+      return await removeRankInstr();
+    else
+      return await const FlutterSecureStorage().write(key: _keyRankInstr, value: rankInstrToStr(value));
   }
 
 

@@ -89,25 +89,28 @@ class AccountThumbnailRowWidget extends StatelessWidget{
                               size: circleHeight,
                               color: color,
                               borderColor: borderColor,
+                              backgroundColor: backgroundColor,
                               onTap: onTap,
-                              markBuilder: (context, size) => thumbnailMarkBuilder?.call(context, size, i),
+                              markBuilder: thumbnailMarkBuilder == null?
+                              null:
+                              (context, size) => thumbnailMarkBuilder?.call(context, size, i),
                             ),
                           )
                       );
 
                       children.add(
-                          Positioned(
-                              top: 0,
-                              bottom: 0,
-                              left: max(0, i*(circleHeight + (big?circleDistBig:circleDistSmall))),
-                              //right: (i+1)*50.0,
-                              child: heroBuilder == null?
-                              thumbnailWidget:
-                              Hero(
-                                tag: heroBuilder?.call(i),
-                                child: thumbnailWidget,
-                              )
-                          )
+                        Positioned(
+                            top: 0,
+                            bottom: 0,
+                            left: max(0, i*(circleHeight + (big?circleDistBig:circleDistSmall))),
+                            //right: (i+1)*50.0,
+                            child: heroBuilder == null?
+                            thumbnailWidget:
+                            Hero(
+                              tag: heroBuilder?.call(i),
+                              child: thumbnailWidget,
+                            )
+                        )
                       );
                     }
 

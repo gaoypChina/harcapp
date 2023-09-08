@@ -13,8 +13,8 @@ import 'package:harcapp/_new/cat_page_song_book/settings/song_book_settings.dart
 import 'package:harcapp/_new/cat_page_song_book/song_audio_player_widget.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_contributors_page.dart';
 import 'package:harcapp/values/consts.dart';
-import 'package:harcapp/values/hufce.dart';
 import 'package:harcapp/values/people.dart';
+import 'package:harcapp/values/rank_harc.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_classes/storage.dart';
@@ -80,7 +80,7 @@ class SongWidget extends StatelessWidget{
         ${hasDruzyna?"druzyna: '${person?.druzyna}',":""}
         ${hasHufiec?"hufiec: '${person?.hufiec}',":""}
         ${hasStopI?"stopI: '${person?.stopI}',":""}
-        ${hasStopH?"stopH: StopHarc.${stopHarcToString[person?.stopH]},":""}
+        ${hasStopH?"stopH: RankHarc.${person?.stopH==null?null:rankHarcToStr(person!.stopH!)},":""}
         ${hasOrg?"org: ${person?.org},":""}
         email: []
       );""".replaceAll('\n\n', '\n');

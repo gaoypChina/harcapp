@@ -56,6 +56,7 @@ class InputField extends StatefulWidget{
   final Widget? trailing;
   final Color? hintTextColor;
   final Color? textColor;
+  final Color? textDisabledColor;
   final bool? isPassword;
   final bool noUnderline;
   final int? maxLength;
@@ -72,6 +73,7 @@ class InputField extends StatefulWidget{
     this.trailing,
     this.hintTextColor,
     this.textColor,
+    this.textDisabledColor,
     this.enabled = true,
     this.autofocus = false,
     this.isPassword = false,
@@ -132,7 +134,7 @@ class InputFieldState extends State<InputField>{
                   hint: widget.hint,
                   controller: widget.controller,
                   enabled: widget.enabled,
-                  style: AppTextStyle(color: widget.textColor??(widget.enabled?textEnab_(context):textDisab_(context)), fontSize: Dimen.TEXT_SIZE_BIG),
+                  style: AppTextStyle(color: widget.enabled?widget.textColor??textEnab_(context):widget.textDisabledColor??textDisab_(context), fontSize: Dimen.TEXT_SIZE_BIG),
                   hintStyle: AppTextStyle(color: widget.hintTextColor??hintEnab_(context), fontSize: Dimen.TEXT_SIZE_BIG),
                   showUnderline: !widget.noUnderline,
                   onAnyChanged: (text) => setState(() => controller!.errorDimed = true),

@@ -2,7 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:harcapp/_common_classes/blur.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
+import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_text.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_new/api/user.dart';
@@ -83,10 +85,27 @@ class AccountNickDialogState extends State<AccountNickDialog>{
 
   }
 
+  static const pulseDuration = Duration(milliseconds: 600);
+  late bool pulseVisible;
+
+  void runOpacityPulser() async {
+    while(true){
+      await Future.delayed(pulseDuration);
+      if(!mounted) return;
+      setState(() => pulseVisible = true);
+      await Future.delayed(pulseDuration);
+      if(!mounted) return;
+      setState(() => pulseVisible = false);
+    }
+  }
+
   @override
   void initState() {
     nickProcessing = false;
     nickSearchableProcessing = false;
+
+    pulseVisible = false;
+    post(() => runOpacityPulser());
 
     super.initState();
   }
@@ -130,15 +149,41 @@ class AccountNickDialogState extends State<AccountNickDialog>{
 
                     const SizedBox(width: Dimen.ICON_FOOTPRINT),
 
-                    Expanded(child: SelectableText(
-                      nickProcessing?'Generowanie...':AccountData.nick!,
-                      textAlign: TextAlign.center,
-                      style: AppTextStyle(
-                        fontSize: Dimen.TEXT_SIZE_APPBAR,
-                        fontWeight: nickProcessing || !AccountData.nickSearchable?weight.normal:weight.bold,
-                        color: nickProcessing || !AccountData.nickSearchable?textDisab_(context):iconEnab_(context),
+                    Expanded(
+                      child: Stack(
+                        children: [
+
+                          if(!nickProcessing && AccountData.nickSearchable)
+                            AnimatedOpacity(
+                              opacity: pulseVisible?1:0,
+                              duration: pulseDuration,
+                              child: Text(
+                                AccountData.nick!,
+                                textAlign: TextAlign.center,
+                                style: AppTextStyle(
+                                  fontSize: Dimen.TEXT_SIZE_APPBAR,
+                                  fontWeight: weight.bold,
+                                  color: textEnab_(context),
+                                ),
+                              ),
+                            ),
+
+                          Positioned.fill(child: Blur(sigma: 3, child: Container())),
+
+                          SelectableText(
+                            nickProcessing?'Generowanie...':AccountData.nick!,
+                            textAlign: TextAlign.center,
+                            style: AppTextStyle(
+                              fontSize: Dimen.TEXT_SIZE_APPBAR,
+                              fontWeight: nickProcessing || !AccountData.nickSearchable?weight.normal:weight.bold,
+                              color: nickProcessing || !AccountData.nickSearchable?textDisab_(context):iconEnab_(context),
+                            ),
+                          ),
+
+
+                        ],
                       ),
-                    )),
+                    ),
 
                     Consumer<ConnectivityProvider>(
                       builder: (context, prov, child) => IconButton(
@@ -154,24 +199,30 @@ class AccountNickDialogState extends State<AccountNickDialog>{
 
                 Padding(
                   padding: const EdgeInsets.symmetric(
-                    vertical: Dimen.SIDE_MARG,
-                    horizontal: 3*Dimen.SIDE_MARG
+                    horizontal: 2*Dimen.SIDE_MARG
                   ),
-                  child: QrImageView(
-                    padding: EdgeInsets.zero,
-                    data: AccountData.nick!,
-                    version: QrVersions.auto,
-                    eyeStyle: QrEyeStyle(
-                        eyeShape: QrEyeShape.square,
-                        color: AccountData.nickSearchable?
-                        ColorPack.DEF_ICON_ENAB:
-                        ColorPack.DEF_ICON_DISAB
-                    ),
-                    dataModuleStyle: QrDataModuleStyle(
-                      dataModuleShape: QrDataModuleShape.square,
-                      color: AccountData.nickSearchable?
-                      ColorPack.DEF_ICON_ENAB:
-                      ColorPack.DEF_ICON_DISAB
+                  child: Material(
+                    color: ColorPack.DEF_BACKGROUND,
+                    borderRadius: BorderRadius.circular(AppCard.bigRadius),
+                    child: Padding(
+                      padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+                      child: QrImageView(
+                        padding: EdgeInsets.zero,
+                        data: AccountData.nick!,
+                        version: QrVersions.auto,
+                        eyeStyle: QrEyeStyle(
+                            eyeShape: QrEyeShape.square,
+                            color: AccountData.nickSearchable?
+                            ColorPack.DEF_ICON_ENAB:
+                            ColorPack.DEF_ICON_DISAB
+                        ),
+                        dataModuleStyle: QrDataModuleStyle(
+                            dataModuleShape: QrDataModuleShape.square,
+                            color: AccountData.nickSearchable?
+                            ColorPack.DEF_ICON_ENAB:
+                            ColorPack.DEF_ICON_DISAB
+                        ),
+                      ),
                     ),
                   ),
                 ),

@@ -6,6 +6,28 @@ enum Org{zhp, zhr_o, zhr_c, zhr_d, fse, sh, zhp_n_l, hrp}
 
 double backgroundTextSize(BuildContext context) => MediaQuery.of(context).size.width/3;
 
+String orgToParam(Org org){
+  switch(org){
+    case Org.zhp: return 'ZHP';
+    case Org.zhr_o:
+    case Org.zhr_c:
+    case Org.zhr_d: return 'ZHR';
+    case Org.fse: return 'FSE';
+    case Org.sh: return 'SH';
+    case Org.zhp_n_l: return 'ZHPnL';
+    case Org.hrp: return 'HRP';
+  }
+}
+
+Map<String, Org> paramToOrg = {
+  'ZHP': Org.zhp,
+  'ZHR': Org.zhr_o,
+  'FSE': Org.fse,
+  'SH': Org.sh,
+  'ZHPnL': Org.zhp_n_l,
+  'HRP': Org.hrp
+};
+
 const Map<Org, int> orgToInt = {
   Org.zhp:0,
   Org.zhr_o:1,

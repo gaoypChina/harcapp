@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -6,7 +7,12 @@ import 'package:collection/collection.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/common.dart';
+import 'package:optional/optional_internal.dart';
 
+import '../../_common_classes/org/org.dart';
+import '../../values/rank_harc.dart';
+import '../../values/rank_instr.dart';
+import '../cat_page_home/community/model/community.dart';
 import '_api.dart';
 
 class ApiUser{
@@ -15,6 +21,8 @@ class ApiUser{
   static const int PASS_MIN_LENGTH = 8;
   static const int PASS_MAX_LENGTH = 32;
   static const int NAME_MAX_LENGTH = 54;
+  static const int HUFIEC_MAX_LENGTH = Community.maxLenName;
+  static const int DRUZYNA_MAX_LENGTH = Community.maxLenName;
 
   static Future<Response?> getShadowUsers({
     required int? pageSize,
@@ -40,7 +48,7 @@ class ApiUser{
 
         await onSuccess?.call(users);
       },
-      onError: (DioError error) async => await onError?.call()
+      onError: (DioException error) async => await onError?.call()
   );
 
   static String CREATE_SHADOW_REQ_NAME = 'name';
@@ -60,7 +68,7 @@ class ApiUser{
         })
       ),
       onSuccess: (Response response, DateTime now) async => await onSuccess?.call(UserDataNick.fromRespMap(response.data, response.data['nick'])),
-      onError: (DioError error) async => await onError?.call()
+      onError: (DioException error) async => await onError?.call()
   );
 
   static String UPDATE_SHADOW_REQ_NAME = 'name';
@@ -81,7 +89,7 @@ class ApiUser{
           })
       ),
       onSuccess: (Response response, DateTime now) async => await onSuccess?.call(UserDataNick.fromRespMap(response.data, response.data['nick'])),
-      onError: (DioError error) async => await onError?.call()
+      onError: (DioException error) async => await onError?.call()
   );
 
   static String DELETE_SHADOW_REQ_KEY = 'key';
@@ -98,7 +106,7 @@ class ApiUser{
           })
       ),
       onSuccess: (Response response, DateTime now) async => await onSuccess?.call(response.data),
-      onError: (DioError error) async => await onError?.call()
+      onError: (DioException error) async => await onError?.call()
   );
 
   static Future<Response?> searchByNick(
@@ -111,7 +119,7 @@ class ApiUser{
       '${API.baseUrl}api/user/search/$nick',
     ),
     onSuccess: (Response response, DateTime now) async => await onSuccess?.call(UserDataNick.fromRespMap(response.data, nick)),
-    onError: (DioError error) async {
+    onError: (DioException error) async {
       bool noSuchUserStatus = error.response?.statusCode == HttpStatus.notFound;
       bool noSuchUserBody = const DeepCollectionEquality().equals(error.response?.data, {'error': 'User not found'});
 
@@ -135,7 +143,7 @@ class ApiUser{
           })
       ),
       onSuccess: (Response response, DateTime now) async => await onSuccess?.call(),
-      onError: (DioError error) async => await onError?.call(error.response!.data['error'])
+      onError: (DioException error) async => await onError?.call(error.response!.data['error'])
   );
 
   static String UPDATE_REQ_EMAIL = 'email';
@@ -144,6 +152,11 @@ class ApiUser{
   static String UPDATE_REQ_PASSWORD = 'password';
   static String UPDATE_REQ_PASSWORD_REP = 'password_rep';
   static String UPDATE_REQ_SEX = 'sex';
+  static String UPDATE_REQ_ORG = 'harcorg';
+  static String UPDATE_REQ_HUFIEC = 'hufiec';
+  static String UPDATE_REQ_DRUZYNA = 'druzyna';
+  static String UPDATE_REQ_RANK_HARC = 'rankHarc';
+  static String UPDATE_REQ_RANK_INSTR = 'rankInstr';
   static String UPDATE_REQ_VALID_PASS = 'validPass';
   static Future<Response?> update({
     String? email,
@@ -151,9 +164,25 @@ class ApiUser{
     String? passwordRep,
     String? name,
     Sex? sex,
-    //bool nickSearchable,
+
+    Optional<Org>? org,
+    Optional<String>? hufiec,
+    Optional<String>? druzyna,
+    Optional<RankHarc>? rankHarc,
+    Optional<RankInstr>? rankInstr,
+
     String? validPass,
-    FutureOr<void> Function(String? email, String? jwt, String? name, Sex? sex)? onSuccess,
+    FutureOr<void> Function(
+      String? email,
+      String? jwt,
+      String? name,
+      Sex? sex,
+      Optional<Org>? org,
+      Optional<String>? hufiec,
+      Optional<String>? druzyna,
+      Optional<RankHarc>? rankHarc,
+      Optional<RankInstr>? rankInstr,
+    )? onSuccess,
     FutureOr<void> Function(Response? response)? onError,
   }) async {
 
@@ -197,25 +226,55 @@ class ApiUser{
         Map<String, dynamic> map = {};
         if(email != null && email.isNotEmpty && AccountData.email != email) map[UPDATE_REQ_EMAIL] = email;
         if(password != null && password.isNotEmpty) map[UPDATE_REQ_PASSWORD] = password;
-        if(sex != null && AccountData.sex != sex) map[UPDATE_REQ_SEX] = sex == Sex.male;
         if(name != null && name.isNotEmpty && AccountData.name != name) map[UPDATE_REQ_NAME] = name;
+        if(sex != null && AccountData.sex != sex) map[UPDATE_REQ_SEX] = sex == Sex.male;
+
+        if(org != null) map[UPDATE_REQ_ORG] = org.isEmpty?null:orgToParam(org.value);
+        if(hufiec != null) map[UPDATE_REQ_HUFIEC] = hufiec.orElseNull;
+        if(druzyna != null) map[UPDATE_REQ_DRUZYNA] = druzyna.orElseNull;
+        if(rankHarc != null) map[UPDATE_REQ_RANK_HARC] = rankHarc.isEmpty?null:rankHarcToParam(rankHarc.value);
+        if(rankInstr != null) map[UPDATE_REQ_RANK_INSTR] = rankInstr.isEmpty?null:rankInstrToStr(rankInstr.value);
 
         if(validPass!=null) map[UPDATE_REQ_VALID_PASS] = validPass;
 
         return await dio.post(
             '${API.baseUrl}api/user',
-            data: FormData.fromMap(map)
+            options: Options(headers: {
+              HttpHeaders.contentTypeHeader: 'application/json',
+            }),
+            data: jsonEncode(map),
         );
       },
       onSuccess: (Response response, DateTime now) async {
         Map responseMap = response.data;
         String? refreshToken = responseMap['refreshToken'];
         if(refreshToken != null) AccountData.writeRefreshToken(refreshToken);
+        Map data = response.data;
         await onSuccess?.call(
-          response.data[UPDATE_REQ_EMAIL],
-          response.data[UPDATE_REQ_JWT],
-          response.data[UPDATE_REQ_NAME],
-          strToSex[response.data[UPDATE_REQ_SEX]],
+          data[UPDATE_REQ_EMAIL],
+          data[UPDATE_REQ_JWT],
+          data[UPDATE_REQ_NAME],
+          strToSex[data[UPDATE_REQ_SEX]],
+          
+          data.containsKey(UPDATE_REQ_ORG)?
+          Optional.of(paramToOrg[data[UPDATE_REQ_ORG]]!):
+          null,
+
+          data.containsKey(UPDATE_REQ_HUFIEC)?
+          Optional.of(data[UPDATE_REQ_HUFIEC]!):
+          null,
+
+          data.containsKey(UPDATE_REQ_DRUZYNA)?
+          Optional.of(data[UPDATE_REQ_DRUZYNA]!):
+          null,
+
+          data.containsKey(UPDATE_REQ_RANK_HARC)?
+          Optional.of(paramToRankHarc[data[UPDATE_REQ_RANK_HARC]!]!):
+          null,
+
+          data.containsKey(UPDATE_REQ_RANK_INSTR)?
+          Optional.of(paramToRankInstr[data[UPDATE_REQ_RANK_INSTR]!]!):
+          null,
         );
       },
       onError: (err) async => onError?.call(err.response),
@@ -230,7 +289,7 @@ class ApiUser{
           '${API.baseUrl}api/user/nick'
       ),
       onSuccess: (Response response, DateTime now) async => await onSuccess?.call(response.data['nick']),
-      onError: (DioError error) async => await onError!(error.response)
+      onError: (DioException error) async => await onError!(error.response)
   );
 
   static String UPDATE_REQ_NICK_SEARCHABLE = 'nickSearchable';
@@ -241,7 +300,7 @@ class ApiUser{
           data: FormData.fromMap({UPDATE_REQ_NICK_SEARCHABLE: searchable})
       ),
       onSuccess: (Response response, DateTime now) async => await onSuccess?.call(response.data['nickSearchable']),
-      onError: (DioError error) async => await onError!(error.response)
+      onError: (DioException error) async => await onError!(error.response)
   );
 
 }
