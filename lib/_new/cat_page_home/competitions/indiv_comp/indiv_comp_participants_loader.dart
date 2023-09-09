@@ -72,8 +72,11 @@ class IndivCompParticipantsLoader extends SingleComputer<String?, IndivCompParti
         onSuccess: (List<IndivCompParticip> participsPage){
 
           IndivCompParticip me = _comp.getParticip(AccountData.key!)!;
-          participsPage.removeWhere((member) => member.key == me.key);
-          participsPage.insert(0, me);
+          IndivCompParticip? loadedMe = participsPage.where((member) => member.key == me.key).firstOrNull;
+          if(loadedMe != null) {
+            participsPage.removeWhere((member) => member.key == me.key);
+            participsPage.insert(0, loadedMe);
+          }
 
           bool reloaded = _lastRole == null && _lastUserName == null && _lastUserKey == null;
 

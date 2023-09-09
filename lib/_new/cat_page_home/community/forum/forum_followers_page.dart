@@ -132,60 +132,10 @@ class ForumFollowersPageState extends State<ForumFollowersPage>{
           userCount: forum.followersCnt,
           callReload: () async {
             await forum.reloadFollowersPage(awaitFinish: true);
-            // await ApiForum.getFollowers(
-            //   forumKey: forum.key,
-            //   pageSize: Forum.followerPageSize,
-            //   lastUserName: null,
-            //   lastUserKey: null,
-            //   onSuccess: (followersPage){
-            //     forum.setAllLoadedFollowers(followersPage, context: context);
-            //     if(mounted) setState((){});
-            //   },
-            //   onForceLoggedOut: (){
-            //     if(!mounted) return true;
-            //     showAppToast(context, text: forceLoggedOutMessage);
-            //     setState(() {});
-            //     return true;
-            //   },
-            //   onServerMaybeWakingUp: (){
-            //     if(!mounted) return true;
-            //     showServerWakingUpToast(context);
-            //     return true;
-            //   },
-            //   onError: (){
-            //     if(!mounted) return;
-            //     showAppToast(context, text: simpleErrorMessage);
-            //   },
-            // );
             return forum.loadedFollowers.length;
           },
           callLoadMore: () async {
             await forum.loadFollowersPage(awaitFinish: true);
-            // await ApiForum.getFollowers(
-            //   forumKey: forum.key,
-            //   pageSize: Forum.followerPageSize,
-            //   lastUserName: followers.isEmpty?null:followers.last.name,
-            //   lastUserKey: followers.isEmpty?null:followers.last.key,
-            //   onSuccess: (followersPage){
-            //     forum.addLoadedFollowers(followersPage, context: context);
-            //     if(mounted) setState((){});
-            //   },
-            //   onForceLoggedOut: (){
-            //     if(!mounted) return true;
-            //     showAppToast(context, text: forceLoggedOutMessage);
-            //     setState(() {});
-            //     return true;
-            //   },
-            //   onServerMaybeWakingUp: (){
-            //     if(!mounted) return true;
-            //     showServerWakingUpToast(context);
-            //     return true;
-            //   },
-            //   onError: (){
-            //     if(!mounted) return;
-            //     showAppToast(context, text: simpleErrorMessage);
-            //   },
-            // );
             return forum.loadedFollowers.length;
           },
           controller: controller,

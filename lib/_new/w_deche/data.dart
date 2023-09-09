@@ -13,6 +13,9 @@ class WDecheData{
 
   static const List<WDecheData> all = [
 
+    WDecheData(text: 'Jak się witają łysi bez rąk?'
+        '\n\nCzołem.'),
+
     WDecheData(text: 'Co ma harcerz w cukierni?'
         '\n\nMa finkę.'),
 

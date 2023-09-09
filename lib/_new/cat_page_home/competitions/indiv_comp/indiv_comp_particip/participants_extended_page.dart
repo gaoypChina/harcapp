@@ -379,6 +379,11 @@ class ParticipantsExtendedPageState extends State<ParticipantsExtendedPage>{
 
   void applyPointsToMultipleParticips(){
 
+    if(comp.openTaskCount == 0){
+      showAppToast(context, text: 'Brak zadań we współzawodnictwie');
+      return;
+    }
+
     List<IndivCompParticip> inactiveSelParticips = this.inactiveSelParticips();
 
     if(inactiveSelParticips.isEmpty)

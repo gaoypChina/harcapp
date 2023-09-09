@@ -131,63 +131,10 @@ class ForumLikesPageState extends State<ForumLikesPage>{
           userCount: forum.likeCnt,
           callReload: () async {
             await forum.reloadLikesPage(awaitFinish: true);
-            // await ApiForum.getLikes(
-            //   forumKey: forum.key,
-            //   pageSize: Forum.likePageSize,
-            //   lastUserName: null,
-            //   lastUserKey: null,
-            //   onSuccess: (likesPage){
-            //     forum.setAllLoadedLikes(likesPage, context: context);
-            //     if(mounted) setState((){});
-            //   },
-            //   onForceLoggedOut: (){
-            //     if(!mounted) return true;
-            //     showAppToast(context, text: forceLoggedOutMessage);
-            //     setState(() {});
-            //     return true;
-            //   },
-            //   onServerMaybeWakingUp: (){
-            //     if(!mounted) return true;
-            //     showServerWakingUpToast(context);
-            //     return true;
-            //   },
-            //   onError: (){
-            //     if(!mounted) return;
-            //     showAppToast(context, text: simpleErrorMessage);
-            //   },
-            // );
             return forum.loadedLikes.length;
           },
           callLoadMore: () async {
             await forum.loadLikesPage(awaitFinish: true);
-            // int allLoadedItems = 0;
-            //
-            // await ApiForum.getLikes(
-            //   forumKey: forum.key,
-            //   pageSize: Forum.likePageSize,
-            //   lastUserName: likes.isEmpty?null:likes.last.name,
-            //   lastUserKey: likes.isEmpty?null:likes.last.key,
-            //   onSuccess: (likesPage){
-            //     forum.addLoadedLikes(likesPage, context: context);
-            //     allLoadedItems = forum.loadedLikes.length;
-            //     setState((){});
-            //   },
-            //   onForceLoggedOut: (){
-            //     if(!mounted) return true;
-            //     showAppToast(context, text: forceLoggedOutMessage);
-            //     setState(() {});
-            //     return true;
-            //   },
-            //   onServerMaybeWakingUp: (){
-            //     if(!mounted) return true;
-            //     showServerWakingUpToast(context);
-            //     return true;
-            //   },
-            //   onError: (){
-            //     if(!mounted) return;
-            //     showAppToast(context, text: simpleErrorMessage);
-            //   },
-            // );
             return forum.loadedLikes.length;
 
           },

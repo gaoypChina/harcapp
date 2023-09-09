@@ -204,68 +204,10 @@ class ManagersPageState extends State<ManagersPage>{
           userCount: forum.managerCount!,
           callReload: () async {
             await forum.reloadManagersPage(awaitFinish: true);
-            // await ApiForum.getManagers(
-            //   forumKey: forum.key,
-            //   pageSize: Forum.managerPageSize,
-            //   lastRole: null,
-            //   lastUserName: null,
-            //   lastUserKey: null,
-            //   onSuccess: (managersPage){
-            //     ForumManager me = forum.loadedManagersMap[AccountData.key]!;
-            //     managersPage.removeWhere((manager) => manager.key == me.key);
-            //     managersPage.insert(0, me);
-            //     forum.setAllLoadedManagers(managersPage, context: context);
-            //     updateUserSets();
-            //
-            //     setState((){});
-            //   },
-            //   onForceLoggedOut: (){
-            //     if(!mounted) return true;
-            //     showAppToast(context, text: forceLoggedOutMessage);
-            //     setState(() {});
-            //     return true;
-            //   },
-            //   onServerMaybeWakingUp: (){
-            //     if(!mounted) return true;
-            //     showServerWakingUpToast(context);
-            //     return true;
-            //   },
-            //   onError: (){
-            //     if(!mounted) return;
-            //     showAppToast(context, text: simpleErrorMessage);
-            //   },
-            // );
             return forum.loadedManagers.length;
           },
           callLoadMore: () async {
             await forum.loadManagersPage(awaitFinish: true);
-            // await ApiForum.getManagers(
-            //   forumKey: forum.key,
-            //   pageSize: Forum.managerPageSize,
-            //   lastRole: managers.length==1?null:managers.last.role,
-            //   lastUserName: managers.length==1?null:managers.last.name,
-            //   lastUserKey: managers.length==1?null:managers.last.key,
-            //   onSuccess: (managersPage){
-            //     forum.addLoadedManagers(managersPage, context: context);
-            //     updateUserSets();
-            //     if(mounted) setState((){});
-            //   },
-            //   onForceLoggedOut: (){
-            //     if(!mounted) return true;
-            //     showAppToast(context, text: forceLoggedOutMessage);
-            //     setState(() {});
-            //     return true;
-            //   },
-            //   onServerMaybeWakingUp: (){
-            //     if(!mounted) return true;
-            //     showServerWakingUpToast(context);
-            //     return true;
-            //   },
-            //   onError: (){
-            //     if(!mounted) return;
-            //     showAppToast(context, text: simpleErrorMessage);
-            //   },
-            // );
             return forum.loadedManagers.length;
 
           },

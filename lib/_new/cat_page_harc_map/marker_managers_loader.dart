@@ -73,8 +73,11 @@ class MarkerManagersLoader extends SingleComputer<String?, MarkerManagersLoaderL
         onSuccess: (List<MarkerManager> managersPage){
 
           MarkerManager me = _marker.getManager(AccountData.key!)!;
-          managersPage.removeWhere((follower) => follower.key == me.key);
-          managersPage.insert(0, me);
+          MarkerManager? loadedMe = managersPage.where((manager) => manager.key == me.key).firstOrNull;
+          if(loadedMe != null) {
+            managersPage.removeWhere((manager) => manager.key == me.key);
+            managersPage.insert(0, loadedMe);
+          }
 
           bool reloaded = _lastUserName == null && _lastUserKey == null;
 

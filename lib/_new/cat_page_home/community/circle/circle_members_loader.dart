@@ -73,8 +73,11 @@ class CircleMembersLoader extends SingleComputer<String?, CircleMembersLoaderLis
         onSuccess: (List<Member> membersPage){
 
           Member me = _circle.getMember(AccountData.key!)!;
-          membersPage.removeWhere((user) => user.key == me.key);
-          membersPage.insert(0, me);
+          Member? loadedMe = membersPage.where((member) => member.key == me.key).firstOrNull;
+          if(loadedMe != null) {
+            membersPage.removeWhere((member) => member.key == me.key);
+            membersPage.insert(0, loadedMe);
+          }
 
           bool reloaded = _lastRole == null && _lastUserName == null && _lastUserKey == null;
 
