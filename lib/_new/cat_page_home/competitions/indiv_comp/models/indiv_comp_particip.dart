@@ -23,6 +23,9 @@ class IndivCompParticip extends UserData{
     required this.profile,
   });
 
+  void adjustToOtherParticipChange(IndivCompParticip? participOld, IndivCompParticip? participNew) =>
+      profile.adjustToOtherProfileChange(participOld?.profile, participNew?.profile);
+
   static IndivCompParticip fromUserData(
       UserData userData,
       { required IndivCompProfile profile

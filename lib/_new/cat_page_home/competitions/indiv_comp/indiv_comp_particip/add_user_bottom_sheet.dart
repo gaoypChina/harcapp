@@ -39,9 +39,15 @@ class AddUserBottomSheet extends StatelessWidget{
           comp: comp,
           users: [ParticipBodyNick(userData.key, CompRole.OBSERVER, true, userData.nick)],
           onSuccess: (List<IndivCompParticip> addedParticips){
+            // This must be done only on the already loaded particips.
+            for(IndivCompParticip particip in addedParticips)
+              if(comp.isParticipWithinLoaded(particip))
+                comp.adjustToOtherParticipChange(null, particip);
+
             for(IndivCompParticip particip in addedParticips)
               if(comp.isParticipWithinLoaded(particip))
                 comp.addLoadedParticips([particip], context: null);
+
             comp.participCount += addedParticips.length;
             IndivComp.callProvidersWithParticips(
                 indivCompProv,

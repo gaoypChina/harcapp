@@ -11,7 +11,12 @@ class ShowRankData{
     else
       return specificData?.showRank??0;
   }
-  
+
+  ShowRankData copy() => ShowRankData(
+      specificData?.copy(),
+      rangeData?.copy()
+  );
+
   static ShowRankData fromShowRank(int value) => ShowRankData(
     ShowSpecificRankData(value, 1),
     null
@@ -40,6 +45,8 @@ class ShowSpecificRankData{
 
   ShowSpecificRankData(this.showRank, this.popularity);
 
+  ShowSpecificRankData copy() => ShowSpecificRankData(showRank, popularity);
+
 }
 
 class ShowRangeRankData{
@@ -48,5 +55,7 @@ class ShowRangeRankData{
   double rangeBottom;
 
   ShowRangeRankData(this.rangeTop, this.rangeBottom);
+
+  ShowRangeRankData copy() => ShowRangeRankData(rangeTop, rangeBottom);
 
 }

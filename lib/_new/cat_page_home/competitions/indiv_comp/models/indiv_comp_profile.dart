@@ -175,6 +175,48 @@ class IndivCompProfile{
     pendingTasksCount = updatedProfile.pendingTasksCount;
   }
 
+  void adjustToOtherProfileChange(IndivCompProfile? otherProfileOld, IndivCompProfile? otherProfileNew){
+
+    if(rank?.specificData?.showRank == null) return;
+    int showRank = rank!.specificData!.showRank;
+
+    if(otherProfileOld?.rank?.specificData?.showRank != null && otherProfileOld!.active){
+      int otherShowRank = otherProfileOld.rank!.specificData!.showRank;
+      int? otherPoints = otherProfileOld.points;
+      if(otherShowRank < showRank) rank!.specificData!.showRank--;
+      else if(points != null && otherPoints == points){
+        rank!.specificData!.showRank--;
+        rank!.specificData!.popularity--;
+      }
+    }
+
+    if(otherProfileNew?.rank?.specificData?.showRank != null && otherProfileNew!.active){
+      int otherShowRank = otherProfileNew.rank!.specificData!.showRank;
+      int? otherPoints = otherProfileNew.points;
+      if(otherShowRank < showRank) rank!.specificData!.showRank++;
+      else if(points != null && otherPoints == points){
+        rank!.specificData!.showRank++;
+        rank!.specificData!.popularity++;
+      }
+    }
+
+  }
+
+  IndivCompProfile copy() => IndivCompProfile(
+    comp: comp,
+
+    active: active,
+    role: role,
+    points: points,
+    rank: rank?.copy(),
+
+    completedTasksAcceptedCount: completedTasksAcceptedCount,
+    completedTasksPendingCount: completedTasksPendingCount,
+    completedTasksRejectedCount: completedTasksRejectedCount,
+
+    pendingTasksCount: pendingTasksCount,
+  );
+
   static IndivCompProfile fromRespMap(Map respMap, IndivComp comp){
 
     // List<IndivCompCompletedTask> completedTasks = [];

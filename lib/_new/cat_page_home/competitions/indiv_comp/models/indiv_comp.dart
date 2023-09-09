@@ -382,7 +382,24 @@ class IndivComp{
 
     myProfile!.update(updatedComp.myProfile!);
   }
-  
+
+  void adjustToOtherParticipChange(IndivCompParticip? participOld, IndivCompParticip? participNew) {
+    if(!(participOld == null || participNew == null || participOld.key == participNew.key))
+      logger.e('adjustToOtherParticipChange: non-null `participOld.key` must equal non-null `participNew.key`');
+
+    String? updatedParticipKey = participOld?.key??participNew?.key;
+
+    for(IndivCompParticip particip in loadedParticips)
+      if(particip.key != updatedParticipKey)
+        particip.adjustToOtherParticipChange(participOld, participNew);
+  }
+
+  void adjustToOtherProfileChange(String updatedParticipKey, IndivCompProfile? profileOld, IndivCompProfile? profileNew) {
+    for(IndivCompParticip particip in loadedParticips)
+      if(particip.key != updatedParticipKey)
+        particip.profile.adjustToOtherProfileChange(profileOld, profileNew);
+  }
+
   bool get pinned => ShaPref.getBool(ShaPref.SHA_PREF_INDIV_COMP_PINNED_(key), true);
   void setPinned(BuildContext context, bool value){
     ShaPref.setBool(ShaPref.SHA_PREF_INDIV_COMP_PINNED_(key), value);
@@ -436,15 +453,22 @@ class IndivComp{
     addLoadedParticips(allParticips, context: context);
   }
 
+  void updateLoadedParticip(IndivCompParticip newParticip, {BuildContext? context}){
+
+    int index = loadedParticips.indexWhere((participIter) => participIter.key == newParticip.key);
+    if(index == -1) return;
+    loadedParticips.removeAt(index);
+    loadedParticips.insert(index, newParticip);
+    _loadedParticipMap[newParticip.key] = newParticip;
+
+    if(context == null) return;
+    callProvidersWithParticipsOf(context);
+  }
+  
   void updateLoadedParticips(List<IndivCompParticip> newParticips, {BuildContext? context}){
 
-    for(IndivCompParticip particip in newParticips) {
-      int index = loadedParticips.indexWhere((participIter) => participIter.key == particip.key);
-      if(index == -1) continue;
-      loadedParticips.removeAt(index);
-      loadedParticips.insert(index, particip);
-      _loadedParticipMap[particip.key] = particip;
-    }
+    for(IndivCompParticip particip in newParticips)
+      updateLoadedParticip(particip, context: null);
 
     if(context == null) return;
     callProvidersWithParticipsOf(context);
@@ -568,14 +592,7 @@ class IndivComp{
     if(particip.profile.points == null)
       return false;
 
-    return setPoints(participKey, particip.profile.points! + points);
-  }
-  bool setPoints(String participKey, int points){
-    IndivCompParticip? particip = _loadedParticipMap[participKey];
-    if(particip == null)
-      return false;
-
-    particip.profile.points = points;
+    particip.profile.points = particip.profile.points! + points;
     return true;
   }
 

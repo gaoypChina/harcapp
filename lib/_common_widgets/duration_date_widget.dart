@@ -88,7 +88,7 @@ class DurationDateWidget extends StatelessWidget{
                                 borderRadius: const BorderRadius.horizontal(right: Radius.circular(AppCard.bigRadius)),
                                 color: cardEnab_(context),
                               ),
-                              width: remainingWidth - Dimen.ICON_SIZE,
+                              width: max(0, remainingWidth - Dimen.ICON_SIZE),
                               height: 10.0,
                             ),
                           )
@@ -129,57 +129,6 @@ class DurationDateWidget extends StatelessWidget{
             (message==null?'Brak czasu zakończenia':'Pozostało $message'):
             (message==null?'$spanText\n\nBrak czasu zakończenia':'$spanText\n\nPozostało $message'),
             duration: spanText == null ? const Duration(seconds: 3) : const Duration(seconds: 5)
-        );
-      },
-    );
-
-    return LayoutBuilder(
-      builder: (BuildContext context, BoxConstraints constraints){
-
-        double width = constraints.maxWidth - Dimen.ICON_SIZE;
-        double progress = today/span;
-        double coloredDots = width*(max(0, min(progress, 1)));
-
-        List<Widget> dots = [];
-        for(int i = 0; i<width/Dimen.ICON_SIZE; i++){
-          bool colored = coloredDots/Dimen.ICON_SIZE > i;
-          bool nextColored = coloredDots/Dimen.ICON_SIZE > i + 1;
-          dots.add(
-              GestureDetector(
-                child: Icon(
-                    nextColored == colored?MdiIcons.circleMedium:MdiIcons.timerSand,
-                    color: colored?colors.avgColor:iconDisab_(context)
-                ),
-                onTap: (){
-
-                  String? spanText = endDate == null?
-                  null:
-                  dateRangeToString(startDate, endDate!, shortMonth: true);
-
-                  showAppToast(
-                    context,
-                    text: spanText == null?
-                    (message==null?'Brak czasu zakończenia':'Pozostało $message'):
-                    (message==null?'$spanText\n\nBrak czasu zakończenia':'$spanText\n\nPozostało $message'),
-                    duration: spanText == null ? const Duration(seconds: 3) : const Duration(seconds: 5)
-                  );
-                },
-              )
-          );
-        }
-
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: dots,
-            ),
-
-            const SizedBox(height: Dimen.defMarg),
-
-          ],
         );
       },
     );

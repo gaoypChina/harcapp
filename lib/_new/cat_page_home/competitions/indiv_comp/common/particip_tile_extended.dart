@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_widgets/check_box.dart';
 import 'package:harcapp/_common_widgets/loading_widget.dart';
+import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/providers/indiv_comp_particips_provider.dart';
 import 'package:harcapp/_new/cat_page_home/user_list_managment_loadable_page.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
@@ -158,6 +159,7 @@ class ParticipTileExtendedState extends State<ParticipTileExtended>{
                   return;
                 }
 
+                if(!mounted) return;
                 Navigator.pop(context);
 
                 openAcceptTaskDialog(
@@ -227,19 +229,14 @@ class ParticipTileExtendedState extends State<ParticipTileExtended>{
                         },
                       ),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppCard.bigRadius)),
-                      onTap: particip.shadow?null: () async {
-                        await showUpdateParticipDialog(
-                            CompRole.OBSERVER,
-                            particip.profile.active,
-                            onSuccess: (){
-                              if(particip.key == AccountData.key)
-                                Navigator.pop(context);
-                            }
-                        );
-
-                        if(mounted) Navigator.pop(context);
-
-                      },
+                      onTap: particip.shadow?null: () => showUpdateParticipDialog(
+                          CompRole.OBSERVER,
+                          particip.profile.active,
+                          onSuccess: (){
+                            if(particip.key == AccountData.key)
+                              Navigator.pop(context);
+                          }
+                      ),
                     ),
 
                   if(particip.profile.role != CompRole.MODERATOR)
@@ -261,17 +258,14 @@ class ParticipTileExtendedState extends State<ParticipTileExtended>{
                         },
                       ),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppCard.bigRadius)),
-                      onTap: particip.shadow?null: () async {
-                        await showUpdateParticipDialog(
-                            CompRole.MODERATOR,
-                            particip.profile.active,
-                            onSuccess: (){
-                              if(particip.key == AccountData.key)
-                                Navigator.pop(context);
-                            }
-                        );
-                        if(mounted) Navigator.pop(context);
-                      },
+                      onTap: particip.shadow?null: () => showUpdateParticipDialog(
+                          CompRole.MODERATOR,
+                          particip.profile.active,
+                          onSuccess: (){
+                            if(particip.key == AccountData.key)
+                              Navigator.pop(context);
+                          }
+                      )
                     ),
 
                   if(particip.profile.role != CompRole.ADMIN)
@@ -293,10 +287,7 @@ class ParticipTileExtendedState extends State<ParticipTileExtended>{
                         },
                       ),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppCard.bigRadius)),
-                      onTap: particip.shadow?null: () async {
-                        await showUpdateParticipDialog(CompRole.ADMIN, particip.profile.active);
-                        if(mounted) Navigator.pop(context);
-                      },
+                      onTap: particip.shadow?null: () => showUpdateParticipDialog(CompRole.ADMIN, particip.profile.active)
                     ),
 
                   ListTile(
@@ -306,7 +297,6 @@ class ParticipTileExtendedState extends State<ParticipTileExtended>{
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppCard.bigRadius)),
                     onTap: particip.shadow?null: () async {
                       await showUpdateParticipDialog(particip.profile.role, !particip.profile.active);
-                      if(mounted) Navigator.pop(context);
                     },
                   ),
 
@@ -339,11 +329,20 @@ class ParticipTileExtendedState extends State<ParticipTileExtended>{
 
         showLoadingWidget(context, 'Ostatnia prosta...');
 
+        IndivCompProvider indivCompProv = IndivCompProvider.of(context);
+        IndivCompListProvider indivCompListProv = IndivCompListProvider.of(context);
+        IndivCompParticipsProvider indivCompParticipsProv = IndivCompParticipsProvider.of(context);
+
         await ApiIndivComp.updateParticipants(
             comp: comp,
             users: [ParticipBody(particip.key, newRole, newActive)],
             onSuccess: (List<IndivCompParticip> updatedParticips) async {
-              comp.updateLoadedParticips(updatedParticips, context: context);
+              IndivCompParticip particip = updatedParticips[0];
+              IndivCompParticip? oldParticip = comp.getParticip(particip.key);
+              comp.adjustToOtherParticipChange(oldParticip, particip);
+              comp.updateLoadedParticip(particip, context: null);
+
+              IndivComp.callProvidersWithParticips(indivCompProv, indivCompListProv, indivCompParticipsProv);
               Navigator.pop(context); // Close loading widget.
               Navigator.pop(context);
               await onSuccess?.call();
@@ -387,6 +386,7 @@ class ParticipTileExtendedState extends State<ParticipTileExtended>{
               userKeys: [particip.key],
               onSuccess: (List<String> removedParticips) async {
                 comp.removeLoadedParticipsByKey(removedParticips, context: context);
+                comp.adjustToOtherParticipChange(particip, null);
 
                 if(!mounted) return;
                 showAppToast(context, text: 'Wyproszono');
