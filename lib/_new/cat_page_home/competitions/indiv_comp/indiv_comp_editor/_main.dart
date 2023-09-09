@@ -30,6 +30,8 @@ class IndivCompEditorPage extends StatefulWidget{
 
   static double get toolbarBottomHeight => const TabBar(tabs: []).preferredSize.height + IndivCompThumbnailWidget.defSize;
 
+  final int? initTab;
+
   final IndivComp? initComp;
 
   final String? initTitle;
@@ -40,6 +42,7 @@ class IndivCompEditorPage extends StatefulWidget{
   final FutureOr<void> Function()? onRemoved;
 
   const IndivCompEditorPage({
+    this.initTab,
     this.initComp,
     this.initTitle,
     this.initTasks,
@@ -53,13 +56,16 @@ class IndivCompEditorPage extends StatefulWidget{
 
 }
 
-class IndivCompEditorPageState extends State<IndivCompEditorPage>{
+class IndivCompEditorPageState extends State<IndivCompEditorPage> with TickerProviderStateMixin{
 
-  TextEditingController? controller;
-  FocusNode? focusNode;
+  late TabController tabController;
+  late TextEditingController controller;
+  late FocusNode focusNode;
 
   @override
   void initState() {
+
+    tabController = TabController(length: editMode?6:5, initialIndex: widget.initTab??0, vsync: this);
 
     controller = TextEditingController(text: widget.initComp?.name??widget.initTitle??'');
     focusNode = FocusNode();
@@ -71,8 +77,8 @@ class IndivCompEditorPageState extends State<IndivCompEditorPage>{
 
   @override
   void dispose() {
-    focusNode!.dispose();
-    controller!.dispose();
+    focusNode.dispose();
+    controller.dispose();
     super.dispose();
   }
 
@@ -91,176 +97,175 @@ class IndivCompEditorPageState extends State<IndivCompEditorPage>{
     ],
     builder: (context, child) => BottomNavScaffold(
       //resizeToAvoidBottomInset: true,
-      body: DefaultTabController(
-        length: editMode?6:5,
-        child: NestedScrollView(
-          physics: const BouncingScrollPhysics(),
-          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [
+      body: NestedScrollView(
+        physics: const BouncingScrollPhysics(),
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [
 
-            SliverOverlapAbsorber(
-              handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-              sliver: SliverAppBar(
-                title: Text(widget.initComp == null?'Nowe współzawod.':'Edytuj współzawod.', overflow: TextOverflow.fade),
-                forceElevated: innerBoxIsScrolled,
-                centerTitle: true,
-                pinned: true,
-                actions: [
-                  IconButton(
-                      icon: Icon(MdiIcons.check),
-                      onPressed: ()async{
+          SliverOverlapAbsorber(
+            handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+            sliver: SliverAppBar(
+              title: Text(widget.initComp == null?'Nowe współzawod.':'Edytuj współzawod.', overflow: TextOverflow.fade),
+              forceElevated: innerBoxIsScrolled,
+              centerTitle: true,
+              pinned: true,
+              actions: [
+                IconButton(
+                    icon: Icon(MdiIcons.check),
+                    onPressed: ()async{
 
-                        ColorKeyProvider colorKeyProv = ColorKeyProvider.of(context);
-                        TaskBodiesProvider taskBodiesProv = TaskBodiesProvider.of(context);
-                        IconKeyProvider iconKeyProv = IconKeyProvider.of(context);
-                        ModeProvider modeProv = ModeProvider.of(context);
-                        AwardsProvider awardsProv = AwardsProvider.of(context);
+                      ColorKeyProvider colorKeyProv = ColorKeyProvider.of(context);
+                      TaskBodiesProvider taskBodiesProv = TaskBodiesProvider.of(context);
+                      IconKeyProvider iconKeyProv = IconKeyProvider.of(context);
+                      ModeProvider modeProv = ModeProvider.of(context);
+                      AwardsProvider awardsProv = AwardsProvider.of(context);
 
-                        if(!await isNetworkAvailable()){
-                          if(mounted) showAppToast(context, text: noInternetMessage);
-                          return;
-                        }
-
-                        if(controller!.text.isEmpty){
-                          if(mounted) showAppToast(context, text: 'Podaj nazwę współzawodnictwa');
-                          focusNode!.requestFocus();
-                          return;
-                        }
-
-                        if(mounted) showLoadingWidget(context, 'Ostatnia prosta...');
-
-                        if(IndivCompModeEditorWidget.verifyHandleDateOrder(context))
-
-                          if(editMode)
-                            await ApiIndivComp.update(
-                                key: widget.initComp!.key,
-                                name: controller!.text,
-
-                                colorsKey:
-                                widget.initComp!.colorsKey != colorKeyProv.colorsKey?
-                                colorKeyProv.colorsKey:
-                                null,
-
-                                iconKey:
-                                widget.initComp!.iconKey != iconKeyProv.iconKey?
-                                iconKeyProv.iconKey:
-                                null,
-
-                                startTime:
-                                widget.initComp!.startTime != modeProv.startDate?
-                                modeProv.startDate:
-                                null,
-
-                                endTime:
-                                widget.initComp!.endTime != modeProv.endDate?
-                                modeProv.endDate:
-                                null,
-
-                                createTasks: taskBodiesProv.createdTasks(),
-                                updateTasks: taskBodiesProv.updatedTasks(),
-                                removeTasks: taskBodiesProv.removedTasks(),
-
-                                rankDispType:
-                                widget.initComp!.rankDispType != modeProv.rankDispType?
-                                modeProv.rankDispType:
-                                null,
-
-                                awards:
-                                widget.initComp!.awardsEncoded != awardsProv.awards?
-                                awardsProv.awards:
-                                null,
-
-                                onSuccess: (indivComp) async {
-                                  if(mounted) await popPage(context);
-                                  await widget.onSuccess?.call(indivComp);
-                                },
-                                onServerMaybeWakingUp: () {
-                                  if(mounted) Navigator.pop(context); // Close loading widget.
-                                  if(mounted) showServerWakingUpToast(context);
-                                  return true;
-                                },
-                                onError: (){
-                                  if(mounted) Navigator.pop(context); // Close loading widget.
-                                  if(mounted) showAppToast(context, text: simpleErrorMessage);
-                                }
-                            );
-                          else
-                            await ApiIndivComp.create(
-                                name: controller!.text,
-                                colorsKey: colorKeyProv.colorsKey,
-                                iconKey: iconKeyProv.iconKey,
-                                startTime: modeProv.startDate!,
-                                endTime: modeProv.endDate,
-                                rankDispType: modeProv.rankDispType,
-                                tasks: taskBodiesProv.createdTasks(),
-                                awards: awardsProv.awards,
-                                onSuccess: (indivComp) async {
-                                  if(mounted) await popPage(context);
-                                  await widget.onSuccess?.call(indivComp);
-                                },
-                                onForceLoggedOut: (){
-                                  if(mounted) showAppToast(context, text: forceLoggedOutMessage);
-                                  return true;
-                                },
-                                onServerMaybeWakingUp: () {
-                                  if(mounted) showServerWakingUpToast(context);
-                                  return true;
-                                },
-                                onError: (){
-                                  if(mounted) showAppToast(context, text: simpleErrorMessage);
-                                }
-                            );
-
+                      if(!await isNetworkAvailable()){
+                        if(mounted) showAppToast(context, text: noInternetMessage);
+                        return;
                       }
-                  ),
-                ],
-                bottom: PreferredSize(
-                  preferredSize: Size(double.infinity, IndivCompEditorPage.toolbarBottomHeight),
-                  child: Consumer2<ColorKeyProvider, IconKeyProvider>(
-                    builder: (context, colorKeyProv, iconKeyProv, child) => Column(
-                      children: [
 
-                        CommonHeader(
-                          iconKey: iconKeyProv.iconKey,
-                          colorsKey: colorKeyProv.colorsKey,
-                          controller: controller,
-                          focusNode: focusNode,
-                          heroTag: widget.initComp==null?null:IndivCompThumbnailWidget.defHeroTag(widget.initComp!),
-                        ),
+                      if(controller.text.isEmpty){
+                        if(mounted) showAppToast(context, text: 'Podaj nazwę współzawodnictwa');
+                        focusNode.requestFocus();
+                        return;
+                      }
 
-                        TabBar(
-                          physics: const BouncingScrollPhysics(),
-                          tabs: [
-                            Tab(icon: Icon(MdiIcons.eyeOutline)),
-                            Tab(icon: Icon(MdiIcons.paletteOutline)),
-                            Tab(icon: Icon(MdiIcons.flare)),
-                            Tab(icon: Icon(MdiIcons.cubeOutline)),
-                            Tab(icon: Icon(MdiIcons.trophyOutline)),
-                            if(editMode) Tab(icon: Icon(MdiIcons.alertCircleOutline, color: Colors.red)),
-                          ],
-                          indicator: AppTabBarIncdicator(context: context, color: colorKeyProv.avgColor),
-                        ),
+                      if(mounted) showLoadingWidget(context, 'Ostatnia prosta...');
 
-                      ],
-                    ),
+                      if(IndivCompModeEditorWidget.verifyHandleDateOrder(context))
+
+                        if(editMode)
+                          await ApiIndivComp.update(
+                              key: widget.initComp!.key,
+                              name: controller.text,
+
+                              colorsKey:
+                              widget.initComp!.colorsKey != colorKeyProv.colorsKey?
+                              colorKeyProv.colorsKey:
+                              null,
+
+                              iconKey:
+                              widget.initComp!.iconKey != iconKeyProv.iconKey?
+                              iconKeyProv.iconKey:
+                              null,
+
+                              startTime:
+                              widget.initComp!.startTime != modeProv.startDate?
+                              modeProv.startDate:
+                              null,
+
+                              endTime:
+                              widget.initComp!.endTime != modeProv.endDate?
+                              modeProv.endDate:
+                              null,
+
+                              createTasks: taskBodiesProv.createdTasks(),
+                              updateTasks: taskBodiesProv.updatedTasks(),
+                              removeTasks: taskBodiesProv.removedTasks(),
+
+                              rankDispType:
+                              widget.initComp!.rankDispType != modeProv.rankDispType?
+                              modeProv.rankDispType:
+                              null,
+
+                              awards:
+                              widget.initComp!.awardsEncoded != awardsProv.awards?
+                              awardsProv.awards:
+                              null,
+
+                              onSuccess: (indivComp) async {
+                                if(mounted) await popPage(context);
+                                await widget.onSuccess?.call(indivComp);
+                              },
+                              onServerMaybeWakingUp: () {
+                                if(mounted) Navigator.pop(context); // Close loading widget.
+                                if(mounted) showServerWakingUpToast(context);
+                                return true;
+                              },
+                              onError: (){
+                                if(mounted) Navigator.pop(context); // Close loading widget.
+                                if(mounted) showAppToast(context, text: simpleErrorMessage);
+                              }
+                          );
+                        else
+                          await ApiIndivComp.create(
+                              name: controller.text,
+                              colorsKey: colorKeyProv.colorsKey,
+                              iconKey: iconKeyProv.iconKey,
+                              startTime: modeProv.startDate!,
+                              endTime: modeProv.endDate,
+                              rankDispType: modeProv.rankDispType,
+                              tasks: taskBodiesProv.createdTasks(),
+                              awards: awardsProv.awards,
+                              onSuccess: (indivComp) async {
+                                if(mounted) await popPage(context);
+                                await widget.onSuccess?.call(indivComp);
+                              },
+                              onForceLoggedOut: (){
+                                if(mounted) showAppToast(context, text: forceLoggedOutMessage);
+                                return true;
+                              },
+                              onServerMaybeWakingUp: () {
+                                if(mounted) showServerWakingUpToast(context);
+                                return true;
+                              },
+                              onError: (){
+                                if(mounted) showAppToast(context, text: simpleErrorMessage);
+                              }
+                          );
+
+                    }
+                ),
+              ],
+              bottom: PreferredSize(
+                preferredSize: Size(double.infinity, IndivCompEditorPage.toolbarBottomHeight),
+                child: Consumer2<ColorKeyProvider, IconKeyProvider>(
+                  builder: (context, colorKeyProv, iconKeyProv, child) => Column(
+                    children: [
+
+                      CommonHeader(
+                        iconKey: iconKeyProv.iconKey,
+                        colorsKey: colorKeyProv.colorsKey,
+                        controller: controller,
+                        focusNode: focusNode,
+                        heroTag: widget.initComp==null?null:IndivCompThumbnailWidget.defHeroTag(widget.initComp!),
+                      ),
+
+                      TabBar(
+                        physics: const BouncingScrollPhysics(),
+                        controller: tabController,
+                        tabs: [
+                          Tab(icon: Icon(MdiIcons.eyeOutline)),
+                          Tab(icon: Icon(MdiIcons.paletteOutline)),
+                          Tab(icon: Icon(MdiIcons.flare)),
+                          Tab(icon: Icon(MdiIcons.cubeOutline)),
+                          Tab(icon: Icon(MdiIcons.trophyOutline)),
+                          if(editMode) Tab(icon: Icon(MdiIcons.alertCircleOutline, color: Colors.red)),
+                        ],
+                        indicator: AppTabBarIncdicator(context: context, color: colorKeyProv.avgColor),
+                      ),
+
+                    ],
                   ),
                 ),
               ),
             ),
-
-          ],
-          body: TabBarView(
-            physics: const BouncingScrollPhysics(),
-            children: [
-              const IndivCompModeEditorWidget(),
-              const IndivCompColorsEditorWidget(),
-              const IndivCompIconEditorWidget(),
-              const IndivCompTasksEditorWidget(),
-              const IndivCompAwardsEditorWidget(),
-              if(editMode) IndivCompDangerEditorWidget(widget.initComp!, onRemoved: widget.onRemoved),
-            ],
           ),
 
+        ],
+        body: TabBarView(
+          controller: tabController,
+          physics: const BouncingScrollPhysics(),
+          children: [
+            const IndivCompModeEditorWidget(),
+            const IndivCompColorsEditorWidget(),
+            const IndivCompIconEditorWidget(),
+            const IndivCompTasksEditorWidget(),
+            const IndivCompAwardsEditorWidget(),
+            if(editMode) IndivCompDangerEditorWidget(widget.initComp!, onRemoved: widget.onRemoved),
+          ],
         ),
+
       ),
     ),
   );

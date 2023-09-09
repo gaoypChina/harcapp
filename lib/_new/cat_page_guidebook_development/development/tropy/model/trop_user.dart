@@ -1,6 +1,9 @@
 import 'package:harcapp/_app_common/accounts/user_data.dart';
+import 'package:harcapp/_common_classes/org/org.dart';
 import 'package:harcapp/_new/api/_api.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/model/trop_role.dart';
+import 'package:harcapp/values/rank_harc.dart';
+import 'package:harcapp/values/rank_instr.dart';
 
 class TropUser extends UserData{
 
@@ -12,6 +15,12 @@ class TropUser extends UserData{
     required super.verified,
     required super.shadow,
     required super.sex,
+    required super.org,
+    required super.hufiec,
+    required super.druzyna,
+    required super.rankHarc,
+    required super.rankInstr,
+
     required this.role,
   });
 
@@ -25,6 +34,12 @@ class TropUser extends UserData{
     verified: userData.verified,
     shadow: userData.shadow,
     sex: userData.sex,
+    org: userData.org,
+    hufiec: userData.hufiec,
+    druzyna: userData.druzyna,
+    rankHarc: userData.rankHarc,
+    rankInstr: userData.rankInstr,
+
     role: role,
   );
 
@@ -34,6 +49,12 @@ class TropUser extends UserData{
     verified: respMap['verified']??(throw InvalidResponseError('verified')),
     shadow: respMap['shadow']??(throw InvalidResponseError('shadow')),
     sex: strToSex[respMap['sex']]??(throw InvalidResponseError('sex')),
+    org: paramToOrg[respMap['org']],
+    hufiec: respMap['hufiec'],
+    druzyna: respMap['druzyna'],
+    rankHarc: paramToRankHarc[respMap['rankHarc']],
+    rankInstr: paramToRankInstr[respMap['rankInstr']],
+
     role: strToTropRole[respMap['role']]??(throw InvalidResponseError('role')),
   );
 
@@ -46,7 +67,18 @@ class TropUser extends UserData{
     return map;
   }
 
-  UserData toUserData() => UserData(key: key, name: name, verified: verified, shadow: shadow, sex: sex);
+  UserData toUserData() => UserData(
+      key: key,
+      name: name,
+      verified: verified,
+      shadow: shadow,
+      sex: sex,
+      org: org,
+      hufiec: hufiec,
+      druzyna: druzyna,
+      rankHarc: rankHarc,
+      rankInstr: rankInstr
+  );
 
 }
 
@@ -60,6 +92,12 @@ class TropUserNick extends TropUser{
     required super.verified,
     required super.shadow,
     required super.sex,
+    required super.org,
+    required super.hufiec,
+    required super.druzyna,
+    required super.rankHarc,
+    required super.rankInstr,
+
     required super.role,
     required this.nick,
   });
@@ -74,6 +112,12 @@ class TropUserNick extends TropUser{
     verified: userData.verified,
     shadow: userData.shadow,
     sex: userData.sex,
+    org: userData.org,
+    hufiec: userData.hufiec,
+    druzyna: userData.druzyna,
+    rankHarc: userData.rankHarc,
+    rankInstr: userData.rankInstr,
+
     role: role,
     nick: userData.nick
   );

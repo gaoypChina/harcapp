@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
+import 'package:harcapp/_common_widgets/check_box.dart';
 import 'package:harcapp/_common_widgets/loading_widget.dart';
 import 'package:harcapp/_new/cat_page_home/user_list_managment_loadable_page.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
@@ -90,18 +91,34 @@ class ParticipTileExtendedState extends State<ParticipTileExtended>{
 
     trailing:
     (myProfile?.role == CompRole.ADMIN || myProfile?.role == CompRole.MODERATOR) && particip.profile.active?
-    AnimatedOpacity(
-        opacity: anythingSelected?0:1,
-        duration: const Duration(milliseconds: 300),
-        child: IndivCompRankIcon(
-          particip.profile,
-          activeParticipCnt: comp.activeParticipCount,
-          showPercent: comp.rankDispType == RankDispType.RANGE_PERC,
-          colors: comp.colors,
-          size: 42.0,
-          key: ValueKey(Tuple2(comp.rankDispType, comp.activeParticipCount)),
-        )
-    ):null,
+    AnimatedCrossFade(
+      alignment: Alignment.center,
+      crossFadeState: anythingSelected?CrossFadeState.showSecond:CrossFadeState.showFirst,
+      duration: const Duration(milliseconds: 300),
+      firstCurve: Curves.easeInOutQuad,
+      secondCurve: Curves.easeInOutQuad,
+      firstChild: IndivCompRankIcon(
+        particip.profile,
+        activeParticipCnt: comp.activeParticipCount,
+        showPercent: comp.rankDispType == RankDispType.RANGE_PERC,
+        colors: comp.colors,
+        size: 42.0,
+        key: ValueKey(Tuple2(comp.rankDispType, comp.activeParticipCount)),
+      ),
+      secondChild: SizedBox(
+        height: 42.0,
+        width: 42.0,
+        child: Center(
+          child: CheckBox(
+            value: selected,
+            activeColor: comp.colors.avgColor,
+            unselectedWidgetColor: comp.colors.avgColor,
+            checkColor: cardEnab_(context),
+            onChanged: (_) => onSelectionTap?.call(),
+          ),
+        ),
+      ),
+    ):null
   );
 
 
@@ -111,7 +128,10 @@ class ParticipTileExtendedState extends State<ParticipTileExtended>{
         builder: (context) => Column(
           children: [
 
-            ParticipHeaderWidget(particip.name, particip.verified, particip.shadow, particip.profile.role, heroTag: particip.key),
+            ParticipHeaderWidget.fromParticip(
+                particip,
+                heroTag: particip.key
+            ),
 
             const SizedBox(height: 2*24.0),
 

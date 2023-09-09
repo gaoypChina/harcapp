@@ -99,21 +99,21 @@ class InitSyncAnalyser{
         actionBuilder: (context) => [
 
           AlertDialogButton(
-            text: 'Zachowaj stan lokalny.',
+            text: 'Zachowaj stan lokalny',
             onTap: () {
               result = InitSyncOperation.postReplace;
               Navigator.pop(context);
             }
           ),
           AlertDialogButton(
-            text: 'Zachowaj stan konta.',
+            text: 'Zachowaj stan konta',
             onTap: () {
               result = InitSyncOperation.getReplace;
               Navigator.pop(context);
             }
           ),
           AlertDialogButton(
-            text: 'Nie wiem. Wyloguj.',
+            text: 'Nie wiem. Wyloguj',
             onTap: () {
               result = InitSyncOperation.logout;
               Navigator.pop(context);

@@ -32,29 +32,33 @@ void _showPopularity(BuildContext context, IndivCompProfile profile, bool showPe
 
     showAppToast(context, text: text, duration: const Duration(seconds: 8));
     return;
-  }else
-    text = 'Jesteś na <b>${profile.rank?.specificData?.showRank} miejscu</b> w rankingu uczestników';
+  }else if(profile.rank?.specificData?.showRank == -1)
+    text = 'Ciężko określić na którym jesteś miejscu, bo nikogo tu nie ma prócz Ciebie';
+  else {
+    text = 'Jesteś na <b>${profile.rank?.specificData
+        ?.showRank} miejscu</b> w rankingu uczestników';
 
-  text += '\n\n';
+    text += '\n\n';
 
-  // Rank popularity.
-  String pointsWord;
-  if(profile.points == 1)
-    pointsWord = '${profile.points} punkt';
-  else if(profile.points! >= 2 && profile.points! <= 4)
-    pointsWord = '${profile.points} punkty';
-  else
-    pointsWord = '${profile.points} punktów';
+    // Rank popularity.
+    String pointsWord;
+    if (profile.points == 1)
+      pointsWord = '${profile.points} punkt';
+    else if (profile.points! >= 2 && profile.points! <= 4)
+      pointsWord = '${profile.points} punkty';
+    else
+      pointsWord = '${profile.points} punktów';
 
-  int rankPop = (profile.rank?.specificData?.popularity??0) - 1;
-  if(rankPop == 0)
-    text += 'Tylko Ty masz $pointsWord';
-  else if(rankPop == 1)
-    text += 'Jeszcze 1 osoba ma $pointsWord';
-  else if(rankPop >= 2 && rankPop <= 4)
-    text += 'Jeszcze $rankPop osoby mają $pointsWord';
-  else
-    text += 'Jeszcze $rankPop osób ma $pointsWord';
+    int rankPop = (profile.rank?.specificData?.popularity ?? 0) - 1;
+    if (rankPop == 0)
+      text += 'Tylko Ty masz $pointsWord';
+    else if (rankPop == 1)
+      text += 'Jeszcze 1 osoba ma $pointsWord';
+    else if (rankPop >= 2 && rankPop <= 4)
+      text += 'Jeszcze $rankPop osoby mają $pointsWord';
+    else
+      text += 'Jeszcze $rankPop osób ma $pointsWord';
+  }
 
   showAppToast(context, text: text, duration: const Duration(seconds: 8));
 

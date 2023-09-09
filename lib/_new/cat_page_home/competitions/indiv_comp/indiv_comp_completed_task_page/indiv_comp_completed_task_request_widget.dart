@@ -59,6 +59,7 @@ class IndivCompCompetedTaskRequestWidgetState extends State<IndivCompCompetedTas
     IndivCompParticip? selected = await selectParticip(
       context: context,
       comp: comp,
+      inactiveSelectable: false,
     );
     setState(() => particip = selected);
   }

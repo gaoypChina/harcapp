@@ -7,6 +7,7 @@ import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/providers/indiv_comp_particips_provider.dart';
 import 'package:harcapp/values/colors.dart';
 import 'package:harcapp/values/consts.dart';
+import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
@@ -20,9 +21,10 @@ import 'models/indiv_comp.dart';
 class LoadableParticipantSelector extends StatefulWidget{
 
   final IndivComp comp;
+  final bool inactiveSelectable;
   final void Function(IndivCompParticip)? onParticipSelected;
 
-  const LoadableParticipantSelector(this.comp, {required this.onParticipSelected, super.key});
+  const LoadableParticipantSelector(this.comp, {this.inactiveSelectable = false, required this.onParticipSelected, super.key});
 
   @override
   State<StatefulWidget> createState() => LoadableParticipantSelectorState();
@@ -32,6 +34,7 @@ class LoadableParticipantSelector extends StatefulWidget{
 class LoadableParticipantSelectorState extends State<LoadableParticipantSelector>{
 
   IndivComp get comp => widget.comp;
+  bool get inactiveSelectable => widget.inactiveSelectable;
   void Function(IndivCompParticip)? get onParticipSelected => widget.onParticipSelected;
 
   late IndivCompParticipantsLoaderListener participsLoaderListener;
@@ -80,7 +83,7 @@ class LoadableParticipantSelectorState extends State<LoadableParticipantSelector
     comp.addParticipLoaderListener(participsLoaderListener);
 
     controller = RefreshController(
-      initialRefresh: comp.loadedParticips.length == 1 && !comp.isParticipsLoading(),
+      initialRefresh: comp.loadedParticips.length == 1 && comp.participCount > 1 && !comp.isParticipsLoading(),
     );
     post((){
       // `initialRefreshStatus` and `initialLoadStatus` in RefreshController don't work.
@@ -127,9 +130,14 @@ class LoadableParticipantSelectorState extends State<LoadableParticipantSelector
       Container(
           key: innerScrollViewKey,
           child: SliverList(delegate: SliverChildBuilderDelegate(
-                  (context, index) => ParticipTile(
+              (context, index) => ParticipTile(
                 particip: comp.loadedParticips[index],
-                onTap: () => onParticipSelected?.call(comp.loadedParticips[index]),
+                onTap: comp.loadedParticips[index].profile.active || inactiveSelectable?
+                () => onParticipSelected?.call(comp.loadedParticips[index]):
+                null,
+                subtitle: comp.loadedParticips[index].profile.active?
+                null:
+                Text('Obserwator', style: AppTextStyle(color: hintEnab_(context))),
               ),
               childCount: comp.loadedParticips.length
           ))
@@ -144,6 +152,7 @@ class LoadableParticipantSelectorState extends State<LoadableParticipantSelector
 Future<IndivCompParticip?> selectParticip({
   required BuildContext context,
   required IndivComp comp,
+  bool inactiveSelectable = false,
 }) async {
 
   IndivCompParticip? selected;
@@ -159,6 +168,7 @@ Future<IndivCompParticip?> selectParticip({
         borderRadius: BorderRadius.circular(AppCard.bigRadius),
         child: LoadableParticipantSelector(
             comp,
+            inactiveSelectable: inactiveSelectable,
             onParticipSelected: (particip){
               selected = particip;
               Navigator.pop(context);

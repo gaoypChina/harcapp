@@ -30,6 +30,19 @@ class LoginListener{
 
 class AccountData {
 
+  static UserData toUserData() => UserData(
+    key: _key!,
+    name: _name!,
+    verified: verified,
+    shadow: false,
+    sex: _sex!,
+    org: _org!,
+    hufiec: _hufiec!,
+    druzyna: _druzyna!,
+    rankHarc: _rankHarc!,
+    rankInstr: _rankInstr!,
+  );
+
   static const int shadowUsersPageSize = 10;
 
   static final List<LoginListener> _listeners = [];

@@ -506,6 +506,7 @@ class Forum extends ForumBasicData{
   }
 
   bool isManagerWithinLoaded(ForumManager manager){
+    if(_loadedManagers.length == managerCount) return true;
     if(_loadedManagers.isEmpty) return false;
     ForumManager lastLoaded = _loadedManagers.last;
     return forumRoleToLoadingOrder(manager.role) < forumRoleToLoadingOrder(lastLoaded.role) ||

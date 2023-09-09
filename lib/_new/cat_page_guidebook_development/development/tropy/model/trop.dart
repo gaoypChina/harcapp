@@ -298,6 +298,7 @@ class TropSharedPreviewData extends TropBaseData{
   }
 
   bool isWithinLoaded(TropSharedPreviewData trop){
+    if(all!.length == AccountData.allSharedTropCount) return true;
     if(all == null || all!.isEmpty) return false;
     TropSharedPreviewData lastLoaded = all!.last;
 
@@ -1183,6 +1184,7 @@ class Trop extends TropBaseData with SyncableParamGroupMixin, SyncGetRespNode<Tr
   // }
 
   bool isUserWithinLoaded(TropUser user){
+    if(loadedUsers.length == userCount) return true;
     if(loadedUsers.isEmpty) return false;
     TropUser lastLoaded = loadedUsers.last;
 

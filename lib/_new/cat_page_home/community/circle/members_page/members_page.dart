@@ -153,7 +153,7 @@ class MembersPageState extends State<MembersPage>{
     updateUserSets();
 
     controller = RefreshController(
-      initialRefresh: circle.loadedMembers.length == 1 && !circle.isMembersLoading(),
+      initialRefresh: circle.loadedMembers.length == 1 && circle.memberCount > 1 && !circle.isMembersLoading(),
     );
     post((){
       // `initialRefreshStatus` and `initialLoadStatus` in RefreshController don't work.

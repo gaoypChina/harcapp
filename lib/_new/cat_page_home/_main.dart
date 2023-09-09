@@ -741,7 +741,12 @@ class NotLoggedInPartCommunitiesWidget extends StatelessWidget{
                         name: 'Teresa Szynewiczówna',
                         verified: true,
                         shadow: false,
-                        sex: Sex.female
+                        sex: Sex.female,
+                        org: null,
+                        hufiec: null,
+                        druzyna: null,
+                        rankHarc: null,
+                        rankInstr: null,
                     ),
                     coverImage: CommunityCoverImageData(
                         CommunityCoverImageDataType.sample,

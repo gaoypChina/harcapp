@@ -18,6 +18,7 @@ import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/app_text_field_hint.dart';
+import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
@@ -64,37 +65,40 @@ class AcceptTaskWidgetState extends State<AcceptTaskWidget>{
       children.add(
           IndivCompTaskWidget(
             task,
-            bottom: Center(
-              child: IconButton(
-                  icon: Icon(MdiIcons.check),
-                  onPressed: () async {
+            bottom: SimpleButton.from(
+                context: context,
+                color: cardEnab_(context),
+                icon: MdiIcons.check,
+                text: 'Zalicz',
+                margin: EdgeInsets.zero,
+                radius: 0,
+                onTap: () async {
 
-                    showLoadingWidget(context, 'Przesyłanie punktów...', color: comp.colors.avgColor);
+                  showLoadingWidget(context, 'Przesyłanie punktów...', color: comp.colors.avgColor);
 
-                    await ApiIndivComp.createCompletedTask(
-                        comp: comp,
-                        taskKey: task.key,
-                        comment: controller!.text,
-                        userKeys: selectedParticips.map((particips) => particips.key).toList(),
-                        onSuccess: (List<IndivCompCompletedTask> taskComplList, Map<String, ShowRankData> idRank) async {
-                          if(mounted) showAppToast(context, text: 'Zaliczono');
-                          await onSuccess?.call(taskComplList, idRank);
-                        },
-                        onServerMaybeWakingUp: () {
-                          if(mounted) showServerWakingUpToast(context);
-                          return true;
-                        },
-                        onError: (){
-                          if(mounted) showAppToast(context, text: simpleErrorMessage);
-                          widget.onError?.call();
-                        }
-                    );
+                  await ApiIndivComp.createCompletedTask(
+                      comp: comp,
+                      taskKey: task.key,
+                      comment: controller!.text,
+                      userKeys: selectedParticips.map((particips) => particips.key).toList(),
+                      onSuccess: (List<IndivCompCompletedTask> taskComplList, Map<String, ShowRankData> idRank) async {
+                        if(mounted) showAppToast(context, text: 'Zaliczono');
+                        await onSuccess?.call(taskComplList, idRank);
+                      },
+                      onServerMaybeWakingUp: () {
+                        if(mounted) showServerWakingUpToast(context);
+                        return true;
+                      },
+                      onError: (){
+                        if(mounted) showAppToast(context, text: simpleErrorMessage);
+                        widget.onError?.call();
+                      }
+                  );
 
-                    Navigator.pop(context);
+                  Navigator.pop(context);
 
-                  }
-              ),
-            ),
+                }
+            )
           )
       );
       if(i<widget.comp.tasks.length-1)
@@ -117,12 +121,7 @@ class AcceptTaskWidgetState extends State<AcceptTaskWidget>{
             sliver: SliverList(delegate: SliverChildListDelegate([
 
               if(selectedParticips.length==1)
-                ParticipHeaderWidget(
-                    selectedParticips[0].name,
-                    selectedParticips[0].verified,
-                    selectedParticips[0].shadow,
-                    selectedParticips[0].profile.role
-                )
+                ParticipHeaderWidget.fromParticip(selectedParticips[0])
               else
                 Consumer<IndivCompParticipsProvider>(
                     builder: (context, prov, child) => AccountThumbnailRowWidget(selectedParticips.map((particip) => particip.name).toList())

@@ -43,7 +43,7 @@ class ParticipTile extends StatelessWidget{
     shadow: particip.shadow,
     
     textColor: particip.profile.active?(selected?selectedTextColor:iconEnab_(context)):hintEnab_(context),
-    backgroundColor: selected?cardEnab_(context):Colors.transparent,
+    backgroundColor: selected?backgroundIcon_(context):Colors.transparent,
     leading: leading,
     trailing: trailing,
     subtitle: subtitle,

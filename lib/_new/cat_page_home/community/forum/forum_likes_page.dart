@@ -80,7 +80,7 @@ class ForumLikesPageState extends State<ForumLikesPage>{
     forum.addLikesLoaderListener(likesLoaderListener);
 
     controller = RefreshController(
-      initialRefresh: forum.loadedLikes.isEmpty && !forum.isLikesLoading(),
+      initialRefresh: forum.loadedLikes.isEmpty && forum.likeCnt > 0 && !forum.isLikesLoading(),
     );
     post((){
       // `initialRefreshStatus` and `initialLoadStatus` in RefreshController don't work.

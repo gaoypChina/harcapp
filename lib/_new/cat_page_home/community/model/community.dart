@@ -491,6 +491,7 @@ class Community extends CommunityBasicData{
   }
 
   bool isManagerWithinLoaded(CommunityManager manager){
+    if(_loadedManagers.length == managerCount) return true;
     if(_loadedManagers.isEmpty) return false;
     CommunityManager lastLoaded = _loadedManagers.last;
     return communityRoleToLoadingOrder(manager.role) < communityRoleToLoadingOrder(lastLoaded.role) ||

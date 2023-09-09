@@ -227,7 +227,7 @@ class TropUsersPageState extends State<TropUsersPage>{
     updateUserSets();
 
     controller = RefreshController(
-      initialRefresh: trop.loadedUsers.length == 1 && !trop.isUsersLoading(),
+      initialRefresh: trop.loadedUsers.length == 1 && trop.userCount > 1 && !trop.isUsersLoading(),
     );
     post((){
       // `initialRefreshStatus` and `initialLoadStatus` in RefreshController don't work.

@@ -14,6 +14,12 @@ class IndivCompParticip extends UserData{
     required super.verified,
     required super.shadow,
     required super.sex,
+    required super.org,
+    required super.hufiec,
+    required super.druzyna,
+    required super.rankHarc,
+    required super.rankInstr,
+
     required this.profile,
   });
 
@@ -26,6 +32,12 @@ class IndivCompParticip extends UserData{
       verified: userData.verified,
       shadow: userData.shadow,
       sex: userData.sex,
+      org: userData.org,
+      hufiec: userData.hufiec,
+      druzyna: userData.druzyna,
+      rankHarc: userData.rankHarc,
+      rankInstr: userData.rankInstr,
+
       profile: profile
   );
 
@@ -34,7 +46,18 @@ class IndivCompParticip extends UserData{
     profile: IndivCompProfile.fromRespMap(respMap['profile']??(throw InvalidResponseError('profile')), comp),
   );
 
-  UserData toUserData() => UserData(key: key, name: name, verified: verified, shadow: shadow, sex: sex);
+  UserData toUserData() => UserData(
+      key: key,
+      name: name,
+      verified: verified,
+      shadow: shadow,
+      sex: sex,
+      org: org,
+      hufiec: hufiec,
+      druzyna: druzyna,
+      rankHarc: rankHarc,
+      rankInstr: rankInstr
+  );
 
   @override
   int get hashCode => key.hashCode + name.hashCode + verified.hashCode + shadow.hashCode + sex.hashCode + profile.hashCode;

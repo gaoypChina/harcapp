@@ -219,6 +219,7 @@ class Circle extends CircleBasicData{
   }
 
   bool isMemberWithinLoaded(Member member){
+    if(loadedMembers.length == memberCount) return true;
     if(loadedMembers.isEmpty) return false;
     Member lastLoaded = loadedMembers.last;
     return circleRoleToLoadingOrder(member.role) < circleRoleToLoadingOrder(lastLoaded.role) ||

@@ -132,7 +132,7 @@ class ManagersPageState extends State<ManagersPage>{
     updateUserSets();
 
     controller = RefreshController(
-      initialRefresh: forum.loadedManagers.length == 1 && !forum.isManagersLoading(),
+      initialRefresh: forum.loadedManagers.length == 1 && forum.managerCount! > 1 && !forum.isManagersLoading(),
     );
     post((){
       // `initialRefreshStatus` and `initialLoadStatus` in RefreshController don't work.

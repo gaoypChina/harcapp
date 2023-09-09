@@ -147,7 +147,7 @@ class ParticipantsPageState extends State<ParticipantsPage>{
     updateUserSets();
 
     controller = RefreshController(
-      initialRefresh: comp.loadedParticips.length == 1 && !comp.isParticipsLoading(),
+      initialRefresh: comp.loadedParticips.length == 1 && comp.participCount > 1 && !comp.isParticipsLoading(),
     );
     post((){
       // `initialRefreshStatus` and `initialLoadStatus` in RefreshController don't work.

@@ -80,7 +80,7 @@ class LoadableTropUserSelectorState extends State<LoadableTropUserSelector>{
     trop.addUsersLoaderListener(usersLoaderListener);
 
     controller = RefreshController(
-      initialRefresh: trop.loadedUsers.length == 1 && !trop.isUsersLoading(),
+      initialRefresh: trop.loadedUsers.length == 1 && trop.userCount > 1 && !trop.isUsersLoading(),
     );
     post((){
       // `initialRefreshStatus` and `initialLoadStatus` in RefreshController don't work.

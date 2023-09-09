@@ -566,6 +566,7 @@ class MarkerData{
   }
 
   bool isManagerWithinLoaded(MarkerManager manager){
+    if(_loadedManagers.length == managerCount) return true;
     if(_loadedManagers.isEmpty) return false;
     MarkerManager lastLoaded = _loadedManagers.last;
     return markerRoleToLoadingOrder(manager.role) < markerRoleToLoadingOrder(lastLoaded.role) ||

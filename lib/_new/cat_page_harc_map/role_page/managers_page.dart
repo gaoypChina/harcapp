@@ -124,7 +124,7 @@ class MarkerManagersPageState extends State<MarkerManagersPage>{
     updateUserSets();
 
     controller = RefreshController(
-      initialRefresh: marker.loadedManagers.length == 1 && !marker.isManagersLoading(),
+      initialRefresh: marker.loadedManagers.length == 1 && marker.managerCount! > 1 && !marker.isManagersLoading(),
     );
 
     post((){

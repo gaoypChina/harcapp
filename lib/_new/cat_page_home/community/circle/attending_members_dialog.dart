@@ -288,7 +288,7 @@ class MemberAttendanceTileState extends State<MemberAttendanceTile>{
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
 
-              AccountHeaderWidget(member.name, verified: member.verified),
+              AccountHeaderWidget.fromUserData(member),
 
               const SizedBox(height: 2*24.0),
 

@@ -221,37 +221,9 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
 
                     IconButton(
                       icon: Icon(MdiIcons.cogOutline),
-                      onPressed: comp.myProfile?.role == CompRole.ADMIN?(){
-
-                        IndivCompProvider indivCompProv = IndivCompProvider.of(context);
-                        IndivCompParticipsProvider indivCompParticipsProv = IndivCompParticipsProvider.of(context);
-                        IndivCompListProvider indivCompListProv = IndivCompListProvider.of(context);
-
-                        pushPage(
-                            context,
-                            builder: (context) => IndivCompEditorPage(
-                              initComp: comp,
-                              onSuccess: (IndivComp savedComp){
-
-                                comp.update(savedComp);
-
-                                indivCompProv.notify();
-                                indivCompParticipsProv.notify();
-                                indivCompListProv.notify();
-
-                                if(!mounted) return;
-                                setState(() {});
-
-                                Navigator.pop(context);
-                              },
-                              onRemoved: (){
-                                widget.onRemoved?.call();
-                                if(mounted) Navigator.pop(context);
-                              },
-                            )
-                        );
-
-                      }:() => showScrollBottomSheet(
+                      onPressed: comp.myProfile?.role == CompRole.ADMIN?
+                          () => openEditCompPage(context):
+                          () => showScrollBottomSheet(
                           context: context,
                           builder: (context) => BottomSheetDef(
                             builder: (context) => LeaveNotAdminDialog(comp),
@@ -314,27 +286,32 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
 
                   const SizedBox(height: Dimen.SIDE_MARG),
 
-                  TaskListWidget(
-                    comp,
-                    onReqSent: (List<IndivCompCompletedTask> complTasks){
-                      IndivCompCompletedTask complTask = complTasks[0];
-                      comp.myProfile!.addLoadedCompletedTask(complTask, increaseTotalCount: true);
-                      comp.myProfile!.addLoadedPendingCompletedTask(complTask);
-                      indivCompProv.notify();
-                      setState(() {});
-                    },
-                    onGranted: (List<IndivCompCompletedTask> complTasks, Map<String, ShowRankData> idRank){
+                  if(comp.openTaskCount == 0)
+                    NoTaskWidget(
+                      onTap: () => openEditCompPage(context, initTab: 3),
+                    )
+                  else
+                    TaskListWidget(
+                      comp,
+                      onReqSent: (List<IndivCompCompletedTask> complTasks){
+                        IndivCompCompletedTask complTask = complTasks[0];
+                        comp.myProfile!.addLoadedCompletedTask(complTask, increaseTotalCount: true);
+                        comp.myProfile!.addLoadedPendingCompletedTask(complTask);
+                        indivCompProv.notify();
+                        setState(() {});
+                      },
+                      onGranted: (List<IndivCompCompletedTask> complTasks, Map<String, ShowRankData> idRank){
 
-                      for(IndivCompCompletedTask complTask in complTasks) {
-                        comp.getParticip(complTask.participKey)?.profile.addLoadedCompletedTask(complTask, increaseTotalCount: true);
-                        comp.addPoints(complTask.participKey, complTask.points);
-                      }
+                        for(IndivCompCompletedTask complTask in complTasks) {
+                          comp.getParticip(complTask.participKey)?.profile.addLoadedCompletedTask(complTask, increaseTotalCount: true);
+                          comp.addPoints(complTask.participKey, complTask.points);
+                        }
 
-                      comp.handleRanks(idRank);
-                      indivCompProv.notify();
-                      setState(() {});
-                    },
-                  ),
+                        comp.handleRanks(idRank);
+                        indivCompProv.notify();
+                        setState(() {});
+                      },
+                    ),
 
                   if(comp.awards.isNotEmpty)
                     const SizedBox(height: Dimen.SIDE_MARG),
@@ -366,6 +343,38 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
         )
     ),
   );
+
+  void openEditCompPage(BuildContext context, {int? initTab}) {
+
+    IndivCompProvider indivCompProv = IndivCompProvider.of(context);
+    IndivCompListProvider indivCompListProv = IndivCompListProvider.of(context);
+    IndivCompParticipsProvider indivCompParticipsProv = IndivCompParticipsProvider.of(context);
+
+    pushPage(
+        context,
+        builder: (context) =>
+            IndivCompEditorPage(
+              initTab: initTab,
+              initComp: comp,
+              onSuccess: (IndivComp savedComp) {
+                comp.update(savedComp);
+
+                indivCompProv.notify();
+                indivCompParticipsProv.notify();
+                indivCompListProv.notify();
+
+                if (!mounted) return;
+                setState(() {});
+
+                Navigator.pop(context);
+              },
+              onRemoved: () {
+                widget.onRemoved?.call();
+                if (mounted) Navigator.pop(context);
+              },
+            )
+    );
+  }
 
 }
 
@@ -697,7 +706,7 @@ class TaskWidget extends StatelessWidget{
   Widget build(BuildContext context) => IndivCompTaskWidget(
     task,
     bottom:
-    comp.myProfile?.active == true?
+    comp.myProfile?.active == true || comp.myProfile?.role == CompRole.MODERATOR || comp.myProfile?.role == CompRole.ADMIN?
     Row(
       children: [
 
@@ -837,6 +846,47 @@ class TaskListWidget extends StatelessWidget{
 
 }
 
+class NoTaskWidget extends StatelessWidget{
+
+  final void Function()? onTap;
+
+  const NoTaskWidget({this.onTap, super.key});
+
+  @override
+  Widget build(BuildContext context) => Padding(
+      padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
+      child: SimpleButton(
+          radius: AppCard.bigRadius,
+          color: cardEnab_(context),
+          child: Padding(
+            padding: const EdgeInsets.all(1.5*Dimen.SIDE_MARG),
+            child: Row(
+              children: [
+                Icon(MdiIcons.cubeOutline, color: textEnab_(context), size: 64.0),
+
+                const SizedBox(width: 1.5*Dimen.SIDE_MARG),
+
+                Expanded(
+                  child: Text(
+                    'Brak zadań\nKliknij, by coś dodać!',
+                    style: AppTextStyle(
+                      fontSize: Dimen.TEXT_SIZE_APPBAR,
+                      fontWeight: weight.halfBold,
+                      color: textEnab_(context),
+                      height: 1.2
+                    ),
+                  ),
+                )
+
+              ],
+            )
+          ),
+        onTap: onTap,
+      )
+  );
+
+}
+
 class AwardsWidget extends StatelessWidget{
 
   final IndivComp comp;
@@ -859,7 +909,10 @@ class AwardsWidget extends StatelessWidget{
         ),
       ),
 
-      AwardPageViewWidget(comp, padding: padding)
+      GestureDetector(
+        child: AwardPageViewWidget(comp, padding: padding),
+        onTap: () => pushPage(context, builder: (context) => IndivCompAwardsPage(comp)),
+      )
 
     ],
   );

@@ -121,7 +121,7 @@ class CommunityManagersPageState extends State<CommunityManagersPage>{
     updateUserSets();
 
     controller = RefreshController(
-      initialRefresh: community.loadedManagers.length == 1 && !community.isManagersLoading(),
+      initialRefresh: community.loadedManagers.length == 1 && community.managerCount! > 1 && !community.isManagersLoading(),
     );
     post((){
       // `initialRefreshStatus` and `initialLoadStatus` in RefreshController don't work.

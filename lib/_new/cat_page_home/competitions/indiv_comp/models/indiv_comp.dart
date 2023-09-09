@@ -327,6 +327,15 @@ class IndivComp{
   List<IndivCompTask> tasks;
   Map<String, IndivCompTask> taskMap;
 
+  int get openTaskCount{
+    int result = 0;
+    for(IndivCompTask task in tasks)
+      if(task.state == TaskState.OPEN)
+        result++;
+
+    return result;
+  }
+
   List<IndivCompAward> awards;
   List<String?> get awardsEncoded{
     List<String?> result = [];
@@ -455,6 +464,7 @@ class IndivComp{
   }
 
   bool isParticipWithinLoaded(IndivCompParticip particip){
+    if(loadedParticips.length == participCount) return true;
     if(loadedParticips.isEmpty) return false;
     IndivCompParticip lastLoaded = loadedParticips.last;
     return compRoleToLoadingOrder(particip.profile.role) < compRoleToLoadingOrder(lastLoaded.profile.role) ||

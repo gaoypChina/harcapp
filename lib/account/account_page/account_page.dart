@@ -41,6 +41,7 @@ import 'package:optional/optional_internal.dart';
 
 import '../../_app_common/accounts/user_data.dart';
 import '../../values/rank_instr.dart';
+import '../account_common/name_input_field.dart';
 import '../account_common/org_input_field.dart';
 import '../account_common/rank_harc_input_field.dart';
 import '../account_common/rank_instr_input_field.dart';
@@ -308,6 +309,7 @@ class AccountPageState extends State<AccountPage> with TickerProviderStateMixin{
     passController = InputFieldController();
     passRepController = InputFieldController();
     nameController = InputFieldController(text: AccountData.name);
+    nameController.addListener(() => setState((){}));
     sexController = InputFieldController();
     orgController = InputFieldController();
     rankHarcController = InputFieldController();
@@ -447,7 +449,12 @@ class AccountPageState extends State<AccountPage> with TickerProviderStateMixin{
           const SizedBox(height: Dimen.SIDE_MARG),
 
           AccountHeaderWidget(
-            AccountData.name!,
+            editMode?nameController.text:AccountData.name!,
+            AccountData.org,
+            AccountData.hufiec,
+            AccountData.druzyna,
+            AccountData.rankHarc,
+            AccountData.rankInstr,
             verified: AccountData.verified,
             showDetails: false,
             showDetailsButton: false,
@@ -551,6 +558,15 @@ class AccountPageState extends State<AccountPage> with TickerProviderStateMixin{
                     ),
 
                     const SizedBox(height: Dimen.SIDE_MARG),
+
+                    if(editMode)
+                      NameInputField(
+                        dimTextOnDisabled: false,
+                        controller: nameController,
+                      ),
+
+                    if(editMode)
+                      const SizedBox(height: Dimen.SIDE_MARG),
 
                     SexInputField(
                         sex,

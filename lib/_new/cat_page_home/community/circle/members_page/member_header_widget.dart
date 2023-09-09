@@ -17,12 +17,11 @@ class MemberHeaderWidget extends StatelessWidget{
   const MemberHeaderWidget(this.member, {this.palette, this.heroTag, super.key});
 
   @override
-  Widget build(BuildContext context) => AccountHeaderWidget(
-    member.name,
+  Widget build(BuildContext context) => AccountHeaderWidget.fromUserData(
+    member,
     thumbnailColor: CommunityCoverColors.cardColor(context, palette),
     thumbnailBorderColor: CommunityCoverColors.cardColor(context, palette),
     backgroundColor: CommunityCoverColors.backgroundColor(context, palette),
-    verified: member.verified,
     showDetails: false,
     showDetailsButton: true,
     detailsBorderColor: CommunityCoverColors.cardColor(context, palette),

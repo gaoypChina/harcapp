@@ -17,9 +17,8 @@ class ManagerHeaderWidget extends StatelessWidget{
   const ManagerHeaderWidget(this.manager, {this.palette, this.heroTag, super.key});
 
   @override
-  Widget build(BuildContext context) => AccountHeaderWidget(
-    manager.name,
-    verified: manager.verified,
+  Widget build(BuildContext context) => AccountHeaderWidget.fromUserData(
+    manager,
     shadow: manager.shadow,
     leading: const SizedBox(width: Dimen.ICON_SIZE + Dimen.ICON_MARG),
     thumbnailColor: CommunityCoverColors.cardColor(context, palette),

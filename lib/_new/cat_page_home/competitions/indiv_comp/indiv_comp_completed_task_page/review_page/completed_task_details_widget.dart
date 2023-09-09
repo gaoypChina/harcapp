@@ -57,8 +57,7 @@ class CompletedTaskDetailsWidgetState extends State<CompletedTaskDetailsWidget>{
 
   IndivCompParticip? get particip => comp.getParticip(complTask.participKey);
 
-  TextEditingController? textController;
-  bool? sending;
+  late TextEditingController textController;
 
   bool get reviewMode => complTask.acceptState == TaskAcceptState.PENDING && (comp.myProfile!.role == CompRole.ADMIN || comp.myProfile!.role == CompRole.MODERATOR);
   late bool participLoading;
@@ -99,7 +98,6 @@ class CompletedTaskDetailsWidgetState extends State<CompletedTaskDetailsWidget>{
   @override
   void initState() {
     textController = TextEditingController();
-    sending = true;
     participLoading = particip == null;
     if(participLoading) getParticipant();
 
@@ -122,6 +120,27 @@ class CompletedTaskDetailsWidgetState extends State<CompletedTaskDetailsWidget>{
             padding: widget.padding??EdgeInsets.zero,
             physics: const BouncingScrollPhysics(),
             children: [
+
+              GradientWidget(
+                  radius: AppCard.bigRadius,
+                  colorStart: taskAcceptStateColorStart(complTask.acceptState)!,
+                  colorEnd: taskAcceptStateColor(complTask.acceptState)!,
+                  child: SizedBox(
+                      height: Dimen.ICON_FOOTPRINT,
+                      child: Center(
+                        child: Text(
+                          taskAcceptStateToName(complTask.acceptState)!,
+                          style: AppTextStyle(
+                              fontSize: Dimen.TEXT_SIZE_APPBAR,
+                              color: background_(context),
+                              fontWeight: weight.bold
+                          ),
+                        ),
+                      )
+                  )
+              ),
+
+              const SizedBox(height: Dimen.defMarg),
 
               IndivCompTaskSkeletonWidget(
                 trailing: PointsWidget(points: task.points),
@@ -261,25 +280,7 @@ class CompletedTaskDetailsWidgetState extends State<CompletedTaskDetailsWidget>{
               widget.onAcceptStateChanged?.call();
             },
           )
-        else
-          GradientWidget(
-              radius: AppCard.bigRadius,
-              colorStart: taskAcceptStateColorStart(complTask.acceptState)!,
-              colorEnd: taskAcceptStateColor(complTask.acceptState)!,
-              child: SizedBox(
-                  height: Dimen.ICON_FOOTPRINT,
-                  child: Center(
-                    child: Text(
-                      taskAcceptStateToName(complTask.acceptState)!,
-                      style: AppTextStyle(
-                          fontSize: Dimen.TEXT_SIZE_APPBAR,
-                          color: background_(context),
-                          fontWeight: weight.bold
-                      ),
-                    ),
-                  )
-              )
-          ),
+
       ],
     );
 

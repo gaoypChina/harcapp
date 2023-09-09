@@ -1,14 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_common_classes/common.dart';
+import 'package:harcapp/_common_classes/org/org.dart';
 import 'package:harcapp/_common_widgets/border_material.dart';
-import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/account_common/druzyna_input_field.dart';
 import 'package:harcapp/account/account_common/hufiec_input_field.dart';
 import 'package:harcapp/account/account_common/rank_harc_input_field.dart';
 import 'package:harcapp/account/account_common/rank_instr_input_field.dart';
 import 'package:harcapp/account/account_start/input_field_controller.dart';
 import 'package:harcapp/account/account_thumbnail_widget.dart';
+import 'package:harcapp/values/rank_harc.dart';
+import 'package:harcapp/values/rank_instr.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
@@ -22,6 +25,12 @@ import '../../account/account_common/org_input_field.dart';
 class AccountHeaderWidget extends StatelessWidget{
 
   final String name;
+  final Org? org;
+  final String? hufiec;
+  final String? druzyna;
+  final RankHarc? rankHarc;
+  final RankInstr? rankInstr;
+
   final Color? thumbnailColor;
   final Color? thumbnailBorderColor;
   final Color? backgroundColor;
@@ -37,6 +46,11 @@ class AccountHeaderWidget extends StatelessWidget{
 
   const AccountHeaderWidget(
       this.name,
+      this.org,
+      this.hufiec,
+      this.druzyna,
+      this.rankHarc,
+      this.rankInstr,
       { this.thumbnailColor,
         this.thumbnailBorderColor,
         this.backgroundColor,
@@ -51,6 +65,41 @@ class AccountHeaderWidget extends StatelessWidget{
         this.heroTag,
         super.key
       });
+
+  static AccountHeaderWidget fromUserData(
+      UserData userData,
+      { Color? thumbnailColor,
+        Color? thumbnailBorderColor,
+        Color? backgroundColor,
+        bool showDetails = false,
+        bool showEmptyDetails = false,
+        bool showDetailsButton = true,
+        Color? detailsBorderColor,
+        bool shadow = false,
+        Widget? leading,
+        Widget? trailing,
+        dynamic heroTag,
+      }) => AccountHeaderWidget(
+        userData.name,
+        userData.org,
+        userData.hufiec,
+        userData.druzyna,
+        userData.rankHarc,
+        userData.rankInstr,
+
+        thumbnailColor: thumbnailColor,
+        thumbnailBorderColor: thumbnailBorderColor,
+        backgroundColor: backgroundColor,
+        verified: userData.verified,
+        showDetails: showDetails,
+        showEmptyDetails: showEmptyDetails,
+        showDetailsButton: showDetailsButton,
+        detailsBorderColor: detailsBorderColor,
+        shadow: shadow,
+        leading: leading,
+        trailing: trailing,
+        heroTag: heroTag,
+      );
 
   @override
   Widget build(BuildContext context){
@@ -70,7 +119,7 @@ class AccountHeaderWidget extends StatelessWidget{
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
 
-            if(showDetailsButton)
+            if(showDetailsButton && !shadow)
               const SizedBox(width: Dimen.ICON_FOOTPRINT),
 
             Expanded(
@@ -89,7 +138,7 @@ class AccountHeaderWidget extends StatelessWidget{
               ),
             ),
 
-            if(showDetailsButton)
+            if(showDetailsButton && !shadow)
               IconButton(
                   icon: Icon(MdiIcons.dotsHorizontal),
                   padding: EdgeInsets.zero,
@@ -111,6 +160,11 @@ class AccountHeaderWidget extends StatelessWidget{
 
                                     AccountHeaderWidget(
                                         name,
+                                        org,
+                                        hufiec,
+                                        druzyna,
+                                        rankHarc,
+                                        rankInstr,
                                         thumbnailColor: thumbnailColor,
                                         thumbnailBorderColor: thumbnailBorderColor,
                                         backgroundColor: backgroundColor,
@@ -175,7 +229,7 @@ class AccountHeaderWidget extends StatelessWidget{
             child: header,
           ),
 
-        if(showDetails)
+        if(showDetails && (org != null || hufiec != null || druzyna != null || rankHarc != null || rankInstr != null))
           Padding(
               padding: const EdgeInsets.only(
                 top: Dimen.SIDE_MARG,
@@ -191,49 +245,49 @@ class AccountHeaderWidget extends StatelessWidget{
                     mainAxisSize: MainAxisSize.min,
                     children: [
 
-                      if(AccountData.org != null || showEmptyDetails)
+                      if(org != null || showEmptyDetails)
                         OrgInputField(
-                        AccountData.org,
+                        org,
                         enabled: false,
                         dimTextOnDisabled: false,
                       ),
 
-                      if(AccountData.org != null || showEmptyDetails)
+                      if(org != null || showEmptyDetails)
                         const SizedBox(height: Dimen.SIDE_MARG),
 
-                      if(AccountData.hufiec != null || showEmptyDetails)
+                      if(hufiec != null || showEmptyDetails)
                         HufiecInputField(
                         enabled: false,
                         dimTextOnDisabled: false,
-                        controller: InputFieldController(text: AccountData.hufiec),
+                        controller: InputFieldController(text: hufiec),
                       ),
 
-                      if(AccountData.hufiec != null || showEmptyDetails)
+                      if(hufiec != null || showEmptyDetails)
                         const SizedBox(height: Dimen.SIDE_MARG),
 
-                      if(AccountData.druzyna != null || showEmptyDetails)
+                      if(druzyna != null || showEmptyDetails)
                         DruzynaInputField(
                         enabled: false,
                         dimTextOnDisabled: false,
-                        controller: InputFieldController(text: AccountData.druzyna),
+                        controller: InputFieldController(text: druzyna),
                       ),
 
-                      if(AccountData.druzyna != null || showEmptyDetails)
+                      if(druzyna != null || showEmptyDetails)
                         const SizedBox(height: Dimen.SIDE_MARG),
 
-                      if(AccountData.rankHarc != null || showEmptyDetails)
+                      if(rankHarc != null || showEmptyDetails)
                         RankHarcInputField(
-                          AccountData.rankHarc,
+                          rankHarc,
                           enabled: false,
                           dimTextOnDisabled: false,
                         ),
 
-                      if(AccountData.rankHarc != null || showEmptyDetails)
+                      if(rankHarc != null || showEmptyDetails)
                         const SizedBox(height: Dimen.SIDE_MARG),
 
-                      if(AccountData.rankInstr != null || showEmptyDetails)
+                      if(rankInstr != null || showEmptyDetails)
                         RankInstrInputField(
-                        AccountData.rankInstr,
+                        rankInstr,
                         enabled: false,
                         dimTextOnDisabled: false,
                       ),

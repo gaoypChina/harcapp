@@ -1,4 +1,7 @@
+import 'package:harcapp/_common_classes/org/org.dart';
 import 'package:harcapp/_new/api/_api.dart';
+import 'package:harcapp/values/rank_harc.dart';
+import 'package:harcapp/values/rank_instr.dart';
 
 enum Sex{
   male, female,
@@ -31,6 +34,11 @@ class UserData{
   final bool verified;
   final bool shadow;
   final Sex sex;
+  final Org? org;
+  final String? hufiec;
+  final String? druzyna;
+  final RankHarc? rankHarc;
+  final RankInstr? rankInstr;
 
   bool get isMale => sex == Sex.male;
 
@@ -40,6 +48,11 @@ class UserData{
     required this.verified,
     required this.shadow,
     required this.sex,
+    required this.org,
+    required this.hufiec,
+    required this.druzyna,
+    required this.rankHarc,
+    required this.rankInstr,
   });
 
   static UserData fromRespMap(Map respMap, {String? key}) => UserData(
@@ -48,6 +61,11 @@ class UserData{
     verified: respMap['verified']??false,
     shadow: respMap['shadow']??(throw InvalidResponseError('shadow')),
     sex: strToSex[respMap['sex']]??(throw InvalidResponseError('sex')),
+    org: respMap['org']==null?null:paramToOrg[respMap['org']],
+    hufiec: respMap['hufiec'],
+    druzyna: respMap['druzyna'],
+    rankHarc: respMap['rankHarc']==null?null:paramToRankHarc[respMap['rankHarc']],
+    rankInstr: respMap['rankInstr']==null?null:paramToRankInstr[respMap['rankInstr']],
     //nick: nick,
   );
 
@@ -71,6 +89,12 @@ class UserDataNick extends UserData{
     required super.verified,
     required super.shadow,
     required super.sex,
+    required super.org,
+    required super.hufiec,
+    required super.druzyna,
+    required super.rankHarc,
+    required super.rankInstr,
+
     required this.nick,
   });
 
@@ -82,6 +106,12 @@ class UserDataNick extends UserData{
         verified: userData.verified,
         shadow: userData.shadow,
         sex: userData.sex,
+        org: userData.org,
+        hufiec: userData.hufiec,
+        druzyna: userData.druzyna,
+        rankHarc: userData.rankHarc,
+        rankInstr: userData.rankInstr,
+
         nick: nick
     );
   }
@@ -92,6 +122,12 @@ class UserDataNick extends UserData{
   static const String _paramVerified = 'verified';
   static const String _paramShadow = 'shadow';
   static const String _paramSex = 'sex';
+  static const String _paramOrg = 'org';
+  static const String _paramHufiec = 'hufiec';
+  static const String _paramDruzyna = 'druzyna';
+  static const String _paramRankHarc = 'rankHarc';
+  static const String _paramRankInstr = 'rankInstr';
+
   static const String _paramNick = 'nick';
 
   Map<String, dynamic> toJsonMap() => {
@@ -100,6 +136,12 @@ class UserDataNick extends UserData{
     _paramVerified: verified,
     _paramShadow: shadow,
     _paramSex: sexToString[sex],
+    _paramOrg: org==null?null:orgToParam(org!),
+    _paramHufiec: hufiec,
+    _paramDruzyna: druzyna,
+    _paramRankHarc: rankHarc==null?null:rankHarcToParam(rankHarc!),
+    _paramRankInstr: rankInstr==null?null:rankInstrToParam(rankInstr!),
+
     _paramNick: nick
   };
 

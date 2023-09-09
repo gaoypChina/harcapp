@@ -64,7 +64,7 @@ class TropyPageState extends State<TropyPage>{
   void initState() {
 
     bool loggedIn = LoginProvider.of(context).loggedIn;
-    bool loadInit = loggedIn && !TropSharedPreviewData.hasAny && TropSharedPreviewData.moreToLoad;
+    bool loadInit = loggedIn && !TropSharedPreviewData.hasAny && AccountData.allSharedTropCount > 0 && TropSharedPreviewData.moreToLoad;
     refreshController = RefreshController(initialRefresh: loadInit);
     post((){
       // `initialRefreshStatus` and `initialLoadStatus` in RefreshController don't work.

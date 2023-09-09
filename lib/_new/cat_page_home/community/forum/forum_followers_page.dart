@@ -82,7 +82,7 @@ class ForumFollowersPageState extends State<ForumFollowersPage>{
     forum.addFollowersLoaderListener(followersLoaderListener);
 
     controller = RefreshController(
-      initialRefresh: forum.loadedFollowers.isEmpty && !forum.isFollowersLoading(),
+      initialRefresh: forum.loadedFollowers.isEmpty && forum.followersCnt > 0 && !forum.isFollowersLoading(),
     );
     post((){
       // `initialRefreshStatus` and `initialLoadStatus` in RefreshController don't work.

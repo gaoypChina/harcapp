@@ -88,7 +88,7 @@ class TropSelectorState extends State<TropSelector>{
     //   tropSharedPreviewsLoader.run();
 
     refreshController = RefreshController(
-      initialRefresh: AccountData.loggedIn && Trop.allLoadedShared.isEmpty && !tropSharedPreviewsLoader.running,
+      initialRefresh: AccountData.loggedIn && Trop.allLoadedShared.isEmpty && AccountData.allSharedTropCount > 0 && !tropSharedPreviewsLoader.running,
     );
     post((){
       // `initialRefreshStatus` and `initialLoadStatus` in RefreshController don't work.

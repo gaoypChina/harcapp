@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/common.dart';
+import 'package:harcapp/_common_widgets/check_box.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_text.dart';
@@ -127,7 +128,7 @@ class ParticipantsExtendedPageState extends State<ParticipantsExtendedPage>{
     updateUserSets();
 
     controller = RefreshController(
-      initialRefresh: comp.loadedParticips.length == 1 && !comp.isParticipsLoading(),
+      initialRefresh: comp.loadedParticips.length == 1 && comp.participCount > 1 && !comp.isParticipsLoading(),
     );
     post((){
       // `initialRefreshStatus` and `initialLoadStatus` in RefreshController don't work.
@@ -220,17 +221,34 @@ class ParticipantsExtendedPageState extends State<ParticipantsExtendedPage>{
 
             appBarActions: [
               if(selectedParticips.isNotEmpty)
-                Padding(
-                  padding: const EdgeInsets.only(right: 2*Dimen.defMarg),
-                  child: IconButton(
-                      icon: Icon(MdiIcons.selectMultiple),
-                      onPressed: (){
-                        selectedParticips.clear();
-                        selectedParticips.addAll(particips);
-                        setState(() {});
-                      }
-                  ),
-                )
+                // Padding(
+                //   padding: const EdgeInsets.only(right: Dimen.defMarg + BorderMaterial.defBorderWidth + Dimen.LIST_TILE_TRAILING_MARGIN_VAL),
+                //   child: CheckBox(
+                //     value: selectedParticips.length == particips.length,
+                //     activeColor: comp.colors.avgColor,
+                //     unselectedWidgetColor: comp.colors.avgColor,
+                //     checkColor: background_(context),
+                //     onChanged: (_){
+                //       if(selectedParticips.length == particips.length)
+                //         selectedParticips.clear();
+                //       else {
+                //         selectedParticips.clear();
+                //         selectedParticips.addAll(particips);
+                //       }
+                //       setState(() {});
+                //     }
+                //   )
+                //
+                //   // IconButton(
+                //   //     icon: Icon(MdiIcons.selectMultiple),
+                //   //     onPressed: (){
+                //   //       selectedParticips.clear();
+                //   //       selectedParticips.addAll(particips);
+                //   //       setState(() {});
+                //   //     }
+                //   // )
+                // )
+                Container()
               else if(comp.myProfile?.role == CompRole.ADMIN)
                 IconButton(
                     icon: Icon(MdiIcons.plus),
@@ -261,28 +279,55 @@ class ParticipantsExtendedPageState extends State<ParticipantsExtendedPage>{
               heroTag: particip,
             ),
 
-            headerTrailing: (context, userSet) => IconButton(
-              icon: Icon(MdiIcons.selectMultiple),
-              onPressed: (){
-
-                bool allSelected = true;
-                for(IndivCompParticip particip in userSet.users)
-                  if(!selectedParticips.contains(particip)){
-                    allSelected = false;
-                    break;
-                  }
-
-                if(allSelected)
+            headerTrailing: (context, userSet) => Padding(
+              padding: const EdgeInsets.only(right: Dimen.LIST_TILE_TRAILING_MARGIN_VAL),
+              child: CheckBox(
+                value: Set.of(selectedParticips).containsAll(Set.of(userSet.users)),
+                activeColor: comp.colors.avgColor,
+                unselectedWidgetColor: comp.colors.avgColor,
+                checkColor: background_(context),
+                onChanged: (value){
+                  bool allSelected = true;
                   for(IndivCompParticip particip in userSet.users)
-                    selectedParticips.remove(particip);
-                else
-                  for(IndivCompParticip particip in userSet.users)
-                    if(!selectedParticips.contains(particip)) selectedParticips.add(particip);
+                    if(!selectedParticips.contains(particip)){
+                      allSelected = false;
+                      break;
+                    }
 
-                setState(() {});
+                  if(allSelected)
+                    for(IndivCompParticip particip in userSet.users)
+                      selectedParticips.remove(particip);
+                  else
+                    for(IndivCompParticip particip in userSet.users)
+                      if(!selectedParticips.contains(particip)) selectedParticips.add(particip);
 
-              },
+                  setState(() {});
+                },
+              ),
             ),
+
+            // IconButton(
+            //   icon: Icon(MdiIcons.selectMultiple),
+            //   onPressed: (){
+            //
+            //     bool allSelected = true;
+            //     for(IndivCompParticip particip in userSet.users)
+            //       if(!selectedParticips.contains(particip)){
+            //         allSelected = false;
+            //         break;
+            //       }
+            //
+            //     if(allSelected)
+            //       for(IndivCompParticip particip in userSet.users)
+            //         selectedParticips.remove(particip);
+            //     else
+            //       for(IndivCompParticip particip in userSet.users)
+            //         if(!selectedParticips.contains(particip)) selectedParticips.add(particip);
+            //
+            //     setState(() {});
+            //
+            //   },
+            // ),
 
             bottomNavigationBar: selectedParticips.isEmpty?null:
             SimpleButton(
@@ -298,10 +343,10 @@ class ParticipantsExtendedPageState extends State<ParticipantsExtendedPage>{
               color: comp.colors.colorStart,
               colorEnd: comp.colors.colorEnd,
               child: TitleShortcutRowWidget(
-                  icon: IndivComp.pointsIcon,
-                  titleColor: background_(context),
-                  iconColor: background_(context),
-                  title: 'Zalicz zadanie'
+                icon: IndivComp.pointsIcon,
+                titleColor: background_(context),
+                iconColor: background_(context),
+                title: 'Zalicz zadanie'
               ),
 
             ),
