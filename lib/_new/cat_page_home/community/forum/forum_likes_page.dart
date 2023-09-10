@@ -3,6 +3,7 @@ import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_common_widgets/empty_message_widget.dart';
 import 'package:harcapp/_new/cat_page_home/community/common/community_cover_colors.dart';
 import 'package:harcapp/_new/cat_page_home/user_list_managment_loadable_page.dart';
+import 'package:harcapp/account/account_details_bottom_sheet.dart';
 import 'package:harcapp/account/account_tile.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
@@ -122,6 +123,14 @@ class ForumLikesPageState extends State<ForumLikesPage>{
             thumbnailBorderColor: CommunityCoverColors.cardColor(context, palette),
             thumbnailMarkerColor: CommunityCoverColors.strongColor(context, palette),
             backgroundColor: CommunityCoverColors.backgroundColor(context, palette),
+            onTap: () => showAccountDetailsButtonSheet(
+              context,
+              like,
+              thumbnailColor: CommunityCoverColors.cardColor(context, palette),
+              thumbnailBorderColor: CommunityCoverColors.cardColor(context, palette),
+              thumbnailMarkerColor: CommunityCoverColors.strongColor(context, palette),
+              backgroundColor: CommunityCoverColors.backgroundColor(context, palette),
+            ),
           ),
 
           strongColor: CommunityCoverColors.strongColor(context, palette),

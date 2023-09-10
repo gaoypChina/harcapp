@@ -212,34 +212,38 @@ class AccountThumbnailLoadableRowWidget extends StatelessWidget{
 
         return false;
       },
-      child: AccountThumbnailRowWidget(
-        accounts,
-        padding: padding,
-        size: size,
-        color: color,
-        borderColor: borderColor,
-        backgroundColor: backgroundColor,
-        elevated: elevated,
-        squeezable: squeezable,
-        clipBehavior: clipBehavior,
-        leading: leading,
-
-        lastChild: isLoading?Center(
-          child: AccountThumbnailWidget(
-            verified: false,
-            elevated: elevated,
+      child: GestureDetector(
+        onTap: onTap,
+        child: AbsorbPointer(
+          child: AccountThumbnailRowWidget(
+            accounts,
+            padding: padding,
+            size: size,
             color: color,
             borderColor: borderColor,
-            child: SpinKitChasingDots(
-              size: Dimen.ICON_SIZE,
-              color: textEnab_(context),
-            )
-          ),
-        ):null,
+            backgroundColor: backgroundColor,
+            elevated: elevated,
+            squeezable: squeezable,
+            clipBehavior: clipBehavior,
+            leading: leading,
 
-        thumbnailMarkBuilder: thumbnailMarkBuilder,
-        heroBuilder: heroBuilder,
-        onTap: onTap,
+            lastChild: isLoading?Center(
+              child: AccountThumbnailWidget(
+                verified: false,
+                elevated: elevated,
+                color: color,
+                borderColor: borderColor,
+                child: SpinKitChasingDots(
+                  size: Dimen.ICON_SIZE,
+                  color: textEnab_(context),
+                )
+              ),
+            ):null,
+
+            thumbnailMarkBuilder: thumbnailMarkBuilder,
+            heroBuilder: heroBuilder,
+          ),
+        ),
       )
   );
 

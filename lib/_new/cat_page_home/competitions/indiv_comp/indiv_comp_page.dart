@@ -286,10 +286,12 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
 
                   const SizedBox(height: Dimen.SIDE_MARG),
 
-                  if(comp.openTaskCount == 0)
-                    NoTaskWidget(
+                  if(comp.openTaskCount == 0 && comp.myProfile!.role == CompRole.ADMIN)
+                    NoTaskAdminWidget(
                       onTap: () => openEditCompPage(context, initTab: 3),
                     )
+                  else if(comp.openTaskCount == 0)
+                    const NoTaskNonAdminWidget()
                   else
                     TaskListWidget(
                       comp,
@@ -720,6 +722,8 @@ class TaskWidget extends StatelessWidget{
                 iconEnab_(context),
 
                 margin: EdgeInsets.zero,
+                color: cardEnab_(context),
+
                 icon: MdiIcons.clockOutline,
 
                 text:
@@ -846,18 +850,19 @@ class TaskListWidget extends StatelessWidget{
 
 }
 
-class NoTaskWidget extends StatelessWidget{
+class NoTaskAdminWidget extends StatelessWidget{
 
   final void Function()? onTap;
 
-  const NoTaskWidget({this.onTap, super.key});
+  const NoTaskAdminWidget({this.onTap, super.key});
 
   @override
   Widget build(BuildContext context) => Padding(
       padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
       child: SimpleButton(
-          radius: AppCard.bigRadius,
-          color: cardEnab_(context),
+        radius: AppCard.bigRadius,
+        color: cardEnab_(context),
+        onTap: onTap,
           child: Padding(
             padding: const EdgeInsets.all(1.5*Dimen.SIDE_MARG),
             child: Row(
@@ -881,7 +886,45 @@ class NoTaskWidget extends StatelessWidget{
               ],
             )
           ),
-        onTap: onTap,
+      )
+  );
+
+}
+
+class NoTaskNonAdminWidget extends StatelessWidget{
+
+  const NoTaskNonAdminWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) => Padding(
+      padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
+      child: SimpleButton(
+        radius: AppCard.bigRadius,
+        color: cardEnab_(context),
+        onTap: null,
+        child: Padding(
+            padding: const EdgeInsets.all(1.5*Dimen.SIDE_MARG),
+            child: Row(
+              children: [
+                Icon(MdiIcons.cubeOutline, color: textEnab_(context), size: 64.0),
+
+                const SizedBox(width: 1.5*Dimen.SIDE_MARG),
+
+                Expanded(
+                  child: Text(
+                    'Brak zadań\nMoże admin je doda...',
+                    style: AppTextStyle(
+                        fontSize: Dimen.TEXT_SIZE_APPBAR,
+                        fontWeight: weight.halfBold,
+                        color: textEnab_(context),
+                        height: 1.2
+                    ),
+                  ),
+                )
+
+              ],
+            )
+        ),
       )
   );
 

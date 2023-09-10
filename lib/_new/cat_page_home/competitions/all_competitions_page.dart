@@ -58,7 +58,7 @@ class AllCompetitionsPageState extends State<AllCompetitionsPage>{
   void initState() {
     
     refreshController = RefreshController(
-      initialRefresh: IndivComp.all == null
+      initialRefresh: AccountData.emailConf && IndivComp.all == null
     );
 
     IndivCompProvider indivCompProv = Provider.of<IndivCompProvider>(context, listen: false);
@@ -112,9 +112,6 @@ class AllCompetitionsPageState extends State<AllCompetitionsPage>{
     );
 
     AccountData.addLoginListener(loginListener);
-
-    if(IndivComp.all == null)
-      indivCompLoader.run();
 
     super.initState();
   }

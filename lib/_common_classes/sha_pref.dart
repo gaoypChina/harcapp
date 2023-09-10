@@ -43,7 +43,7 @@ class ShaPref{
     required double? Function(String key)? customGetDoubleOrNull,
     required FutureOr<void> Function(String key, double value)? customSetDouble,
 
-    required DateTime? Function(String key)? customGetDateTimeOrNull,
+    required String? Function(String key)? customGetDateTimeStrOrNull,
     required FutureOr<void> Function(String key, DateTime? value)? customSetDateTime,
 
     required bool Function(String key)? customExists,
@@ -66,7 +66,7 @@ class ShaPref{
     ShaPref.customGetDoubleOrNull = customGetDoubleOrNull;
     ShaPref.customSetDouble = customSetDouble;
 
-    ShaPref.customGetDateTimeOrNull = customGetDateTimeOrNull;
+    ShaPref.customGetDateStrTimeOrNull = customGetDateTimeStrOrNull;
     ShaPref.customSetDateTime = customSetDateTime;
 
     ShaPref.customExists = customExists;
@@ -512,10 +512,10 @@ class ShaPref{
   }
 
 
-  static DateTime? Function(String key)? customGetDateTimeOrNull;
+  static String? Function(String key)? customGetDateStrTimeOrNull;
   static DateTime? getDateTimeOrNull(String key){
     try {
-      if(customGetDateTimeOrNull != null) return customGetDateTimeOrNull!(key);
+      if(customGetDateStrTimeOrNull != null) return DateTime.tryParse(customGetDateStrTimeOrNull!(key)??'');
       String? dateTimeStr = getString(key, 'nic');
       if(dateTimeStr == 'nic') return null;
       return DateTime.tryParse(dateTimeStr);

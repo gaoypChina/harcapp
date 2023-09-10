@@ -48,7 +48,7 @@ class CommonColorData{
 
   static Map<String, CommonColorData> allPickable = {
 
-    chocolateKey: CommonColorData(Colors.pink, Colors.brown[900]!, true),
+    chocolateKey: CommonColorData(Colors.pink, Colors.brown[700]!, true),
     raspberryKey: CommonColorData(Colors.red[800]!, Colors.deepPurple, false),
     dawnKey: const CommonColorData(Colors.orange, Colors.purple, false),
     rosegoldKey: const CommonColorData(Colors.amberAccent, Colors.pinkAccent, false),
@@ -66,11 +66,11 @@ class CommonColorData{
     darkpurpleKey: const CommonColorData(Colors.deepPurple, Colors.blueGrey, true),
     darkbrownKey: const CommonColorData(Colors.brown, Colors.blueGrey, true),
 
-    bloodKey: CommonColorData(Colors.red[900]!, Colors.black, true),
-    deepforestKey: CommonColorData(Colors.green[900]!, Colors.black, true),
-    navyKey: CommonColorData(Colors.blue[900]!, Colors.black, true),
-    blackberryKey: CommonColorData(Colors.purple[900]!, Colors.black, true),
-    blackwoodKey: CommonColorData(Colors.brown[800]!, Colors.black, true),
+    bloodKey: CommonColorData(Colors.red[900]!, Colors.grey[800]!, true),
+    deepforestKey: CommonColorData(Colors.green[900]!, Colors.grey[800]!, true),
+    navyKey: CommonColorData(Colors.blue[900]!, Colors.grey[800]!, true),
+    blackberryKey: CommonColorData(Colors.purple[900]!, Colors.grey[800]!, true),
+    blackwoodKey: CommonColorData(Colors.brown[800]!, Colors.grey[800]!, true),
 
     omegaAlbumColorsKey: const CommonColorData(Colors.greenAccent, Colors.blue, false),
     ownSongsAlbumColorsKey: const CommonColorData(Colors.yellow, Colors.pink, false),

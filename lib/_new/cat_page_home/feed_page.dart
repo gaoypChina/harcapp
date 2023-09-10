@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_widgets/app_custom_footer.dart';
+import 'package:harcapp/_common_widgets/empty_message_widget.dart';
 import 'package:harcapp/_new/cat_page_home/community/community_thumbnail_widget.dart';
 import 'package:harcapp/_new/cat_page_home/super_search_field.dart';
+import 'package:harcapp/account/account.dart';
+import 'package:harcapp/account/account_page/account_page.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_new/api/community.dart';
@@ -11,6 +14,7 @@ import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
 import 'package:harcapp_core/comm_classes/no_glow_behavior.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
+import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -79,8 +83,9 @@ class FeedPageState extends State<FeedPage>{
     communitiesLoader.addListener(communitiesLoaderListener);
 
     refreshController = RefreshController(
-        initialRefresh: Community.all == null ||
-        CommunityPublishable.all == null
+        initialRefresh: AccountData.emailConf &&
+            (Community.all == null ||
+            CommunityPublishable.all == null)
     );
 
     loadedPage = -1;
@@ -95,6 +100,69 @@ class FeedPageState extends State<FeedPage>{
 
     refreshController.dispose();
     super.dispose();
+  }
+
+  List<Widget> getSlivers({required bool networkAvailable}) {
+    List<Widget> slivers = [];
+
+    slivers.add(SliverPadding(
+      padding: const EdgeInsets.only(bottom: Dimen.SIDE_MARG),
+      sliver: SliverList(delegate: SliverChildListDelegate([
+        const AccountTestWidget()
+      ])),
+    ));
+
+    slivers.add(SliverList(delegate: SliverChildListDelegate([
+
+      const SuperSearchFieldButton(
+        margin: EdgeInsets.symmetric(horizontal: Dimen.defMarg),
+      ),
+
+      if(CommunityPublishable.all != null && CommunityPublishable.all!.isNotEmpty)
+        const SizedBox(height: Dimen.SIDE_MARG),
+
+    ])));
+
+    if(!AccountData.emailConf) {
+      slivers.add(SliverFillRemaining(
+          hasScrollBody: false,
+          child: Padding(
+            padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+            child: SimpleButton(
+              onTap: () => AccountPage.open(context),
+              child: EmptyMessageWidget(
+                icon: MdiIcons.accountReactivateOutline,
+                text: 'Aktywuj konto by\nbyć na bieżąco',
+                color: textEnab_(context),
+              ),
+            )
+          )
+      ));
+      return slivers;
+    }
+
+    slivers.add(getCommunityPublishablesSliver(
+      context,
+      CommunityPublishable.all??[],
+      onCircleButtonTap: (circle) => onCircleTap?.call(circle),
+      onForumButtonTap: (forum) => onForumTap?.call(forum),
+      padding: const EdgeInsets.symmetric(horizontal: CommunityPublishableWidgetTemplate.borderHorizontalMarg),
+      loading: refreshController.isRefresh,
+      hasNetwork: networkAvailable,
+      onAnnouncementUpdated: () => setState((){}),
+      onPostUpdated: () => setState((){}),
+    ));
+
+    if(!moreToLoad && CommunityPublishable.all!.isNotEmpty)
+      slivers.add(SliverList(delegate: SliverChildListDelegate([
+        SizedBox(
+          height: 50,
+          child: Icon(MdiIcons.circleMedium, color: hintEnab_(context)),
+        )
+      ])));
+
+    return slivers;
+
   }
 
   @override
@@ -232,47 +300,7 @@ class FeedPageState extends State<FeedPage>{
           },
           child: CustomScrollView(
             physics: const BouncingScrollPhysics(),
-            slivers: [
-
-              SliverPadding(
-                padding: const EdgeInsets.only(bottom: Dimen.SIDE_MARG),
-                sliver: SliverList(delegate: SliverChildListDelegate([
-                  const AccountTestWidget()
-                ])),
-              ),
-
-              SliverList(delegate: SliverChildListDelegate([
-
-                const SuperSearchFieldButton(
-                  margin: EdgeInsets.symmetric(horizontal: Dimen.defMarg),
-                ),
-
-                if(CommunityPublishable.all != null && CommunityPublishable.all!.isNotEmpty)
-                  const SizedBox(height: Dimen.SIDE_MARG),
-
-              ])),
-
-              getCommunityPublishablesSliver(
-                context,
-                CommunityPublishable.all??[],
-                onCircleButtonTap: (circle) => onCircleTap?.call(circle),
-                onForumButtonTap: (forum) => onForumTap?.call(forum),
-                padding: const EdgeInsets.symmetric(horizontal: CommunityPublishableWidgetTemplate.borderHorizontalMarg),
-                loading: refreshController.isRefresh,
-                hasNetwork: connProv.connected,
-                onAnnouncementUpdated: () => setState((){}),
-                onPostUpdated: () => setState((){}),
-              ),
-
-              if(!moreToLoad && CommunityPublishable.all!.isNotEmpty)
-                SliverList(delegate: SliverChildListDelegate([
-                  SizedBox(
-                    height: 50,
-                    child: Icon(MdiIcons.circleMedium, color: hintEnab_(context)),
-                  )
-                ]))
-
-            ],
+            slivers: getSlivers(networkAvailable: connProv.connected),
           )
       ),
     ),
