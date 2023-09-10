@@ -58,22 +58,22 @@ class ForumLikesLoader extends SingleComputer<String?, ForumLikesLoaderListener>
       return;
     }
 
-    await ApiForum.getFollowers(
+    await ApiForum.getLikes(
         forumKey: _forum.key,
         pageSize: _pageSize,
         lastUserName: _lastUserName,
         lastUserKey: _lastUserKey,
-        onSuccess: (List<UserData> followersPage){
+        onSuccess: (List<UserData> likesPage){
 
           bool reloaded = _lastUserName == null && _lastUserKey == null;
 
           if(reloaded)
-            _forum.setAllLoadedFollowers(followersPage);
+            _forum.setAllLoadedLikes(likesPage);
           else
-            _forum.addLoadedFollowers(followersPage);
+            _forum.addLoadedLikes(likesPage);
 
           for(ForumLikesLoaderListener listener in listeners)
-            listener.onLikesLoaded?.call(followersPage, reloaded);
+            listener.onLikesLoaded?.call(likesPage, reloaded);
         },
         onServerMaybeWakingUp: () async {
           for(ForumLikesLoaderListener listener in listeners)

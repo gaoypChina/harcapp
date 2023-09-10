@@ -50,8 +50,6 @@ Widget getCommunityPublishablesSliver(
           color: CommunityCoverColors.strongColor(context, palette),
         ),
 
-
-
       ),
     );
   else

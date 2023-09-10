@@ -91,7 +91,7 @@ class ApiSync{
             shaPrefMap[key] = value;
             args.sendPort.send(Tuple2(key, value));
           },
-          customGetDateTimeOrNull: (String key) => shaPrefMap[key],
+          customGetDateTimeStrOrNull: (String key) => shaPrefMap[key],
           customSetDateTime: (String key, DateTime? value){
             shaPrefMap[key] = value;
             args.sendPort.send(Tuple2(key, value));

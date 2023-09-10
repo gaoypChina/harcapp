@@ -13,6 +13,7 @@ class ParticipTile extends StatelessWidget{
 
   final bool selected;
   final Color? selectedTextColor;
+  final Color? selectedThumbnailBorderColor;
   final void Function()? onTap;
   final void Function()? onLongPress;
   final Widget? leading;
@@ -26,6 +27,7 @@ class ParticipTile extends StatelessWidget{
     required this.particip,
     this.selected=false,
     this.selectedTextColor,
+    this.selectedThumbnailBorderColor,
     this.onTap,
     this.onLongPress,
     this.leading,
@@ -44,6 +46,7 @@ class ParticipTile extends StatelessWidget{
     
     textColor: particip.profile.active?(selected?selectedTextColor:iconEnab_(context)):hintEnab_(context),
     backgroundColor: selected?backgroundIcon_(context):Colors.transparent,
+    thumbnailBorderColor: selected?selectedThumbnailBorderColor:null,
     leading: leading,
     trailing: trailing,
     subtitle: subtitle,

@@ -22,8 +22,6 @@ class PagingLoadableScrollViewPage extends StatelessWidget{
 
   final FutureOr<int> Function() callReload;
   final FutureOr<int> Function() callLoadMore;
-  // final bool callReloadOnInit;
-  // final bool callLoadOnInit;
   final RefreshController? controller;
   final bool loadMoreIfHeightNotExceeding;
 
@@ -48,8 +46,6 @@ class PagingLoadableScrollViewPage extends StatelessWidget{
 
     required this.callReload,
     required this.callLoadMore,
-    // required this.callReloadOnInit,
-    // required this.callLoadOnInit,
     this.controller,
     this.loadMoreIfHeightNotExceeding = true,
 
@@ -78,12 +74,10 @@ class PagingLoadableScrollViewPage extends StatelessWidget{
 
     callReload: callReload,
     callLoadMore: callLoadMore,
-    // callReloadOnInit: callReloadOnInit,
-    // callLoadOnInit: callLoadOnInit,
     controller: controller,
     loadMoreIfHeightNotExceeding: loadMoreIfHeightNotExceeding,
 
-    sliverBody: (context, isLoading) => totalItemsCount==0 && emptyWidget != null?
+    sliverBody: (context, isLoading) => totalItemsCount==0 && emptyWidget!=null?
     SliverPadding(
       padding: padding??const EdgeInsets.all(Dimen.SIDE_MARG),
       sliver: SliverFillRemaining(

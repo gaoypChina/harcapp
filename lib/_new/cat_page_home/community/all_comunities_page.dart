@@ -58,7 +58,7 @@ class AllCommunitiesPageState extends State<AllCommunitiesPage>{
   void initState() {
     
     refreshController = RefreshController(
-      initialRefresh: Community.all == null
+      initialRefresh: AccountData.emailConf && Community.all == null
     );
 
     CommunityProvider communityProv = CommunityProvider.of(context);
@@ -117,9 +117,6 @@ class AllCommunitiesPageState extends State<AllCommunitiesPage>{
 
     AccountData.addLoginListener(loginListener);
 
-    if(Community.all == null)
-      communitiesLoader.run();
-
     super.initState();
   }
 
@@ -132,7 +129,7 @@ class AllCommunitiesPageState extends State<AllCommunitiesPage>{
     super.dispose();
   }
 
-  bool get shouldScroll => Community.all != null && Community.all!.isNotEmpty;
+  bool get shouldScroll => AccountData.emailConf && Community.all != null && Community.all!.isNotEmpty;
 
   List<Widget> getSlivers({required bool networkAvailable}){
     

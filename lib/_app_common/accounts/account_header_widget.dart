@@ -33,6 +33,7 @@ class AccountHeaderWidget extends StatelessWidget{
 
   final Color? thumbnailColor;
   final Color? thumbnailBorderColor;
+  final Color? thumbnailMarkerColor;
   final Color? backgroundColor;
   final bool verified;
   final bool showDetails;
@@ -53,6 +54,7 @@ class AccountHeaderWidget extends StatelessWidget{
       this.rankInstr,
       { this.thumbnailColor,
         this.thumbnailBorderColor,
+        this.thumbnailMarkerColor,
         this.backgroundColor,
         required this.verified,
         this.showDetails = false,
@@ -70,6 +72,7 @@ class AccountHeaderWidget extends StatelessWidget{
       UserData userData,
       { Color? thumbnailColor,
         Color? thumbnailBorderColor,
+        Color? thumbnailMarkerColor,
         Color? backgroundColor,
         bool showDetails = false,
         bool showEmptyDetails = false,
@@ -89,6 +92,7 @@ class AccountHeaderWidget extends StatelessWidget{
 
         thumbnailColor: thumbnailColor,
         thumbnailBorderColor: thumbnailBorderColor,
+        thumbnailMarkerColor: thumbnailMarkerColor,
         backgroundColor: backgroundColor,
         verified: userData.verified,
         showDetails: showDetails,
@@ -132,6 +136,7 @@ class AccountHeaderWidget extends StatelessWidget{
                     elevated: false,
                     color: thumbnailColor,
                     borderColor: thumbnailBorderColor,
+                    markerColor: thumbnailMarkerColor,
                     backgroundColor: backgroundColor,
                     onTap: null
                 ),
@@ -156,9 +161,9 @@ class AccountHeaderWidget extends StatelessWidget{
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
 
-                                    const SizedBox(height: Dimen.SIDE_MARG),
-
-                                    AccountHeaderWidget(
+                                    Padding(
+                                      padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+                                      child: AccountHeaderWidget(
                                         name,
                                         org,
                                         hufiec,
@@ -171,12 +176,11 @@ class AccountHeaderWidget extends StatelessWidget{
                                         verified: verified,
                                         showDetails: true,
                                         showDetailsButton: false,
-                                        detailsBorderColor: detailsBorderColor,
+                                        detailsBorderColor: detailsBorderColor??thumbnailBorderColor,
                                         shadow: shadow,
                                         heroTag: _heroTag,
+                                      ),
                                     ),
-
-                                    const SizedBox(height: Dimen.SIDE_MARG),
 
                                     SimpleButton.from(
                                         context: context,
@@ -233,8 +237,8 @@ class AccountHeaderWidget extends StatelessWidget{
           Padding(
               padding: const EdgeInsets.only(
                 top: Dimen.SIDE_MARG,
-                left: Dimen.SIDE_MARG,
-                right: Dimen.SIDE_MARG,
+                // left: Dimen.SIDE_MARG,
+                // right: Dimen.SIDE_MARG,
               ),
               child: BorderMaterial(
                 borderColor: detailsBorderColor,

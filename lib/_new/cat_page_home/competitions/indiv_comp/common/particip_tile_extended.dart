@@ -81,7 +81,8 @@ class ParticipTileExtendedState extends State<ParticipTileExtended>{
   Widget build(BuildContext context) => ParticipTile(
     particip: particip,
     selected: selected,
-    selectedTextColor: comp.colors.avgColor,
+    // selectedTextColor: comp.colors.avgColor,
+    selectedThumbnailBorderColor: background_(context),
     onLongPress: onSelectionTap,
     onTap: anythingSelected?onSelectionTap:openDetails,
     heroTag: heroTag,
