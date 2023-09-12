@@ -48,7 +48,7 @@ class AcceptTaskWidgetState extends State<AcceptTaskWidget>{
 
   FutureOr<void> Function(List<IndivCompCompletedTask>, Map<String, ShowRankData>)? get onSuccess => widget.onSuccess;
 
-  TextEditingController? controller;
+  late TextEditingController controller;
 
   @override
   void initState() {
@@ -79,7 +79,7 @@ class AcceptTaskWidgetState extends State<AcceptTaskWidget>{
                   await ApiIndivComp.createCompletedTask(
                       comp: comp,
                       taskKey: task.key,
-                      comment: controller!.text,
+                      comment: controller.text,
                       userKeys: selectedParticips.map((particips) => particips.key).toList(),
                       onSuccess: (List<IndivCompCompletedTask> taskComplList, Map<String, ShowRankData> idRank) async {
                         if(mounted) showAppToast(context, text: 'Zaliczono');

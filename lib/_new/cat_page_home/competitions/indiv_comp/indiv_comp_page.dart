@@ -733,7 +733,7 @@ class TaskWidget extends StatelessWidget{
                 onTap:
                 comp.myProfile?.pendingTasksCount[task.key] == null || comp.myProfile?.pendingTasksCount[task.key] == 0?
                 null:
-                    () => pushPage(
+                () => pushPage(
                   context,
                   builder: (context) => CompletedTasksPage(
                     comp,

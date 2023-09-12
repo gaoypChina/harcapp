@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 
 import 'package:harcapp/_app_common/common_icon_data.dart';
 import 'package:harcapp/_app_common/common_color_data.dart';
@@ -594,6 +595,26 @@ class IndivComp{
 
     particip.profile.points = particip.profile.points! + points;
     return true;
+  }
+
+  void handleNewTasksCompleted(List<IndivCompCompletedTask> complTasks, Map<String, ShowRankData> newRanks){
+
+    assert(complTasks.length == newRanks.length);
+    assert(setEquals(complTasks.map((task) => task.participKey).toSet(), newRanks.keys.toSet()));
+
+    for(IndivCompCompletedTask complTask in complTasks){
+      IndivCompParticip? particip = getParticip(complTask.participKey);
+      if(particip == null) continue;
+      IndivCompProfile profileOld = particip.profile.copy();
+
+      particip.profile.rank = newRanks[particip.key];
+      particip.profile.addLoadedCompletedTask(complTask, increaseTotalCount: true);
+      particip.profile.points = particip.profile.points! + complTask.points;
+
+      IndivCompProfile profileNew = particip.profile;
+      adjustToOtherProfileChange(particip.key, profileOld, profileNew);
+    }
+
   }
 
   IndivComp({

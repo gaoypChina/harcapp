@@ -177,14 +177,19 @@ class IndivCompProfile{
 
   void adjustToOtherProfileChange(IndivCompProfile? otherProfileOld, IndivCompProfile? otherProfileNew){
 
+    // This of this process in two steps:
+    // 1. We take out the old other person from the ranking and adjust this rank accordingly.
+    // 2. We put in the new other person into the ranking and adjust this rank accordingly.
+
     if(rank?.specificData?.showRank == null) return;
     int showRank = rank!.specificData!.showRank;
 
     if(otherProfileOld?.rank?.specificData?.showRank != null && otherProfileOld!.active){
       int otherShowRank = otherProfileOld.rank!.specificData!.showRank;
-      int? otherPoints = otherProfileOld.points;
+      // If smaller - self explanatory.
       if(otherShowRank < showRank) rank!.specificData!.showRank--;
-      else if(points != null && otherPoints == points){
+      // If equal, it means the otherPersonsRank has disappeared, so this person's rank should go up with a smaller popularity.
+      else if(otherShowRank == showRank){
         rank!.specificData!.showRank--;
         rank!.specificData!.popularity--;
       }
@@ -193,7 +198,10 @@ class IndivCompProfile{
     if(otherProfileNew?.rank?.specificData?.showRank != null && otherProfileNew!.active){
       int otherShowRank = otherProfileNew.rank!.specificData!.showRank;
       int? otherPoints = otherProfileNew.points;
-      if(otherShowRank < showRank) rank!.specificData!.showRank++;
+      // If smaller - self explanatory.
+      // If equal, it means the otherPersonsRank has gone up at the expense of this person's rank.
+      if(otherShowRank <= showRank) rank!.specificData!.showRank++;
+      // If smaller but points are equal, we must decrease this person's rank to match the other ones.
       else if(points != null && otherPoints == points){
         rank!.specificData!.showRank++;
         rank!.specificData!.popularity++;

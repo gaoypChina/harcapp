@@ -602,15 +602,15 @@ class ApiIndivComp{
       for(MapEntry complTaskEntry in complTasksRespMap.entries)
         complTasks.add(IndivCompCompletedTask.fromRespMap(complTaskEntry.value, comp, key: complTaskEntry.key));
 
-      Map<String, ShowRankData> idRankMap = {};
+      Map<String, ShowRankData> newRankMap = {};
 
       Map rankResMap = response.data['ranks'];
       for(String userKey in rankResMap.keys)
-        idRankMap[userKey] = ShowRankData.from(rankResMap[userKey]);
+        newRankMap[userKey] = ShowRankData.from(rankResMap[userKey]);
 
       await onSuccess?.call(
           complTasks,
-          idRankMap
+          newRankMap
       );
     },
     onForceLoggedOut: onForceLoggedOut,
