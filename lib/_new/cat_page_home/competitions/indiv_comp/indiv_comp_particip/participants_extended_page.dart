@@ -13,7 +13,6 @@ import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/comp_role.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_particip.dart';
-import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_task_compl.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/providers/indiv_comp_particips_provider.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
@@ -28,7 +27,6 @@ import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import '../common/accept_task_dialog.dart';
 import '../common/particip_tile_extended.dart';
 import '../indiv_comp_participants_loader.dart';
-import '../models/show_rank_data.dart';
 import 'add_user_bottom_sheet.dart';
 
 class ParticipantsExtendedPage extends StatefulWidget{
@@ -160,10 +158,8 @@ class ParticipantsExtendedPageState extends State<ParticipantsExtendedPage>{
     return result;
   }
 
-  void onPointsGranted(List<IndivCompCompletedTask> complTasks, Map<String, ShowRankData> newRanks){
+  void onPointsGranted(){
     selectedParticips.clear();
-
-    comp.handleNewTasksCompleted(complTasks, newRanks);
 
     IndivCompProvider.notify_(context);
     IndivCompListProvider.notify_(context);

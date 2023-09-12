@@ -62,87 +62,91 @@ class AccountThumbnailRowWidget extends StatelessWidget{
               clipBehavior: clipBehavior??Clip.none,
               physics: const BouncingScrollPhysics(),
               scrollDirection: Axis.horizontal,
-              child: Builder(
-                  builder: (BuildContext context){
+              child: GestureDetector(
+                onTap: onTap,
+                child: AbsorbPointer(
+                  child: Builder(
+                      builder: (BuildContext context){
 
-                    double width = constraints.maxWidth;
+                        double width = constraints.maxWidth;
 
-                    bool big = true;
-                    if(squeezable)
-                      big = scrollViewWidth(big: true) + padding.left + padding.right < width;
+                        bool big = true;
+                        if(squeezable)
+                          big = scrollViewWidth(big: true) + padding.left + padding.right < width;
 
-                    List<Widget> children = [];
+                        List<Widget> children = [];
 
-                    for(int i=0; i<accounts.length; i++){
-                      String acc = accounts[i];
+                        for(int i=0; i<accounts.length; i++){
+                          String acc = accounts[i];
 
-                      Widget thumbnailWidget = Material(
-                          borderRadius: BorderRadius.circular(circleHeight),
-                          color: backgroundColor??background_(context),
-                          child: Padding(
-                            padding: EdgeInsets.all(circleMargin),
-                            child: AccountThumbnailWidget(
-                              name: acc,
-                              verified: false,
-                              showVerified: false,
-                              elevated: elevated,
-                              size: circleHeight,
-                              color: color,
-                              borderColor: borderColor,
-                              backgroundColor: backgroundColor,
-                              onTap: onTap,
-                              markBuilder: thumbnailMarkBuilder == null?
-                              null:
-                              (context, size) => thumbnailMarkBuilder?.call(context, size, i),
-                            ),
-                          )
-                      );
+                          Widget thumbnailWidget = Material(
+                              borderRadius: BorderRadius.circular(circleHeight),
+                              color: backgroundColor??background_(context),
+                              child: Padding(
+                                padding: EdgeInsets.all(circleMargin),
+                                child: AccountThumbnailWidget(
+                                  name: acc,
+                                  verified: false,
+                                  showVerified: false,
+                                  elevated: elevated,
+                                  size: circleHeight,
+                                  color: color,
+                                  borderColor: borderColor,
+                                  backgroundColor: backgroundColor,
+                                  markBuilder: thumbnailMarkBuilder == null?
+                                  null:
+                                  (context, size) => thumbnailMarkBuilder?.call(context, size, i),
+                                ),
+                              )
+                          );
 
-                      children.add(
-                        Positioned(
-                            top: 0,
-                            bottom: 0,
-                            left: max(0, i*(circleHeight + (big?circleDistBig:circleDistSmall))),
-                            //right: (i+1)*50.0,
-                            child: heroBuilder == null?
-                            thumbnailWidget:
-                            Hero(
-                              tag: heroBuilder?.call(i),
-                              child: thumbnailWidget,
+                          children.add(
+                            Positioned(
+                                top: 0,
+                                bottom: 0,
+                                left: max(0, i*(circleHeight + (big?circleDistBig:circleDistSmall))),
+                                //right: (i+1)*50.0,
+                                child: heroBuilder == null?
+                                thumbnailWidget:
+                                Hero(
+                                  tag: heroBuilder?.call(i),
+                                  child: thumbnailWidget,
+                                )
                             )
-                        )
-                      );
-                    }
+                          );
+                        }
 
-                    if(lastChild != null)
-                      children.add(
-                          Positioned(
-                              top: 0,
-                              bottom: 0,
-                              left: max(0, accounts.length*(circleHeight + (big?circleDistBig:circleDistSmall))),
-                              //right: (i+1)*50.0,
-                              child: lastChild!
-                          )
-                      );
+                        if(lastChild != null)
+                          children.add(
+                              Positioned(
+                                  top: 0,
+                                  bottom: 0,
+                                  left: max(0, accounts.length*(circleHeight + (big?circleDistBig:circleDistSmall))),
+                                  //right: (i+1)*50.0,
+                                  child: lastChild!
+                              )
+                          );
 
-                    return Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        if(leading != null)
-                          leading!,
+                        return Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            if(leading != null)
+                              leading!,
 
-                        SizedBox(
-                            width: scrollViewWidth(big: big),
-                            child: Stack(
-                              clipBehavior: Clip.none,
-                              children: children,
+                            SizedBox(
+                                width: scrollViewWidth(big: big),
+                                child: Stack(
+                                  clipBehavior: Clip.none,
+                                  children: children,
+                                )
                             )
-                        )
 
-                      ],
-                    );
+                          ],
+                        );
 
-                  }
+                      }
+                  ),
+                ),
               ),
             )
 
@@ -212,41 +216,35 @@ class AccountThumbnailLoadableRowWidget extends StatelessWidget{
 
         return false;
       },
-      child: GestureDetector(
-        onTap: onTap,
-        child: AbsorbPointer(
-          child: AccountThumbnailRowWidget(
-            accounts,
-            padding: padding,
-            size: size,
-            color: color,
-            borderColor: borderColor,
-            backgroundColor: backgroundColor,
-            elevated: elevated,
-            squeezable: squeezable,
-            clipBehavior: clipBehavior,
-            leading: leading,
+      child: AccountThumbnailRowWidget(
+        accounts,
+        padding: padding,
+        size: size,
+        color: color,
+        borderColor: borderColor,
+        backgroundColor: backgroundColor,
+        elevated: elevated,
+        squeezable: squeezable,
+        clipBehavior: clipBehavior,
+        leading: leading,
 
-            lastChild: isLoading?Center(
-              child: AccountThumbnailWidget(
-                verified: false,
-                elevated: elevated,
-                color: color,
-                borderColor: borderColor,
-                child: SpinKitChasingDots(
-                  size: Dimen.ICON_SIZE,
-                  color: textEnab_(context),
-                )
-              ),
-            ):null,
-
-            thumbnailMarkBuilder: thumbnailMarkBuilder,
-            heroBuilder: heroBuilder,
+        lastChild: isLoading?Center(
+          child: AccountThumbnailWidget(
+              verified: false,
+              elevated: elevated,
+              color: color,
+              borderColor: borderColor,
+              child: SpinKitChasingDots(
+                size: Dimen.ICON_SIZE,
+                color: textEnab_(context),
+              )
           ),
-        ),
+        ):null,
+
+        thumbnailMarkBuilder: thumbnailMarkBuilder,
+        heroBuilder: heroBuilder,
+        onTap: onTap,
       )
   );
-
-
 
 }

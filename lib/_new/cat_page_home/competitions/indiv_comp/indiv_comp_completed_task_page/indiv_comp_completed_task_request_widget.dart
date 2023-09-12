@@ -8,7 +8,6 @@ import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_
 import 'package:harcapp/account/account_thumbnail_widget.dart';
 import 'package:harcapp/account/account_tile.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
-import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/show_rank_data.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_task.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_task_compl.dart';
 import 'package:harcapp/_new/api/indiv_comp.dart';
@@ -30,7 +29,7 @@ class IndivCompCompetedTaskRequestWidget extends StatefulWidget{
   final IndivComp comp;
   final IndivCompTask task;
   final bool adminOrMod;
-  final void Function(List<IndivCompCompletedTask>, Map<String, ShowRankData>)? onSuccess;
+  final void Function()? onSuccess;
 
   const IndivCompCompetedTaskRequestWidget(
       this.comp,
@@ -167,10 +166,10 @@ class IndivCompCompetedTaskRequestWidgetState extends State<IndivCompCompetedTas
                             taskKey: task.key,
                             userKeys: particip == null?null:[particip!.key],
                             comment: controller.text,
-                            onSuccess: (List<IndivCompCompletedTask> taskComplRespMap, Map<String, ShowRankData> idRank){
+                            onSuccess: (){
                               if(mounted) showAppToast(context, text: adminOrMod?'Zaliczono':'Przesłano. Wniosek oczekuje na rozpatrzenie.');
                               if(mounted) Navigator.pop(context);
-                              widget.onSuccess?.call(taskComplRespMap, idRank);
+                              widget.onSuccess?.call();
                             },
                             onServerMaybeWakingUp: () {
                               if(mounted) showServerWakingUpToast(context);

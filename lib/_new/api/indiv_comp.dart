@@ -581,7 +581,7 @@ class ApiIndivComp{
     List<String>? userKeys,
     String? comment,
 
-    FutureOr<void> Function(List<IndivCompCompletedTask>, Map<String, ShowRankData>)? onSuccess,
+    FutureOr<void> Function()? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
     FutureOr<bool> Function()? onServerMaybeWakingUp,
     FutureOr<void> Function()? onError,
@@ -602,16 +602,20 @@ class ApiIndivComp{
       for(MapEntry complTaskEntry in complTasksRespMap.entries)
         complTasks.add(IndivCompCompletedTask.fromRespMap(complTaskEntry.value, comp, key: complTaskEntry.key));
 
-      Map<String, ShowRankData> newRankMap = {};
+      Map<String, ShowRankData> newRanks = {};
 
       Map rankResMap = response.data['ranks'];
       for(String userKey in rankResMap.keys)
-        newRankMap[userKey] = ShowRankData.from(rankResMap[userKey]);
+        newRanks[userKey] = ShowRankData.from(rankResMap[userKey]);
 
-      await onSuccess?.call(
-          complTasks,
-          newRankMap
-      );
+      if(comp.myProfile!.role == CompRole.OBSERVER){
+        IndivCompCompletedTask complTask = complTasks[0];
+        comp.myProfile!.addLoadedCompletedTask(complTask, onlyIfWithinLoaded: true, increaseTotalCount: true);
+        comp.myProfile!.addLoadedPendingCompletedTask(complTask);
+      } else
+        comp.handleNewTasksCompleted(complTasks, newRanks);
+
+      await onSuccess?.call();
     },
     onForceLoggedOut: onForceLoggedOut,
     onServerMaybeWakingUp: onServerMaybeWakingUp,
@@ -619,10 +623,11 @@ class ApiIndivComp{
   );
 
   static Future<Response?> reviewCompletedTask({
-    required String complTaskKey,
+    required IndivComp comp,
+    required IndivCompCompletedTask complTask,
     required TaskAcceptState acceptState,
     required String revComment,
-    FutureOr<void> Function(String complTaskKey)? onSuccess,
+    FutureOr<void> Function()? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
     FutureOr<bool> Function()? onServerMaybeWakingUp,
     FutureOr<void> Function()? onError,
@@ -630,13 +635,23 @@ class ApiIndivComp{
   }) => API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.put(
-        '${API.baseUrl}api/indivComp/completedTask/$complTaskKey',
+        '${API.baseUrl}api/indivComp/completedTask/${complTask.key}',
         data: FormData.fromMap({
           'acceptState': acceptState.name,
           'revComment': revComment
         }),
       ),
-      onSuccess: (Response response, DateTime now) async => await onSuccess?.call(response.data),
+      onSuccess: (Response response, DateTime now) async {
+        comp.removeLoadedPendingCompletedTask(complTask);
+        complTask.acceptState = acceptState;
+        if(complTask.acceptState == TaskAcceptState.REJECTED){
+        }else if(complTask.acceptState == TaskAcceptState.ACCEPTED){
+          ShowRankData newRank = ShowRankData.from(response.data);
+          comp.handleNewTaskCompleted(complTask, newRank);
+        }
+
+        await onSuccess?.call();
+      },
       onForceLoggedOut: onForceLoggedOut,
       onServerMaybeWakingUp: onServerMaybeWakingUp,
       onError: (_) async => await onError?.call()

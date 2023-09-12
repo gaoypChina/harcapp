@@ -76,7 +76,7 @@ class CompletedTaskDetailsWidgetState extends State<CompletedTaskDetailsWidget>{
       participKey: complTask.participKey,
       onSuccess: (particip){
         comp.addSideloadedParticip(particip);
-        setState(() {});
+        if(mounted) setState(() {});
       },
       onForceLoggedOut: (){
         if(!mounted) return true;
@@ -188,16 +188,23 @@ class CompletedTaskDetailsWidgetState extends State<CompletedTaskDetailsWidget>{
 
                           const SizedBox(height: AccountThumbnailWidget.defSize - 2*Dimen.TEXT_SIZE_BIG),
 
-                          _NameWidget(particip?.name ?? 'Ładowanie...'),
+                          _NameWidget(participLoading? 'Ładowanie...':particip?.name??'Wystąpił problem'),
                           _DateWidget(complTask.reqTime),
 
                           _MessageWidget(complTask.reqComment),
 
                         ],
                       )
-                  )
+                  ),
+
+                  if(!participLoading && particip == null)
+                    IconButton(
+                      icon: Icon(MdiIcons.refresh),
+                      onPressed: () => getParticipant(),
+                    )
 
                 ],
+
               ),
 
               // Response
@@ -263,15 +270,15 @@ class CompletedTaskDetailsWidgetState extends State<CompletedTaskDetailsWidget>{
 
             ])),
 
-        if(reviewMode)
+        if(reviewMode && particip != null)
           ReviewButtons(
             comp,
-            particip,
+            particip!,
             complTask,
             textController,
-            onAcceptStateChanged: (String complTaskKey, TaskAcceptState acceptState){
+            onAcceptStateChanged: (TaskAcceptState acceptState){
 
-              comp.removeCompletedTaskForParticip(particip!.key, complTaskKey, context: context);
+              comp.removeCompletedTaskForParticip(particip!.key, complTask.key, context: context);
               if(acceptState==TaskAcceptState.ACCEPTED)
                 showAppToast(context, text: 'Zaakceptowano');
               else if(acceptState==TaskAcceptState.REJECTED)
@@ -291,10 +298,10 @@ class CompletedTaskDetailsWidgetState extends State<CompletedTaskDetailsWidget>{
 class ReviewButtons extends StatefulWidget{
 
   final IndivComp comp;
-  final IndivCompParticip? particip;
+  final IndivCompParticip particip;
   final IndivCompCompletedTask complTask;
-  final TextEditingController? textController;
-  final void Function(String, TaskAcceptState)? onAcceptStateChanged;
+  final TextEditingController textController;
+  final void Function(TaskAcceptState)? onAcceptStateChanged;
 
   const ReviewButtons(
       this.comp,
@@ -315,8 +322,8 @@ class ReviewButtonsState extends State<ReviewButtons>{
   IndivComp get comp => widget.comp;
   IndivCompParticip? get particip => widget.particip;
   IndivCompCompletedTask get complTask => widget.complTask;
-  TextEditingController? get textController => widget.textController;
-  void Function(String, TaskAcceptState)? get onAcceptStateChanged => widget.onAcceptStateChanged;
+  TextEditingController get textController => widget.textController;
+  void Function(TaskAcceptState)? get onAcceptStateChanged => widget.onAcceptStateChanged;
 
   bool? sending;
 
@@ -340,10 +347,11 @@ class ReviewButtonsState extends State<ReviewButtons>{
               onTap: () async {
 
                 if(!await isNetworkAvailable()){
-                  showAppToast(context, text: noInternetMessage);
+                  if(mounted) showAppToast(context, text: noInternetMessage);
                   return;
                 }
 
+                if(!mounted) return;
                 await showAlertDialog(
                     context,
                     title: 'Na pewno?',
@@ -356,12 +364,12 @@ class ReviewButtonsState extends State<ReviewButtons>{
                         showLoadingWidget(context, 'Ostatnia prosta', color: comp.colors.avgColor);
 
                         await ApiIndivComp.reviewCompletedTask(
-                            complTaskKey: complTask.key,
+                            comp: comp,
+                            complTask: complTask,
                             acceptState: TaskAcceptState.REJECTED,
-                            revComment: textController!.text,
-                            onSuccess: (String complTaskKey){
-                              onAcceptStateChanged?.call(complTaskKey, TaskAcceptState.REJECTED);
-                            },
+                            revComment: textController.text,
+                            onSuccess: () =>
+                              onAcceptStateChanged?.call(TaskAcceptState.REJECTED),
                             onServerMaybeWakingUp: () {
                               if(mounted) showServerWakingUpToast(context);
                               return true;
@@ -372,6 +380,7 @@ class ReviewButtonsState extends State<ReviewButtons>{
                             }
                         );
 
+                        if(!mounted) return;
                         Navigator.pop(context);
                         setState(() => sending = false);
 
@@ -408,11 +417,12 @@ class ReviewButtonsState extends State<ReviewButtons>{
                         showLoadingWidget(context, 'Ostatnia prosta', color: comp.colors.avgColor);
 
                         await ApiIndivComp.reviewCompletedTask(
-                            complTaskKey: complTask.key,
+                            comp: comp,
+                            complTask: complTask,
                             acceptState: TaskAcceptState.ACCEPTED,
-                            revComment: textController!.text,
-                            onSuccess: (String complTaskKey){
-                              onAcceptStateChanged?.call(complTaskKey, TaskAcceptState.ACCEPTED);
+                            revComment: textController.text,
+                            onSuccess: (){
+                              onAcceptStateChanged?.call(TaskAcceptState.ACCEPTED);
                             },
                             onServerMaybeWakingUp: () {
                               if(mounted) showServerWakingUpToast(context);

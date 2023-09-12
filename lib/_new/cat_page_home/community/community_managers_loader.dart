@@ -72,14 +72,17 @@ class CommunityManagersLoader extends SingleComputer<String?, CommunityManagersL
         lastUserKey: _lastUserKey,
         onSuccess: (List<CommunityManager> managersPage){
 
+          bool reloaded = _lastUserName == null && _lastUserKey == null;
+
           CommunityManager me = _community.getManager(AccountData.key!)!;
           CommunityManager? loadedMe = managersPage.where((manager) => manager.key == me.key).firstOrNull;
           if(loadedMe != null) {
             managersPage.removeWhere((manager) => manager.key == me.key);
             managersPage.insert(0, loadedMe);
+          } else if(reloaded) {
+            managersPage.removeWhere((manager) => manager.key == me.key);
+            managersPage.insert(0, me);
           }
-
-          bool reloaded = _lastUserName == null && _lastUserKey == null;
 
           if(reloaded)
             _community.setAllLoadedManagers(managersPage);

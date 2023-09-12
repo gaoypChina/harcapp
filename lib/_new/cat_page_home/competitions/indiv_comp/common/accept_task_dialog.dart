@@ -1,4 +1,3 @@
-
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -9,7 +8,6 @@ import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_ta
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_particip.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_task.dart';
-import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_task_compl.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/providers/indiv_comp_particips_provider.dart';
 import 'package:harcapp/_new/api/indiv_comp.dart';
 import 'package:harcapp/account/account_thumbnail_row_widget.dart';
@@ -24,14 +22,13 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:provider/provider.dart';
 
 import '../../../../../_common_widgets/loading_widget.dart';
-import '../models/show_rank_data.dart';
 
 class AcceptTaskWidget extends StatefulWidget{
 
   final IndivComp comp;
   final List<IndivCompParticip> selectedParticips;
 
-  final FutureOr<void> Function(List<IndivCompCompletedTask>, Map<String, ShowRankData>)? onSuccess;
+  final FutureOr<void> Function()? onSuccess;
   final FutureOr<void> Function()? onError;
 
   const AcceptTaskWidget(this.comp, this.selectedParticips, {this.onSuccess, this.onError, super.key});
@@ -46,7 +43,7 @@ class AcceptTaskWidgetState extends State<AcceptTaskWidget>{
   IndivComp get comp => widget.comp;
   List<IndivCompParticip> get selectedParticips => widget.selectedParticips;
 
-  FutureOr<void> Function(List<IndivCompCompletedTask>, Map<String, ShowRankData>)? get onSuccess => widget.onSuccess;
+  FutureOr<void> Function()? get onSuccess => widget.onSuccess;
 
   late TextEditingController controller;
 
@@ -81,9 +78,9 @@ class AcceptTaskWidgetState extends State<AcceptTaskWidget>{
                       taskKey: task.key,
                       comment: controller.text,
                       userKeys: selectedParticips.map((particips) => particips.key).toList(),
-                      onSuccess: (List<IndivCompCompletedTask> taskComplList, Map<String, ShowRankData> idRank) async {
+                      onSuccess: () async {
                         if(mounted) showAppToast(context, text: 'Zaliczono');
-                        await onSuccess?.call(taskComplList, idRank);
+                        await onSuccess?.call();
                       },
                       onServerMaybeWakingUp: () {
                         if(mounted) showServerWakingUpToast(context);
@@ -157,7 +154,8 @@ void openAcceptTaskDialog(
     BuildContext context,
     IndivComp comp,
     List<IndivCompParticip> particips,
-    {void Function(List<IndivCompCompletedTask> taskComplList, Map<String, ShowRankData> idRank)? onPointsGranted}) async => await openDialog(
+    { void Function()? onPointsGranted
+    }) async => await openDialog(
     context: context,
     builder: (context) => Center(
       child: Padding(
@@ -169,11 +167,8 @@ void openAcceptTaskDialog(
           child: AcceptTaskWidget(
             comp,
             particips,
-            onSuccess: (
-                List<IndivCompCompletedTask> taskComplList,
-                Map<String, ShowRankData> idRank
-              ){
-              onPointsGranted?.call(taskComplList, idRank);
+            onSuccess: (){
+              onPointsGranted?.call();
               Navigator.pop(context);
             },
           ),

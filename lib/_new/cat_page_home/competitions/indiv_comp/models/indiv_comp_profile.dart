@@ -1,5 +1,7 @@
+import 'package:harcapp/_common_classes/sorted_list.dart';
 import 'package:harcapp/_new/api/_api.dart';
 import 'package:harcapp/logger.dart';
+import 'package:harcapp_core/comm_classes/common.dart';
 
 import '../comp_role.dart';
 import '../task_accept_state.dart';
@@ -27,16 +29,25 @@ class IndivCompProfile{
     return completedTasksAcceptedCount! + completedTasksPendingCount! + completedTasksRejectedCount!;
   }
 
-  final List<IndivCompCompletedTask> loadedCompletedTasks;
+  final SortedList<IndivCompCompletedTask> loadedCompletedTasks;
   final Map<String, IndivCompCompletedTask> loadedCompletedTaskMap;
 
-  void addLoadedCompletedTask(IndivCompCompletedTask completedTask, {required bool increaseTotalCount}){
-    loadedCompletedTasks.add(completedTask);
-    loadedCompletedTaskMap[completedTask.key] = completedTask;
+  static int completedTasksComparator(IndivCompCompletedTask t1, IndivCompCompletedTask t2){
+    int dateResult = -compareText(t1.reqTime.toIso8601String(), t2.reqTime.toIso8601String());
+    if(dateResult != 0) return dateResult;
+    int keyResult = compareText(t1.key, t2.key);
+    return keyResult;
+  }
+
+  void addLoadedCompletedTask(IndivCompCompletedTask complTask, {required bool onlyIfWithinLoaded, required bool increaseTotalCount}){
+    if(isComplTaskWithinLoaded(complTask) || !onlyIfWithinLoaded) {
+      loadedCompletedTasks.add(complTask);
+      loadedCompletedTaskMap[complTask.key] = complTask;
+    }
 
     if(!increaseTotalCount) return;
 
-    switch(completedTask.acceptState){
+    switch(complTask.acceptState){
       case TaskAcceptState.ACCEPTED:
         completedTasksAcceptedCount = completedTasksAcceptedCount! + 1;
         break;
@@ -52,12 +63,12 @@ class IndivCompProfile{
   void setAllLoadedCompletedTasks(List<IndivCompCompletedTask> completedTasks){
     loadedCompletedTasks.clear();
     loadedCompletedTaskMap.clear();
-    addLoadedCompletedTasks(completedTasks, increaseTotalCount: false);
+    addLoadedCompletedTasks(completedTasks, onlyIfWithinLoaded: false, increaseTotalCount: false);
   }
 
-  void addLoadedCompletedTasks(List<IndivCompCompletedTask> completedTasks, {required bool increaseTotalCount}){
+  void addLoadedCompletedTasks(List<IndivCompCompletedTask> completedTasks, {required bool onlyIfWithinLoaded, required bool increaseTotalCount}){
     for(IndivCompCompletedTask completedTask in completedTasks)
-      addLoadedCompletedTask(completedTask, increaseTotalCount: increaseTotalCount);
+      addLoadedCompletedTask(completedTask, onlyIfWithinLoaded: onlyIfWithinLoaded, increaseTotalCount: increaseTotalCount);
   }
 
   void removeCompletedTaskByKey(String complTaskKey, {bool shrinkTotalCount=true}){
@@ -86,6 +97,16 @@ class IndivCompProfile{
           break;
       }
 
+  }
+
+  bool isComplTaskWithinLoaded(IndivCompCompletedTask complTask){
+    if(loadedCompletedTasks.length == completedTasksCount) return true;
+    if(loadedCompletedTasks.isEmpty) return false;
+    IndivCompCompletedTask lastLoaded = loadedCompletedTasks.last;
+
+    int result = completedTasksComparator(complTask, lastLoaded);
+
+    return result < 0;
   }
 
   // {taskKey: [completedTask]}
@@ -157,7 +178,7 @@ class IndivCompProfile{
 
     required this.pendingTasksCount,
 
-  }): loadedCompletedTasks = [],
+  }): loadedCompletedTasks = SortedList(completedTasksComparator),
         loadedCompletedTaskMap = {},
         loadedPendingTasks = {},
         loadedPendingTaskMap = {};

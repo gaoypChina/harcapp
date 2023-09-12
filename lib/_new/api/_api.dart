@@ -180,6 +180,12 @@ class API{
 
           return response;
 
+        } else if(respData == 'invalid_user_key'){
+          saveErrorMessage(e);
+          await handleForgetAccount();
+          finish = await onForceLoggedOut?.call();
+          if(finish??false) return e.response;
+          await onError?.call(e);
         }
 
       } else if(e.response?.statusCode == HttpStatus.unauthorized){

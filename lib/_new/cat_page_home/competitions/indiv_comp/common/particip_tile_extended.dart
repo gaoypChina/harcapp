@@ -16,7 +16,6 @@ import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/common/points
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/comp_role.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_particip.dart';
-import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_task_compl.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/_new/api/indiv_comp.dart';
 import 'package:harcapp/values/consts.dart';
@@ -30,7 +29,6 @@ import 'package:tuple/tuple.dart';
 import '../../../user_tile_dialogs.dart';
 import '../indiv_comp_completed_task_page/completed_tasks_page.dart';
 import '../indiv_comp_particip/participants_page.dart';
-import '../models/show_rank_data.dart';
 import '../models/indiv_comp_profile.dart';
 import '../models/rank_disp_type.dart';
 import '../task_accept_state.dart';
@@ -43,7 +41,7 @@ class ParticipTileExtended extends StatefulWidget{
   final bool anythingSelected;
   final bool selected;
   final void Function()? onSelectionTap;
-  final void Function(List<IndivCompCompletedTask> taskComplList, Map<String, ShowRankData> idRank)? onPointsGranted;
+  final void Function()? onPointsGranted;
   final dynamic heroTag;
 
   const ParticipTileExtended(
@@ -71,7 +69,7 @@ class ParticipTileExtendedState extends State<ParticipTileExtended>{
   bool get anythingSelected => widget.anythingSelected;
   bool get selected => widget.selected;
   void Function()? get onSelectionTap => widget.onSelectionTap;
-  void Function(List<IndivCompCompletedTask> taskComplList, Map<String, ShowRankData> idRank)? get onPointsGranted => widget.onPointsGranted;
+  void Function()? get onPointsGranted => widget.onPointsGranted;
 
   get heroTag => widget.heroTag;
 
@@ -192,8 +190,11 @@ class ParticipTileExtendedState extends State<ParticipTileExtended>{
                     acceptState: TaskAcceptState.ACCEPTED,
 
                     initLoadedCompletedTasks: comp.getParticip(particip.key)!.profile.loadedCompletedTasks,
+                    onCompletedTasksRefreshed: (completedTasksPage){
+                      comp.setAllLoadedCompletedTasksForParticip(particip.key, completedTasksPage, increaseTotalCount: false);
+                    },
                     onCompletedTasksPageLoaded: (completedTasksPage){
-                      comp.addLoadedCompletedTasksForParticip(particip.key, completedTasksPage, increaseTotalCount: false);
+                      comp.addLoadedCompletedTasksForParticip(particip.key, completedTasksPage, onlyIfWithinLoaded: false, increaseTotalCount: false);
                     }
                   ));
                 }
@@ -342,6 +343,15 @@ class ParticipTileExtendedState extends State<ParticipTileExtended>{
               IndivCompParticip? oldParticip = comp.getParticip(particip.key);
               comp.adjustToOtherParticipChange(oldParticip, particip);
               comp.updateLoadedParticip(particip, context: null);
+
+              if(particip.key == AccountData.key){
+                bool previouslyAdminOrMod = myProfile!.role == CompRole.ADMIN || myProfile!.role == CompRole.MODERATOR;
+                bool nowAdminOrMod = particip.profile.role == CompRole.ADMIN || particip.profile.role == CompRole.MODERATOR;
+
+                if(previouslyAdminOrMod != nowAdminOrMod)
+                  comp.handleMyRoleChanged();
+                
+              }
 
               IndivComp.callProvidersWithParticips(indivCompProv, indivCompListProv, indivCompParticipsProv);
               Navigator.pop(context); // Close loading widget.

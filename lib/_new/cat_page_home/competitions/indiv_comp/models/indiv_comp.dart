@@ -317,8 +317,24 @@ class IndivComp{
     return me.profile;
   }
 
+  static int participComparator(IndivCompParticip p1, IndivCompParticip p2){
+    int roleResult = compareText(compRoleToStr(p1.profile.role), compRoleToStr(p2.profile.role));
+    if(roleResult != 0) return roleResult;
+    int nameResult = compareText(p1.name, p2.name);
+    if(nameResult != 0) return nameResult;
+    int keyResult = compareText(p1.key, p2.key);
+    return keyResult;
+  }
+
   final List<IndivCompParticip> loadedParticips;
   final Map<String, IndivCompParticip> _loadedParticipMap;
+
+  void clearLoadedParticips(){
+    IndivCompParticip me = _loadedParticipMap[AccountData.key!]!;
+    loadedParticips.clear();
+    _loadedParticipMap.clear();
+    addLoadedParticips([me]);
+  }
 
   final Map<String, IndivCompParticip> sideLoadedParticipMap;
 
@@ -351,6 +367,7 @@ class IndivComp{
   int? completedTasksPendingCount;
   int? completedTasksRejectedCount;
 
+  // Completed tasks loaded in the review page
   List<IndivCompCompletedTask> loadedPendingCompletedTasks;
 
   late IndivCompParticipantsLoader _participantsLoader;
@@ -381,7 +398,20 @@ class IndivComp{
     completedTasksPendingCount = updatedComp.completedTasksPendingCount;
     completedTasksRejectedCount = updatedComp.completedTasksRejectedCount;
 
+    bool previouslyAdminOrMod = myProfile!.role == CompRole.ADMIN || myProfile!.role == CompRole.MODERATOR;
+    bool nowAdminOrMod = updatedComp.myProfile!.role == CompRole.ADMIN || updatedComp.myProfile!.role == CompRole.MODERATOR;
+
+    if(previouslyAdminOrMod != nowAdminOrMod)
+      handleMyRoleChanged();
+
     myProfile!.update(updatedComp.myProfile!);
+
+  }
+
+  void handleMyRoleChanged(){
+    // Reset profiles for all users by enforcing their reload.
+    clearLoadedParticips();
+    loadedPendingCompletedTasks.clear();
   }
 
   void adjustToOtherParticipChange(IndivCompParticip? participOld, IndivCompParticip? participNew) {
@@ -410,22 +440,6 @@ class IndivComp{
   void reversePinned(BuildContext context){
     ShaPref.setBool(ShaPref.SHA_PREF_INDIV_COMP_PINNED_(key), !pinned);
     Provider.of<IndivCompListProvider>(context, listen: false).notify();
-  }
-
-  void handleRanks(Map<String, ShowRankData> ranks){
-
-    for(String participKey in ranks.keys) {
-      IndivCompParticip? particip = _loadedParticipMap[participKey];
-      if(particip == null) continue;
-      particip.profile.rank = ranks[participKey];
-    }
-
-    loadedParticips.sort((p1, p2) => (p1.profile.rank?.sortIndex??0).toInt() - (p2.profile.rank?.sortIndex??0).toInt());
-
-    if(myProfile?.active == false) return;
-    String? thisParticipKey = AccountData.key;
-    if(!ranks.containsKey(thisParticipKey)) return;
-
   }
 
   IndivCompParticip? getParticip(String key){
@@ -526,8 +540,8 @@ class IndivComp{
   void removeParticipLoaderListener(IndivCompParticipantsLoaderListener listener) =>
       _participantsLoader.removeListener(listener);
 
-  void addLoadedCompletedTasksForParticip(String participKey, List<IndivCompCompletedTask> completedTasks, {required bool increaseTotalCount}){
-    _loadedParticipMap[participKey]!.profile.addLoadedCompletedTasks(completedTasks, increaseTotalCount: increaseTotalCount);
+  void addLoadedCompletedTasksForParticip(String participKey, List<IndivCompCompletedTask> completedTasks, {required bool onlyIfWithinLoaded, required bool increaseTotalCount}){
+    _loadedParticipMap[participKey]!.profile.addLoadedCompletedTasks(completedTasks, onlyIfWithinLoaded: onlyIfWithinLoaded, increaseTotalCount: increaseTotalCount);
   }
 
   void setAllLoadedCompletedTasksForParticip(String participKey, List<IndivCompCompletedTask> completedTasks, {required bool increaseTotalCount}){
@@ -535,7 +549,7 @@ class IndivComp{
   }
   
   void removeCompletedTaskForParticip(String participKey, String complTaskKey, {BuildContext? context, bool shrinkTotalCount=true}){
-    _loadedParticipMap[participKey]!.profile.removeCompletedTaskByKey(complTaskKey, shrinkTotalCount: shrinkTotalCount);
+    getParticip(participKey)!.profile.removeCompletedTaskByKey(complTaskKey, shrinkTotalCount: shrinkTotalCount);
 
     if(context != null) ComplTasksProvider.notify_(context);
   }
@@ -596,23 +610,29 @@ class IndivComp{
   //   return true;
   // }
 
+  bool handleNewTaskCompleted(IndivCompCompletedTask complTask, ShowRankData newRank){
+
+    IndivCompParticip? particip = getParticip(complTask.participKey);
+    if(particip == null) return false;
+    IndivCompProfile profileOld = particip.profile.copy();
+
+    particip.profile.rank = newRank;
+    particip.profile.addLoadedCompletedTask(complTask, onlyIfWithinLoaded: true, increaseTotalCount: true);
+    particip.profile.points = particip.profile.points! + complTask.points;
+
+    IndivCompProfile profileNew = particip.profile;
+    adjustToOtherProfileChange(particip.key, profileOld, profileNew);
+
+    return true;
+  }
+
   void handleNewTasksCompleted(List<IndivCompCompletedTask> complTasks, Map<String, ShowRankData> newRanks){
 
     assert(complTasks.length == newRanks.length);
     assert(setEquals(complTasks.map((task) => task.participKey).toSet(), newRanks.keys.toSet()));
 
-    for(IndivCompCompletedTask complTask in complTasks){
-      IndivCompParticip? particip = getParticip(complTask.participKey);
-      if(particip == null) continue;
-      IndivCompProfile profileOld = particip.profile.copy();
-
-      particip.profile.rank = newRanks[particip.key];
-      particip.profile.addLoadedCompletedTask(complTask, increaseTotalCount: true);
-      particip.profile.points = particip.profile.points! + complTask.points;
-
-      IndivCompProfile profileNew = particip.profile;
-      adjustToOtherProfileChange(particip.key, profileOld, profileNew);
-    }
+    for(IndivCompCompletedTask complTask in complTasks)
+      handleNewTaskCompleted(complTask, newRanks[complTask.participKey]!);
 
   }
 

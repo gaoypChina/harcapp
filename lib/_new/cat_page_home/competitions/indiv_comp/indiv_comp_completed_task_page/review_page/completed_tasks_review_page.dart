@@ -63,39 +63,31 @@ class CompletedTasksReviewPageState extends State<CompletedTasksReviewPage>{
       loadingIndicatorColor: comp.colors.avgColor,
       totalItemsCount: totalCount,
       loadedItemsCount: pendingCompletedTasks.length,
-      callReload: () async {
-
-        await ApiIndivComp.getCompletedTasks(
-          comp: comp,
-          pageSize: IndivCompCompletedTask.pageSize,
-          lastReqTime: pendingCompletedTasks.isEmpty?null:pendingCompletedTasks.last.reqTime,
-          acceptState: TaskAcceptState.PENDING,
-          onSuccess: (completedTasksPage){
-            pendingCompletedTasks.clear();
-            pendingCompletedTasks.addAll(completedTasksPage);
-
-            comp.setAllLoadedPendingCompletedTasks(completedTasksPage);
-
-            setState((){});
-          },
-          onForceLoggedOut: (){
-            if(!mounted) return true;
-            showAppToast(context, text: forceLoggedOutMessage);
-            setState(() {});
-            return true;
-          },
-          onServerMaybeWakingUp: (){
-            if(!mounted) return true;
-            showServerWakingUpToast(context);
-            return true;
-          },
-          onError: (){
-            if(!mounted) return;
-            showAppToast(context, text: simpleErrorMessage);
-          },
-        );
-
-      },
+      callReload: () => ApiIndivComp.getCompletedTasks(
+        comp: comp,
+        pageSize: IndivCompCompletedTask.pageSize,
+        lastReqTime: pendingCompletedTasks.isEmpty?null:pendingCompletedTasks.last.reqTime,
+        acceptState: TaskAcceptState.PENDING,
+        onSuccess: (completedTasksPage){
+          comp.setAllLoadedPendingCompletedTasks(completedTasksPage);
+          setState((){});
+        },
+        onForceLoggedOut: (){
+          if(!mounted) return true;
+          showAppToast(context, text: forceLoggedOutMessage);
+          setState(() {});
+          return true;
+        },
+        onServerMaybeWakingUp: (){
+          if(!mounted) return true;
+          showServerWakingUpToast(context);
+          return true;
+        },
+        onError: (){
+          if(!mounted) return;
+          showAppToast(context, text: simpleErrorMessage);
+        },
+      ),
       callLoadMore: () async {
 
         bool success = false;
@@ -133,9 +125,7 @@ class CompletedTasksReviewPageState extends State<CompletedTasksReviewPage>{
         comp,
         pendingCompletedTasks[index],
         padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-        onAcceptStateChanged: () => setState((){
-          comp.removeLoadedPendingCompletedTask(pendingCompletedTasks[index]);
-        }),
+        onAcceptStateChanged: () => setState((){}),
       ),
       tabTitle: (index, loadMoreAvailable) => loadMoreAvailable?'Więcej...':'Wniosek $index',
 

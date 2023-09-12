@@ -48,7 +48,6 @@ import 'indiv_comp_particip/participants_extended_page.dart';
 import 'indiv_comp_completed_task_page/indiv_comp_completed_task_request_widget.dart';
 import 'indiv_comp_participants_loader.dart';
 import 'indiv_comp_task_widget.dart';
-import 'models/show_rank_data.dart';
 import 'models/indiv_comp.dart';
 import 'models/indiv_comp_particip.dart';
 import 'models/indiv_comp_task_compl.dart';
@@ -295,17 +294,11 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
                   else
                     TaskListWidget(
                       comp,
-                      onReqSent: (List<IndivCompCompletedTask> complTasks){
-                        IndivCompCompletedTask complTask = complTasks[0];
-                        comp.myProfile!.addLoadedCompletedTask(complTask, increaseTotalCount: true);
-                        comp.myProfile!.addLoadedPendingCompletedTask(complTask);
+                      onRequestSent: (){
                         indivCompProv.notify();
                         setState(() {});
                       },
-                      onGranted: (List<IndivCompCompletedTask> complTasks, Map<String, ShowRankData> newRanks){
-
-                        comp.handleNewTasksCompleted(complTasks, newRanks);
-
+                      onSelfGranted: (){
                         indivCompProv.notify();
                         setState(() {});
                       },
@@ -441,7 +434,7 @@ class CompHeaderWidget extends StatelessWidget{
                           particip: comp.getParticip(AccountData.key!),
                           initLoadedCompletedTasks: comp.myProfile!.loadedCompletedTasks,
                           acceptState: TaskAcceptState.ACCEPTED,
-                          onCompletedTasksPageLoaded: (tasksPage) => comp.myProfile!.addLoadedCompletedTasks(tasksPage, increaseTotalCount: false),
+                          onCompletedTasksPageLoaded: (tasksPage) => comp.myProfile!.addLoadedCompletedTasks(tasksPage, onlyIfWithinLoaded: false, increaseTotalCount: false),
                           onCompletedTasksRefreshed: (tasksPage) => comp.myProfile!.setAllLoadedCompletedTasks(tasksPage),
                       )),
                   child: Row(
@@ -618,7 +611,7 @@ class ParticipantsWidgetState extends State<ParticipantsWidget>{
     super.dispose();
   }
 
-  bool get hideMiniRanks => comp.rankDispType == RankDispType.RANGE && comp.myProfile?.role == CompRole.OBSERVER;
+  bool get hideMiniRanks => comp.myProfile?.role == CompRole.OBSERVER;
 
   @override
   Widget build(BuildContext context) => Padding(
@@ -687,13 +680,13 @@ class TaskWidget extends StatelessWidget{
 
   final IndivComp comp;
   final IndivCompTask task;
-  final void Function(List<IndivCompCompletedTask>)? onReqSent;
-  final void Function(List<IndivCompCompletedTask>, Map<String, ShowRankData>)? onSelfGranted;
+  final void Function()? onRequestSent;
+  final void Function()? onSelfGranted;
 
   const TaskWidget(
       this.comp,
       this.task,
-      { this.onReqSent,
+      { this.onRequestSent,
         this.onSelfGranted,
         Key? key
       }) : super(key: key);
@@ -782,7 +775,7 @@ class TaskWidget extends StatelessWidget{
                             onSuccess:
                             adminOrMod?
                             onSelfGranted:
-                                (complTaskList, _) => onReqSent?.call(complTaskList),
+                            onRequestSent,
                           ),
                         )
                 );
@@ -802,13 +795,13 @@ class TaskListWidget extends StatelessWidget{
   static const double separatorHeight = 12.0;
 
   final IndivComp comp;
-  final void Function(List<IndivCompCompletedTask>)? onReqSent;
-  final void Function(List<IndivCompCompletedTask>, Map<String, ShowRankData>)? onGranted;
+  final void Function()? onRequestSent;
+  final void Function()? onSelfGranted;
 
   const TaskListWidget(
       this.comp,
-      { this.onReqSent,
-        this.onGranted,
+      { this.onRequestSent,
+        this.onSelfGranted,
         super.key
       });
 
@@ -827,8 +820,8 @@ class TaskListWidget extends StatelessWidget{
           TaskWidget(
             comp,
             task,
-            onReqSent: onReqSent,
-            onSelfGranted: onGranted,
+            onRequestSent: onRequestSent,
+            onSelfGranted: onSelfGranted,
           )
       );
 

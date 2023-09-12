@@ -90,7 +90,7 @@ class IndivCompCompletedTasksLoader extends SingleComputer<String?, IndivCompCom
             if (reloaded)
               _comp.setAllLoadedCompletedTasksForParticip(thisParticipKey, completedTasksPage, increaseTotalCount: false);
             else
-              _comp.addLoadedCompletedTasksForParticip(thisParticipKey, completedTasksPage, increaseTotalCount: false);
+              _comp.addLoadedCompletedTasksForParticip(thisParticipKey, completedTasksPage, onlyIfWithinLoaded: false, increaseTotalCount: false);
           }
 
           for(IndivCompCompletedTasksLoaderListener listener in listeners)

@@ -215,7 +215,7 @@ class TropSharedPreviewData extends TropBaseData{
     int dateResult = -compareText(t1.startDate.toIso8601String(), t2.startDate.toIso8601String());
     if(dateResult != 0) return dateResult;
     int nameResult = compareText(t1.name, t2.name);
-    if(nameResult != 0) return dateResult;
+    if(nameResult != 0) return nameResult;
     int keyResult = compareText(t1.key, t2.key);
     return keyResult;
   }
@@ -302,13 +302,9 @@ class TropSharedPreviewData extends TropBaseData{
     if(all == null || all!.isEmpty) return false;
     TropSharedPreviewData lastLoaded = all!.last;
 
-    int dateResult = compareText(trop.startDate.toIso8601String(), lastLoaded.startDate.toIso8601String());
-    int nameResult = compareText(trop.name, lastLoaded.name);
-    int keyResult = compareText(trop.key, lastLoaded.key);
+    int result = comparator(trop, lastLoaded);
 
-    return dateResult < 0 || (dateResult == 0 &&
-        nameResult < 0 || (nameResult == 0 &&
-        keyResult < 0));
+    return result < 0;
   }
 
   // void dumpAsPreview(){

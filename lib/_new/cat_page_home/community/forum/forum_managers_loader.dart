@@ -71,14 +71,17 @@ class ForumManagersLoader extends SingleComputer<String?, ForumManagersLoaderLis
         lastUserKey: _lastUserKey,
         onSuccess: (List<ForumManager> managersPage){
 
+          bool reloaded = _lastRole == null && _lastUserName == null && _lastUserKey == null;
+
           ForumManager me = _forum.getManager(AccountData.key!)!;
           ForumManager? loadedMe = managersPage.where((manager) => manager.key == me.key).firstOrNull;
           if(loadedMe != null) {
             managersPage.removeWhere((manager) => manager.key == me.key);
             managersPage.insert(0, loadedMe);
+          } else if(reloaded) {
+            managersPage.removeWhere((manager) => manager.key == me.key);
+            managersPage.insert(0, me);
           }
-
-          bool reloaded = _lastRole == null && _lastUserName == null && _lastUserKey == null;
 
           if(reloaded)
             _forum.setAllLoadedManagers(managersPage);

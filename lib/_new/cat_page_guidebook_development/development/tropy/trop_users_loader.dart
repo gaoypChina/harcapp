@@ -73,14 +73,17 @@ class TropUsersLoader extends SingleComputer<String?, TropUsersLoaderListener>{
         lastUserKey: _lastUserKey,
         onSuccess: (List<TropUser> usersPage){
 
+          bool reloaded = _lastRole == null && _lastUserName == null && _lastUserKey == null;
+
           TropUser me = _trop.getUser(AccountData.key!)!;
           TropUser? loadedMe = usersPage.where((user) => user.key == me.key).firstOrNull;
           if(loadedMe != null) {
             usersPage.removeWhere((user) => user.key == me.key);
             usersPage.insert(0, loadedMe);
+          } else if(reloaded) {
+            usersPage.removeWhere((user) => user.key == me.key);
+            usersPage.insert(0, me);
           }
-
-          bool reloaded = _lastRole == null && _lastUserName == null && _lastUserKey == null;
 
           if(reloaded)
             _trop.setAllLoadedUsers(usersPage);
