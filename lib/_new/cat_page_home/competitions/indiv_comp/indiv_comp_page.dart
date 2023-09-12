@@ -302,14 +302,10 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
                         indivCompProv.notify();
                         setState(() {});
                       },
-                      onGranted: (List<IndivCompCompletedTask> complTasks, Map<String, ShowRankData> idRank){
+                      onGranted: (List<IndivCompCompletedTask> complTasks, Map<String, ShowRankData> newRanks){
 
-                        for(IndivCompCompletedTask complTask in complTasks) {
-                          comp.getParticip(complTask.participKey)?.profile.addLoadedCompletedTask(complTask, increaseTotalCount: true);
-                          comp.addPoints(complTask.participKey, complTask.points);
-                        }
+                        comp.handleNewTasksCompleted(complTasks, newRanks);
 
-                        comp.handleRanks(idRank);
                         indivCompProv.notify();
                         setState(() {});
                       },

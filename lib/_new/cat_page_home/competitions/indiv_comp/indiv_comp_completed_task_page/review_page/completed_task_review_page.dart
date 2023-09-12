@@ -42,27 +42,23 @@ class CompletedTaskReviewPageState extends State<CompletedTaskReviewPage>{
   IndivComp get comp => widget.comp;
   bool get callLoadOnInit => widget.callLoadOnInit;
 
-  List<Tuple2<IndivCompParticip?, IndivCompCompletedTask>>? pendingComplTasks;
+  late List<Tuple2<IndivCompParticip, IndivCompCompletedTask>> pendingComplTasks;
 
   late bool showPendingOnly;
 
   bool? sending;
 
-  List<Tuple2<IndivCompParticip?, IndivCompCompletedTask>>? complTasksToList({
-    required Map<IndivCompParticip?, List<IndivCompCompletedTask>> complTaskMap,
+  List<Tuple2<IndivCompParticip, IndivCompCompletedTask>> pendingComplTasksToList({
+    required Map<IndivCompParticip, List<IndivCompCompletedTask>> complTaskMap,
   }){
-    pendingComplTasks = [];
+    List<Tuple2<IndivCompParticip, IndivCompCompletedTask>> pendingComplTasks = [];
 
-    for(IndivCompParticip? particip in complTaskMap.keys)
+    for(IndivCompParticip particip in complTaskMap.keys)
       for(IndivCompCompletedTask task in complTaskMap[particip]!)
-        pendingComplTasks!.add(Tuple2(particip, task));
+        pendingComplTasks.add(Tuple2(particip, task));
 
     return pendingComplTasks;
   }
-
-  // --------------------------------------------------
-
-
 
   late RefreshController refreshController;
 
@@ -75,8 +71,6 @@ class CompletedTaskReviewPageState extends State<CompletedTaskReviewPage>{
     refreshController = RefreshController(
         initialLoadStatus: callLoadOnInit?LoadStatus.loading:LoadStatus.idle
     );
-    // if(callLoadOnInit)
-    //   onLoading();
 
     super.initState();
   }
@@ -85,24 +79,24 @@ class CompletedTaskReviewPageState extends State<CompletedTaskReviewPage>{
   Widget build(BuildContext context) => Consumer<ComplTasksProvider>(
       builder: (context, prov, child){
 
-        Map<IndivCompParticip?, List<IndivCompCompletedTask>> complTaskMap = {};
+        Map<IndivCompParticip, List<IndivCompCompletedTask>> complTaskMap = {};
 
-        for(IndivCompParticip? particip in comp.loadedParticips) {
+        for(IndivCompParticip particip in comp.loadedParticips) {
           if(!complTaskMap.containsKey(particip))
             complTaskMap[particip] = [];
 
-          for(IndivCompCompletedTask complTask in particip!.profile.loadedCompletedTasks)
+          for(IndivCompCompletedTask complTask in particip.profile.loadedCompletedTasks)
             complTaskMap[particip]!.add(complTask);
         }
 
-        pendingComplTasks = complTasksToList(complTaskMap: complTaskMap);
+        pendingComplTasks = pendingComplTasksToList(complTaskMap: complTaskMap);
 
         if(showPendingOnly)
-          pendingComplTasks!.removeWhere((tuple) => tuple.item2.acceptState != TaskAcceptState.PENDING);
+          pendingComplTasks.removeWhere((tuple) => tuple.item2.acceptState != TaskAcceptState.PENDING);
 
         List<Tab> tabs = [];
         List<Widget> children = [];
-        for(Tuple2<IndivCompParticip?, IndivCompCompletedTask> pendingComplTask in pendingComplTasks!){
+        for(Tuple2<IndivCompParticip?, IndivCompCompletedTask> pendingComplTask in pendingComplTasks){
           IndivCompParticip particip = pendingComplTask.item1!;
           IndivCompCompletedTask complTask = pendingComplTask.item2;
 
@@ -116,7 +110,7 @@ class CompletedTaskReviewPageState extends State<CompletedTaskReviewPage>{
                   complTask,
                   padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
                   onAcceptStateChanged: (){
-                    if(pendingComplTasks!.length == 1)
+                    if(pendingComplTasks.length == 1)
                       Navigator.pop(context);
                   },
                 ),
@@ -126,7 +120,7 @@ class CompletedTaskReviewPageState extends State<CompletedTaskReviewPage>{
 
         return BottomNavScaffold(
             body: DefaultTabController(
-              length: pendingComplTasks!.length,
+              length: pendingComplTasks.length,
               child: NestedScrollView(
                   physics: const BouncingScrollPhysics(),
                   headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [
@@ -135,7 +129,7 @@ class CompletedTaskReviewPageState extends State<CompletedTaskReviewPage>{
                       centerTitle: true,
                       floating: true,
                       forceElevated: innerBoxIsScrolled,
-                      pinned: pendingComplTasks!.length > 1,
+                      pinned: pendingComplTasks.length > 1,
                       actions: [
 
                         IconButton(
@@ -145,15 +139,15 @@ class CompletedTaskReviewPageState extends State<CompletedTaskReviewPage>{
 
                       ],
                       bottom:
-                      pendingComplTasks!.length == 1?null:TabBar(
-                        isScrollable: pendingComplTasks!.length > 3,
+                      pendingComplTasks.length == 1?null:TabBar(
+                        isScrollable: pendingComplTasks.length > 3,
                         physics: const BouncingScrollPhysics(),
                         tabs: tabs,
                       ),
                     ),
                   ],
                   body:
-                  pendingComplTasks!.isEmpty?
+                  pendingComplTasks.isEmpty?
                   Padding(
                     padding: const EdgeInsets.all(Dimen.SIDE_MARG),
                     child: Center(

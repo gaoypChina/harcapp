@@ -537,8 +537,7 @@ class IndivComp{
   void removeCompletedTaskForParticip(String participKey, String complTaskKey, {BuildContext? context, bool shrinkTotalCount=true}){
     _loadedParticipMap[participKey]!.profile.removeCompletedTaskByKey(complTaskKey, shrinkTotalCount: shrinkTotalCount);
 
-    if(context != null)
-    Provider.of<ComplTasksProvider>(context, listen: false).notify();
+    if(context != null) ComplTasksProvider.notify_(context);
   }
 
   void addLoadedPendingCompletedTasks(List<IndivCompCompletedTask> completedTasks){
@@ -585,17 +584,17 @@ class IndivComp{
       _completedTasksPendingLoader.removeListener(listener);
   
   
-  bool addPoints(String participKey, int points){
-    IndivCompParticip? particip = _loadedParticipMap[participKey];
-    if(particip == null)
-      return false;
-
-    if(particip.profile.points == null)
-      return false;
-
-    particip.profile.points = particip.profile.points! + points;
-    return true;
-  }
+  // bool addPoints(String participKey, int points){
+  //   IndivCompParticip? particip = _loadedParticipMap[participKey];
+  //   if(particip == null)
+  //     return false;
+  //
+  //   if(particip.profile.points == null)
+  //     return false;
+  //
+  //   particip.profile.points = particip.profile.points! + points;
+  //   return true;
+  // }
 
   void handleNewTasksCompleted(List<IndivCompCompletedTask> complTasks, Map<String, ShowRankData> newRanks){
 

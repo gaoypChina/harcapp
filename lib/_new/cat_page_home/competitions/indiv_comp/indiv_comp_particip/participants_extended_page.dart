@@ -163,13 +163,6 @@ class ParticipantsExtendedPageState extends State<ParticipantsExtendedPage>{
   void onPointsGranted(List<IndivCompCompletedTask> complTasks, Map<String, ShowRankData> newRanks){
     selectedParticips.clear();
 
-    // comp.handleRanks(idRank);
-    //
-    // for(IndivCompCompletedTask taskCompl in taskComplList) {
-    //   comp.getParticip(taskCompl.participKey)!.profile.addLoadedCompletedTask(taskCompl, increaseTotalCount: true);
-    //   comp.addPoints(taskCompl.participKey, taskCompl.points);
-    // }
-
     comp.handleNewTasksCompleted(complTasks, newRanks);
 
     IndivCompProvider.notify_(context);
