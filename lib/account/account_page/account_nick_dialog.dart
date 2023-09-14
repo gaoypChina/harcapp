@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
-import 'package:harcapp/_common_classes/blur.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_text.dart';
@@ -12,6 +11,7 @@ import 'package:harcapp/account/account.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
+import 'package:harcapp_core/comm_widgets/pulsing_text.dart';
 import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:provider/provider.dart';
@@ -150,38 +150,22 @@ class AccountNickDialogState extends State<AccountNickDialog>{
                     const SizedBox(width: Dimen.ICON_FOOTPRINT),
 
                     Expanded(
-                      child: Stack(
-                        children: [
-
-                          if(!nickProcessing && AccountData.nickSearchable)
-                            AnimatedOpacity(
-                              opacity: pulseVisible?1:0,
-                              duration: pulseDuration,
-                              child: Text(
-                                AccountData.nick!,
-                                textAlign: TextAlign.center,
-                                style: AppTextStyle(
-                                  fontSize: Dimen.TEXT_SIZE_APPBAR,
-                                  fontWeight: weight.bold,
-                                  color: textEnab_(context),
-                                ),
-                              ),
-                            ),
-
-                          Positioned.fill(child: Blur(sigma: 3, child: Container())),
-
-                          SelectableText(
-                            nickProcessing?'Generowanie...':AccountData.nick!,
-                            textAlign: TextAlign.center,
-                            style: AppTextStyle(
-                              fontSize: Dimen.TEXT_SIZE_APPBAR,
-                              fontWeight: nickProcessing || !AccountData.nickSearchable?weight.normal:weight.bold,
-                              color: nickProcessing || !AccountData.nickSearchable?textDisab_(context):iconEnab_(context),
-                            ),
-                          ),
-
-
-                        ],
+                      child: nickProcessing?
+                      SelectableText(
+                        'Generowanie...',
+                        textAlign: TextAlign.center,
+                        style: AppTextStyle(
+                          fontSize: Dimen.TEXT_SIZE_APPBAR,
+                          fontWeight: weight.normal,
+                          color: textDisab_(context),
+                        ),
+                      ):
+                      PulsingText(
+                        AccountData.nick!,
+                        pulse: !nickProcessing && AccountData.nickSearchable,
+                        fontSize: Dimen.TEXT_SIZE_APPBAR,
+                        fontColor: nickProcessing || !AccountData.nickSearchable?textDisab_(context):iconEnab_(context),
+                        fontWeight: weight.bold,
                       ),
                     ),
 

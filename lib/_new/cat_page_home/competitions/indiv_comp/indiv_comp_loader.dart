@@ -11,7 +11,7 @@ class IndivCompLoaderListener extends SingleComputerApiListener<String>{
 
   final FutureOr<void> Function(List<IndivComp>)? onIndivCompsLoaded;
 
-  const IndivCompLoaderListener({
+  IndivCompLoaderListener({
     super.onStart,
     super.onError,
     required super.onNoInternet,
@@ -35,7 +35,7 @@ class IndivCompLoader extends SingleComputer<String?, IndivCompLoaderListener>{
   Future<void> perform() async {
     if(!await isNetworkAvailable()) {
       for (IndivCompLoaderListener listener in listeners)
-        listener.onNoInternet?.call();
+        if(!listener.toBeRemoved) listener.onNoInternet?.call();
       return;
     }
 
@@ -45,17 +45,17 @@ class IndivCompLoader extends SingleComputer<String?, IndivCompLoaderListener>{
           IndivComp.silentInit(comps);
 
           for(IndivCompLoaderListener listener in listeners)
-            listener.onIndivCompsLoaded?.call(comps);
+            if(!listener.toBeRemoved) listener.onIndivCompsLoaded?.call(comps);
         },
         onServerMaybeWakingUp: () async {
           for(IndivCompLoaderListener listener in listeners)
-            listener.onServerMaybeWakingUp?.call();
+            if(!listener.toBeRemoved) listener.onServerMaybeWakingUp?.call();
 
           return true;
         },
         onForceLoggedOut: () async {
           for(IndivCompLoaderListener listener in listeners)
-            listener.onForceLoggedOut?.call();
+            if(!listener.toBeRemoved) listener.onForceLoggedOut?.call();
 
           return true;
         },

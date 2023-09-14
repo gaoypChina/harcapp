@@ -127,21 +127,6 @@ class AccountThumbnailWidget extends StatelessWidget{
             ),
           ),
 
-          if(shadow)
-            Positioned(
-              top: -.04*size,
-              right: -.04*size,
-              child: Material(
-                borderRadius: BorderRadius.circular(size),
-                color: color??background_(context),
-                child: Icon(
-                  MdiIcons.alien,
-                  color: markerColor??borderColor??hintEnab_(context),
-                  size: size/2.6,
-                ),
-              )
-            ),
-
           Positioned.fill(
             child: IgnorePointer(
               child: Container(
@@ -156,6 +141,21 @@ class AccountThumbnailWidget extends StatelessWidget{
               ),
             ),
           ),
+
+          if(shadow)
+            Positioned(
+                top: -.04*size,
+                right: -.04*size,
+                child: Material(
+                  borderRadius: BorderRadius.circular(size),
+                  color: color??background_(context),
+                  child: Icon(
+                    MdiIcons.alien,
+                    color: markerColor??hintEnab_(context),
+                    size: size/2.6,
+                  ),
+                )
+            ),
 
           if(verified && showVerified)
             Positioned(

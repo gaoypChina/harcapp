@@ -88,7 +88,7 @@ class SlownikFragmentState extends State<SlownikFragment> with ModuleStatsMixin{
             bottom: PreferredSize(
               preferredSize: Size(double.infinity, SearchField.height),
               child: SearchField(
-                hint: 'Wpisz słowo:',
+                hint: 'Szukaj',
                 controller: controller,
                 background: background_(context),
                 onChanged: (text) => setState(() => _items = getItems()),
@@ -164,6 +164,7 @@ class SlownikFragmentState extends State<SlownikFragment> with ModuleStatsMixin{
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
+          foregroundColor: background_(context),
           onPressed: () => chooseLangs(),
           icon: Icon(MdiIcons.translate),
           label: Text('${langAbbr[lang1]} - ${langAbbr[lang2]}', style: AppTextStyle(fontWeight: weight.halfBold))

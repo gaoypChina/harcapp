@@ -16,8 +16,6 @@ abstract class SingleComputer<TErr, TListener extends SingleComputerListener<TEr
   @protected
   late List<TListener> listeners;
 
-  late List<TListener> _listenersToRemove;
-
   late bool _runRequested;
   late bool _running;
   late Completer completer;
@@ -27,17 +25,15 @@ abstract class SingleComputer<TErr, TListener extends SingleComputerListener<TEr
 
   SingleComputer(){
     listeners = [];
-    _listenersToRemove = [];
     _runRequested = false;
     _running = false;
     _errorCalled = null;
   }
 
   void addListener(TListener listener) => listeners.add(listener);
-  void removeListener(TListener listener){
-
-    _listenersToRemove.add(listener);
-
+  void removeListener(TListener listener) async { // This must not be Future<void>! Otherwise it will end up in a deadlock if someone calls it while executing a computer.
+    listener.toBeRemoved = true;
+    listeners.remove(listener);
   }
 
   Future<void> awaitFinishIfRunning()async{
@@ -71,11 +67,12 @@ abstract class SingleComputer<TErr, TListener extends SingleComputerListener<TEr
       // This is here to wait until the computer finishes and call the onEnd listeners.
       await runningSemaphore.acquire();
 
-      for(TListener listener in listeners)
-        if(!_listenersToRemove.contains(listener))
-          await listener.onEnd?.call(null, false);
+      // await listenerRemoverSemaphore.acquire();
+      for(TListener listener in List.of(listeners)) // List.from is used to copy the list so that it can be modified by other processes while iterating.
+        if(!listener.toBeRemoved) await listener.onEnd?.call(null, false);
+      // listenerRemoverSemaphore.release();
 
-      _removeListeners();
+      // _removeListeners();
 
       runningSemaphore.release();
       if(awaitFinish) await completer.future;
@@ -89,11 +86,12 @@ abstract class SingleComputer<TErr, TListener extends SingleComputerListener<TEr
 
     checkRunningSemaphore.release();
 
-    for(TListener listener in listeners)
-      if (!_listenersToRemove.contains(listener))
-        await listener.onStart?.call();
+    // await listenerRemoverSemaphore.acquire();
+    for(TListener listener in List.of(listeners)) // List.from is used to copy the list so that it can be modified by other processes while iterating.
+      if(!listener.toBeRemoved) await listener.onStart?.call();
+    // listenerRemoverSemaphore.release();
 
-    _removeListeners();
+    // _removeListeners();
 
     if(awaitFinish) {
 
@@ -119,7 +117,7 @@ abstract class SingleComputer<TErr, TListener extends SingleComputerListener<TEr
   Future<void> callError(TErr err) async {
     _errorCalled = err;
     for(TListener listener in List.from(listeners)) // List.from is used to copy the list so that it can be modified by other processes while iterating.
-      await listener.onError?.call(err);
+      if(!listener.toBeRemoved) await listener.onError?.call(err);
   }
 
   @protected
@@ -131,18 +129,12 @@ abstract class SingleComputer<TErr, TListener extends SingleComputerListener<TEr
     checkRunningSemaphore.release();
 
     for(TListener listener in List.from(listeners)) // List.from is used to copy the list so that it can be modified by other processes while iterating.
-      await listener.onEnd?.call(_errorCalled, forceFinished);
+      if(!listener.toBeRemoved) await listener.onEnd?.call(_errorCalled, forceFinished);
 
     _errorCalled = null;
 
     runningSemaphore.release();
 
-  }
-
-  _removeListeners(){
-    for(TListener listener in _listenersToRemove)
-      listeners.remove(listener);
-    _listenersToRemove.clear();
   }
 
 }

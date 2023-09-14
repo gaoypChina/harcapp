@@ -14,7 +14,7 @@ class ForumManagersLoaderListener extends SingleComputerApiListener<String>{
 
   final FutureOr<void> Function(List<ForumManager>, bool)? onManagersLoaded;
 
-  const ForumManagersLoaderListener({
+  ForumManagersLoaderListener({
     super.onStart,
     super.onError,
     required super.onNoInternet,
@@ -59,7 +59,7 @@ class ForumManagersLoader extends SingleComputer<String?, ForumManagersLoaderLis
   Future<void> perform() async {
     if(!await isNetworkAvailable()) {
       for (ForumManagersLoaderListener listener in listeners)
-        listener.onNoInternet?.call();
+        if(!listener.toBeRemoved) listener.onNoInternet?.call();
       return;
     }
 
@@ -89,17 +89,17 @@ class ForumManagersLoader extends SingleComputer<String?, ForumManagersLoaderLis
             _forum.addLoadedManagers(managersPage);
 
           for(ForumManagersLoaderListener listener in listeners)
-            listener.onManagersLoaded?.call(managersPage, reloaded);
+            if(!listener.toBeRemoved) listener.onManagersLoaded?.call(managersPage, reloaded);
         },
         onServerMaybeWakingUp: () async {
           for(ForumManagersLoaderListener listener in listeners)
-            listener.onServerMaybeWakingUp?.call();
+            if(!listener.toBeRemoved) listener.onServerMaybeWakingUp?.call();
 
           return true;
         },
         onForceLoggedOut: () async {
           for(ForumManagersLoaderListener listener in listeners)
-            listener.onForceLoggedOut?.call();
+            if(!listener.toBeRemoved) listener.onForceLoggedOut?.call();
 
           return true;
         },

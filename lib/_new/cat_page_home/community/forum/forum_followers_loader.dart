@@ -12,7 +12,7 @@ class ForumFollowersLoaderListener extends SingleComputerApiListener<String>{
 
   final FutureOr<void> Function(List<UserData>, bool)? onFollowersLoaded;
 
-  const ForumFollowersLoaderListener({
+  ForumFollowersLoaderListener({
     super.onStart,
     super.onError,
     required super.onNoInternet,
@@ -54,7 +54,7 @@ class ForumFollowersLoader extends SingleComputer<String?, ForumFollowersLoaderL
   Future<void> perform() async {
     if(!await isNetworkAvailable()) {
       for (ForumFollowersLoaderListener listener in listeners)
-        listener.onNoInternet?.call();
+        if(!listener.toBeRemoved) listener.onNoInternet?.call();
       return;
     }
 
@@ -72,7 +72,7 @@ class ForumFollowersLoader extends SingleComputer<String?, ForumFollowersLoaderL
             _forum.addLoadedFollowers(followersPage);
 
           for(ForumFollowersLoaderListener listener in listeners)
-            listener.onFollowersLoaded?.call(followersPage, reloaded);
+            if(!listener.toBeRemoved) listener.onFollowersLoaded?.call(followersPage, reloaded);
         },
         onServerMaybeWakingUp: () async {
           for(ForumFollowersLoaderListener listener in listeners)
@@ -82,7 +82,7 @@ class ForumFollowersLoader extends SingleComputer<String?, ForumFollowersLoaderL
         },
         onForceLoggedOut: () async {
           for(ForumFollowersLoaderListener listener in listeners)
-            listener.onForceLoggedOut?.call();
+            if(!listener.toBeRemoved) listener.onForceLoggedOut?.call();
 
           return true;
         },

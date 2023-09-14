@@ -13,7 +13,7 @@ class IndivCompCompletedTasksLoaderListener extends SingleComputerApiListener<St
 
   final FutureOr<void> Function(List<IndivCompCompletedTask>, bool)? onCompletedTasksLoaded;
 
-  const IndivCompCompletedTasksLoaderListener({
+  IndivCompCompletedTasksLoaderListener({
     super.onStart,
     super.onError,
     required super.onNoInternet,
@@ -62,7 +62,7 @@ class IndivCompCompletedTasksLoader extends SingleComputer<String?, IndivCompCom
   Future<void> perform() async {
     if(!await isNetworkAvailable()) {
       for (IndivCompCompletedTasksLoaderListener listener in listeners)
-        listener.onNoInternet?.call();
+        if(!listener.toBeRemoved) listener.onNoInternet?.call();
       return;
     }
 
@@ -94,17 +94,17 @@ class IndivCompCompletedTasksLoader extends SingleComputer<String?, IndivCompCom
           }
 
           for(IndivCompCompletedTasksLoaderListener listener in listeners)
-            listener.onCompletedTasksLoaded?.call(completedTasksPage, reloaded);
+            if(!listener.toBeRemoved) listener.onCompletedTasksLoaded?.call(completedTasksPage, reloaded);
         },
         onServerMaybeWakingUp: () async {
           for(IndivCompCompletedTasksLoaderListener listener in listeners)
-            listener.onServerMaybeWakingUp?.call();
+            if(!listener.toBeRemoved) listener.onServerMaybeWakingUp?.call();
 
           return true;
         },
         onForceLoggedOut: () async {
           for(IndivCompCompletedTasksLoaderListener listener in listeners)
-            listener.onForceLoggedOut?.call();
+            if(!listener.toBeRemoved) listener.onForceLoggedOut?.call();
 
           return true;
         },

@@ -129,16 +129,16 @@ class AccountHeaderWidget extends StatelessWidget{
             Expanded(
               child: Center(
                 child: AccountThumbnailWidget(
-                    name: name,
-                    verified: verified,
-                    shadow: shadow,
-                    size: 84,
-                    elevated: false,
-                    color: thumbnailColor,
-                    borderColor: thumbnailBorderColor,
-                    markerColor: thumbnailMarkerColor,
-                    backgroundColor: backgroundColor,
-                    onTap: null
+                  name: name,
+                  verified: verified,
+                  shadow: shadow,
+                  size: 84,
+                  elevated: false,
+                  color: thumbnailColor,
+                  borderColor: thumbnailBorderColor,
+                  markerColor: thumbnailMarkerColor,
+                  backgroundColor: backgroundColor,
+                  tapable: false
                 ),
               ),
             ),
@@ -153,7 +153,7 @@ class AccountHeaderWidget extends StatelessWidget{
                         child: Padding(
                             padding: const EdgeInsets.all(Dimen.SIDE_MARG),
                             child: Material(
-                                clipBehavior: Clip.none,
+                                clipBehavior: Clip.hardEdge,
                                 borderRadius: BorderRadius.circular(AppCard.bigRadius),
                                 color: backgroundColor??background_(context),
                                 child: Column(
@@ -205,16 +205,20 @@ class AccountHeaderWidget extends StatelessWidget{
         const SizedBox(height: 12),
 
         IntrinsicWidth(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const SizedBox(height: Dimen.ICON_FOOTPRINT),
-              if(leading != null) leading!,
-              Expanded(
-                child: Text(name, style: AppTextStyle(fontSize: 24.0, fontWeight: weight.bold)),
-              ),
-              if(trailing != null) trailing!,
-            ],
+          child: Material(
+            color: Colors.transparent,
+            clipBehavior: Clip.none,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(height: Dimen.ICON_FOOTPRINT),
+                if(leading != null) leading!,
+                Expanded(
+                  child: Text(name, style: AppTextStyle(fontSize: 24.0, fontWeight: weight.bold)),
+                ),
+                if(trailing != null) trailing!,
+              ],
+            ),
           ),
         ),
 
@@ -245,58 +249,63 @@ class AccountHeaderWidget extends StatelessWidget{
                 color: backgroundColor,
                 child: Padding(
                   padding: const EdgeInsets.all(Dimen.SIDE_MARG - BorderMaterial.defBorderWidth),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
+                  child: Builder(
+                    builder: (context) {
 
-                      if(org != null || showEmptyDetails)
-                        OrgInputField(
-                        org,
-                        enabled: false,
-                        dimTextOnDisabled: false,
-                      ),
+                      List<Widget> children = [];
+                      if(org != null || showEmptyDetails) {
+                        children.add(OrgInputField(
+                          org,
+                          enabled: false,
+                          dimTextOnDisabled: false,
+                        ));
+                        children.add(const SizedBox(height: Dimen.SIDE_MARG));
+                      }
 
-                      if(org != null || showEmptyDetails)
-                        const SizedBox(height: Dimen.SIDE_MARG),
+                      if(hufiec != null || showEmptyDetails) {
+                        children.add(HufiecInputField(
+                          enabled: false,
+                          dimTextOnDisabled: false,
+                          controller: InputFieldController(text: hufiec),
+                        ));
+                        children.add(const SizedBox(height: Dimen.SIDE_MARG));
+                      }
 
-                      if(hufiec != null || showEmptyDetails)
-                        HufiecInputField(
-                        enabled: false,
-                        dimTextOnDisabled: false,
-                        controller: InputFieldController(text: hufiec),
-                      ),
+                      if(druzyna != null || showEmptyDetails) {
+                        children.add(DruzynaInputField(
+                          enabled: false,
+                          dimTextOnDisabled: false,
+                          controller: InputFieldController(text: druzyna),
+                        ));
+                        children.add(const SizedBox(height: Dimen.SIDE_MARG));
+                      }
 
-                      if(hufiec != null || showEmptyDetails)
-                        const SizedBox(height: Dimen.SIDE_MARG),
-
-                      if(druzyna != null || showEmptyDetails)
-                        DruzynaInputField(
-                        enabled: false,
-                        dimTextOnDisabled: false,
-                        controller: InputFieldController(text: druzyna),
-                      ),
-
-                      if(druzyna != null || showEmptyDetails)
-                        const SizedBox(height: Dimen.SIDE_MARG),
-
-                      if(rankHarc != null || showEmptyDetails)
-                        RankHarcInputField(
+                      if(rankHarc != null || showEmptyDetails){
+                        children.add(RankHarcInputField(
                           rankHarc,
                           enabled: false,
                           dimTextOnDisabled: false,
-                        ),
+                        ));
+                        children.add(const SizedBox(height: Dimen.SIDE_MARG));
+                      }
 
-                      if(rankHarc != null || showEmptyDetails)
-                        const SizedBox(height: Dimen.SIDE_MARG),
+                      if(rankInstr != null || showEmptyDetails) {
+                        children.add(RankInstrInputField(
+                          rankInstr,
+                          enabled: false,
+                          dimTextOnDisabled: false,
+                        ));
+                        children.add(const SizedBox(height: Dimen.SIDE_MARG));
+                      }
 
-                      if(rankInstr != null || showEmptyDetails)
-                        RankInstrInputField(
-                        rankInstr,
-                        enabled: false,
-                        dimTextOnDisabled: false,
-                      ),
+                      if(children.isNotEmpty)
+                        children.removeLast();
 
-                    ],
+                      return Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: children
+                      );
+                    }
                   ),
                 ),
               )

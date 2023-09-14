@@ -14,7 +14,7 @@ class IndivCompParticipantsLoaderListener extends SingleComputerApiListener<Stri
 
   final FutureOr<void> Function(List<IndivCompParticip>, bool)? onParticipantsLoaded;
 
-  const IndivCompParticipantsLoaderListener({
+  IndivCompParticipantsLoaderListener({
     super.onStart,
     super.onError,
     required super.onNoInternet,
@@ -59,7 +59,7 @@ class IndivCompParticipantsLoader extends SingleComputer<String?, IndivCompParti
   Future<void> perform() async {
     if(!await isNetworkAvailable()) {
       for (IndivCompParticipantsLoaderListener listener in listeners)
-        listener.onNoInternet?.call();
+        if(!listener.toBeRemoved) listener.onNoInternet?.call();
       return;
     }
 
@@ -89,17 +89,17 @@ class IndivCompParticipantsLoader extends SingleComputer<String?, IndivCompParti
             _comp.addLoadedParticips(participsPage);
 
           for(IndivCompParticipantsLoaderListener listener in listeners)
-            listener.onParticipantsLoaded?.call(participsPage, reloaded);
+            if(!listener.toBeRemoved) listener.onParticipantsLoaded?.call(participsPage, reloaded);
         },
         onServerMaybeWakingUp: () async {
           for(IndivCompParticipantsLoaderListener listener in listeners)
-            listener.onServerMaybeWakingUp?.call();
+            if(!listener.toBeRemoved) listener.onServerMaybeWakingUp?.call();
 
           return true;
         },
         onForceLoggedOut: () async {
           for(IndivCompParticipantsLoaderListener listener in listeners)
-            listener.onForceLoggedOut?.call();
+            if(!listener.toBeRemoved) listener.onForceLoggedOut?.call();
 
           return true;
         },

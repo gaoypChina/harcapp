@@ -15,7 +15,7 @@ class MarkerManagersLoaderListener extends SingleComputerApiListener<String>{
 
   final FutureOr<void> Function(List<UserData>, bool)? onManagersLoaded;
 
-  const MarkerManagersLoaderListener({
+  MarkerManagersLoaderListener({
     super.onStart,
     super.onError,
     required super.onNoInternet,
@@ -60,7 +60,7 @@ class MarkerManagersLoader extends SingleComputer<String?, MarkerManagersLoaderL
   Future<void> perform() async {
     if(!await isNetworkAvailable()) {
       for (MarkerManagersLoaderListener listener in listeners)
-        listener.onNoInternet?.call();
+        if(!listener.toBeRemoved) listener.onNoInternet?.call();
       return;
     }
 
@@ -90,17 +90,17 @@ class MarkerManagersLoader extends SingleComputer<String?, MarkerManagersLoaderL
             _marker.addLoadedManagers(managersPage);
 
           for(MarkerManagersLoaderListener listener in listeners)
-            listener.onManagersLoaded?.call(managersPage, reloaded);
+            if(!listener.toBeRemoved) listener.onManagersLoaded?.call(managersPage, reloaded);
         },
         onServerMaybeWakingUp: () async {
           for(MarkerManagersLoaderListener listener in listeners)
-            listener.onServerMaybeWakingUp?.call();
+            if(!listener.toBeRemoved) listener.onServerMaybeWakingUp?.call();
 
           return true;
         },
         onForceLoggedOut: () async {
           for(MarkerManagersLoaderListener listener in listeners)
-            listener.onForceLoggedOut?.call();
+            if(!listener.toBeRemoved) listener.onForceLoggedOut?.call();
 
           return true;
         },

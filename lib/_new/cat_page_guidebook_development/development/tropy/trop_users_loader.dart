@@ -15,7 +15,7 @@ class TropUsersLoaderListener extends SingleComputerApiListener<String>{
 
   final FutureOr<void> Function(List<UserData>, bool)? onUsersLoaded;
 
-  const TropUsersLoaderListener({
+  TropUsersLoaderListener({
     super.onStart,
     super.onError,
     required super.onNoInternet,
@@ -61,7 +61,7 @@ class TropUsersLoader extends SingleComputer<String?, TropUsersLoaderListener>{
   Future<void> perform() async {
     if(!await isNetworkAvailable()) {
       for (TropUsersLoaderListener listener in listeners)
-        listener.onNoInternet?.call();
+        if(!listener.toBeRemoved) listener.onNoInternet?.call();
       return;
     }
 
@@ -93,17 +93,17 @@ class TropUsersLoader extends SingleComputer<String?, TropUsersLoaderListener>{
           _trop.saveShared();
 
           for(TropUsersLoaderListener listener in listeners)
-            listener.onUsersLoaded?.call(usersPage, reloaded);
+            if(!listener.toBeRemoved) listener.onUsersLoaded?.call(usersPage, reloaded);
         },
         onServerMaybeWakingUp: () async {
           for(TropUsersLoaderListener listener in listeners)
-            listener.onServerMaybeWakingUp?.call();
+            if(!listener.toBeRemoved) listener.onServerMaybeWakingUp?.call();
 
           return true;
         },
         onForceLoggedOut: () async {
           for(TropUsersLoaderListener listener in listeners)
-            listener.onForceLoggedOut?.call();
+            if(!listener.toBeRemoved) listener.onForceLoggedOut?.call();
 
           return true;
         },

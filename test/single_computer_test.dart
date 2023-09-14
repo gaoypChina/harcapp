@@ -92,7 +92,7 @@ void main() {
 
   });
 
-  test('Single computer test removing self listener', () async {
+  test('Single computer test removing self listener in onStart', () async {
 
     TestLoader testLoader = TestLoader();
 
@@ -111,7 +111,7 @@ void main() {
 
   });
 
-  test('Single computer test removing other listener', () async {
+  test('Single computer test removing other listener in onStart', () async {
 
     TestLoader testLoader = TestLoader();
 
@@ -137,6 +137,50 @@ void main() {
     await testLoader.run(awaitFinish: true);
 
     assert(listenerSecondOnStartCalled == false);
+
+  });
+
+  test('Single computer test removing self listener in onEnd', () async {
+
+    TestLoader testLoader = TestLoader();
+
+    late SingleComputerListener<String> listener;
+    listener = SingleComputerListener<String>(
+      onEnd: (_, __) => testLoader.removeListener(listener)
+    );
+
+    testLoader.addListener(listener);
+    await testLoader.run(awaitFinish: true);
+
+    // If it didn't fail so far = success.
+  });
+
+  test('Single computer test removing other listener in onEnd', () async {
+
+    TestLoader testLoader = TestLoader();
+
+    bool listenerSecondOnEndCalled = false;
+
+    late SingleComputerListener<String> listenerFirst;
+    late SingleComputerListener<String> listenerSecond;
+
+    listenerSecond = SingleComputerListener<String>(
+      onEnd: (_, __){
+        listenerSecondOnEndCalled = true;
+      },
+    );
+
+    listenerFirst = SingleComputerListener<String>(
+      onEnd: (_, __){
+        testLoader.removeListener(listenerSecond);
+      },
+    );
+
+    testLoader.addListener(listenerFirst);
+    testLoader.addListener(listenerSecond);
+    await testLoader.run(awaitFinish: true);
+
+    assert(listenerSecondOnEndCalled == false);
 
   });
 

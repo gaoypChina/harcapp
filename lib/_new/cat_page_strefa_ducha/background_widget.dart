@@ -1,8 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:harcapp/_common_classes/blur.dart';
 import 'package:harcapp/_new/cat_page_strefa_ducha/providers.dart';
+import 'package:harcapp_core/comm_widgets/blur.dart';
 import 'package:provider/provider.dart';
 
 class Background extends StatelessWidget{

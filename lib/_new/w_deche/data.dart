@@ -13,23 +13,25 @@ class WDecheData{
 
   static const List<WDecheData> all = [
 
+    WDecheData(text: 'Nieludzkie traktowanie zwierząt - tylko co w tym złego?'),
+
     WDecheData(text: 'Jak się witają łysi bez rąk?'
-        '\n\nCzołem.'),
+        '\n\nCzołem'),
 
     WDecheData(text: 'Co ma harcerz w cukierni?'
-        '\n\nMa finkę.'),
+        '\n\nMa finkę'),
 
     WDecheData(text: 'Dlaczego iskierka szybko przechodzi w kręgu gdy stoją w niej instruktorzy?'
-        '\n\nBo są dobrymi przewodnikami.'),
+        '\n\nBo są dobrymi przewodnikami'),
 
     WDecheData(text: 'Co Wy robicie z tą kulką, jak już wypijecie mozzarellę?'),
 
     WDecheData(text: 'Nie jestem pomidorową, żebyście mnie wszyscy lubili'),
 
-    WDecheData(text: 'Na świecie są trzy rodzaje ludzi: ci co umieją liczyć i ci co nie umieją.'),
+    WDecheData(text: 'Na świecie są trzy rodzaje ludzi: ci co umieją liczyć i ci co nie umieją'),
 
     WDecheData(text: 'Po czym rozpoznać, czy łabądź jest chłopem, czy babą?'
-        '\n\nRzucasz chleba i jak zjadł, to łabądź, a jak zjadła to łabędzica.'),
+        '\n\nRzucasz chleba i jak zjadł, to łabądź, a jak zjadła to łabędzica'),
 
     WDecheData(text: 'Najlepszy samochód dla dzika?'
         '\nFordzik.'),
@@ -74,7 +76,7 @@ class WDecheData{
       imageSize: 60.0,
     ),
 
-    WDecheData(text: 'Sympatia rzadko jest wzajemna, ale antypatia - prawie zawsze.'),
+    WDecheData(text: 'Sympatia rzadko jest wzajemna, ale antypatia - prawie zawsze'),
 
     WDecheData(
         text: '"Przybyłem, zobaczyłem i oczom nie wierzę..."',
@@ -159,7 +161,7 @@ class WDecheData{
 
     WDecheData(text: 'Żadna praca nie hańbi - ale każda męczy'),
 
-    WDecheData(text: 'Jak nie możesz dojść do siebie, przyjdź do mnie.'),
+    WDecheData(text: 'Jak nie możesz dojść do siebie, przyjdź do mnie'),
 
     WDecheData(text: 'Czy Darth Vader sikał?'),
 
@@ -169,7 +171,7 @@ class WDecheData{
 
     WDecheData(text: 'Są ludzie niezastąpieni, tylko nie każdy ich zna'),
 
-    WDecheData(text: 'Uwierz mi: nie ufaj nikomu.'),
+    WDecheData(text: 'Uwierz mi: nie ufaj nikomu'),
 
     WDecheData(text: 'Ludzie, myślenie nie boli...'),
 

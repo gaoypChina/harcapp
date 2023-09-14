@@ -124,7 +124,7 @@ class ForumFollowersPageState extends State<ForumFollowersPage>{
             thumbnailBorderColor: CommunityCoverColors.cardColor(context, palette),
             thumbnailMarkerColor: CommunityCoverColors.strongColor(context, palette),
             backgroundColor: CommunityCoverColors.backgroundColor(context, palette),
-            onTap: () => showAccountDetailsButtonSheet(
+            onTap: () => showAccountDetailsBottomSheet(
               context,
               follower,
               thumbnailColor: CommunityCoverColors.cardColor(context, palette),

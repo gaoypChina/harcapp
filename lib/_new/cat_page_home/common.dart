@@ -67,6 +67,9 @@ class CreateNewButton extends StatelessWidget{
 
 class ShareCodeDialog extends StatefulWidget{
 
+  static IconData iconAppBarOn = MdiIcons.share;
+  static IconData iconAppBarOff = MdiIcons.shareOff;
+
   static IconData iconOn = MdiIcons.lockOpenVariantOutline;
   static IconData iconOff = MdiIcons.lockOutline;
 
@@ -76,6 +79,7 @@ class ShareCodeDialog extends StatefulWidget{
   final bool? processing;
   final Color? backgroundColor;
   final Color? borderColor;
+  final bool isAdmin;
   final Future<String?> Function() resetShareCode;
   final Future<bool> Function() changeShareCodeSearchable;
 
@@ -88,6 +92,7 @@ class ShareCodeDialog extends StatefulWidget{
       bool enabled,
       { Color? backgroundColor,
         Color? borderColor,
+        required bool isAdmin,
         required Future<String?> Function() resetShareCode,
         required Future<bool> Function() changeShareCodeSearchable,
 
@@ -101,6 +106,7 @@ class ShareCodeDialog extends StatefulWidget{
     enabled,
     backgroundColor: backgroundColor,
     borderColor: borderColor,
+    isAdmin: isAdmin,
     resetShareCode: resetShareCode,
     changeShareCodeSearchable: changeShareCodeSearchable,
     description: description,
@@ -115,6 +121,7 @@ class ShareCodeDialog extends StatefulWidget{
       { this.processing,
         this.backgroundColor,
         this.borderColor,
+        required this.isAdmin,
         required this.resetShareCode,
         required this.changeShareCodeSearchable,
 
@@ -141,6 +148,7 @@ class ShareCodeDialogState extends State<ShareCodeDialog>{
   Color? get backgroundColor => widget.backgroundColor;
   Color? get borderColor => widget.borderColor;
 
+  bool get isAdmin => widget.isAdmin;
   Future<String?> Function() get resetShareCode => widget.resetShareCode;
   Future<bool> Function() get changeShareCodeSearchable => widget.changeShareCodeSearchable;
 
@@ -168,6 +176,7 @@ class ShareCodeDialogState extends State<ShareCodeDialog>{
     child: Padding(
       padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
       child: Material(
+          clipBehavior: Clip.hardEdge,
           borderRadius: BorderRadius.circular(AppCard.bigRadius),
           color: backgroundColor??background_(context),
           child: Column(
@@ -246,43 +255,44 @@ class ShareCodeDialogState extends State<ShareCodeDialog>{
                 ),
               ),
 
-              Row(
-                children: [
-                  Expanded(
-                    child: SimpleButton.from(
+              if(isAdmin)
+                Row(
+                  children: [
+                    Expanded(
+                      child: SimpleButton.from(
+                          iconColor: processing?iconDisab_(context):iconEnab_(context),
+                          textColor: processing?iconDisab_(context):iconEnab_(context),
+                          icon: shareCodeSearchable?
+                          ShareCodeDialog.iconOff:
+                          ShareCodeDialog.iconOn,
+                          text: shareCodeSearchable?'Ukryj':'Pokaż',
+                          onTap: processing?null:() async {
+                            setState(() => _processing = true);
+                            shareCodeSearchable = await changeShareCodeSearchable();
+                            setState(() => _processing = false);
+                          },
+                      ),
+                    ),
+                    Expanded(
+                      child: SimpleButton.from(
                         iconColor: processing?iconDisab_(context):iconEnab_(context),
                         textColor: processing?iconDisab_(context):iconEnab_(context),
-                        icon: shareCodeSearchable?
-                        ShareCodeDialog.iconOff:
-                        ShareCodeDialog.iconOn,
-                        text: shareCodeSearchable?'Ukryj':'Pokaż',
-                        onTap: processing?null:() async {
+                        icon: MdiIcons.refresh,
+                        text: 'Nowy kod',
+                        onTap: processing || !shareCodeSearchable?null:() async {
+
                           setState(() => _processing = true);
-                          shareCodeSearchable = await changeShareCodeSearchable();
+                          String? _shareCode = await resetShareCode();
+                          if(_shareCode != null)
+                            shareCode = _shareCode;
+
                           setState(() => _processing = false);
+
                         },
+                      ),
                     ),
-                  ),
-                  Expanded(
-                    child: SimpleButton.from(
-                      iconColor: processing?iconDisab_(context):iconEnab_(context),
-                      textColor: processing?iconDisab_(context):iconEnab_(context),
-                      icon: MdiIcons.refresh,
-                      text: 'Nowy kod',
-                      onTap: processing || !shareCodeSearchable?null:() async {
-
-                        setState(() => _processing = true);
-                        String? _shareCode = await resetShareCode();
-                        if(_shareCode != null)
-                          shareCode = _shareCode;
-
-                        setState(() => _processing = false);
-
-                      },
-                    ),
-                  ),
-                ],
-              ),
+                  ],
+                ),
 
               Padding(
                   padding: const EdgeInsets.all(Dimen.SIDE_MARG),
@@ -307,12 +317,14 @@ class ShareCodeDialogState extends State<ShareCodeDialog>{
 
                       const SizedBox(height: 2*Dimen.defMarg),
 
-                      Text(
-                        'Kod dostępu można zmienić raz na $resetFrequencyDays dni.',
-                        style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG),
-                      ),
+                      if(isAdmin)
+                        Text(
+                          'Kod dostępu można zmienić raz na $resetFrequencyDays dni.',
+                          style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG),
+                        ),
 
-                      const SizedBox(height: 2*Dimen.defMarg),
+                      if(isAdmin)
+                        const SizedBox(height: 2*Dimen.defMarg),
 
                       // Row(
                       //   children: [
@@ -339,6 +351,7 @@ class ShareCodeDialogState extends State<ShareCodeDialog>{
 
               SimpleButton.from(
                   context: context,
+                  radius: 0,
                   icon: MdiIcons.check,
                   margin: EdgeInsets.zero,
                   text: 'Wszystko jasne',

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:harcapp/_common_classes/blur.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/games/slowo_klucz/common/preview_cards_grid_widget.dart';
+import 'package:harcapp_core/comm_widgets/blur.dart';
 import 'package:harcapp_core/comm_widgets/gradient_widget.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 

@@ -13,7 +13,7 @@ class CommunityLoaderListener extends SingleComputerApiListener<String>{
 
   final FutureOr<void> Function(List<Community>)? onCommunitiesLoaded;
 
-  const CommunityLoaderListener({
+  CommunityLoaderListener({
     super.onStart,
     super.onError,
     required super.onNoInternet,
@@ -36,8 +36,8 @@ class CommunitiesLoader extends SingleComputer<String?, CommunityLoaderListener>
   @override
   Future<void> perform() async {
     if(!await isNetworkAvailable()) {
-      for (CommunityLoaderListener listener in listeners)
-        listener.onNoInternet?.call();
+      for (CommunityLoaderListener listener in List.of(listeners)) // List.from is used to copy the list so that it can be modified by other processes while iterating.
+        if(!listener.toBeRemoved) listener.onNoInternet?.call();
       return;
     }
 
@@ -67,13 +67,13 @@ class CommunitiesLoader extends SingleComputer<String?, CommunityLoaderListener>
         },
       onServerMaybeWakingUp: () async {
         for(CommunityLoaderListener listener in listeners)
-          listener.onServerMaybeWakingUp?.call();
+          if(!listener.toBeRemoved) listener.onServerMaybeWakingUp?.call();
 
         return true;
       },
       onForceLoggedOut: () async {
-        for(CommunityLoaderListener listener in listeners)
-          listener.onForceLoggedOut?.call();
+        for(CommunityLoaderListener listener in List.of(listeners)) // List.from is used to copy the list so that it can be modified by other processes while iterating.
+          if(!listener.toBeRemoved) listener.onForceLoggedOut?.call();
 
         return true;
       },

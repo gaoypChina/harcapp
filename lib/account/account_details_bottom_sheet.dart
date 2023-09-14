@@ -4,7 +4,7 @@ import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 
-Future<void> showAccountDetailsButtonSheet(
+Future<void> showAccountDetailsBottomSheet(
     BuildContext context,
     UserData user,
     { Color? thumbnailColor,

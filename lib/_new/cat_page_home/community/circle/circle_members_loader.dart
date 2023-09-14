@@ -15,7 +15,7 @@ class CircleMembersLoaderListener extends SingleComputerApiListener<String>{
 
   final FutureOr<void> Function(List<UserData>, bool)? onMembersLoaded;
 
-  const CircleMembersLoaderListener({
+  CircleMembersLoaderListener({
     super.onStart,
     super.onError,
     required super.onNoInternet,
@@ -60,7 +60,7 @@ class CircleMembersLoader extends SingleComputer<String?, CircleMembersLoaderLis
   Future<void> perform() async {
     if(!await isNetworkAvailable()) {
       for (CircleMembersLoaderListener listener in listeners)
-        listener.onNoInternet?.call();
+        if(!listener.toBeRemoved) listener.onNoInternet?.call();
       return;
     }
 
@@ -90,17 +90,17 @@ class CircleMembersLoader extends SingleComputer<String?, CircleMembersLoaderLis
             _circle.addLoadedMembers(membersPage);
 
           for(CircleMembersLoaderListener listener in listeners)
-            listener.onMembersLoaded?.call(membersPage, reloaded);
+            if(!listener.toBeRemoved) listener.onMembersLoaded?.call(membersPage, reloaded);
         },
         onServerMaybeWakingUp: () async {
           for(CircleMembersLoaderListener listener in listeners)
-            listener.onServerMaybeWakingUp?.call();
+            if(!listener.toBeRemoved) listener.onServerMaybeWakingUp?.call();
 
           return true;
         },
         onForceLoggedOut: () async {
           for(CircleMembersLoaderListener listener in listeners)
-            listener.onForceLoggedOut?.call();
+            if(!listener.toBeRemoved) listener.onForceLoggedOut?.call();
 
           return true;
         },

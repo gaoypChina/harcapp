@@ -123,7 +123,7 @@ class ForumLikesPageState extends State<ForumLikesPage>{
             thumbnailBorderColor: CommunityCoverColors.cardColor(context, palette),
             thumbnailMarkerColor: CommunityCoverColors.strongColor(context, palette),
             backgroundColor: CommunityCoverColors.backgroundColor(context, palette),
-            onTap: () => showAccountDetailsButtonSheet(
+            onTap: () => showAccountDetailsBottomSheet(
               context,
               like,
               thumbnailColor: CommunityCoverColors.cardColor(context, palette),

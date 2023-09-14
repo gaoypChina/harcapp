@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_particip.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/providers/indiv_comp_particips_provider.dart';
 import 'package:harcapp/_new/cat_page_home/user_list_managment_loadable_page.dart';
+import 'package:harcapp/account/account_details_bottom_sheet.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
@@ -197,7 +198,8 @@ class ParticipantsPageState extends State<ParticipantsPage>{
         userTileBuilder: (context, particip) =>
             ParticipTile(
                 particip: particip,
-                heroTag: particip
+                heroTag: particip,
+                onTap: particip.shadow?null:() => showAccountDetailsBottomSheet(context, particip),
             ),
 
         userCount: comp.participCount,

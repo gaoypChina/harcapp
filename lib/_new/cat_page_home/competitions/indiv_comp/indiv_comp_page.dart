@@ -154,12 +154,12 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
                   floating: true,
                   actions: [
 
-                    if(comp.myProfile?.role == CompRole.ADMIN)
+                    if(comp.myProfile?.role == CompRole.ADMIN || comp.shareCodeSearchable)
                       IconButton(
                           icon: Icon(
                             comp.shareCodeSearchable?
-                            ShareCodeDialog.iconOn:
-                            ShareCodeDialog.iconOff,
+                            ShareCodeDialog.iconAppBarOn:
+                            ShareCodeDialog.iconAppBarOff,
                           ),
                           onPressed: () => openDialog(
                             context: context,
@@ -167,6 +167,7 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
                               comp.shareCode!,
                               comp.shareCodeSearchable,
                               !changeShareCodeProcessing,
+                              isAdmin: comp.myProfile?.role == CompRole.ADMIN,
                               resetShareCode: () async {
                                 await ApiIndivComp.resetShareCode(
                                     compKey: comp.key,
@@ -234,7 +235,7 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
                   ],
                 ),
 
-                if(comp.myProfile?.role == CompRole.ADMIN || comp.myProfile?.role == CompRole.MODERATOR)
+                if((comp.completedTasksPendingCount??0) > 0 && (comp.myProfile?.role == CompRole.ADMIN || comp.myProfile?.role == CompRole.MODERATOR))
                   FloatingContainer(
                     builder: (context, _, __) => Padding(
                       padding: const EdgeInsets.only(
@@ -527,6 +528,8 @@ class PendingCompletedTasksReviewWidget extends StatelessWidget{
               ),
             ),
             title: 'Wnioski o punkty',
+            pulseTitle: true,
+            pulseShadowColor: background_(context).withOpacity(.3),
             titleColor: background_(context),
             trailing: IconButton(
                 padding: const EdgeInsets.all(Dimen.ICON_MARG + AppCard.defPaddingVal),

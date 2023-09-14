@@ -109,7 +109,7 @@ class _JoinButton extends StatefulWidget{
 
 class _JoinButtonState extends State<_JoinButton>{
 
-  static IconData icon = ShareCodeDialog.iconOn;
+  static IconData icon = ShareCodeDialog.iconAppBarOn;
   static String title = 'Dołącz do istniejącego';
   static String description = 'Dołącz do współzawodnictwa utworzonego przez inną osobę.';
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
+import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/gradient_widget.dart';
 import 'package:harcapp_core/dimen.dart';
 
@@ -80,7 +81,12 @@ class CategoryThumbnailCommonWidget extends StatelessWidget{
     this.text,
     super.key
   });
-
+  
+  Color effectiveIconColor(BuildContext context) => iconColor??
+      (color == Colors.transparent && (colorEnd == null || colorEnd == Colors.transparent)?
+      iconEnab_(context):
+      Colors.black);
+  
   @override
   Widget build(BuildContext context) => Material(
     elevation: elevated?2.0:0,
@@ -100,7 +106,11 @@ class CategoryThumbnailCommonWidget extends StatelessWidget{
                   width: size - 2*borderSize(size),
                   height: size - 2*borderSize(size),
                   child: Center(
-                    child: Icon(icon, size: .9*(size - 2*borderSize(size)), color: iconColor??Colors.black),
+                    child: Icon(
+                        icon,
+                        size: .9*(size - 2*borderSize(size)),
+                        color: effectiveIconColor(context)
+                    ),
                   ),
                 );
 
@@ -125,7 +135,7 @@ class CategoryThumbnailCommonWidget extends StatelessWidget{
                     child: Text(
                         text!,
                         style: AppTextStyle(
-                            color: iconColor??Colors.black,
+                            color: effectiveIconColor(context),
                             fontSize: Dimen.TEXT_SIZE_BIG,
                             fontWeight: weight.bold
                         )

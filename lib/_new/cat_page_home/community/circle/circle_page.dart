@@ -437,6 +437,7 @@ class CirclePageState extends State<CirclePage>{
                               circle.shareCode!,
                               circle.shareCodeSearchable,
                               !changeShareCodeProcessing,
+                              isAdmin: circle.myRole == CircleRole.ADMIN,
                               backgroundColor: cardColor,
                               borderColor: backgroundColor,
                               resetShareCode: () async {

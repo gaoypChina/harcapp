@@ -52,7 +52,7 @@ class ArticleLoader extends SingleComputer<ArticleLoaderError, ArticleLoaderList
   set loadState(ArticleLoadState value){
     _loadState = value;
     for(ArticleLoaderListener listener in listeners)
-      listener.onStateChanged!(_loadState);
+      if(!listener.toBeRemoved) listener.onStateChanged!(_loadState);
   }
 
   late bool all;
@@ -164,9 +164,6 @@ class ArticleLoader extends SingleComputer<ArticleLoaderError, ArticleLoaderList
     try{
 
       Response response = await dio.get('https://gitlab.com/n3o2k7i8ch5/harcapp_data/-/raw/master/articles/alt_covers');
-
-      if(response == null)
-        return null;
 
       if(response.statusCode == HttpStatus.ok) {
         String data = response.data;

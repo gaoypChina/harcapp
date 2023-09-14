@@ -47,7 +47,7 @@ class TropSharedPreviewsLoader extends SingleComputer<TropLoaderError, TropShare
 
     if(!await isNetworkAvailable()){
       for (TropSharedPreviewsLoaderListener listener in listeners)
-        listener.onNoInternet?.call();
+        if(!listener.toBeRemoved) listener.onNoInternet?.call();
       return;
     }
 
@@ -83,22 +83,22 @@ class TropSharedPreviewsLoader extends SingleComputer<TropLoaderError, TropShare
         }
 
         for (TropSharedPreviewsLoaderListener listener in listeners)
-          listener.onSharedPrevsLoaded?.call(tropPrevsPage, thisReloadAll);
+          if(!listener.toBeRemoved) listener.onSharedPrevsLoaded?.call(tropPrevsPage, thisReloadAll);
 
       },
       onForceLoggedOut: () {
         for (TropSharedPreviewsLoaderListener listener in listeners)
-          listener.onForceLoggedOut?.call();
+          if(!listener.toBeRemoved) listener.onForceLoggedOut?.call();
         return true;
       },
       onServerMaybeWakingUp: () {
         for (TropSharedPreviewsLoaderListener listener in listeners)
-          listener.onServerMaybeWakingUp?.call();
+          if(!listener.toBeRemoved) listener.onServerMaybeWakingUp?.call();
         return true;
       },
       onError: () {
         for (TropSharedPreviewsLoaderListener listener in listeners)
-          listener.onError?.call(null);
+          if(!listener.toBeRemoved) listener.onError?.call(null);
       },
     );
   }

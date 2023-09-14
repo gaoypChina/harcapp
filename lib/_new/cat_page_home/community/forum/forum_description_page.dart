@@ -171,6 +171,14 @@ class ForumDescriptionPageState extends State<ForumDescriptionPage>{
                   SimpleButton(
                     radius: communityRadius,
                     margin: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG - TitleShortcutRowWidget.textStartPadding),
+                    onTap: forum.myRole == null?
+                    null:
+                    () => forum.likeCnt==0?
+                    showAppToast(context, text: 'Wieje pustką...'):
+                    pushPage(
+                        context,
+                        builder: (context) => ForumLikesPage(forum: forum, palette: palette)
+                    ),
                     child: TitleShortcutRowWidget(
                       title: 'Polubienia',
                       titleColor: hintEnab_(context),
@@ -211,21 +219,18 @@ class ForumDescriptionPageState extends State<ForumDescriptionPage>{
                       ),
                       textAlign: TextAlign.start,
                     ),
-                    onTap: () => forum.myRole == null?
-                    null:
-
-                    forum.likeCnt==0?
-                    showAppToast(context, text: 'Wieje pustką...'):
-
-                    pushPage(
-                        context,
-                        builder: (context) => ForumLikesPage(forum: forum, palette: palette)
-                    ),
                   ),
 
                   SimpleButton(
                     radius: communityRadius,
                     margin: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG - TitleShortcutRowWidget.textStartPadding),
+                    onTap: forum.myRole == null? null:
+                    () => forum.followersCnt==0?
+                    showAppToast(context, text: 'Wieje pustką...'):
+                    pushPage(
+                        context,
+                        builder: (context) => ForumFollowersPage(forum: forum, palette: palette)
+                    ),
                     child: TitleShortcutRowWidget(
                       title: 'Obserwujący',
                       titleColor: hintEnab_(context),
@@ -265,16 +270,6 @@ class ForumDescriptionPageState extends State<ForumDescriptionPage>{
                         ),
                       ),
                       textAlign: TextAlign.start,
-                    ),
-                    onTap: () => forum.myRole == null?
-                    null:
-
-                    forum.followersCnt==0?
-                    showAppToast(context, text: 'Wieje pustką...'):
-
-                    pushPage(
-                        context,
-                        builder: (context) => ForumFollowersPage(forum: forum, palette: palette)
                     ),
                   ),
 

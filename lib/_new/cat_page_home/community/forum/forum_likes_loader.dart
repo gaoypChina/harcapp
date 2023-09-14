@@ -12,7 +12,7 @@ class ForumLikesLoaderListener extends SingleComputerApiListener<String>{
 
   final FutureOr<void> Function(List<UserData>, bool)? onLikesLoaded;
 
-  const ForumLikesLoaderListener({
+  ForumLikesLoaderListener({
     super.onStart,
     super.onError,
     required super.onNoInternet,
@@ -54,7 +54,7 @@ class ForumLikesLoader extends SingleComputer<String?, ForumLikesLoaderListener>
   Future<void> perform() async {
     if(!await isNetworkAvailable()) {
       for (ForumLikesLoaderListener listener in listeners)
-        listener.onNoInternet?.call();
+        if(!listener.toBeRemoved) listener.onNoInternet?.call();
       return;
     }
 
@@ -73,17 +73,17 @@ class ForumLikesLoader extends SingleComputer<String?, ForumLikesLoaderListener>
             _forum.addLoadedLikes(likesPage);
 
           for(ForumLikesLoaderListener listener in listeners)
-            listener.onLikesLoaded?.call(likesPage, reloaded);
+            if(!listener.toBeRemoved) listener.onLikesLoaded?.call(likesPage, reloaded);
         },
         onServerMaybeWakingUp: () async {
           for(ForumLikesLoaderListener listener in listeners)
-            listener.onServerMaybeWakingUp?.call();
+            if(!listener.toBeRemoved) listener.onServerMaybeWakingUp?.call();
 
           return true;
         },
         onForceLoggedOut: () async {
           for(ForumLikesLoaderListener listener in listeners)
-            listener.onForceLoggedOut?.call();
+            if(!listener.toBeRemoved) listener.onForceLoggedOut?.call();
 
           return true;
         },
