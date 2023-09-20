@@ -45,7 +45,7 @@ abstract class CommunityPublishable{
     silentInit(publishables);
 
     if(context == null) return;
-    Provider.of<CommunityPublishableListProvider>(context, listen: false).notify();
+    CommunityPublishableListProvider.notify_(context);
   }
 
   static addToAll(BuildContext context, CommunityPublishable ann){
@@ -59,7 +59,7 @@ abstract class CommunityPublishable{
     _all!.add(ann);
     _allMap![ann.key] = ann;
 
-    Provider.of<CommunityPublishableListProvider>(context, listen: false).notify();
+    CommunityPublishableListProvider.notify_(context);
 
   }
 
@@ -75,7 +75,7 @@ abstract class CommunityPublishable{
 
     if(context == null) return;
 
-    Provider.of<CommunityPublishableListProvider>(context, listen: false).notify();
+    CommunityPublishableListProvider.notify_(context);
 
   }
 
@@ -91,18 +91,19 @@ abstract class CommunityPublishable{
     _all!.insert(index, publishable);
     _allMap![publishable.key] = publishable;
 
-    Provider.of<CommunityPublishableListProvider>(context, listen: false).notify();
+    CommunityPublishableListProvider.notify_(context);
 
   }
 
-  static void removeFromAll(BuildContext context, CommunityPublishable publishable){
+  static void removeFromAll(CommunityPublishable publishable, {BuildContext? context}){
     if(_all == null)
       return;
 
     _all!.remove(publishable);
     _allMap!.remove(publishable.key);
 
-    Provider.of<CommunityPublishableListProvider>(context, listen: false).notify();
+    if(context == null) return;
+    CommunityPublishableListProvider.notify_(context);
 
   }
 

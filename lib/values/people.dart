@@ -53,6 +53,7 @@ List<Person> allPeople = [
   EMILIA_WITKOWSKA,
   EVELINA_STASILOVIC,
   EWA_BYSTRZYNSKA,
+  EWELINA_HUPKA,
   FILIP_BERGIER,
   FILIP_KWIATKOWSKI,
   FILIP_SOCHAJ,
@@ -87,6 +88,7 @@ List<Person> allPeople = [
   JAKUB_EJDUK,
   JAKUB_KLEPACZ,
   JAKUB_KLUCZKOWSKI,
+  JAKUB_LYSZKOWSKI,
   JAKUB_MLYNSKI,
   JAKUB_SKUCHA,
   JAKUB_STEFANSKI,
@@ -549,6 +551,14 @@ const Person EVELINA_STASILOVIC = Person(
   email: ['evelina.stasilovic@gmail.com']
 );
 const Person EWA_BYSTRZYNSKA = Person(name: 'Ewa Bystrzyńska', stopH: RankHarc.dhd, org: Org.zhp);
+const Person EWELINA_HUPKA = Person(
+    name: 'Ewelina Hupka',
+    druzyna: 'XXII. Drużyna Harcerska „Ignis”',
+    hufiec: huf_zhp_wegierska_gorka,
+    stopH: RankHarc.zhpPionierka,
+    org: Org.zhp,
+    email: ['ewelina.hupka@zhp.net.pl']
+);
 const Person FILIP_BERGIER = Person(
     name: 'Filip Bergier',
     stopH: RankHarc.zhpWywiadowca,
@@ -774,6 +784,10 @@ const Person JAKUB_KLUCZKOWSKI = Person(
     hufiec: huf_zhp_ziemi_koszalinskiej,
     org: Org.zhp,
     email: ['jakub.kluczkowski@zhp.net.pl']
+);
+const Person JAKUB_LYSZKOWSKI = Person(
+  name: 'Jakub Lyszkowski',
+  email: ['kubalyszka@gmail.com']
 );
 const Person JAKUB_MLYNSKI = Person(
   name: 'Jakub Młyński',

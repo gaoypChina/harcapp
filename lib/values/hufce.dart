@@ -71,6 +71,7 @@ const String huf_zhp_warszawa_ursus_wlochy = 'Hufiec ZHP Warszawa Ursus-Włochy'
 const String huf_zhp_warszawa_ursynow = 'Hufiec ZHP Warszawa Ursynów';
 const String huf_zhp_warszawa_wola = 'Hufiec ZHP Warszawa Wola';
 const String huf_zhp_warszawa_zoliborz = 'Hufiec ZHP Warszawa Żoliborz';
+const String huf_zhp_wegierska_gorka = 'Hufiec ZHP Węgierska Górka im. Obrońców Węgierskiej Górki';
 const String huf_zhp_wejherowo = 'Hufiec ZHP Wejherowo';
 const String huf_zhp_wieliczka = 'Hufiec ZHP Wieliczka im. Edwarda Dembowskiego';
 const String huf_zhp_wolsztyn = 'Hufiec ZHP Wolsztyn';

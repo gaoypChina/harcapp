@@ -420,12 +420,12 @@ class CirclePageState extends State<CirclePage>{
                   heroTag: circleCoverTag,
                   actions: (appBarProv) => [
 
-                    if(circle.myRole == CircleRole.ADMIN)
+                    if(circle.myRole == CircleRole.ADMIN || circle.shareCodeSearchable)
                       IconButton(
                         icon: Icon(
                             circle.shareCodeSearchable?
-                            ShareCodeDialog.iconOn:
-                            ShareCodeDialog.iconOff,
+                            ShareCodeDialog.iconAppBarOn:
+                            ShareCodeDialog.iconAppBarOff,
 
                             color: (appBarProv.coverVisible?coverIconColor:iconEnab_(context))
                                 .withOpacity(changeShareCodeProcessing?0.4:1)

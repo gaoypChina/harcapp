@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
+import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_common_widgets/loading_widget.dart';
 import 'package:harcapp/_new/api/forum.dart';
@@ -65,6 +66,9 @@ class PostWidgetTemplate extends StatelessWidget{
                 if(amIAuthor && post.forum.myRole != null)
                   ListTile(
                     leading: Icon(MdiIcons.pencilOutline),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(communityRadius),
+                    ),
                     title: Text('Edytuj post', style: AppTextStyle()),
                     onTap: (){
                       Navigator.pop(context);
@@ -75,35 +79,60 @@ class PostWidgetTemplate extends StatelessWidget{
                 if(amIAuthor && post.forum.myRole != null)
                   ListTile(
                     leading: Icon(MdiIcons.trashCanOutline),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(communityRadius),
+                    ),
                     title: Text('Usuń post', style: AppTextStyle()),
                     onTap: () => showAppToast(context, text: 'Przytrzymaj, by usunąć'),
                     onLongPress: (){
 
                       Navigator.pop(context); // Hide bottom sheet
 
-                      showLoadingWidget(
+                      showAlertDialog(
                           context,
-                          'Usuwanie...',
-                        color: CommunityCoverColors.strongColor(context, palette),
-                      );
+                          title: 'Ostrożnie...',
+                          content: 'Czy na pewno chcesz usunąć ten post?',
+                          actionBuilder: (context) => [
+                            AlertDialogButton(
+                                text: 'Nie',
+                                onTap: () => Navigator.pop(context)
+                            ),
+                            AlertDialogButton(
+                                text: 'Tak',
+                                onTap: (){
+                                  Navigator.pop(context);
 
-                      ApiForum.deletePost(
-                          postKey: post.key,
-                          onSuccess: () async {
-                            post.forum.removePost(post);
-                            PostListProvider.notify_(context);
-                            CommunityPublishableListProvider.notify_(context);
-                            await popPage(context); // Close loading widget.
-                            onDeleted?.call(post);
-                          },
-                          onServerMaybeWakingUp: () {
-                            showServerWakingUpToast(context);
-                            return true;
-                          },
-                          onError: () async {
-                            showAppToast(context, text: simpleErrorMessage);
-                            await popPage(context); // Close loading widget.
-                          }
+                                  showLoadingWidget(
+                                    context,
+                                    'Usuwanie...',
+                                    color: CommunityCoverColors.strongColor(context, palette),
+                                  );
+
+                                  PostListProvider postListProv = PostListProvider.of(context);
+                                  CommunityPublishableListProvider communityPublishableListProv = CommunityPublishableListProvider.of(context);
+
+                                  ApiForum.deletePost(
+                                      postKey: post.key,
+                                      onSuccess: () async {
+                                        post.forum.removePost(post);
+                                        CommunityPublishable.removeFromAll(post);
+                                        postListProv.notify();
+                                        communityPublishableListProv.notify();
+                                        await popPage(context); // Close loading widget.
+                                        onDeleted?.call(post);
+                                      },
+                                      onServerMaybeWakingUp: () {
+                                        showServerWakingUpToast(context);
+                                        return true;
+                                      },
+                                      onError: () async {
+                                        showAppToast(context, text: simpleErrorMessage);
+                                        await popPage(context); // Close loading widget.
+                                      }
+                                  );
+                                }
+                            )
+                          ]
                       );
 
                     },

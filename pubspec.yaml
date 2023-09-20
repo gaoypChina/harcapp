@@ -69,7 +69,7 @@ dependencies:
   path_provider: ^2.0.10
   pdf: ^3.8.1
   percent_indicator: ^4.2.2
-  permission_handler: ^10.0.0
+  permission_handler: ^11.0.0
   polybool: ^0.2.0
   pretty_json: ^2.0.0
   printing: ^5.9.1

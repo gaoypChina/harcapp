@@ -13,7 +13,9 @@ class WDecheData{
 
   static const List<WDecheData> all = [
 
-    WDecheData(text: 'Nieludzkie traktowanie zwierząt - tylko co w tym złego?'),
+    WDecheData(text: 'Sukces nie ma gwaracji. Jeśli chcesz gwarancję, to kup sobie toster.'),
+
+    WDecheData(text: 'A niektórzy z pełną powagą rzucają oskarżenia o "nieludzkim traktowaniu zwierząt"...'),
 
     WDecheData(text: 'Jak się witają łysi bez rąk?'
         '\n\nCzołem'),

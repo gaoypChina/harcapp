@@ -103,6 +103,9 @@ class AnnouncementWidgetTemplate extends StatelessWidget{
                   if(amIAuthor && announcement.circle.myRole != CircleRole.OBSERVER)
                     ListTile(
                       leading: Icon(MdiIcons.pencilOutline),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(communityRadius),
+                      ),
                       title: Text('Edytuj ogłoszenie', style: AppTextStyle()),
                       onTap: (){
                         Navigator.pop(context);
@@ -120,40 +123,66 @@ class AnnouncementWidgetTemplate extends StatelessWidget{
                   if(amIAuthor && announcement.circle.myRole != CircleRole.OBSERVER)
                     ListTile(
                       leading: Icon(MdiIcons.trashCanOutline),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(communityRadius),
+                      ),
                       title: Text('Usuń ogłoszenie', style: AppTextStyle()),
                       onTap: () => showAppToast(context, text: 'Przytrzymaj, by usunąć'),
                       onLongPress: (){
 
                         Navigator.pop(context); // Hide bottom sheet
 
-                        showLoadingWidget(
+                        showAlertDialog(
                             context,
-                            'Usuwanie...',
-                            color: CommunityCoverColors.strongColor(context, palette),
-                        );
+                            title: 'Ostrożnie...',
+                            content: 'Czy na pewno chcesz usunąć to ogłoszenie?',
+                            actionBuilder: (context) => [
+                              AlertDialogButton(
+                                  text: 'Nie',
+                                  onTap: () => Navigator.pop(context)
+                              ),
+                              AlertDialogButton(
+                                  text: 'Tak',
+                                  onTap: (){
+                                    Navigator.pop(context);
 
-                        ApiCircle.deleteAnnouncement(
-                            annKey: announcement.key,
-                            onSuccess: () async {
-                              announcement.circle.removeAnnouncement(announcement);
-                              AnnouncementListProvider.notify_(context);
-                              CommunityPublishableListProvider.notify_(context);
-                              await popPage(context); // Close loading widget.
-                              onDeleted?.call(announcement);
-                            },
-                            onForceLoggedOut: (){
-                              popPage(context); // Close loading widget.
-                              return true;
-                            },
-                            onServerMaybeWakingUp: () {
-                              showServerWakingUpToast(context);
-                              popPage(context); // Close loading widget.
-                              return true;
-                            },
-                            onError: () async {
-                              showAppToast(context, text: simpleErrorMessage);
-                              await popPage(context); // Close loading widget.
-                            }
+                                    showLoadingWidget(
+                                      context,
+                                      'Usuwanie...',
+                                      color: CommunityCoverColors.strongColor(context, palette),
+                                    );
+
+                                    AnnouncementListProvider announcementListProv = AnnouncementListProvider.of(context);
+                                    CommunityPublishableListProvider communityPublishableListProv = CommunityPublishableListProvider.of(context);
+
+                                    ApiCircle.deleteAnnouncement(
+                                        annKey: announcement.key,
+                                        onSuccess: () async {
+                                          announcement.circle.removeAnnouncement(announcement);
+                                          CommunityPublishable.removeFromAll(announcement);
+                                          announcementListProv.notify();
+                                          communityPublishableListProv.notify();
+                                          await popPage(context); // Close loading widget.
+                                          onDeleted?.call(announcement);
+                                        },
+                                        onForceLoggedOut: (){
+                                          popPage(context); // Close loading widget.
+                                          return true;
+                                        },
+                                        onServerMaybeWakingUp: () {
+                                          showServerWakingUpToast(context);
+                                          popPage(context); // Close loading widget.
+                                          return true;
+                                        },
+                                        onError: () async {
+                                          showAppToast(context, text: simpleErrorMessage);
+                                          await popPage(context); // Close loading widget.
+                                        }
+                                    );
+
+                                  }
+                              )
+                            ]
                         );
 
                       },
@@ -969,6 +998,9 @@ class _PinTileState extends State<_PinTile>{
         'Ogłoszenie przypięte':
         'Przypnij ogłoszenie',
         style: AppTextStyle(),
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(communityRadius),
       ),
       leading: Icon(
         announcement.pinned?

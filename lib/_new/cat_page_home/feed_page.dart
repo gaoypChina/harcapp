@@ -6,6 +6,7 @@ import 'package:harcapp/_new/cat_page_home/community/community_thumbnail_widget.
 import 'package:harcapp/_new/cat_page_home/super_search_field.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/account_page/account_page.dart';
+import 'package:harcapp/account/login_provider.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_new/api/community.dart';
@@ -60,6 +61,17 @@ class FeedPageState extends State<FeedPage>{
 
   @override
   void initState() {
+
+    bool loggedIn = LoginProvider.of(context).loggedIn;
+    bool loadInit = AccountData.emailConf && loggedIn && (Community.all == null || CommunityPublishable.all == null);
+    refreshController = RefreshController(initialRefresh: loadInit);
+    post((){
+      // `initialRefreshStatus` and `initialLoadStatus` in RefreshController don't work.
+      if(!mounted) return;
+      if(loadInit || communitiesLoader.running)
+        refreshController.headerMode!.value = RefreshStatus.refreshing;
+    });
+
     communitiesLoaderListener = CommunityLoaderListener(
       onStart: () => setState((){}),
       onNoInternet: (){
@@ -81,12 +93,6 @@ class FeedPageState extends State<FeedPage>{
       onEnd: (_, __){ if(mounted) setState((){}); },
     );
     communitiesLoader.addListener(communitiesLoaderListener);
-
-    refreshController = RefreshController(
-        initialRefresh: AccountData.emailConf &&
-            (Community.all == null ||
-            CommunityPublishable.all == null)
-    );
 
     loadedPage = -1;
     moreToLoad = true;
@@ -166,8 +172,8 @@ class FeedPageState extends State<FeedPage>{
   }
 
   @override
-  Widget build(BuildContext context) => Consumer2<ConnectivityProvider, CommunityListProvider>(
-    builder: (context, connProv, communityListProv, child) => ScrollConfiguration(
+  Widget build(BuildContext context) => Consumer3<ConnectivityProvider, CommunityListProvider, CommunityPublishableListProvider>(
+    builder: (context, connProv, communityListProv, communityPublishableListProv, child) => ScrollConfiguration(
       behavior: NoGlowBehavior(),
       child: SmartRefresher(
           enablePullDown: true,

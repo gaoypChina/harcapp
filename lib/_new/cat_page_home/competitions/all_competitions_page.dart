@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_new/account_test_widget.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/start_widgets/competition_preview_grid_message.dart';
+import 'package:harcapp/account/login_provider.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/gradient_icon.dart';
@@ -56,13 +57,19 @@ class AllCompetitionsPageState extends State<AllCompetitionsPage>{
 
   @override
   void initState() {
-    
-    refreshController = RefreshController(
-      initialRefresh: AccountData.emailConf && IndivComp.all == null
-    );
 
-    IndivCompProvider indivCompProv = Provider.of<IndivCompProvider>(context, listen: false);
-    IndivCompListProvider indivCompListProv = Provider.of<IndivCompListProvider>(context, listen: false);
+    bool loggedIn = LoginProvider.of(context).loggedIn;
+    bool loadInit = AccountData.emailConf && loggedIn && IndivComp.all == null;
+    refreshController = RefreshController(initialRefresh: loadInit);
+    post((){
+      // `initialRefreshStatus` and `initialLoadStatus` in RefreshController don't work.
+      if(!mounted) return;
+      if(loadInit || indivCompLoader.running)
+        refreshController.headerMode!.value = RefreshStatus.refreshing;
+    });
+
+    IndivCompProvider indivCompProv = IndivCompProvider.of(context);
+    IndivCompListProvider indivCompListProv = IndivCompListProvider.of(context);
 
     _listener = IndivCompLoaderListener(
       onNoInternet: (){

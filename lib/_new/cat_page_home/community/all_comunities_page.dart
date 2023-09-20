@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_new/cat_page_home/community/start_widgets/communities_preview_message_widget.dart';
 import 'package:harcapp/_new/cat_page_home/community/start_widgets/communities_preview_widget.dart';
+import 'package:harcapp/account/login_provider.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_new/cat_page_home/community/search_forum_page.dart';
@@ -56,10 +57,16 @@ class AllCommunitiesPageState extends State<AllCommunitiesPage>{
 
   @override
   void initState() {
-    
-    refreshController = RefreshController(
-      initialRefresh: AccountData.emailConf && Community.all == null
-    );
+
+    bool loggedIn = LoginProvider.of(context).loggedIn;
+    bool loadInit = AccountData.emailConf && loggedIn && Community.all == null;
+    refreshController = RefreshController(initialRefresh: loadInit);
+    post((){
+      // `initialRefreshStatus` and `initialLoadStatus` in RefreshController don't work.
+      if(!mounted) return;
+      if(loadInit || communitiesLoader.running)
+        refreshController.headerMode!.value = RefreshStatus.refreshing;
+    });
 
     CommunityProvider communityProv = CommunityProvider.of(context);
     CommunityListProvider communityListProv = CommunityListProvider.of(context);
