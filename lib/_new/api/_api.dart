@@ -56,7 +56,7 @@ class RefreshTokenHandler extends SingleComputer<DioException, SingleComputerLis
       await AccountData.writeRefreshToken(response.data['refreshToken']);
 
     } on DioException catch (e){
-      await callError(e);
+      await callKnownError(e);
     }
 
   }
@@ -145,7 +145,7 @@ class API{
           Response? response;
 
           SingleComputerListener<DioException> listener = SingleComputerListener(
-            onEnd: (DioException? error, _) async {
+            onEnd: (DioException? error, bool unknownError, _) async {
 
               if(error == null)
                 response = await sendRequest(

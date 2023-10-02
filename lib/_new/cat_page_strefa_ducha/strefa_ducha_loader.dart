@@ -26,7 +26,7 @@ class StrefaDuchaLoader extends SingleComputer<String?, SingleComputerListener<S
       Response response = await dio.get(sourceListUrl);
       data = response.data as String?;
     }catch (e){
-      callError(null);
+      callKnownError(null);
       return;
     }
 

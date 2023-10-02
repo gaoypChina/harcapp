@@ -538,7 +538,7 @@ class TropyPreviewListState extends State<TropyPreviewList>{
           if(!mounted) return;
           showAppToast(context, text: simpleErrorMessage);
         },
-        onEnd: (_, __){
+        onEnd: (_, __, ___){
           if(mounted) setState(() {});
         }
     );

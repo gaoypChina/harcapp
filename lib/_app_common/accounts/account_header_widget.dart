@@ -237,7 +237,7 @@ class AccountHeaderWidget extends StatelessWidget{
             child: header,
           ),
 
-        if(showDetails && (org != null || hufiec != null || druzyna != null || rankHarc != null || rankInstr != null))
+        if(showDetails && (org != null || (hufiec != null && hufiec!.isNotEmpty) || (druzyna != null && druzyna!.isNotEmpty) || rankHarc != null || rankInstr != null))
           Padding(
               padding: const EdgeInsets.only(
                 top: Dimen.SIDE_MARG,
@@ -262,7 +262,7 @@ class AccountHeaderWidget extends StatelessWidget{
                         children.add(const SizedBox(height: Dimen.SIDE_MARG));
                       }
 
-                      if(hufiec != null || showEmptyDetails) {
+                      if((hufiec != null && hufiec!.isNotEmpty) || showEmptyDetails) {
                         children.add(HufiecInputField(
                           enabled: false,
                           dimTextOnDisabled: false,
@@ -271,7 +271,7 @@ class AccountHeaderWidget extends StatelessWidget{
                         children.add(const SizedBox(height: Dimen.SIDE_MARG));
                       }
 
-                      if(druzyna != null || showEmptyDetails) {
+                      if((druzyna != null && druzyna!.isNotEmpty) || showEmptyDetails) {
                         children.add(DruzynaInputField(
                           enabled: false,
                           dimTextOnDisabled: false,

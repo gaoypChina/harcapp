@@ -169,7 +169,7 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
     if(!OwnAlbum.initialized) {
       loaderListener = SingleComputerListener<String>(
           onError: (fileName) async => showAppToast(context, text: 'Błąd wczytywania piosenki $fileName'),
-          onEnd: (String? err, bool forceFinished) async {
+          onEnd: (String? err, bool unknownError, bool forceFinished) async {
             if(!mounted) return;
 
             onAlbumChanged(BaseAlbum.current);

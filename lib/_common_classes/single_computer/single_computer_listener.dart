@@ -6,7 +6,7 @@ class SingleComputerListener<TErr>{
 
   final FutureOr<void> Function()? onStart;
   final FutureOr<void> Function(TErr?)? onError;
-  final FutureOr<void> Function(TErr? err, bool forceFinished)? onEnd;
+  final FutureOr<void> Function(TErr? err, bool unknownErrorCalled, bool forceFinished)? onEnd;
 
   SingleComputerListener({this.onStart, this.onError, this.onEnd})
       : toBeRemoved = false;

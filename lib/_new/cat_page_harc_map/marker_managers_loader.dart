@@ -104,7 +104,7 @@ class MarkerManagersLoader extends SingleComputer<String?, MarkerManagersLoaderL
 
           return true;
         },
-        onError: () => callError(null),
+        onError: () => callKnownError(null),
     );
 
   }

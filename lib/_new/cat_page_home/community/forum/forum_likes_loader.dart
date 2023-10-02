@@ -87,7 +87,7 @@ class ForumLikesLoader extends SingleComputer<String?, ForumLikesLoaderListener>
 
           return true;
         },
-        onError: () => callError(null),
+        onError: () => callKnownError(null),
     );
 
   }

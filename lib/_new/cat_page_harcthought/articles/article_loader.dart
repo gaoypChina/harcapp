@@ -37,7 +37,7 @@ class ArticleLoaderListener extends SingleComputerListener<ArticleLoaderError>{
   ArticleLoaderListener({
       void Function()? onStart,
       Future<void> Function(ArticleLoaderError?)? onError,
-      void Function(ArticleLoaderError? err, bool forceFinished)? onEnd,
+      void Function(ArticleLoaderError? err, bool unknownError, bool forceFinished)? onEnd,
       this.onStateChanged,
   }):super(onStart: onStart, onError: onError, onEnd: onEnd);
 }
@@ -219,7 +219,7 @@ class ArticleLoader extends SingleComputer<ArticleLoaderError, ArticleLoaderList
     loadState = ArticleLoadState.CHECKING_NET;
 
     if(!await isNetworkAvailable()) {
-      await callError(NoInternetError());
+      await callKnownError(NoInternetError());
       loadState = ArticleLoadState.NO_NET;
       return;
     }
@@ -229,7 +229,7 @@ class ArticleLoader extends SingleComputer<ArticleLoaderError, ArticleLoaderList
     Tuple2<List<Article>, Map<String, Tuple2<String, int>>>? result = await compute(_run, all?null:Article.lastSeenId);
 
     if(result == null){
-      await callError(ArticleDownloadError());
+      await callKnownError(ArticleDownloadError());
       loadState = ArticleLoadState.FAILED;
       return;
     }

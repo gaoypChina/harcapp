@@ -389,7 +389,7 @@ class _ArticleScrollViewState extends State<_ArticleScrollView>{
     LikedArticlesProvider likedArticlesProv = Provider.of<LikedArticlesProvider>(context, listen: false);
 
     loaderListener = ArticleLoaderListener(
-        onEnd: (ArticleLoaderError? err, bool forceFinished) async {
+        onEnd: (ArticleLoaderError? err, bool unknownError, bool forceFinished) async {
 
           if(forceFinished) return;
 

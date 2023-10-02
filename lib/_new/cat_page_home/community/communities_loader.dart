@@ -77,7 +77,7 @@ class CommunitiesLoader extends SingleComputer<String?, CommunityLoaderListener>
 
         return true;
       },
-        onError: (resp) => callError(null),
+        onError: (resp) => callKnownError(null),
     );
 
   }

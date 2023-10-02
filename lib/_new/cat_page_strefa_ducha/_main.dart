@@ -126,8 +126,8 @@ class CatPageStrefaDuchaState extends State<CatPageStrefaDucha> with AfterLayout
         onError: (_) async {
           if(mounted) setState((){});
         },
-        onEnd: (error, __){
-          if(error != null) return;
+        onEnd: (error, unknownError, __){
+          if(error != null || unknownError != null) return;
           loadedFirstTime = false;
           if(mounted) setState((){});
         }
