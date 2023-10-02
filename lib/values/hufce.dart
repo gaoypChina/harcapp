@@ -63,6 +63,7 @@ const String huf_zhp_szczecin_pogodno = 'Hufiec ZHP Szczecin Pogodno';
 const String huf_zhp_szczecinsko_wloszczowski = 'Hufiec ZHP Szczekocińsko-Włoszczowski';
 const String huf_zhp_torun = 'Hufiec ZHP Toruń';
 const String huf_zhp_trzebinia = 'Hufiec ZHP Trzebinia';
+const String huf_zhp_wagrowiec = 'Hufiec ZHP Wągrowiec';
 const String huf_zhp_warszawa_centrum = 'Hufiec ZHP Warszawa Centrum';
 const String huf_zhp_warszawa_mokotow = 'Hufiec ZHP Warszawa Mokotów';
 const String huf_zhp_warszawa_ochota = 'Hufiec ZHP Warszawa Ochota';

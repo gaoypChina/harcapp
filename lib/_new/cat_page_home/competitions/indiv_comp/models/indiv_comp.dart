@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:harcapp/_app_common/common_icon_data.dart';
 import 'package:harcapp/_app_common/common_color_data.dart';
 import 'package:harcapp/_common_classes/sha_pref.dart';
+import 'package:harcapp/_common_classes/sorted_list.dart';
 import 'package:harcapp/_new/api/_api.dart';
 import 'package:harcapp/_new/api/indiv_comp.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_editor/indiv_comp_task_editable.dart';
@@ -326,7 +327,7 @@ class IndivComp{
     return keyResult;
   }
 
-  final List<IndivCompParticip> loadedParticips;
+  final SortedList<IndivCompParticip> loadedParticips;
   final Map<String, IndivCompParticip> _loadedParticipMap;
 
   void clearLoadedParticips(){
@@ -341,7 +342,7 @@ class IndivComp{
   int participCount;
   int activeParticipCount;
 
-  List<IndivCompTask> tasks;
+  SortedList<IndivCompTask> tasks;
   Map<String, IndivCompTask> taskMap;
 
   int get openTaskCount{
@@ -356,10 +357,11 @@ class IndivComp{
   List<IndivCompAward> awards;
   List<String?> get awardsEncoded{
     List<String?> result = [];
-    for(IndivCompAward award in awards)
-      for(int i=0; i<award.rangeTo - award.rangeFrom + 1; i++)
-        result.add(award.award);
-
+    for(IndivCompAward award in awards) {
+      result.add(award.award);
+      for (int i = 1; i < award.rangeTo - award.rangeFrom + 1; i++)
+        result.add(null);
+    }
     return result;
   }
 
@@ -687,14 +689,10 @@ class IndivComp{
 
   static IndivComp fromRespMap(Map respMap){
 
-    List<IndivCompTask> tasks = [];
+    SortedList<IndivCompTask> tasks = SortedList((task1, task2) => task1.position.compareTo(task2.position));
     Map tasksRespMap = respMap['tasks']??(throw InvalidResponseError('tasks'));
     for (String taskKey in tasksRespMap.keys as Iterable<String>)
       tasks.add(IndivCompTask.fromRespMap(tasksRespMap[taskKey], key: taskKey));
-
-    tasks.sort((task1, task2) => task1.key.compareTo(task2.key));
-
-
 
     List<String?> awards = ((respMap['awards']??(throw InvalidResponseError('awards'))) as List).cast<String?>();
 
@@ -711,7 +709,7 @@ class IndivComp{
         endTime: DateTime.tryParse(respMap['endTime'] ?? ''),
         rankDispType: strToRankDispType[respMap['rankDispType']??(throw InvalidResponseError('rankDispType'))],
 
-        loadedParticips: [], // temporarly empty,
+        loadedParticips: SortedList(participComparator), // temporarly empty,
         participCount: respMap['participantCount'],
         activeParticipCount: respMap['activeParticipConut'],
 
@@ -745,10 +743,10 @@ class IndivComp{
       colorsKey: '',
       startTime: DateTime.now(),
       rankDispType: RankDispType.EXACT,
-      loadedParticips: [],
+      loadedParticips: SortedList(participComparator),
       participCount: 0,
       activeParticipCount: 0,
-      tasks: [],
+      tasks: SortedList((task1, task2) => task1.position.compareTo(task2.position)),
       awards: [],
       shareCode: '',
       shareCodeSearchable: true,

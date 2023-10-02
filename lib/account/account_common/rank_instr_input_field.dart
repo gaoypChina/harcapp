@@ -13,9 +13,9 @@ class RankInstrInputField extends StatelessWidget{
   final bool enabled;
   final bool dimTextOnDisabled;
   final InputFieldController? controller;
-  final void Function(RankInstr?)? onRankInstrChanged;
+  final void Function(RankInstr?)? onChanged;
 
-  const RankInstrInputField(this.rankInstr, {this.enabled = true, this.dimTextOnDisabled = true, this.controller, this.onRankInstrChanged, super.key});
+  const RankInstrInputField(this.rankInstr, {this.enabled = true, this.dimTextOnDisabled = true, this.controller, this.onChanged, super.key});
 
   @override
   Widget build(BuildContext context) => HintDropdownWidget<RankInstr?>(
@@ -25,8 +25,8 @@ class RankInstrInputField extends StatelessWidget{
     leading: Icon(MdiIcons.lighthouse, color: iconDisab_(context)),
     enabled: enabled,
     value: rankInstr,
-    onChanged: (value) => onRankInstrChanged?.call(value),
-    onCleared: () => onRankInstrChanged?.call(null),
+    onChanged: (value) => onChanged?.call(value),
+    onCleared: () => onChanged?.call(null),
     items: [
       DropdownMenuItem<RankInstr>(
         value: RankInstr.pwd,

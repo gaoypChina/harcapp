@@ -18,8 +18,8 @@ import 'package:harcapp_core/comm_widgets/app_scaffold.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
+import 'package:json_pretty/json_pretty.dart';
 import 'package:path/path.dart';
-import 'package:pretty_json/pretty_json.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 
@@ -141,7 +141,11 @@ class StorageDisplayPageState extends State<StorageDisplayPage>{
                 Map allUnsynced = await synchronizer.allUnsynced();
                 await openDialog(
                     context: context,
-                    builder: (context) => TextDisplayer('Synchronizacja', 'lastSyncTimeLocal: ${SynchronizerEngine.lastSyncTimeLocal}\n\n${prettyJson(allUnsynced)}')
+                    builder: (context) => TextDisplayer(
+                        'Synchronizacja',
+                        'lastSyncTimeLocal: ${SynchronizerEngine.lastSyncTimeLocal}'
+                            '\n'
+                            '\n${prettyPrintJson(jsonEncode(allUnsynced))}')
                 );
               }
           ),
@@ -338,7 +342,7 @@ class JSONFileDisplayer extends StatelessWidget{
 
     String content;
     try{
-      content = prettyJson(jsonDecode(jsonText), indent: 4);
+      content = prettyPrintJson(jsonText);
     } on Exception{
       content = jsonText;
     }
@@ -508,7 +512,7 @@ class JSONFolderDisplayer extends StatelessWidget{
     return FolderDisplayer(
       folderPath,
       displayFileName: displayFileName,
-      displayText: (text) => prettyJson(jsonDecode(text), indent: 4),
+      displayText: (text) => prettyPrintJson(text),
       emptyText: '{}',
     );
 

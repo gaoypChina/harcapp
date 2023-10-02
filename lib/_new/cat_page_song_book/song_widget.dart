@@ -15,6 +15,7 @@ import 'package:harcapp/_new/cat_page_song_book/song_contributors_page.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp/values/people.dart';
 import 'package:harcapp/values/rank_harc.dart';
+import 'package:harcapp/values/rank_instr.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_classes/storage.dart';
@@ -61,8 +62,8 @@ class SongWidget extends StatelessWidget{
     bool hasName = person?.name != null;
     bool hasDruzyna = person?.druzyna != null;
     bool hasHufiec = person?.hufiec != null;
-    bool hasStopI = person?.stopI != null;
-    bool hasStopH = person?.stopH != null;
+    bool hasRankInstr = person?.rankInstr != null;
+    bool hasRankHarc = person?.rankHarc != null;
     bool hasOrg = person?.org != null;
 
     String nameSimple = song.generateFileName(withPerformer: true);
@@ -79,8 +80,8 @@ class SongWidget extends StatelessWidget{
         ${hasName?"name: '${person?.name}',":""}
         ${hasDruzyna?"druzyna: '${person?.druzyna}',":""}
         ${hasHufiec?"hufiec: '${person?.hufiec}',":""}
-        ${hasStopI?"stopI: '${person?.stopI}',":""}
-        ${hasStopH?"stopH: RankHarc.${person?.stopH==null?null:rankHarcToStr(person!.stopH!)},":""}
+        ${hasRankInstr?"rankInstr: StopInstr.${person?.rankInstr==null?null:rankInstrToStr(person!.rankInstr!)},":""}
+        ${hasRankHarc?"rankHarc: RankHarc.${person?.rankHarc==null?null:rankHarcToStr(person!.rankHarc!)},":""}
         ${hasOrg?"org: ${person?.org},":""}
         email: []
       );""".replaceAll('\n\n', '\n');

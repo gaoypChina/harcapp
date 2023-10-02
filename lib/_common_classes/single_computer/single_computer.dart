@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:harcapp/_common_classes/single_computer/single_computer_listener.dart';
 import 'package:harcapp/logger.dart';
-import 'package:semaphore/semaphore.dart';
+import 'package:semaphore_plus/semaphore_plus.dart';
 
 abstract class SingleComputer<TErr, TListener extends SingleComputerListener<TErr?>>{
 

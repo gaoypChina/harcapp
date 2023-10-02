@@ -33,7 +33,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:polybool/polybool.dart' as pb;
 import 'package:provider/provider.dart';
-import 'package:semaphore/semaphore.dart';
+import 'package:semaphore_plus/semaphore_plus.dart';
 
 import '../../values/consts.dart';
 import '../api/harc_map.dart';

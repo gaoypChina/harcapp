@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:harcapp/_common_classes/app_navigator.dart';
+import 'package:harcapp/_common_widgets/border_material.dart';
 import 'package:harcapp/_new/details/part_contributors.dart';
 import 'package:harcapp/_new/details/patron_list_widget.dart';
 import 'package:harcapp/_common_classes/common.dart';
@@ -7,11 +11,13 @@ import 'package:harcapp/values/app_values.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
+import 'package:harcapp_core/comm_widgets/app_text.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:package_info/package_info.dart';
 import 'package:harcapp_core/dimen.dart';
 
+import '../../account/account_start/account_reason_page.dart';
 import 'changelog_widget.dart';
 
 class PartInfo extends StatefulWidget{
@@ -38,96 +44,138 @@ class PartInfoState extends State<PartInfo>{
   @override
   Widget build(BuildContext context) => SingleChildScrollView(
     physics: const BouncingScrollPhysics(),
+    padding: const EdgeInsets.all(Dimen.SIDE_MARG),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
 
-        ListTile(
-          leading: const SizedBox(width: 0),
-          title: Text('Wersja $version${unofficialApk?' (apk)':''}', style: AppTextStyle()),
-          trailing: unofficialApk?
-          IconButton(
-            icon: Icon(MdiIcons.refresh),
-            onPressed: () async {
-              bool updateAvailable = await checkUnofficialApkUpdate(context);
-              if(!updateAvailable) showAppToast(context, text: 'Brak dostępnych aktualizacji');
-            },
-          ):null
-        ),
+        BorderMaterial(child: Column(children: [
 
-        ListTile(
-          isThreeLine: true,
-            leading: Icon(MdiIcons.emailOutline),
+          ListTile(
+            title: Text('Wersja $version${unofficialApk?' (apk)':''}', style: AppTextStyle()),
+            subtitle: Text('Kliknij, by zobaczyć co nowego!', style: AppTextStyle()),
+            trailing: unofficialApk?
+            IconButton(
+              icon: Icon(MdiIcons.refresh),
+              onPressed: () async {
+                bool updateAvailable = await checkUnofficialApkUpdate(context);
+                if(!updateAvailable) showAppToast(context, text: 'Brak dostępnych aktualizacji');
+              },
+            ):null,
+            onTap: () => openDialog(
+                context: context,
+                builder: (context) => const AppCard(
+                  radius: AppCard.bigRadius,
+                  margin: EdgeInsets.all(Dimen.SIDE_MARG),
+                  padding: EdgeInsets.zero,
+                  child: PartChangelog(),
+                )
+            ),
+          ),
+
+          if(Platform.isAndroid)
+            ListTile(
+                title: const AppText(
+                    account?
+                    'Testujesz apkę z <b>kontami HarcApp</b>!':'Przetestuj <b>konta HarcApp</b>!',
+                ),
+                subtitle: Text(account?'Kliknij, by to zmienić':'Kliknij by dołączyć', style: AppTextStyle()),
+                trailing: Icon(MdiIcons.accountCircleOutline),
+                onTap: (){
+
+                  if(account) launchURL('play.google.com/apps/testing/zhp.harc.app');
+                  else showAlertDialog(
+                      context,
+                      title: 'Jak to działa?',
+                      content: 'Aby zacząć używać konta HarcApp, wykonaj trzy kroki:'
+                          '\n\n1. Dołącz do programu testowania (przechodząc dalej),'
+                          '\n2. Zaktualizuj aplikację,'
+                          '\n3. Otwórz znowu aplikację.'
+                          '\n\nMiej na uwadze, że konta HarcApp nie są jeszcze gotowe i mogą czasami nie działać.'
+                          '\n\nJeśli coś nie będzie Ci odpowiadało, możesz zawsze opuścić program testowania.',
+                      actionBuilder: (context) => [
+                        AlertDialogButton(text: 'To nie dla mnie', onTap: () => Navigator.pop(context)),
+                        AlertDialogButton(text: 'Jedziemy dalej!', onTap: () => launchURL('play.google.com/apps/testing/zhp.harc.app')),
+
+                      ]
+                  );
+
+                }
+            ),
+
+          if(Platform.isAndroid && !account)
+            ListTile(
+                title: Text('Po co mi jakieś konto HarcApp?', style: AppTextStyle()),
+                trailing: Icon(MdiIcons.arrowRight),
+                onTap: () => pushPage(context, builder: (context) => const AccountReasonPage())
+            ),
+
+        ])),
+
+        const SizedBox(height: Dimen.SIDE_MARG),
+
+        BorderMaterial(child: Column(children: [
+
+          ListTile(
             title: Text('Kontakt', style: AppTextStyle()),
             subtitle: Text('harcapp@gmail.com', style: AppTextStyle()),
-        ),
+            trailing: Icon(MdiIcons.emailOutline),
+          ),
 
-        ListTile(
-            leading: const SizedBox(),
+          ListTile(
+            isThreeLine: true,
             title: Text('Autor', style: AppTextStyle()),
-            subtitle: Text('phm. Daniel Iwanicki HO\nWDHS "Uroczysko", Warszawa-Praga-Północ', style: AppTextStyle()),
-        ),
+            subtitle: Text('\nphm. Daniel Iwanicki HO\n72. WDHS "Uroczysko",\nHufiec ZHP Warszawa-Praga-Północ\n', style: AppTextStyle()),
+          ),
 
-        ListTile(
-          leading: Icon(MdiIcons.newspaperVariantOutline),
-          title: Text('Co nowego?', style: AppTextStyle()),
-          trailing: Icon(MdiIcons.arrowRight),
-          onTap: () => openDialog(
-              context: context,
-              builder: (context) => const AppCard(
-                radius: AppCard.bigRadius,
-                margin: EdgeInsets.all(Dimen.SIDE_MARG),
-                padding: EdgeInsets.zero,
-                child: PartChangelog(),
+        ])),
+
+        const SizedBox(height: Dimen.SIDE_MARG),
+
+        BorderMaterial(child: Column(children: [
+
+          ListTile(
+            isThreeLine: true,
+            title: Text('Zostań patronem', style: AppTextStyle(color: Colors.deepOrange, fontWeight: weight.halfBold)),
+            subtitle: Text('HarcAppka powstaje w wolnym czasie. Możesz pomóc zostając jej patronem!', style: AppTextStyle()),
+            trailing: SizedBox(
+              height: 52,
+              width: 52,
+              child: Image.asset('assets/images/patronite_logo_full.png'),
+            ),
+            onTap: () => launchURL('https://patronite.pl/harcapp'),
+          ),
+
+          ListTile(
+            title: Text('Lista patronów', style: AppTextStyle()),
+            trailing: Icon(MdiIcons.arrowRight),
+            onTap: () => openDialog(
+                context: context,
+                builder: (context) => AppCard(
+                  radius: AppCard.bigRadius,
+                  padding: EdgeInsets.zero,
+                  margin: const EdgeInsets.all(Dimen.SIDE_MARG),
+                  child: PatronListWidget(),
+                )
+            ),
+          ),
+
+          ListTile(
+              title: Text('Osoby zasłużone', style: AppTextStyle()),
+              trailing: Icon(MdiIcons.arrowRight),
+              onTap: () => openDialog(
+                  context: context,
+                  builder: (context) => const PartContributors()
               )
           ),
-        ),
 
-        const ListTile(),
+        ])),
 
-        ListTile(
-          isThreeLine: true,
-          leading: SizedBox(
-            height: Dimen.ICON_SIZE + 2,
-            width: Dimen.ICON_SIZE + 2,
-            child: Image.asset('assets/images/patronite_logo_full.png'),
-          ),
-          title: Text('Zostań patronem', style: AppTextStyle(color: Colors.deepOrange, fontWeight: weight.halfBold)),
-          subtitle: Text('HarcAppka powstaje w wolnym czasie. Możesz pomóc zostając jej patronem!', style: AppTextStyle()),
-          trailing: Icon(MdiIcons.arrowRight),
-          onTap: () => launchURL('https://patronite.pl/harcapp'),
-        ),
+        const SizedBox(height: Dimen.SIDE_MARG),
 
         ListTile(
-          leading: const SizedBox(),
-          title: Text('Lista patronów', style: AppTextStyle()),
-          trailing: Icon(MdiIcons.arrowRight),
-          onTap: () => openDialog(
-              context: context,
-              builder: (context) => AppCard(
-                radius: AppCard.bigRadius,
-                padding: EdgeInsets.zero,
-                margin: const EdgeInsets.all(Dimen.SIDE_MARG),
-                child: PatronListWidget(),
-              )
-          ),
-        ),
-
-        ListTile(
-          leading: Icon(MdiIcons.medalOutline),
-          title: Text('Osoby zasłużone', style: AppTextStyle()),
-          trailing: Icon(MdiIcons.arrowRight),
-          onTap: () => openDialog(
-              context: context,
-              builder: (context) => const PartContributors()
-          )
-        ),
-
-        const ListTile(),
-
-        ListTile(
-            leading: Icon(MdiIcons.flagCheckered),
-            title: Text('Oto jak się zaczęło!', style: AppTextStyle()),
+          title: Text('Oto jak się zaczęło!', style: AppTextStyle()),
+          trailing: Icon(MdiIcons.flagCheckered),
         ),
 
         Padding(

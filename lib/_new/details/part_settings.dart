@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
-import 'package:harcapp/_common_classes/single_computer/single_computer_listener.dart';
+import 'package:harcapp/_common_widgets/border_material.dart';
 import 'package:harcapp_core/comm_widgets/app_text.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_loader.dart';
 import 'package:harcapp/_new/details/storage_display_page.dart';
@@ -15,6 +15,7 @@ import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack_provider.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
+import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
 
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -38,139 +39,160 @@ class PartSettingsState extends State<PartSettings>{
   @override
   Widget build(BuildContext context) => SingleChildScrollView(
     physics: const BouncingScrollPhysics(),
+    padding: const EdgeInsets.all(Dimen.SIDE_MARG),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
 
-        ListTile(
-          title: Text('Motyw aplikacji', style: AppTextStyle(fontWeight: weight.halfBold)),
-        ),
+        BorderMaterial(child: Column(children: [
 
-        ListTile(
-          title: Text(
-              'Jasny', 
-              style: AppTextStyle(
-                fontWeight: AppSettings.theme == AppTheme.light?weight.halfBold:weight.normal,
+          const TitleShortcutRowWidget(
+            title: 'Motyw aplikacji',
+            textAlign: TextAlign.left,
+            leading: SizedBox(width: Dimen.LIST_TILE_LEADING_MARGIN_VAL),
+          ),
+
+          ListTile(
+            leading: Icon(
+                MdiIcons.weatherSunny,
                 color: AppSettings.theme == AppTheme.light?textEnab_(context):hintEnab_(context)
-              )
+            ),
+            title: Text(
+                'Jasny',
+                style: AppTextStyle(
+                    fontWeight: AppSettings.theme == AppTheme.light?weight.halfBold:weight.normal,
+                    color: AppSettings.theme == AppTheme.light?textEnab_(context):hintEnab_(context)
+                )
+            ),
+            onTap: (){
+              AppSettings.theme = AppTheme.light;
+              Provider.of<ThemeProvider>(context, listen: false).setThemeMode(AppTheme.light);
+              Provider.of<ColorPackProvider>(context, listen: false).notify();
+            },
           ),
-          onTap: (){
-            AppSettings.theme = AppTheme.light;
-            Provider.of<ThemeProvider>(context, listen: false).setThemeMode(AppTheme.light);
-            Provider.of<ColorPackProvider>(context, listen: false).notify();
-          },
-        ),
 
-        ListTile(
-          title: Text(
-              'Ciemny',
-              style: AppTextStyle(
-                  fontWeight: AppSettings.theme == AppTheme.dark?weight.halfBold:weight.normal,
-                  color: AppSettings.theme == AppTheme.dark?textEnab_(context):hintEnab_(context)
-              )
+          ListTile(
+            leading: Icon(
+                MdiIcons.weatherNightPartlyCloudy,
+                color: AppSettings.theme == AppTheme.dark?textEnab_(context):hintEnab_(context)
+            ),
+            title: Text(
+                'Ciemny',
+                style: AppTextStyle(
+                    fontWeight: AppSettings.theme == AppTheme.dark?weight.halfBold:weight.normal,
+                    color: AppSettings.theme == AppTheme.dark?textEnab_(context):hintEnab_(context)
+                )
+            ),
+            onTap: (){
+              AppSettings.theme = AppTheme.dark;
+              Provider.of<ThemeProvider>(context, listen: false).setThemeMode(AppTheme.dark);
+              Provider.of<ColorPackProvider>(context, listen: false).notify();
+            },
           ),
-          onTap: (){
-            AppSettings.theme = AppTheme.dark;
-            Provider.of<ThemeProvider>(context, listen: false).setThemeMode(AppTheme.dark);
-            Provider.of<ColorPackProvider>(context, listen: false).notify();
-          },
-        ),
 
-        ListTile(
-          title: Text(
-              'Auto',
-              style: AppTextStyle(
-                  fontWeight: AppSettings.theme == AppTheme.auto?weight.halfBold:weight.normal,
-                  color: AppSettings.theme == AppTheme.auto?textEnab_(context):hintEnab_(context)
-              )
-          ),
-          trailing: AnimatedOpacity(
-            opacity: AppSettings.theme == AppTheme.auto?1:0,
-            duration: const Duration(milliseconds: 300),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                SimpleButton(
-                  padding: const EdgeInsets.all(Dimen.ICON_MARG),
-                  onTap:
-                  AppSettings.theme == AppTheme.auto?
-                  () async {
-                    TimeOfDay? time = await showTimePicker(
-                      helpText: 'WSCHÓD SŁOŃCA',
-                      initialTime: AppSettings.sunriseTime,
-                      context: context,
-                    );
-                    if(time!=null) setState(() => AppSettings.sunriseTime = time);
-                    Provider.of<ThemeProvider>(context, listen: false).setThemeMode(AppTheme.auto);
-                    Provider.of<ColorPackProvider>(context, listen: false).notify();
-                  }:null,
-                  child: Row(
-                    children: [
-                      Icon(MdiIcons.weatherSunsetUp, color: textEnab_(context)),
-                      const SizedBox(width: Dimen.ICON_MARG),
-                      Text(
-                        AppSettings.sunriseTime.format(context),
-                        style: AppTextStyle(color: textEnab_(context)),
-                      ),
-                    ],
-                  ),
-                ),
-
-                Theme(
-                  data: Theme.of(context),
-                  child: SimpleButton(
+          ListTile(
+            leading: Icon(
+                MdiIcons.themeLightDark,
+                color: AppSettings.theme == AppTheme.auto?textEnab_(context):hintEnab_(context)
+            ),
+            title: Text(
+                'Auto',
+                style: AppTextStyle(
+                    fontWeight: AppSettings.theme == AppTheme.auto?weight.halfBold:weight.normal,
+                    color: AppSettings.theme == AppTheme.auto?textEnab_(context):hintEnab_(context)
+                )
+            ),
+            trailing: AnimatedOpacity(
+              opacity: AppSettings.theme == AppTheme.auto?1:0,
+              duration: const Duration(milliseconds: 300),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  SimpleButton(
                     padding: const EdgeInsets.all(Dimen.ICON_MARG),
                     onTap:
                     AppSettings.theme == AppTheme.auto?
-                        ()async {
+                        () async {
                       TimeOfDay? time = await showTimePicker(
-                        helpText: 'ZACHÓD SŁOŃCA',
-                        initialTime: AppSettings.sunsetTime,
+                        helpText: 'WSCHÓD SŁOŃCA',
+                        initialTime: AppSettings.sunriseTime,
                         context: context,
                       );
-                      if(time!=null) setState(() => AppSettings.sunsetTime = time);
+                      if(time!=null) setState(() => AppSettings.sunriseTime = time);
                       Provider.of<ThemeProvider>(context, listen: false).setThemeMode(AppTheme.auto);
                       Provider.of<ColorPackProvider>(context, listen: false).notify();
                     }:null,
                     child: Row(
                       children: [
-                        Icon(MdiIcons.weatherSunsetDown, color: textEnab_(context)),
+                        Icon(MdiIcons.weatherSunsetUp, color: textEnab_(context)),
                         const SizedBox(width: Dimen.ICON_MARG),
                         Text(
-                          AppSettings.sunsetTime.format(context),
+                          AppSettings.sunriseTime.format(context),
                           style: AppTextStyle(color: textEnab_(context)),
                         ),
                       ],
                     ),
                   ),
-                )
+
+                  Theme(
+                    data: Theme.of(context),
+                    child: SimpleButton(
+                      padding: const EdgeInsets.all(Dimen.ICON_MARG),
+                      onTap:
+                      AppSettings.theme == AppTheme.auto?
+                          ()async {
+                        TimeOfDay? time = await showTimePicker(
+                          helpText: 'ZACHÓD SŁOŃCA',
+                          initialTime: AppSettings.sunsetTime,
+                          context: context,
+                        );
+                        if(time!=null) setState(() => AppSettings.sunsetTime = time);
+                        Provider.of<ThemeProvider>(context, listen: false).setThemeMode(AppTheme.auto);
+                        Provider.of<ColorPackProvider>(context, listen: false).notify();
+                      }:null,
+                      child: Row(
+                        children: [
+                          Icon(MdiIcons.weatherSunsetDown, color: textEnab_(context)),
+                          const SizedBox(width: Dimen.ICON_MARG),
+                          Text(
+                            AppSettings.sunsetTime.format(context),
+                            style: AppTextStyle(color: textEnab_(context)),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            onTap: (){
+              AppSettings.theme = AppTheme.auto;
+              Provider.of<ThemeProvider>(context, listen: false).setThemeMode(AppTheme.auto);
+              Provider.of<ColorPackProvider>(context, listen: false).notify();
+            },
+          ),
+
+          if(AppSettings.theme == AppTheme.auto && AppSettings.devMode)
+            Stack(
+              children: [
+
+                const ListTile(),
+
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: Dimen.SIDE_MARG),
+                      child: _ThemeTimeCounter(),
+                    ),
+                  ),
+
               ],
             ),
-          ),
-          onTap: (){
-            AppSettings.theme = AppTheme.auto;
-            Provider.of<ThemeProvider>(context, listen: false).setThemeMode(AppTheme.auto);
-            Provider.of<ColorPackProvider>(context, listen: false).notify();
-          },
-        ),
 
-        Stack(
-          children: [
+        ])),
 
-            const ListTile(),
-
-            if(AppSettings.theme == AppTheme.auto && AppSettings.devMode)
-              Align(
-                alignment: Alignment.centerRight,
-                child: Padding(
-                  padding: const EdgeInsets.only(right: Dimen.SIDE_MARG),
-                  child: _ThemeTimeCounter(),
-                ),
-              ),
-
-          ],
-        ),
+        const SizedBox(height: Dimen.SIDE_MARG),
 
         if(Platform.isAndroid)
           SwitchListTile(

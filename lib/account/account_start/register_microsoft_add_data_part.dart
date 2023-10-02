@@ -191,7 +191,7 @@ class _RegisterMicrosoftAddDataPartState extends State<RegisterMicrosoftAddDataP
               SexInputField(
                   sex,
                   controller: sexController,
-                  onSexChanged: (sex) => setState(() => this.sex = sex)
+                  onChanged: (sex) => setState(() => this.sex = sex)
               ),
 
               const SizedBox(height: Dimen.SIDE_MARG),
@@ -199,7 +199,7 @@ class _RegisterMicrosoftAddDataPartState extends State<RegisterMicrosoftAddDataP
               OrgInputField(
                   org,
                   controller: orgController,
-                  onOrgChanged: (org) => setState(() => this.org = org)
+                  onChanged: (org) => setState(() => this.org = org)
               ),
 
               const SizedBox(height: Dimen.SIDE_MARG),
@@ -219,7 +219,7 @@ class _RegisterMicrosoftAddDataPartState extends State<RegisterMicrosoftAddDataP
               RankHarcInputField(
                   rankHarc,
                   controller: rankHarcController,
-                  onRankHarcChanged: (rankHarc) => setState(() => this.rankHarc = rankHarc)
+                  onChanged: (rankHarc) => setState(() => this.rankHarc = rankHarc)
               ),
 
               const SizedBox(height: Dimen.SIDE_MARG),
@@ -227,7 +227,7 @@ class _RegisterMicrosoftAddDataPartState extends State<RegisterMicrosoftAddDataP
               RankInstrInputField(
                   rankInstr,
                   controller: rankInstrController,
-                  onRankInstrChanged: (rankInstr) => setState(() => this.rankInstr = rankInstr)
+                  onChanged: (rankInstr) => setState(() => this.rankInstr = rankInstr)
               ),
 
               const SizedBox(height: 3*Dimen.SIDE_MARG),

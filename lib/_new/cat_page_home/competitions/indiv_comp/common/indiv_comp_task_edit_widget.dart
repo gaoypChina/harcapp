@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_reorderable_list/flutter_reorderable_list.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_new/api/indiv_comp.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/common/points_widget.dart';
@@ -76,7 +77,7 @@ class IndivCompTaskEditWidgetState extends State<IndivCompTaskEditWidget>{
   bool get showRemove => widget.showRemove;
   bool get showFreeze => widget.showFreeze;
 
-  int? points;
+  late int points;
 
   TaskState? get state => widget.state;
   bool? get remove => widget.remove;
@@ -104,13 +105,25 @@ class IndivCompTaskEditWidgetState extends State<IndivCompTaskEditWidget>{
 
     color: cardEnab_(context),
     child: IndivCompTaskSkeletonWidget(
+
+        leading: ReorderableListener(
+            child: Padding(
+              padding: const EdgeInsets.only(
+                top: Dimen.ICON_MARG,
+                bottom: Dimen.ICON_MARG,
+                right: Dimen.ICON_MARG,
+              ),
+              child: Icon(MdiIcons.swapVertical, color: iconEnab_(context)),
+            )
+        ),
+
         trailing: SimpleButton(
           radius: AppCard.bigRadius,
           margin: EdgeInsets.zero,
           padding: EdgeInsets.zero,
           onTap: () async {
 
-            int? currVal = points;
+            int currVal = points;
             await openDialog(
                 context: context,
                 builder: (context) => _PointsPickerDialog(
@@ -266,7 +279,7 @@ class IndivCompTaskEditWidgetState extends State<IndivCompTaskEditWidget>{
 
 class _PointsPickerDialog extends StatefulWidget{
 
-  final int? initVal;
+  final int initVal;
   final Color accentColor;
   final void Function(int)? onChanged;
 
@@ -279,7 +292,7 @@ class _PointsPickerDialog extends StatefulWidget{
 
 class _PointsPickerDialogState extends State<_PointsPickerDialog>{
 
-  int? val;
+  late int val;
 
   @override
   void initState() {
@@ -303,8 +316,8 @@ class _PointsPickerDialogState extends State<_PointsPickerDialog>{
             itemCount: 5,
             itemWidth: width/5,
             axis: Axis.horizontal,
-            value: val!,
-            minValue: 0,
+            value: val,
+            minValue: -30,
             maxValue: 30,
             selectedTextStyle: IndivCompTaskSkeletonWidget.pointsTextStyle(context).copyWith(color: widget.accentColor),
             textStyle: IndivCompTaskSkeletonWidget.pointsTextStyle(context).copyWith(fontSize: Dimen.TEXT_SIZE_APPBAR),

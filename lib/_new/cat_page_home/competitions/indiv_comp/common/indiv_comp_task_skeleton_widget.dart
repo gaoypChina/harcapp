@@ -63,6 +63,10 @@ class IndivCompTaskSkeletonWidget extends StatelessWidget{
                         children: [
 
                           const SizedBox(width: IndivCompTaskSkeletonWidget.padding),
+
+                          if(leading != null)
+                            leading!,
+
                           Expanded(child: title??Container()),
 
                           if(trailing != null)

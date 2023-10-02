@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:isolate';
 
 import 'package:dio/dio.dart';
@@ -26,8 +27,8 @@ import 'package:harcapp/_new/cat_page_song_book/song_management/off_song.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/own_song.dart';
 import 'package:harcapp/sync/syncable.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
-import 'package:pretty_json/pretty_json.dart';
 import 'package:intl/intl.dart';
+import 'package:json_pretty/json_pretty.dart';
 import 'package:tuple/tuple.dart';
 
 import '../../_common_classes/org/org_entity_resp.dart';
@@ -221,7 +222,7 @@ class ApiSync{
     //
     // assert(const DeepCollectionEquality().equals(_reqMap, reqMap));
 
-    logger.i('Sync post request:\n${prettyJson(reqMap)}');
+    logger.i('Sync post request:\n${prettyPrintJson(jsonEncode(reqMap))}');
 
     return await API.sendRequest(
       withToken: true,
@@ -245,7 +246,7 @@ class ApiSync{
 
         DateTime? syncedTime = DateTime.tryParse(response.data['time']);
 
-        logger.i('Sync post response:\n${prettyJson(response.data)}');
+        logger.i('Sync post response:\n${prettyPrintJson(jsonEncode(response.data))}');
 
         await onSuccess?.call(
           response,
@@ -494,27 +495,27 @@ class ApiSync{
 
           logger.i('Sync get response received:'
               '\n\nOrgData:'
-              '\n${prettyJson(orgData)}'
+              '\n${prettyPrintJson(jsonEncode(orgData))}'
               '\n\nAppSettings:'
-              '\n${prettyJson(appSettingsData)}'
+              '\n${prettyPrintJson(jsonEncode(appSettingsData))}'
               '\n\nSongBookSettings:'
-              '\n${prettyJson(songBookSettingsData)}'
+              '\n${prettyPrintJson(jsonEncode(songBookSettingsData))}'
               '\n\nOffSongs:'
-              '\n${prettyJson(offSongs)}'
+              '\n${prettyPrintJson(jsonEncode(offSongs))}'
               '\n\nOwnSongs:'
-              '\n${prettyJson(ownSongs)}'
+              '\n${prettyPrintJson(jsonEncode(ownSongs))}'
               '\n\nOwnAlbums:'
-              '\n${prettyJson(albums)}'
+              '\n${prettyPrintJson(jsonEncode(albums))}'
               '\n\nToLearnAlbum:'
-              '\n${prettyJson(toLearnAlbum)}'
+              '\n${prettyPrintJson(jsonEncode(toLearnAlbum))}'
               '\n\nSpraws:'
-              '\n${prettyJson(spraws)}'
+              '\n${prettyPrintJson(jsonEncode(spraws))}'
               '\n\nRankDefs:'
-              '\n${prettyJson(rankDefs)}'
+              '\n${prettyPrintJson(jsonEncode(rankDefs))}'
               '\n\nRankZhpSim2022:'
-              '\n${prettyJson(rankZhpSim2022)}'
+              '\n${prettyPrintJson(jsonEncode(rankZhpSim2022))}'
               '\n\nTrop:'
-              '\n${prettyJson(trops)}'
+              '\n${prettyPrintJson(jsonEncode(trops))}'
 
           );
 

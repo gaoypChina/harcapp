@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_widgets/gradient_icon.dart';
+import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/model/trop.dart';
 import 'package:harcapp/_new/cat_page_home/community/model/community.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
@@ -7,6 +8,8 @@ import 'package:harcapp_core/comm_widgets/app_scaffold.dart';
 import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+
+import '../../values/colors.dart';
 
 class AccountReasonPage extends StatelessWidget{
 
@@ -151,6 +154,28 @@ class AccountReasonPage extends StatelessWidget{
             const SizedBox(height: Dimen.SIDE_MARG),
 
             TitleShortcutRowWidget(
+                title: 'Tropy',
+                textAlign: TextAlign.start,
+                titleColor: hintEnab_(context),
+                trailing: GradientIcon(
+                  Trop.icon,
+                  colorStart: AppColors.zhpTropColor,
+                  colorEnd: AppColors.zhpTropDarkColor,
+                  size: 28.0,
+                )
+            ),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: TitleShortcutRowWidget.textStartPadding),
+              child: Text(
+                'Rozpisuj i realizuj tropy razem z innymi osobami. Każdy ma na bieżąco dostęp do czynionych postępów!',
+                style: AppTextStyle(),
+              ),
+            ),
+
+            const SizedBox(height: Dimen.SIDE_MARG),
+
+            TitleShortcutRowWidget(
                 title: 'Stopnie',
                 textAlign: TextAlign.start,
                 titleColor: hintEnab_(context),
@@ -172,7 +197,7 @@ class AccountReasonPage extends StatelessWidget{
 
             ListTile(
               leading: Icon(MdiIcons.chevronDoubleRight),
-              title: Text('Udostępnianie stopni', style: AppTextStyle()),
+              title: Text('Udostępnianie innym stopni', style: AppTextStyle()),
             ),
 
             ListTile(

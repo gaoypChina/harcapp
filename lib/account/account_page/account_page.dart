@@ -573,7 +573,7 @@ class AccountPageState extends State<AccountPage> with TickerProviderStateMixin{
                         enabled: editMode,
                         dimTextOnDisabled: false,
                         controller: sexController,
-                        onSexChanged: (sex) => setState(() => this.sex = sex)
+                        onChanged: (sex) => setState(() => this.sex = sex)
                     ),
 
                     const SizedBox(height: Dimen.SIDE_MARG),
@@ -583,7 +583,7 @@ class AccountPageState extends State<AccountPage> with TickerProviderStateMixin{
                         enabled: !AccountData.microsoftAcc && editMode,
                         dimTextOnDisabled: editMode && AccountData.microsoftAcc,
                         controller: orgController,
-                        onOrgChanged: (org) => setState(() => this.org = org)
+                        onChanged: (org) => setState(() => this.org = org)
                     ),
 
                     const SizedBox(height: Dimen.SIDE_MARG),
@@ -609,7 +609,7 @@ class AccountPageState extends State<AccountPage> with TickerProviderStateMixin{
                         enabled: editMode,
                         dimTextOnDisabled: false,
                         controller: rankHarcController,
-                        onRankHarcChanged: (rankHarc) => setState(() => this.rankHarc = rankHarc)
+                        onChanged: (rankHarc) => setState(() => this.rankHarc = rankHarc)
                     ),
 
                     const SizedBox(height: Dimen.SIDE_MARG),
@@ -619,7 +619,7 @@ class AccountPageState extends State<AccountPage> with TickerProviderStateMixin{
                         enabled: editMode,
                         dimTextOnDisabled: false,
                         controller: rankInstrController,
-                        onRankInstrChanged: (rankInstr) => setState(() => this.rankInstr = rankInstr)
+                        onChanged: (rankInstr) => setState(() => this.rankInstr = rankInstr)
                     ),
 
                   ],

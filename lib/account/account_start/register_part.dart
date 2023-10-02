@@ -233,7 +233,7 @@ class RegisterPartState extends State<RegisterPart>{
               SexInputField(
                   sex,
                   controller: sexController,
-                  onSexChanged: (sex) => setState(() => this.sex = sex)
+                  onChanged: (sex) => setState(() => this.sex = sex)
               ),
 
               const SizedBox(height: Dimen.SIDE_MARG),
@@ -253,7 +253,7 @@ class RegisterPartState extends State<RegisterPart>{
               RankHarcInputField(
                   rankHarc,
                   controller: rankHarcController,
-                  onRankHarcChanged: (rankHarc) => setState(() => this.rankHarc = rankHarc)
+                  onChanged: (rankHarc) => setState(() => this.rankHarc = rankHarc)
               ),
 
               const SizedBox(height: Dimen.SIDE_MARG),
@@ -261,7 +261,7 @@ class RegisterPartState extends State<RegisterPart>{
               RankInstrInputField(
                   rankInstr,
                   controller: rankInstrController,
-                  onRankInstrChanged: (rankInstr) => setState(() => this.rankInstr = rankInstr)
+                  onChanged: (rankInstr) => setState(() => this.rankInstr = rankInstr)
               ),
 
               const SizedBox(height: Dimen.SIDE_MARG),

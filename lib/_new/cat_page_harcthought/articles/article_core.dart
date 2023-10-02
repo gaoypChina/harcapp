@@ -10,7 +10,7 @@ import 'package:harcapp/_common_classes/sha_pref.dart';
 import 'package:harcapp/_common_classes/storage.dart';
 import 'package:harcapp_core/comm_classes/date_to_str.dart';
 import 'package:path/path.dart';
-import 'package:semaphore/semaphore.dart';
+import 'package:semaphore_plus/semaphore_plus.dart';
 import 'package:tuple/tuple.dart';
 import 'package:webfeed_revised/domain/atom_item.dart';
 import 'package:xml/xml.dart';

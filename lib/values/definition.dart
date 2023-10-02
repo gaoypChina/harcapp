@@ -101,6 +101,7 @@ const List<Definition> allDefinitions = [
   Definition('Obyczajowość', 'Przyjęte w społeczności normy wspierające jej sprawne funkcjonowanie. Jeden z fundamentów powszechnego zaufania między członkami społeczności.'),
   Definition('Ojczyzna', 'Kraj, z którym jest się związanym więzią narodową, kulturową, obyczajową.'),
   Definition('Ojkofobia', 'Zjawisko odrzucenia, niechęci lub nienawiści względem własnej grupy rodzinnej, narodowej bądź cywilizacyjnej, ich kultury i symboli.'),
+  Definition('Oksydentalizm', 'Zainteresowanie kulturą zachodnią i skłonność do ulegania jej wzorom, charakterystyczna dla społeczeństw Europy Wschodniej.'),
   Definition('Patriotyzm', 'Postawa szacunku, umiłowania i oddania własnej ojczyźnie oraz gotowości ponoszenia za nią ofiar i jej obrony.'),
   Definition('Patriotyzm gospodarczy', 'Działania mające na celu wspieranie polskich przedsiębiorstw i firm. Patriotyzmem gospodarczym jest przykładowo wybieranie w sklepach rodzimych produktów.'),
   Definition('Patriotyzm lokalny', 'Przywiązanie, szacunek i zaangażowanie w rozwój swojej lokalnej wspólnoty, takiej jak dzielnica, miasto lub region.'),

@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:harcapp/account/statistics.dart';
 import 'package:harcapp/logger.dart';
-import 'package:pretty_json/pretty_json.dart';
+import 'package:json_pretty/json_pretty.dart';
 
 import '_api.dart';
 
@@ -49,7 +49,7 @@ class ApiStatistics{
     if(moduleRequests.isNotEmpty)
       body['module'] = moduleRequests;
 
-    logger.i('Statistics post request:\n${prettyJson(body)}');
+    logger.i('Statistics post request:\n${prettyPrintJson(jsonEncode(body))}');
 
     return await API.sendRequest(
         withToken: true,
@@ -86,7 +86,7 @@ class ApiStatistics{
             }
           }
 
-          logger.i('Statistics post response:\n${prettyJson(respData)}');
+          logger.i('Statistics post response:\n${prettyPrintJson(jsonEncode(respData))}');
 
           onSuccess(modules, songs);
         }

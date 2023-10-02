@@ -23,9 +23,9 @@ class SexInputField extends StatelessWidget{
   final bool enabled;
   final bool dimTextOnDisabled;
   final InputFieldController? controller;
-  final void Function(Sex)? onSexChanged;
+  final void Function(Sex)? onChanged;
 
-  const SexInputField(this.sex, {this.enabled = true, this.dimTextOnDisabled = true, this.controller, this.onSexChanged, super.key});
+  const SexInputField(this.sex, {this.enabled = true, this.dimTextOnDisabled = true, this.controller, this.onChanged, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +46,7 @@ class SexInputField extends StatelessWidget{
       );
 
       if(selSex != null){
-        onSexChanged?.call(selSex);
+        onChanged?.call(selSex);
         _controller.errorDimed = true;
       }
     };

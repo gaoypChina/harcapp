@@ -12,9 +12,9 @@ class RankHarcInputField extends StatelessWidget{
   final bool enabled;
   final bool dimTextOnDisabled;
   final InputFieldController? controller;
-  final void Function(RankHarc?)? onRankHarcChanged;
+  final void Function(RankHarc?)? onChanged;
 
-  const RankHarcInputField(this.rankHarc, {this.enabled = true, this.dimTextOnDisabled = true, this.controller, this.onRankHarcChanged, super.key});
+  const RankHarcInputField(this.rankHarc, {this.enabled = true, this.dimTextOnDisabled = true, this.controller, this.onChanged, super.key});
 
   @override
   Widget build(BuildContext context) => HintDropdownWidget<RankHarc?>(
@@ -23,8 +23,8 @@ class RankHarcInputField extends StatelessWidget{
     leading: Icon(MdiIcons.chevronDoubleRight, color: iconDisab_(context)),
     enabled: enabled,
     value: rankHarc,
-    onChanged: (value) => onRankHarcChanged?.call(value),
-    onCleared: () => onRankHarcChanged?.call(null),
+    onChanged: (value) => onChanged?.call(value),
+    onCleared: () => onChanged?.call(null),
     items: RankHarc.values.map((r) => DropdownMenuItem<RankHarc>(
       value: r,
       child: Text(rankHarcFullName(r, withOrg: true), style: AppTextStyle(color: enabled?textEnab_(context):dimTextOnDisabled?textDisab_(context):textEnab_(context))),

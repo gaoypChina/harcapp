@@ -179,7 +179,7 @@ class KonspektWidgetState extends State<KonspektWidget> with ModuleStatsMixin{
               const TitleShortcutRowWidget(title: 'Autor', textAlign: TextAlign.left),
 
             if(konspekt.author != null)
-              PersonCard(konspekt.author)
+              PersonCard(konspekt.author!)
 
           ])),
         ),

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_common_classes/common.dart';
+import 'package:harcapp/_common_widgets/loading_widget.dart';
 import 'package:harcapp/_common_widgets/paging_loadable_page/paging_loadable_base_scroll_view_page.dart';
 import 'package:harcapp/_new/api/user.dart';
 import 'package:harcapp/account/account_common/sex_input_field.dart';
@@ -278,9 +279,10 @@ class ShadowUserTileState extends State<ShadowUserTile>{
               color: iconEnab_(context)
           ):Icon(MdiIcons.close),
           onTap: () => showAppToast(context, text: 'Przytrzymaj, by usunąć'),
-          onLongPress: processing?null:(){
+          onLongPress: processing?null:() async {
             setState(() => processingRemove = true);
-            ApiUser.deleteShadow(
+            showLoadingWidget(context, 'Ewakuacja konta widmo...');
+            await ApiUser.deleteShadow(
                 shadowUser.key,
                 onSuccess: (bool? removed) async {
                   AccountData.removeShadowUser(shadowUser);
@@ -289,9 +291,10 @@ class ShadowUserTileState extends State<ShadowUserTile>{
                   onRemoved?.call();
                 },
                 onError: (){
-
+                  if(mounted) showAppToast(context, text: simpleErrorMessage);
                 }
             );
+            if(mounted) Navigator.pop(context);
             if(mounted) setState(() => processingRemove = false);
 
           },
@@ -381,12 +384,13 @@ class AddShadowUserDialogState extends State<AddShadowUserDialog>{
                         controller: nameController,
                         textCapitalization: TextCapitalization.words,
                         hintStyle: AppTextStyle(color: hintEnab_(context)),
+                        autofocus: user == null,
                         onChanged: (_, value) => setState(() => name = value),
                       ),
 
                       SexInputField(
                         sex,
-                        onSexChanged: (value) => setState(() => sex = value),
+                        onChanged: (value) => setState(() => sex = value),
                       ),
 
                       const SizedBox(height: Dimen.SIDE_MARG),
@@ -411,20 +415,40 @@ class AddShadowUserDialogState extends State<AddShadowUserDialog>{
                                   iconLeading: false,
                                   text: user==null?'Stwórz':'Aktualizuj',
                                   onTap: clickable || processing?null:() async {
+
                                     setState(() => processing = true);
-                                    if(user == null)
+                                    if(user == null) {
+                                      for(UserDataNick shadowUser in AccountData.loadedShadowUsers)
+                                        if(shadowUser.name == name) {
+                                          showAppToast(context, text: 'Użytkownik o takim imieniu i nazwisku już istnieje!');
+                                          if(mounted) setState(() => processing = false);
+                                          return;
+                                        }
                                       await ApiUser.createShadow(
                                           name,
                                           sex,
                                           onSuccess: (UserDataNick user) async {
-                                            await AccountData.addLoadedShadowUser(user);
-                                            await AccountData.writeShadowUserCount(AccountData.shadowUserCount + 1);
+                                            await AccountData
+                                                .addLoadedShadowUser(user);
+                                            await AccountData
+                                                .writeShadowUserCount(
+                                                AccountData.shadowUserCount +
+                                                    1);
                                             Navigator.pop(context);
                                             await onSuccess?.call(user);
                                           },
-                                          onError: () => showAppToast(context, text: simpleErrorMessage)
+                                          onError: () =>
+                                              showAppToast(context,
+                                                  text: simpleErrorMessage)
                                       );
-                                    else
+                                    }else {
+                                      for(UserDataNick shadowUser in AccountData.loadedShadowUsers)
+                                        if(user!.key != shadowUser.key && shadowUser.name == name) {
+                                          showAppToast(context, text: 'Użytkownik o takim imieniu i nazwisku już istnieje!');
+                                          if(mounted) setState(() => processing = false);
+                                          return;
+                                        }
+
                                       await ApiUser.updateShadow(
                                           user,
                                           name,
@@ -434,8 +458,12 @@ class AddShadowUserDialogState extends State<AddShadowUserDialog>{
                                             Navigator.pop(context);
                                             onSuccess?.call(user);
                                           },
-                                          onError: () => showAppToast(context, text: simpleErrorMessage)
+                                          onError: () =>
+                                              showAppToast(context,
+                                                  text: simpleErrorMessage)
                                       );
+                                    }
+
                                     if(mounted) setState(() => processing = false);
                                   }
                               ),

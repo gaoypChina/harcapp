@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/app_tab_bar_indicator.dart';
@@ -137,7 +138,9 @@ class IndivCompEditorPageState extends State<IndivCompEditorPage> with TickerPro
                         if(editMode)
                           await ApiIndivComp.update(
                               key: widget.initComp!.key,
-                              name: controller.text,
+                              name: widget.initComp!.name != controller.text?
+                              controller.text:
+                              null,
 
                               colorsKey:
                               widget.initComp!.colorsKey != colorKeyProv.colorsKey?
@@ -169,7 +172,7 @@ class IndivCompEditorPageState extends State<IndivCompEditorPage> with TickerPro
                               null,
 
                               awards:
-                              widget.initComp!.awardsEncoded != awardsProv.awards?
+                              !listEquals(widget.initComp!.awardsEncoded, awardsProv.awards)?
                               awardsProv.awards:
                               null,
 

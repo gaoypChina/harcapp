@@ -13,7 +13,9 @@ class WDecheData{
 
   static const List<WDecheData> all = [
 
-    WDecheData(text: 'Sukces nie ma gwaracji. Jeśli chcesz gwarancję, to kup sobie toster.'),
+    WDecheData(text: 'Tańczy byle jak, ale nie do byle czego'),
+
+    WDecheData(text: 'Sukces nie ma gwaracji, jeśli chcesz gwarancję, to kup sobie toster'),
 
     WDecheData(text: 'A niektórzy z pełną powagą rzucają oskarżenia o "nieludzkim traktowaniu zwierząt"...'),
 
@@ -41,6 +43,11 @@ class WDecheData{
     WDecheData(text: 'Zaskocz przeciwnika ucieczką!'),
 
     WDecheData(text: 'Gdzie sika pani z kiosku?'),
+
+    WDecheData(text: 'Skończyła się srajtaśma?'
+        '\nTo kup! Kup kup kup kup!'),
+
+    WDecheData(text: 'Od tanich parówek gorsza jest tylko kiełbasa wyborcza?'),
 
     WDecheData(
       text: 'Lepiej mieć tasiemca, niż żadnego życia wewnętrznego...',
