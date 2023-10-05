@@ -4,6 +4,7 @@ import 'package:harcapp/_app_common/accounts/account_header_widget.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_classes/scan_qr_code.dart';
+import 'package:harcapp_core/comm_widgets/animated_child_slider.dart';
 import 'package:harcapp_core/comm_widgets/app_text.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/empty_message_widget.dart';
@@ -26,13 +27,16 @@ enum _State{
 
 class SearchUserWidget extends StatefulWidget{
 
+  static const String defButtonText = 'Wybierz';
+
   final String? title;
+  final String? buttonText;
   final void Function(UserDataNick)? onUserSelected;
 
   final List<String>? illegalUserKey;
   final String? illegalAttemptMessage;
 
-  const SearchUserWidget({this.title, this.onUserSelected, this.illegalUserKey, this.illegalAttemptMessage, super.key});
+  const SearchUserWidget({this.title, this.buttonText, this.onUserSelected, this.illegalUserKey, this.illegalAttemptMessage, super.key});
 
   @override
   State<StatefulWidget> createState() => SearchUserWidgetState();
@@ -42,11 +46,13 @@ class SearchUserWidget extends StatefulWidget{
 class SearchUserWidgetState extends State<SearchUserWidget>{
 
   String? get title => widget.title;
+  String? get buttonText => widget.buttonText;
+  bool get withAppBar => widget.title != null;
   void Function(UserDataNick)? get onUserSelected => widget.onUserSelected;
   List<String> get illegalUserKey => widget.illegalUserKey??[];
   String? get illegalAttemptMessage => widget.illegalAttemptMessage;
 
-  TextEditingController? controller;
+  late TextEditingController controller;
 
   UserDataNick? userData;
   late bool illegalUserSelected;
@@ -55,7 +61,7 @@ class SearchUserWidgetState extends State<SearchUserWidget>{
   _State? _state;
 
   void runSearch(){
-    if(controller!.text.isEmpty){
+    if(controller.text.isEmpty){
       showAppToast(context, text: 'Szukasz <b>nikogo</b>?');
       return;
     }
@@ -66,7 +72,7 @@ class SearchUserWidgetState extends State<SearchUserWidget>{
     });
 
     ApiUser.searchByNick(
-      controller!.text,
+      controller.text,
       onSuccess: (UserDataNick userData){
         this.userData = userData;
         setState(() {
@@ -74,9 +80,9 @@ class SearchUserWidgetState extends State<SearchUserWidget>{
           _state = _State.found;
         });
       },
-      onError: ({bool? noSuchUser}) => setState((){
-        if(noSuchUser!) {
-          this.noSuchUser = controller!.text;
+      onError: (bool noSuchUser) => setState((){
+        if(noSuchUser) {
+          this.noSuchUser = controller.text;
           _state = _State.noSuchUser;
         }else{
           _state = _State.error;
@@ -88,6 +94,7 @@ class SearchUserWidgetState extends State<SearchUserWidget>{
   @override
   void initState() {
     controller = TextEditingController();
+    controller.addListener(() => setState((){}));
 
     illegalUserSelected = false;
     _state = _State.init;
@@ -96,95 +103,129 @@ class SearchUserWidgetState extends State<SearchUserWidget>{
   }
 
   @override
-  Widget build(BuildContext context) => Padding(
-    padding: MediaQuery.of(context).viewInsets,
-    child: Center(
-      child: SizedBox(
-        height: 360,
-        child: Padding(
-          padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-          child: Material(
-            borderRadius: BorderRadius.circular(AppCard.bigRadius),
-            clipBehavior: Clip.hardEdge,
-            child: Scaffold(
-              resizeToAvoidBottomInset : false,
-              body: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      top: Dimen.defMarg,
-                      left: Dimen.defMarg,
-                      right: Dimen.defMarg,
+  @override
+  Widget build(BuildContext context){
+
+    Widget searchByQrButton = IconButton(
+        icon: Icon(MdiIcons.qrcodeScan),
+        onPressed: () async {
+          if(await Permission.camera.request().isGranted) {
+            String? nick = await scanQrCode();
+            if(nick == null) return;
+            controller.text = nick;
+            runSearch();
+          }
+        }
+    );
+
+    Widget runTextSearchButton = IconButton(
+        icon: Icon(MdiIcons.magnify),
+        onPressed: runSearch
+    );
+
+    return Padding(
+      padding: MediaQuery.of(context).viewInsets,
+      child: Center(
+        child: SizedBox(
+          height: withAppBar?(360 + kToolbarHeight):360,
+          child: Padding(
+            padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+            child: Material(
+              borderRadius: BorderRadius.circular(AppCard.bigRadius),
+              clipBehavior: Clip.hardEdge,
+              child: Scaffold(
+                resizeToAvoidBottomInset : false,
+                appBar: withAppBar?AppBar(
+                  elevation: 0,
+                  title: Text(title!),
+                  centerTitle: true,
+                ):null,
+                body: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        top: Dimen.defMarg,
+                        left: Dimen.defMarg,
+                        right: Dimen.defMarg,
+                      ),
+                      child:
+                      SearchField(
+                        controller: controller,
+                        hint: 'Szukaj po kodzie publicznym',
+                        elevation: 0,
+                        margin: EdgeInsets.zero,
+                        leading: withAppBar?
+                        searchByQrButton:
+                        IconButton(
+                          icon: Icon(MdiIcons.arrowLeft),
+                          onPressed: () => Navigator.of(context).pop(),
+                        ),
+                        trailing:
+                        withAppBar?
+                        runTextSearchButton:
+                        AnimatedChildSlider(
+                            index: controller.text.isEmpty?0:1,
+                            children: [
+
+                              searchByQrButton,
+
+                              runTextSearchButton,
+
+                            ]
+                        ),
+                      ),
                     ),
-                    child:
-                    SearchField(
-                      controller: controller,
-                      hint: 'Szukaj po kodzie publicznym',
-                      elevation: 0,
-                      margin: EdgeInsets.zero,
-                      leading: IconButton(
-                        icon: Icon(MdiIcons.arrowLeft),
-                        onPressed: () => Navigator.of(context).pop(),
-                      ),
-                      trailing: IconButton(
-                          icon: Icon(MdiIcons.qrcodeScan),
-                          onPressed: () async {
-                            if(await Permission.camera.request().isGranted) {
-                              String? nick = await scanQrCode();
-                              if(nick == null) return;
-                              controller!.text = nick;
-                              runSearch();
-                            }
-                          }
-                      ),
-                    ),
-                  ),
 
-                  if(_state == _State.init)
-                    Expanded(child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
+                    if(_state == _State.init)
+                      Expanded(child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
 
-                        const SizedBox(height: Dimen.SIDE_MARG),
-                        Icon(MdiIcons.radar, color: backgroundIcon_(context), size: Dimen.ICON_EMPTY_INFO_SIZE),
+                          const SizedBox(height: Dimen.SIDE_MARG),
+                          Icon(MdiIcons.radar, color: backgroundIcon_(context), size: Dimen.ICON_EMPTY_INFO_SIZE),
 
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: Dimen.SIDE_MARG,
-                            horizontal: Dimen.SIDE_MARG,
-                          ),
-                          child: AppText(
-                            'Gdzie znaleźć kod publiczny?\nUżytkownik, którego szukasz ma go\nw <b>panelu konta HarcApp</b></b>.',
-                            textAlign: TextAlign.center,
-                            color: hintEnab_(context),
-                            size: Dimen.TEXT_SIZE_BIG,
-                          ),
-                        )
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: Dimen.SIDE_MARG,
+                              horizontal: Dimen.SIDE_MARG,
+                            ),
+                            child: AppText(
+                              'Gdzie znaleźć kod publiczny?\nUżytkownik, którego szukasz ma go\nw <b>panelu konta HarcApp</b></b>.',
+                              textAlign: TextAlign.center,
+                              color: hintEnab_(context),
+                              size: Dimen.TEXT_SIZE_BIG,
+                            ),
+                          )
 
-                      ],
-                    )),
+                        ],
+                      )),
 
-                  if(_state == _State.searching)
-                    Expanded(child: Center(
-                      child: SpinKitChasingDots(
-                        color: accent_(context),
-                        size: Dimen.ICON_SIZE,
-                      ),
-                    )),
+                    if(_state == _State.searching)
+                      Expanded(child: Center(
+                        child: SpinKitChasingDots(
+                          color: accent_(context),
+                          size: Dimen.ICON_SIZE,
+                        ),
+                      )),
 
-                  if(_state == _State.found)
-                    Expanded(
-                      child: Padding(
-                          padding: const EdgeInsets.only(
-                              top: Dimen.SIDE_MARG,
-                              left: Dimen.SIDE_MARG,
-                              right: Dimen.SIDE_MARG
-                          ),
-                          child: AccountHeaderWidget.fromUserData(userData!)
+                    if(_state == _State.found)
+                      Expanded(
+                        child: Padding(
+                            padding: const EdgeInsets.only(
+                                top: Dimen.SIDE_MARG,
+                                left: Dimen.SIDE_MARG,
+                                right: Dimen.SIDE_MARG
+                            ),
+                            child: AccountHeaderWidget.fromUserData(userData!)
 
-                        /*
+                          /*
                           Row(
                             mainAxisAlignment:MainAxisAlignment.center,
                             children: [
@@ -207,72 +248,55 @@ class SearchUserWidgetState extends State<SearchUserWidget>{
                             ],
                           ),
                            */
-                      ),
-                    ),
-
-                  if(_state == _State.noSuchUser)
-                    Expanded(child: EmptyMessageWidget(
-                        text: noSuchUser,
-                        icon: MdiIcons.accountOffOutline
-                    )),
-
-                  if(_state == _State.error)
-                    Expanded(child: EmptyMessageWidget(
-                        text: 'Coś poszło nie tak...',
-                        icon: MdiIcons.alertCircleOutline
-                    )),
-
-                  Row(
-                    children: [
-
-                      Expanded(
-                        child: SimpleButton.from(
-                            context: context,
-                            margin: EdgeInsets.zero,
-                            icon: MdiIcons.accountSearch,
-                            text: 'Szukaj',
-                            onTap: runSearch
                         ),
                       ),
 
-                      if(userData != null)
-                        Expanded(
-                          child: SimpleButton.from(
-                              context: context,
-                              margin: EdgeInsets.zero,
-                              iconLeading: false,
-                              icon: MdiIcons.check,
-                              text: 'Dodaj',
-                              textColor: illegalUserSelected?hintEnab_(context):iconEnab_(context),
-                              onTap: (){
-                                if(illegalUserSelected){
-                                  if(illegalAttemptMessage != null)
-                                    showAppToast(context, text: illegalAttemptMessage!);
-                                  return;
-                                }
+                    if(_state == _State.noSuchUser)
+                      Expanded(child: EmptyMessageWidget(
+                          text: 'Nie ma nikogo o kodzie:\n$noSuchUser',
+                          icon: MdiIcons.accountOffOutline
+                      )),
 
-                                onUserSelected?.call(userData!);
-                                Navigator.pop(context);
-                              }
-                          ),
-                        )
+                    if(_state == _State.error)
+                      Expanded(child: EmptyMessageWidget(
+                          text: 'Coś poszło nie tak...',
+                          icon: MdiIcons.alertCircleOutline
+                      )),
 
-                    ],
-                  )
+                    if(userData != null)
+                      SimpleButton.from(
+                          context: context,
+                          margin: EdgeInsets.zero,
+                          iconLeading: false,
+                          icon: MdiIcons.check,
+                          text: buttonText??SearchUserWidget.defButtonText,
+                          textColor: illegalUserSelected?hintEnab_(context):iconEnab_(context),
+                          onTap: (){
+                            if(illegalUserSelected){
+                              if(illegalAttemptMessage != null)
+                                showAppToast(context, text: illegalAttemptMessage!);
+                              return;
+                            }
 
-                ],
+                            onUserSelected?.call(userData!);
+                            Navigator.pop(context);
+                          }
+                      )
+
+                  ],
+                ),
               ),
             ),
           ),
         ),
       ),
-    ),
-  );
+    );
+  }
 
 }
 
 
-Future<UserDataNick?> openSearchUserDialog(BuildContext context, {String? title, List<String>? illegalUserKeys, String? illegalAttemptMessage}) async {
+Future<UserDataNick?> openSearchUserDialog(BuildContext context, {String? title, String? buttonText, List<String>? illegalUserKeys, String? illegalAttemptMessage}) async {
 
   UserDataNick? userData;
 
@@ -283,6 +307,7 @@ Future<UserDataNick?> openSearchUserDialog(BuildContext context, {String? title,
       onUserSelected: (UserDataNick data) => userData = data,
       illegalUserKey: illegalUserKeys,
       illegalAttemptMessage: illegalAttemptMessage,
+      buttonText: buttonText,
     )
   );
 

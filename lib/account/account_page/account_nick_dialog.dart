@@ -1,9 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
-import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_text.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_new/api/user.dart';
@@ -22,7 +23,11 @@ import 'package:qr_flutter/qr_flutter.dart';
 
 class AccountNickDialog extends StatefulWidget{
 
-  const AccountNickDialog({super.key});
+  final ShadowUserData? userData;
+  final bool? nickSearchable;
+
+  const AccountNickDialog({this.userData, this.nickSearchable, super.key}):
+        assert((userData != null && nickSearchable != null) || (userData == null && nickSearchable == null));
 
   @override
   State<StatefulWidget> createState() => AccountNickDialogState();
@@ -34,29 +39,56 @@ class AccountNickDialogState extends State<AccountNickDialog>{
   late bool nickProcessing;
   late bool nickSearchableProcessing;
 
+
+  UserDataNick get userData => widget.userData??AccountData.toUserData();
+  bool get nickSearchable => widget.nickSearchable??AccountData.nickSearchable;
+
   void onNickChanged() async {
 
     setState(() => nickProcessing = true);
 
-    await ApiUser.resetNick(
-        onSuccess: (String? nick) async {
-          await AccountData.writeNick(nick);
-        },
-        onError: (Response? response){
-          try{
+    if(userData.shadow)
+      await ApiUser.resetShadowNick(
+          userData.key,
+          onSuccess: (String nick) async {
+            AccountData.loadedShadowUserMap![userData.key]!.nick = nick;
+            setState(() => userData.nick = nick);
+          },
+          onError: (Response? response){
+            try{
 
-            Map? errMap = response!.data['errors'];
+              Map? errMap = response!.data['errors'];
 
-            if(errMap != null) {
-              showAppToast(context, text: translate(errMap['nick']));
-              // nickSearchableController.errorText = errMap[ApiUser.UPDATE_REQ_NICK_SEARCHABLE] ?? '';
-              // nickController!.errorText = errMap['nick'] ?? '';
-            }
+              if(errMap != null) {
+                showAppToast(context, text: translate(errMap['nick']));
+                // nickSearchableController.errorText = errMap[ApiUser.UPDATE_REQ_NICK_SEARCHABLE] ?? '';
+                // nickController!.errorText = errMap['nick'] ?? '';
+              }
 
-          }catch (e){ showAppToast(context, text: 'Coś nie siadło.'); }
+            }catch (e){ showAppToast(context, text: 'Coś nie siadło.'); }
 
-        }
-    );
+          }
+      );
+    else
+      await ApiUser.resetNick(
+          onSuccess: (String nick) async {
+            await AccountData.writeNick(nick);
+          },
+          onError: (Response? response){
+            try{
+
+              Map? errMap = response!.data['errors'];
+
+              if(errMap != null) {
+                showAppToast(context, text: translate(errMap['nick']));
+                // nickSearchableController.errorText = errMap[ApiUser.UPDATE_REQ_NICK_SEARCHABLE] ?? '';
+                // nickController!.errorText = errMap['nick'] ?? '';
+              }
+
+            }catch (e){ showAppToast(context, text: 'Coś nie siadło.'); }
+
+          }
+      );
 
     setState(() => nickProcessing = false);
 
@@ -85,27 +117,10 @@ class AccountNickDialogState extends State<AccountNickDialog>{
 
   }
 
-  static const pulseDuration = Duration(milliseconds: 600);
-  late bool pulseVisible;
-
-  void runOpacityPulser() async {
-    while(true){
-      await Future.delayed(pulseDuration);
-      if(!mounted) return;
-      setState(() => pulseVisible = true);
-      await Future.delayed(pulseDuration);
-      if(!mounted) return;
-      setState(() => pulseVisible = false);
-    }
-  }
-
   @override
   void initState() {
     nickProcessing = false;
     nickSearchableProcessing = false;
-
-    pulseVisible = false;
-    post(() => runOpacityPulser());
 
     super.initState();
   }
@@ -132,7 +147,7 @@ class AccountNickDialogState extends State<AccountNickDialog>{
                     opacity: nickSearchableProcessing?0.5:1.0,
                     child: Consumer<ConnectivityProvider>(
                       builder: (context, prov, child) => Switch(
-                        value: nickSearchableProcessing?!AccountData.nickSearchable:AccountData.nickSearchable,
+                        value: nickSearchableProcessing?!nickSearchable:nickSearchable,
                         onChanged: !prov.connected || nickSearchableProcessing?null:(value) => onNickSearchableChanged(),
                       ),
                     ),
@@ -142,10 +157,18 @@ class AccountNickDialogState extends State<AccountNickDialog>{
 
               SliverList(delegate: SliverChildListDelegate([
 
-                const SizedBox(height: Dimen.SIDE_MARG),
+                const SizedBox(height: Dimen.SIDE_MARG - 3.0),
 
                 Row(
                   children: [
+
+                    // IconButton(
+                    //   icon: Icon(MdiIcons.contentCopy),
+                    //   onPressed: (){
+                    //     Clipboard.setData(ClipboardData(text: userData.nick));
+                    //     showAppToast(context, text: 'Skopiowano');
+                    //   }
+                    // ),
 
                     const SizedBox(width: Dimen.ICON_FOOTPRINT),
 
@@ -160,19 +183,35 @@ class AccountNickDialogState extends State<AccountNickDialog>{
                           color: textDisab_(context),
                         ),
                       ):
-                      PulsingText(
-                        AccountData.nick!,
-                        pulse: !nickProcessing && AccountData.nickSearchable,
-                        fontSize: Dimen.TEXT_SIZE_APPBAR,
-                        fontColor: nickProcessing || !AccountData.nickSearchable?textDisab_(context):iconEnab_(context),
-                        fontWeight: weight.bold,
+                      Center(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+
+                            const AppText(''),
+                            const SizedBox(height: 3.0),
+
+                            PulsingText(
+                              userData.nick,
+                              pulse: !nickProcessing && nickSearchable,
+                              fontSize: Dimen.TEXT_SIZE_APPBAR,
+                              fontColor: nickProcessing || !nickSearchable?textDisab_(context):iconEnab_(context),
+                              fontWeight: weight.bold,
+                              textAlign: TextAlign.center,
+                            ),
+
+                            const SizedBox(height: 3.0),
+                            AppText('Konto: <b>${userData.name}</b>')
+
+                          ],
+                        )
                       ),
                     ),
 
                     Consumer<ConnectivityProvider>(
                       builder: (context, prov, child) => IconButton(
                         icon: Icon(MdiIcons.refresh),
-                        onPressed: !prov.connected || nickProcessing || !AccountData.nickSearchable?null:() => onNickChanged(),
+                        onPressed: !prov.connected || nickProcessing || !nickSearchable?null:() => onNickChanged(),
                       ),
                     )
 
@@ -192,17 +231,17 @@ class AccountNickDialogState extends State<AccountNickDialog>{
                       padding: const EdgeInsets.all(Dimen.SIDE_MARG),
                       child: QrImageView(
                         padding: EdgeInsets.zero,
-                        data: AccountData.nick!,
+                        data: userData.nick,
                         version: QrVersions.auto,
                         eyeStyle: QrEyeStyle(
                             eyeShape: QrEyeShape.square,
-                            color: AccountData.nickSearchable?
+                            color: nickSearchable?
                             ColorPack.DEF_ICON_ENAB:
                             ColorPack.DEF_ICON_DISAB
                         ),
                         dataModuleStyle: QrDataModuleStyle(
                             dataModuleShape: QrDataModuleShape.square,
-                            color: AccountData.nickSearchable?
+                            color: nickSearchable?
                             ColorPack.DEF_ICON_ENAB:
                             ColorPack.DEF_ICON_DISAB
                         ),

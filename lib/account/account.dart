@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:harcapp/_common_classes/org/org.dart';
 import 'package:harcapp/_new/api/_api.dart';
@@ -30,17 +31,18 @@ class LoginListener{
 
 class AccountData {
 
-  static UserData toUserData() => UserData(
+  static UserDataNick toUserData() => UserDataNick(
     key: _key!,
     name: _name!,
     verified: verified,
     shadow: false,
     sex: _sex!,
-    org: _org!,
-    hufiec: _hufiec!,
-    druzyna: _druzyna!,
-    rankHarc: _rankHarc!,
-    rankInstr: _rankInstr!,
+    org: _org,
+    hufiec: _hufiec,
+    druzyna: _druzyna,
+    rankHarc: _rankHarc,
+    rankInstr: _rankInstr,
+    nick: _nick!,
   );
 
   static const int shadowUsersPageSize = 10;
@@ -95,8 +97,8 @@ class AccountData {
   static String? _microsoftAcc;
   static String? _regularAcc;
   static int? _shadowUserCount;
-  static List<UserDataNick>? _loadedShadowUsers;
-  static Map<String, UserDataNick>? _loadedShadowUserMap;
+  static List<ShadowUserData>? _loadedShadowUsers;
+  static Map<String, ShadowUserData>? _loadedShadowUserMap;
   static int? _allSharedTropCount;
 
   static const String _keyLastConfLoginEmail = 'acc_last_conf_login_email';
@@ -129,38 +131,47 @@ class AccountData {
 
   static bool get loggedIn => jwt != null;
 
+  static Future<String?> read({required String key}) async {
+    FlutterSecureStorage storage = const FlutterSecureStorage();
+    try {
+      return await storage.read(key: key);
+    } on PlatformException {
+      // This is a bug. On some devices if the key does not exist, read throws a PlatformException
+      return null;
+    }
+  }
+
   static Future<void> init() async {
 
-    FlutterSecureStorage storage = const FlutterSecureStorage();
-    _lastServerTime = DateTime.tryParse(await storage.read(key: _keyLastServerTime)??'')??DateTime.now();
-    _key = await storage.read(key: _keyKey);
-    _jwt = await storage.read(key: _keyJwt);
-    _refreshToken = await storage.read(key: _keyRefreshToken);
-    _email = await storage.read(key: _keyEmail);
-    _emailConf = await storage.read(key: _keyEmailConf);
-    _name = await storage.read(key: _keyName);
-    _verified = await storage.read(key: _keyVerified);
-    _nick = await storage.read(key: _keyNick);
-    _nickSearchable = await storage.read(key: _keyNickSearchable);
-    _sex = strToSex[await (storage.read(key: _keySex))];
+    _lastServerTime = DateTime.tryParse(await read(key: _keyLastServerTime)??'')??DateTime.now();
+    _key = await read(key: _keyKey);
+    _jwt = await read(key: _keyJwt);
+    _refreshToken = await read(key: _keyRefreshToken);
+    _email = await read(key: _keyEmail);
+    _emailConf = await read(key: _keyEmailConf);
+    _name = await read(key: _keyName);
+    _verified = await read(key: _keyVerified);
+    _nick = await read(key: _keyNick);
+    _nickSearchable = await read(key: _keyNickSearchable);
+    _sex = strToSex[await (read(key: _keySex))];
     
-    _org = orgFromInt[int.tryParse(await storage.read(key: _keyOrg)??'')??-1];
-    _hufiec = await storage.read(key: _keyHufiec);
-    _druzyna = await storage.read(key: _keyDruzyna);
-    _rankHarc = paramToRankHarc[await storage.read(key: _keyRankHarc)];
-    _rankInstr = strToRankInstr[await storage.read(key: _keyRankInstr)];
+    _org = orgFromInt[int.tryParse(await read(key: _keyOrg)??'')??-1];
+    _hufiec = await read(key: _keyHufiec);
+    _druzyna = await read(key: _keyDruzyna);
+    _rankHarc = paramToRankHarc[await read(key: _keyRankHarc)];
+    _rankInstr = strToRankInstr[await read(key: _keyRankInstr)];
     
-    _nameEditable = await storage.read(key: _keyNameEditable);
-    _nickEditable = await storage.read(key: _keyNickEditable);
-    _microsoftAcc = await storage.read(key: _keyMicrosoftAcc);
-    _regularAcc = await storage.read(key: _keyRegularAcc);
+    _nameEditable = await read(key: _keyNameEditable);
+    _nickEditable = await read(key: _keyNickEditable);
+    _microsoftAcc = await read(key: _keyMicrosoftAcc);
+    _regularAcc = await read(key: _keyRegularAcc);
 
-    String? shadowUserData = await storage.read(key: _keyShadowUsers);
+    String? shadowUserData = await read(key: _keyShadowUsers);
     initShadowUsers(
         (jsonDecode(shadowUserData??'[]') as List).cast<Map<String, dynamic>>()
     );
-    _shadowUserCount = int.tryParse(await storage.read(key: _keyShadowUserCount)??'0');
-    _allSharedTropCount = int.tryParse(await storage.read(key: _keyAllSharedTropCount)??'0');
+    _shadowUserCount = int.tryParse(await read(key: _keyShadowUserCount)??'0');
+    _allSharedTropCount = int.tryParse(await read(key: _keyAllSharedTropCount)??'0');
   }
 
   static Future<void> saveLoginData(String? email, Response response) async {
@@ -514,15 +525,15 @@ class AccountData {
   }
 
 
-  static List<UserDataNick> get loadedShadowUsers => _loadedShadowUsers!;
-  static set loadedShadowUsers(List<UserDataNick> value){
+  static List<ShadowUserData> get loadedShadowUsers => _loadedShadowUsers!;
+  static set loadedShadowUsers(List<ShadowUserData> value){
     value.sort((user1, user2) => user1.name.toLowerCase().compareTo(user2.name.toLowerCase()));
     _loadedShadowUsers = value;
-    _loadedShadowUserMap = {for(UserDataNick user in value) user.key: user};
+    _loadedShadowUserMap = {for(ShadowUserData user in value) user.key: user};
     writeShadowUsers(value);
   }
 
-  static Map<String, UserDataNick>? get loadedShadowUserMap => _loadedShadowUserMap;
+  static Map<String, ShadowUserData>? get loadedShadowUserMap => _loadedShadowUserMap;
 
   static Future<void> removeShadowUsers() async {
     _loadedShadowUsers = null;
@@ -532,57 +543,57 @@ class AccountData {
 
   static Future<void> writeShadowUsers(List<UserDataNick> value) async {
 
-    List<Map<String, dynamic>> shadowUser = [];
+    List<Map<String, dynamic>> shadowUsers = [];
     for(UserDataNick user in value)
-      shadowUser.add(user.toJsonMap());
+      shadowUsers.add(user.toJsonMap());
 
-    return await const FlutterSecureStorage().write(key: _keyShadowUsers, value: jsonEncode(shadowUser));
+    return await const FlutterSecureStorage().write(key: _keyShadowUsers, value: jsonEncode(shadowUsers));
   }
 
-  static Future<void> addLoadedShadowUser(UserDataNick value) async {
-    List<UserDataNick> shadowUsers = _loadedShadowUsers??[];
+  static Future<void> addLoadedShadowUser(ShadowUserData value) async {
+    List<ShadowUserData> shadowUsers = _loadedShadowUsers??[];
     shadowUsers.add(value);
     _loadedShadowUsers = shadowUsers;
-    _loadedShadowUserMap = {for(UserDataNick user in _loadedShadowUsers!) user.key: user};
+    _loadedShadowUserMap = {for(ShadowUserData user in _loadedShadowUsers!) user.key: user};
     await writeShadowUsers(_loadedShadowUsers!);
   }
 
-  static Future<void> addLoadedShadowUsers(List<UserDataNick> value) async {
-    List<UserDataNick> shadowUsers = _loadedShadowUsers??[];
+  static Future<void> addLoadedShadowUsers(List<ShadowUserData> value) async {
+    List<ShadowUserData> shadowUsers = _loadedShadowUsers??[];
     shadowUsers.addAll(value);
     _loadedShadowUsers = shadowUsers;
-    _loadedShadowUserMap = {for(UserDataNick user in value) user.key: user};
+    _loadedShadowUserMap = {for(ShadowUserData user in value) user.key: user};
     await writeShadowUsers(_loadedShadowUsers!);
   }
 
-  static Future<void> setLoadedShadowUsers(List<UserDataNick> value) async {
+  static Future<void> setLoadedShadowUsers(List<ShadowUserData> value) async {
     _loadedShadowUsers = value;
-    _loadedShadowUserMap = {for(UserDataNick user in _loadedShadowUsers!) user.key: user};
+    _loadedShadowUserMap = {for(ShadowUserData user in _loadedShadowUsers!) user.key: user};
     await writeShadowUsers(_loadedShadowUsers!);
   }
 
-  static Future<void> updateShadowUser(UserDataNick value) async {
-    List<UserDataNick> shadowUsers = _loadedShadowUsers!;
-    UserDataNick? oldUser = _loadedShadowUserMap![value.key];
+  static Future<void> updateShadowUser(ShadowUserData value) async {
+    List<ShadowUserData> shadowUsers = _loadedShadowUsers!;
+    ShadowUserData? oldUser = _loadedShadowUserMap![value.key];
     shadowUsers.remove(oldUser);
     shadowUsers.add(value);
     AccountData.loadedShadowUsers = shadowUsers;
-    _loadedShadowUserMap = {for(UserDataNick user in _loadedShadowUsers!) user.key: user};
+    _loadedShadowUserMap = {for(ShadowUserData user in _loadedShadowUsers!) user.key: user};
     await writeShadowUsers(_loadedShadowUsers!);
   }
 
-  static Future<void> removeShadowUser(UserDataNick value) async {
-    List<UserDataNick> shadowUsers = _loadedShadowUsers!;
+  static Future<void> removeShadowUser(ShadowUserData value) async {
+    List<ShadowUserData> shadowUsers = _loadedShadowUsers!;
     shadowUsers.remove(value);
     _loadedShadowUsers = shadowUsers;
-    _loadedShadowUserMap = {for(UserDataNick user in _loadedShadowUsers!) user.key: user};
+    _loadedShadowUserMap = {for(ShadowUserData user in _loadedShadowUsers!) user.key: user};
     await writeShadowUsers(_loadedShadowUsers!);
   }
 
   static void initShadowUsers(List<Map<String, dynamic>> shadowUserData){
     _loadedShadowUsers = [];
     _loadedShadowUserMap = {};
-    addLoadedShadowUsers([for(Map map in shadowUserData) UserDataNick.fromRespMap(map, map['nick']) ]);
+    addLoadedShadowUsers([for(Map map in shadowUserData) ShadowUserData.fromRespMap(map)]);
   }
 
 

@@ -26,7 +26,7 @@ class TropUser extends UserData{
 
   static TropUser fromUserData(
       UserDataNick userData,
-      { required TropRole role,
+      { required TropRole role
       })
   => TropUser(
     key: userData.key,
@@ -59,8 +59,8 @@ class TropUser extends UserData{
   );
 
   @override
-  Map toJsonMap(){
-    Map map = super.toJsonMap();
+  Map<String, dynamic> toJsonMap(){
+    Map<String, dynamic> map = super.toJsonMap();
     map.addAll({
       'role': tropRoleToStr[role],
     });

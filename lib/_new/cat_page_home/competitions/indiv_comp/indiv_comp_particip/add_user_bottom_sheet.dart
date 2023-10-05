@@ -21,9 +21,13 @@ class AddUserBottomSheet extends StatelessWidget{
 
   @override
   Widget build(BuildContext _) => UserListAddNewBottomSheet(
+    selectButtonColor: comp.colors.avgColor,
+    selectButtonTextColor: comp.colors.iconColor,
+
     addUserMess: 'Dodaj uczestnika',
     addUserWithHarcappAccountMess: 'Dodaj uczestnika posiadającego konto HarcApp.',
-    alreadyAddedMess: 'Już uczestniczy',
+    // alreadyAddedMess: 'Już uczestniczy',
+    selectSearchedUserButtonText: 'Dodaj',
     userAlreadyAddedMess: (name) => '$name już uczestniczy we współzawodnictwie!',
 
     participatingUserKeys: comp.loadedParticips.map((p) => p.key).toList(),

@@ -58,7 +58,7 @@ class CommonColorData{
     greenKey: const CommonColorData(Colors.lightGreenAccent, Colors.lightBlueAccent, false),
     turquoiseKey: const CommonColorData(Colors.greenAccent, Colors.blue, false),
     blueberryKey: CommonColorData(Colors.cyan[800]!, Colors.purple[900]!, true),
-    deepblueKey: const CommonColorData(Colors.blue, Colors.deepPurple, false),
+    deepblueKey: const CommonColorData(Colors.blue, Colors.deepPurple, true),
 
     darkorangeKey: const CommonColorData(Colors.pinkAccent, Colors.blueGrey, false),
     darkgreenKey: CommonColorData(Colors.cyan[300]!, Colors.blueGrey, false),

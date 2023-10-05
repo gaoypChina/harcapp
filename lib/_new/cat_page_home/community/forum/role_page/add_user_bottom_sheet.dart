@@ -26,7 +26,7 @@ class AddUserBottomSheet extends StatelessWidget{
   Widget build(BuildContext _) => UserListAddNewBottomSheet(
     addUserMess: 'Dodaj ogarniacza',
     addUserWithHarcappAccountMess: 'Dodaj osobę posiadającą konto HarcApp.',
-    alreadyAddedMess: 'Już jest w kręgu',
+    // alreadyAddedMess: 'Już jest w kręgu',
     userAlreadyAddedMess: (name) => '$name już jest w kręgu!',
 
     participatingUserKeys: forum.loadedManagersMap.keys.toList(),

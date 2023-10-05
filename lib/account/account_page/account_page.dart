@@ -46,6 +46,7 @@ import '../account_common/org_input_field.dart';
 import '../account_common/rank_harc_input_field.dart';
 import '../account_common/rank_instr_input_field.dart';
 import '../login_provider.dart';
+import '../shadow_user_manager_page.dart';
 
 
 class AccountPage extends StatefulWidget{
@@ -356,6 +357,13 @@ class AccountPageState extends State<AccountPage> with TickerProviderStateMixin{
   bool savable() =>
       emailController.text.isNotEmpty && nameController.text.isNotEmpty && sex != null;
 
+  void openShadowUsersPage() => pushPage(context, builder: (context) => ShadowUserManagerPage(
+    itemTrailingBuilder: (_, __) => IconButton(
+      onPressed: null,
+      icon: Icon(MdiIcons.dotsHorizontal, color: iconEnab_(context)),
+    ),
+  ));
+
   @override
   Widget build(BuildContext context) => AppScaffold(
     body: CustomScrollView(
@@ -459,10 +467,11 @@ class AccountPageState extends State<AccountPage> with TickerProviderStateMixin{
             showDetails: false,
             showDetailsButton: false,
             leading: const SizedBox(width: Dimen.ICON_FOOTPRINT),
-            trailing: IconButton(
-                padding: const EdgeInsets.symmetric(horizontal: Dimen.ICON_MARG),
-                icon: Icon(MdiIcons.shareVariant),
-                onPressed: () => openDialog(
+            trailing: SimpleButton.from(
+                context: context,
+                icon: MdiIcons.shareVariant,
+                margin: EdgeInsets.zero,
+                onTap: () => openDialog(
                     context: context,
                     builder: (context) => const AccountNickDialog()
                 )
@@ -721,6 +730,47 @@ class AccountPageState extends State<AccountPage> with TickerProviderStateMixin{
 
           if(AccountData.regularAcc)
             const SizedBox(height: Dimen.SIDE_MARG),
+
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+            child: BorderMaterial(
+              child: GestureDetector(
+                onTap: openShadowUsersPage,
+                child: Padding(
+                  padding: const EdgeInsets.all(Dimen.SIDE_MARG - BorderMaterial.defBorderWidth),
+                  child: Column(
+                    children: [
+
+                      TitleShortcutRowWidget(
+                          title: 'Konta widmo (${AccountData.shadowUserCount})',
+                          leading: const SizedBox(width: Dimen.SIDE_MARG),
+                          textAlign: TextAlign.start,
+                          titleColor: hintEnab_(context),
+                          trailing: IconButton(
+                            icon: Icon(MdiIcons.arrowRight, color: iconEnab_(context)),
+                            onPressed: openShadowUsersPage,
+                          )
+                      ),
+
+                      ListTile(
+                        title: Text(
+                          'Przeglądaj moje konta widmo',
+                          style: AppTextStyle(color: textEnab_(context)),
+                        ),
+                        subtitle: Text(
+                          '\nKonta widmo to sztuczne konta zakładane dla osób, które nie mają konta HarcApp.',
+                          style: AppTextStyle(color: textEnab_(context)),
+                        ),
+                      ),
+
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+
+          const SizedBox(height: Dimen.SIDE_MARG),
 
           if(!editMode)
             Padding(

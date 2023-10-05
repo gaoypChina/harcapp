@@ -9,6 +9,7 @@ import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/utils/check_unofficial_apk_update.dart';
 import 'package:harcapp/values/app_values.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
+import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/app_text.dart';
@@ -30,6 +31,8 @@ class PartInfo extends StatefulWidget{
 }
 
 class PartInfoState extends State<PartInfo>{
+
+  static const testerURL = 'https://play.google.com/apps/testing/zhp.harc.app';
 
   String? version;
 
@@ -83,10 +86,10 @@ class PartInfoState extends State<PartInfo>{
                 trailing: Icon(MdiIcons.accountCircleOutline),
                 onTap: (){
 
-                  if(account) launchURL('play.google.com/apps/testing/zhp.harc.app');
+                  if(account) launchURL(testerURL);
                   else showAlertDialog(
                       context,
-                      title: 'Jak to działa?',
+                      title: 'Konta HarcApp!',
                       content: 'Aby zacząć używać konta HarcApp, wykonaj trzy kroki:'
                           '\n\n1. Dołącz do programu testowania (przechodząc dalej),'
                           '\n2. Zaktualizuj aplikację,'
@@ -95,8 +98,7 @@ class PartInfoState extends State<PartInfo>{
                           '\n\nJeśli coś nie będzie Ci odpowiadało, możesz zawsze opuścić program testowania.',
                       actionBuilder: (context) => [
                         AlertDialogButton(text: 'To nie dla mnie', onTap: () => Navigator.pop(context)),
-                        AlertDialogButton(text: 'Jedziemy dalej!', onTap: () => launchURL('play.google.com/apps/testing/zhp.harc.app')),
-
+                        AlertDialogButton(text: 'Jedziemy dalej!', onTap: () => launchURL(testerURL)),
                       ]
                   );
 
@@ -105,7 +107,7 @@ class PartInfoState extends State<PartInfo>{
 
           if(Platform.isAndroid && !account)
             ListTile(
-                title: Text('Po co mi jakieś konto HarcApp?', style: AppTextStyle()),
+                title: Text('Po co mi jakieś konto HarcApp?', style: AppTextStyle(color: textEnab_(context))),
                 trailing: Icon(MdiIcons.arrowRight),
                 onTap: () => pushPage(context, builder: (context) => const AccountReasonPage())
             ),

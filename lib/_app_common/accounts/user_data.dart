@@ -55,35 +55,66 @@ class UserData{
     required this.rankInstr,
   });
 
+  static const String paramKey = '_key';
+  static const String paramName = 'name';
+  static const String paramVerified = 'verified';
+  static const String paramShadow = 'shadow';
+  static const String paramSex = 'sex';
+  static const String paramOrg = 'org';
+  static const String paramHufiec = 'hufiec';
+  static const String paramDruzyna = 'druzyna';
+  static const String paramRankHarc = 'rankHarc';
+  static const String paramRankInstr = 'rankInstr';
+  
   static UserData fromRespMap(Map respMap, {String? key}) => UserData(
-    key: key??respMap['_key']??(throw InvalidResponseError('_key')),
-    name: respMap['name']??(throw InvalidResponseError('name')),
-    verified: respMap['verified']??false,
-    shadow: respMap['shadow']??(throw InvalidResponseError('shadow')),
-    sex: strToSex[respMap['sex']]??(throw InvalidResponseError('sex')),
-    org: respMap['org']==null?null:paramToOrg[respMap['org']],
-    hufiec: respMap['hufiec'],
-    druzyna: respMap['druzyna'],
-    rankHarc: respMap['rankHarc']==null?null:paramToRankHarc[respMap['rankHarc']],
-    rankInstr: respMap['rankInstr']==null?null:paramToRankInstr[respMap['rankInstr']],
-    //nick: nick,
+    key: key??respMap[paramKey]??(throw InvalidResponseError(paramKey)),
+    name: respMap[paramName]??(throw InvalidResponseError(paramName)),
+    verified: respMap[paramVerified]??false,
+    shadow: respMap[paramShadow]??(throw InvalidResponseError(paramShadow)),
+    sex: strToSex[respMap[paramSex]]??(throw InvalidResponseError(paramSex)),
+    org: respMap[paramOrg]==null?null:paramToOrg[respMap[paramOrg]],
+    hufiec: respMap[paramHufiec],
+    druzyna: respMap[paramDruzyna],
+    rankHarc: respMap[paramRankHarc]==null?null:paramToRankHarc[respMap[paramRankHarc]],
+    rankInstr: respMap[paramRankInstr]==null?null:paramToRankInstr[respMap[paramRankInstr]],
   );
 
-  Map toJsonMap() => {
-    '_key': key,
-    'name': name,
-    'verified': verified,
-    'shadow': shadow,
-    'sex': sexToString[sex]
+  Map<String, dynamic> toJsonMap() => {
+    paramKey: key,
+    paramName: name,
+    paramVerified: verified,
+    paramShadow: shadow,
+    paramSex: sexToString[sex],
+    paramOrg: org==null?null:orgToParam(org!),
+    paramHufiec: hufiec,
+    paramDruzyna: druzyna,
+    paramRankHarc: rankHarc==null?null:rankHarcToParam(rankHarc!),
+    paramRankInstr: rankInstr==null?null:rankInstrToParam(rankInstr!),
   };
+
+  @override
+  int get hashCode =>
+          key.hashCode +
+          name.hashCode +
+          verified.hashCode +
+          shadow.hashCode +
+          sex.hashCode +
+          org.hashCode +
+          hufiec.hashCode +
+          druzyna.hashCode +
+          rankHarc.hashCode +
+          rankInstr.hashCode;
+
+  @override
+  bool operator ==(Object other) => hashCode == other.hashCode;
 
 }
 
 class UserDataNick extends UserData{
 
-  final String nick;
+  String nick;
 
-  const UserDataNick({
+  UserDataNick({
     required super.key,
     required super.name,
     required super.verified,
@@ -98,7 +129,7 @@ class UserDataNick extends UserData{
     required this.nick,
   });
 
-  static UserDataNick fromRespMap(Map respMap, String nick, {String? key}){
+  static UserDataNick fromRespMap(Map respMap, {String? key}){
     UserData userData = UserData.fromRespMap(respMap, key: key);
     return UserDataNick(
         key: userData.key,
@@ -112,41 +143,79 @@ class UserDataNick extends UserData{
         rankHarc: userData.rankHarc,
         rankInstr: userData.rankInstr,
 
-        nick: nick
+        nick: respMap[paramNick],
     );
   }
 
-
-  static const String _paramKey = '_key';
-  static const String _paramName = 'name';
-  static const String _paramVerified = 'verified';
-  static const String _paramShadow = 'shadow';
-  static const String _paramSex = 'sex';
-  static const String _paramOrg = 'org';
-  static const String _paramHufiec = 'hufiec';
-  static const String _paramDruzyna = 'druzyna';
-  static const String _paramRankHarc = 'rankHarc';
-  static const String _paramRankInstr = 'rankInstr';
-
-  static const String _paramNick = 'nick';
-
-  Map<String, dynamic> toJsonMap() => {
-    _paramKey: key,
-    _paramName: name,
-    _paramVerified: verified,
-    _paramShadow: shadow,
-    _paramSex: sexToString[sex],
-    _paramOrg: org==null?null:orgToParam(org!),
-    _paramHufiec: hufiec,
-    _paramDruzyna: druzyna,
-    _paramRankHarc: rankHarc==null?null:rankHarcToParam(rankHarc!),
-    _paramRankInstr: rankInstr==null?null:rankInstrToParam(rankInstr!),
-
-    _paramNick: nick
-  };
+  static const String paramNick = 'nick';
 
   @override
-  int get hashCode => key.hashCode + name.hashCode + verified.hashCode + shadow.hashCode + sex.hashCode + nick.hashCode;
+  Map<String, dynamic> toJsonMap(){
+    Map<String, dynamic> map = super.toJsonMap();
+    map[paramNick] = nick;
+    return map;
+  }
+
+  @override
+  int get hashCode =>
+      super.hashCode + nick.hashCode;
+
+  @override
+  bool operator ==(Object other) => hashCode == other.hashCode;
+
+}
+
+class ShadowUserData extends UserDataNick{
+
+  bool nickSearchable;
+
+  ShadowUserData({
+    required super.key,
+    required super.name,
+    required super.verified,
+    required super.shadow,
+    required super.sex,
+    required super.org,
+    required super.hufiec,
+    required super.druzyna,
+    required super.rankHarc,
+    required super.rankInstr,
+
+    required super.nick,
+    required this.nickSearchable,
+  });
+
+  static ShadowUserData fromRespMap(Map respMap, {String? key}){
+    UserDataNick userDataNick = UserDataNick.fromRespMap(respMap, key: key);
+    return ShadowUserData(
+        key: userDataNick.key,
+        name: userDataNick.name,
+        verified: userDataNick.verified,
+        shadow: userDataNick.shadow,
+        sex: userDataNick.sex,
+        org: userDataNick.org,
+        hufiec: userDataNick.hufiec,
+        druzyna: userDataNick.druzyna,
+        rankHarc: userDataNick.rankHarc,
+        rankInstr: userDataNick.rankInstr,
+
+        nick: userDataNick.nick,
+        nickSearchable: respMap[paramNickSearchable],
+    );
+  }
+
+  static const String paramNickSearchable = 'nickSearchable';
+
+  @override
+  Map<String, dynamic> toJsonMap(){
+    Map<String, dynamic> map = super.toJsonMap();
+    map[paramNickSearchable] = nickSearchable;
+    return map;
+  }
+
+  @override
+  int get hashCode =>
+      super.hashCode + nickSearchable.hashCode;
 
   @override
   bool operator ==(Object other) => hashCode == other.hashCode;

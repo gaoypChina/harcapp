@@ -475,7 +475,8 @@ class IndivComp{
     int index = loadedParticips.indexWhere((participIter) => participIter.key == newParticip.key);
     if(index == -1) return;
     loadedParticips.removeAt(index);
-    loadedParticips.insert(index, newParticip);
+    // loadedParticips.insert(index, newParticip);
+    loadedParticips.add(newParticip);
     _loadedParticipMap[newParticip.key] = newParticip;
 
     if(context == null) return;
