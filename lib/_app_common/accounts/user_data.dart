@@ -168,6 +168,7 @@ class UserDataNick extends UserData{
 class ShadowUserData extends UserDataNick{
 
   bool nickSearchable;
+  Set<String> indivCompKeys;
 
   ShadowUserData({
     required super.key,
@@ -183,6 +184,7 @@ class ShadowUserData extends UserDataNick{
 
     required super.nick,
     required this.nickSearchable,
+    required this.indivCompKeys,
   });
 
   static ShadowUserData fromRespMap(Map respMap, {String? key}){
@@ -201,15 +203,18 @@ class ShadowUserData extends UserDataNick{
 
         nick: userDataNick.nick,
         nickSearchable: respMap[paramNickSearchable],
+        indivCompKeys: Set.from(respMap[paramIndivComps]),
     );
   }
 
   static const String paramNickSearchable = 'nickSearchable';
+  static const String paramIndivComps = 'indivComps';
 
   @override
   Map<String, dynamic> toJsonMap(){
     Map<String, dynamic> map = super.toJsonMap();
     map[paramNickSearchable] = nickSearchable;
+    map[paramIndivComps] = indivCompKeys.toList();
     return map;
   }
 

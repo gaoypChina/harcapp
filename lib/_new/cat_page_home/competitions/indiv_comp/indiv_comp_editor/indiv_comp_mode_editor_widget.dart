@@ -107,6 +107,52 @@ class _IndivCompModeEditorWidgetState extends State<IndivCompModeEditorWidget> w
 
                           ListTile(
                             isThreeLine: true,
+                            onTap: () => prov.rankDispType = RankDispType.OMNI_EXACT,
+                            trailing: Opacity(
+                              opacity: prov.rankDispType == RankDispType.OMNI_EXACT?1:.5,
+                              child: Stack(
+                                children: [
+
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10.0),
+                                    child: Opacity(
+                                      opacity: 0.7,
+                                      child: IndivCompRankOtherIcon(
+                                        rank: ShowRankData.fromShowRank(8),
+                                        activeParticipCnt: null,
+                                        colors: ColorKeyProvider.of(context).colors,
+                                        size: 48.0,
+                                      ),
+                                    )
+                                  ),
+
+                                  IndivCompRankOtherIcon(
+                                    rank: ShowRankData.fromShowRank(7),
+                                    activeParticipCnt: null,
+                                    colors: ColorKeyProvider.of(context).colors,
+                                    size: 48.0,
+                                  ),
+
+                                ],
+                              )
+                            ),
+                            title: Text(
+                                'Powszechnie dokładny',
+                                style: AppTextStyle(
+                                    fontWeight: weight.halfBold,
+                                    color: prov.rankDispType == RankDispType.OMNI_EXACT?textEnab_(context): hintEnab_(context)
+                                )
+                            ),
+                            subtitle: Text(
+                              'Każdy uczestnik widzi dokładną pozycję w rankingu każdego uczestnika.',
+                              style: AppTextStyle(
+                                  color: prov.rankDispType == RankDispType.OMNI_EXACT?textEnab_(context): hintEnab_(context)
+                              ),
+                            ),
+                          ),
+
+                          ListTile(
+                            isThreeLine: true,
                             onTap: () => prov.rankDispType = RankDispType.EXACT,
                             trailing: Opacity(
                               opacity: prov.rankDispType == RankDispType.EXACT?1:.5,

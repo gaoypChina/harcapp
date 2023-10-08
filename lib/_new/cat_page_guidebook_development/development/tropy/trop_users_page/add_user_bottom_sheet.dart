@@ -31,7 +31,7 @@ class AddUserBottomSheet extends StatelessWidget{
     // alreadyAddedMess: 'Już jest w kręgu',
     userAlreadyAddedMess: (name) => '$name już jest w kręgu!',
 
-    participatingUserKeys: trop.assignedUsersMap.keys.toList(),
+    isUserParticipating: (user) => trop.assignedUsersMap.containsKey(user.key),
     handleAddingUser: (UserDataNick userData) async {
 
       if(trop.key == null) {

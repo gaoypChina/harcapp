@@ -307,7 +307,7 @@ class IndivComp{
       logger.w('Value of saved account data key is null. Are you logged in?');
       return null;
     }
-    IndivCompParticip? me = _loadedParticipMap[accKey];
+    IndivCompParticip? me = loadedParticipMap[accKey];
 
     if(me == null){
       AccountData.forgetAccount();
@@ -328,12 +328,12 @@ class IndivComp{
   }
 
   final SortedList<IndivCompParticip> loadedParticips;
-  final Map<String, IndivCompParticip> _loadedParticipMap;
+  final Map<String, IndivCompParticip> loadedParticipMap;
 
   void clearLoadedParticips(){
-    IndivCompParticip me = _loadedParticipMap[AccountData.key!]!;
+    IndivCompParticip me = loadedParticipMap[AccountData.key!]!;
     loadedParticips.clear();
-    _loadedParticipMap.clear();
+    loadedParticipMap.clear();
     addLoadedParticips([me]);
   }
 
@@ -445,19 +445,29 @@ class IndivComp{
   }
 
   IndivCompParticip? getParticip(String key){
-    return _loadedParticipMap[key]??sideLoadedParticipMap[key];
+    return loadedParticipMap[key]??sideLoadedParticipMap[key];
   }
 
   void addSideloadedParticip(IndivCompParticip particip){
     sideLoadedParticipMap[particip.key] = particip;
   }
 
+  void addLoadedParticip(IndivCompParticip newParticip, {BuildContext? context}){
+
+    if(loadedParticipMap[newParticip.key] != null) return;
+    loadedParticips.add(newParticip);
+    loadedParticipMap[newParticip.key] = newParticip;
+
+    if(context == null) return;
+    callProvidersWithParticipsOf(context);
+  }
+
   void addLoadedParticips(List<IndivCompParticip> newParticips, {BuildContext? context}){
 
     for(IndivCompParticip particip in newParticips) {
-      if(_loadedParticipMap[particip.key] != null) continue;
+      if(loadedParticipMap[particip.key] != null) continue;
       loadedParticips.add(particip);
-      _loadedParticipMap[particip.key] = particip;
+      loadedParticipMap[particip.key] = particip;
     }
 
     if(context == null) return;
@@ -466,7 +476,7 @@ class IndivComp{
 
   void setAllLoadedParticips(List<IndivCompParticip> allParticips, {BuildContext? context}){
     loadedParticips.clear();
-    _loadedParticipMap.clear();
+    loadedParticipMap.clear();
     addLoadedParticips(allParticips, context: context);
   }
 
@@ -477,7 +487,7 @@ class IndivComp{
     loadedParticips.removeAt(index);
     // loadedParticips.insert(index, newParticip);
     loadedParticips.add(newParticip);
-    _loadedParticipMap[newParticip.key] = newParticip;
+    loadedParticipMap[newParticip.key] = newParticip;
 
     if(context == null) return;
     callProvidersWithParticipsOf(context);
@@ -492,11 +502,24 @@ class IndivComp{
     callProvidersWithParticipsOf(context);
   }
 
+  IndivCompParticip? removeLoadedParticipByKey(String participKey, {BuildContext? context, bool shrinkTotalCount=true}){
+
+    loadedParticips.removeWhere((particip) => particip.key == participKey);
+    IndivCompParticip? removed = loadedParticipMap.remove(participKey);
+    if(removed != null && shrinkTotalCount)
+      participCount = participCount - 1;
+
+    if(context == null) return removed;
+    callProvidersWithParticipsOf(context);
+
+    return removed;
+  }
+
   void removeLoadedParticipsByKey(List<String> participKeys, {BuildContext? context, bool shrinkTotalCount=true}){
 
     loadedParticips.removeWhere((particip) => participKeys.contains(particip.key));
     for(String participKey in participKeys){
-      IndivCompParticip? removed = _loadedParticipMap.remove(participKey);
+      IndivCompParticip? removed = loadedParticipMap.remove(participKey);
       if(removed != null && shrinkTotalCount)
         participCount = participCount - 1;
     }
@@ -544,11 +567,11 @@ class IndivComp{
       _participantsLoader.removeListener(listener);
 
   void addLoadedCompletedTasksForParticip(String participKey, List<IndivCompCompletedTask> completedTasks, {required bool onlyIfWithinLoaded, required bool increaseTotalCount}){
-    _loadedParticipMap[participKey]!.profile.addLoadedCompletedTasks(completedTasks, onlyIfWithinLoaded: onlyIfWithinLoaded, increaseTotalCount: increaseTotalCount);
+    loadedParticipMap[participKey]!.profile.addLoadedCompletedTasks(completedTasks, onlyIfWithinLoaded: onlyIfWithinLoaded, increaseTotalCount: increaseTotalCount);
   }
 
   void setAllLoadedCompletedTasksForParticip(String participKey, List<IndivCompCompletedTask> completedTasks, {required bool increaseTotalCount}){
-    _loadedParticipMap[participKey]!.profile.setAllLoadedCompletedTasks(completedTasks);
+    loadedParticipMap[participKey]!.profile.setAllLoadedCompletedTasks(completedTasks);
   }
   
   void removeCompletedTaskForParticip(String participKey, String complTaskKey, {BuildContext? context, bool shrinkTotalCount=true}){
@@ -665,7 +688,7 @@ class IndivComp{
     required this.completedTasksRejectedCount,
 
   }): taskMap = {for (var task in tasks) task.key: task},
-        _loadedParticipMap = {for (var particip in loadedParticips) particip.key: particip},
+        loadedParticipMap = {for (var particip in loadedParticips) particip.key: particip},
         sideLoadedParticipMap = {},
 
         loadedPendingCompletedTasks = [],

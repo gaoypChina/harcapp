@@ -23,7 +23,6 @@ import '../../../../../_common_widgets/loading_widget.dart';
 import 'common_header.dart';
 import 'indiv_comp_colors_editor_widget.dart';
 import 'indiv_comp_danger_editor_widget.dart';
-import 'indiv_comp_icon_editor_widget.dart';
 import 'indiv_comp_mode_editor_widget.dart';
 import 'indiv_comp_tasks_editor_widget.dart';
 
@@ -66,7 +65,7 @@ class IndivCompEditorPageState extends State<IndivCompEditorPage> with TickerPro
   @override
   void initState() {
 
-    tabController = TabController(length: editMode?6:5, initialIndex: widget.initTab??0, vsync: this);
+    tabController = TabController(length: editMode?5:4, initialIndex: widget.initTab??0, vsync: this);
 
     controller = TextEditingController(text: widget.initComp?.name??widget.initTitle??'');
     focusNode = FocusNode();
@@ -240,7 +239,6 @@ class IndivCompEditorPageState extends State<IndivCompEditorPage> with TickerPro
                         tabs: [
                           Tab(icon: Icon(MdiIcons.eyeOutline)),
                           Tab(icon: Icon(MdiIcons.paletteOutline)),
-                          Tab(icon: Icon(MdiIcons.flare)),
                           Tab(icon: Icon(MdiIcons.cubeOutline)),
                           Tab(icon: Icon(MdiIcons.trophyOutline)),
                           if(editMode) Tab(icon: Icon(MdiIcons.alertCircleOutline, color: Colors.red)),
@@ -262,7 +260,6 @@ class IndivCompEditorPageState extends State<IndivCompEditorPage> with TickerPro
           children: [
             const IndivCompModeEditorWidget(),
             const IndivCompColorsEditorWidget(),
-            const IndivCompIconEditorWidget(),
             const IndivCompTasksEditorWidget(),
             const IndivCompAwardsEditorWidget(),
             if(editMode) IndivCompDangerEditorWidget(widget.initComp!, onRemoved: widget.onRemoved),

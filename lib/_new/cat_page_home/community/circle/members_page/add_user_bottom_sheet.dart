@@ -29,7 +29,7 @@ class AddUserBottomSheet extends StatelessWidget{
     // alreadyAddedMess: 'Już jest w kręgu',
     userAlreadyAddedMess: (name) => '$name już jest w kręgu!',
 
-    participatingUserKeys: circle.loadedMembersMap.keys.toList(),
+    isUserParticipating: (user) => circle.loadedMembersMap.containsKey(user.key),
     backgroundColor: CommunityCoverColors.backgroundColor(context, palette),
     handleAddingUser: (UserDataNick userData) async {
 

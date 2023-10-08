@@ -9,6 +9,8 @@ import 'package:harcapp/_common_classes/org/org.dart';
 import 'package:harcapp/_common_widgets/border_material.dart';
 import 'package:harcapp/_common_widgets/floating_container.dart';
 import 'package:harcapp/_new/api/login_register.dart';
+import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
+import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_particip.dart';
 import 'package:harcapp/account/account_common/druzyna_input_field.dart';
 import 'package:harcapp/account/account_common/hufiec_input_field.dart';
 import 'package:harcapp/account/account_common/logout.dart';
@@ -362,6 +364,26 @@ class AccountPageState extends State<AccountPage> with TickerProviderStateMixin{
       onPressed: null,
       icon: Icon(MdiIcons.dotsHorizontal, color: iconEnab_(context)),
     ),
+    onShadowMerged: (index, shadowUser, mergedUser){
+
+      // Update particip in indivComp
+      for(String key in shadowUser.indivCompKeys){
+        IndivComp? comp = IndivComp.allMap![key];
+        if(comp == null) continue;
+        IndivCompParticip? shadowParticip = comp.removeLoadedParticipByKey(shadowUser.key, shrinkTotalCount: false);
+        if(shadowParticip == null){
+          comp.reloadParticipsPage();
+          return;
+        }
+        IndivCompParticip particip = IndivCompParticip.fromUserData(
+            mergedUser,
+            profile: shadowParticip.profile
+        );
+        if(comp.isParticipWithinLoaded(particip))
+          comp.addLoadedParticip(particip);
+      }
+      
+    },
   ));
 
   @override

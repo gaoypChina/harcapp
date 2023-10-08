@@ -35,14 +35,25 @@ class ShadowUserManagerPage extends StatefulWidget{
 
   final String? appBarTitle;
 
-  final Widget? Function(int, UserDataNick)? itemSubtitleBuilder;
-  final Widget? Function(int, UserDataNick)? itemTrailingBuilder;
+  final Widget? Function(int, ShadowUserData)? itemSubtitleBuilder;
+  final Widget? Function(int, ShadowUserData)? itemTrailingBuilder;
   // final void Function(UserDataNick)? onTap;
   final bool openDetailsOnTap;
-  final void Function(UserDataNick)? handleAddNewlyCreatedUser;
-  final String Function(UserDataNick)? selectAddedUserMessage;
+  final void Function(ShadowUserData)? handleAddNewlyCreatedUser;
+  final String Function(ShadowUserData)? selectAddedUserMessage;
 
-  const ShadowUserManagerPage({this.appBarTitle, this.itemSubtitleBuilder, this.itemTrailingBuilder, this.openDetailsOnTap = true, this.handleAddNewlyCreatedUser, this.selectAddedUserMessage, super.key});
+  final void Function(int, ShadowUserData, UserData)? onShadowMerged;
+
+  const ShadowUserManagerPage({
+    this.appBarTitle,
+    this.itemSubtitleBuilder,
+    this.itemTrailingBuilder,
+    this.openDetailsOnTap = true,
+    this.handleAddNewlyCreatedUser,
+    this.selectAddedUserMessage,
+    this.onShadowMerged,
+    super.key
+  });
 
   @override
   State<StatefulWidget> createState() => ShadowUserManagerPageState();
@@ -51,12 +62,14 @@ class ShadowUserManagerPage extends StatefulWidget{
 
 class ShadowUserManagerPageState extends State<ShadowUserManagerPage>{
 
-  Widget? Function(int, UserDataNick)? get itemSubtitleBuilder => widget.itemSubtitleBuilder;
-  Widget? Function(int, UserDataNick)? get itemTrailingBuilder => widget.itemTrailingBuilder;
+  Widget? Function(int, ShadowUserData)? get itemSubtitleBuilder => widget.itemSubtitleBuilder;
+  Widget? Function(int, ShadowUserData)? get itemTrailingBuilder => widget.itemTrailingBuilder;
   // void Function(UserDataNick)? get onTap => widget.onTap;
   bool get openDetailsOnTap => widget.openDetailsOnTap;
-  void Function(UserDataNick)? get handleAddNewlyCreatedUser => widget.handleAddNewlyCreatedUser;
-  String Function(UserDataNick)? get selectAddedUserMessage => widget.selectAddedUserMessage;
+  void Function(ShadowUserData)? get handleAddNewlyCreatedUser => widget.handleAddNewlyCreatedUser;
+  String Function(ShadowUserData)? get selectAddedUserMessage => widget.selectAddedUserMessage;
+
+  void Function(int, ShadowUserData, UserData)? get onShadowMerged => widget.onShadowMerged;
 
   List<ShadowUserData> get loadedShadowUsers => AccountData.loadedShadowUsers;
 
@@ -118,7 +131,7 @@ class ShadowUserManagerPageState extends State<ShadowUserManagerPage>{
           lastUserKey: loadedShadowUsers.isEmpty?null:loadedShadowUsers.last.key,
           onSuccess: (List<ShadowUserData> users) async {
             await AccountData.addLoadedShadowUsers(users);
-            setState((){});
+            if(mounted) setState((){});
           }
       );
       return loadedShadowUsers.length;
@@ -202,6 +215,10 @@ class ShadowUserManagerPageState extends State<ShadowUserManagerPage>{
             (context, index) => ShadowUserTile(
               loadedShadowUsers[index],
               openDetailsOnTap: openDetailsOnTap,
+              onShadowMerged: (shadowUser, userMerged){
+                setState(() {});
+                onShadowMerged?.call(index, shadowUser, userMerged);
+              },
               onRemoved: () => setState((){}),
               onEdited: () => setState((){}),
               subtitle: itemSubtitleBuilder?.call(index, loadedShadowUsers[index]),
@@ -223,10 +240,11 @@ class ShadowUserTile extends StatefulWidget{
   final Widget? subtitle;
   final Widget? trailing;
   final bool openDetailsOnTap;
+  final void Function(ShadowUserData, UserData)? onShadowMerged;
   final void Function()? onEdited;
   final void Function()? onRemoved;
 
-  const ShadowUserTile(this.shadowUser, {this.subtitle, this.trailing, this.openDetailsOnTap = true, this.onEdited, this.onRemoved, super.key});
+  const ShadowUserTile(this.shadowUser, {this.subtitle, this.trailing, this.openDetailsOnTap = true, this.onShadowMerged, this.onEdited, this.onRemoved, super.key});
 
   @override
   State<StatefulWidget> createState() => ShadowUserTileState();
@@ -239,6 +257,7 @@ class ShadowUserTileState extends State<ShadowUserTile>{
   Widget? get subtitle => widget.subtitle;
   Widget? get trailing => widget.trailing;
   bool get openDetailsOnTap => widget.openDetailsOnTap;
+  void Function(ShadowUserData, UserData)? get onShadowMerged => widget.onShadowMerged;
   void Function()? get onEdited => widget.onEdited;
   void Function()? get onRemoved => widget.onRemoved;
 
@@ -290,9 +309,11 @@ class ShadowUserTileState extends State<ShadowUserTile>{
                     await ApiUser.mergeShadow(
                       shadowUser.key,
                       userData.nick,
-                      onSuccess: (){
+                      onSuccess: (mergedUser){
                         AccountData.removeShadowUser(shadowUser);
                         showAppToast(context, text: 'Konto widmo <b>${shadowUser.name}</b> zostało połączone z kontem <b>${userData.name}</b>');
+                        setState(() {});
+                        onShadowMerged?.call(shadowUser, mergedUser);
                       },
                       onError: (){
                         if(!mounted) return;

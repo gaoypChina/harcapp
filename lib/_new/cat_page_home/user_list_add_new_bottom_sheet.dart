@@ -16,7 +16,8 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 class UserListAddNewBottomSheet extends StatelessWidget{
 
-  final List<String> participatingUserKeys;
+  final bool Function(UserData) isUserParticipating;
+
   final void Function(UserDataNick userData) handleAddingUser;
 
   final Color? selectButtonColor;
@@ -33,7 +34,7 @@ class UserListAddNewBottomSheet extends StatelessWidget{
   final Color? backgroundColor;
 
   const UserListAddNewBottomSheet({
-    this.participatingUserKeys = const [],
+    required this.isUserParticipating,
     required this.handleAddingUser,
 
     this.selectButtonColor,
@@ -90,7 +91,7 @@ class UserListAddNewBottomSheet extends StatelessWidget{
                         context,
                         title: addUserMess,
                         buttonText: selectSearchedUserButtonText,
-                        illegalUserKeys: participatingUserKeys,
+                        isUserIllegal: isUserParticipating,
                         illegalAttemptMessage: 'Że niby chcesz dodać kogoś po raz drugi?',
                     );
 
@@ -130,15 +131,15 @@ class UserListAddNewBottomSheet extends StatelessWidget{
                           //   else
                           //     return null;
                           // },
-                          itemTrailingBuilder: (int index, UserDataNick shadowUser){
-                            if(participatingUserKeys.contains(shadowUser.key))
+                          itemTrailingBuilder: (int index, ShadowUserData shadowUser){
+                            if(isUserParticipating(shadowUser))
                               return SimpleButton.from(
                                 color: selectedButtonColor??backgroundIcon_(context),
                                 textColor: selectedButtonTextColor??iconEnab_(context),
                                 icon: MdiIcons.check,
                                 text: shadowUser.isMale?'Dodany':'Dodana',
                                 onTap: (){
-                                  if(participatingUserKeys.contains(shadowUser.key))
+                                  if(isUserParticipating(shadowUser))
                                     showAppToast(context, text: userAlreadyAddedMess(shadowUser.name));
                                 },
                                 padding: const EdgeInsets.only(

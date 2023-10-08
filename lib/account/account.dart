@@ -9,6 +9,7 @@ import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/mo
 import 'package:harcapp/_new/cat_page_home/community/community_publishable.dart';
 import 'package:harcapp/_new/cat_page_home/community/model/community.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
+import 'package:harcapp/logger.dart';
 import 'package:harcapp/values/rank_instr.dart';
 
 import '../_app_common/accounts/user_data.dart';
@@ -167,9 +168,11 @@ class AccountData {
     _regularAcc = await read(key: _keyRegularAcc);
 
     String? shadowUserData = await read(key: _keyShadowUsers);
-    initShadowUsers(
-        (jsonDecode(shadowUserData??'[]') as List).cast<Map<String, dynamic>>()
-    );
+    try {
+      initShadowUsers((jsonDecode(shadowUserData ?? '[]') as List).cast<Map<String, dynamic>>());
+    } catch (e){
+      logger.e("A problem occured when trying to init shadow users!\n${e.toString()}");
+    }
     _shadowUserCount = int.tryParse(await read(key: _keyShadowUserCount)??'0');
     _allSharedTropCount = int.tryParse(await read(key: _keyAllSharedTropCount)??'0');
   }
@@ -198,9 +201,14 @@ class AccountData {
     await AccountData.writeMicrosoftAcc(response.data['microsoftLogin']??(throw InvalidResponseError('microsoftLogin')));
     await AccountData.writeRegularAcc(response.data['regularLogin']??(throw InvalidResponseError('regularLogin')));
 
-    initShadowUsers(
-        ((response.data['shadowUsers']??(throw InvalidResponseError('shadowUsers'))) as List).cast<Map<String, dynamic>>()
-    );
+    try {
+      initShadowUsers(
+          ((response.data['shadowUsers']??(throw InvalidResponseError('shadowUsers'))) as List).cast<Map<String, dynamic>>()
+      );
+    } catch (e){
+      logger.e("A problem occured when trying to init shadow users!\n${e.toString()}");
+    }
+
     await AccountData.writeAllSharedTropCount(response.data['allSharedTropCount']??(throw InvalidResponseError('allSharedTropCount')));
     await AccountData.writeShadowUserCount(response.data['shadowUserCount']??(throw InvalidResponseError('shadowUserCount')));
 

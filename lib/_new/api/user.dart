@@ -111,25 +111,33 @@ class ApiUser{
   static Future<Response?> mergeShadow(
       String shadowKey,
       String toMergeNick,
-      { FutureOr<void> Function()? onSuccess,
+      { FutureOr<void> Function(UserData)? onSuccess,
         FutureOr<void> Function()? onError,
       }) async => await API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.post(
           '${API.baseUrl}api/user/shadow/$shadowKey/merge/$toMergeNick'
       ),
-      onSuccess: (Response response, DateTime now) async => await onSuccess?.call(),
+      onSuccess: (Response response, DateTime now) async => await onSuccess?.call(
+          UserData.fromRespMap(response.data)
+      ),
       onError: (DioException error) async => await onError?.call()
   );
 
   static Future<Response?> searchByNick(
       String nick, 
-      { FutureOr<void> Function(bool noSuchUser)? onError,
+      { searchShadow = false,
+        searchReal = true,
+        FutureOr<void> Function(bool noSuchUser)? onError,
         FutureOr<void> Function(UserDataNick user)? onSuccess,
       }) async => await API.sendRequest(
     withToken: true,
     requestSender: (Dio dio) => dio.get(
       '${API.baseUrl}api/user/search/$nick',
+      queryParameters: {
+        'searchShadow': searchShadow,
+        'searchReal': searchReal,
+      }
     ),
     onSuccess: (Response response, DateTime now) async => await onSuccess?.call(UserDataNick.fromRespMap(response.data)),
     onError: (DioException error) async {

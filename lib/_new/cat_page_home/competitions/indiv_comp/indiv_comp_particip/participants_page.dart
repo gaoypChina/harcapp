@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_particip.dart';
+import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/rank_disp_type.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/providers/indiv_comp_particips_provider.dart';
 import 'package:harcapp/_new/cat_page_home/user_list_managment_loadable_page.dart';
 import 'package:harcapp/account/account_details_bottom_sheet.dart';
 import 'package:harcapp/values/consts.dart';
+import 'package:harcapp_core/comm_classes/app_text_style.dart';
+import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
+import 'package:tuple/tuple.dart';
 
+import '../common/indiv_comp_rank_icon.dart';
 import '../common/particip_tile.dart';
+import '../common/points_widget.dart';
 import '../comp_role.dart';
 import '../indiv_comp_participants_loader.dart';
 import '../models/indiv_comp.dart';
@@ -196,6 +202,29 @@ class ParticipantsPageState extends State<ParticipantsPage>{
           )
         ],
         userTileBuilder: (context, particip) =>
+            comp.rankDispType == RankDispType.OMNI_EXACT?
+            ParticipTile(
+              particip: particip,
+              heroTag: particip,
+
+              subtitle:
+              particip.profile.active?
+              PointsWidget(points: particip.profile.points, size: 24):
+              Text('Obserwator', style: AppTextStyle(color: hintEnab_(context))),
+
+              onTap: particip.shadow?null:() => showAccountDetailsBottomSheet(context, particip),
+
+              trailing:
+              particip.profile.active?
+              IndivCompRankIcon(
+                particip.profile,
+                activeParticipCnt: comp.activeParticipCount,
+                showPercent: comp.rankDispType == RankDispType.RANGE_PERC,
+                colors: comp.colors,
+                size: 42.0,
+                key: ValueKey(Tuple2(comp.rankDispType, comp.activeParticipCount)),
+              ):null
+            ):
             ParticipTile(
                 particip: particip,
                 heroTag: particip,
