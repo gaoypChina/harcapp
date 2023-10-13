@@ -14,7 +14,7 @@ class SprawGroupPage extends StatefulWidget {
 
   final SprawGroup group;
 
-  SprawGroupPage(this.group);
+  const SprawGroupPage(this.group, {super.key});
 
   @override
   State createState() => SprawGroupPageState();

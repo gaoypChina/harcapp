@@ -63,7 +63,7 @@ class TaskWidgetState<T_TASK extends TaskData> extends State<TaskWidget>{
   //void setNote(T_UID uid, String note) => widget.setNote(uid, note);
   //void setReqComplete(BuildContext context, T_UID uid, bool completed) => widget.setCompleted(context, uid, completed);
 
-  TextEditingController? textController;
+  late TextEditingController textController;
 
   @override
   void initState() {

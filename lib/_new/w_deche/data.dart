@@ -13,6 +13,12 @@ class WDecheData{
 
   static const List<WDecheData> all = [
 
+    WDecheData(text: 'Nie całuj, jeśli nie kochasz'),
+
+    WDecheData(text: 'Nagrodą jest brak kary'),
+
+    WDecheData(text: 'Przegraliśmy z honorem i kretesem'),
+
     WDecheData(text: 'Tańczy byle jak, ale nie do byle czego'),
 
     WDecheData(text: 'Sukces nie ma gwaracji, jeśli chcesz gwarancję, to kup sobie toster'),

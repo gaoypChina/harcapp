@@ -26,6 +26,13 @@ class PartChangelog extends StatelessWidget{
           sliver: SliverList(delegate: SliverChildListDelegate([
 
             const ListCard(
+                '3.1.32',
+                [
+                  'Dodano nowe piosenki.'
+                ]
+            ),
+
+            const ListCard(
                 '3.1.31',
                 [
                   'Poprawiono dołączanie do programu testowania kont HarcApp,',

@@ -8,7 +8,7 @@ class RRPOrgCardWidget extends StatelessWidget{
 
   final void Function(BuildContext)? onTap;
 
-  const RRPOrgCardWidget({this.onTap});
+  const RRPOrgCardWidget({super.key, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class RRPOrgCardWidget extends StatelessWidget{
       background: AppColors.rrp_red,
       heroTag: 'rrp',
       child: Padding(
-        padding: EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(20.0),
         child: SvgPicture.asset(
             'assets/images/scout_org_logos/logo_royal_rangers.svg',
             fit: BoxFit.scaleDown,

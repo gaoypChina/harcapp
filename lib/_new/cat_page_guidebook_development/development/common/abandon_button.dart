@@ -11,20 +11,21 @@ class AbandonButton extends StatelessWidget{
   //final bool show;
   final void Function()? onTap;
 
-  const AbandonButton({this.onTap});
+  const AbandonButton({super.key, this.onTap});
 
   @override
   Widget build(BuildContext context) {
 
     return SimpleButton(
         radius: AppCard.bigRadius,
-        padding: EdgeInsets.all(Dimen.ICON_MARG),
+        padding: const EdgeInsets.all(Dimen.ICON_MARG),
         margin: EdgeInsets.zero,
+        onTap: onTap,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(MdiIcons.close, color: Colors.red),
-            SizedBox(width: Dimen.ICON_MARG, height: Dimen.ICON_FOOTPRINT),
+            const SizedBox(width: Dimen.ICON_MARG, height: Dimen.ICON_FOOTPRINT),
             Text(
               'Porzuć',
               style: AppTextStyle(
@@ -33,8 +34,7 @@ class AbandonButton extends StatelessWidget{
               ),
             )
           ],
-        ),
-        onTap: onTap
+        )
     );
 
   }

@@ -9,7 +9,6 @@ import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_common_widgets/search_field.dart';
 import 'package:harcapp/_new/cat_page_harcthought/articles/article_widget.dart';
 import 'package:harcapp_core/comm_classes/date_to_str.dart';
-import 'package:harcapp_core/comm_widgets/animated_child_slider.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
@@ -39,7 +38,7 @@ class ArticleSearchPageState extends State<ArticleSearchPage>{
 
   //List<ArticleCore> searchedArticles;
 
-  TextEditingController? textController;
+  late TextEditingController textController;
 
   late ArticleSearchOptions options;
   late ArticleSearcher searcher;

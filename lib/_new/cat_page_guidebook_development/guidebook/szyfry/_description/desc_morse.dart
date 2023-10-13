@@ -103,19 +103,21 @@ class DescMorse extends StatelessWidget{
       /*Y*/'\nYo - gur - to - wo'
       /*Z*/'\nZło - to - li - te';
 
+  DescMorse({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              AppText(
+              const AppText(
                 'Alfabet Morse\'a jest kodem, w którym każdej literze <b>przypisany jest ciąg kopek i kresek</b>.'
                     '\n\nSzyfr łatwo zapamiętać przypisując każdej z liter określony, zaczynający się nań <b>wyraz</b> (A - Azot, B - Botanika itd.). Wyraz następnie wystarczy na <b>sylaby</b> i każdą z sylab zastąpić:'
                     '\n\n<b>— kreską</b>, gdy w sylabie występuje <b>O lub Ó</b>,'
                     '\n<b>• kropką</b> w przeciwnym razie.',
                   size: Dimen.TEXT_SIZE_BIG
               ),
-              SizedBox(height: 2*Dimen.defMarg),
+              const SizedBox(height: 2*Dimen.defMarg),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -123,12 +125,12 @@ class DescMorse extends StatelessWidget{
                     letters,
                     style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold, height: 1.2),
                   ),
-                  SizedBox(width: 2*Dimen.defMarg),
+                  const SizedBox(width: 2*Dimen.defMarg),
                   Text(
                     morse,
                     style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold, height: 1.2),
                   ),
-                  SizedBox(width: 2*Dimen.defMarg),
+                  const SizedBox(width: 2*Dimen.defMarg),
                   Text(
                     words,
                     style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold, height: 1.2),

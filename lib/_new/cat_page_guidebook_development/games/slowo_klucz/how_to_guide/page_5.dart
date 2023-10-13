@@ -9,6 +9,8 @@ import '../common.dart';
 import 'phone_widget.dart';
 
 class Page5 extends StatefulWidget{
+  const Page5({super.key});
+
 
   @override
   State<StatefulWidget> createState() => Page5State();
@@ -247,6 +249,8 @@ class Page5State extends State<Page5> with PageTemplateInterface{
               top: 2*initGridSize(width),
               left: 0,
               right: 0,
+              duration: animDuration,
+              curve: curve,
               child: SizedBox(
                 height: initGridSize(width),
                 child: AnimatedOpacity(
@@ -270,7 +274,7 @@ class Page5State extends State<Page5> with PageTemplateInterface{
                                 fontWeight: weight.bold
                             )
                         ),
-                        SizedBox(height: 3.0),
+                        const SizedBox(height: 3.0),
                         Text(
                             convText,
                             style: AppTextStyle(
@@ -284,8 +288,6 @@ class Page5State extends State<Page5> with PageTemplateInterface{
                   ),
                 )
               ),
-              duration: animDuration,
-              curve: curve,
             ),
 
             // FIRST COLUMN
@@ -293,61 +295,61 @@ class Page5State extends State<Page5> with PageTemplateInterface{
             AnimatedPositioned(
               top: leaderRedY(width, height),
               left: leaderRedX(width, height),
-              child: PlayerWidget(color: RED_COLOR,  type: PlayerType.LEADER),
               duration: animDuration,
               curve: curve,
+              child: const PlayerWidget(color: RED_COLOR,  type: PlayerType.LEADER),
             ),
 
             AnimatedPositioned(
               top: playerRedY(width, height, 1),
               left: playerRedX(width, height, 1),
+              duration: animDuration,
+              curve: curve,
               child: AnimatedOpacity(
                 duration: animDuration,
                 curve: curve,
                 opacity: animStage == 0?1:0,
-                child: PlayerWidget(color: RED_COLOR),
+                child: const PlayerWidget(color: RED_COLOR),
               ),
-              duration: animDuration,
-              curve: curve,
             ),
 
             AnimatedPositioned(
               top: playerRedY(width, height, 2),
               left: playerRedX(width, height, 2),
+              duration: animDuration,
+              curve: curve,
               child: AnimatedOpacity(
                 duration: animDuration,
                 curve: curve,
                 opacity: animStage == 0?1:0,
-                child: PlayerWidget(color: RED_COLOR),
+                child: const PlayerWidget(color: RED_COLOR),
               ),
-              duration: animDuration,
-              curve: curve,
             ),
 
             AnimatedPositioned(
               top: playerRedY(width, height, 3),
               left: playerRedX(width, height, 3),
+              duration: animDuration,
+              curve: curve,
               child: AnimatedOpacity(
                 duration: animDuration,
                 curve: curve,
                 opacity: animStage == 0?1:0,
-                child: PlayerWidget(color: RED_COLOR),
+                child: const PlayerWidget(color: RED_COLOR),
               ),
-              duration: animDuration,
-              curve: curve,
             ),
 
             AnimatedPositioned(
               top: multiPlayerRedY(width, height),
               left: multiPlayerRedX(width, height),
+              duration: animDuration,
+              curve: curve,
               child: AnimatedOpacity(
                 duration: animDuration,
                 curve: curve,
                 opacity: animStage == 0?0:1,
-                child: PlayerWidget(color: RED_COLOR, type: PlayerType.MULTI),
+                child: const PlayerWidget(color: RED_COLOR, type: PlayerType.MULTI),
               ),
-              duration: animDuration,
-              curve: curve,
             ),
 
             // SECOND COLUMN
@@ -355,66 +357,66 @@ class Page5State extends State<Page5> with PageTemplateInterface{
             AnimatedPositioned(
               top: leaderGreenY(width, height),
               left: leaderGreenX(width),
+              duration: animDuration,
+              curve: curve,
               child: AnimatedOpacity(
                 duration: animDuration,
                 curve: curve,
                 opacity: animStage! > 3?PREV_INACTIVE_SIDE_OPACITY:1,
-                child: PlayerWidget(color: GREEN_COLOR,  type: PlayerType.LEADER),
+                child: const PlayerWidget(color: GREEN_COLOR,  type: PlayerType.LEADER),
               ),
-              duration: animDuration,
-              curve: curve,
             ),
 
             AnimatedPositioned(
               top: playerGreenY(width, height, 1),
               left: playerGreenX(width, 1),
+              duration: animDuration,
+              curve: curve,
               child: AnimatedOpacity(
                 duration: animDuration,
                 curve: curve,
                 opacity: animStage == 0?1:0,
-                child: PlayerWidget(color: GREEN_COLOR),
+                child: const PlayerWidget(color: GREEN_COLOR),
               ),
-              duration: animDuration,
-              curve: curve,
             ),
 
             AnimatedPositioned(
               top: playerGreenY(width, height, 2),
               left: playerGreenX(width, 2),
+              duration: animDuration,
+              curve: curve,
               child: AnimatedOpacity(
                 duration: animDuration,
                 curve: curve,
                 opacity: animStage == 0?1:0,
-                child: PlayerWidget(color: GREEN_COLOR),
+                child: const PlayerWidget(color: GREEN_COLOR),
               ),
-              duration: animDuration,
-              curve: curve,
             ),
 
             AnimatedPositioned(
               top: playerGreenY(width, height, 3),
               left: playerGreenX(width, 3),
+              duration: animDuration,
+              curve: curve,
               child: AnimatedOpacity(
                 duration: animDuration,
                 curve: curve,
                 opacity: animStage == 0?1:0,
-                child: PlayerWidget(color: GREEN_COLOR),
+                child: const PlayerWidget(color: GREEN_COLOR),
               ),
-              duration: animDuration,
-              curve: curve,
             ),
 
             AnimatedPositioned(
               top: multiPlayerGreenY(width, height),
               left: multiPlayerGreenX(width),
+              duration: animDuration,
+              curve: curve,
               child: AnimatedOpacity(
                 duration: animDuration,
                 curve: curve,
                 opacity: animStage == 0?0:(animStage! > 3?PREV_INACTIVE_SIDE_OPACITY:1),
-                child: PlayerWidget(color: GREEN_COLOR, type: PlayerType.MULTI),
+                child: const PlayerWidget(color: GREEN_COLOR, type: PlayerType.MULTI),
               ),
-              duration: animDuration,
-              curve: curve,
             ),
 
             // PHONES
@@ -422,35 +424,35 @@ class Page5State extends State<Page5> with PageTemplateInterface{
             AnimatedPositioned(
               top: bottomPhoneY(width, height),
               left: bottomPhoneX(width),
+              duration: animDuration,
+              curve: curve,
               child: AnimatedRotation(
                 turns: upperPhoneRotate()?-.25:0,
                 curve: curve,
                 duration: animDuration,
                 child: PhoneWidget(
-                  builder: (context, width) => ScreenGamePlay(withWords: true),
+                  builder: (context, width) => const ScreenGamePlay(withWords: true),
                   size: bottomPhoneWidth(width),
                   duration: animDuration,
                 ),
               ),
-              duration: animDuration,
-              curve: curve,
             ),
 
             AnimatedPositioned(
               top: upperPhoneY(width, height),
               left: upperPhoneX(width),
+              duration: animDuration,
+              curve: curve,
               child: AnimatedRotation(
                 turns: upperPhoneRotate()?-.25:0,
                 curve: curve,
                 duration: animDuration,
                 child: PhoneWidget(
-                  builder: (context, width) => ScreenGamePlay(withColors: true, withWords: true),
+                  builder: (context, width) => const ScreenGamePlay(withColors: true, withWords: true),
                   size: upperPhoneWidth(width),
                   duration: animDuration,
                 ),
               ),
-              duration: animDuration,
-              curve: curve,
             ),
 
             AnimatedPositioned(

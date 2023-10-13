@@ -18,32 +18,35 @@ class IndivCompColorsEditorWidget extends StatefulWidget{
 class _IndivCompColorsEditorWidgetState extends State<IndivCompColorsEditorWidget> with AutomaticKeepAliveClientMixin{
 
   @override
-  Widget build(BuildContext context) => CustomScrollView(
-      physics: const BouncingScrollPhysics(),
-      slivers: [
+  Widget build(BuildContext context){
+    super.build(context);
+    return CustomScrollView(
+        physics: const BouncingScrollPhysics(),
+        slivers: [
 
-        SliverOverlapInjector(handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context)),
+          SliverOverlapInjector(handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context)),
 
-        SliverList(delegate: SliverChildListDelegate([
+          SliverList(delegate: SliverChildListDelegate([
 
-          const SettingsPartHeader('Kolor współzawodnictwa'),
+            const SettingsPartHeader('Kolor współzawodnictwa'),
 
-          ColorSelectorWidget(
-            initColorKey: Provider.of<ColorKeyProvider>(context, listen: false).colorsKey,
-            onSelected: (iconKey) => Provider.of<ColorKeyProvider>(context, listen: false).colorsKey = iconKey,
-          ),
+            ColorSelectorWidget(
+              initColorKey: Provider.of<ColorKeyProvider>(context, listen: false).colorsKey,
+              onSelected: (iconKey) => Provider.of<ColorKeyProvider>(context, listen: false).colorsKey = iconKey,
+            ),
 
-          const SettingsPartHeader('Ikona współzawodnictwa'),
+            const SettingsPartHeader('Ikona współzawodnictwa'),
 
-          IconSelectorWidget(
-            initIconKey: Provider.of<IconKeyProvider>(context, listen: false).iconKey,
-            onSelected: (iconKey) => Provider.of<IconKeyProvider>(context, listen: false).iconKey = iconKey,
-          ),
+            IconSelectorWidget(
+              initIconKey: Provider.of<IconKeyProvider>(context, listen: false).iconKey,
+              onSelected: (iconKey) => Provider.of<IconKeyProvider>(context, listen: false).iconKey = iconKey,
+            ),
 
-        ]))
+          ]))
 
-      ]
-  );
+        ]
+    );
+  }
 
   @override
   bool get wantKeepAlive => true;

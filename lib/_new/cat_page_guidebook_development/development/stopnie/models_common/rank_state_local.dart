@@ -56,14 +56,14 @@ class RankStateLocal extends RankState<RankTaskStateLocal>{
 
   RankStateLocal(this.rank){
 
-    Map<String, RankTaskStateLocal> _tasks = {};
+    Map<String, RankTaskStateLocal> tasks = {};
 
     for(RankCat cat in rank.cats!)
       for(RankGroup group in cat.groups!)
         for(RankTask task in group.tasks!)
-          _tasks[task.uid] = RankTaskStateLocal(this, task.uid);
+          tasks[task.uid] = RankTaskStateLocal(this, task.uid);
 
-    tasks = _tasks;
+    tasks = tasks;
 
   }
 

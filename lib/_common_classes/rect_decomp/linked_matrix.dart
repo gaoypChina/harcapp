@@ -130,13 +130,13 @@ class LinkedMatrix {
 	bool isEmpty() => root.nextRight == null;
 
 	int countElements() {
-		LinkedMatrixElement? _tmp = getFirstElement();
-		if (_tmp == null)
+		LinkedMatrixElement? tmp = getFirstElement();
+		if (tmp == null)
 			return 0;
 		int count = 1;
-		while (_tmp != null) {
+		while (tmp != null) {
 			count++;
-			_tmp = _tmp.nextRight;
+			tmp = tmp.nextRight;
 		}
 		return count;
 	}

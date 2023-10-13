@@ -7,7 +7,6 @@ import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
-import 'package:harcapp_core/comm_widgets/simple_button.dart';
 
 import 'data.dart';
 
@@ -26,20 +25,20 @@ class AllSignsPage extends StatefulWidget {
 class AllSignsPageState extends State<AllSignsPage> {
 
   late List<ItemData> _items;
-  TextEditingController? textController;
+  late TextEditingController textController;
 
   @override
   void initState() {
 
     textController = TextEditingController();
-    _items = items;
+    _items = allItems;
 
     super.initState();
   }
 
   @override
   void dispose() {
-    textController!.dispose();
+    textController.dispose();
     super.dispose();
   }
 
@@ -67,15 +66,15 @@ class AllSignsPageState extends State<AllSignsPage> {
               onChanged: (text){
 
                 if(text.isEmpty) {
-                  setState(() => this._items = items);
+                  setState(() => _items = allItems);
                   return;
                 }
 
-                List<ItemData> _items = [];
+                List<ItemData> items = [];
                 for(ItemData item in items)
-                  if(item.matches(text)) _items.add(item);
+                  if(item.matches(text)) items.add(item);
 
-                setState(() => this._items = _items);
+                setState(() => _items = items);
               },
             ),
           ),

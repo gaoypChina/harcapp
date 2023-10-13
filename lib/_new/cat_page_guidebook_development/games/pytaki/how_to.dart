@@ -6,7 +6,7 @@ import 'package:harcapp_core/comm_classes/app_text_style.dart';
 
 class HowToPytajki extends StatelessWidget{
 
-  const HowToPytajki();
+  const HowToPytajki({super.key});
 
   @override
   Widget build(BuildContext context) {

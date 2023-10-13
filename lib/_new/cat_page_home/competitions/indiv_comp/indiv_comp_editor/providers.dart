@@ -188,13 +188,13 @@ class AwardsProvider extends ChangeNotifier{
   }
 
   static AwardsProvider fromIndivCompAwards(List<IndivCompAward> data){
-    List<String?> _awards = [];
+    List<String?> awards = [];
     for(IndivCompAward _d in data){
-      _awards.add(_d.award);
+      awards.add(_d.award);
       for(int i=0; i<_d.rangeTo - _d.rangeFrom; i++)
-        _awards.add(null);
+        awards.add(null);
     }
-    return AwardsProvider(awards: _awards);
+    return AwardsProvider(awards: awards);
   }
 
   List<String?>? get awards => _awards;

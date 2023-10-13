@@ -13,7 +13,7 @@ import 'harc_form_widget.dart';
 class FormThumbnailTagsWidget extends StatelessWidget{
 
   final HarcForm form;
-  const FormThumbnailTagsWidget(this.form);
+  const FormThumbnailTagsWidget(this.form, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class FormThumbnailTagsWidget extends StatelessWidget{
 
           Icon(tag.icon, size: Dimen.TEXT_SIZE_BIG + 2, color: hintEnab_(context)),
 
-          SizedBox(width: Dimen.ICON_MARG),
+          const SizedBox(width: Dimen.ICON_MARG),
 
           Text(
             tag.text,
@@ -56,7 +56,7 @@ class FormThumbnailWidget extends StatelessWidget{
 
   final HarcForm form;
 
-  const FormThumbnailWidget(this.form);
+  const FormThumbnailWidget(this.form, {super.key});
 
   @override
   Widget build(BuildContext context) => AspectRatio(

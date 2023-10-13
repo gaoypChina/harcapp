@@ -22,7 +22,7 @@ class RemindPasswordCodePart extends StatefulWidget{
 
   final String email;
 
-  const RemindPasswordCodePart(this.email);
+  const RemindPasswordCodePart(this.email, {super.key});
 
   @override
   State<StatefulWidget> createState() => RemindPasswordCodePartState();
@@ -123,7 +123,7 @@ class RemindPasswordCodePartState extends State<RemindPasswordCodePart>{
               ),
             ),
 
-            SizedBox(height: Dimen.SIDE_MARG),
+            const SizedBox(height: Dimen.SIDE_MARG),
 
             InputField(
               hint: 'Kod resetu hasła:',
@@ -132,7 +132,7 @@ class RemindPasswordCodePartState extends State<RemindPasswordCodePart>{
               leading: Icon(MdiIcons.account, color: iconDisab_(context)),
             ),
 
-            SizedBox(height: Dimen.SIDE_MARG),
+            const SizedBox(height: Dimen.SIDE_MARG),
 
             InputField(
               hint: 'Nowe hasło:',
@@ -146,7 +146,7 @@ class RemindPasswordCodePartState extends State<RemindPasswordCodePart>{
               leading: Icon(MdiIcons.key, color: iconDisab_(context)),
             ),
 
-            SizedBox(height: Dimen.SIDE_MARG),
+            const SizedBox(height: Dimen.SIDE_MARG),
 
             InputField(
               hint: 'Powtórz nowe hasło:',
@@ -160,7 +160,7 @@ class RemindPasswordCodePartState extends State<RemindPasswordCodePart>{
               leading: Icon(MdiIcons.shieldKey, color: iconDisab_(context)),
             ),
 
-            SizedBox(height: 2*Dimen.SIDE_MARG),
+            const SizedBox(height: 2*Dimen.SIDE_MARG),
 
             Row(
               children: [
@@ -181,7 +181,7 @@ class RemindPasswordCodePartState extends State<RemindPasswordCodePart>{
                     )
                 ),
 
-                SizedBox(width: Dimen.SIDE_MARG),
+                const SizedBox(width: Dimen.SIDE_MARG),
 
                 Expanded(
                   child: MainButton(

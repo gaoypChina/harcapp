@@ -72,7 +72,6 @@ void main() {
         DecompositionResult result = optim1.run(1);
         resArea = result.totalArea();
       } while (resArea == matrixArea);
-    } catch (e){
     } finally {
       File file = File('computeDecompositionFindBugsOptim.txt');
       IOSink sink = file.openWrite();

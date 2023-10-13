@@ -66,8 +66,8 @@ class SlidingPageView extends StatelessWidget{
       itemBuilder: (context, index){
         if(grow) return SizeContainer(
             index: index,
-            child: itemBuilder(context, index),
-            notifier: notifier
+            notifier: notifier,
+            child: itemBuilder(context, index)
         );
         else return itemBuilder(context, index);
       },
@@ -109,7 +109,7 @@ class SlidingCard extends StatelessWidget{
   final Color? color;
   final Function? onTap;
 
-  const SlidingCard({
+  const SlidingCard({super.key, 
     this.child,
     this.padding = const EdgeInsets.all(0),
     this.color =Colors.transparent,
@@ -123,9 +123,9 @@ class SlidingCard extends StatelessWidget{
       elevation: AppCard.bigElevation,
       radius: AppCard.bigRadius,
       padding: padding,
-      child: child,
       color: color,
       onTap: onTap as void Function()?,
+      child: child,
     );
   }
 }

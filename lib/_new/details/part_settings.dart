@@ -351,11 +351,11 @@ class _ThemeTimeCounterState extends State<_ThemeTimeCounter>{
     int secsTillChange = AppSettings.secsTillThemeChange;
 
     String formatSecs(int secs){
-      int _hours = (secs / (60*60)).floor();
-      int _mins = ((secs / (60)) - _hours*60).floor();
-      int _secs = secs - (60*60*_hours + 60*_mins);
+      int hours = (secs / (60*60)).floor();
+      int mins = ((secs / (60)) - hours*60).floor();
+      secs = secs - (60*60*hours + 60*mins);
 
-      return '${_hours<10?'0':''}$_hours:${_mins<10?'0':''}$_mins:${_secs<10?'0':''}$_secs';
+      return '${hours<10?'0':''}$hours:${mins<10?'0':''}$mins:${secs<10?'0':''}$secs';
 
     }
 

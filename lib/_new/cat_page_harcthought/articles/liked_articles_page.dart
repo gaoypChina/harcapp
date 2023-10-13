@@ -6,6 +6,8 @@ import 'article_core.dart';
 import 'article_list_widget.dart';
 
 class LikedArticlesPage extends StatelessWidget{
+  const LikedArticlesPage({super.key});
+
 
   @override
   Widget build(BuildContext context) {

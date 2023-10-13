@@ -482,7 +482,7 @@ class MarkerData{
     communitiesBasicData: {}
   );
 
-  late MarkerManagersLoader _managersLoader;
+  late final MarkerManagersLoader _managersLoader;
 
   void update(MarkerData updatedMarker){
 

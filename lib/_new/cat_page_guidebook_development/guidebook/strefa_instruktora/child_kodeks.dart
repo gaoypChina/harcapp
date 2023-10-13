@@ -8,6 +8,8 @@ import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class ChildKodeks extends StatelessWidget{
+  const ChildKodeks({super.key});
+
   @override
   Widget build(BuildContext context) {
 

@@ -550,7 +550,7 @@ class _ArticleScrollViewState extends State<_ArticleScrollView>{
                   text: 'Polubione (${Article.likedIds.length})',
                   onTap: () => Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => LikedArticlesPage())
+                    MaterialPageRoute(builder: (context) => const LikedArticlesPage())
                   )
                 ),
               ),
@@ -607,7 +607,7 @@ class _ApelEwanScrollView extends StatelessWidget{
 
   final List<ApelEwan> apelEwanList;
 
-  const _ApelEwanScrollView(this.apelEwanList, {super.key});
+  const _ApelEwanScrollView(this.apelEwanList);
 
   @override
   Widget build(BuildContext context){

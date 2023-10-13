@@ -322,18 +322,18 @@ class PortionsSelectorWidgetState extends State<PortionsSelectorWidget>{
 
   late Widget textField;
   late Widget buttons;
-  TextEditingController? textController;
+  late TextEditingController textController;
 
   final Key dismissibleKey = UniqueKey();
 
   void reloadPortions(){
     int portions = 1;
     try{
-      portions = int.parse(textController!.text);
+      portions = int.parse(textController.text);
       if(portions > KUCH_MAX_PORTION_COUNT) portions = KUCH_MAX_PORTION_COUNT;
     } on Exception {
-      setState(() => textController!.text = '1');
-      textController!.selection = const TextSelection(baseOffset: 1, extentOffset: 1);
+      setState(() => textController.text = '1');
+      textController.selection = const TextSelection(baseOffset: 1, extentOffset: 1);
     } finally{
       setState(() => widget.portions.set(portions));
       if(widget.onChanged != null) widget.onChanged!(portions);
@@ -361,8 +361,8 @@ class PortionsSelectorWidgetState extends State<PortionsSelectorWidget>{
             if(widget.portions.get() == KUCH_MAX_PORTION_COUNT) return;
             widget.portions.set(widget.portions.get()+ 1);
             String portStr = widget.portions.get().toString();
-            textController!.text = portStr;
-            textController!.selection = TextSelection(baseOffset: portStr.length, extentOffset: portStr.length);
+            textController.text = portStr;
+            textController.selection = TextSelection(baseOffset: portStr.length, extentOffset: portStr.length);
             if(widget.onChanged != null) widget.onChanged!(widget.portions.get());
           }),
         ),
@@ -372,8 +372,8 @@ class PortionsSelectorWidgetState extends State<PortionsSelectorWidget>{
               if(widget.portions.get() == 1) return;
               widget.portions.set(widget.portions.get()- 1);
               String portStr = widget.portions.get().toString();
-              textController!.text = portStr;
-              textController!.selection = TextSelection(baseOffset: portStr.length, extentOffset: portStr.length);
+              textController.text = portStr;
+              textController.selection = TextSelection(baseOffset: portStr.length, extentOffset: portStr.length);
               if(widget.onChanged != null) widget.onChanged!(widget.portions.get());
             })
         )

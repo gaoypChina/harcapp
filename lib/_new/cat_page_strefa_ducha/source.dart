@@ -12,12 +12,12 @@ class Source{
   static List<SourceItem>? allItems;
 
   static void aggrAllDisplayableItems({bool favoriteOnly = false, bool cachedOnly = false}){
-    List<SourceItem> _allItems = [];
+    List<SourceItem> allItems = [];
 
     if(cachedOnly){
-      _allItems.addAll(ImageLoader.allCachedItems);
-      _allItems.shuffle();
-      allItems = _allItems;
+      allItems.addAll(ImageLoader.allCachedItems);
+      allItems.shuffle();
+      allItems = allItems;
       return;
     }
 
@@ -28,10 +28,10 @@ class Source{
         if(source.display &&
           (!favoriteOnly || item.isFavorite) &&
           (!cachedOnly || item.cachedFile.existsSync()))
-          _allItems.add(item);
+          allItems.add(item);
 
-    _allItems.shuffle();
-    allItems = _allItems;
+    allItems.shuffle();
+    allItems = allItems;
   }
 
   String uniqId;

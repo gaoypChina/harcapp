@@ -30,8 +30,7 @@ class _HarcApp extends StatefulWidget{
 
   final double size;
   final Color color;
-  final bool shadow;
-  const _HarcApp({this.size = defFontSize, this.color = AppColors.textDefEnab, this.shadow = false});
+  const _HarcApp({this.size = defFontSize, this.color = AppColors.textDefEnab});
 
   @override
   State<StatefulWidget> createState() => _HarcAppState();
@@ -42,7 +41,6 @@ class _HarcAppState extends State<_HarcApp> with TickerProviderStateMixin{
 
   double get size => widget.size;
   Color get color => widget.color;
-  bool get shadow => widget.shadow;
 
   late bool showH;
   late bool showA;
@@ -103,7 +101,7 @@ class _HarcAppState extends State<_HarcApp> with TickerProviderStateMixin{
           child: AnimatedOpacity(
             opacity: showH?1:0,
             duration: const Duration(milliseconds: 1000),
-            child: Text('Harc', style: AppTextStyle(fontSize: size, fontWeight: weight.halfBold, color: color, shadow: shadow, height: 1.0)),
+            child: Text('Harc', style: AppTextStyle(fontSize: size, fontWeight: weight.halfBold, color: color, height: 1.0)),
           ),
         ),
         SlideTransition(
@@ -111,7 +109,7 @@ class _HarcAppState extends State<_HarcApp> with TickerProviderStateMixin{
           child: AnimatedOpacity(
             opacity: showA?1:0,
             duration: const Duration(milliseconds: 1000),
-            child: Text('App', style: AppTextStyle(fontSize: size, fontWeight: weight.normal, color: color, shadow: shadow, height: 1.0)),
+            child: Text('App', style: AppTextStyle(fontSize: size, fontWeight: weight.normal, color: color, height: 1.0)),
           ),
         ),
 
@@ -613,7 +611,7 @@ class ChristmasLayoutState extends State<DefaultLayout>{
 
   static const String backgroundPath = 'assets/images/start/merry_joseph_jesus.webp';
 
-  bool _isRunning = true;
+  final bool _isRunning = true;
   late bool chooseQuote;
 
   late bool backgroundPreloaded;
@@ -1054,7 +1052,7 @@ class WolynLayoutState extends State<DefaultLayout>{
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
 
-              Text(
+              const Text(
                 'Wołyń 1943',
                 style: TextStyle(
                   fontSize: 60.0,
@@ -1065,7 +1063,7 @@ class WolynLayoutState extends State<DefaultLayout>{
                 textAlign: TextAlign.center,
               ),
 
-              SizedBox(height: 36.0),
+              const SizedBox(height: 36.0),
 
               Text(
                 '„Nie o zemstę,\nlecz o pamięć i prawdę\nwołają ofiary.”',

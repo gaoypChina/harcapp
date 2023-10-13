@@ -74,13 +74,13 @@ class PartTemplate extends StatelessWidget {
                 ),
 
               Padding(
-                  padding: EdgeInsets.all(2*Dimen.SIDE_MARG),
+                  padding: const EdgeInsets.all(2*Dimen.SIDE_MARG),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
 
-                      SizedBox(height: Dimen.SIDE_MARG),
+                      const SizedBox(height: Dimen.SIDE_MARG),
 
                       if(heroTag==null)
                         titleWidget
@@ -93,7 +93,7 @@ class PartTemplate extends StatelessWidget {
                             )
                         ),
 
-                      SizedBox(height: Dimen.SIDE_MARG),
+                      const SizedBox(height: Dimen.SIDE_MARG),
 
                       Text(
                         translate(errorMessage??''),
@@ -103,7 +103,7 @@ class PartTemplate extends StatelessWidget {
                         textAlign: TextAlign.center,
                       ),
 
-                      SizedBox(height: Dimen.SIDE_MARG),
+                      const SizedBox(height: Dimen.SIDE_MARG),
 
                       child!
 

@@ -33,7 +33,7 @@ class AwardPageViewWidget extends StatelessWidget{
 
     return SizedBox(
       height: AwardTileDenseWidget.height,
-      child: PageView(children: children, physics: const BouncingScrollPhysics()),
+      child: PageView(physics: const BouncingScrollPhysics(), children: children),
     );
 
   }

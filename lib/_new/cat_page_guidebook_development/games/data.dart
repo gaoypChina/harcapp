@@ -53,7 +53,7 @@ GameData gameDataSlowoKlucz = GameData(
   colorPack: ColorPackGamePytaki(),
   builder: (context) => const SlowoKluczStartPage(),
   builderHowToDescription: (context) => const HowToSlowoKlucz(),
-  builderHowToGuide: (context) => SlowoKluczHowToGuide(),
+  builderHowToGuide: (context) => const SlowoKluczHowToGuide(),
   coverImg: 'bg_slowo_klucz',
   name: 'Słowo klucz',
   description: 'Jak trafnie potrafisz połączyć zupełnie różne słowa?',

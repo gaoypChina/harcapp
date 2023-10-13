@@ -25,7 +25,7 @@ class IngredientWidget extends StatelessWidget{
   final Unit? showUnit;
   final int portions;
 
-  const IngredientWidget(this.ingredient, this.showUnit, this.portions);
+  const IngredientWidget(this.ingredient, this.showUnit, this.portions, {super.key});
 
   static IngredientWidget from(Ingredient ingredient){
     return IngredientWidget(ingredient, ingredient.defUnit, 1);
@@ -61,7 +61,7 @@ class IngredientWidgetConv extends StatefulWidget{
   final Ingredient ingredient;
   final int portions;
 
-  const IngredientWidgetConv(this.ingredient, this.portions);
+  const IngredientWidgetConv(this.ingredient, this.portions, {super.key});
 
   @override
   State<StatefulWidget> createState() => IngredientWidgetConvState();
@@ -97,7 +97,7 @@ class IngredientWidgetConvState extends State<IngredientWidgetConv>{
             },
           )
         else
-          SizedBox(width: Dimen.ICON_FOOTPRINT)
+          const SizedBox(width: Dimen.ICON_FOOTPRINT)
       ],
     );
   }

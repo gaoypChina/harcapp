@@ -3,10 +3,12 @@ import 'package:harcapp_core/comm_widgets/app_text.dart';
 import 'package:harcapp_core/dimen.dart';
 
 class DescGaderypoluki extends StatelessWidget{
+  const DescGaderypoluki({super.key});
+
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       children: <Widget>[
         Column(
           children: <Widget>[

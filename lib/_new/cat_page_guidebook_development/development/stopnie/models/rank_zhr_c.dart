@@ -68,8 +68,7 @@ class RankZHRCData extends RankData{
     //if(koment != null)
     //  allCats.add(StopCat(title: 'Komentarze', groups: koment));
 
-    if(cats != null)
-      allCats.addAll(cats);
+    allCats.addAll(cats);
 
     return RankZHRCData(
         title: title,

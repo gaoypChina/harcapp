@@ -219,7 +219,7 @@ class ApelEwanWidgetState extends State<ApelEwanWidget>{
 
                         if(questions[selSubgroupSuff] != null)
                           ListView.builder(
-                            physics: NeverScrollableScrollPhysics(),
+                            physics: const NeverScrollableScrollPhysics(),
                             itemBuilder: (context, index) => Padding(
                               padding: const EdgeInsets.symmetric(vertical: 6.0),
                               child: Row(

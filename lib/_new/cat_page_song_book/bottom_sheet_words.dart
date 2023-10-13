@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/song.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
@@ -19,7 +18,7 @@ class BottomSheetWords extends StatefulWidget{
   final String songText;
   final String fileName;
 
-  const BottomSheetWords(this.wordsCode, this.songText, this.fileName);
+  const BottomSheetWords(this.wordsCode, this.songText, this.fileName, {super.key});
 
   @override
   State<StatefulWidget> createState() {

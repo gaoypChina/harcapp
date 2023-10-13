@@ -7,19 +7,21 @@ import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'common.dart';
 
 class DescKomorkowy extends StatelessWidget{
+  const DescKomorkowy({super.key});
+
 
   @override
   Widget build(BuildContext context) {
     return ListView(
-      physics: BouncingScrollPhysics(),
-      padding: EdgeInsets.all(Dimen.SIDE_MARG),
+      physics: const BouncingScrollPhysics(),
+      padding: const EdgeInsets.all(Dimen.SIDE_MARG),
       children: <Widget>[
 
-        DescOnlyWidget(),
+        const DescOnlyWidget(),
 
-        SizedBox(height: Dimen.SIDE_MARG),
+        const SizedBox(height: Dimen.SIDE_MARG),
 
-        AppText(
+        const AppText(
           'Kluczem szyfru jest klawiatura starego <b>telefonu komórkowego</b>: każdemu trzy- lub czteroelementowemu zbiorowi liter przyporządkowana jest kolejna cyfra.'
               '\n\nAby zaszyfrować daną literę należy napisać przypisaną jej cyfrę <b>tylekroć</b>, ile wynosi <b>numer porządkowy</b> jej miejsca w jej zbiorze.'
               '\n\nZaszyfrowane słowo <b>H A R C E R Z</b> to:'
@@ -37,7 +39,7 @@ class DescKomorkowy extends StatelessWidget{
             Expanded(child: Text('3 DEF', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG))),
           ],
         ),
-        SizedBox(height: Dimen.defMarg),
+        const SizedBox(height: Dimen.defMarg),
         Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -47,7 +49,7 @@ class DescKomorkowy extends StatelessWidget{
             Expanded(child: Text('6 MNO', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG))),
           ],
         ),
-        SizedBox(height: Dimen.defMarg),
+        const SizedBox(height: Dimen.defMarg),
         Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

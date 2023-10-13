@@ -12,29 +12,27 @@ class ListHeaderWidget extends StatelessWidget{
   final List<String> text;
   final IconData? icon;
 
-  const ListHeaderWidget(this.title, this.text, {this.icon});
+  const ListHeaderWidget(this.title, this.text, {super.key, this.icon});
 
   @override
   Widget build(BuildContext context) {
 
-
-
     List<Widget> children = [];
     for(int i=0; i<text.length; i++){
-      String _text = text[i];
+      String thisText = text[i];
       children.add(
           Material(
             color: cardEnab_(context),
             borderRadius: BorderRadius.circular(AppCard.bigRadius),
             child: Padding(
-              padding: EdgeInsets.all(Dimen.SIDE_MARG),
-              child: SelectableText(_text, style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG)),
+              padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+              child: SelectableText(thisText, style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG)),
             ),
           )
       );
 
       if(i < text.length - 1)
-        children.add(SizedBox(height: 2*Dimen.defMarg));
+        children.add(const SizedBox(height: 2*Dimen.defMarg));
     }
 
     return Column(
@@ -44,7 +42,7 @@ class ListHeaderWidget extends StatelessWidget{
         //SingleLineWidget(icon, title),
 
         SectorSepWidget(title),
-        SizedBox(height: Dimen.SIDE_MARG),
+        const SizedBox(height: Dimen.SIDE_MARG),
 
         Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,

@@ -555,6 +555,7 @@ abstract class Song<T extends SongGetResp> extends SongCore with SyncableParamGr
   @override
   int get hashCode => isConfid.hashCode + isOfficial.hashCode + lclId.hashCode;
 
+  @override
   String get debugClassId;
 
   //@override

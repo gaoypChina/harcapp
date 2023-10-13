@@ -159,7 +159,7 @@ class YoutubeWidget extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
 
-    YoutubePlayerController _controller = YoutubePlayerController(
+    YoutubePlayerController controller = YoutubePlayerController(
       initialVideoId: YoutubePlayer.convertUrlToId(item.link)!,
       flags: const YoutubePlayerFlags(
         autoPlay: false,
@@ -174,7 +174,7 @@ class YoutubeWidget extends StatelessWidget{
         padding: EdgeInsets.zero,
         margin: const EdgeInsets.only(top: 10.0, bottom: 10.0),
         child: YoutubePlayer(
-          controller: _controller,
+          controller: controller,
           showVideoProgressIndicator: true,
           progressColors: const ProgressBarColors(
             playedColor: Colors.amber,

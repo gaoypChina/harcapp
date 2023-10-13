@@ -61,9 +61,9 @@ class SzyfryFragmentState extends State<SzyfryFragment> with TickerProviderState
     tabs = [
       _TabItem(
           title: 'gaderypoluki',
-          bottom: DescGaderypoluki(),
+          bottom: const DescGaderypoluki(),
           icon: Icon(MdiIcons.swapHorizontal),
-          child: ChildGaderypoluki()
+          child: const ChildGaderypoluki()
 
       ),
       _TabItem(
@@ -85,27 +85,27 @@ class SzyfryFragmentState extends State<SzyfryFragment> with TickerProviderState
       _TabItem(
           title: 'tabl. mnożenia',
           icon: Icon(MdiIcons.close),
-          child: DescTabliczkaMnozenia()
+          child: const DescTabliczkaMnozenia()
       ),
       _TabItem(
           title: 'ułamkowy',
           icon: Icon(MdiIcons.division),
-          child: DescUlamkowy()
+          child: const DescUlamkowy()
       ),
       _TabItem(
           title: 'komórkowy',
           icon: Icon(MdiIcons.cellphone),
-          child: DescKomorkowy()
+          child: const DescKomorkowy()
       ),
       _TabItem(
           title: 'zamiana',
           icon: Icon(MdiIcons.reload),
-          child: DescZamiana()
+          child: const DescZamiana()
       ),
       _TabItem(
           title: 'karolinka',
           icon: Icon(MdiIcons.emoticonHappyOutline),
-          child: DescKarolinka()
+          child: const DescKarolinka()
       )
     ];
 

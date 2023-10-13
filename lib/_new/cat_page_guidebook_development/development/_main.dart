@@ -174,7 +174,7 @@ class DevelopmentSubpageState extends State<DevelopmentSubpage>{
                       ),
                     ),
 
-                    SprawPreviewList(),
+                    const SprawPreviewList(),
 
                     SimpleButton.from(
                       context: context,
@@ -241,6 +241,8 @@ class DevelopmentSubpageState extends State<DevelopmentSubpage>{
 }
 
 class SprawPreviewList extends StatelessWidget{
+  const SprawPreviewList({super.key});
+
 
   @override
   Widget build(BuildContext context) => Consumer3<SprawSavedListProv, SprawInProgressListProv, SprawCompletedListProv>(

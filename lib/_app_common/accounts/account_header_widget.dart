@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_common_classes/common.dart';
@@ -108,12 +107,12 @@ class AccountHeaderWidget extends StatelessWidget{
   @override
   Widget build(BuildContext context){
 
-    dynamic _heroTag;
+    dynamic heroTag;
 
-    if(showDetailsButton && heroTag == null)
-      _heroTag = const Uuid().v4();
+    if(showDetailsButton)
+      heroTag = const Uuid().v4();
     else
-      _heroTag = heroTag;
+      heroTag = heroTag;
 
     Widget header = Column(
       mainAxisSize: MainAxisSize.min,
@@ -178,7 +177,7 @@ class AccountHeaderWidget extends StatelessWidget{
                                         showDetailsButton: false,
                                         detailsBorderColor: detailsBorderColor??thumbnailBorderColor,
                                         shadow: shadow,
-                                        heroTag: _heroTag,
+                                        heroTag: heroTag,
                                       ),
                                     ),
 
@@ -229,11 +228,11 @@ class AccountHeaderWidget extends StatelessWidget{
       mainAxisSize: MainAxisSize.min,
       children: [
 
-        if(_heroTag == null)
+        if(heroTag == null)
           header
         else
           Hero(
-            tag: _heroTag,
+            tag: heroTag,
             child: header,
           ),
 

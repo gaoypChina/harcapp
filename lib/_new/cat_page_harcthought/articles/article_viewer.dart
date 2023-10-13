@@ -8,7 +8,7 @@ class ArticleViewer extends StatefulWidget{
   final Article initArticle;
   final int initIndex;
 
-  const ArticleViewer(this.initArticle, this.initIndex);
+  const ArticleViewer(this.initArticle, this.initIndex, {super.key});
 
   @override
   State<StatefulWidget> createState() => ArticleViewerState();
@@ -32,7 +32,7 @@ class ArticleViewerState extends State<ArticleViewer>{
   @override
   Widget build(BuildContext context) {
 
-    return Text('TO ZOSTANIE WYWALONE');
+    return const Text('TO ZOSTANIE WYWALONE');
 
     /*
     return AppScaffold(

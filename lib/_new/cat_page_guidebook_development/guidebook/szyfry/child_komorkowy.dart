@@ -40,7 +40,7 @@ Map<String?, String>? reversedLettersMap;
 
 class ChildKomorkowy extends StatefulWidget {
 
-  const ChildKomorkowy();
+  const ChildKomorkowy({super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -93,7 +93,7 @@ class ChildKomorkowyState extends State<ChildKomorkowy>
                 ],
                 onChanged: (input) => setState((){
                 	input = remPolChars(input);
-                  if(input.length == 0){
+                  if(input.isEmpty){
                     typKlawiatury = TextInputType.text;
                     dozwoloneZnaki =  RegExInputFormatter.withRegex(r'[AaĄąBbCcĆćDdEeĘęFfGgHhIiJjKkLlŁłMmNnŃńOoÓóPpQqRrSsŚśTtUuVvWwXxYyZzŹźŻż0-9 ]*');
                     output = '';
@@ -122,7 +122,7 @@ class ChildKomorkowyState extends State<ChildKomorkowy>
               child: Padding(
                 padding: AppCard.defPadding,
                 child: SelectableText(
-                    output.length == 0 ? 'Zmieniona wiadomość' : output,
+                    output.isEmpty ? 'Zmieniona wiadomość' : output,
                     style: AppTextStyle(
                       fontSize: Dimen.TEXT_SIZE_BIG,
                     )
@@ -138,7 +138,7 @@ class ChildKomorkowyState extends State<ChildKomorkowy>
     input = input.toUpperCase();
     for (int i = 0; i < input.length; i++) {
       String letter = input.substring(i, i + 1);
-      output += lettersMap[letter]! + ' ';
+      output += '${lettersMap[letter]!} ';
     }
 
     return output;
@@ -150,15 +150,15 @@ class ChildKomorkowyState extends State<ChildKomorkowy>
     final matches = regExp.allMatches(input);
     for (Match match in matches) {
       String? letter = reversedLettersMap![match.group(0)];
-      output += letter!=null ? letter : '?';
+      output += letter ?? '?';
     }
 
     return output;
   }
 
   bool isKomorkowy(String input){
-    RegExp _regexp = RegExp(r'[0-9 ]*');
-    final matches = _regexp.allMatches(input);
+    RegExp regexp = RegExp(r'[0-9 ]*');
+    final matches = regexp.allMatches(input);
     for(Match match in matches){
       if(match.start == 0 && match.end == input.length) return true;
     }

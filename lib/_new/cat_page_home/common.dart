@@ -282,9 +282,9 @@ class ShareCodeDialogState extends State<ShareCodeDialog>{
                         onTap: processing || !shareCodeSearchable?null:() async {
 
                           setState(() => _processing = true);
-                          String? _shareCode = await resetShareCode();
-                          if(_shareCode != null)
-                            shareCode = _shareCode;
+                          String? shareCode = await resetShareCode();
+                          if(shareCode != null)
+                            shareCode = shareCode;
 
                           setState(() => _processing = false);
 

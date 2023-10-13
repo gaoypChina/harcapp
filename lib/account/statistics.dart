@@ -91,27 +91,27 @@ class Statistics{
     await ApiStatistics.postObservations(
       onSuccess: (List<StatRespItem> modules, List<StatRespItem> songs){
 
-        Map<String?, Map<String, dynamic>> _allModuleStats = moduleStats;
+        Map<String?, Map<String, dynamic>> allModuleStats = moduleStats;
         for(StatRespItem respItem in modules){
           if(respItem.state == StatRespState.tooEarly || respItem.state == StatRespState.alreadyExisted)
-            _allModuleStats[respItem.uniqId]!.remove(respItem.time);
+            allModuleStats[respItem.uniqId]!.remove(respItem.time);
           else if(respItem.state == StatRespState.saved)
-            _allModuleStats[respItem.uniqId]!.remove(respItem.time);
+            allModuleStats[respItem.uniqId]!.remove(respItem.time);
 
-          if(_allModuleStats[respItem.uniqId]!.isEmpty) _allModuleStats.remove(respItem.uniqId);
+          if(allModuleStats[respItem.uniqId]!.isEmpty) allModuleStats.remove(respItem.uniqId);
         }
-        moduleStats = _allModuleStats;
+        moduleStats = allModuleStats;
 
-        Map<String?, Map<String, dynamic>> _allSongStats = songStats;
+        Map<String?, Map<String, dynamic>> allSongStats = songStats;
         for(StatRespItem respItem in songs){
           if(respItem.state == StatRespState.tooEarly || respItem.state == StatRespState.alreadyExisted)
-            _allSongStats[respItem.uniqId]!.remove(respItem.time);
+            allSongStats[respItem.uniqId]!.remove(respItem.time);
           else if(respItem.state == StatRespState.saved)
-            _allSongStats[respItem.uniqId]!.remove(respItem.time);
+            allSongStats[respItem.uniqId]!.remove(respItem.time);
 
-          if(_allSongStats[respItem.uniqId]!.isEmpty) _allSongStats.remove(respItem.uniqId);
+          if(allSongStats[respItem.uniqId]!.isEmpty) allSongStats.remove(respItem.uniqId);
         }
-        songStats = _allSongStats;
+        songStats = allSongStats;
 
       },
       onError: (){}

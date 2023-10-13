@@ -490,7 +490,7 @@ class _DrawerTile extends StatelessWidget{
 
 class _HeartWidget extends StatefulWidget{
 
-  const _HeartWidget({super.key});
+  const _HeartWidget();
 
   @override
   State<StatefulWidget> createState() => _HeartWidgetState();
@@ -562,9 +562,7 @@ class _CardWidget extends StatefulWidget{
     required this.index,
     required this.pageViewNotifier,
     this.pinable = true,
-
     this.onLikeChanged,
-
   });
 
   @override

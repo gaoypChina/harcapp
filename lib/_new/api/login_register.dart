@@ -396,7 +396,8 @@ class ApiRegLog{
 
   static String REGISTER_REQ_EMAIL = 'email';
   static String REGISTER_REQ_PASSWORD = 'password';
-  static String REGISTER_REQ_PASSWORD_REP = 'password_rep';
+  static String REGISTER_REQ_PASSWORD_REP = 'passwordRep';
+  static String REGISTER_REQ_SHADOW_NICK = 'shadowUserToMergeNick';
   static String REGISTER_REQ_NAME = 'name';
   static String REGISTER_REQ_SEX = 'sex';
   static String REGISTER_REQ_ORG = 'harcOrg';
@@ -409,6 +410,10 @@ class ApiRegLog{
 
   static Future<Response?> register(
       String email,
+      String password,
+      String passwordRep,
+      String? shadowUserToMergeNick,
+
       String name,
       Sex? sex,
       Org? org,
@@ -418,8 +423,6 @@ class ApiRegLog{
       RankInstr? rankInstr,
       bool? regulaminAccept,
       bool? gdprAccept,
-      String password,
-      String passwordRep,
       { Future<void> Function(
           Response response,
           String? key,
@@ -482,6 +485,8 @@ class ApiRegLog{
           '${API.baseUrl}api/user/register',
           data: FormData.fromMap({
             REGISTER_REQ_EMAIL: email,
+            REGISTER_REQ_PASSWORD: password,
+            REGISTER_REQ_SHADOW_NICK: shadowUserToMergeNick,
             REGISTER_REQ_NAME: name,
             REGISTER_REQ_SEX: sexToBool[sex!],
             if(org != null) REGISTER_REQ_ORG: orgToParam(org),
@@ -491,7 +496,6 @@ class ApiRegLog{
             if(rankInstr != null) REGISTER_REQ_RANK_INSTR: rankInstrToParam(rankInstr),
             REGISTER_REQ_POLICY: regulaminAccept,
             REGISTER_REQ_GDPR: gdprAccept,
-            REGISTER_REQ_PASSWORD: password,
           })
       ),
       onSuccess: (Response response, DateTime now) async {
@@ -530,6 +534,7 @@ class ApiRegLog{
   }
 
   static String REGISTER_MICROSOFT_REQ_AZURE_TOKEN = 'azureToken';
+  static String REGISTER_MICROSOFT_REQ_SHADOW_NICK = 'shadowUserToMergeNick';
   static String REGISTER_MICROSOFT_REQ_SEX = 'sex';
   static String REGISTER_MICROSOFT_REQ_ORG = 'harcOrg';
   static String REGISTER_MICROSOFT_REQ_HUFIEC = 'hufiec';
@@ -541,6 +546,7 @@ class ApiRegLog{
 
   static Future<Response?> registerMicrosoft(
       String? azureToken,
+      String? shadowNick,
       Sex? sex,
       Org? org,
       String? hufiec,
@@ -596,6 +602,7 @@ class ApiRegLog{
           '${API.baseUrl}api/user/registerMicrosoft',
           data: FormData.fromMap({
             REGISTER_MICROSOFT_REQ_AZURE_TOKEN: azureToken,
+            REGISTER_MICROSOFT_REQ_SHADOW_NICK: shadowNick,
             REGISTER_MICROSOFT_REQ_SEX: sexToBool[sex!],
             if(org != null) REGISTER_MICROSOFT_REQ_ORG: orgToParam(org),
             if(hufiec != null) REGISTER_MICROSOFT_REQ_HUFIEC: hufiec,

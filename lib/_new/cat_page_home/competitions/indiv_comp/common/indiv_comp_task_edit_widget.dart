@@ -82,18 +82,18 @@ class IndivCompTaskEditWidgetState extends State<IndivCompTaskEditWidget>{
   TaskState? get state => widget.state;
   bool? get remove => widget.remove;
 
-  TextEditingController? titleController;
-  TextEditingController? descController;
+  late TextEditingController titleController;
+  late TextEditingController descController;
 
   @override
   void initState() {
     points = widget.initPoints??1;
 
     titleController = TextEditingController(text: widget.initTitle);
-    titleController!.addListener(() => onTitleChanged!(titleController!.text));
+    titleController.addListener(() => onTitleChanged?.call(titleController.text));
 
     descController = TextEditingController(text: widget.initDesc);
-    descController!.addListener(() => onDescChanged!(descController!.text));
+    descController.addListener(() => onDescChanged?.call(descController.text));
 
     super.initState();
   }

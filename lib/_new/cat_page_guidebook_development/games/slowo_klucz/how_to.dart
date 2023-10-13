@@ -7,7 +7,7 @@ import 'package:harcapp_core/comm_classes/app_text_style.dart';
 class HowToSlowoKlucz extends StatelessWidget{
 
 
-  const HowToSlowoKlucz();
+  const HowToSlowoKlucz({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,33 +15,33 @@ class HowToSlowoKlucz extends StatelessWidget{
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
 
-        AppText('<b>Liczba graczy:</b> od 6, (od biedy można od 4 osób).'),
-        SizedBox(height: 18.0,),
-        AppText('<b>Wiek graczy:</b> od 12 lat.'),
-        SizedBox(height: 18.0,),
-        AppText('<b>Cel gry:</b>'),
-        SizedBox(height: 6.0,),
-        AppText(
+        const AppText('<b>Liczba graczy:</b> od 6, (od biedy można od 4 osób).'),
+        const SizedBox(height: 18.0,),
+        const AppText('<b>Wiek graczy:</b> od 12 lat.'),
+        const SizedBox(height: 18.0,),
+        const AppText('<b>Cel gry:</b>'),
+        const SizedBox(height: 6.0,),
+        const AppText(
           '    • rozwijanie abstrakcyjnego myślenia,'
               '\n    • rozwijanie słownictwa,'
               '\n    • rozwijanie wzajemnego zrozumienia.'
         ),
 
-        SizedBox(height: 18.0,),
+        const SizedBox(height: 18.0,),
 
-        AppText('<b>Rozpoczęcie gry:</b>'),
-        SizedBox(height: 6.0,),
-        AppText('Podzielcie się na dwie drużyny. W każdej drużynie wybierzcie po jednej osobie - wodza. Wodzowie będą korzystali z jednego telefonu, pozostali gracze z drugiego telefonu.'
+        const AppText('<b>Rozpoczęcie gry:</b>'),
+        const SizedBox(height: 6.0,),
+        const AppText('Podzielcie się na dwie drużyny. W każdej drużynie wybierzcie po jednej osobie - wodza. Wodzowie będą korzystali z jednego telefonu, pozostali gracze z drugiego telefonu.'
             '\n\n<b>Gracze</b> na swoim telefonie wybierają opcję <i>"Plansza graczy"</i>. Na ekranie pojawi się QR-kod, który należy na chwilę pozostawić.'
             '\n'
             '\nRównolegle <b>wodzowie</b> ustalają, która drużyna będzie "zielona", która zaś "czerwona". Następnie na swoim telefonie wybierają opcję <i>"Plansza wodzów"</i>, po czym skanują QR-kod z telefonu graczy.'
             '\n'
             '\nNa tym etapie na obu telefonach plansze sobie odpowiadają.'),
 
-        SizedBox(height: 18.0,),
-        AppText('<b>Przebieg gry:</b>'),
-        SizedBox(height: 6.0,),
-        AppText(
+        const SizedBox(height: 18.0,),
+        const AppText('<b>Przebieg gry:</b>'),
+        const SizedBox(height: 6.0,),
+        const AppText(
             'Wodzowie widzą przed sobą planszę, na której karty podzielone są na cztery kolory:'
             '\n• zielone (8 lub 9 kart),'
             '\n• czerwone (8 lub 9 kart),'
@@ -75,11 +75,11 @@ class HowToSlowoKlucz extends StatelessWidget{
             '\nWodzowie nie mogą w żaden sposób komunikować ani sygnalizować niczego poza hasłami do drużyn.'
         ),
 
-        SizedBox(height: 24.0,),
+        const SizedBox(height: 24.0,),
 
-        AppText('<b>Miłej zabawy!</b>'),
+        const AppText('<b>Miłej zabawy!</b>'),
 
-        SizedBox(height: 18.0,),
+        const SizedBox(height: 18.0,),
         Text('Grafika: freepik.com (Freepik)', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_TINY, color: hintEnab_(context)),),
 
       ],

@@ -324,8 +324,6 @@ class LoginPartState extends State<LoginPart>{
                                 text: 'Dołącz',
                                 icon: MdiIcons.accountPlusOutline,
                                 onTap: processing?null:(){
-                                  showAppToast(context, text: 'Póki co działa tylko logowanie przez konto ZHP. Proszę o cierpliwość :)');
-                                  return;
                                   pushReplacePage(
                                       context,
                                       builder: (context) => RegisterPart(

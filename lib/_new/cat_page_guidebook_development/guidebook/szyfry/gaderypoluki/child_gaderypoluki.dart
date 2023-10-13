@@ -18,6 +18,8 @@ import 'key_page.dart';
 import 'keys.dart';
 
 class ChildGaderypoluki extends StatefulWidget{
+  const ChildGaderypoluki({super.key});
+
 
   @override
   State<StatefulWidget> createState() => ChildGaderypolukiState();

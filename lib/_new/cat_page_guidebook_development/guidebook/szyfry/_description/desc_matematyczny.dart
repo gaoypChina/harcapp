@@ -8,20 +8,20 @@ import 'common.dart';
 
 class DescMatematyczny extends StatelessWidget{
 
-  const DescMatematyczny();
+  const DescMatematyczny({super.key});
 
   @override
   Widget build(BuildContext context) {
     return ListView(
-      physics: BouncingScrollPhysics(),
-      padding: EdgeInsets.all(Dimen.SIDE_MARG),
+      physics: const BouncingScrollPhysics(),
+      padding: const EdgeInsets.all(Dimen.SIDE_MARG),
       children: <Widget>[
 
-        DescOnlyWidget(),
+        const DescOnlyWidget(),
 
-        SizedBox(height: Dimen.SIDE_MARG),
+        const SizedBox(height: Dimen.SIDE_MARG),
 
-        AppText(
+        const AppText(
           'W szyfrze matematycznym każdej literze przypisana jest kolejna liczba naturalna począwszy od 1.'
               '\n\nSzyfrowanie polega na zamianie w szyfrowanym wyrazie liter cyframi, oraz na dodaniu między nimi różnych znaków działań arytmetycznych nie mających znaczenia.'
               '\n\nZaszyfrowane słowo <b>H A R C E R Z</b> to:'
@@ -57,7 +57,7 @@ class DescMatematyczny extends StatelessWidget{
                   '\nZ',
               style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG),
             ),
-            SizedBox(width: Dimen.defMarg),
+            const SizedBox(width: Dimen.defMarg),
             Text(
               '\n-'
                   '\n-'
@@ -84,7 +84,7 @@ class DescMatematyczny extends StatelessWidget{
                   '\n-',
               style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG),
             ),
-            SizedBox(width: Dimen.defMarg),
+            const SizedBox(width: Dimen.defMarg),
             Text(
               '\n1'
                   '\n2'

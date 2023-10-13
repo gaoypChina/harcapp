@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/games/slowo_klucz/how_to_guide/page_1.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/games/slowo_klucz/how_to_guide/page_10.dart';
@@ -16,6 +15,8 @@ import 'package:harcapp_core/dimen.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class SlowoKluczHowToGuide extends StatefulWidget{
+  const SlowoKluczHowToGuide({super.key});
+
 
   @override
   State<StatefulWidget> createState() => SlowoKluczHowToGuideState();
@@ -26,16 +27,16 @@ class SlowoKluczHowToGuide extends StatefulWidget{
 class SlowoKluczHowToGuideState extends State<SlowoKluczHowToGuide>{
 
   List<HowToGuideItem> items = [
-    HowToGuideItem(colorStart: Colors.red, colorEnd: Colors.pink, buildPage: (context) => Page1()),
-    HowToGuideItem(colorStart: Colors.red, colorEnd: Colors.orange, buildPage: (context) => Page2()),
-    HowToGuideItem(colorStart: Colors.yellow, colorEnd: Colors.orange, buildPage: (context) => Page3()),
-    HowToGuideItem(colorStart: Colors.yellow, colorEnd: Colors.teal, buildPage: (context) => Page4()),
-    HowToGuideItem(colorStart: Colors.lightBlueAccent, colorEnd: Colors.teal, buildPage: (context) => Page5()),
-    HowToGuideItem(colorStart: Colors.lightBlueAccent, colorEnd: Colors.deepPurple, buildPage: (context) => Page6()),
-    HowToGuideItem(colorStart: Colors.lightBlueAccent, colorEnd: Colors.deepPurple, buildPage: (context) => Page7()),
-    HowToGuideItem(colorStart: Colors.lightBlueAccent, colorEnd: Colors.deepPurple, buildPage: (context) => Page8()),
-    HowToGuideItem(colorStart: Colors.lightBlueAccent, colorEnd: Colors.brown, buildPage: (context) => Page9()),
-    HowToGuideItem(colorStart: Colors.lightBlueAccent, colorEnd: Colors.brown, buildPage: (context) => Page10()),
+    HowToGuideItem(colorStart: Colors.red, colorEnd: Colors.pink, buildPage: (context) => const Page1()),
+    HowToGuideItem(colorStart: Colors.red, colorEnd: Colors.orange, buildPage: (context) => const Page2()),
+    HowToGuideItem(colorStart: Colors.yellow, colorEnd: Colors.orange, buildPage: (context) => const Page3()),
+    HowToGuideItem(colorStart: Colors.yellow, colorEnd: Colors.teal, buildPage: (context) => const Page4()),
+    HowToGuideItem(colorStart: Colors.lightBlueAccent, colorEnd: Colors.teal, buildPage: (context) => const Page5()),
+    HowToGuideItem(colorStart: Colors.lightBlueAccent, colorEnd: Colors.deepPurple, buildPage: (context) => const Page6()),
+    HowToGuideItem(colorStart: Colors.lightBlueAccent, colorEnd: Colors.deepPurple, buildPage: (context) => const Page7()),
+    HowToGuideItem(colorStart: Colors.lightBlueAccent, colorEnd: Colors.deepPurple, buildPage: (context) => const Page8()),
+    HowToGuideItem(colorStart: Colors.lightBlueAccent, colorEnd: Colors.brown, buildPage: (context) => const Page9()),
+    HowToGuideItem(colorStart: Colors.lightBlueAccent, colorEnd: Colors.brown, buildPage: (context) => const Page10()),
   ];
 
   late Color currColorStart;
@@ -59,7 +60,7 @@ class SlowoKluczHowToGuideState extends State<SlowoKluczHowToGuide>{
 
     return AppCard(
       radius: AppCard.bigRadius,
-      margin: EdgeInsets.all(Dimen.SIDE_MARG),
+      margin: const EdgeInsets.all(Dimen.SIDE_MARG),
       padding: EdgeInsets.zero,
       child: GradientWidget(
           colorStart: currColorStart.withOpacity(0.6),
@@ -67,7 +68,7 @@ class SlowoKluczHowToGuideState extends State<SlowoKluczHowToGuide>{
           child: Scaffold(
             backgroundColor: Colors.transparent,
             appBar: AppBar(
-              title: Text('Jak grać?'),
+              title: const Text('Jak grać?'),
               centerTitle: true,
               elevation: 0,
               backgroundColor: Colors.transparent,
@@ -77,7 +78,7 @@ class SlowoKluczHowToGuideState extends State<SlowoKluczHowToGuide>{
 
                 Expanded(
                   child: PageView.builder(
-                    physics: BouncingScrollPhysics(),
+                    physics: const BouncingScrollPhysics(),
                     controller: controller,
                     itemCount: items.length,
                     itemBuilder: (context, page) => items[page].buildPage(context),
@@ -92,7 +93,7 @@ class SlowoKluczHowToGuideState extends State<SlowoKluczHowToGuide>{
                 SmoothPageIndicator(
                     controller: controller!,  // PageController
                     count: items.length,
-                    effect: WormEffect(
+                    effect: const WormEffect(
                       dotColor: Colors.black54,
                       activeDotColor: Colors.white,
                       dotWidth: 8,
@@ -101,7 +102,7 @@ class SlowoKluczHowToGuideState extends State<SlowoKluczHowToGuide>{
                     onDotClicked: (index){}
                 ),
 
-                SizedBox(height: Dimen.SIDE_MARG),
+                const SizedBox(height: Dimen.SIDE_MARG),
 
               ],
             ),

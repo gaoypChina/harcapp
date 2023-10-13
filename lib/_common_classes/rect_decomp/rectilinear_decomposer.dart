@@ -185,18 +185,18 @@ class RectilinearDecomposer {
     int y = 0;
     int width = 0;
     int height = 0;
-    List<int> area_tmp = [-1, -1]; // 2 element;
+    List<int> areaTmp = [-1, -1]; // 2 element;
     for (int i = 0; i < binaryMatrix.row; i++) {
       for (int j = 0; j < binaryMatrix.col; j++) {
         if (binaryMatrix.matrix[i][j]) {
-          area_tmp[0] = temp3![i][j] * temp2![i][j];
-          area_tmp[1] = temp1![i][j] * temp4![i][j];
-          int maxArea = max(area_tmp[0], area_tmp[1]);
+          areaTmp[0] = temp3![i][j] * temp2![i][j];
+          areaTmp[1] = temp1![i][j] * temp4![i][j];
+          int maxArea = max(areaTmp[0], areaTmp[1]);
 
           if (maxArea > area) {
             x = i;
             y = j;
-            if (maxArea == area_tmp[0]) {
+            if (maxArea == areaTmp[0]) {
               width = temp2![i][j];
               height = temp3![i][j];
             } else {

@@ -592,7 +592,7 @@ class AttendanceWidget extends StatelessWidget{
   static void defaultOnAttendanceChanged(BuildContext context, Announcement announcement, AnnouncementAttendanceResp resp, DateTime now){
     Circle circle = announcement.circle;
 
-    bool hasResponse = announcement.respMode == AnnouncementAttendanceRespMode.OBLIGATORY && resp.response != null;
+    bool hasResponse = announcement.respMode == AnnouncementAttendanceRespMode.OBLIGATORY;
     bool isOverdue = resp.response == AnnouncementAttendance.POSTPONE_RESP && resp.postponeTime!.isAfter(now);
 
     bool isNewAwaiting = !hasResponse || (hasResponse && isOverdue);

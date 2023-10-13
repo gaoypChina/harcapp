@@ -10,7 +10,7 @@ class OrgCardWidgetTemplate extends StatelessWidget{
   final heroTag;
   final Widget child;
 
-  const OrgCardWidgetTemplate({required this.background, required this.child, required this.heroTag, this.onTap});
+  const OrgCardWidgetTemplate({super.key, required this.background, required this.child, required this.heroTag, this.onTap});
 
   @override
   Widget build(BuildContext context) {

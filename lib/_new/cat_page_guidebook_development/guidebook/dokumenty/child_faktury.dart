@@ -1,6 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
@@ -17,6 +16,8 @@ import 'data_faktury.dart';
 
 
 class ChildFaktury extends StatelessWidget {
+  const ChildFaktury({super.key});
+
 
   @override
   Widget build(BuildContext context) {
@@ -50,8 +51,8 @@ class ChildFaktury extends StatelessWidget {
             margin: EdgeInsets.zero,
             child: TitleShortcutRowWidget(
               leading: Padding(
-                child: PolaIcon(color: hintEnab_(context)),
                 padding: const EdgeInsets.all(Dimen.ICON_MARG),
+                child: PolaIcon(color: hintEnab_(context)),
               ),
               title: 'Kupuj polskie',
               onOpen: () => polaTap(context),
@@ -67,7 +68,7 @@ class FakturaWidget extends StatelessWidget{
 
   final FakturaData data;
 
-  const FakturaWidget(this.data);
+  const FakturaWidget(this.data, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -114,10 +115,10 @@ class FakturaWidget extends StatelessWidget{
           Row(
             children: [
               SizedBox(
+                width: Dimen.ICON_SIZE,
                 child: Center(
                   child: Text('NIP', style: AppTextStyle(fontWeight: weight.bold, fontSize: 13.0, color: hintEnab_(context))),
                 ),
-                width: Dimen.ICON_SIZE,
               ),
               const SizedBox(width: Dimen.ICON_MARG),
               Hero(
@@ -139,7 +140,7 @@ class FakturaWidget extends StatelessWidget{
 class FakturaBigWidget extends StatelessWidget{
 
   final FakturaData data;
-  const FakturaBigWidget(this.data);
+  const FakturaBigWidget(this.data, {super.key});
 
   @override
   Widget build(BuildContext context) {

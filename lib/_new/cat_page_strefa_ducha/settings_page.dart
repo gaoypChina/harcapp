@@ -180,7 +180,7 @@ class ItemWidgetState extends State<ItemWidget>{
             children: [
 
               Positioned.fill(
-                child: Image.asset('assets/images/stref_duch/' + SettingsPageState.thumbnails[source.uniqId]!, fit: BoxFit.cover),
+                child: Image.asset('assets/images/stref_duch/${SettingsPageState.thumbnails[source.uniqId]!}', fit: BoxFit.cover),
               ),
 
               AnimatedContainer(

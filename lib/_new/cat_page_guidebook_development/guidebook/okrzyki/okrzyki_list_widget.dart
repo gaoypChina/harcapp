@@ -10,7 +10,7 @@ class OkrzykiListWidget extends StatefulWidget{
   final OkrzykiFragmentState parentState;
   final List<Okrzyk> okrzyki;
 
-  const OkrzykiListWidget(this.parentState, this.okrzyki);
+  const OkrzykiListWidget(this.parentState, this.okrzyki, {super.key});
 
   @override
   State<StatefulWidget> createState() => OkrzykiListWidgetState();

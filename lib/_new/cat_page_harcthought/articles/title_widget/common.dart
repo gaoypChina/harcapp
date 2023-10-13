@@ -18,19 +18,19 @@ const double CARD_PADDING_DENSE = Dimen.ICON_MARG;
 const double TEXT_SIZE_NORM = Dimen.TEXT_SIZE_BIG;
 const double TEXT_SIZE_DENSE = Dimen.TEXT_SIZE_SMALL;
 
-String articleCoverHero(Article article) => 'COVER&' + article.id;
-String articleTitleHero(Article article) => 'TITLE&' + article.id;
-String articleAuthorHero(Article article) => 'AUTHOR&' + article.id;
-String articleDateHero(Article article) => 'DATE&' + article.id;
+String articleCoverHero(Article article) => 'COVER&${article.id}';
+String articleTitleHero(Article article) => 'TITLE&${article.id}';
+String articleAuthorHero(Article article) => 'AUTHOR&${article.id}';
+String articleDateHero(Article article) => 'DATE&${article.id}';
 
-String articleTagHero(Article article) => 'TAG&' + article.id;
+String articleTagHero(Article article) => 'TAG&${article.id}';
 
 class TagsWidget extends StatelessWidget{
 
   final Article? article;
   final bool dense;
 
-  const TagsWidget(this.article, {this.dense = false});
+  const TagsWidget(this.article, {super.key, this.dense = false});
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +52,7 @@ class TagsWidget extends StatelessWidget{
           CARD_PADDING_DENSE:
           CARD_PADDING_NORM
       ),
-      physics: BouncingScrollPhysics(),
+      physics: const BouncingScrollPhysics(),
       scrollDirection: Axis.horizontal,
       child: Row(children: tags),
     );
@@ -101,7 +101,7 @@ class DateWidget extends StatelessWidget{
   final Article? article;
   final bool dense;
 
-  const DateWidget(this.article, {this.dense = false});
+  const DateWidget(this.article, {super.key, this.dense = false});
 
   @override
   Widget build(BuildContext context) {

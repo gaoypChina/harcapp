@@ -24,7 +24,7 @@ class ViewAllSprawPage extends StatefulWidget{
 
   const ViewAllSprawPage(
       this.sprawGroupList,
-      {this.initIndex=0,
+      {super.key, this.initIndex=0,
         this.heroTagId,
 
         this.onClaimed,

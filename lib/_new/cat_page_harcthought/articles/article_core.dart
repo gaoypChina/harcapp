@@ -1,7 +1,6 @@
 import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
@@ -274,6 +273,7 @@ class ArticleAzymut extends Article{
   }
 
   static String typeCode = 'art_azymut';
+  @override
   String get _typeCode => typeCode;
 
   ArticleAzymut(
@@ -459,6 +459,7 @@ class ArticleAzymut extends Article{
 class ArticleHarcApp extends Article{
 
   static String typeCode = 'art_harcapp';
+  @override
   String get _typeCode => typeCode;
 
   ArticleHarcApp(

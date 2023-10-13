@@ -12,7 +12,7 @@ class SingleHeaderWidget extends StatelessWidget{
   final String? text;
   final IconData? icon;
 
-  const SingleHeaderWidget(this.title, this.text, {this.icon});
+  const SingleHeaderWidget(this.title, this.text, {super.key, this.icon});
 
   @override
   Widget build(BuildContext context) {

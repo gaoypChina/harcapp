@@ -12,7 +12,7 @@ class ArticleBookmarkWidget extends StatelessWidget{
   final heroTag;
   final Color? color;
 
-  const ArticleBookmarkWidget(this.article, {required this.heroTag, this.color});
+  const ArticleBookmarkWidget(this.article, {super.key, required this.heroTag, this.color});
 
   @override
   Widget build(BuildContext context) {

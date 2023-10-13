@@ -553,7 +553,7 @@ class Forum extends ForumBasicData{
     _postsMap.remove(post.key);
   }
 
-  List<Post> _allPosts;
+  final List<Post> _allPosts;
   List<Post> get allPosts => _allPosts;
 
   void resetPosts(List<Post> allPosts){

@@ -30,8 +30,7 @@ class MealWidget extends StatefulWidget{
 
 class MealWidgetState extends State<MealWidget>{
 
-  TextEditingController? textController;
-  PrimitiveWrapper<int>? portions;
+  late PrimitiveWrapper<int> portions;
 
   Meal get meal => widget.meal;
 
@@ -72,7 +71,7 @@ class MealWidgetState extends State<MealWidget>{
           ],
         );
       },
-          onChanged: (portions) => setState(() => this.portions!.set(portions)),
+          onChanged: (portions) => setState(() => this.portions.set(portions)),
           portions: portions
       ),
 
@@ -131,7 +130,7 @@ class MealWidgetState extends State<MealWidget>{
       ),
 
       Column(children: meal.ingredients.map(
-              (ingredient) => IngredientWidgetConv(ingredient, portions!.get())).toList()),
+              (ingredient) => IngredientWidgetConv(ingredient, portions.get())).toList()),
 
       const SizedBox(height: 28),
 

@@ -181,8 +181,7 @@ class _ListHeader extends StatelessWidget{
     required this.title,
     required this.trailing,
     required this.permissions,
-    required this.color,
-    super.key
+    required this.color
   });
 
   @override

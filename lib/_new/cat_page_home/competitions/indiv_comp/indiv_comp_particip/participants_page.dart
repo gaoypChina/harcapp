@@ -127,6 +127,7 @@ class ParticipantsPageState extends State<ParticipantsPage>{
       },
       onForceLoggedOut: (){
         if(!mounted) return true;
+        Navigator.pop(context); // Here pop only once - `IndivCompPage` will also pop on logout.
         showAppToast(context, text: forceLoggedOutMessage);
         return true;
       },

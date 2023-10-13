@@ -63,7 +63,7 @@ class SprawGridPageState extends State<SprawGridPage>{
 
                 text = remPolChars(text);
                 if(text.isEmpty){
-                  setState(() => this.selSprawUniqNames = sprawUniqNames);
+                  setState(() => selSprawUniqNames = sprawUniqNames);
                   return;
                 }
 

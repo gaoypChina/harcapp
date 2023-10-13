@@ -11,7 +11,7 @@ class SendButton extends StatelessWidget{
 
   bool enabled;
   void Function()? onTap;
-  SendButton(this.enabled, {this.onTap});
+  SendButton(this.enabled, {super.key, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class SendButton extends StatelessWidget{
       onTap: onTap,
       //elevation: AppCard.bigElevation,
       radius: AppCard.bigRadius,
-      padding: EdgeInsets.all(Dimen.ICON_MARG),
+      padding: const EdgeInsets.all(Dimen.ICON_MARG),
       child: Row(
         mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -34,7 +34,7 @@ class SendButton extends StatelessWidget{
                   fontWeight: weight.halfBold
                 )
             ),
-            SizedBox(width: 12),
+            const SizedBox(width: 12),
             Icon(MdiIcons.sendCircleOutline, color: enabled?textEnab_(context):textDisab_(context)),
           ]
       ),

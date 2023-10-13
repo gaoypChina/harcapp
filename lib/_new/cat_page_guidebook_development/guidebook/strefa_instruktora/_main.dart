@@ -72,13 +72,13 @@ class StrefaInstruktoraFragmentState extends State<StrefaInstruktoraFragment> wi
                 ),
               ),
             ],
-            body: TabBarView(
-              physics: const BouncingScrollPhysics(),
+            body: const TabBarView(
+              physics: BouncingScrollPhysics(),
               children: <Widget>[
                 ChildMisja(),
-                const ChildMetodyki(),
+                ChildMetodyki(),
                 ChildKodeks(),
-                const ChildStopnie()
+                ChildStopnie()
               ],
               //controller: _tabController,
             ),

@@ -153,10 +153,10 @@ class PartInfoState extends State<PartInfo>{
             trailing: Icon(MdiIcons.arrowRight),
             onTap: () => openDialog(
                 context: context,
-                builder: (context) => AppCard(
+                builder: (context) => const AppCard(
                   radius: AppCard.bigRadius,
                   padding: EdgeInsets.zero,
-                  margin: const EdgeInsets.all(Dimen.SIDE_MARG),
+                  margin: EdgeInsets.all(Dimen.SIDE_MARG),
                   child: PatronListWidget(),
                 )
             ),

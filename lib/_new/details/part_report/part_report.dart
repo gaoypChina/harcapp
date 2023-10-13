@@ -21,7 +21,7 @@ import '../common.dart';
 class PartReport extends StatefulWidget{
 
   final String _title;
-  const PartReport(this._title);
+  const PartReport(this._title, {super.key});
 
   @override
   State<StatefulWidget> createState() => PartReportState();
@@ -30,22 +30,17 @@ class PartReport extends StatefulWidget{
 
 class PartReportState extends State<PartReport> with TickerProviderStateMixin{
 
-  String? _buttonSendText;
   late bool _isSendButtonActive;
 
-  TextEditingController? controllerReport;
-  TextEditingController? controllerEmail;
+  late TextEditingController controllerReport;
+  late TextEditingController controllerEmail;
 
   late bool bottomVisible;
-
-  late AnimationController _controller;
-  Animation<Offset>? _offsetFloat;
 
   late KeyboardVisibilityController keyboardVisibilityController;
 
   @override
   void initState() {
-    _buttonSendText = 'Wyślij';
     _isSendButtonActive = true;
 
     controllerReport = TextEditingController();
@@ -58,25 +53,13 @@ class PartReportState extends State<PartReport> with TickerProviderStateMixin{
       if(mounted) setState((){/*KeyboardVisibility.isVisible*/});
     });
 
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 350),
-    );
-
-    _offsetFloat = Tween(begin: Offset(0, 0.8), end: Offset.zero).animate(
-          CurvedAnimation(
-            parent: _controller,
-            curve: Curves.fastOutSlowIn,
-          ),
-        );
-
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
 
-    bool enabled = controllerReport!.text.isNotEmpty;
+    bool enabled = controllerReport.text.isNotEmpty;
 
     AppTextFieldHint textReport = AppTextFieldHint(
       hint: 'Opisz napotkany błąd:',
@@ -106,15 +89,15 @@ class PartReportState extends State<PartReport> with TickerProviderStateMixin{
 
         Positioned.fill(
           child: SingleChildScrollView(
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               child: Padding(
-                padding: EdgeInsets.only(left: part_margin, right: part_margin),
+                padding: const EdgeInsets.only(left: part_margin, right: part_margin),
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
 
-                    SizedBox(height: Dimen.ICON_MARG),
+                    const SizedBox(height: Dimen.ICON_MARG),
                     TitleShortcutRowWidget(
                       title: 'Zgłoś błąd',
                       titleColor: hintEnab_(context),
@@ -122,7 +105,7 @@ class PartReportState extends State<PartReport> with TickerProviderStateMixin{
                       //icon: MdiIcons.alertCircleCheckOutline,
                       //iconColor: hintEnab_(context),
                     ),
-                    SizedBox(height: Dimen.ICON_MARG),
+                    const SizedBox(height: Dimen.ICON_MARG),
 
                     textReport,
 
@@ -146,7 +129,6 @@ class PartReportState extends State<PartReport> with TickerProviderStateMixin{
                           GoogleFormSender sender = GoogleFormSender(
                               GoogleFormSender.GEN_ERROR_FORM_URL,
                               beforeSubmit: () => setState(() {
-                                _buttonSendText = 'Wysyłanie...';
                                 _isSendButtonActive = false;
                               }),
                               afterSubmit: (Response response){

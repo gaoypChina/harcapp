@@ -8,6 +8,8 @@ import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class ChildMisja extends StatelessWidget{
+  const ChildMisja({super.key});
+
   @override
   Widget build(BuildContext context) {
 
@@ -183,7 +185,7 @@ class ChildMisja extends StatelessWidget{
 
 class BottomMisja extends BottomSheetDef{
 
-  BottomMisja():super(
+  BottomMisja({super.key}):super(
     title: 'Misja ZHP',
     builder: (context) => SelectableText.rich(
       TextSpan(
@@ -205,7 +207,7 @@ class BottomMisja extends BottomSheetDef{
 
 class BottomMetodaCechy extends BottomSheetDef{
 
-  BottomMetodaCechy():super(
+  BottomMetodaCechy({super.key}):super(
     title: 'Cechy metody',
     builder: (context) => SelectableText.rich(
       TextSpan(
@@ -224,7 +226,7 @@ class BottomMetodaCechy extends BottomSheetDef{
           TextSpan(text: 'Indywidualność\n\n', style: AppTextStyle(fontWeight: weight.halfBold)),
           const TextSpan(text: 'W harcerstwie najważniejszy jest człowiek i jego wszechstronny rozwój. Stwarzamy takie warunki, aby każdy indywidualnie niezależnie od wieku, płci, doświadczenia, zainteresowań mógł znaleźć swoje miejsce w ZHP. Dbamy o wszechstronny rozwój jednostki.\n\n'),
           TextSpan(text: 'Naturalność\n\n', style: AppTextStyle(fontWeight: weight.halfBold)),
-          const TextSpan(text: 'W harcerstwie wszystko jest zwyczajne i dostosowane do warunków, w których żyjemy. Wszystko ma \"swój czas\", dlatego zuchy bawią się, harcerze uczestniczą w grze, harcerze starsi poszukują a wędrownicy podejmują służbę. Robimy tak po to, by każdy miał możliwość rozwoju zgodnie ze swoimi możliwościami i potrzebami. Przestrzeganie norm zawartych w Prawie i Przyrzeczeniu ma źródła w harcerskiej naturze.'),
+          const TextSpan(text: 'W harcerstwie wszystko jest zwyczajne i dostosowane do warunków, w których żyjemy. Wszystko ma "swój czas", dlatego zuchy bawią się, harcerze uczestniczą w grze, harcerze starsi poszukują a wędrownicy podejmują służbę. Robimy tak po to, by każdy miał możliwość rozwoju zgodnie ze swoimi możliwościami i potrzebami. Przestrzeganie norm zawartych w Prawie i Przyrzeczeniu ma źródła w harcerskiej naturze.'),
         ],
       ),
       textAlign: TextAlign.justify,
@@ -234,7 +236,7 @@ class BottomMetodaCechy extends BottomSheetDef{
 
 class BottomMetodaElementy extends BottomSheetDef{
 
-  BottomMetodaElementy():super(
+  BottomMetodaElementy({super.key}):super(
     title: 'Elementy metody',
     builder: (context) => SelectableText.rich(
       TextSpan(
@@ -257,7 +259,7 @@ class BottomMetodaElementy extends BottomSheetDef{
 
 class BottomRolaDruzynowego extends BottomSheetDef{
 
-  BottomRolaDruzynowego():super(
+  BottomRolaDruzynowego({super.key}):super(
       title: 'Rola drużynowego',
       builder: (context) => SelectableText(
         'Główny cel ZHP – wspieranie młodego człowieka w rozwoju i kształtowanie charakteru realizowany jest głównie w codziennej pracy każdej gromady i drużyny. Najważniejszym harcerskim wychowawcą jest drużynowy. Dla realizacji celu naszej organizacji buduje on w drużynie program wychowawczy, indywidualnie odpowiadający na potrzeby członków drużyny, ale oparty na takich samych dla całej organizacji podstawach wychowawczych. Przez program rozumiemy całokształt działań celowo podejmowanych przez instruktora i gromadę/drużynę oraz stawianie wyzwań dla wspierania rozwoju młodego człowieka, kształtowania jego charakteru. Składają się na niego zadania stopni, gwiazdek zuchowych i sprawności, zadania zespołowe, znaki służb, projekty, obóz, kolonia zuchowa itd.. Program jest realizowany na szczeblu gromady i drużyny, a oparty na tych samych dla całej organizacji wartościach. Dla wspierania działań wychowawczych drużynowego harcerskie komendy w swoim programie pracy zawierają działania wzmacniające realizację programu gromad i drużyn.\n\nOsobisty przykład, stosowanie metody harcerskiej, wierność harcerskim ideałom w codziennym życiu czyni drużynowego świadomym swej roli wychowawcą. Zadaniem poszczególnych szczebli organizacji i poszczególnych zespołów instruktorskich jest wspomaganie pracy drużynowego, umacnianie jego roli i pozycji w środowisku harcerskim i lokalnym. Jakość pracy drużynowego powinna być troską całej wspólnoty instruktorskiej.',

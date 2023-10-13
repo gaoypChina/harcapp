@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/single_computer/single_computer.dart';
 import 'package:harcapp/_common_classes/single_computer/single_computer_listener.dart';
 import 'package:harcapp/_common_classes/storage.dart';
@@ -172,12 +171,12 @@ class ArticleLoader extends SingleComputer<ArticleLoaderError, ArticleLoaderList
         Map<String, Tuple2<String, int>> map = {};
         for(String line in lines) {
           if(line.isEmpty) continue;
-          List<String> line_parts = line.split(' ');
-          String id = line_parts[0];
-          String url = line_parts[1];
+          List<String> lineParts = line.split(' ');
+          String id = lineParts[0];
+          String url = lineParts[1];
           int version;
           try{
-            version = int.parse(line_parts[2]);
+            version = int.parse(lineParts[2]);
           }catch (e){
             version = 1;
           }
@@ -243,8 +242,7 @@ class ArticleLoader extends SingleComputer<ArticleLoaderError, ArticleLoaderList
     List<Article> articles = result.item1;
     Map<String, Tuple2<String, int>> altCoverUrls = result.item2;
 
-    if(articles != null)
-      Article.addAllToStart(articles);
+    Article.addAllToStart(articles);
     Article.altCoverUrls = altCoverUrls;
     await ArticleLoader.downloadMissingAltCovers(Article.altCoverUrls!);
 

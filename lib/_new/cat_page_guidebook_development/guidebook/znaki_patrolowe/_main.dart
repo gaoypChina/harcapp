@@ -31,7 +31,7 @@ class ZnakiPatroloweFragmentState extends State<ZnakiPatroloweFragment> with Tic
   @override
   void initState() {
     notifier = ValueNotifier(0);
-    controller = TabController(length: items.length, vsync: this);
+    controller = TabController(length: allItems.length, vsync: this);
     controller.animation!.addListener(() => notifier.value = controller.index + controller.offset);
     super.initState();
   }
@@ -47,12 +47,12 @@ class ZnakiPatroloweFragmentState extends State<ZnakiPatroloweFragment> with Tic
   Widget build(BuildContext context){
 
     List<Widget> children = [];
-    for(int i=0; i<items.length; i++)
-      children.add(Item(items[i], notifier, i));
+    for(int i=0; i<allItems.length; i++)
+      children.add(Item(allItems[i], notifier, i));
 
     List<Tab> tabs = [];
-    for(int i=0; i<items.length; i++)
-      tabs.add(Tab(text: items[i].description));
+    for(int i=0; i<allItems.length; i++)
+      tabs.add(Tab(text: allItems[i].description));
 
     return BottomNavScaffold(
       appBar: AppBar(

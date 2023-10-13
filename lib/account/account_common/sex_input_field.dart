@@ -30,13 +30,13 @@ class SexInputField extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
 
-    final GlobalKey _widgetKey = GlobalKey();
+    final GlobalKey widgetKey = GlobalKey();
 
-    InputFieldController _controller = controller??InputFieldController();
+    InputFieldController controller = this.controller??InputFieldController();
 
-    void Function() onTap = () async {
+    onTap() async {
 
-      final RenderBox renderBoxRed = _widgetKey.currentContext!.findRenderObject() as RenderBox;
+      final RenderBox renderBoxRed = widgetKey.currentContext!.findRenderObject() as RenderBox;
       final position = renderBoxRed.localToGlobal(Offset.zero);
 
       Sex? selSex = await showChooseSexDialog(
@@ -47,19 +47,19 @@ class SexInputField extends StatelessWidget{
 
       if(selSex != null){
         onChanged?.call(selSex);
-        _controller.errorDimed = true;
+        controller.errorDimed = true;
       }
-    };
+    }
 
     return Stack(
-      key: _widgetKey,
+      key: widgetKey,
       children: [
 
         GestureDetector(
           onTap: enabled?onTap:null,
           child: InputField(
             hint: 'Płeć:',
-            controller: _controller,
+            controller: controller,
             hintTextColor: enabled && sex != null?textEnab_(context):(dimTextOnDisabled?textDisab_(context):textEnab_(context)),
             enabled: false,
             leading: Icon(MdiIcons.genderMaleFemale, color: iconDisab_(context)),

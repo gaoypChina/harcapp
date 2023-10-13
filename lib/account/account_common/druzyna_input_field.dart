@@ -10,12 +10,19 @@ class DruzynaInputField extends StatelessWidget{
   final bool enabled;
   final bool dimTextOnDisabled;
   final InputFieldController? controller;
+  final bool asterisk;
 
-  const DruzynaInputField({this.enabled = true, this.dimTextOnDisabled = true, this.controller, super.key});
+  const DruzynaInputField({
+    this.enabled = true,
+    this.dimTextOnDisabled = true,
+    this.controller,
+    this.asterisk = false,
+    super.key
+  });
 
   @override
   Widget build(BuildContext context) => InputField(
-    hint: 'Drużyna:',
+    hint: 'Drużyna:${asterisk?' *':''}',
     hintTop: 'Drużyna',
     controller: controller,
     enabled: enabled,

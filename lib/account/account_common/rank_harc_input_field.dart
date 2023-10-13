@@ -13,12 +13,21 @@ class RankHarcInputField extends StatelessWidget{
   final bool dimTextOnDisabled;
   final InputFieldController? controller;
   final void Function(RankHarc?)? onChanged;
+  final bool asterisk;
 
-  const RankHarcInputField(this.rankHarc, {this.enabled = true, this.dimTextOnDisabled = true, this.controller, this.onChanged, super.key});
+  const RankHarcInputField(
+      this.rankHarc,
+      { this.enabled = true,
+        this.dimTextOnDisabled = true,
+        this.controller,
+        this.onChanged,
+        this.asterisk = false,
+        super.key
+      });
 
   @override
   Widget build(BuildContext context) => HintDropdownWidget<RankHarc?>(
-    hint: 'Stopień harc.:',
+    hint: 'Stopień harc.:${asterisk?' *':''}',
     hintTop: 'Stopień harcerski',
     leading: Icon(MdiIcons.chevronDoubleRight, color: iconDisab_(context)),
     enabled: enabled,

@@ -69,11 +69,11 @@ class BottomSheetTemplateState extends State<BottomSheetTemplate>{
   }
 
   bool handleSizeConf(){
-    bool _exceedsHeight = contentKey!.currentContext!.size!.height > MediaQuery.of(context).size.height;
-    if(_exceedsHeight != exceedsHeight)
-      setState(() => exceedsHeight = _exceedsHeight);
+    bool exceedsHeight = contentKey!.currentContext!.size!.height > MediaQuery.of(context).size.height;
+    if(exceedsHeight != exceedsHeight)
+      setState(() => exceedsHeight = exceedsHeight);
 
-    return _exceedsHeight;
+    return exceedsHeight;
   }
 
   @override

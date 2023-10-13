@@ -160,19 +160,19 @@ void main() async {
             })),
             ChangeNotifierProvider(create: (context){
 
-              ColorPack _selColorPack;
+              ColorPack selColorPack;
 
               switch(appMode){
-                case AppMode.appModeDefault: _selColorPack = const ColorPackStartDefault(); break;
-                case AppMode.appModeAdwent: _selColorPack = const ColorPackStartAdwent(); break;
-                case AppMode.appModeChristmas: _selColorPack = const ColorPackStartChristmas(); break;
-                case AppMode.appModeZmartwychwstanie: _selColorPack = const ColorPackStartDefault(); break;
-                case AppMode.appModePowstWarsz: _selColorPack = const ColorPackStartDefault(); break;
-                default: _selColorPack = const ColorPackStartDefault(); break;
+                case AppMode.appModeDefault: selColorPack = const ColorPackStartDefault(); break;
+                case AppMode.appModeAdwent: selColorPack = const ColorPackStartAdwent(); break;
+                case AppMode.appModeChristmas: selColorPack = const ColorPackStartChristmas(); break;
+                case AppMode.appModeZmartwychwstanie: selColorPack = const ColorPackStartDefault(); break;
+                case AppMode.appModePowstWarsz: selColorPack = const ColorPackStartDefault(); break;
+                default: selColorPack = const ColorPackStartDefault(); break;
               }
 
               return ColorPackProvider(
-                  initColorPack: _selColorPack,
+                  initColorPack: selColorPack,
                   isDark: () => AppSettings.isDark,
                   colorPackDark: const ColorPackBlack()
               );

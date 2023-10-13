@@ -21,7 +21,7 @@ class Item extends StatelessWidget{
   const Item(
       this.title,
       this.content,
-      { this.inCard = false,
+      {super.key,  this.inCard = false,
         this.titleColor,
         this.textColor,
         this.cardColor,
@@ -49,7 +49,7 @@ class Item extends StatelessWidget{
               titleTrailing!
           ],
         ),
-        SizedBox(height: commonPadding),
+        const SizedBox(height: commonPadding),
         AppText(content, color: textColor, height: 1.1, size: Dimen.TEXT_SIZE_BIG),
       ],
     );
@@ -57,13 +57,13 @@ class Item extends StatelessWidget{
     if(inCard)
       return AppCard(
         radius: AppCard.bigRadius,
-        padding: EdgeInsets.all(commonPadding),
+        padding: const EdgeInsets.all(commonPadding),
         color: cardColor,
         child: child,
       );
     else
       return Padding(
-        padding: EdgeInsets.all(commonPadding),
+        padding: const EdgeInsets.all(commonPadding),
         child: child,
       );
 

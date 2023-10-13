@@ -228,7 +228,7 @@ class PartContributors extends StatelessWidget{
             osWspierUI
         ),
 
-        GraphicalResourceCard(_graphicalResources),
+        const GraphicalResourceCard(_graphicalResources),
 
       ],
     );

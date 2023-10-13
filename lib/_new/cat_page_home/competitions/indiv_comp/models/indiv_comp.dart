@@ -60,11 +60,11 @@ class IndivCompAward{
   String? award;
 
   String get place{
-    String _place;
-    if(rangeFrom == rangeTo) _place = '$rangeFrom';
-    else _place = '$rangeFrom - $rangeTo';
+    String place;
+    if(rangeFrom == rangeTo) place = '$rangeFrom';
+    else place = '$rangeFrom - $rangeTo';
 
-    return _place;
+    return place;
   }
 
   IndivCompAward(this.rangeFrom, this.rangeTo, this.award);
@@ -372,8 +372,8 @@ class IndivComp{
   // Completed tasks loaded in the review page
   List<IndivCompCompletedTask> loadedPendingCompletedTasks;
 
-  late IndivCompParticipantsLoader _participantsLoader;
-  late IndivCompCompletedTasksLoader _completedTasksPendingLoader;
+  late final IndivCompParticipantsLoader _participantsLoader;
+  late final IndivCompCompletedTasksLoader _completedTasksPendingLoader;
 
   void update(IndivComp updatedComp){
     name = updatedComp.name;

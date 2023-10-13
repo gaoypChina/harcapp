@@ -462,7 +462,7 @@ class AddShadowUserDialogState extends State<AddShadowUserDialog>{
   String? name;
   Sex? sex;
 
-  TextEditingController? nameController;
+  late TextEditingController nameController;
 
   late bool processing;
   bool get clickable => name==null || sex==null;
@@ -564,7 +564,8 @@ class AddShadowUserDialogState extends State<AddShadowUserDialog>{
                                           name,
                                           sex,
                                           onSuccess: (ShadowUserData user) async {
-                                            await AccountData.addLoadedShadowUser(user);
+                                            if(AccountData.isShadowWithinLoaded(user))
+                                              await AccountData.addLoadedShadowUser(user);
                                             await AccountData.writeShadowUserCount(AccountData.shadowUserCount + 1);
                                             Navigator.pop(context);
                                             await onSuccess?.call(user);

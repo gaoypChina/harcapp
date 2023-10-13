@@ -236,9 +236,7 @@ mixin SyncableParamSingleMixin implements SyncableParam{
   @override
   Future<dynamic> buildPostReq({bool includeDefaults = false, bool setSyncStateInProgress = false}) async {
 
-    int _state = state;
-
-    if(isNotSet || (_state == stateSynced || _state == stateWaitingDownload))
+    if(isNotSet || (state == stateSynced || state == stateWaitingDownload))
       throw NothingToSyncException();
 
     dynamic val = await value;
@@ -351,8 +349,8 @@ mixin SyncableParamGroupMixin implements SyncableParam{
     Map<String, dynamic> result = {};
 
     for(SyncableParam param in childParams){
-      Map _result = param.getUnsyncedMap();
-      if(_result.isNotEmpty) result[paramId] = _result;
+      Map result0 = param.getUnsyncedMap();
+      if(result0.isNotEmpty) result[paramId] = result0;
     }
 
     return result;
@@ -495,13 +493,13 @@ mixin RemoveSyncItem<T> on SyncableParam{
     dir.createSync(recursive: true);
     List<FileSystemEntity> entities = dir.listSync();
 
-    List<String> _all = [];
+    List<String> all = [];
     for(FileSystemEntity entity in entities){
       String fileName = basename(entity.path);
-      _all.add(fileName);
+      all.add(fileName);
     }
 
-    RemoveSyncItem.all = _all;
+    RemoveSyncItem.all = all;
   }
 
 }

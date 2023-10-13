@@ -26,6 +26,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import '../../_app_common/accounts/user_data.dart';
 import '../account_common/org_input_field.dart';
 import '../account_common/rank_instr_input_field.dart';
+import '../account_common/shadow_nick_input_field.dart';
 import 'input_field_controller.dart';
 import 'main_button.dart';
 
@@ -34,7 +35,7 @@ class RegisterMicrosoftAddDataPart extends StatefulWidget{
   final String? azureToken;
   final void Function()? onAbandon;
 
-  const RegisterMicrosoftAddDataPart(this.azureToken, {this.onAbandon});
+  const RegisterMicrosoftAddDataPart(this.azureToken, {super.key, this.onAbandon});
 
   @override
   State<StatefulWidget> createState() => _RegisterMicrosoftAddDataPartState();
@@ -43,6 +44,7 @@ class RegisterMicrosoftAddDataPart extends StatefulWidget{
 
 class _RegisterMicrosoftAddDataPartState extends State<RegisterMicrosoftAddDataPart>{
 
+  late InputFieldController shadowNickController;
   late InputFieldController sexController;
   late InputFieldController orgController;
   late InputFieldController hufiecController;
@@ -70,6 +72,7 @@ class _RegisterMicrosoftAddDataPartState extends State<RegisterMicrosoftAddDataP
 
     LoginProvider loginProv = LoginProvider.of(context);
 
+    shadowNickController.errorText = '';
     sexController.errorText = '';
     orgController.errorText = '';
     hufiecController.errorText = '';
@@ -84,6 +87,8 @@ class _RegisterMicrosoftAddDataPartState extends State<RegisterMicrosoftAddDataP
 
     await ApiRegLog.registerMicrosoft(
         widget.azureToken,
+        shadowNickController.text,
+
         sex,
         org,
         hufiecController.text,
@@ -109,10 +114,10 @@ class _RegisterMicrosoftAddDataPartState extends State<RegisterMicrosoftAddDataP
 
           loginProv.notify();
           AccountData.callOnRegister();
-
+          if(!mounted) return;
+          showAppToast(context, text: accountCreatedGreetingMessage);
           registered = true;
-
-          if(mounted) Navigator.pop(context);
+          Navigator.pop(context);
         },
         onServerMaybeWakingUp: () {
           if(mounted) showServerWakingUpToast(context);
@@ -124,6 +129,7 @@ class _RegisterMicrosoftAddDataPartState extends State<RegisterMicrosoftAddDataP
 
             Map? errorFieldMap = response!.data['errors'];
             if(errorFieldMap != null) {
+              shadowNickController.errorText = errorFieldMap[ApiRegLog.REGISTER_REQ_SHADOW_NICK] ?? '';
               sexController.errorText = errorFieldMap[ApiRegLog.REGISTER_MICROSOFT_REQ_SEX] ?? '';
               orgController.errorText = errorFieldMap[ApiRegLog.REGISTER_MICROSOFT_REQ_ORG] ?? '';
               hufiecController.errorText = errorFieldMap[ApiRegLog.REGISTER_MICROSOFT_REQ_HUFIEC] ?? '';
@@ -149,6 +155,7 @@ class _RegisterMicrosoftAddDataPartState extends State<RegisterMicrosoftAddDataP
   @override
   void dispose() {
 
+    shadowNickController.dispose();
     sexController.dispose();
     orgController.dispose();
     hufiecController.dispose();
@@ -163,6 +170,7 @@ class _RegisterMicrosoftAddDataPartState extends State<RegisterMicrosoftAddDataP
 
   @override
   void initState() {
+    shadowNickController = InputFieldController();
     sexController = InputFieldController();
     orgController = InputFieldController();
     hufiecController = InputFieldController();
@@ -186,6 +194,11 @@ class _RegisterMicrosoftAddDataPartState extends State<RegisterMicrosoftAddDataP
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
 
+              ShadowNickInputField(
+                controller: shadowNickController,
+                asterisk: true,
+              ),
+
               const SizedBox(height: Dimen.SIDE_MARG),
 
               SexInputField(
@@ -197,37 +210,42 @@ class _RegisterMicrosoftAddDataPartState extends State<RegisterMicrosoftAddDataP
               const SizedBox(height: Dimen.SIDE_MARG),
 
               OrgInputField(
-                  org,
-                  controller: orgController,
-                  onChanged: (org) => setState(() => this.org = org)
+                org,
+                controller: orgController,
+                onChanged: (org) => setState(() => this.org = org),
+                asterisk: true,
               ),
 
               const SizedBox(height: Dimen.SIDE_MARG),
 
               HufiecInputField(
-                  controller: hufiecController,
+                controller: hufiecController,
+                asterisk: true,
               ),
 
               const SizedBox(height: Dimen.SIDE_MARG),
 
               DruzynaInputField(
                 controller: druzynaController,
+                asterisk: true,
               ),
 
               const SizedBox(height: Dimen.SIDE_MARG),
 
               RankHarcInputField(
-                  rankHarc,
-                  controller: rankHarcController,
-                  onChanged: (rankHarc) => setState(() => this.rankHarc = rankHarc)
+                rankHarc,
+                controller: rankHarcController,
+                onChanged: (rankHarc) => setState(() => this.rankHarc = rankHarc),
+                asterisk: true,
               ),
 
               const SizedBox(height: Dimen.SIDE_MARG),
 
               RankInstrInputField(
-                  rankInstr,
-                  controller: rankInstrController,
-                  onChanged: (rankInstr) => setState(() => this.rankInstr = rankInstr)
+                rankInstr,
+                controller: rankInstrController,
+                onChanged: (rankInstr) => setState(() => this.rankInstr = rankInstr),
+                asterisk: true,
               ),
 
               const SizedBox(height: 3*Dimen.SIDE_MARG),
@@ -244,7 +262,7 @@ class _RegisterMicrosoftAddDataPartState extends State<RegisterMicrosoftAddDataP
               GDPRInputField(
                   gdprAccept,
                   controller: gdprController,
-                  onAcceptChanged: (accept) => setState(() => this.gdprAccept = accept)
+                  onAcceptChanged: (accept) => setState(() => gdprAccept = accept)
               ),
 
               const SizedBox(height: Dimen.SIDE_MARG),
@@ -252,7 +270,7 @@ class _RegisterMicrosoftAddDataPartState extends State<RegisterMicrosoftAddDataP
               RegulaminInputField(
                   regulaminAccept,
                   controller: regulaminController,
-                  onAcceptChanged: (accept) => setState(() => this.regulaminAccept = accept)
+                  onAcceptChanged: (accept) => setState(() => regulaminAccept = accept)
               ),
 
               const SizedBox(height: 3*Dimen.SIDE_MARG),

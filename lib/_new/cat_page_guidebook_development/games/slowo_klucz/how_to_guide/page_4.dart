@@ -7,6 +7,8 @@ import '../common.dart';
 import 'phone_widget.dart';
 
 class Page4 extends StatefulWidget{
+  const Page4({super.key});
+
 
   @override
   State<StatefulWidget> createState() => Page4State();
@@ -144,33 +146,33 @@ class Page4State extends State<Page4> with PageTemplateInterface{
             AnimatedPositioned(
               top: leaderRedY(width, height),
               left: leaderRedX(width, height),
-              child: PlayerWidget(color: RED_COLOR,  type: PlayerType.LEADER),
               duration: animDuration,
               curve: curve,
+              child: const PlayerWidget(color: RED_COLOR,  type: PlayerType.LEADER),
             ),
 
             AnimatedPositioned(
               top: playerRedY(width, height, 1),
               left: playerRedX(width, height, 1),
-              child: PlayerWidget(color: RED_COLOR),
               duration: animDuration,
               curve: curve,
+              child: const PlayerWidget(color: RED_COLOR),
             ),
 
             AnimatedPositioned(
               top: playerRedY(width, height, 2),
               left: playerRedX(width, height, 2),
-              child: PlayerWidget(color: RED_COLOR),
               duration: animDuration,
               curve: curve,
+              child: const PlayerWidget(color: RED_COLOR),
             ),
 
             AnimatedPositioned(
               top: playerRedY(width, height, 3),
               left: playerRedX(width, height, 3),
-              child: PlayerWidget(color: RED_COLOR),
               duration: animDuration,
               curve: curve,
+              child: const PlayerWidget(color: RED_COLOR),
             ),
 
             // SECOND COLUMN
@@ -178,33 +180,33 @@ class Page4State extends State<Page4> with PageTemplateInterface{
             AnimatedPositioned(
               top: leaderGreenY(width, height),
               left: leaderGreenX(width),
-              child: PlayerWidget(color: GREEN_COLOR,  type: PlayerType.LEADER),
               duration: animDuration,
               curve: curve,
+              child: const PlayerWidget(color: GREEN_COLOR,  type: PlayerType.LEADER),
             ),
 
             AnimatedPositioned(
               top: playerGreenY(width, height, 1),
               left: playerGreenX(width, 1),
-              child: PlayerWidget(color: GREEN_COLOR),
               duration: animDuration,
               curve: curve,
+              child: const PlayerWidget(color: GREEN_COLOR),
             ),
 
             AnimatedPositioned(
               top: playerGreenY(width, height, 2),
               left: playerGreenX(width, 2),
-              child: PlayerWidget(color: GREEN_COLOR),
               duration: animDuration,
               curve: curve,
+              child: const PlayerWidget(color: GREEN_COLOR),
             ),
 
             AnimatedPositioned(
               top: playerGreenY(width, height, 3),
               left: playerGreenX(width, 3),
-              child: PlayerWidget(color: GREEN_COLOR),
               duration: animDuration,
               curve: curve,
+              child: const PlayerWidget(color: GREEN_COLOR),
             ),
 
             // PHONES
@@ -212,6 +214,8 @@ class Page4State extends State<Page4> with PageTemplateInterface{
             AnimatedPositioned(
               top: leftPhoneY(width, height),
               left: leftPhoneX(width),
+              duration: animDuration,
+              curve: curve,
               child: PhoneWidget(
                   builder: (context, width) => AnimatedChildSlider(
                     switchOutCurve: curve,
@@ -219,7 +223,7 @@ class Page4State extends State<Page4> with PageTemplateInterface{
                     duration: _transitDuration,
                     direction: Axis.horizontal,
                     index: animStage == 5?1:0,
-                    children: [
+                    children: const [
                      ScreenQRCode(),
 
                       ScreenGamePlay(withWords: true),
@@ -229,13 +233,13 @@ class Page4State extends State<Page4> with PageTemplateInterface{
                   size: leftPhoneWidth(width),
                   duration: animDuration,
               ),
-              duration: animDuration,
-              curve: curve,
             ),
 
             AnimatedPositioned(
               top: rightPhoneY(width, height),
               left: rightPhoneX(width),
+              duration: animDuration,
+              curve: curve,
               child: AnimatedRotation(
                 turns: rightPhoneRotate()?-0.25:0,
                 curve: curve,
@@ -250,14 +254,14 @@ class Page4State extends State<Page4> with PageTemplateInterface{
                     children: [
                       Builder(builder: (context){
                         if(animStage == 3)
-                          return ScreenScanning();
+                          return const ScreenScanning();
                         else if(animStage == 4 || animStage == 5)
-                          return ScreenCheck();
+                          return const ScreenCheck();
 
-                        return ScreenCamera();
+                        return const ScreenCamera();
                       }),
 
-                      ScreenGamePlay(withColors: true, withWords: true),
+                      const ScreenGamePlay(withColors: true, withWords: true),
 
                     ],
                   ),
@@ -265,8 +269,6 @@ class Page4State extends State<Page4> with PageTemplateInterface{
                   duration: animDuration,
                 ),
               ),
-              duration: animDuration,
-              curve: curve,
             ),
 
           ],

@@ -125,10 +125,10 @@ class ApelEwanOwnFolder extends ApelEwanFolder{
   static Future<ApelEwanOwnFolder> create({String? name, String? iconKey, String? colorsKey}) async {
 
     int lastUsedId = ShaPref.getInt(ShaPref.SHA_PREF_SPRAW_FOLDER_LAST_USED_ID, 0);
-    int _id = lastUsedId + 1;
-    await ShaPref.setInt(ShaPref.SHA_PREF_SPRAW_FOLDER_LAST_USED_ID, _id);
+    int id0 = lastUsedId + 1;
+    await ShaPref.setInt(ShaPref.SHA_PREF_SPRAW_FOLDER_LAST_USED_ID, id0);
 
-    String id = _id.toString();
+    String id = id0.toString();
 
     List<String> allIds = allFolderIds;
     allIds.add(id);
@@ -161,18 +161,18 @@ class ApelEwanOwnFolder extends ApelEwanFolder{
     ApelEwan? apelEwan = allApelEwanMap[apelEwanSiglum];
     if(apelEwan == null) return false;
 
-    List<String> _apelEwanSigla = apelEwanSigla;
-    _apelEwanSigla.add(apelEwanSiglum);
+    List<String> tmpApelEwanSigla = apelEwanSigla;
+    tmpApelEwanSigla.add(apelEwanSiglum);
     apelEwans.add(apelEwan);
-    await setApelEwanFolderSigla(id, _apelEwanSigla);
+    await setApelEwanFolderSigla(id, tmpApelEwanSigla);
     return true;
   }
 
   Future<bool> remove(String apelEwanSiglum) async {
-    List<String> _apelEwanSigla = apelEwanSigla;
-    bool success = _apelEwanSigla.remove(apelEwanSiglum);
+    List<String> tmpApelEwanSigla = apelEwanSigla;
+    bool success = tmpApelEwanSigla.remove(apelEwanSiglum);
     apelEwans.removeWhere((apelEwan) => apelEwan.siglum == apelEwanSiglum);
-    await setApelEwanFolderSigla(id, _apelEwanSigla);
+    await setApelEwanFolderSigla(id, tmpApelEwanSigla);
 
     return success;
   }

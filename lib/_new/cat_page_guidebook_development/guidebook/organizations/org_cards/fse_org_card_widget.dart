@@ -10,7 +10,7 @@ class FSEOrgCardWidget extends StatelessWidget{
 
   final void Function(BuildContext)? onTap;
 
-  const FSEOrgCardWidget({this.onTap});
+  const FSEOrgCardWidget({super.key, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class FSEOrgCardWidget extends StatelessWidget{
             children: [
               Expanded(
                 child: GradientWidget(
-                  colorStart: Color.fromARGB(255, 60, 32, 32),
+                  colorStart: const Color.fromARGB(255, 60, 32, 32),
                   colorEnd: AppColors.fseBackgroundDark,
                   child: Container(),
                 ),

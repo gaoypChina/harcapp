@@ -14,9 +14,9 @@ class CompetitionPreviewGrid extends StatelessWidget{
     crossAxisAlignment: CrossAxisAlignment.stretch,
     children: [
 
-      Row(
+      const Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: const [
+        children: [
           Center(child: IndivCompThumbnailWidget(colorsKey: CommonColorData.rosegoldKey, iconKey: 'map')),
           Center(child: IndivCompThumbnailWidget(colorsKey: CommonColorData.deepblueKey, iconKey: 'jellyfish')),
           SizedBox(width: IndivCompThumbnailWidget.defSize),
@@ -26,9 +26,9 @@ class CompetitionPreviewGrid extends StatelessWidget{
 
       SizedBox(height: (MediaQuery.of(context).size.width - 4*IndivCompThumbnailWidget.defSize - 2*Dimen.SIDE_MARG)/3),
 
-      Row(
+      const Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: const [
+        children: [
           Center(child: IndivCompThumbnailWidget(colorsKey: CommonColorData.mintKey, iconKey: 'fleurDeLis')),
           SizedBox(width: IndivCompThumbnailWidget.defSize),
           Center(child: IndivCompThumbnailWidget(colorsKey: CommonColorData.rosegoldKey, iconKey: 'music')),
@@ -38,9 +38,9 @@ class CompetitionPreviewGrid extends StatelessWidget{
 
       SizedBox(height: (MediaQuery.of(context).size.width - 4*IndivCompThumbnailWidget.defSize - 2*Dimen.SIDE_MARG)/3),
 
-      Row(
+      const Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: const [
+        children: [
           Center(child: IndivCompThumbnailWidget(colorsKey: CommonColorData.raspberryKey, iconKey: 'pirate')),
           Center(child: IndivCompThumbnailWidget(colorsKey: CommonColorData.turquoiseKey, iconKey: 'androidStudio')),
           SizedBox(width: IndivCompThumbnailWidget.defSize),

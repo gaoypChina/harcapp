@@ -142,6 +142,7 @@ class WordCardState extends State<WordCard>{
         },
         onLongPress: () => cardKey!.currentState!.toggleCard(),
         child: RotatedBox(
+          quarterTurns: 1,
           child: AnimatedChildSlider(
             index: showLongPressMessage?1:0,
             children: [
@@ -195,7 +196,6 @@ class WordCardState extends State<WordCard>{
 
             ],
           ),
-          quarterTurns: 1,
         )
     );
 

@@ -1050,7 +1050,7 @@ class MembersWidgetState extends State<MembersWidget>{
 
 class _CircleLoadingWidget extends StatelessWidget{
 
-  const _CircleLoadingWidget({super.key});
+  const _CircleLoadingWidget();
 
   @override
   Widget build(BuildContext context) => Center(
