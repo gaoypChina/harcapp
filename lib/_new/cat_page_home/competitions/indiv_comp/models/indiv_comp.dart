@@ -310,8 +310,8 @@ class IndivComp{
     IndivCompParticip? me = loadedParticipMap[accKey];
 
     if(me == null){
-      AccountData.forgetAccount();
-      AccountData.callOnLogout(true);
+      AccountData.forgetAccount_(false);
+      AccountData.callOnLogout_(false);
       return null;
     }
 

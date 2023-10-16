@@ -1,6 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_classes/org/org.dart';
+import 'package:harcapp/_common_widgets/loading_widget.dart';
+import 'package:harcapp/_new/api/user.dart';
 import 'package:harcapp/account/account_common/druzyna_input_field.dart';
 import 'package:harcapp/account/account_common/hufiec_input_field.dart';
 import 'package:harcapp/account/account_common/rank_harc_input_field.dart';
@@ -111,9 +114,7 @@ class _RegisterMicrosoftAddDataPartState extends State<RegisterMicrosoftAddDataP
             RankHarc? rankHarc,
             RankInstr? rankInstr,
         ) async {
-
-          loginProv.notify();
-          AccountData.callOnRegister();
+          AccountData.callOnRegister(loginProv: loginProv);
           if(!mounted) return;
           showAppToast(context, text: accountCreatedGreetingMessage);
           registered = true;
@@ -142,6 +143,7 @@ class _RegisterMicrosoftAddDataPartState extends State<RegisterMicrosoftAddDataP
             }
 
             generalError = response.data['error'];
+            showAppToast(context, text: 'Błąd w formularzu. Zerknij wyżej!');
 
           }catch (e){
             showAppToast(context, text: simpleErrorMessage);
@@ -288,10 +290,44 @@ class _RegisterMicrosoftAddDataPartState extends State<RegisterMicrosoftAddDataP
                           textColor: processing!?iconDisab_(context):iconEnab_(context),
                           text: 'Rezygnuję',
                           icon: MdiIcons.close,
-                          onTap: processing!?null:(){
-                            Navigator.pop(context);
-                            widget.onAbandon?.call();
-                          },
+                          onTap: processing!?null:() async => showAlertDialog(
+                              context,
+                              title: 'Porzucić konto?',
+                              content: 'Czy na pewno chcesz porzucić to konto?',
+                              actionBuilder: (context) => [
+
+                                AlertDialogButton(
+                                  text: 'Nie',
+                                  onTap: () async {
+
+                                    LoginProvider loginProv = LoginProvider.of(context);
+
+                                    Navigator.pop(context);
+                                    showLoadingWidget(context, 'Usuwanie konta...');
+                                    await ApiUser.delete(
+                                        onSuccess: (){
+                                          showAppToast(context, text: 'Konto porzucone');
+                                          AccountData.forgetAccount(false, loginProv: loginProv);
+                                          widget.onAbandon?.call();
+                                        },
+                                        onError: (_){
+                                          showAppToast(context, text: simpleErrorMessage);
+                                        }
+                                    );
+
+                                    Navigator.pop(context); // Close loading widget.
+                                    Navigator.pop(context);
+
+                                  },
+                                ),
+
+                                AlertDialogButton(
+                                  text: 'Nie',
+                                  onTap: () => Navigator.pop(context),
+                                ),
+
+                              ]
+                          )
                         ),
                       )
                   ),

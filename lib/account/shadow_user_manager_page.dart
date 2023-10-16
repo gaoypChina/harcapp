@@ -41,6 +41,7 @@ class ShadowUserManagerPage extends StatefulWidget{
   final bool openDetailsOnTap;
   final void Function(ShadowUserData)? handleAddNewlyCreatedUser;
   final String Function(ShadowUserData)? selectAddedUserMessage;
+  final bool showSelectAddedUser;
 
   final void Function(int, ShadowUserData, UserData)? onShadowMerged;
 
@@ -51,6 +52,7 @@ class ShadowUserManagerPage extends StatefulWidget{
     this.openDetailsOnTap = true,
     this.handleAddNewlyCreatedUser,
     this.selectAddedUserMessage,
+    this.showSelectAddedUser = false,
     this.onShadowMerged,
     super.key
   });
@@ -68,6 +70,7 @@ class ShadowUserManagerPageState extends State<ShadowUserManagerPage>{
   bool get openDetailsOnTap => widget.openDetailsOnTap;
   void Function(ShadowUserData)? get handleAddNewlyCreatedUser => widget.handleAddNewlyCreatedUser;
   String Function(ShadowUserData)? get selectAddedUserMessage => widget.selectAddedUserMessage;
+  bool get showSelectAddedUser => widget.showSelectAddedUser;
 
   void Function(int, ShadowUserData, UserData)? get onShadowMerged => widget.onShadowMerged;
 
@@ -87,6 +90,7 @@ class ShadowUserManagerPageState extends State<ShadowUserManagerPage>{
           builder: (context) => AddShadowUserDialog(
             onSuccess: (user){
               setState((){});
+              if(!showSelectAddedUser) return;
               showAlertDialog(
                   context,
                   title: 'Dobrze myślę?',
@@ -265,6 +269,7 @@ class ShadowUserTileState extends State<ShadowUserTile>{
       context: context,
       builder: (_) => BottomSheetDef(
           builder: (_) => Column(
+            mainAxisSize: MainAxisSize.min,
               children: [
 
                 AccountHeaderWidget.fromUserData(
@@ -285,7 +290,6 @@ class ShadowUserTileState extends State<ShadowUserTile>{
                         context: context,
                         builder: (context) => AccountNickDialog(
                             userData: shadowUser,
-                            nickSearchable: shadowUser.nickSearchable,
                         )
                     );
                   },
@@ -381,63 +385,6 @@ class ShadowUserTileState extends State<ShadowUserTile>{
     shadow: true,
     onTap: openDetailsOnTap?() => openEditBottomSheet():null,
     trailing: trailing,
-
-    // Row(
-    //   mainAxisSize: MainAxisSize.min,
-    //   children: [
-    //
-    //     IconButton(
-    //         icon:
-    //         processingUpdate?
-    //         SpinKitChasingDots(
-    //           size: Dimen.ICON_SIZE,
-    //           color: iconEnab_(context)
-    //         ):Icon(MdiIcons.pencilOutline),
-    //         onPressed: processing?null:(){
-    //           openDialog(
-    //               context: context,
-    //               builder: (context) => AddShadowUserDialog(
-    //                 user: shadowUser,
-    //                 onSuccess: (user){
-    //                   onEdited?.call();
-    //                   setState((){});
-    //                 },
-    //               )
-    //           );
-    //         }
-    //     ),
-    //
-    //     AppButton(
-    //       icon:
-    //       processingRemove?
-    //       SpinKitChasingDots(
-    //           size: Dimen.ICON_SIZE,
-    //           color: iconEnab_(context)
-    //       ):Icon(MdiIcons.close),
-    //       onTap: () => showAppToast(context, text: 'Przytrzymaj, by usunąć'),
-    //       onLongPress: processing?null:() async {
-    //         setState(() => processingRemove = true);
-    //         showLoadingWidget(context, 'Ewakuacja konta widmo...');
-    //         await ApiUser.deleteShadow(
-    //             shadowUser.key,
-    //             onSuccess: (bool? removed) async {
-    //               AccountData.removeShadowUser(shadowUser);
-    //               await AccountData.writeShadowUserCount(AccountData.shadowUserCount - 1);
-    //               setState(() {});
-    //               onRemoved?.call();
-    //             },
-    //             onError: (){
-    //               if(mounted) showAppToast(context, text: simpleErrorMessage);
-    //             }
-    //         );
-    //         if(mounted) Navigator.pop(context);
-    //         if(mounted) setState(() => processingRemove = false);
-    //
-    //       },
-    //     )
-    //
-    //   ],
-    // ),
   );
   
 }
@@ -564,7 +511,7 @@ class AddShadowUserDialogState extends State<AddShadowUserDialog>{
                                           name,
                                           sex,
                                           onSuccess: (ShadowUserData user) async {
-                                            if(AccountData.isShadowWithinLoaded(user))
+                                            if(AccountData.isShadowUserWithinLoaded(user))
                                               await AccountData.addLoadedShadowUser(user);
                                             await AccountData.writeShadowUserCount(AccountData.shadowUserCount + 1);
                                             Navigator.pop(context);

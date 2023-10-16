@@ -290,8 +290,7 @@ class _ButtonFactoryResetYesState extends State<_ButtonFactoryResetYes>{
 
         await songLoader.run(awaitFinish: true);
         await factoryResetLocal(context);
-        await AccountData.forgetAccount();
-        loginProv.notify();
+        await AccountData.forgetAccount(false, loginProv: loginProv);
         synchronizer.post();
         Navigator.pop(context);
         Navigator.pop(context);

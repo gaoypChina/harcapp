@@ -421,8 +421,8 @@ class Circle extends CircleBasicData{
     Member? me = _loadedMembersMap[accKey];
 
     if(me == null){
-      AccountData.forgetAccount();
-      AccountData.callOnLogout(true);
+      AccountData.forgetAccount_(false);
+      AccountData.callOnLogout_(false);
       return null;
     }
 

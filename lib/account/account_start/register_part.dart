@@ -127,8 +127,7 @@ class RegisterPartState extends State<RegisterPart>{
             RankInstr? rankInstr,
         ) async {
 
-          loginProv.notify();
-          AccountData.callOnRegister();
+          AccountData.callOnRegister(loginProv: loginProv);
 
           if(mounted) pushReplacePage(
               context,
@@ -163,6 +162,7 @@ class RegisterPartState extends State<RegisterPart>{
             }
 
             generalError = response.data['error'];
+            showAppToast(context, text: 'Błąd w formularzu. Zerknij wyżej!');
 
           }catch (e){
             showAppToast(context, text: simpleErrorMessage);

@@ -15,4 +15,4 @@ const String backendUrl = 'http://0.0.0.0:8080';
 /*
 !!! WAŻNE !!!
 Zmiana wartości stałych (const) wymaga (!) restartu apki, a nie tylko Hot Reloadu!
- */
+*/

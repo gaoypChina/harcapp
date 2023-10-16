@@ -320,20 +320,20 @@ class OwnSprawFolder extends BaseSprawFolder{
   static Future<OwnSprawFolder> create({String? name, String? iconKey, String? colorsKey}) async {
 
     int lastUsedId = ShaPref.getInt(ShaPref.SHA_PREF_SPRAW_FOLDER_LAST_USED_ID, 0);
-    int id0 = lastUsedId + 1;
-    await ShaPref.setInt(ShaPref.SHA_PREF_SPRAW_FOLDER_LAST_USED_ID, id0);
+    int id = lastUsedId + 1;
+    await ShaPref.setInt(ShaPref.SHA_PREF_SPRAW_FOLDER_LAST_USED_ID, id);
 
-    String id = id0.toString();
+    String idStr = id.toString();
 
     List<String> allIds = ownFolderIds;
-    allIds.add(id);
+    allIds.add(idStr);
     await setOwnFolderIds(allIds);
 
-    if(name != null) await _setName(id, name);
-    if(iconKey != null) await setIconKey(id, iconKey);
-    if(colorsKey != null) await setColorKey(id, colorsKey);
+    if(name != null) await _setName(idStr, name);
+    if(iconKey != null) await setIconKey(idStr, iconKey);
+    if(colorsKey != null) await setColorKey(idStr, colorsKey);
 
-    return OwnSprawFolder(id: id, spraws: []);
+    return OwnSprawFolder(id: idStr, spraws: []);
   }
 
   @override

@@ -63,7 +63,7 @@ class RankStateLocal extends RankState<RankTaskStateLocal>{
         for(RankTask task in group.tasks!)
           tasks[task.uid] = RankTaskStateLocal(this, task.uid);
 
-    tasks = tasks;
+    this.tasks = tasks;
 
   }
 

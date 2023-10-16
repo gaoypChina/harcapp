@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/widgets.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:harcapp/_common_classes/common_contact_data.dart';
@@ -372,8 +374,8 @@ class MarkerData{
     MarkerManager? me = _loadedManagersMap[accKey];
 
     if(me == null){
-      AccountData.forgetAccount();
-      AccountData.callOnLogout(true);
+      AccountData.forgetAccount_(false);
+      AccountData.callOnLogout_(false);
       return null;
     }
 
@@ -402,7 +404,7 @@ class MarkerData{
       _loadedManagersMap = {for (MarkerManager m in managers) m.key: m},
       _managersLoader = MarkerManagersLoader()
   {
-    CustomPoint latLngPoint = const SphericalMercator().project(LatLng(lat, lng));
+    Point<double> latLngPoint = const SphericalMercator().project(LatLng(lat, lng));
     lngDist = latLngPoint.x.toDouble();
     latDist = latLngPoint.y.toDouble();
 

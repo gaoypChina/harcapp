@@ -351,3 +351,7 @@ String trimLeadingWhitespace(String text) {
   var prefixLength = prefix.length;
   return lines.map((s) => s.substring(prefixLength)).join("\n");
 }
+
+bool isNullOrEmpty(String? string) => string == null || string.isEmpty;
+
+String? nullIfEmpty(String? string) => string == null?null:string.isEmpty?null:string;

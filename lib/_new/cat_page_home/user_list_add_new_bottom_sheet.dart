@@ -169,6 +169,7 @@ class UserListAddNewBottomSheet extends StatelessWidget{
                           openDetailsOnTap: false,
                           handleAddNewlyCreatedUser: handleAddingUser,
                           selectAddedUserMessage: (user) => 'Czy chcesz dodać stworzone właśnie konto widmo użytkownika <b>${user.name}</b> do współzawodnictwa?',
+                          showSelectAddedUser: true,
                         ),
                     );
 

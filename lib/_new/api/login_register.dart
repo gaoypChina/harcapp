@@ -9,6 +9,7 @@ import 'package:harcapp/_new/cat_page_home/community/forum/model/post.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/common.dart';
+import 'package:harcapp/account/login_provider.dart';
 import 'package:harcapp/sync/init_sync_analyser.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:harcapp/values/rank_harc.dart';
@@ -374,16 +375,16 @@ class ApiRegLog{
     onError: onError,
   );
 
-  static Future<Response?> logout({
-    FutureOr<void> Function()? onSuccess,
+  static Future<Response?> logout(
+    LoginProvider loginProv,
+    { FutureOr<void> Function()? onSuccess,
     FutureOr<bool> Function()? onServerMaybeWakingUp,
     FutureOr<void> Function()? onError,
   }) async => API.sendRequest(
     withToken: true,
     requestSender: (Dio dio) async => await dio.get('${API.baseUrl}api/user/logout'),
     onSuccess: (Response response, DateTime now) async{
-      await AccountData.forgetAccount();
-      AccountData.callOnLogout(false);
+      await AccountData.forgetAccount(false, loginProv: loginProv);
       await onSuccess?.call();
     },
     onForceLoggedOut: () async {
@@ -486,12 +487,12 @@ class ApiRegLog{
           data: FormData.fromMap({
             REGISTER_REQ_EMAIL: email,
             REGISTER_REQ_PASSWORD: password,
-            REGISTER_REQ_SHADOW_NICK: shadowUserToMergeNick,
+            if(!isNullOrEmpty(shadowUserToMergeNick))REGISTER_REQ_SHADOW_NICK: shadowUserToMergeNick,
             REGISTER_REQ_NAME: name,
             REGISTER_REQ_SEX: sexToBool[sex!],
             if(org != null) REGISTER_REQ_ORG: orgToParam(org),
-            if(hufiec != null) REGISTER_REQ_HUFIEC: hufiec,
-            if(druzyna != null) REGISTER_REQ_DRUZYNA: druzyna,
+            if(!isNullOrEmpty(hufiec)) REGISTER_REQ_HUFIEC: hufiec,
+            if(!isNullOrEmpty(druzyna)) REGISTER_REQ_DRUZYNA: druzyna,
             if(rankHarc != null) REGISTER_REQ_RANK_HARC: rankHarcToParam(rankHarc),
             if(rankInstr != null) REGISTER_REQ_RANK_INSTR: rankInstrToParam(rankInstr),
             REGISTER_REQ_POLICY: regulaminAccept,
@@ -546,7 +547,7 @@ class ApiRegLog{
 
   static Future<Response?> registerMicrosoft(
       String? azureToken,
-      String? shadowNick,
+      String? shadowUserToMergeNick,
       Sex? sex,
       Org? org,
       String? hufiec,
@@ -602,11 +603,11 @@ class ApiRegLog{
           '${API.baseUrl}api/user/registerMicrosoft',
           data: FormData.fromMap({
             REGISTER_MICROSOFT_REQ_AZURE_TOKEN: azureToken,
-            REGISTER_MICROSOFT_REQ_SHADOW_NICK: shadowNick,
+            if(!isNullOrEmpty(shadowUserToMergeNick)) REGISTER_MICROSOFT_REQ_SHADOW_NICK: shadowUserToMergeNick,
             REGISTER_MICROSOFT_REQ_SEX: sexToBool[sex!],
             if(org != null) REGISTER_MICROSOFT_REQ_ORG: orgToParam(org),
-            if(hufiec != null) REGISTER_MICROSOFT_REQ_HUFIEC: hufiec,
-            if(druzyna != null) REGISTER_MICROSOFT_REQ_DRUZYNA: druzyna,
+            if(!isNullOrEmpty(hufiec)) REGISTER_MICROSOFT_REQ_HUFIEC: hufiec,
+            if(!isNullOrEmpty(druzyna)) REGISTER_MICROSOFT_REQ_DRUZYNA: druzyna,
             if(rankHarc != null) REGISTER_MICROSOFT_REQ_RANK_HARC: rankHarcToParam(rankHarc),
             if(rankInstr != null) REGISTER_MICROSOFT_REQ_RANK_INSTR: rankInstrToParam(rankInstr),
             REGISTER_MICROSOFT_REQ_POLICY: regulaminAccept,

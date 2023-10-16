@@ -109,10 +109,10 @@ class AccountHeaderWidget extends StatelessWidget{
 
     dynamic heroTag;
 
-    if(showDetailsButton)
+    if(showDetailsButton && this.heroTag == null)
       heroTag = const Uuid().v4();
     else
-      heroTag = heroTag;
+      heroTag = this.heroTag;
 
     Widget header = Column(
       mainAxisSize: MainAxisSize.min,
@@ -240,14 +240,12 @@ class AccountHeaderWidget extends StatelessWidget{
           Padding(
               padding: const EdgeInsets.only(
                 top: Dimen.SIDE_MARG,
-                // left: Dimen.SIDE_MARG,
-                // right: Dimen.SIDE_MARG,
               ),
               child: BorderMaterial(
                 borderColor: detailsBorderColor,
                 color: backgroundColor,
                 child: Padding(
-                  padding: const EdgeInsets.all(Dimen.SIDE_MARG - BorderMaterial.defBorderWidth),
+                  padding: const EdgeInsets.symmetric(vertical: Dimen.SIDE_MARG - BorderMaterial.defBorderWidth),
                   child: Builder(
                     builder: (context) {
 

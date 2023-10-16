@@ -131,7 +131,6 @@ class ApiUser{
         FutureOr<void> Function(bool noSuchUser)? onError,
         FutureOr<void> Function(UserDataNick user)? onSuccess,
       }) async => await API.sendRequest(
-    withToken: true,
     requestSender: (Dio dio) => dio.get(
       '${API.baseUrl}api/user/search/$nick',
       queryParameters: {
@@ -139,7 +138,11 @@ class ApiUser{
         'searchReal': searchReal,
       }
     ),
-    onSuccess: (Response response, DateTime now) async => await onSuccess?.call(UserDataNick.fromRespMap(response.data)),
+    onSuccess: (Response response, DateTime now) async => await onSuccess?.call(
+        response.data['shadow']==true?
+        ShadowUserData.fromRespMap(response.data):
+        UserDataNick.fromRespMap(response.data)
+    ),
     onError: (DioException error) async {
       bool noSuchUserStatus = error.response?.statusCode == HttpStatus.notFound;
       bool noSuchUserBody = false;
@@ -325,7 +328,7 @@ class ApiUser{
   );
 
   static String UPDATE_REQ_NICK_SEARCHABLE = 'nickSearchable';
-  static Future<Response?> nickSearchable({required searchable, FutureOr<void> Function(bool? searchable)? onSuccess, FutureOr<void> Function(Response? response)? onError}) async => await API.sendRequest(
+  static Future<Response?> nickSearchable({required searchable, FutureOr<void> Function(bool searchable)? onSuccess, FutureOr<void> Function(Response? response)? onError}) async => await API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.post(
           '${API.baseUrl}api/user/nickSearchable',
@@ -335,7 +338,7 @@ class ApiUser{
       onError: (DioException error) async => await onError!(error.response)
   );
 
-  static Future<Response?> shadowNickSearchable(String shadowKey, {required searchable, FutureOr<void> Function(bool? searchable)? onSuccess, FutureOr<void> Function(Response? response)? onError}) async => await API.sendRequest(
+  static Future<Response?> shadowNickSearchable(String shadowKey, {required searchable, FutureOr<void> Function(bool searchable)? onSuccess, FutureOr<void> Function(Response? response)? onError}) async => await API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.post(
           '${API.baseUrl}api/user/shadow/$shadowKey/nickSearchable',

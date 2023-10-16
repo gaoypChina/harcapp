@@ -70,8 +70,8 @@ class BottomSheetTemplateState extends State<BottomSheetTemplate>{
 
   bool handleSizeConf(){
     bool exceedsHeight = contentKey!.currentContext!.size!.height > MediaQuery.of(context).size.height;
-    if(exceedsHeight != exceedsHeight)
-      setState(() => exceedsHeight = exceedsHeight);
+    if(this.exceedsHeight != exceedsHeight)
+      setState(() => this.exceedsHeight = exceedsHeight);
 
     return exceedsHeight;
   }
@@ -177,34 +177,6 @@ class BottomSheetDefState extends State<BottomSheetDef>{
             ),
           ],
         ),
-
-
-        // IntrinsicHeight(
-        //   child: Column(
-        //     mainAxisSize: MainAxisSize.min,
-        //     crossAxisAlignment: CrossAxisAlignment.stretch,
-        //     children: <Widget>[
-        //       if(widget.title!=null)
-        //         Padding(
-        //             padding: const EdgeInsets.all(Dimen.BOTTOM_SHEET_TITLE_MARG),
-        //             child: Column(
-        //               crossAxisAlignment: CrossAxisAlignment.stretch,
-        //               mainAxisSize: MainAxisSize.min,
-        //               children: <Widget>[
-        //                 Text(widget.title!, style: AppTextStyle(fontWeight: weight.halfBold, color: widget.textColor, fontSize: Dimen.TEXT_SIZE_BIG), textAlign: TextAlign.end,),
-        //                 if(widget.subTitle!=null) Text(widget.subTitle!, style: AppTextStyle(color: hintEnab_(context), fontSize: Dimen.TEXT_SIZE_NORMAL), textAlign: TextAlign.end,),
-        //               ],
-        //             )
-        //         ),
-        //       Expanded(
-        //         child: Padding(
-        //           padding: widget.childMargin,
-        //           child: widget.builder(context),
-        //         ),
-        //       )
-        //     ],
-        //   ),
-        // )
 
     ),
   );

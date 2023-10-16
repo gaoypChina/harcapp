@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:harcapp/_common_classes/org/org.dart';
+import 'package:harcapp/_common_classes/sorted_list.dart';
 import 'package:harcapp/_new/api/_api.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/model/trop.dart';
 import 'package:harcapp/_new/cat_page_home/community/community_publishable.dart';
@@ -11,10 +12,12 @@ import 'package:harcapp/_new/cat_page_home/community/model/community.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
 import 'package:harcapp/logger.dart';
 import 'package:harcapp/values/rank_instr.dart';
+import 'package:harcapp_core/comm_classes/common.dart';
 
 import '../_app_common/accounts/user_data.dart';
 import '../_new/cat_page_home/community/circle/model/announcement.dart';
 import '../values/rank_harc.dart';
+import 'login_provider.dart';
 import 'ms_oauth.dart';
 
 //bool isLoggedIn = null; //true - logged in. false - not logged in. null - logging in;
@@ -53,24 +56,32 @@ class AccountData {
   static void addLoginListener(LoginListener listener) => _listeners.add(listener);
   static void removeLoginListener(LoginListener listener) => _listeners.remove(listener);
 
-  static void callOnLogin(bool emailConfirmed){
+  static void callOnLogin(bool emailConfirmed, {required LoginProvider loginProv}){
     for(LoginListener listener in _listeners)
       listener.onLogin?.call(emailConfirmed);
+    loginProv.notify();
   }
 
-  static void callOnRegister(){
+  static void callOnRegister({required LoginProvider loginProv}){
     for(LoginListener listener in _listeners)
       listener.onRegistered?.call();
+    loginProv.notify();
   }
 
-  static void callOnEmailConfirmChanged(bool emailConfirmed){
+  static void callOnEmailConfirmChanged(bool emailConfirmed, {required LoginProvider loginProv}){
     for(LoginListener listener in _listeners)
       listener.onEmailConfirmChanged?.call(emailConfirmed);
+    loginProv.notify();
   }
 
-  static void callOnLogout(bool force){
+  static void callOnLogout_(bool force){
     for(LoginListener listener in _listeners)
       listener.onLogout?.call(force);
+  }
+
+  static void callOnLogout(bool force, {required LoginProvider loginProv}){
+    callOnLogout_(force);
+    loginProv.notify();
   }
 
   static String? _lastConfLoginEmail;
@@ -98,7 +109,7 @@ class AccountData {
   static String? _microsoftAcc;
   static String? _regularAcc;
   static int? _shadowUserCount;
-  static List<ShadowUserData>? _loadedShadowUsers;
+  static SortedList<ShadowUserData>? _loadedShadowUsers;
   static Map<String, ShadowUserData>? _loadedShadowUserMap;
   static int? _allSharedTropCount;
 
@@ -533,15 +544,31 @@ class AccountData {
   }
 
 
-  static List<ShadowUserData> get loadedShadowUsers => _loadedShadowUsers!;
-  static set loadedShadowUsers(List<ShadowUserData> value){
-    value.sort((user1, user2) => user1.name.toLowerCase().compareTo(user2.name.toLowerCase()));
+  static SortedList<ShadowUserData> get loadedShadowUsers => _loadedShadowUsers!;
+  static set loadedShadowUsers(SortedList<ShadowUserData> value){
     _loadedShadowUsers = value;
     _loadedShadowUserMap = {for(ShadowUserData user in value) user.key: user};
     writeShadowUsers(value);
   }
 
   static Map<String, ShadowUserData>? get loadedShadowUserMap => _loadedShadowUserMap;
+
+  static int shadowUserComparator(ShadowUserData u1, ShadowUserData u2){
+    int nameResult = compareText(u1.name, u2.name);
+    if(nameResult != 0) return nameResult;
+    int keyResult = compareText(u1.key, u2.key);
+    return keyResult;
+  }
+
+  static bool isShadowUserWithinLoaded(ShadowUserData user){
+    if(loadedShadowUsers.length == shadowUserCount) return true;
+    if(loadedShadowUsers.isEmpty) return false;
+    ShadowUserData lastLoaded = loadedShadowUsers.last;
+
+    int result = shadowUserComparator(user, lastLoaded);
+
+    return result < 0;
+  }
 
   static Future<void> removeShadowUsers() async {
     _loadedShadowUsers = null;
@@ -559,7 +586,7 @@ class AccountData {
   }
 
   static Future<void> addLoadedShadowUser(ShadowUserData value) async {
-    List<ShadowUserData> shadowUsers = _loadedShadowUsers??[];
+    SortedList<ShadowUserData> shadowUsers = _loadedShadowUsers??SortedList(shadowUserComparator);
     shadowUsers.add(value);
     _loadedShadowUsers = shadowUsers;
     _loadedShadowUserMap = {for(ShadowUserData user in _loadedShadowUsers!) user.key: user};
@@ -567,7 +594,7 @@ class AccountData {
   }
 
   static Future<void> addLoadedShadowUsers(List<ShadowUserData> value) async {
-    List<ShadowUserData> shadowUsers = _loadedShadowUsers??[];
+    SortedList<ShadowUserData> shadowUsers = _loadedShadowUsers??SortedList(shadowUserComparator);
     shadowUsers.addAll(value);
     _loadedShadowUsers = shadowUsers;
     _loadedShadowUserMap = {for(ShadowUserData user in value) user.key: user};
@@ -575,13 +602,13 @@ class AccountData {
   }
 
   static Future<void> setLoadedShadowUsers(List<ShadowUserData> value) async {
-    _loadedShadowUsers = value;
+    _loadedShadowUsers = SortedList.from(elements: value, compare: shadowUserComparator);
     _loadedShadowUserMap = {for(ShadowUserData user in _loadedShadowUsers!) user.key: user};
     await writeShadowUsers(_loadedShadowUsers!);
   }
 
   static Future<void> updateShadowUser(ShadowUserData value) async {
-    List<ShadowUserData> shadowUsers = _loadedShadowUsers!;
+    SortedList<ShadowUserData> shadowUsers = _loadedShadowUsers!;
     ShadowUserData? oldUser = _loadedShadowUserMap![value.key];
     shadowUsers.remove(oldUser);
     shadowUsers.add(value);
@@ -591,7 +618,7 @@ class AccountData {
   }
 
   static Future<void> removeShadowUser(ShadowUserData value) async {
-    List<ShadowUserData> shadowUsers = _loadedShadowUsers!;
+    SortedList<ShadowUserData> shadowUsers = _loadedShadowUsers!;
     shadowUsers.remove(value);
     _loadedShadowUsers = shadowUsers;
     _loadedShadowUserMap = {for(ShadowUserData user in _loadedShadowUsers!) user.key: user};
@@ -599,7 +626,7 @@ class AccountData {
   }
 
   static void initShadowUsers(List<Map<String, dynamic>> shadowUserData){
-    _loadedShadowUsers = [];
+    _loadedShadowUsers = SortedList(shadowUserComparator);
     _loadedShadowUserMap = {};
     addLoadedShadowUsers([for(Map map in shadowUserData) ShadowUserData.fromRespMap(map)]);
   }
@@ -636,8 +663,7 @@ class AccountData {
     );
   }
 
-
-  static Future<void> forgetAccount({bool forgetLastServerTime = false}) async {
+  static Future<void> forgetAccount_(bool force, {bool forgetLastServerTime = false}) async {
     if(forgetLastServerTime) await AccountData.removeLastServerTime();
 
     await ZhpAccAuth.logout();
@@ -662,6 +688,13 @@ class AccountData {
     Announcement.forget();
     IndivComp.forget();
     TropSharedPreviewData.forget();
+
+  }
+
+  static Future<void> forgetAccount(bool force, {bool forgetLastServerTime = false, required LoginProvider loginProv}) async {
+    forgetAccount_(force, forgetLastServerTime: forgetLastServerTime);
+
+    callOnLogout(force, loginProv: loginProv);
   }
 }
 

@@ -495,7 +495,7 @@ class AppState extends State<App> with WidgetsBindingObserver {
     post(() async {
       await ZhpAccAuth.init(navigatorKey);
       if(!account && AccountData.loggedIn){
-        await AccountData.forgetAccount();
+        await AccountData.forgetAccount(false, loginProv: loginProv);
         setState(() {});
       }
     });
@@ -506,7 +506,7 @@ class AppState extends State<App> with WidgetsBindingObserver {
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
-    AccountData.removeLoginListener( _loginListener);
+    AccountData.removeLoginListener(_loginListener);
     synchronizer.removeListener(syncListener);
     super.dispose();
   }

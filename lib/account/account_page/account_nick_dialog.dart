@@ -23,10 +23,8 @@ import 'package:qr_flutter/qr_flutter.dart';
 class AccountNickDialog extends StatefulWidget{
 
   final ShadowUserData? userData;
-  final bool? nickSearchable;
 
-  const AccountNickDialog({this.userData, this.nickSearchable, super.key}):
-        assert((userData != null && nickSearchable != null) || (userData == null && nickSearchable == null));
+  const AccountNickDialog({this.userData, super.key});
 
   @override
   State<StatefulWidget> createState() => AccountNickDialogState();
@@ -38,11 +36,10 @@ class AccountNickDialogState extends State<AccountNickDialog>{
   late bool nickProcessing;
   late bool nickSearchableProcessing;
 
-
   UserDataNick get userData => widget.userData??AccountData.toUserData();
-  bool get nickSearchable => widget.nickSearchable??AccountData.nickSearchable;
+  bool get nickSearchable => widget.userData?.nickSearchable??AccountData.nickSearchable;
 
-  void onNickChanged() async {
+  void onNickChange() async {
 
     setState(() => nickProcessing = true);
 
@@ -93,24 +90,41 @@ class AccountNickDialogState extends State<AccountNickDialog>{
 
   }
 
-  void onNickSearchableChanged() async {
+  void onNickSearchableChange() async {
 
     setState(() => nickSearchableProcessing = true);
 
-    await ApiUser.nickSearchable(
-        searchable: !AccountData.nickSearchable,
-        onSuccess: (bool? nickSearchable) async {
-            await AccountData.writeNickSearchable(nickSearchable!);
-            setState((){});
-        },
-        onError: (Response? response){
-          try{
-            Map? errMap = response!.data['errors'];
-            showAppToast(context, text: errMap![ApiUser.UPDATE_REQ_NICK_SEARCHABLE]??'');
-          }catch (e){showAppToast(context, text: 'Coś nie siadło.');}
+    if(userData.shadow)
+      await ApiUser.shadowNickSearchable(
+          userData.key,
+          searchable: !nickSearchable,
+          onSuccess: (bool nickSearchable) async {
+            AccountData.loadedShadowUserMap![userData.key]!.nickSearchable = nickSearchable;
+            setState(() => widget.userData!.nickSearchable = nickSearchable);
+          },
+          onError: (Response? response){
+            try{
+              Map? errMap = response!.data['errors'];
+              showAppToast(context, text: errMap![ApiUser.UPDATE_REQ_NICK_SEARCHABLE]??'');
+            }catch (e){showAppToast(context, text: 'Coś nie siadło.');}
 
-        }
-    );
+          }
+      );
+    else
+      await ApiUser.nickSearchable(
+          searchable: !nickSearchable,
+          onSuccess: (bool nickSearchable) async {
+              await AccountData.writeNickSearchable(nickSearchable);
+              setState((){});
+          },
+          onError: (Response? response){
+            try{
+              Map? errMap = response!.data['errors'];
+              showAppToast(context, text: errMap![ApiUser.UPDATE_REQ_NICK_SEARCHABLE]??'');
+            }catch (e){showAppToast(context, text: 'Coś nie siadło.');}
+
+          }
+      );
 
     setState(() => nickSearchableProcessing = false);
 
@@ -147,7 +161,7 @@ class AccountNickDialogState extends State<AccountNickDialog>{
                     child: Consumer<ConnectivityProvider>(
                       builder: (context, prov, child) => Switch(
                         value: nickSearchableProcessing?!nickSearchable:nickSearchable,
-                        onChanged: !prov.connected || nickSearchableProcessing?null:(value) => onNickSearchableChanged(),
+                        onChanged: !prov.connected || nickSearchableProcessing?null:(value) => onNickSearchableChange(),
                       ),
                     ),
                   )
@@ -210,7 +224,7 @@ class AccountNickDialogState extends State<AccountNickDialog>{
                     Consumer<ConnectivityProvider>(
                       builder: (context, prov, child) => IconButton(
                         icon: Icon(MdiIcons.refresh),
-                        onPressed: !prov.connected || nickProcessing || !nickSearchable?null:() => onNickChanged(),
+                        onPressed: !prov.connected || nickProcessing || !nickSearchable?null:() => onNickChange(),
                       ),
                     )
 

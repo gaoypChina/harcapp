@@ -248,8 +248,7 @@ class AccountPageState extends State<AccountPage> with TickerProviderStateMixin{
             await AccountData.writeEmail(email);
             await AccountData.writeJwt(jwt);
 
-            loginProv.notify();
-            AccountData.callOnEmailConfirmChanged(false);
+            AccountData.callOnEmailConfirmChanged(false, loginProv: loginProv);
 
             if(mounted)
               pushReplacePage(context, builder: (context) => ConfEmailPart(email));
@@ -988,8 +987,7 @@ class DeleteAccountDialogState extends State<DeleteAccountDialog>{
                               validAzureToken: await ZhpAccAuth.azureToken,
                               onSuccess: () async {
                                 String? email = AccountData.email;
-                                await AccountData.forgetAccount();
-                                loginProv.notify();
+                                await AccountData.forgetAccount(false, loginProv: loginProv);
 
                                 if (!mounted) return;
                                 showAppToast(context, text: 'Konto HarcApp <b>$email</b> trwale usunięte.');
