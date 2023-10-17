@@ -55,7 +55,7 @@ class WDecheData{
     WDecheData(text: 'Skończyła się srajtaśma?'
         '\nTo kup! Kup kup kup kup!'),
 
-    WDecheData(text: 'Od tanich parówek gorsza jest tylko kiełbasa wyborcza?'),
+    WDecheData(text: 'Od tanich parówek gorsza jest tylko kiełbasa wyborcza'),
 
     WDecheData(
       text: 'Lepiej mieć tasiemca, niż żadnego życia wewnętrznego...',
