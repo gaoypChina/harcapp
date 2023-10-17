@@ -356,6 +356,11 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
     await markerLoadingEnded(thisMarkerLoaderIndex);
   }
 
+  void checkNetworkShowToast() async {
+    if(!await isNetworkAvailable() && mounted)
+      showAppToast(context, text: noInternetMessage);
+  }
+
   @override
   void initState() {
 
@@ -391,6 +396,8 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
     );
 
     AccountData.addLoginListener(loginListener);
+
+    checkNetworkShowToast();
 
     super.initState();
   }

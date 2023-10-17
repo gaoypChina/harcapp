@@ -597,7 +597,7 @@ class AccountData {
     SortedList<ShadowUserData> shadowUsers = _loadedShadowUsers??SortedList(shadowUserComparator);
     shadowUsers.addAll(value);
     _loadedShadowUsers = shadowUsers;
-    _loadedShadowUserMap = {for(ShadowUserData user in value) user.key: user};
+    _loadedShadowUserMap!.addAll({for(ShadowUserData user in value) user.key: user});
     await writeShadowUsers(_loadedShadowUsers!);
   }
 

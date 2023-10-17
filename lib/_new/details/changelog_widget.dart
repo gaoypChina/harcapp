@@ -26,6 +26,13 @@ class PartChangelog extends StatelessWidget{
           sliver: SliverList(delegate: SliverChildListDelegate([
 
             const ListCard(
+                '3.1.34',
+                [
+                  'Dodano nowe formy harcerskie.'
+                ]
+            ),
+
+            const ListCard(
                 '3.1.33',
                 [
                   'Poprawiono błąd ładowania elementów rozwoju harcerskiego.'
