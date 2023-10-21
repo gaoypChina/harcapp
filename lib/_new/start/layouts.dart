@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -15,6 +16,7 @@ import 'package:harcapp/values/colors.dart';
 import 'package:harcapp/values/quote.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
+import 'package:harcapp_core/comm_widgets/blur.dart';
 import 'package:harcapp_core/comm_widgets/gradient_widget.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -305,6 +307,7 @@ class DefaultLayout extends StatefulWidget{
       case AppMode.appModeZmartwychwstanie: return ZmartwychwstanieLayoutState();
       case AppMode.appModeWolyn: return WolynLayoutState();
       case AppMode.appModePowstWarsz: return PowstanieWarszawskieLayoutState();
+      case AppMode.appModeAllSaints: return AllSaintsLayoutState();
       case AppMode.appModeNiepodleglosc: return NiepodlegloscLayoutState();
       default: return DefaultLayoutState();
     }
@@ -1163,7 +1166,7 @@ class PowstanieWarszawskieLayoutState extends State<DefaultLayout>{
   }
 }
 
-class WaveClipper extends CustomClipper<Path> {
+class WaveDownClipper extends CustomClipper<Path> {
 
   @override
   Path getClip(Size size) {
@@ -1183,6 +1186,418 @@ class WaveClipper extends CustomClipper<Path> {
 
 }
 
+class WaveUpClipper extends CustomClipper<Rect> {
+
+  @override
+  Rect getClip(Size size) {
+    return Rect.fromLTRB(-.3*size.width, 0, 1.3*size.width, 1.5*size.height);
+  }
+
+  @override
+  bool shouldReclip(CustomClipper oldClipper) => true;
+
+}
+
+class SaintData{
+
+  final String name;
+  final String imageName;
+  final double glowXPositionFraction;
+  final double glowYPositionFraction;
+  final double glowSizeFraction;
+  final String description;
+
+  const SaintData({
+    required this.name,
+    required this.imageName,
+    required this.glowXPositionFraction,
+    required this.glowYPositionFraction,
+    required this.glowSizeFraction,
+    required this.description,
+  });
+
+}
+
+class AnimatedCircleGlow extends StatefulWidget{
+
+  const AnimatedCircleGlow({super.key});
+
+  @override
+  State<StatefulWidget> createState() => AnimatedCircleGlowState();
+
+}
+
+class AnimatedCircleGlowState extends State<AnimatedCircleGlow>{
+
+  late Color colorStart;
+  late Color colorEnd;
+
+  late Color colorStartSecond;
+  late Color colorEndSecond;
+
+  void run() async {
+    while(true){
+      await Future.delayed(const Duration(milliseconds: 400));
+      if(!mounted) return;
+      setState((){
+        colorStart = Colors.yellow[400]!;
+        colorEnd = Colors.deepOrange[800]!;
+      });
+      await Future.delayed(const Duration(milliseconds: 400));
+      if(!mounted) return;
+      setState((){
+        colorStart = Colors.deepOrange[800]!;
+        colorEnd = Colors.yellow[400]!;
+      });
+    }
+  }
+
+  void runSecond() async {
+    while(true){
+      await Future.delayed(const Duration(milliseconds: 250));
+      if(!mounted) return;
+      setState((){
+        colorStartSecond = Colors.yellow[100]!;
+        colorEndSecond = Colors.deepOrange[800]!;
+      });
+      await Future.delayed(const Duration(milliseconds: 250));
+      if(!mounted) return;
+      setState((){
+        colorStartSecond = Colors.deepOrange[800]!;
+        colorEndSecond = Colors.yellow[100]!;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    colorStart = Colors.yellow[400]!;
+    colorEnd = Colors.deepOrange[800]!;
+    colorStartSecond = Colors.yellow[100]!;
+    colorEndSecond = Colors.deepOrange[800]!;
+    run();
+    runSecond();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) => Stack(
+    clipBehavior: Clip.none,
+    children: [
+
+      GradientWidget(
+        colorStart: colorStart,
+        colorEnd: colorEnd,
+        radius: 1000,
+        elevation: 10.0,
+        child: Container(),
+      ),
+
+      Opacity(
+        opacity: .5,
+        child: GradientWidget(
+          colorStart: colorStartSecond,
+          colorEnd: colorEndSecond,
+          radius: 1000,
+          alignment: Alignment.topRight,
+          child: Container(),
+        ),
+      )
+
+    ],
+  );
+
+}
+
+class AllSaintsLayoutState extends State<DefaultLayout>{
+
+  static const double photoPadding = 20;
+
+  List<SaintData> data = [
+
+    const SaintData(
+        name: 'bł. Chiara Badano',
+        imageName: 'bl_chiara_badano',
+        glowXPositionFraction: .21,
+        glowYPositionFraction: -.1,
+        glowSizeFraction: .7,
+        description: '19-latka wychowana przez mamę, licealistka, sportowiec, działała dla potrzebujących. Dwa lata walczyła z rakiem. Do końca żyła w przyjaźni z Bogiem. Przyjaciele przychodzili ją pocieszać, tymczasem sami wychodzili umocnieni.'
+    ),
+
+    const SaintData(
+        name: 'bł. Sandra Sabattini',
+        imageName: 'bl_sandra_sabattini',
+        glowXPositionFraction: .23,
+        glowYPositionFraction: -.08,
+        glowSizeFraction: .55,
+        description: '22-latka, narzeczona, grała w piłkę z bratem i jego kolegami. Poświęciła życie biednym, niepełnosprawnym i narkomanom, kiedy to poznała Boga w codziennej modlitwie.'
+    ),
+
+    const SaintData(
+        name: 'bł. Stanisław Rother',
+        imageName: 'bl_stanislaw_rother',
+        glowXPositionFraction: .14,
+        glowYPositionFraction: -.08,
+        glowSizeFraction: .7,
+        description: 'Kapłan, misjonarz w Gwatemali, gdzie zbudował szpital. Za pomoc ludności został ogłoszony wrogiem publicznym. Wiedział, że grozi mu śmierć, ale jako jedyny nie opuścił placówki.'
+    ),
+
+    const SaintData(
+      name: 'św. Carlo Acutis',
+      imageName: 'sw_carlo_acutis',
+      glowXPositionFraction: .29,
+      glowYPositionFraction: -.09,
+      glowSizeFraction: .5,
+      description: '15-latek, programista, amator gry na saksofonie, piłkarz, dusza towarzystwa. Świadek wiary, zmarły na białaczkę, autorytet rówieśników chcących żyć tak, jak żył on.',
+    ),
+
+    const SaintData(
+        name: 'św. Joanna Skwarczyńska',
+        imageName: 'sw_joanna_skwarczynska',
+        glowXPositionFraction: .16,
+        glowYPositionFraction: -.1,
+        glowSizeFraction: .7,
+        description: 'Łódzka harcerka, moralna wagarowiczka. Podczas wojny wywieziona do Kazachstanu, później grała w tajnym teatrze we Lwowie. Oddana przyjaciołom, braterska, wierna Bogu.'
+    ),
+
+    const SaintData(
+        name: 'św. Maksymilian Maria Kolbe',
+        imageName: 'sw_maksymilian_maria_kolbe',
+        glowXPositionFraction: .22,
+        glowYPositionFraction: -.1,
+        glowSizeFraction: .55,
+        description: 'Franciszkanin, doktor nauk, misjonarz w Japonii. Podczas wojny trafił do Auschwitz. Potajemnie pełnił posługę kapłańską dla współwięźniów, zmarł zgłosiwszy się na śmierć zamiast skazanego więźnia - męża i ojca.'
+    ),
+
+    const SaintData(
+        name: 'św. Stanisław Kostka',
+        imageName: 'sw_stanislaw_kostka',
+        glowXPositionFraction: .13,
+        glowYPositionFraction: -.08,
+        glowSizeFraction: .7,
+        description: '18-latek, szlachcic, jezuita, jako dziecko bardzo wrażliwy. Uczył się we Wiedniu. Uciekł z domu, by móc wstąpić do zakonu. Patron Polski.'
+    ),
+
+    const SaintData(
+        name: 'bł. Wincenty Frelichowski',
+        imageName: 'sw_wicek',
+        glowXPositionFraction: .335,
+        glowYPositionFraction: .31,
+        glowSizeFraction: .35,
+        description: 'Harcerz, drużynowy, instruktor, ksiądz; wędrował, żeglował, śpiewał. Zesłany do niemieckiego obozu koncentracyjnego. Zgłosił się, by służyć chorym na tyfus, na który zmarł dwa miesiące przed wyzwoleniem obozu.'
+    ),
+
+  ];
+
+  late SaintData selectedSaint;
+  late AutoSizeGroup group;
+
+  @override
+  void initState() {
+    selectedSaint = data[Random().nextInt(data.length)];
+    selectedSaint = data[0];
+    group = AutoSizeGroup();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) => GradientWidget(
+      radius: 0,
+      colorStart: Colors.lightBlue[100]!,
+      colorEnd: Colors.blue[300]!,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(32),
+              child: Column(
+                children: [
+
+                  const SizedBox(height: 20.0),
+
+                  AutoSizeText(
+                    'Dzień\nWszystkich Świętych',
+                    maxLines: 2,
+                    style: GoogleFonts.cinzelDecorative(
+                        fontSize: 24.0,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.amber[800]!,
+                        height: 1.3
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+
+                  const SizedBox(height: 32.0),
+
+                  Row(
+                    children: [
+
+                      Expanded(child: Container()),
+
+                      Expanded(
+                        flex: 3,
+                        child: LayoutBuilder(
+                          builder: (BuildContext context, BoxConstraints constraints) {
+
+                            double baseSize = constraints.maxWidth - 2*photoPadding;
+
+                            double glowSize = baseSize*selectedSaint.glowSizeFraction;
+                            double glowXPosition = photoPadding + baseSize*selectedSaint.glowXPositionFraction;
+                            double glowYPosition = photoPadding + baseSize*selectedSaint.glowYPositionFraction;
+
+                            return Stack(
+                              clipBehavior: Clip.none,
+                              children: [
+
+                                Padding(
+                                  padding: const EdgeInsets.all(photoPadding),
+                                  child: Image.asset(
+                                      'assets/images/start/saints/${selectedSaint.imageName}.webp'
+                                  ),
+                                ),
+
+                                Positioned.fill(child: Blur(
+                                    child: Container()
+                                )),
+
+                                Positioned(
+                                  left: glowXPosition,
+                                  top: glowYPosition,
+                                  child: SizedBox(
+                                    width: glowSize,
+                                    height: glowSize,
+                                    child: const AnimatedCircleGlow(),
+                                  ),
+                                ),
+
+                                Padding(
+                                  padding: const EdgeInsets.all(photoPadding),
+                                  child: Image.asset(
+                                      'assets/images/start/saints/${selectedSaint.imageName}.webp'
+                                  ),
+                                ),
+
+                              ],
+                            );
+
+                          },
+                        ),
+                      ),
+
+                      Expanded(child: Container()),
+
+                    ],
+                  ),
+
+                  AutoSizeText(
+                    selectedSaint.name,
+                    maxLines: 1,
+                    style: AppTextStyle(
+                      fontSize: Dimen.TEXT_SIZE_APPBAR,
+                      fontWeight: weight.halfBold,
+                      color: Colors.black,
+                      shadow: true
+                    ),
+                  ),
+
+                  const SizedBox(height: 36.0),
+
+                  Text(
+                    selectedSaint.description,
+                    style: AppTextStyle(
+                        fontSize: Dimen.TEXT_SIZE_BIG,
+                        color: Colors.black87
+                    ),
+                  ),
+
+                  Expanded(child: Container()),
+
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+
+                      const SizedBox(height: 6.0),
+
+                      AutoSizeText(
+                        'Świętość jest dla każdego.',
+                        maxLines: 1,
+                        group: group,
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.cinzelDecorative(
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.amber[800]!,
+                            height: 1.3
+                        ),
+                      ),
+
+                      AutoSizeText(
+                        'Dla Ciebie też :)',
+                        maxLines: 1,
+                        group: group,
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.cinzelDecorative(
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.w900,
+                            color: Colors.amber[800]!,
+                            height: 1.3
+                        ),
+                      ),
+
+                    ],
+                  ),
+
+                ],
+              ),
+            ),
+          ),
+
+          // _HarcApp(color: Colors.black.withOpacity(0.08)),
+
+          // ClipOval(
+          //   clipper: WaveUpClipper(),
+          //   child: PhysicalModel(
+          //     color: Colors.blueAccent,
+          //     elevation: 4.0,
+          //     child: GradientWidget(
+          //       alignment: Alignment.topCenter,
+          //       radius: 0,
+          //       colorStart: Colors.blue[400]!,
+          //       colorEnd: Colors.blueAccent,
+          //       child: Padding(
+          //         padding: const EdgeInsets.all(32.0),
+          //         child: Column(
+          //           crossAxisAlignment: CrossAxisAlignment.start,
+          //           children: [
+          //
+          //             const SizedBox(height: 6.0),
+          //
+          //             AutoSizeText(
+          //               'Świętość jest dla każdego.\nDla Ciebie też :)',
+          //               maxLines: 2,
+          //               textAlign: TextAlign.center,
+          //               style: GoogleFonts.cinzelDecorative(
+          //                   fontSize: 20.0,
+          //                   fontWeight: FontWeight.w600,
+          //                   color: Colors.amber[800]!,
+          //                   height: 1.3
+          //               ),
+          //             ),
+          //
+          //           ],
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          // ),
+
+        ],
+      )
+  );
+
+}
+
 class NiepodlegloscLayoutState extends State<DefaultLayout>{
 
   @override
@@ -1199,7 +1614,7 @@ class NiepodlegloscLayoutState extends State<DefaultLayout>{
               children:[
 
                 ClipPath(
-                  clipper: WaveClipper(),
+                  clipper: WaveDownClipper(),
                   child: PhysicalModel(
                     color: Colors.black,
                     child: GradientWidget(
@@ -1266,4 +1681,5 @@ class NiepodlegloscLayoutState extends State<DefaultLayout>{
         ],
       )
   );
+
 }

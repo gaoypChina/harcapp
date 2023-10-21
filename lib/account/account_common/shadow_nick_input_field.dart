@@ -128,7 +128,7 @@ class ShadowNickInputFieldState extends State<ShadowNickInputField>{
     children: [
 
       InputField(
-        hint: 'Kod publiczny konta widmo:${asterisk?' *':''}',
+        hint: 'Kod publ. konta widmo:${asterisk?' *':''}',
         hintTop: 'Kod publiczny konta widmo',
         controller: controller,
         enabled: enabled,
@@ -152,7 +152,8 @@ class ShadowNickInputFieldState extends State<ShadowNickInputField>{
               onPressed: () => showAlertDialog(
                   context,
                   title: 'O co chodzi?',
-                  content: 'Jeżeli ktoś utworzył Ci <b>konto widmo</b> (np. by dodać Cię do współzawodnictwa zanim utworzyłeś swoje konto) dowiedz się jaki jest <b>kod publiczny</b> tegoż konta widmo, by je przejąć.',
+                  content: 'Jeżeli ktoś utworzył Ci <b>konto widmo</b> (np. by dodać Cię do współzawod. nim utworzyłeś konto), dowiedz się jaki jest <b>kod publiczny</b> tegoż konta widmo, <b>by je przejąć</b>.'
+                      '\n\nJeżeli nie wiesz o co chodzi, to znak, by zostawić to pole pustym :)',
                   actionBuilder: (context) => [
                     AlertDialogButton(text: 'Wszystko jasne', onTap: () => Navigator.pop(context))
                   ]

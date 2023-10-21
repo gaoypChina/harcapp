@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/sha_pref.dart';
 import 'package:harcapp/_common_classes/storage.dart';
 import 'package:harcapp_core/comm_classes/date_to_str.dart';
+import 'package:html/parser.dart';
 import 'package:path/path.dart';
 import 'package:semaphore_plus/semaphore_plus.dart';
 import 'package:tuple/tuple.dart';
@@ -308,6 +309,8 @@ class ArticleAzymut extends Article{
 
     String text = item.content!.replaceAll('<br>', '\n');
     text = '<wszystko>$text</wszystko>';
+
+    var document = parse(text);
 
     XmlDocument xml = XmlDocument.parse(text);
     XmlElement mainElement = xml.children[0] as XmlElement;

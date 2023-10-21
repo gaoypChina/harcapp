@@ -74,7 +74,7 @@ class PartTemplate extends StatelessWidget {
                 ),
 
               Padding(
-                  padding: const EdgeInsets.all(2*Dimen.SIDE_MARG),
+                  padding: const EdgeInsets.all(Dimen.SIDE_MARG + Dimen.ICON_MARG),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.stretch,

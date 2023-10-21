@@ -73,6 +73,7 @@ enum AppMode{
   appModeWolyn,
   appModePowstWarsz,
   appModePowstanieWielkopolskie,
+  appModeAllSaints,
   appModeNiepodleglosc
 }
 
@@ -110,11 +111,6 @@ void main() async {
       basePath: 'assets/locale/',
       supportedLocales: ['pl']);
 
-  if(DateTime.now().isAfter(DateTime(2022, 4, 15, 14)) && DateTime.now().isBefore(DateTime(2022, 4, 17, 4)))
-    appMode = AppMode.appModeWielkiPiatek;
-  else if(DateTime.now().isAfter(DateTime(2022, 4, 17, 4)) && DateTime.now().isBefore(DateTime(2022, 4, 24, 0)))
-    appMode = AppMode.appModeZmartwychwstanie;
-
   if(DateTime.now().isAfter(DateTime(2023, 4, 7, 14)) && DateTime.now().isBefore(DateTime(2023, 4, 9, 4)))
     appMode = AppMode.appModeWielkiPiatek;
   else if(DateTime.now().isAfter(DateTime(2023, 4, 9, 4)) && DateTime.now().isBefore(DateTime(2023, 4, 17, 0)))
@@ -126,6 +122,8 @@ void main() async {
     appMode = AppMode.appModeWolyn;
   else if(isDuringMonthAndDay(startDay: 1, stopDay: 3, month: 8))
     appMode = AppMode.appModePowstWarsz;
+  else if(isDuringMonthAndDay(startDay: 1, stopDay: 8, month: 11))
+    appMode = AppMode.appModeAllSaints;
   else if(isDuringMonthAndDay(startDay: 10, stopDay: 17, month: 11))
     appMode = AppMode.appModeNiepodleglosc;
   else if(isDuringMonthAndDay(startDay: 29, month: 11, stopDay: 24, stopMonth: 12))
@@ -135,6 +133,8 @@ void main() async {
     appMode = AppMode.appModeChristmas;
   else
     appMode = AppMode.appModeDefault;
+
+  appMode = AppMode.appModeAllSaints;
 
   await ShaPref.init();
   await initPaths();

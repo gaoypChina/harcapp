@@ -459,34 +459,42 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_image_compress
-      sha256: "2725cce5c58fdeaf1db8f4203688228bb67e3523a66305ccaa6f99071beb6dc2"
+      sha256: f159d2e8c4ed04b8e36994124fd4a5017a0f01e831ae3358c74095c340e9ae5e
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.4"
+    version: "2.1.0"
   flutter_image_compress_common:
     dependency: transitive
     description:
       name: flutter_image_compress_common
-      sha256: "8e7299afe109dc4b97fda34bf0f4967cc1fc10bc8050c374d449cab262d095b3"
+      sha256: "7cad12802628706655920089cfe9ee1d1098300e7f39a079eb160458bbc47652"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.2"
+    version: "1.0.3"
+  flutter_image_compress_macos:
+    dependency: transitive
+    description:
+      name: flutter_image_compress_macos
+      sha256: fea1e3d71150d03373916b832c49b5c2f56c3e7e13da82a929274a2c6f88251e
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1"
   flutter_image_compress_platform_interface:
     dependency: transitive
     description:
       name: flutter_image_compress_platform_interface
-      sha256: "3c7e86da7540b1adfa919b461885a41a018d4a26544d0fcbeaa769f6542e603d"
+      sha256: eb4f055138b29b04498ebcb6d569aaaee34b64d75fb74ea0d40f9790bf47ee9d
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.2"
+    version: "1.0.3"
   flutter_image_compress_web:
     dependency: transitive
     description:
       name: flutter_image_compress_web
-      sha256: e879189dc7f246dcf8f06c07ee849231341508bf51e8ed7d5dcbe778ddde0e81
+      sha256: da41cc3859f19d11c7d10be615f6a9dcf0907e7daffde7442bf4cc2486663660
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.3+1"
+    version: "0.1.3+2"
   flutter_inappwebview:
     dependency: transitive
     description:
@@ -764,7 +772,7 @@ packages:
     source: git
     version: "0.0.1"
   html:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: html
       sha256: "3a7812d5bcd2894edf53dfaf8cd640876cf6cef50a8f238745c8b8120ea74d3a"
@@ -1063,10 +1071,10 @@ packages:
     dependency: transitive
     description:
       name: native_device_orientation
-      sha256: c0b52f6bb2310dc5d5efc71e48644ad029f77d8ce007f91f635e9a00ddfbd5d5
+      sha256: "744a03030fad5a332a54833cd34f1e2ee51ae9acf477b4ef85bacc8823af9937"
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.0"
+    version: "1.2.1"
   nested:
     dependency: transitive
     description:
@@ -1095,10 +1103,10 @@ packages:
     dependency: "direct main"
     description:
       name: oktoast
-      sha256: "8aaba888125c991375156b1d88b4cd2f594ba5baf027850075ac101e0d4c56b3"
+      sha256: f12a6f5c26986f8e48546104d4c0bea68dd82782940876ca299f7f406f521110
       url: "https://pub.dev"
     source: hosted
-    version: "3.3.2"
+    version: "3.3.2+1"
   open_file:
     dependency: "direct main"
     description:
@@ -1135,10 +1143,10 @@ packages:
     dependency: transitive
     description:
       name: package_info_plus
-      sha256: "0351aaba3b267c4962ed73058a5f62a84de7e39670a20e2916a6baff2ffcfbe5"
+      sha256: "7e76fad405b3e4016cd39d08f455a4eb5199723cf594cd1b8916d47140d93017"
       url: "https://pub.dev"
     source: hosted
-    version: "5.0.0"
+    version: "4.2.0"
   package_info_plus_platform_interface:
     dependency: transitive
     description:
@@ -1447,10 +1455,10 @@ packages:
     dependency: transitive
     description:
       name: share_plus_platform_interface
-      sha256: "357412af4178d8e11d14f41723f80f12caea54cf0d5cd29af9dcdab85d58aea7"
+      sha256: df08bc3a07d01f5ea47b45d03ffcba1fa9cd5370fb44b3f38c70e42cced0f956
       url: "https://pub.dev"
     source: hosted
-    version: "3.3.0"
+    version: "3.3.1"
   shared_preferences:
     dependency: "direct main"
     description:
@@ -1756,10 +1764,10 @@ packages:
     dependency: "direct main"
     description:
       name: wakelock_plus
-      sha256: "268e56b9c63f850406f54e9acb2a7d2ddf83c26c8ff9e7a125a96c3a513bf65f"
+      sha256: f45a6c03aa3f8322e0a9d7f4a0482721c8789cb41d555407367650b8f9c26018
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.2"
+    version: "1.1.3"
   wakelock_plus_platform_interface:
     dependency: transitive
     description:
