@@ -11,6 +11,7 @@ import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/
 import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/models_common/rank_group.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/model/trop.dart';
 import 'package:harcapp/_new/cat_page_harc_map/model/marker_data.dart';
+import 'package:harcapp/_new/cat_page_harcthought/articles/article.dart';
 import 'package:harcapp/_new/cat_page_home/community/communities_loader.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_loader.dart';
 import 'package:harcapp/account/login_provider.dart';
@@ -128,17 +129,15 @@ void main() async {
     appMode = AppMode.appModeNiepodleglosc;
   else if(isDuringMonthAndDay(startDay: 29, month: 11, stopDay: 24, stopMonth: 12))
     appMode = AppMode.appModeAdwent;
-  else if(isDuringMonthAndDay(startDay: 25, stopDay: 31, month: 12) ||
-          isDuringMonthAndDay(startDay: 1, stopDay: 3, month: 1))
+  else if(isDuringMonthAndDay(startDay: 25, stopDay: 31, month: 12) || isDuringMonthAndDay(startDay: 1, stopDay: 3, month: 1))
     appMode = AppMode.appModeChristmas;
   else
     appMode = AppMode.appModeDefault;
 
-  appMode = AppMode.appModeAllSaints;
-
   await ShaPref.init();
   await initPaths();
   await AccountData.init();
+  await ArticleSyncData.init();
   await Trop.init();
 
   ApelEwanOwnFolder.loadAllOwnFolders();
@@ -243,6 +242,7 @@ void main() async {
             ChangeNotifierProvider(create: (context) => GaderypolukiProvider()),
 
             // ARTICLES
+            ChangeNotifierProvider(create: (context) => ArticleNotifierProvider()),
             ChangeNotifierProvider(create: (context) => ArticleThemeProvider()),
             ChangeNotifierProvider(create: (context) => BookmarkedArticlesProvider()),
             ChangeNotifierProvider(create: (context) => LikedArticlesProvider()),
@@ -442,6 +442,8 @@ class AppState extends State<App> with WidgetsBindingObserver {
     );
     AccountData.addLoginListener(_loginListener);
 
+    ArticleNotifierProvider articleProv = ArticleNotifierProvider.of(context);
+
     ThemeProvider themeProv = ThemeProvider.of(context);
     AlbumProvider albumProvider = AlbumProvider.of(context);
 
@@ -456,6 +458,8 @@ class AppState extends State<App> with WidgetsBindingObserver {
         if(syncOper == SyncOper.get){
 
           // Tutaj odświeżyć wszystkie providery, które zawierają jakieś synchronizowalne dane.
+          articleProv.notify();
+
           themeProv.notify();
           albumProvider.notify();
 

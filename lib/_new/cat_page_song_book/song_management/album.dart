@@ -293,14 +293,14 @@ abstract class SelectableAlbum<T extends AlbumGetResp> extends BaseAlbum with Sy
       OffSong? song = OffSong.allOfficialMap[sngLclId];
       if (song != null) offSongs.add(song);
     }
-    offSongs = offSongs;
+    this.offSongs = offSongs;
 
     List<OwnSong> ownSongs = [];
     for (String sngLclId in resp.ownSongs) {
       OwnSong? song = OwnSong.allOwnMap[sngLclId];
       if (song != null) ownSongs.add(song);
     }
-    ownSongs = ownSongs;
+    this.ownSongs = ownSongs;
 
     save(localOnly: true, synced: true);
   }
@@ -476,7 +476,7 @@ class OwnAlbum extends SelectableAlbum<OwnAlbumGetResp> with RemoveSyncItem{
   String get debugClassId => syncClassId;
 
   @override
-  SyncableParam? get parentParam => SyncGetRespNode.ownAlbumNodes;
+  SyncableParam? get parentParam => SyncGetRespNode.ownAlbumNode;
 
   SyncableParamSingle get syncParamTitle => SyncableParamSingle(
     this,

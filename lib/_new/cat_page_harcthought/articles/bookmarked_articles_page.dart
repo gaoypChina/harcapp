@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-import 'article_core.dart';
+import 'article.dart';
 import 'article_list_widget.dart';
 
 class BookmarkedArticlesPage extends StatelessWidget{
@@ -24,7 +24,7 @@ class BookmarkedArticlesPage extends StatelessWidget{
           )
         ],
         body: ArticleListWidget(
-          Article.bookmarked,
+          Article.allBookmarked,
           emptyText: 'Brak zapisanych artykułów',
           emptyIcon: MdiIcons.bookRemoveOutline,
         ),

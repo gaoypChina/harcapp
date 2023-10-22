@@ -14,6 +14,7 @@ List<Person> allPeople = [
   ADAM_DUDAK,
   ADAM_SKLODOWSKI,
   AGATA_KOPYTKO,
+  AGATA_MAJEWSKA,
   AGNIESZKA_DURSKA,
   AGNIESZKA_PIEKARSKA,
   AGNIESZKA_RADECKA_KUBICKA,
@@ -93,6 +94,7 @@ List<Person> allPeople = [
   JAKUB_MLYNSKI,
   JAKUB_SKUCHA,
   JAKUB_STEFANSKI,
+  JAKUB_STRACZYNSKI,
   JAKUB_ZDANOWICZ_ZASIDKO,
   JAN_JARECKI,
   JAN_JAWORSKI,
@@ -284,6 +286,7 @@ List<Person> allPeople = [
   ZUZANNA_MIERZEJEWSKA,
   ZUZANNA_NIEWEGLOWSKA,
   ZUZANNA_PIWKO,
+  ZUZANNA_ROMANISZYN,
   ZUZANNA_WARCHOL
 ];
 
@@ -328,6 +331,12 @@ const Person AGATA_KOPYTKO = Person(
     rankHarc: RankHarc.zhpOchotniczka,
     org: Org.zhr_o,
     email: ['aga.kopyto28@gmail.com']
+);
+const Person AGATA_MAJEWSKA = Person(
+    name: 'Agata Majewska',
+    hufiec: huf_zhp_lodz_widzew,
+    org: Org.zhp,
+    email: ['agattam2004@gmail.com']
 );
 const Person AGNIESZKA_DURSKA = Person(name: 'Agnieszka Durska', rankInstr: RankInstr.phm, hufiec: huf_zhp_lodz_baluty);
 const Person AGNIESZKA_PIEKARSKA = Person(
@@ -511,7 +520,8 @@ const Person DOMINIKA_GORZYNSKA = Person(name: 'Dominika Gorzyńska', rankHarc: 
 const Person DOMINIKA_HOCHMANSKA = Person(
   name: 'Dominika Hochmańska',
   rankInstr: RankInstr.pwd,
-  org: Org.zhp
+  org: Org.zhp,
+  email: ['dominika.hochmanska@gmail.com']
 );
 const Person DORIAN_JAREK = Person(name: 'Dorian Jarek', rankInstr: RankInstr.pwd,
     druzyna: '13. Konińska Drużyna Wędrownicza „Wadery”',
@@ -803,6 +813,12 @@ const Person JAKUB_MLYNSKI = Person(
 );
 const Person JAKUB_SKUCHA = Person(name: 'Jakub Skucha', rankHarc: RankHarc.dhc);
 const Person JAKUB_STEFANSKI = Person(name: 'Jakub Stefański', rankHarc: RankHarc.dhc, org: Org.zhp);
+const Person JAKUB_STRACZYNSKI = Person(
+    name: 'Jakub Strączyński',
+    druzyna: '52. KDHS',
+    hufiec: huf_zhp_kielce_miasto,
+    email: ['pancernuq@gmail.com', 'pancernu2@gmail.com']
+);
 const Person JAKUB_ZDANOWICZ_ZASIDKO = Person(name: 'Jakub Zdanowicz-Zasidko', rankHarc: RankHarc.dhc);
 const Person JAN_JARECKI = Person(
     name: 'Jan Jarecki',
@@ -1930,6 +1946,12 @@ const Person ZUZANNA_PIWKO = Person(
   hufiec: huf_zhp_wroclaw_wschod,
   org: Org.zhp,
   email: ['zuzanna.piwko@zhp.net.pl']
+);
+const Person ZUZANNA_ROMANISZYN = Person(
+    name: 'Zuzanna Romaniszyn',
+    druzyna: '321 Teraz',
+    hufiec: huf_zhp_krakow_nowa_huta,
+    email: ['zuziarysia19@outlook.com']
 );
 const Person ZUZANNA_WARCHOL = Person(name: 'Zuzanna Warchoł', druzyna: '113. TWDH „Pustynna Burza”', org: Org.zhp, hufiec: huf_zhp_szczecin_pogodno);
 

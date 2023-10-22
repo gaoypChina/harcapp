@@ -1363,7 +1363,7 @@ class AllSaintsLayoutState extends State<DefaultLayout>{
     const SaintData(
         name: 'św. Maksymilian Maria Kolbe',
         imageName: 'sw_maksymilian_maria_kolbe',
-        glowXPositionFraction: .22,
+        glowXPositionFraction: .23,
         glowYPositionFraction: -.1,
         glowSizeFraction: .55,
         description: 'Franciszkanin, doktor nauk, misjonarz w Japonii. Podczas wojny trafił do Auschwitz. Potajemnie pełnił posługę kapłańską dla współwięźniów, zmarł zgłosiwszy się na śmierć zamiast skazanego więźnia - męża i ojca.'
@@ -1395,7 +1395,6 @@ class AllSaintsLayoutState extends State<DefaultLayout>{
   @override
   void initState() {
     selectedSaint = data[Random().nextInt(data.length)];
-    selectedSaint = data[0];
     group = AutoSizeGroup();
     super.initState();
   }
@@ -1525,10 +1524,17 @@ class AllSaintsLayoutState extends State<DefaultLayout>{
                         group: group,
                         textAlign: TextAlign.center,
                         style: GoogleFonts.cinzelDecorative(
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.amber[800]!,
-                            height: 1.3
+                          fontSize: 24.0,
+                          fontWeight: FontWeight.w900,
+                          color: Colors.amber[800]!,
+                          height: 1.3,
+                          shadows: [
+                            Shadow(
+                              offset: const Offset(1.0, 1.0),
+                              blurRadius: 3.0,
+                              color: Colors.blue[900]!.withOpacity(.5),
+                            )
+                          ]
                         ),
                       ),
 
@@ -1538,10 +1544,17 @@ class AllSaintsLayoutState extends State<DefaultLayout>{
                         group: group,
                         textAlign: TextAlign.center,
                         style: GoogleFonts.cinzelDecorative(
-                            fontSize: 20.0,
+                            fontSize: 24.0,
                             fontWeight: FontWeight.w900,
                             color: Colors.amber[800]!,
-                            height: 1.3
+                            height: 1.3,
+                            shadows: [
+                              Shadow(
+                                offset: const Offset(1.0, 1.0),
+                                blurRadius: 3.0,
+                                color: Colors.blue[900]!.withOpacity(.5),
+                              )
+                            ]
                         ),
                       ),
 

@@ -72,7 +72,7 @@ class OffSong extends Song<OffSongGetResp>{
   static const String syncClassId = 'offSong';
 
   @override
-  SyncableParam? get parentParam => SyncGetRespNode.offSongNodes;
+  SyncableParam? get parentParam => SyncGetRespNode.offSongNode;
 
   @override
   String get debugClassId => syncClassId;

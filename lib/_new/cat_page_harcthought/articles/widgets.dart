@@ -1,23 +1,24 @@
-
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_text.dart';
 import 'package:harcapp/_new/cat_page_harcthought/articles/providers.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-import 'article_core.dart';
 import 'article_text_style.dart';
 import 'common.dart';
 
-class ParagraphWidget extends StatelessWidget{
+class ParagraphArticleElementWidget extends StatelessWidget{
 
-  final Paragraph paragraph;
+  final ParagraphArticleElement paragraph;
 
-  const ParagraphWidget(this.paragraph, {super.key});
+  const ParagraphArticleElementWidget(this.paragraph, {super.key});
 
   @override
   Widget build(BuildContext context) => Padding(
@@ -28,19 +29,18 @@ class ParagraphWidget extends StatelessWidget{
           prov.paraFontFamily,
           textAlign: TextAlign.justify,
           size: FONT_SIZE_NORM,
-          height: 1.5,
-          //color: prov.colorOption.Lk_9_28b-36$text,
+          height: FONT_SIZE_HEIGHT,
         ),
       )
   );
 
 }
 
-class HeaderWidget extends StatelessWidget{
+class HeaderArticleElementWidget extends StatelessWidget{
 
-  final Header header;
+  final HeaderArticleElement header;
 
-  const HeaderWidget(this.header, {super.key});
+  const HeaderArticleElementWidget(this.header, {super.key});
 
   @override
   Widget build(BuildContext context) => Padding(
@@ -59,11 +59,71 @@ class HeaderWidget extends StatelessWidget{
   );
 }
 
-class QuoteWidget extends StatelessWidget{
+class ListItemArticleElementWidget extends StatelessWidget{
 
-  final Quote quote;
+  final ListItemArticleElement item;
 
-  const QuoteWidget(this.quote, {super.key});
+  const ListItemArticleElementWidget(this.item, {super.key});
+
+  @override
+  Widget build(BuildContext context) => Padding(
+      padding: const EdgeInsets.only(top: 32.0),
+      child: Consumer<ArticleThemeProvider>(
+        builder: (context, prov, child) => Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: Dimen.ICON_MARG),
+              child: SizedBox(
+                // Added to compensate the textStyle height.
+                height: Dimen.ICON_SIZE + FONT_SIZE_NORM*(FONT_SIZE_HEIGHT-1),
+                width: Dimen.ICON_SIZE,
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: item.index == null?
+                  Icon(MdiIcons.circleMedium):
+                  Center(
+                    child: Text(
+                      item.index.toString(),
+                      style: TextStyle(
+                        fontFamily: prov.paraFontFamily,
+                        fontSize: FONT_SIZE_NORM,
+                        fontWeight: FontWeight.w900,
+                        height: FONT_SIZE_HEIGHT,
+                      ),
+                    ),
+                  )
+                )
+              ),
+            ),
+
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(
+                    top: (Dimen.ICON_SIZE - FONT_SIZE_NORM)/2
+                ),
+                child: RText(
+                  item.text,
+                  prov.paraFontFamily,
+                  textAlign: TextAlign.justify,
+                  size: FONT_SIZE_NORM,
+                  height: FONT_SIZE_HEIGHT,
+                )
+              ),
+            )
+
+          ],
+        ),
+      )
+  );
+}
+
+class QuoteArticleElementWidget extends StatelessWidget{
+
+  final QuoteArticleElement quote;
+
+  const QuoteArticleElementWidget(this.quote, {super.key});
 
   TextStyle style(ArticleThemeProvider prov) => HeaderTextStyle(
     //paraFontFamily,
@@ -74,45 +134,42 @@ class QuoteWidget extends StatelessWidget{
   );
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => Consumer<ArticleThemeProvider>(
+    builder: (context, prov, child){
+      var wordWrapText = TextPainter(text: TextSpan(style: style(prov), text: '„${quote.text}”'),
+        textDirection: TextDirection.ltr,
+      );
+      wordWrapText.layout(maxWidth: MediaQuery.of(context).size.width - 2*32.0 - 3 - Dimen.ICON_MARG);
 
-    return Consumer<ArticleThemeProvider>(
-      builder: (context, prov, child){
-        var wordWrapText = TextPainter(text: TextSpan(style: style(prov), text: '„${quote.text}”'),
-          textDirection: TextDirection.ltr,
-        );
-        wordWrapText.layout(maxWidth: MediaQuery.of(context).size.width - 2*32.0 - 3 - Dimen.ICON_MARG);
+      return Row(
+        children: [
 
-        return Row(
-          children: [
-
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(32.0),
-                child: Text(
-                    '„${quote.text}”',
-                    textAlign: TextAlign.end,
-                    style: style(prov)
-                ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(32.0),
+              child: Text(
+                  '„${quote.text}”',
+                  textAlign: TextAlign.end,
+                  style: style(prov)
               ),
             ),
+          ),
 
-            //Container(color: prov.colorOption.hint, width: 3, height: barHeight,),
+          //Container(color: prov.colorOption.hint, width: 3, height: barHeight,),
 
-            const SizedBox(width: Dimen.ICON_MARG)
+          const SizedBox(width: Dimen.ICON_MARG)
 
-          ],
-        );
-      },
-    );
-  }
+        ],
+      );
+    },
+  );
 }
 
-class PictureWidget extends StatelessWidget{
+class PictureArticleElementWidget extends StatelessWidget{
 
-  final Picture picture;
+  final PictureArticleElement picture;
 
-  const PictureWidget(this.picture, {super.key});
+  const PictureArticleElementWidget(this.picture, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -128,6 +185,31 @@ class PictureWidget extends StatelessWidget{
             children: [
               Image(
                 image: NetworkImage(picture.link),
+                loadingBuilder: (context, _, __) => AspectRatio(
+                  aspectRatio: 1,
+                  child: Center(
+                    child: SpinKitChasingDots(
+                      size: Dimen.ICON_SIZE,
+                      color: iconEnab_(context),
+                    ),
+                  ),
+                ),
+                errorBuilder: (context, _, __) => AspectRatio(
+                  aspectRatio: 1,
+                  child: Padding(
+                    padding: const EdgeInsets.all(Dimen.ICON_MARG),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+
+                        Icon(MdiIcons.close),
+                        const SizedBox(height: Dimen.ICON_MARG),
+                        Text(picture.link),
+
+                      ],
+                    ),
+                  )
+                ),
                 fit: BoxFit.cover,
               ),
               if(picture.desc != null && picture.desc!.isNotEmpty)
@@ -150,11 +232,11 @@ class PictureWidget extends StatelessWidget{
   }
 }
 
-class YoutubeWidget extends StatelessWidget{
+class YoutubeArticleElementWidget extends StatelessWidget{
 
-  final Youtube item;
+  final YoutubeArticleElement item;
 
-  const YoutubeWidget(this.item, {super.key});
+  const YoutubeArticleElementWidget(this.item, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -169,7 +251,6 @@ class YoutubeWidget extends StatelessWidget{
 
     return Consumer<ArticleThemeProvider>(
       builder: (context, prov, child) => AppCard(
-        //color: prov.colorOption.background,
         elevation: AppCard.bigElevation,
         padding: EdgeInsets.zero,
         margin: const EdgeInsets.only(top: 10.0, bottom: 10.0),
@@ -186,130 +267,31 @@ class YoutubeWidget extends StatelessWidget{
   }
 }
 
-class ArticleWidgetSmall extends StatelessWidget{
+class CustomArticleElementWidget extends StatelessWidget{
 
-  final Article article;
-  final PageController controller;
+  final CustomArticleElement item;
 
-  const ArticleWidgetSmall(this.article, this.controller, {super.key});
-
-  @override
-  Widget build(BuildContext context) => AppCard(
-    onTap: () {
-      int index = Article.all!.indexOf(article);
-      controller.animateToPage(index, duration: const Duration(milliseconds: 300), curve: Curves.easeInOutSine);
-    },
-    radius: 20,
-    elevation: AppCard.bigElevation,
-    padding: EdgeInsets.zero,
-    color: Colors.white,
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        AspectRatio(
-            aspectRatio: 1,
-            child: FutureBuilder<ImageProvider?>(
-              future: article.loadCover(), // async work
-              builder: (BuildContext context, AsyncSnapshot<ImageProvider?> snapshot) {
-                switch (snapshot.connectionState) {
-                  case ConnectionState.waiting: return const Text('Loading....');
-                  default:
-                    if (snapshot.hasError) return Text('Error: ${snapshot.error}');
-                    else return Image(image: snapshot.data!, fit: BoxFit.cover);
-                }
-              },
-            )
-        ),
-
-        Expanded(
-          child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Center(
-                child: AutoSizeText(
-                    article.title??'',
-                    textAlign: TextAlign.center,
-                    maxLines: 4,
-                    style: HeaderTextStyle(
-                        fontSize: 20.0,
-                        fontWeight: weight.bold
-                    )
-                ),
-              )
-          ),
-        ),
-
-        Padding(
-          padding: const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 3.0),
-          child: AutoSizeText(
-              article.dateString,
-              textAlign: TextAlign.end,
-              maxLines: 1,
-              style: AppTextStyle(
-                  fontSize: Dimen.TEXT_SIZE_SMALL
-              )
-          ),
-        ),
-
-        Padding(
-          padding: const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
-          child: AutoSizeText(
-              'Autor tekstu',
-              textAlign: TextAlign.end,
-              maxLines: 1,
-              style: AppTextStyle(
-                  fontSize: Dimen.TEXT_SIZE_SMALL,
-                  fontWeight: weight.halfBold
-              )
-          ),
-        ),
-
-      ],
-    ),
-  );
-}
-
-/*
-class AuthorWidget extends StatelessWidget{
-
-  final Author author;
-  const AuthorWidget(this.author, {Key key}):super(key: key);
+  const CustomArticleElementWidget(this.item, {super.key});
 
   @override
   Widget build(BuildContext context) {
-
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        AppCard(
-          elevation: 0,
-          padding: EdgeInsets.zero,
-          child: author.imageBytes==null?
-          SizedBox(height: 100, width: 100):
-          Image(image: MemoryImage(author.imageBytes), width: 100, height: 100,),
-        ),
-        //SizedBox(width: Dimen.margin_default),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              SizedBox(height: Dimen.defMarg),
-              Text(author.name??'', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold)),
-              SizedBox(height: Dimen.defMarg),
-              Text(
-                author.desc??'',
-                style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_NORMAL,
-                fontStyle: FontStyle.italic),
-                textAlign: TextAlign.justify,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 16.0),
+      child: Consumer<ArticleThemeProvider>(
+          builder: (context, prov, child) => AppCard(
+            elevation: AppCard.bigElevation,
+            padding: EdgeInsets.zero,
+            margin: const EdgeInsets.only(top: 10.0, bottom: 10.0),
+            child: HtmlWidget(
+              item.html,
+              textStyle: TextStyle(
+                fontFamily: prov.paraFontFamily,
+                fontSize: FONT_SIZE_NORM,
+                height: FONT_SIZE_HEIGHT,
               ),
-
-            ],
-          ),
-        ),
-        SizedBox(width: Dimen.defMarg),
-      ],
+            ),
+          )
+      ),
     );
-
   }
-
 }
- */

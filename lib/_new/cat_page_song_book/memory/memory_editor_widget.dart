@@ -133,10 +133,10 @@ class MemoryEditorWidgetState extends State<MemoryEditorWidget> with TickerProvi
                           fontIndex: memoryBuilder.fontIndex,
                           published: memoryBuilder.published,
                         );
+                        memory.save();
                         Memory.addToAll(memory);
                         song.addMemory(memory);
-                      }
-                      else
+                      } else {
                         initMemory!.update(
                           date: memoryBuilder.date,
                           place: memoryBuilder.place,
@@ -144,6 +144,8 @@ class MemoryEditorWidgetState extends State<MemoryEditorWidget> with TickerProvi
                           fontIndex: memoryBuilder.fontIndex,
                           published: memoryBuilder.published,
                         );
+                        initMemory!.save();
+                      }
 
                       widget.onSaved?.call();
                     }

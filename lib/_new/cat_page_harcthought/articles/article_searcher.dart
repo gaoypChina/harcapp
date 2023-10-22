@@ -2,7 +2,7 @@ import 'package:harcapp/_common_classes/searcher.dart';
 import 'package:harcapp/_new/cat_page_harcthought/articles/common.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
 
-import 'article_core.dart';
+import 'article.dart';
 
 class ArticleSearchOptions extends SearchOptions{
   List<String> checkedTags;

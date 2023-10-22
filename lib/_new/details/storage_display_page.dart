@@ -118,9 +118,9 @@ class StorageDisplayPageState extends State<StorageDisplayPage>{
 
           _Item(
               icon: MdiIcons.folderOutline,
-              title: 'plik: <b>${basename(getArticleCoresFolderPath)}</b>',
+              title: 'plik: <b>${basename(getArticlesFolderPath)}</b>',
               onOpen: () =>  openDialog(context: context, builder: (context) =>
-                  JSONFolderDisplayer(getArticleCoresFolderPath, displayFileName: (fileName) => 'Artykuł: <b>$fileName</b>',))
+                  JSONFolderDisplayer(getArticlesFolderPath, displayFileName: (fileName) => 'Artykuł: <b>$fileName</b>',))
           ),
           _Item(
               icon: MdiIcons.imageMultipleOutline,

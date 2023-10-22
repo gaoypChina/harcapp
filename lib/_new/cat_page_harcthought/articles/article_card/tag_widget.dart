@@ -5,7 +5,10 @@ import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:tuple/tuple.dart';
 
-class ArticleTagWidget extends StatelessWidget{
+import '../article.dart';
+import 'common.dart';
+
+class TagWidget extends StatelessWidget{
 
   static const String TAG_ZUCH = '#ZUCHY';
   static const String TAG_HARC = '#HARCERZE';
@@ -38,12 +41,12 @@ class ArticleTagWidget extends StatelessWidget{
   final String tag;
   final bool dense;
 
-  const ArticleTagWidget(this.tag, {this.dense=false, super.key});
+  const TagWidget(this.tag, {this.dense=false, super.key});
 
   @override
   Widget build(BuildContext context) {
 
-    Tuple2 colors = ArticleTagWidget.colors[tag]??const Tuple2(Colors.white, Colors.black);
+    Tuple2 colors = TagWidget.colors[tag]??const Tuple2(Colors.white, Colors.black);
 
     return Material(
       elevation: 4.0,
@@ -63,5 +66,41 @@ class ArticleTagWidget extends StatelessWidget{
     );
   }
 
+
+}
+
+class TagsWidget extends StatelessWidget{
+
+  final Article? article;
+  final bool dense;
+
+  const TagsWidget(this.article, {super.key, this.dense = false});
+
+  @override
+  Widget build(BuildContext context) {
+
+    List<Widget> tags = [];
+    for(int i=0; i<article!.tags!.length; i++){
+      tags.add(TagWidget(article!.tags![i], dense: dense));
+      if(i < article!.tags!.length-1) tags.add(SizedBox(width: dense?Dimen.defMarg:Dimen.ICON_MARG));
+    }
+
+    return SingleChildScrollView(
+      clipBehavior: Clip.none,
+      padding: EdgeInsets.only(
+          left: dense?
+          CARD_PADDING_DENSE:
+          CARD_PADDING_NORM,
+
+          right: dense?
+          CARD_PADDING_DENSE:
+          CARD_PADDING_NORM
+      ),
+      physics: const BouncingScrollPhysics(),
+      scrollDirection: Axis.horizontal,
+      child: Row(children: tags),
+    );
+
+  }
 
 }

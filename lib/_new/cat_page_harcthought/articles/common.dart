@@ -5,6 +5,7 @@ import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/dimen.dart';
 
 const double FONT_SIZE_NORM = Dimen.TEXT_SIZE_BIG;
+const double FONT_SIZE_HEIGHT = 1.5;
 
 class Author{
 
@@ -76,17 +77,21 @@ abstract class ArticleElement{
       if(object == null)
         return null;
 
-      List<String?> parts = (object as List<dynamic>).cast<String?>();
-      if(parts[0]==Paragraph.jsonName)
-        return Paragraph(text: parts[1]??(throw Exception()));
-      else if(parts[0]==Header.jsonName)
-        return Header(text: parts[1]??(throw Exception()));
-      else if(parts[0]==Quote.jsonName)
-        return Quote(text: parts[1]??(throw Exception()));
-      else if(parts[0]==Picture.jsonName)
-        return Picture(link: parts[1]??(throw Exception()), desc: parts[2]);
-      else if(parts[0]==Picture.jsonName)
-        return Youtube(link: parts[1]??(throw Exception()), desc: parts[2]);
+      List<dynamic> parts = (object as List<dynamic>);
+      if(parts[0]==ParagraphArticleElement.jsonName)
+        return ParagraphArticleElement(text: parts[1]??(throw Exception()));
+      else if(parts[0]==HeaderArticleElement.jsonName)
+        return HeaderArticleElement(text: parts[1]??(throw Exception()));
+      else if(parts[0]==ListItemArticleElement.jsonName)
+        return ListItemArticleElement(index: parts[1]??(throw Exception()), text: parts[2]??(throw Exception()));
+      else if(parts[0]==QuoteArticleElement.jsonName)
+        return QuoteArticleElement(text: parts[1]??(throw Exception()));
+      else if(parts[0]==PictureArticleElement.jsonName)
+        return PictureArticleElement(link: parts[1]??(throw Exception()), desc: parts[2]);
+      else if(parts[0]==YoutubeArticleElement.jsonName)
+        return YoutubeArticleElement(link: parts[1]??(throw Exception()), desc: parts[2]);
+      else if(parts[0]==CustomArticleElement.jsonName)
+        return CustomArticleElement(html: parts[1]??(throw Exception()));
       else
         return null;
 
@@ -99,11 +104,30 @@ abstract class ArticleElement{
 
 }
 
-class Header extends ArticleElement{
+class ParagraphArticleElement extends ArticleElement{
 
   String text;
 
-  Header({required this.text});
+  ParagraphArticleElement({required this.text}):super();
+
+  static const String jsonName = 'para';
+
+  @override
+  Object toJsonObject() => [
+    jsonName,
+    text
+  ];
+
+  @override
+  bool hasMatch(String phrase) => remPolChars(text).contains(phrase);
+
+}
+
+class HeaderArticleElement extends ArticleElement{
+
+  String text;
+
+  HeaderArticleElement({required this.text});
 
   static const String jsonName = 'head';
 
@@ -119,30 +143,33 @@ class Header extends ArticleElement{
 
 }
 
-class Paragraph extends ArticleElement{
+class ListItemArticleElement extends ArticleElement{
 
+  int? index;
   String text;
 
-  Paragraph({required this.text}):super();
+  ListItemArticleElement({required this.index, required this.text});
 
-  static const String jsonName = 'para';
+  static const String jsonName = 'listItem';
 
   @override
   Object toJsonObject() => [
     jsonName,
+    index,
     text
   ];
 
   @override
   bool hasMatch(String phrase) => remPolChars(text).contains(phrase);
 
+
 }
 
-class Quote extends ArticleElement{
+class QuoteArticleElement extends ArticleElement{
 
   String text;
 
-  Quote({required this.text}):super();
+  QuoteArticleElement({required this.text}):super();
 
   static const String jsonName = 'quote';
 
@@ -157,12 +184,12 @@ class Quote extends ArticleElement{
 
 }
 
-class Picture extends ArticleElement{
+class PictureArticleElement extends ArticleElement{
 
   String link;
   String? desc;
 
-  Picture({required this.link, this.desc}):super();
+  PictureArticleElement({required this.link, this.desc}):super();
 
   static const String jsonName = 'image';
 
@@ -178,12 +205,12 @@ class Picture extends ArticleElement{
 
 }
 
-class Youtube extends ArticleElement{
+class YoutubeArticleElement extends ArticleElement{
 
   String link;
   String? desc;
 
-  Youtube({required this.link, this.desc});
+  YoutubeArticleElement({required this.link, this.desc});
 
   static const String jsonName = 'youtube';
 
@@ -196,6 +223,25 @@ class Youtube extends ArticleElement{
 
   @override
   bool hasMatch(String phrase) => remPolChars(desc??'').contains(phrase);
+
+}
+
+class CustomArticleElement extends ArticleElement{
+
+  String html;
+
+  CustomArticleElement({required this.html});
+
+  static const String jsonName = 'custom';
+
+  @override
+  Object toJsonObject() => [
+    jsonName,
+    html
+  ];
+
+  @override
+  bool hasMatch(String phrase) => remPolChars(html).contains(phrase);
 
 }
 

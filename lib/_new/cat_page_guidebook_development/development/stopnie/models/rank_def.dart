@@ -40,7 +40,7 @@ abstract class RankDefTempl<T extends RankState> extends Rank<RankDefData, RankD
   RankDefTempl(super.data, super.cats);
 
   @override
-  SyncableParam? get parentParam => SyncGetRespNode.rankDefNodes;
+  SyncableParam? get parentParam => SyncGetRespNode.rankDefNode;
   
   @override
   String get debugClassId => RankDef.syncClassId;

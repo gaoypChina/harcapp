@@ -1,117 +1,267 @@
+import 'dart:collection';
+import 'dart:convert';
+import 'dart:io';
 
+import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart' hide Element;
+import 'package:harcapp/_common_classes/sha_pref.dart';
+import 'package:harcapp/_common_classes/storage.dart';
+import 'package:harcapp/_new/api/sync_resp_body/article_get_resp.dart';
+import 'package:harcapp/sync/syncable.dart';
+import 'package:harcapp/sync/synchronizer_engine.dart';
+import 'package:harcapp_core/comm_classes/date_to_str.dart';
+import 'package:html/dom.dart' as html_dom;
+import 'package:html/parser.dart';
+import 'package:path/path.dart';
+import 'package:semaphore_plus/semaphore_plus.dart';
+import 'package:tuple/tuple.dart';
+import 'package:webfeed_revised/domain/atom_item.dart';
+import 'package:http/http.dart' show get;
+import 'package:image/image.dart' as img;
 
+import 'common.dart';
 
-
-
-/*
-class ArticleHarcAppCore extends ArticleCore{
-
-  static String PARAM_ID = 'id';
-
-  final String name;
-
-  const ArticleHarcAppCore(this.name);
-
-  @override
-  String get id => name;
-
-  @override
-  Future<ArticleCore> downloadArticle({Function onError}) async {
-
-    Dio dio = Dio(BaseOptions(
-      connectTimeout: 5000,
-      receiveTimeout: 3000,
-      sendTimeout: 3000,
-    ));
-
-    try {
-      Response response = await dio.get('https://gitlab.com/n3o2k7i8ch5/harcapp_data/-/raw/master/articles/$id.hrcpartcl');
-
-      if(response.statusCode == 200){
-        String articleCode = response.data;
-        saveStringAsFileToFolder(getArticlesFolderLocalPath, articleCode);
-        return Article.fromJson(id, articleCode);
-      }
-      return Article.PROBLEM(id);
-    } on DioError catch (e) {
-      if (onError != null)
-        onError();
-
-      return Article.PROBLEM(id);
-    }
-
-  }
-
-  static ArticleHarcAppCore parse(Map<String, dynamic> map) {
-    return ArticleHarcAppCore(map[PARAM_ID]);
-  }
-
-
+enum ArticleSource{
+  HarcApp,
+  Azymut,
 }
-*/
 
-/*
-class ArticleAzymutCore extends ArticleCore{
+abstract class Article with SyncableParamGroupMixin, SyncGetRespNode<ArticleGetResp>{
 
-  RssItem item;
+  static Map<String, Tuple2<String, int>>? altCoverUrls;
 
-  String get title => item.title;
-  String get link => item.link;
-  String description;
-  List<ArticleElement> articleElements;
-  DateTime date;
+  static List<Article>? all;
+  static SplayTreeMap<String, Article>? allMap;
+  static bool add(Article article){
+    all ??= [];
+    allMap ??= SplayTreeMap.of({});
 
-  DateTime parseDate(String dateCode){
+    if(allMap![article.uniqName] != null) return false;
+    all!.add(article);
+    allMap![article.uniqName] = article;
+    ArticleSyncData.add(article);
+    return true;
+  }
 
-    List<String> elements = dateCode.split(' ');
-    int day = int.parse(elements[1]);
-    int month;
-    switch(elements[2]){
-      case 'Jan': month = 1; break;
-      case 'Feb': month = 2; break;
-      case 'Mar': month = 3; break;
-      case 'Apr': month = 4; break;
-      case 'May': month = 5; break;
-      case 'Jun': month = 6; break;
-      case 'Jul': month = 7; break;
-      case 'Aug': month = 8; break;
-      case 'Sep': month = 9; break;
-      case 'Oct': month = 10; break;
-      case 'Nov': month = 11; break;
-      case 'Dec': month = 12; break;
-      default: month = 0; break;
+  static void clearAll(){
+    all!.clear();
+    allMap!.clear();
+  }
+
+  static addAll(List<Article> articles){
+    all ??= [];
+    allMap ??= SplayTreeMap.of({});
+
+    all!.addAll(articles);
+    ArticleSyncData.addAll(articles);
+    for(Article? article in articles)
+      allMap![article!.uniqName] = article;
+  }
+
+  static addAllToStart(List<Article> articleCores){
+    all ??= [];
+    allMap ??= SplayTreeMap.of({});
+
+    for(Article article in articleCores.reversed) {
+      all!.insert(0, article);
+      allMap![article.uniqName] = article;
     }
-    int year = int.parse(elements[3]);
-
-    return DateTime(year, month=month, day=day);
   }
 
-  ArticleAzymutCore(RssItem item){
-    this.item = item;
+  static const String uniqNameSep = '@';
 
-    description = '';
-    List<ArticleElement> tmpEls = HTML.parse(item.description.replaceAll(reference, '')).elements;
-    for(ArticleElement element in tmpEls)
-      if(element is Paragraph) this.description += element.Lk_9_28b-36$text + '\n\n';
-    if(description.isNotEmpty) this.description = this.description.substring(0, this.description.length-2);
+  static const String paramTitle = 'title';
+  static const String paramTags = 'tags';
+  static const String paramAuthor = 'author';
+  static const String paramDate = 'date';
+  static const String paramLink = 'link';
 
-    String content = item.content.value.replaceAll(reference, '');
-    HTML html = HTML.parse(content);
+  static const String paramImage = 'image';
+  static const String paramImageSource = 'image_source';
+  static const String paramAuthCode = 'auth_code';
 
-    html.elements.removeWhere((ArticleElement element) => element is Paragraph && element.Lk_9_28b-36$text==reference);
+  static const String paramArtclItems = 'items';
+  static const String paramOtherArtCores = 'other_art_cores';
 
-    this.articleElements = html.elements;
+  static const String paramLiked = 'liked';
+  static const String paramBookmarked = 'bookmarked';
+  static const String paramSeen = 'seen';
 
-    //date = parseDate(item.pubDate);
+  String get uniqName => _typeCode + uniqNameSep + _localId;
+  String get _typeCode;
+  final String _localId;
 
-    date = item.pubDate;
+  final String? title;
+  final List<String>? tags;
+  final DateTime? date;
+  final String? author;
+  String get dateString => dateToString(date, shortMonth: true, yearAbbr: 'A.D.');
+  final String? link;
+  final List<ArticleElement?>? articleElements;
 
+  static Future<img.Image> _coverFromUrl(String url) async{
+
+    var response = await get(Uri.parse(url));
+
+    img.Image image = img.decodeImage(response.bodyBytes.buffer.asUint8List())!;
+
+    image = img.copyResize(image, width: 1000);
+    return image;
   }
 
-  String get reference =>
-      'Artykuł <a rel="nofollow" href="https://azymut.zhr.pl/${id}">${title}</a> pochodzi z serwisu <a rel="nofollow" href="https://azymut.zhr.pl">Azymut</a>.';
+  static Future<File> downloadSaveCover({
+    required String id,
+    required String url,
+    required int version
+  }) async {
+    img.Image image = await compute(_coverFromUrl, url);
 
-  Future<String> _downloadFile(String url) async {
+    File file = File(getArticleCoverPath(id));
+    await file.create(recursive: true);
+    await file.writeAsBytes(Uint8List.fromList(img.encodeJpg(image, quality: 70)));
+    ShaPref.setInt(ShaPref.SHA_PREF_HARCTHOUGHT_ARTICLES_COVER_VERSION_(id), version);
+    return file;
+  }
+
+  static int? coverVersion(String id) => ShaPref.getInt(ShaPref.SHA_PREF_HARCTHOUGHT_ARTICLES_COVER_VERSION_(id), 0);
+
+  Article(
+      String localId,
+      {required this.title,
+        required this.tags,
+        required this.author,
+        required this.date,
+        this.link,
+        required this.articleElements,
+      }): assert(!localId.contains(uniqNameSep)),
+        _localId = localId;
+
+  bool get downloaded => File(getArticleCorePath(uniqName)).existsSync();
+  String get imagePath => getArticleCoverPath(uniqName);
+
+  static String? get lastSeenId => ShaPref.getStringOrNull(ShaPref.SHA_PREF_HARCTHOUGHT_ARTICLES_LAST_SEEN_ID);
+  static set lastSeenId(String? value){
+    if(value == null)
+      ShaPref.remove(ShaPref.SHA_PREF_HARCTHOUGHT_ARTICLES_LAST_SEEN_ID);
+    else
+      ShaPref.setString(ShaPref.SHA_PREF_HARCTHOUGHT_ARTICLES_LAST_SEEN_ID, value);
+  }
+
+  static Article? readFromPath(String path){
+    String code = readFileAsString(path);
+    String id = basename(path);
+
+    Article? article;
+    
+    if(id.startsWith(ArticleHarcApp.typeCode)) 
+      article = ArticleHarcApp.fromJson(id, code);
+    else if(id.startsWith(ArticleAzymut.typeCode))
+      article = ArticleAzymut.fromJson(id, code);
+
+    return article;
+  }
+
+  void save(){
+
+    Map map = {};
+
+    map[Article.paramTitle] = title;
+    map[Article.paramTags] = tags;
+    map[Article.paramAuthor] = author;
+    map[Article.paramDate] = date?.toIso8601String();
+    map[Article.paramLink] = link;
+    //map[ArticleCore.PARAM_IMAGE] = base64Decode(map[ArticleCore.PARAM_IMAGE]);
+    //map[ArticleCore.PARAM_IMAGE_SOURCE] = imageSource;
+    map[Article.paramArtclItems] = articleElements!.map((item) => item!.toJsonObject()).toList();
+    //map[ArticleCore.PARAM_OTHER_ART_CORES] = otherCores;
+
+    saveStringAsFile(getArticleCorePath(uniqName), jsonEncode(map));
+  }
+
+  static List<String> get bookmarkedIds => ShaPref.getStringList(ShaPref.SHA_PREF_HARCTHOUGHT_ARTICLES_BOOKMARKED, []);
+
+  static List<Article> get allBookmarked{
+    List<Article> result = [];
+    for(String id in bookmarkedIds) {
+      Article? article = Article.allMap![id];
+      if (article != null) result.add(article);
+    }
+    return result;
+  }
+
+  bool get isBookmarked => ShaPref.getStringList(ShaPref.SHA_PREF_HARCTHOUGHT_ARTICLES_BOOKMARKED, []).contains(uniqName);
+  void setBookmarked(bool value, {bool localOnly = false, bool synced = false}){
+    List<String> ids = ShaPref.getStringList(ShaPref.SHA_PREF_HARCTHOUGHT_ARTICLES_BOOKMARKED, []);
+    if(value) {
+      if (ids.contains(uniqName)) return;
+      ids.add(uniqName);
+    }else{
+      ids.remove(uniqName);
+    }
+    ShaPref.setStringList(ShaPref.SHA_PREF_HARCTHOUGHT_ARTICLES_BOOKMARKED, ids);
+    setSingleState(
+        paramBookmarked,
+        synced?
+        SyncableParamSingleMixin.stateSynced:
+        SyncableParamSingleMixin.stateNotSynced
+    );
+    if(!localOnly) synchronizer.post();
+  }
+
+  static List<String> get allSeenIds => ShaPref.getStringList(ShaPref.SHA_PREF_HARCTHOUGHT_ARTICLES_SEEN, []);
+
+  bool get isSeen => ShaPref.getStringList(ShaPref.SHA_PREF_HARCTHOUGHT_ARTICLES_SEEN, []).contains(uniqName);
+  void setSeen(bool value, {bool localOnly = false, bool synced = false}){
+    List<String> ids = ShaPref.getStringList(ShaPref.SHA_PREF_HARCTHOUGHT_ARTICLES_SEEN, []);
+    if(value) {
+      if (ids.contains(uniqName)) return;
+      ids.add(uniqName);
+    }else{
+      ids.remove(uniqName);
+    }
+    ShaPref.setStringList(ShaPref.SHA_PREF_HARCTHOUGHT_ARTICLES_SEEN, ids);
+    setSingleState(
+        paramSeen,
+        synced?
+        SyncableParamSingleMixin.stateSynced:
+        SyncableParamSingleMixin.stateNotSynced
+    );
+    if(!localOnly) synchronizer.post();
+  }
+
+  static List<String> get likedIds => ShaPref.getStringList(ShaPref.SHA_PREF_HARCTHOUGHT_ARTICLES_LIKED, []);
+
+  static List<Article> get allLiked{
+    List<Article> result = [];
+    for(String id in likedIds) {
+      Article? article = Article.allMap![id];
+      if (article != null) result.add(article);
+    }
+    return result;
+  }
+
+  bool get isLiked => ShaPref.getStringList(ShaPref.SHA_PREF_HARCTHOUGHT_ARTICLES_LIKED, []).contains(uniqName);
+  void setLiked(bool value, {bool localOnly = false, bool synced = false}){
+    List<String> ids = ShaPref.getStringList(ShaPref.SHA_PREF_HARCTHOUGHT_ARTICLES_LIKED, []);
+    if(value) {
+      if (ids.contains(uniqName)) return;
+      ids.add(uniqName);
+    }else{
+      ids.remove(uniqName);
+    }
+    ShaPref.setStringList(ShaPref.SHA_PREF_HARCTHOUGHT_ARTICLES_LIKED, ids);
+    setSingleState(
+        paramLiked,
+        synced?
+        SyncableParamSingleMixin.stateSynced:
+        SyncableParamSingleMixin.stateNotSynced
+    );
+    if(!localOnly) synchronizer.post();
+  }
+
+  @protected
+  static Future<String> downloadFile(String url) async {
     var httpClient = HttpClient();
     var request = await httpClient.getUrl(Uri.parse(url));
     var response = await request.close();
@@ -119,156 +269,473 @@ class ArticleAzymutCore extends ArticleCore{
     return utf8.decode(bytes);
   }
 
+  static LocalSemaphore semaphore = LocalSemaphore(3);
+
+  Future<ImageProvider?>? _loadCover();
+
+  Future<ImageProvider?> loadCover() async{
+    await semaphore.acquire();
+    ImageProvider? image = await _loadCover();
+    semaphore.release();
+    return image;
+  }
+
+  static const syncClassId = 'article';
+
   @override
-  Future<Article> downloadArticle({Function onError}) async {
+  String get debugClassId => syncClassId;
 
-    String htmlFile = await _downloadFile(link);
+  @override
+  SyncableParam get parentParam => SyncGetRespNode.articleNode;
 
-    String imageLink = htmlFile.split('<meta property="og:image" content="')[1];
-    imageLink = imageLink.split('" />')[0];
-    imageLink = imageLink.split('"/>')[0];
-    var response = await get(imageLink);
+  @override
+  String get paramId => uniqName;
 
-    //<meta property="og:image"
+  @override
+  List<SyncableParam> get childParams => [
 
-    return Article(
-        id,
-        response.bodyBytes,
-        'authCode',
-        'imageSource',
-        date,
-        title,
-        description,
-        articleElements,
-        [],
-        startWithIntro: false,
-    );
+    SyncableParamSingle(
+      this,
+      paramId: paramLiked,
+      value: () => isLiked,
+    ),
+
+    SyncableParamSingle(
+      this,
+      paramId: paramBookmarked,
+      value: () => isBookmarked,
+    ),
+
+    SyncableParamSingle(
+      this,
+      paramId: paramSeen,
+      value: () => isSeen,
+    ),
+
+  ];
+
+  @override
+  void applySyncGetResp(ArticleGetResp resp) {
+    setLiked(resp.liked, localOnly: true, synced: true);
+    setBookmarked(resp.bookmarked, localOnly: true, synced: true);
+    setSeen(resp.seen, localOnly: true, synced: true);
   }
 
   @override
-  String get id => link.replaceAll('https://azymut.zhr.pl/', '').split('?')[0];
+  int get hashCode => uniqName.hashCode;
 
+  @override
+  bool operator == (Object other) => other is Article && uniqName == other.uniqName;
 
 }
-*/
 
-/*
-class Article{
+class ArticleSyncData extends Article{
 
-  static const String PARAM_IMAGE = 'image';
-  static const String PARAM_IMAGE_SOURCE = 'image_source';
-  static const String PARAM_AUTH_CODE = 'auth_code';
-  static const String PARAM_DATE = 'date';
+  static bool initialized = false;
+  static late List<String> allUniqNames;
 
-  static const String PARAM_TITLE = 'title';
-  static const String PARAM_INTRO = 'intro';
+  static Future<void> init() async {
+    Directory dir = Directory(getArticlesFolderPath);
+    if(!await dir.exists()) await dir.create(recursive: true);
+    List files = await dir.list().toList();
 
-  static const String PARAM_ITEMS = 'items';
-  static const String PARAM_OTHER_ART_CORES = 'other_art_cores';
+    List<String> uniqNames = [];
+    for(FileSystemEntity file in files)
+      uniqNames.add(basename(file.path));
 
-  static Article PROBLEM(String id) => Article(id, null, null, null, null, null, null, null, null);
+    initialized = true;
+    allUniqNames = uniqNames;
+  }
+  
+  static void add(Article article) =>
+    allUniqNames.add(article.uniqName);
 
-  int indexIn(List<ArticleCore> coreList){
-    for(int i=0; i<coreList.length; i++) {
-      ArticleCore core = coreList[i];
-      if (id == core.id)
-        return i;
+  static void addAll(List<Article> articles) {
+    for(Article article in articles)
+      allUniqNames.add(article.uniqName);
+  }
+  static List<ArticleSyncData> get all{
+    List<String> uniqNames = allUniqNames;
+    List<ArticleSyncData> result = [];
+    for(String uniqName in uniqNames)
+      result.add(ArticleSyncData.fromUniqName(uniqName));
+    return result;
+  }
+
+  @override
+  final String _typeCode;
+  
+  ArticleSyncData(this._typeCode, super.localId):super(
+    title: '',
+    tags: [],
+    author: '',
+    date: null,
+    articleElements: [],
+  );
+
+  static ArticleSyncData fromUniqName(String uniqName){
+    List<String> idParts = uniqName.split(Article.uniqNameSep);
+    return ArticleSyncData(idParts[0], idParts[1]);
+  }
+
+  @override
+  Future<ImageProvider<Object>?>? _loadCover() => throw UnimplementedError();
+
+}
+
+class ArticleAzymut extends Article{
+
+  static Future<img.Image?> _coverFromHtmlLink(String? link) async{
+
+    try{
+      String htmlFile = await Article.downloadFile(link!);
+
+      String imageLink = htmlFile.split(
+          '<meta property="og:image" content="')[1];
+      imageLink = imageLink.split('" />')[0];
+      imageLink = imageLink.split('"/>')[0];
+      var response = await get(Uri.parse(imageLink));
+
+      img.Image image = img.decodeImage(response.bodyBytes.buffer.asUint8List())!;
+
+      image = img.copyResize(image, width: 1000);
+      return image;
+    }catch(_){
+      return null;
     }
-    return -1;
   }
 
-  bool get isProblem =>
-      //name==null && // CELOWO!
-  imageBytes==null &&
-      authCode == null &&
-      imageSource == null &&
-      date == null &&
-      title == null &&
-      intro == null &&
-      items == null &&
-      othCores == null;
+  static String typeCode = 'art_azymut';
+  @override
+  String get _typeCode => typeCode;
 
-  static const Map<int, String> month = {
-    1:'stycznia',
-    2:'lutego',
-    3:'marca',
-    4:'kwietnia',
-    5:'maja',
-    6:'czerwca',
-    7:'lipca',
-    8:'sierpnia',
-    9:'września',
-    10:'października',
-    11:'listopada',
-    12:'grudnia'
-  };
+  ArticleAzymut(
+    String localId,
+    {required String? title,
+      required List<String> tags,
+      required DateTime? date,
+      required String? author,
+      required String? link,
+      required List<ArticleElement?> articleElements
+  }):super(
+      localId,
+      title: title,
+      tags: tags,
+      date: date,
+      author: author,
+      link: link,
+      articleElements: articleElements
+  );
 
-  final String id;
-  final Uint8List imageBytes;
-  final String authCode;
-  final String imageSource;
-  final DateTime date;
-  final String title;
-  final String intro;
-  final List<ArticleElement> items;
-  final List<ArticleCore> othCores;
-  final bool startWithIntro;
+  static List<ArticleElement>? _noteToArticleElement(var node){
 
-  const Article(
-      this.id,
-      this.imageBytes,
-      this.authCode,
-      this.imageSource,
-      this.date,
-      this.title,
-      this.intro,
-      this.items,
-      this.othCores,
-      {
-        this.startWithIntro: true
-      });
+    if(node is html_dom.Comment) {
+      if(node.data == null || node.data!.replaceAll('\n', '').isEmpty) return null;
+      return [ParagraphArticleElement(text: node.data!)];
+    }
 
-  String get dateString => dateToString(date, yearAbbr: 'A.D.');
+    else if(node is html_dom.Text) {
+      if(node.text.replaceAll('\n', '').isEmpty) return null;
+      return [ParagraphArticleElement(text: node.text)];
 
-  Object toJson() {
+    } else if(node is html_dom.Element) {
+      if (node.localName == 'p') {
+        if(node.text.replaceAll('\n', '').isEmpty) return null;
+        return [ParagraphArticleElement(text: node.text)];
 
-    String imageCode = imageBytes==null?
-    null: base64Encode(imageBytes.toList());
+      }else if (node.localName!.startsWith('h')) {
+        if(node.text.isEmpty) return null;
+        return [HeaderArticleElement(text: node.text)];
 
-    Map<String, Object> map = {
-      PARAM_IMAGE: imageCode,
-      PARAM_IMAGE_SOURCE: imageSource,
-      PARAM_AUTH_CODE: authCode,
-      PARAM_DATE: date.toIso8601String(),
-      PARAM_TITLE: title,
-      PARAM_INTRO: intro,
-      PARAM_ITEMS: items.map((item) => item.toJson()).toList(),
-      PARAM_OTHER_ART_CORES: othCores
-    };
+      }else if (node.localName == 'ul') {
 
-    return map;
+        List<ListItemArticleElement> result = [];
+        for(var subNode in node.nodes){
+          if(subNode is! html_dom.Element) continue;
+          if(subNode.localName != 'li') continue;
+          if(subNode.text.replaceAll('\n', '').isEmpty) continue;
+          result.add(ListItemArticleElement(index: null, text: subNode.text));
+        }
+        return result;
+
+      }else if (node.localName == 'ol') {
+
+        int index = int.tryParse(node.attributes['start']??'')??1;
+
+        List<ListItemArticleElement> result = [];
+        for(var subNode in node.nodes){
+          if(subNode is! html_dom.Element) continue;
+          if(subNode.localName != 'li') continue;
+          if(subNode.text.replaceAll('\n', '').isEmpty) continue;
+          result.add(ListItemArticleElement(index: index++, text: subNode.text));
+        }
+        return result;
+
+      }else if (node.localName == 'div' && node.attributes['class'] == 'wp-block-image') {
+
+        var figureNode = node.nodes.firstWhere((subNode) =>
+        subNode is html_dom.Element && subNode.localName == 'figure');
+
+        String? imageLink;
+        String? desc;
+        for (var subNode in figureNode.nodes) {
+          subNode as html_dom.Element;
+          if (subNode.localName == 'img') imageLink = subNode.attributes['src'];
+          if (subNode.localName == 'figcaption') desc = subNode.text;
+        }
+
+        if (imageLink != null)
+          return [PictureArticleElement(link: imageLink, desc: desc)];
+        else
+          return null;
+
+      } else
+        return [CustomArticleElement(html: node.outerHtml)];
+
+    } else
+      return null;
+
   }
 
-  static Article fromJson(String id, String code) {
+  static ArticleAzymut fromAtomItem(AtomItem item){
+
+    List<String> tags = item.categories!.map((cat) => '#${cat.term!.toUpperCase()}').toList();
+
+    String text = item.content!.replaceAll('<br>', '\n');
+
+    var nodes = parse(text).nodes[0].nodes[1].nodes;
+    nodes.removeWhere((node) => node is html_dom.Text && node.text.replaceAll('\n', '').isEmpty);
+
+    try {
+      nodes.removeLast();
+      nodes.removeLast();
+      nodes.removeLast();
+      nodes.removeLast();
+      nodes.removeLast();
+      nodes.removeLast();
+      nodes.removeLast();
+      nodes.removeLast();
+      nodes.removeLast();
+      nodes.removeLast();
+    }catch(e){}
+
+    List<ArticleElement> artElements = [];
+    for(var node in nodes){
+      List<ArticleElement>? elements = _noteToArticleElement(node);
+      if(elements != null)
+        artElements.addAll(elements);
+    }
+
+    String localId = item.id!
+        .replaceAll('http://', '')
+        .replaceAll('https://', '')
+        .replaceAll('azymut.zhr.pl/?p=', '');
+
+    ArticleAzymut core = ArticleAzymut(
+        localId,
+        title: item.title,
+        tags: tags,
+        author: item.authors![0].name,
+        date: DateTime.tryParse(item.published!),
+        link: item.links![0].href,
+        articleElements: artElements,
+    );
+
+    return core;
+  }
+
+  static ArticleAzymut fromJson(String id, String code) {
+
+    Map<String, dynamic> map = jsonDecode(code);
+
+    final String? title = map[Article.paramTitle] as String?;
+    final List<String> tags = ((map[Article.paramTags]??[]) as List).cast<String>();
+    final String? author = map[Article.paramAuthor] as String?;
+    final DateTime date = DateTime.parse(map[Article.paramDate] as String);
+    final String? link = map[Article.paramLink] as String?;
+
+    final Uint8List? imageBytes = map[Article.paramImage]==null?null:base64Decode(map[Article.paramImage] as String);
+    final String? imageSource = map[Article.paramImageSource] as String?;
+    final List<dynamic> items = map[Article.paramArtclItems] as List<dynamic>;
+    final List<dynamic>? othCores = map[Article.paramOtherArtCores] as List<dynamic>?;
+
+    //List<ArticleCore> othCores = _othCores.map((dynamic item) => ArticleCore.decode(item)).toList();
+
+    List<ArticleElement?> articleElements = items.map((dynamic item) => ArticleElement.decode(item)).toList();
+
+    if(articleElements.isNotEmpty)
+      articleElements.removeAt(articleElements.length-1);
+
+    return ArticleAzymut(
+      id.split(Article.uniqNameSep)[1],
+      title: title,
+      tags: tags,
+      date: date,
+      link: link,
+      author: author,
+      //loadCover: () async => Image.memory(imageBytes).image,
+      articleElements: articleElements,
+      /*imageBytes,
+        authCode,
+        imageSource,
+        dateTime,
+        intro,
+        articleElements,
+        othCores*/
+    );
+
+  }
+
+  @override
+  Future<ImageProvider<Object>?> _loadCover() async {
+    File file = File(getArticleCoverPath(uniqName));
+    if(file.existsSync())
+      return MemoryImage(file.readAsBytesSync());
+
+    img.Image? image;
+    if(Article.altCoverUrls != null && Article.altCoverUrls!.containsKey(uniqName)) {
+      File imageFile = await Article.downloadSaveCover(
+          id: uniqName,
+          url: Article.altCoverUrls![uniqName]!.item1,
+          version: Article.altCoverUrls![uniqName]!.item2
+      );
+      return MemoryImage(imageFile.readAsBytesSync());
+    }
+    else {
+      image = await compute(_coverFromHtmlLink, link);
+      if(image == null) return null;
+
+      file.createSync(recursive: true);
+      file.writeAsBytesSync(Uint8List.fromList(img.encodeJpg(image, quality: 80)));
+      debugPrint('Saved article cover to ${basename(file.path)}');
+      return MemoryImage(file.readAsBytesSync());
+    }
+  }
+
+}
+
+class ArticleHarcApp extends Article{
+
+  static String typeCode = 'art_harcapp';
+  @override
+  String get _typeCode => typeCode;
+
+  ArticleHarcApp(
+    String localId,
+    {String? title,
+    List<String>? tags,
+    DateTime? date,
+    String? author,
+    String? link,
+    List<ArticleElement?>? articleElements
+  }):super(
+      localId,
+      title: title,
+      tags: tags,
+      date: date,
+      author: author,
+      link: link,
+      articleElements: articleElements
+  );
+
+
+  static Future<(List<String>?, List<String>?)> downloadIDsAndBlackList() async {
+
+    Dio dio = Dio(BaseOptions(
+      connectTimeout: const Duration(seconds: 10),
+      receiveTimeout: const Duration(seconds: 5),
+      sendTimeout: const Duration(seconds: 5),
+    ));
+
+    try {
+      Response response = await dio.get('https://gitlab.com/n3o2k7i8ch5/harcapp_data/-/raw/master/articles/.index');
+
+      if(response.statusCode == 200){
+        String data = response.data;
+
+        List<String> parts = data.split('!!blacklist');
+
+        List<String> artIDs = [];
+        if(parts.isNotEmpty) {
+          artIDs = parts[0].split('\n');
+          artIDs.removeWhere((String item) => item.isEmpty);
+        }
+
+        List<String> blacklist = [];
+        if(parts.length>1) {
+          blacklist = parts[1].split('\n');
+          blacklist.removeWhere((String item) => item.isEmpty);
+        }
+
+        return (artIDs, blacklist);
+      }
+    } catch (e) {}
+
+    return (null, null);
+
+  }
+
+  static ArticleHarcApp fromJson(String id, String code) {
 
     Map<String, Object> map = jsonDecode(code);
 
-    final Uint8List imageBytes = map[PARAM_IMAGE]==null?null:base64Decode(map[PARAM_IMAGE]);
-    final String imageSource = map[PARAM_IMAGE_SOURCE];
-    final String authCode = map[PARAM_AUTH_CODE];
-    final DateTime dateTime = DateTime.parse(map[PARAM_DATE]);
-    final String title = map[PARAM_TITLE];
-    final String intro = map[PARAM_INTRO];
-    final List<dynamic> items = map[PARAM_ITEMS]??[];
-    final List<dynamic> _othCores = map[PARAM_OTHER_ART_CORES]??[];
+    final String? title = map[Article.paramTitle] as String?;
+    final List<String> tags = map[Article.paramTags] as List<String>;
+    final String? author = map[Article.paramAuthor] as String?;
+    final DateTime date = DateTime.parse(map[Article.paramDate] as String);
+    final String? link = map[Article.paramLink] as String?;
 
-    List<ArticleCore> othCores = _othCores.map((dynamic item) => ArticleCore.decode(item)).toList();
+    final Uint8List? imageBytes = map[Article.paramImage]==null?null:base64Decode(map[Article.paramImage] as String);
+    final String? imageSource = map[Article.paramImageSource] as String?;
+    //final String authCode = map[PARAM_AUTH_CODE];
+    final List<dynamic> items = map[Article.paramArtclItems] as List<dynamic>;
+    final List<dynamic> othCores = map[Article.paramOtherArtCores] as List<dynamic>;
 
-    List<ArticleElement> articleElements = items.map((dynamic item) => ArticleElement.decode(item)).toList();
+    //List<ArticleCore> othCores = _othCores.map((dynamic item) => ArticleCore.decode(item)).toList();
 
-    return Article(id, imageBytes, authCode, imageSource, dateTime, title, intro, articleElements, othCores);
+    List<ArticleElement?> articleElements = items.map((dynamic item) => ArticleElement.decode(item)).toList();
+
+    return ArticleHarcApp(
+      id.split(Article.uniqNameSep)[1],
+      title: title,
+      tags: tags,
+      date: date,
+      author: author,
+      //loadCover: () async => Image.memory(imageBytes).image,
+      articleElements: articleElements,
+      /*imageBytes,
+        authCode,
+        imageSource,
+        dateTime,
+        intro,
+        articleElements,
+        othCores*/
+    );
 
   }
 
+  static Future<Article?> downloadArticle(String id, {Function? onError}) async {
+
+    Dio dio = Dio(BaseOptions(
+      connectTimeout: const Duration(seconds: 5),
+      receiveTimeout: const Duration(seconds: 3),
+      sendTimeout: const Duration(seconds: 3),
+    ));
+
+    try {
+      Response response = await dio.get('https://gitlab.com/n3o2k7i8ch5/harcapp_data/-/raw/master/articles/$id.hrcpartcl');
+
+      if(response.statusCode == 200){
+        String articleCode = response.data;
+        saveStringAsFileToFolder(getArticlesFolderPath, articleCode);
+        return fromJson(id, articleCode);
+      }
+    }catch(e){}
+
+    return null;
+  }
+
+  @override
+  Future<ImageProvider<Object>>? _loadCover() => null;
+
 }
-*/

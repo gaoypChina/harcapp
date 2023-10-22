@@ -61,13 +61,13 @@ String get getDuchoweFoldersPath => _localPath + getDuchoweFoldersLocalPath;
 String get getRemoveSyncReqFolderLocalPath => '/remove_sync_req/';
 String get getRemoveSyncReqFolderPath => _localPath + getRemoveSyncReqFolderLocalPath;
 
-String get _getArticleBaseFolderLocalPath => '/articles/';
-String get _getArticleBaseFolderPath => _localPath + _getArticleBaseFolderLocalPath;
-String get getArticleCoresFolderPath => '${_getArticleBaseFolderPath}cores/';
+String get _getArticlesFolderLocalPath => '/articles/';
+String get _getArticlesFolderPath => _localPath + _getArticlesFolderLocalPath;
+String get getArticlesFolderPath => '${_getArticlesFolderPath}cores/';
 
-String get getArticleCoverFolder => '${_getArticleBaseFolderPath}images/';
+String get getArticleCoverFolder => '${_getArticlesFolderPath}images/';
 String getArticleCoverPath(String id) => '$getArticleCoverFolder$id.jpg';
-String getArticleCorePath(String id) => getArticleCoresFolderPath + id;
+String getArticleCorePath(String id) => getArticlesFolderPath + id;
 
 String get getAuthorsFolderLocalPath => '/author/';
 String get getAuthorsFolderPath => _localPath + getAuthorsFolderLocalPath;
