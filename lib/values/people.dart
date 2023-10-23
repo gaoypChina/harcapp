@@ -315,14 +315,18 @@ const Person ADAM_DAWID = Person(
     org: Org.zhp,
     email: ['treaxy09@gmail.com']
 );
-const Person ADAM_DUDAK = Person(name: 'Adam Dudak', hufiec: huf_zhp_warszawa_ursynow, druzyna: '234 Warszawska Drużyna Harcerska „Forteca”');
+const Person ADAM_DUDAK = Person(
+    name: 'Adam Dudak',
+    hufiec: huf_zhp_warszawa_ursynow,
+    druzyna: '234. Warszawska Drużyna Harcerska „Forteca”'
+);
 const Person ADAM_SKLODOWSKI = Person(
-name: 'Adam Skłodowski',
-druzyna: '58 MDH „Cichociemni”',
-hufiec: 'Eldorado',
-rankHarc: RankHarc.zhrWywiadowca,
-org: Org.zhr_o,
-email: []
+    name: 'Adam Skłodowski',
+    druzyna: '58. MDH „Cichociemni”',
+    hufiec: 'Eldorado',
+    rankHarc: RankHarc.zhrWywiadowca,
+    org: Org.zhr_o,
+    email: []
 );
 const Person AGATA_KOPYTKO = Person(
     name: 'Agata',
@@ -369,7 +373,7 @@ const Person ALAN_FILAS = Person(
 );
 const Person ALEKSANDER_PALKA = Person(
     name: 'Aleksander Palka',
-    druzyna: '10HDŻ',
+    druzyna: '10. HDŻ',
     hufiec: 'Katowice',
     rankHarc: RankHarc.dhc,
     org: Org.zhp,
@@ -401,7 +405,7 @@ const Person ALEKSANDRA_KOWALSKA = Person(
 const Person ALEKSANDRA_KOZUBAL = Person(name: 'Aleksandra Kozubal', rankHarc: RankHarc.zhpSamarytanka, org: Org.zhp);
 const Person ALEKSANDRA_TKOCZ = Person(
     name: 'Aleksandra Tkocz',
-    druzyna: 'XIX WDH „Sokół”',
+    druzyna: 'XIX. WDH „Sokół”',
     hufiec: huf_zhp_szczecin_dabie,
     rankHarc: RankHarc.zhpPionierka,
     org: Org.zhp,
@@ -523,10 +527,13 @@ const Person DOMINIKA_HOCHMANSKA = Person(
   org: Org.zhp,
   email: ['dominika.hochmanska@gmail.com']
 );
-const Person DORIAN_JAREK = Person(name: 'Dorian Jarek', rankInstr: RankInstr.pwd,
+const Person DORIAN_JAREK = Person(
+    name: 'Dorian Jarek',
+    rankInstr: RankInstr.pwd,
     druzyna: '13. Konińska Drużyna Wędrownicza „Wadery”',
     hufiec: huf_zhp_konin,
-    org: Org.zhp);
+    org: Org.zhp
+);
 const Person EMILIA_Z_FSE = Person(
     name: 'Emilia',
     druzyna: 'Ognisko Młodych Przewodniczek',
@@ -606,7 +613,7 @@ const Person FRANCISZEK_TOMASZCZYK = Person(
 );
 const Person GABRIEL_POZNANSKI = Person(
     name: 'Gabriel Poznański',
-    druzyna: '6GZ „Jeźdźcy Smoków”',
+    druzyna: '6. GZ „Jeźdźcy Smoków”',
     hufiec: huf_zhp_chodziez,
     rankInstr: RankInstr.pwd,
     rankHarc: RankHarc.zhpHOc,
@@ -683,8 +690,6 @@ const Person HELENA_LATOSINSKA = Person(name: 'Helena Latosińska',
 );
 const Person HELENA_SWIATKOWSKA = Person(
     name: 'Helena Świątkowska',
-    druzyna: '',
-    hufiec: '',
     rankHarc: RankHarc.zhpSamarytanka,
     org: Org.zhr_o,
     email: ['helena.swiatkowska@zhr.pl']

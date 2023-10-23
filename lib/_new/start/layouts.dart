@@ -1390,12 +1390,10 @@ class AllSaintsLayoutState extends State<DefaultLayout>{
   ];
 
   late SaintData selectedSaint;
-  late AutoSizeGroup group;
 
   @override
   void initState() {
     selectedSaint = data[Random().nextInt(data.length)];
-    group = AutoSizeGroup();
     super.initState();
   }
 
@@ -1512,98 +1510,30 @@ class AllSaintsLayoutState extends State<DefaultLayout>{
 
                   Expanded(child: Container()),
 
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
+                  const SizedBox(height: 6.0),
 
-                      const SizedBox(height: 6.0),
-
-                      AutoSizeText(
-                        'Świętość jest dla każdego.',
-                        maxLines: 1,
-                        group: group,
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.cinzelDecorative(
-                          fontSize: 24.0,
-                          fontWeight: FontWeight.w900,
-                          color: Colors.amber[800]!,
-                          height: 1.3,
-                          shadows: [
-                            Shadow(
-                              offset: const Offset(1.0, 1.0),
-                              blurRadius: 3.0,
-                              color: Colors.blue[900]!.withOpacity(.5),
-                            )
-                          ]
-                        ),
-                      ),
-
-                      AutoSizeText(
-                        'Dla Ciebie też :)',
-                        maxLines: 1,
-                        group: group,
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.cinzelDecorative(
-                            fontSize: 24.0,
-                            fontWeight: FontWeight.w900,
-                            color: Colors.amber[800]!,
-                            height: 1.3,
-                            shadows: [
-                              Shadow(
-                                offset: const Offset(1.0, 1.0),
-                                blurRadius: 3.0,
-                                color: Colors.blue[900]!.withOpacity(.5),
-                              )
-                            ]
-                        ),
-                      ),
-
-                    ],
+                  AutoSizeText(
+                    'Świętość jest dla każdego.\nDla Ciebie też :)',
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.cinzelDecorative(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.amber[800]!,
+                        height: 1.3,
+                        shadows: [
+                          Shadow(
+                            offset: const Offset(1.0, 1.0),
+                            blurRadius: 3.0,
+                            color: Colors.blue[900]!.withOpacity(.5),
+                          )
+                        ]
+                    ),
                   ),
 
                 ],
               ),
             ),
           ),
-
-          // _HarcApp(color: Colors.black.withOpacity(0.08)),
-
-          // ClipOval(
-          //   clipper: WaveUpClipper(),
-          //   child: PhysicalModel(
-          //     color: Colors.blueAccent,
-          //     elevation: 4.0,
-          //     child: GradientWidget(
-          //       alignment: Alignment.topCenter,
-          //       radius: 0,
-          //       colorStart: Colors.blue[400]!,
-          //       colorEnd: Colors.blueAccent,
-          //       child: Padding(
-          //         padding: const EdgeInsets.all(32.0),
-          //         child: Column(
-          //           crossAxisAlignment: CrossAxisAlignment.start,
-          //           children: [
-          //
-          //             const SizedBox(height: 6.0),
-          //
-          //             AutoSizeText(
-          //               'Świętość jest dla każdego.\nDla Ciebie też :)',
-          //               maxLines: 2,
-          //               textAlign: TextAlign.center,
-          //               style: GoogleFonts.cinzelDecorative(
-          //                   fontSize: 20.0,
-          //                   fontWeight: FontWeight.w600,
-          //                   color: Colors.amber[800]!,
-          //                   height: 1.3
-          //               ),
-          //             ),
-          //
-          //           ],
-          //         ),
-          //       ),
-          //     ),
-          //   ),
-          // ),
 
         ],
       )
