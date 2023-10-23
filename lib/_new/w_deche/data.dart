@@ -13,6 +13,18 @@ class WDecheData{
 
   static const List<WDecheData> all = [
 
+    WDecheData(
+      text: 'Weź się do kupy',
+      imageName: 'poop',
+      imageSize: 42.0,
+    ),
+
+    WDecheData(
+      text: 'Co złego jest w herbacie, że na świecie są wciąż antyteiści?!',
+      imageName: 'tea',
+      imageSize: 42.0,
+    ),
+
     WDecheData(text: 'Czy tinder to sklep z ludźmi?'),
 
     WDecheData(text: 'Nie całuj, jeśli nie kochasz'),
@@ -21,7 +33,11 @@ class WDecheData{
 
     WDecheData(text: 'Przegraliśmy z honorem i kretesem'),
 
-    WDecheData(text: 'Tańczy byle jak, ale nie do byle czego'),
+    WDecheData(
+      text: 'Tańczy byle jak, ale nie do byle czego',
+      imageName: 'music',
+      imageSize: 42.0,
+    ),
 
     WDecheData(text: 'Sukces nie ma gwaracji, jeśli chcesz gwarancję, to kup sobie toster'),
 

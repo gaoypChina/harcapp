@@ -1330,7 +1330,7 @@ class AllSaintsLayoutState extends State<DefaultLayout>{
         glowXPositionFraction: .23,
         glowYPositionFraction: -.08,
         glowSizeFraction: .55,
-        description: '22-latka, narzeczona, grała w piłkę z bratem i jego kolegami. Poświęciła życie biednym, niepełnosprawnym i narkomanom, kiedy to poznała Boga w codziennej modlitwie.'
+        description: '22-latka, narzeczona, grała w piłkę z bratem i jego kolegami. Poświęciła życie biednym, niepełnosprawnym i narkomanom - poznała Boga w codziennej modlitwie.'
     ),
 
     const SaintData(
@@ -1339,7 +1339,7 @@ class AllSaintsLayoutState extends State<DefaultLayout>{
         glowXPositionFraction: .14,
         glowYPositionFraction: -.08,
         glowSizeFraction: .7,
-        description: 'Kapłan, misjonarz w Gwatemali, gdzie zbudował szpital. Za pomoc ludności został ogłoszony wrogiem publicznym. Wiedział, że grozi mu śmierć, ale jako jedyny nie opuścił placówki.'
+        description: 'Kapłan, misjonarz w Gwatemali, gdzie zbudował szpital. Za pomoc ludności został ogłoszony wrogiem publicznym przez lokalną bojówkę. Wiedział, że grozi mu śmierć, ale jako jedyny nie opuścił placówki.'
     ),
 
     const SaintData(
@@ -1375,7 +1375,7 @@ class AllSaintsLayoutState extends State<DefaultLayout>{
         glowXPositionFraction: .13,
         glowYPositionFraction: -.08,
         glowSizeFraction: .7,
-        description: '18-latek, szlachcic, jezuita, jako dziecko bardzo wrażliwy. Uczył się we Wiedniu. Uciekł z domu, by móc wstąpić do zakonu. Patron Polski.'
+        description: '18-latek, szlachcic, jezuita, jako dziecko bardzo wrażliwy. Uczył się w Wiedniu. Uciekł z domu, by móc wstąpić do zakonu. Patron Polski.'
     ),
 
     const SaintData(
