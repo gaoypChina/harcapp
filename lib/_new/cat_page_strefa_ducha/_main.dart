@@ -8,6 +8,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/common.dart';
+import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/empty_message_widget.dart';
 import 'package:harcapp/_common_widgets/preload_page_view.dart';
@@ -67,8 +68,8 @@ class CatPageStrefaDuchaState extends State<CatPageStrefaDucha> with AfterLayout
 
   late SingleComputerListener<String> loaderListener;
 
-  bool? networkAvailable;
-  StreamSubscription<ConnectivityResult>? subscription;
+  late bool networkAvailable;
+  late StreamSubscription<ConnectivityResult> subscription;
 
   static SelectedItemsSource selectedItemsSrc = SelectedItemsSource.all;
   static int lastAllPage = 0;
@@ -100,9 +101,9 @@ class CatPageStrefaDuchaState extends State<CatPageStrefaDucha> with AfterLayout
 
   @override
   void afterFirstLayout(BuildContext context) async {
-    Provider.of<ColorPackProvider>(context, listen: false).colorPack = ColorPackStrefaDucha();
+    ColorPackProvider.of(context).colorPack = ColorPackStrefaDucha();
     networkAvailable = await isNetworkAvailable();
-    if(!networkAvailable! && Source.all == null) {
+    if(!networkAvailable && Source.all == null) {
       Source.aggrAllDisplayableItems(cachedOnly: true);
       if(Source.allItems!.isNotEmpty) {
         selectedItemsSrc = SelectedItemsSource.cached;
@@ -127,10 +128,14 @@ class CatPageStrefaDuchaState extends State<CatPageStrefaDucha> with AfterLayout
           if(mounted) setState((){});
         },
         onEnd: (error, unknownError, __){
-          if(error != null || unknownError != null) return;
+          if(error != null || unknownError) {
+            if(mounted) setState((){});
+            if(mounted) showAppToast(context, text: simpleErrorMessage);
+            return;
+          }
           loadedFirstTime = false;
           if(mounted) setState((){});
-        }
+        },
     );
 
     strefaDuchaLoader.addListener(loaderListener);
@@ -149,7 +154,6 @@ class CatPageStrefaDuchaState extends State<CatPageStrefaDucha> with AfterLayout
       setState(() => networkAvailable = hasConnection);
     });
 
-
     BackButtonInterceptor.add(onBackPressed);
 
     super.initState();
@@ -159,15 +163,15 @@ class CatPageStrefaDuchaState extends State<CatPageStrefaDucha> with AfterLayout
   dispose() {
     strefaDuchaLoader.removeListener(loaderListener);
 
-    subscription!.cancel();
+    subscription.cancel();
 
     BackButtonInterceptor.remove(onBackPressed);
     super.dispose();
   }
 
   bool onBackPressed(bool stopDefaultButtonEvent, RouteInfo info) {
-    LockProvider prov = Provider.of<LockProvider>(context, listen: false);
-    if(prov.locked!){
+    LockProvider prov = LockProvider.of(context);
+    if(prov.locked){
       prov.locked = false;
       return true;
     }
@@ -237,24 +241,24 @@ class CatPageStrefaDuchaState extends State<CatPageStrefaDucha> with AfterLayout
                 ],
               )
             else if(selectedItemsSrc == SelectedItemsSource.cached && Source.allItems!.isEmpty)
-                Stack(
-                  children: [
+              Stack(
+                children: [
 
-                    BackgroundImage(ImageLoader.emptyImage),
+                  BackgroundImage(ImageLoader.emptyImage),
 
-                    const BackgroundBlur(),
+                  const BackgroundBlur(),
 
-                    Center(
-                      child: EmptyMessageWidget(
-                        text: 'Pusto',
-                        icon: MdiIcons.trayArrowDown,
-                        color: Colors.white24,
-                        size: .7*MediaQuery.of(context).size.shortestSide,
-                      ),
+                  Center(
+                    child: EmptyMessageWidget(
+                      text: 'Pusto',
+                      icon: MdiIcons.trayArrowDown,
+                      color: Colors.white24,
+                      size: .7*MediaQuery.of(context).size.shortestSide,
                     ),
+                  ),
 
-                  ],
-                )
+                ],
+              )
             else
               ImageCardPageView(
                 ignoreNoSources: selectedItemsSrc == SelectedItemsSource.cached,
@@ -389,13 +393,13 @@ class CatPageStrefaDuchaState extends State<CatPageStrefaDucha> with AfterLayout
 class ImageCardPageView extends StatelessWidget{
 
   final bool ignoreNoSources;
-  final bool? networkAvailable;
+  final bool networkAvailable;
   final int? initialPage;
   final void Function(int)? onPageChanged;
 
   const ImageCardPageView(
       { this.ignoreNoSources = false,
-        this.networkAvailable,
+        required this.networkAvailable,
         this.initialPage,
         this.onPageChanged,
         Key? key
@@ -403,11 +407,12 @@ class ImageCardPageView extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    if(Source.all == null && !ignoreNoSources && !networkAvailable!)
-      return _NoNetWidget();
-    else if(strefaDuchaLoader.running)
+
+    if(strefaDuchaLoader.running)
       return _LoadingWidget();
-    else if(Source.all == null && !ignoreNoSources && !strefaDuchaLoader.running)
+    else if(Source.all == null && !ignoreNoSources && !networkAvailable)
+      return _NoNetWidget();
+    else if(Source.all == null && !ignoreNoSources)
       return _ErrorWidget();
 
     PageController pageController = PageController(initialPage: initialPage??0);
@@ -425,7 +430,7 @@ class ImageCardPageView extends StatelessWidget{
               scrollDirection: Axis.vertical,
               controller: pageController,
               itemCount: Source.allItems!.length,
-              physics: lockProv.locked!?const NeverScrollableScrollPhysics():const BouncingScrollPhysics(),
+              physics: lockProv.locked?const NeverScrollableScrollPhysics():const BouncingScrollPhysics(),
               itemBuilder: (context, index) => Center(
                 child: _CardWidget(
                   sourceItem: Source.allItems![index],
@@ -477,8 +482,8 @@ class _DrawerTile extends StatelessWidget{
     selectedSource: selectedSource,
     trailing: trailing,
     onSelect: (source){
-      LockProvider prov = Provider.of<LockProvider>(context, listen: false);
-      if(prov.locked!)
+      LockProvider prov = LockProvider.of(context);
+      if(prov.locked)
         prov.locked = false;
       onSelect?.call(source);
       //setState(() => selectedSource = SelectedItemsSource.cached);
@@ -582,8 +587,8 @@ class _CardWidgetState extends State<_CardWidget>{
   void Function()? get onLikeChanged => widget.onLikeChanged;
 
 
-  bool? get optionsOn => Provider.of<LockProvider>(context, listen: false).locked;
-  set optionsOn(bool? value) =>
+  bool get optionsOn => Provider.of<LockProvider>(context, listen: false).locked;
+  set optionsOn(bool value) =>
     Provider.of<LockProvider>(context, listen: false).locked = value;
 
   @override
@@ -626,12 +631,12 @@ class _CardWidgetState extends State<_CardWidget>{
 
                             setState(() {});
                           },
-                          onLongPress: () => setState(() => optionsOn = !optionsOn!),
+                          onLongPress: () => setState(() => optionsOn = !optionsOn),
                         ),
 
                         IgnorePointer(
                           child: AnimatedOpacity(
-                            opacity: !Provider.of<LockProvider>(context, listen: false).locked! && sourceItem!.isFavorite?1:0,
+                            opacity: !Provider.of<LockProvider>(context, listen: false).locked&& sourceItem!.isFavorite?1:0,
                             duration: const Duration(milliseconds: 500),
                             child: const _HeartWidget(),
                           ),
@@ -648,7 +653,7 @@ class _CardWidgetState extends State<_CardWidget>{
               ),
 
               AnimatedContainer(
-                  height: optionsOn!?5*Dimen.ICON_FOOTPRINT:0,
+                  height: optionsOn?5*Dimen.ICON_FOOTPRINT:0,
                   duration: animDuration,
                   curve: animCurve,
                   child: Column(
@@ -658,7 +663,7 @@ class _CardWidgetState extends State<_CardWidget>{
                       ListTile(
                           leading: Icon(MdiIcons.shareVariant, color: Colors.white),
                           title: Text('Udostępnij', style: AppTextStyle(color: Colors.white)),
-                          onTap: () => Share.shareFiles([sourceItem!.cachedFile.path], text: 'Udostępnij...')
+                          onTap: () => Share.shareXFiles([XFile(sourceItem!.cachedFile.path)], text: 'Udostępnij...')
                       ),
                       ListTile(
                         leading: Icon(MdiIcons.link, color: Colors.white),
@@ -697,7 +702,7 @@ class _CardWidgetState extends State<_CardWidget>{
 
               bottom: kBottomNavigationBarHeight + Dimen.FLOATING_BUTTON_MARG,
 
-              right: optionsOn!?
+              right: optionsOn?
               Dimen.FLOATING_BUTTON_MARG:
               -(Dimen.FLOATING_BUTTON_SIZE + Dimen.FLOATING_BUTTON_MARG),
 
@@ -757,24 +762,21 @@ class _NoNetWidget extends StatelessWidget{
 class _LoadingWidget extends StatelessWidget{
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
 
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
+      SpinKitDoubleBounce(
+        size: 100,
+        color: backgroundIcon_(context),
+      ),
 
-        SpinKitDoubleBounce(
-          size: 100,
-          color: backgroundIcon_(context),
-        ),
+      const SizedBox(height: Dimen.SIDE_MARG),
 
-        const SizedBox(height: Dimen.SIDE_MARG),
+      Text('Ładowanie', style: AppTextStyle(fontWeight: weight.bold, fontSize: Dimen.TEXT_SIZE_BIG, color: hintEnab_(context)))
 
-        Text('Ładowanie', style: AppTextStyle(fontWeight: weight.bold, fontSize: Dimen.TEXT_SIZE_BIG, color: backgroundIcon_(context)))
-
-      ],
-    );
-  }
+    ],
+  );
 
 }
 

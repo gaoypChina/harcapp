@@ -39,6 +39,8 @@ class WDecheData{
       imageSize: 42.0,
     ),
 
+    WDecheData(text: 'Ku pamięci, mięci kupa\nWpisał się Alojzy Dupa'),
+
     WDecheData(text: 'Sukces nie ma gwaracji, jeśli chcesz gwarancję, to kup sobie toster'),
 
     WDecheData(text: 'A niektórzy z pełną powagą rzucają oskarżenia o "nieludzkim traktowaniu zwierząt"...'),

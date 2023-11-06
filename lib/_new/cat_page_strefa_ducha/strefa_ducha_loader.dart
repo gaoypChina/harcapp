@@ -21,16 +21,16 @@ class StrefaDuchaLoader extends SingleComputer<String?, SingleComputerListener<S
       receiveTimeout: const Duration(seconds: 40),
     ));
 
-    String? data;
+    String data;
     try{
       Response response = await dio.get(sourceListUrl);
-      data = response.data as String?;
+      data = response.data as String;
     }catch (e){
       callKnownError(null);
       return;
     }
 
-    List<String> sourceParts = data!.replaceAll('#\n', '#').split('##');
+    List<String> sourceParts = data.replaceAll('#\n', '#').split('##');
 
     // DOWNLOAD SOURCES
 

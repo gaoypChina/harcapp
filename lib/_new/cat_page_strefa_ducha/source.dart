@@ -17,7 +17,7 @@ class Source{
     if(cachedOnly){
       allItems.addAll(ImageLoader.allCachedItems);
       allItems.shuffle();
-      allItems = allItems;
+      Source.allItems = allItems;
       return;
     }
 
@@ -31,7 +31,7 @@ class Source{
           allItems.add(item);
 
     allItems.shuffle();
-    allItems = allItems;
+    Source.allItems = allItems;
   }
 
   String uniqId;

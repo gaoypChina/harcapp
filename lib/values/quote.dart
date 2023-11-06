@@ -46,6 +46,7 @@ const String quoteAuthorJerzyDobrowolski = 'Jerzy Dobrowolski';
 const String quoteAuthorAdamSzustak = 'o. Adam Szustak OP';
 const String quoteAuthorMackiewicz = 'Józef Mackiewicz';
 const String quoteAuthorSzimonPeres = 'Szimon Peres';
+const String quoteAuthorMarcinBorzadek = 'o. Marcin Borządek CCN';
 
 const Quote tischnerZmartwychwstwanie = Quote(quoteAuthorTischner, 'Od czasu, gdy Chrystus zwyciężył śmierć, żaden optymizm nie jest w Kościele przesadą.');
 
@@ -232,18 +233,13 @@ const List<Quote> CYTATY_REGULAR = [
 
   Quote(quoteAuthorMackiewicz, 'Tylko prawda jest ciekawa.'),
 
-  Quote(quoteAuthorSzimonPeres, 'Optymiści i pesymiści umierają tak samo.\n\nTylko żyją inaczej.')
+  Quote(quoteAuthorSzimonPeres, 'Optymiści i pesymiści umierają tak samo.\n\nTylko żyją inaczej.'),
+
+  Quote(quoteAuthorMarcinBorzadek, 'Ubóstwo jest po to, by umieć być z Bogiem i ludźmi zamiast z przedmiotami.'),
 
 ];
 
 // "Konserwatyści to postępowcy, którzy jadą zgodnie z ograniczeniem prędkości." - Michael Malice
-
-
-
-
-
-
-
 
 
 const String cytaty_autor_pilecki = 'Rotmistrz Witold Pilecki';

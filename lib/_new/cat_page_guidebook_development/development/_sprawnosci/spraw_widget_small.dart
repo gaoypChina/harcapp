@@ -5,12 +5,14 @@ import 'package:harcapp/_new/cat_page_guidebook_development/development/_sprawno
 import 'package:harcapp/_new/cat_page_guidebook_development/development/_sprawnosci/models/spraw_book.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/_sprawnosci/spraw_icon.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/_sprawnosci/widgets/open_spraw_dialog.dart';
+import 'package:harcapp/_new/cat_page_guidebook_development/providers.dart';
 import 'package:harcapp/_new/details/app_settings.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
+import 'package:provider/provider.dart';
 
 import 'widgets/common.dart';
 
@@ -49,108 +51,112 @@ class SprawWidgetSmall extends StatelessWidget{
   String get heroTag => '$mode#${spraw.uniqName}';
 
   @override
-  Widget build(BuildContext context) => SizedBox(
-    width: width,
-    height: height,
-    child: Hero(
-      tag: heroTag,
-      child: SimpleButton(
-          color: backgroundColor??cardEnab_(context),
-          onLongPress: onLongPress,
-          onTap: clickable?() => openSprawDialog(
-              context,
-              spraw,
-              heroTag: heroTag,
-              onReqComplChanged: onReqComplChanged
-          ):null,
-          radius: AppCard.bigRadius,
-          elevation: elevation,
-          padding: EdgeInsets.zero,
-          child: Stack(
-            children: [
+  Widget build(BuildContext context) => Consumer<SprawProvider>(
+    builder: (context, prov, _) {
+      return SizedBox(
+        width: width,
+        height: height,
+        child: Hero(
+          tag: heroTag,
+          child: SimpleButton(
+              color: backgroundColor??cardEnab_(context),
+              onLongPress: onLongPress,
+              onTap: clickable?() => openSprawDialog(
+                  context,
+                  spraw,
+                  heroTag: heroTag,
+                  onReqComplChanged: onReqComplChanged
+              ):null,
+              radius: AppCard.bigRadius,
+              elevation: elevation,
+              padding: EdgeInsets.zero,
+              child: Stack(
+                children: [
 
-              Positioned(
-                bottom: -40,
-                left: -40,
-                child: RotationTransition(
-                    turns: const AlwaysStoppedAnimation(45 / 360),
-                    child: Container(
-                        width: 80,
-                        height: 80,
-                        color: SprawBookData.mapIdColorMap[spraw.sprawBook.id]!.end(AppSettings.isDark),
-                        child: Align(
-                          alignment: Alignment.topCenter,
-                          child: SizedBox(
-                            height: 28,
-                            child: Center(
-                              child: OrgAdvancedIndicator(
-                                spraw.sprawBook.org,
-                                fontColor: SprawBookData.mapIdColorMap[spraw.sprawBook.id]!.start(AppSettings.isDark),
-                                dense: true,
-                                topSpace: false,
-                              ),
+                  Positioned(
+                    bottom: -40,
+                    left: -40,
+                    child: RotationTransition(
+                        turns: const AlwaysStoppedAnimation(45 / 360),
+                        child: Container(
+                            width: 80,
+                            height: 80,
+                            color: SprawBookData.mapIdColorMap[spraw.sprawBook.id]!.end(AppSettings.isDark),
+                            child: Align(
+                              alignment: Alignment.topCenter,
+                              child: SizedBox(
+                                height: 28,
+                                child: Center(
+                                  child: OrgAdvancedIndicator(
+                                    spraw.sprawBook.org,
+                                    fontColor: SprawBookData.mapIdColorMap[spraw.sprawBook.id]!.start(AppSettings.isDark),
+                                    dense: true,
+                                    topSpace: false,
+                                  ),
+                                )
+                              )
                             )
-                          )
                         )
-                    )
-                ),
-              ),
+                    ),
+                  ),
 
-              Positioned.fill(
-                child: Padding(
-                  padding: const EdgeInsets.all(Dimen.ICON_MARG),
-                  child: Column(
-                    children: [
-
-                      Row(
+                  Positioned.fill(
+                    child: Padding(
+                      padding: const EdgeInsets.all(Dimen.ICON_MARG),
+                      child: Column(
                         children: [
-                          LevelWidget(spraw, size: 14.0),
+
+                          Row(
+                            children: [
+                              LevelWidget(spraw, size: 14.0),
+
+                              Expanded(child: Container()),
+
+                              SizedBox(
+                                height: 24.0,
+                                width: 24.0,
+                                child: SprawIcon(spraw),
+                              )
+
+                            ],
+                          ),
+
+                          const SizedBox(height: Dimen.ICON_MARG),
+
+                          AutoSizeText(
+                            spraw.title,
+                            wrapWords: false,
+                            minFontSize: 10.0,
+                            style: AppTextStyle(
+                              fontWeight: weight.halfBold,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
 
                           Expanded(child: Container()),
 
-                          SizedBox(
-                            height: 24.0,
-                            width: 24.0,
-                            child: SprawIcon(spraw),
-                          )
+                          if(showProgress)
+                            Align(
+                              alignment: Alignment.bottomRight,
+                              child: Text(
+                                '${spraw.completenessPercent}%',
+                                style: AppTextStyle(
+                                    fontWeight: weight.halfBold,
+                                    color: hintEnab_(context)
+                                ),
+                              ),
+                            )
 
                         ],
                       ),
-
-                      const SizedBox(height: Dimen.ICON_MARG),
-
-                      AutoSizeText(
-                        spraw.title,
-                        wrapWords: false,
-                        minFontSize: 10.0,
-                        style: AppTextStyle(
-                          fontWeight: weight.halfBold,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-
-                      Expanded(child: Container()),
-
-                      if(showProgress)
-                        Align(
-                          alignment: Alignment.bottomRight,
-                          child: Text(
-                            '${spraw.completenessPercent}%',
-                            style: AppTextStyle(
-                                fontWeight: weight.halfBold,
-                                color: hintEnab_(context)
-                            ),
-                          ),
-                        )
-
-                    ],
-                  ),
-                ),
+                    ),
+                  )
+                ],
               )
-            ],
-          )
-      ),
-    ),
+          ),
+        ),
+      );
+    }
   );
 
 }

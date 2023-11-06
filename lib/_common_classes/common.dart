@@ -276,9 +276,9 @@ Future<void> factoryResetLocal(BuildContext context) async {
 
   AlbumProvider albumProvider = AlbumProvider.of(context);
 
-  SprawSavedListProv sprawSavedListProv = SprawSavedListProv.of(context);
-  SprawInProgressListProv sprawInProgressListProv = SprawInProgressListProv.of(context);
-  SprawCompletedListProv sprawCompletedListProv = SprawCompletedListProv.of(context);
+  SprawSavedListProvider sprawSavedListProv = SprawSavedListProvider.of(context);
+  SprawInProgressListProvider sprawInProgressListProv = SprawInProgressListProvider.of(context);
+  SprawCompletedListProvider sprawCompletedListProv = SprawCompletedListProvider.of(context);
 
   RankProv rankProv = RankProv.of(context);
 

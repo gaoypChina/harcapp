@@ -1,27 +1,36 @@
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
-class SprawSavedListProv extends ChangeNotifier{
+class SprawProvider extends ChangeNotifier{
 
-  static SprawSavedListProv of(BuildContext context) => Provider.of<SprawSavedListProv>(context, listen: false);
+  static SprawProvider of(BuildContext context) => Provider.of<SprawProvider>(context, listen: false);
   static void notify_(BuildContext context) => of(context).notify();
 
   void notify() => notifyListeners();
 
 }
 
-class SprawInProgressListProv extends ChangeNotifier{
+class SprawSavedListProvider extends ChangeNotifier{
 
-  static SprawInProgressListProv of(BuildContext context) => Provider.of<SprawInProgressListProv>(context, listen: false);
+  static SprawSavedListProvider of(BuildContext context) => Provider.of<SprawSavedListProvider>(context, listen: false);
   static void notify_(BuildContext context) => of(context).notify();
 
   void notify() => notifyListeners();
 
 }
 
-class SprawCompletedListProv extends ChangeNotifier{
+class SprawInProgressListProvider extends ChangeNotifier{
 
-  static SprawCompletedListProv of(BuildContext context) => Provider.of<SprawCompletedListProv>(context, listen: false);
+  static SprawInProgressListProvider of(BuildContext context) => Provider.of<SprawInProgressListProvider>(context, listen: false);
+  static void notify_(BuildContext context) => of(context).notify();
+
+  void notify() => notifyListeners();
+
+}
+
+class SprawCompletedListProvider extends ChangeNotifier{
+
+  static SprawCompletedListProvider of(BuildContext context) => Provider.of<SprawCompletedListProvider>(context, listen: false);
   static void notify_(BuildContext context) => of(context).notify();
 
   void notify() => notifyListeners();

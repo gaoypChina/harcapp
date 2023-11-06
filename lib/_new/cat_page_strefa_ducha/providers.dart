@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:harcapp/_new/cat_page_strefa_ducha/source.dart';
+import 'package:provider/provider.dart';
 
 import '_main.dart';
 
@@ -134,10 +135,12 @@ class FadeImageProvider extends ChangeNotifier{
 
 class LockProvider extends ChangeNotifier{
 
-  bool? _locked;
+  static LockProvider of(BuildContext context) => Provider.of<LockProvider>(context, listen: false);
 
-  bool? get locked => _locked;
-  set locked(bool? value){
+  late bool _locked;
+
+  bool get locked => _locked;
+  set locked(bool value){
     _locked = value;
     notifyListeners();
   }

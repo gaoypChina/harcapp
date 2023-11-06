@@ -222,9 +222,10 @@ void main() async {
             ChangeNotifierProvider(create: (context) => RankProv()),
 
             // SPRAWNOŚCI
-            ChangeNotifierProvider(create: (context) => SprawSavedListProv()),
-            ChangeNotifierProvider(create: (context) => SprawInProgressListProv()),
-            ChangeNotifierProvider(create: (context) => SprawCompletedListProv()),
+            ChangeNotifierProvider(create: (context) => SprawProvider()),
+            ChangeNotifierProvider(create: (context) => SprawSavedListProvider()),
+            ChangeNotifierProvider(create: (context) => SprawInProgressListProvider()),
+            ChangeNotifierProvider(create: (context) => SprawCompletedListProvider()),
             ChangeNotifierProvider(create: (context) => CurrentSprawGroupProvider()),
 
             // TROPY
@@ -449,9 +450,10 @@ class AppState extends State<App> with WidgetsBindingObserver {
 
     RankProv rankProv = RankProv.of(context);
 
-    SprawSavedListProv sprawSavedListProv = SprawSavedListProv.of(context);
-    SprawInProgressListProv sprawInProgressListProv = SprawInProgressListProv.of(context);
-    SprawCompletedListProv sprawCompletedListProv = SprawCompletedListProv.of(context);
+    SprawProvider sprawProv = SprawProvider.of(context);
+    SprawSavedListProvider sprawSavedListProv = SprawSavedListProvider.of(context);
+    SprawInProgressListProvider sprawInProgressListProv = SprawInProgressListProvider.of(context);
+    SprawCompletedListProvider sprawCompletedListProv = SprawCompletedListProvider.of(context);
 
     syncListener = SynchronizerListener(
       onEnd: (syncOper){
@@ -465,6 +467,7 @@ class AppState extends State<App> with WidgetsBindingObserver {
 
           rankProv.notify();
 
+          sprawProv.notify();
           sprawSavedListProv.notify();
           sprawInProgressListProv.notify();
           sprawCompletedListProv.notify();
