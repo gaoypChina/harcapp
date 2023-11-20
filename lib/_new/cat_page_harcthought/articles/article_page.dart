@@ -1,10 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:harcapp/_common_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
-import 'package:harcapp/_new/cat_page_harcthought/articles/title_widget/common.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_text.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
@@ -17,31 +15,34 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:provider/provider.dart';
 
 import '../../details/app_settings.dart';
-import 'title_widget/article_bookmark_icon.dart';
-import 'article_core.dart';
+import 'article_card/article_title.dart';
+import 'article_card/author_widget.dart';
+import 'article_card/bookmark_icon.dart';
+import 'article_card/common.dart';
+import 'article_card/date_widget.dart';
+import 'article_card/tag_widget.dart';
+import 'article.dart';
 import 'common.dart';
 
-class ArticleWidget extends StatefulWidget{
+class ArticlePage extends StatefulWidget{
 
   static String bookMarkHeroTag(articleHeroTag) => 'BOOKMARK $articleHeroTag';
 
   final Article article;
   final ImageProvider? cover;
-  final ArticleNotifierProvider articleNotifProv;
 
-  const ArticleWidget(
+  const ArticlePage(
       this.article,
       {this.cover,
-        required this.articleNotifProv,
       Key? key})
       :super(key: key);
 
   @override
-  State<StatefulWidget> createState() => ArticleWidgetState();
+  State<StatefulWidget> createState() => ArticlePageState();
 
 }
 
-class ArticleWidgetState extends State<ArticleWidget> {
+class ArticlePageState extends State<ArticlePage> {
 
   double ART_MARG = 18.0;
 
@@ -157,8 +158,8 @@ class ArticleWidgetState extends State<ArticleWidget> {
       articleNotifier.value = min(1, max(0, -(articlePos-screenHeight)/articleHeight));
       if(articleNotifier.value >= 1 && !showRateButton) {
         setState(() => showRateButton = true);
-        article.isSeen = true;
-        widget.articleNotifProv.notify();
+        article.setSeen(true);
+        ArticleNotifierProvider.notify_(context);
       }else if(articleNotifier.value < 1 && showRateButton) {
         setState(() => showRateButton = false);
       }
@@ -259,11 +260,7 @@ class ArticleWidgetState extends State<ArticleWidget> {
 
                                                           Expanded(child: Container()),
 
-                                                          if(article.isSeen)
-                                                            IconButton(
-                                                                icon: Icon(MdiIcons.eyeOutline, color: ColorPackBlack.ICON_DISABLED),
-                                                                onPressed: () => showAppToast(context, text: 'Artykuł przeczytany')
-                                                            ),
+
                                                         ],
                                                       ),
 
@@ -273,29 +270,43 @@ class ArticleWidgetState extends State<ArticleWidget> {
                                                         crossAxisAlignment: CrossAxisAlignment.end,
                                                         children: [
 
-                                                          Column(
-                                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                                            children: [
+                                                          Expanded(
+                                                            child: Column(
+                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                              children: [
 
-                                                              Padding(
-                                                                padding: const EdgeInsets.only(
-                                                                  left: CARD_PADDING_NORM - Dimen.ICON_MARG,
-                                                                  bottom: CARD_PADDING_NORM - Dimen.ICON_MARG,
+                                                                Padding(
+                                                                  padding: const EdgeInsets.only(
+                                                                    left: CARD_PADDING_NORM - Dimen.ICON_MARG,
+                                                                    bottom: CARD_PADDING_NORM - Dimen.ICON_MARG,
+                                                                  ),
+                                                                  child: DateWidget(article),
                                                                 ),
-                                                                child: DateWidget(article),
-                                                              ),
 
-                                                              AuthorWidget(article, onTap: (){}),
+                                                                AuthorWidget(article, onTap: (){}),
 
-                                                            ],
+                                                              ],
+                                                            ),
                                                           ),
 
-                                                          Expanded(child: Container()),
+                                                          Consumer<ArticleNotifierProvider>(
+                                                            builder: (context, prov, child) =>
+                                                            article.isLiked?
+                                                            ArticleLikedIcon(article):
+                                                            Container(),
+                                                          ),
 
-                                                          ArticleBookmarkWidget(
+                                                          Consumer<ArticleNotifierProvider>(
+                                                            builder: (context, prov, child) =>
+                                                            article.isSeen?
+                                                            ArticleSeenIcon(article):
+                                                            Container(),
+                                                          ),
+
+                                                          BookmarkWidget(
                                                               article,
                                                               color: Colors.white,
-                                                              heroTag: ArticleWidget.bookMarkHeroTag(articleTagHero(article))
+                                                              heroTag: ArticlePage.bookMarkHeroTag(articleTagHero(article))
                                                           ),
                                                         ],
                                                       ),
@@ -321,7 +332,7 @@ class ArticleWidgetState extends State<ArticleWidget> {
                                     left: CARD_PADDING_NORM,
                                     right: CARD_PADDING_NORM
                                 ),
-                                child: TitleWidget(article),
+                                child: TitleWidget(article, textColor: iconEnab_(context)),
                               ),
                             ],
                           )
@@ -420,16 +431,21 @@ class ArticleWidgetState extends State<ArticleWidget> {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: (article.articleElements??[]).map((item){
-                      if (item is Header)
-                        return HeaderWidget(item);
-                      else if(item is Paragraph)
-                        return ParagraphWidget(item);
-                      else if (item is Quote)
-                        return QuoteWidget(item);
-                      else if(item is Picture)
-                        return PictureWidget(item);
-                      else if(item is Youtube)
-                        return YoutubeWidget(item);
+
+                      if(item is ParagraphArticleElement)
+                        return ParagraphArticleElementWidget(item);
+                      else if (item is HeaderArticleElement)
+                        return HeaderArticleElementWidget(item);
+                      else if (item is ListItemArticleElement)
+                        return ListItemArticleElementWidget(item);
+                      else if (item is QuoteArticleElement)
+                        return QuoteArticleElementWidget(item);
+                      else if(item is PictureArticleElement)
+                        return PictureArticleElementWidget(item);
+                      else if(item is YoutubeArticleElement)
+                        return YoutubeArticleElementWidget(item);
+                      else if(item is CustomArticleElement)
+                        return CustomArticleElementWidget(item);
                       else
                         return Container();
                     }).toList(),
@@ -447,13 +463,13 @@ class ArticleWidgetState extends State<ArticleWidget> {
                   Padding(
                     padding: const EdgeInsets.all(Dimen.defMarg),
                     child: AppText(
-                      'Kod artykułu: <b>${article.id}</b>',
+                      'Kod artykułu: <b>${article.uniqName}</b>',
                       size: Dimen.TEXT_SIZE_SMALL,
                       //color: prov.colorOption.hint,
                     ),
                   ),
 
-                if(AppSettings.devMode && article.id == Article.lastSeenId)
+                if(AppSettings.devMode && article.uniqName == Article.lastSeenId)
                   const Padding(
                     padding: EdgeInsets.all(Dimen.defMarg),
                     child: AppText(

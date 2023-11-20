@@ -7,19 +7,21 @@ import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'common.dart';
 
 class DescZamiana extends StatelessWidget{
+  const DescZamiana({super.key});
+
 
   @override
   Widget build(BuildContext context) {
     return ListView(
-      physics: BouncingScrollPhysics(),
-      padding: EdgeInsets.all(Dimen.SIDE_MARG),
+      physics: const BouncingScrollPhysics(),
+      padding: const EdgeInsets.all(Dimen.SIDE_MARG),
       children: <Widget>[
 
-        DescOnlyWidget(),
+        const DescOnlyWidget(),
 
-        SizedBox(height: Dimen.SIDE_MARG),
+        const SizedBox(height: Dimen.SIDE_MARG),
 
-        AppText(
+        const AppText(
           'W szyfrze zamiana każdej literze przyporządkowana druga litera tworząca z nią parę.'
               '\n\nAby zaszyfrować daną literę należy wymienić ją z literą z którą znajduje się w parze.'
               '\n\nZaszyfrowane słowo <b>H A R C E R Z</b> to:'
@@ -48,7 +50,7 @@ class DescZamiana extends StatelessWidget{
                   '\nŁ',
               style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold),
             ),
-            SizedBox(width: Dimen.defMarg),
+            const SizedBox(width: Dimen.defMarg),
             Text(
               '-'
                   '\n-'
@@ -68,7 +70,7 @@ class DescZamiana extends StatelessWidget{
                   '\n-',
               style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold),
             ),
-            SizedBox(width: Dimen.defMarg),
+            const SizedBox(width: Dimen.defMarg),
             Text(
               'M'
                   '\nN'

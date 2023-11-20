@@ -69,15 +69,16 @@ class LeaveCompButton extends StatelessWidget{
                         compKey: comp.key,
                         onSuccess: () async {
                           IndivComp.removeFromAll(comp, context: context);
-                          Navigator.pop(context);
-                          Navigator.pop(context);
+                          Navigator.pop(context); // Close loading widget.
                           showAppToast(context, text: 'Współzawodnictwo opuszczone');
                         },
                         onServerMaybeWakingUp: () {
+                          Navigator.pop(context); // Close loading widget.
                           showServerWakingUpToast(context);
                           return true;
                         },
                         onError: (){
+                          Navigator.pop(context); // Close loading widget.
                           showAppToast(context, text: simpleErrorMessage);
                         }
                     );

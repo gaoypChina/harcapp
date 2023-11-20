@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/org/org.dart';
 import 'package:harcapp/account/account_common/hufiec_input_field.dart';
+import 'package:harcapp/account/account_common/org_input_field.dart';
 import 'package:harcapp/values/rank_harc.dart';
 import 'package:harcapp/values/rank_instr.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
@@ -26,6 +27,7 @@ import '../../values/consts.dart';
 import '../account_common/druzyna_input_field.dart';
 import '../account_common/rank_harc_input_field.dart';
 import '../account_common/rank_instr_input_field.dart';
+import '../account_common/shadow_nick_input_field.dart';
 import 'conf_email_part.dart';
 import 'input_field_controller.dart';
 import 'login_part.dart';
@@ -37,7 +39,7 @@ class RegisterPart extends StatefulWidget{
   final String? initPassword;
   final void Function(bool accActivated)? onLoggedIn;
 
-  const RegisterPart({this.initEmail, this.initPassword, this.onLoggedIn});
+  const RegisterPart({super.key, this.initEmail, this.initPassword, this.onLoggedIn});
 
   @override
   State<StatefulWidget> createState() => RegisterPartState();
@@ -49,6 +51,8 @@ class RegisterPartState extends State<RegisterPart>{
   late InputFieldController emailController;
   late InputFieldController passwordController;
   late InputFieldController passwordRepController;
+  late InputFieldController shadowNickController;
+
   late InputFieldController nameController;
   late InputFieldController sexController;
   late InputFieldController orgController;
@@ -78,6 +82,7 @@ class RegisterPartState extends State<RegisterPart>{
     emailController.errorText = '';
     passwordController.errorText = '';
     passwordRepController.errorText = '';
+    shadowNickController.errorText = '';
     nameController.errorText = '';
     sexController.errorText = '';
     orgController.errorText = '';
@@ -93,6 +98,10 @@ class RegisterPartState extends State<RegisterPart>{
 
     await ApiRegLog.register(
         emailController.text,
+        passwordController.text,
+        passwordRepController.text,
+        shadowNickController.text,
+
         nameController.text,
         sex,
         org,
@@ -103,8 +112,6 @@ class RegisterPartState extends State<RegisterPart>{
 
         regulaminAccept,
         gdprAccept,
-        passwordController.text,
-        passwordRepController.text,
         onSuccess: (
             Response response,
             String? key,
@@ -120,8 +127,7 @@ class RegisterPartState extends State<RegisterPart>{
             RankInstr? rankInstr,
         ) async {
 
-          loginProv.notify();
-          AccountData.callOnRegister();
+          AccountData.callOnRegister(loginProv: loginProv);
 
           if(mounted) pushReplacePage(
               context,
@@ -139,6 +145,10 @@ class RegisterPartState extends State<RegisterPart>{
             Map? errorFieldMap = response!.data['errors'];
             if(errorFieldMap != null) {
               emailController.errorText = errorFieldMap[ApiRegLog.REGISTER_REQ_EMAIL] ?? '';
+              passwordController.errorText = errorFieldMap[ApiRegLog.REGISTER_REQ_PASSWORD] ?? '';
+              passwordRepController.errorText = errorFieldMap[ApiRegLog.REGISTER_REQ_PASSWORD_REP] ?? '';
+              shadowNickController.errorText = errorFieldMap[ApiRegLog.REGISTER_REQ_SHADOW_NICK] ?? '';
+
               nameController.errorText = errorFieldMap[ApiRegLog.REGISTER_REQ_NAME] ?? '';
               sexController.errorText = errorFieldMap[ApiRegLog.REGISTER_REQ_SEX] ?? '';
               orgController.errorText = errorFieldMap[ApiRegLog.REGISTER_REQ_ORG] ?? '';
@@ -147,13 +157,12 @@ class RegisterPartState extends State<RegisterPart>{
               rankHarcController.errorText = errorFieldMap[ApiRegLog.REGISTER_REQ_RANK_HARC] ?? '';
               rankInstrController.errorText = errorFieldMap[ApiRegLog.REGISTER_REQ_RANK_INSTR] ?? '';
 
-              passwordController.errorText = errorFieldMap[ApiRegLog.REGISTER_REQ_PASSWORD] ?? '';
-              passwordRepController.errorText = errorFieldMap[ApiRegLog.REGISTER_REQ_PASSWORD_REP] ?? '';
               regulaminController.errorText = errorFieldMap[ApiRegLog.REGISTER_REQ_POLICY] ?? '';
               gdprController.errorText = errorFieldMap[ApiRegLog.REGISTER_REQ_GDPR] ?? '';
             }
 
             generalError = response.data['error'];
+            showAppToast(context, text: 'Błąd w formularzu. Zerknij wyżej!');
 
           }catch (e){
             showAppToast(context, text: simpleErrorMessage);
@@ -169,6 +178,7 @@ class RegisterPartState extends State<RegisterPart>{
     emailController = InputFieldController(text: widget.initEmail);
     passwordController = InputFieldController(text: widget.initPassword);
     passwordRepController = InputFieldController();
+    shadowNickController = InputFieldController();
     nameController = InputFieldController();
     sexController = InputFieldController();
     orgController = InputFieldController();
@@ -189,6 +199,7 @@ class RegisterPartState extends State<RegisterPart>{
     emailController.dispose();
     passwordController.dispose();
     passwordRepController.dispose();
+    shadowNickController.dispose();
     nameController.dispose();
     sexController.dispose();
     orgController.dispose();
@@ -221,51 +232,6 @@ class RegisterPartState extends State<RegisterPart>{
 
               const SizedBox(height: Dimen.SIDE_MARG),
 
-              InputField(
-                hint: 'Imię i nazwisko:',
-                controller: nameController,
-                enabled: !processing!,
-                leading: Icon(MdiIcons.accountEdit, color: iconDisab_(context)),
-              ),
-
-              const SizedBox(height: Dimen.SIDE_MARG),
-
-              SexInputField(
-                  sex,
-                  controller: sexController,
-                  onSexChanged: (sex) => setState(() => this.sex = sex)
-              ),
-
-              const SizedBox(height: Dimen.SIDE_MARG),
-
-              HufiecInputField(
-                  controller: hufiecController,
-              ),
-
-              const SizedBox(height: Dimen.SIDE_MARG),
-
-              DruzynaInputField(
-                controller: druzynaController,
-              ),
-
-              const SizedBox(height: Dimen.SIDE_MARG),
-
-              RankHarcInputField(
-                  rankHarc,
-                  controller: rankHarcController,
-                  onRankHarcChanged: (rankHarc) => setState(() => this.rankHarc = rankHarc)
-              ),
-
-              const SizedBox(height: Dimen.SIDE_MARG),
-
-              RankInstrInputField(
-                  rankInstr,
-                  controller: rankInstrController,
-                  onRankInstrChanged: (rankInstr) => setState(() => this.rankInstr = rankInstr)
-              ),
-
-              const SizedBox(height: Dimen.SIDE_MARG),
-
               Hero(
                 tag: PartTemplate.passwordInputFieldHeroTag,
                 child: InputFieldPassword(
@@ -285,6 +251,71 @@ class RegisterPartState extends State<RegisterPart>{
                 enabled: !processing!,
               ),
 
+              const SizedBox(height: Dimen.SIDE_MARG),
+
+              ShadowNickInputField(
+                controller: shadowNickController,
+                asterisk: true,
+              ),
+
+              const SizedBox(height: 3*Dimen.SIDE_MARG),
+
+              InputField(
+                hint: 'Imię i nazwisko:',
+                controller: nameController,
+                enabled: !processing!,
+                leading: Icon(MdiIcons.accountEdit, color: iconDisab_(context)),
+              ),
+
+              const SizedBox(height: Dimen.SIDE_MARG),
+
+              SexInputField(
+                  sex,
+                  controller: sexController,
+                  onChanged: (sex) => setState(() => this.sex = sex)
+              ),
+
+              const SizedBox(height: Dimen.SIDE_MARG),
+
+              OrgInputField(
+                org,
+                controller: orgController,
+                onChanged: (org) => setState(() => this.org = org),
+                asterisk: true,
+              ),
+
+              const SizedBox(height: Dimen.SIDE_MARG),
+
+              HufiecInputField(
+                  controller: hufiecController,
+                  asterisk: true,
+              ),
+
+              const SizedBox(height: Dimen.SIDE_MARG),
+
+              DruzynaInputField(
+                controller: druzynaController,
+                asterisk: true,
+              ),
+
+              const SizedBox(height: Dimen.SIDE_MARG),
+
+              RankHarcInputField(
+                  rankHarc,
+                  controller: rankHarcController,
+                  asterisk: true,
+                  onChanged: (rankHarc) => setState(() => this.rankHarc = rankHarc)
+              ),
+
+              const SizedBox(height: Dimen.SIDE_MARG),
+
+              RankInstrInputField(
+                  rankInstr,
+                  controller: rankInstrController,
+                  asterisk: true,
+                  onChanged: (rankInstr) => setState(() => this.rankInstr = rankInstr)
+              ),
+
               const SizedBox(height: 3*Dimen.SIDE_MARG),
 
               Row(
@@ -299,7 +330,7 @@ class RegisterPartState extends State<RegisterPart>{
               GDPRInputField(
                   gdprAccept,
                   controller: gdprController,
-                  onAcceptChanged: (accept) => setState(() => this.gdprAccept = accept)
+                  onAcceptChanged: (accept) => setState(() => gdprAccept = accept)
               ),
 
               const SizedBox(height: Dimen.SIDE_MARG),
@@ -307,7 +338,7 @@ class RegisterPartState extends State<RegisterPart>{
               RegulaminInputField(
                   regulaminAccept,
                   controller: regulaminController,
-                  onAcceptChanged: (accept) => setState(() => this.regulaminAccept = accept)
+                  onAcceptChanged: (accept) => setState(() => regulaminAccept = accept)
               ),
 
               const SizedBox(height: 3*Dimen.SIDE_MARG),

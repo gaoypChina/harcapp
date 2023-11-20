@@ -276,9 +276,9 @@ Future<void> factoryResetLocal(BuildContext context) async {
 
   AlbumProvider albumProvider = AlbumProvider.of(context);
 
-  SprawSavedListProv sprawSavedListProv = SprawSavedListProv.of(context);
-  SprawInProgressListProv sprawInProgressListProv = SprawInProgressListProv.of(context);
-  SprawCompletedListProv sprawCompletedListProv = SprawCompletedListProv.of(context);
+  SprawSavedListProvider sprawSavedListProv = SprawSavedListProvider.of(context);
+  SprawInProgressListProvider sprawInProgressListProv = SprawInProgressListProvider.of(context);
+  SprawCompletedListProvider sprawCompletedListProv = SprawCompletedListProvider.of(context);
 
   RankProv rankProv = RankProv.of(context);
 
@@ -351,3 +351,7 @@ String trimLeadingWhitespace(String text) {
   var prefixLength = prefix.length;
   return lines.map((s) => s.substring(prefixLength)).join("\n");
 }
+
+bool isNullOrEmpty(String? string) => string == null || string.isEmpty;
+
+String? nullIfEmpty(String? string) => string == null?null:string.isEmpty?null:string;

@@ -8,6 +8,8 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import '../common.dart';
 
 class Page1 extends StatefulWidget{
+  const Page1({super.key});
+
 
   @override
   State<StatefulWidget> createState() => Page1State();
@@ -196,38 +198,38 @@ class Page1State extends State<Page1> with PageTemplateInterface{
             AnimatedPositioned(
               top: leaderRedX(width),
               left: leaderRedY(width),
+              duration: animDuration,
+              curve: _curve,
               child: FlipCard(
                 key: redKey,
                 front: PlayerWidget(color: RED_COLOR, showColor: animStage!=0),
-                back: PlayerWidget(color: RED_COLOR, type: PlayerType.LEADER),
+                back: const PlayerWidget(color: RED_COLOR, type: PlayerType.LEADER),
                 flipOnTouch: false,
               ),
-              duration: animDuration,
-              curve: _curve,
             ),
 
             AnimatedPositioned(
               top: player2RedY(width, height),
               left: player2RedX(width),
-              child: PlayerWidget(color: RED_COLOR, showColor: animStage!=0),
               duration: animDuration,
               curve: _curve,
+              child: PlayerWidget(color: RED_COLOR, showColor: animStage!=0),
             ),
 
             AnimatedPositioned(
               top: player1RedY(width, height),
               left: player1RedX(width),
-              child: PlayerWidget(color: RED_COLOR, showColor: animStage!=0),
               duration: animDuration,
               curve: _curve,
+              child: PlayerWidget(color: RED_COLOR, showColor: animStage!=0),
             ),
 
             AnimatedPositioned(
               top: player3RedY(width, height),
               left: player3RedX(width),
-              child: PlayerWidget(color: RED_COLOR, showColor: animStage!=0),
               duration: animDuration,
               curve: _curve,
+              child: PlayerWidget(color: RED_COLOR, showColor: animStage!=0),
             ),
 
             // SECOND COLUMN
@@ -235,38 +237,38 @@ class Page1State extends State<Page1> with PageTemplateInterface{
             AnimatedPositioned(
               top: leaderGreenY(width),
               left: leaderGreenX(width),
+              duration: animDuration,
+              curve: _curve,
               child: FlipCard(
                 key: greenKey,
                 front: PlayerWidget(color: GREEN_COLOR, showColor: animStage!=0),
-                back: PlayerWidget(color: GREEN_COLOR,  type: PlayerType.LEADER),
+                back: const PlayerWidget(color: GREEN_COLOR,  type: PlayerType.LEADER),
                 flipOnTouch: false,
               ),
-              duration: animDuration,
-              curve: _curve,
             ),
 
             AnimatedPositioned(
               top: player1GreenY(width, height),
               left: player1GreenX(width, height),
-              child: PlayerWidget(color: GREEN_COLOR, showColor: animStage!=0),
               duration: animDuration,
               curve: _curve,
+              child: PlayerWidget(color: GREEN_COLOR, showColor: animStage!=0),
             ),
 
             AnimatedPositioned(
               top: player2GreenY(width, height),
               left: player2GreenX(width),
-              child: PlayerWidget(color: GREEN_COLOR, showColor: animStage!=0),
               duration: animDuration,
               curve: _curve,
+              child: PlayerWidget(color: GREEN_COLOR, showColor: animStage!=0),
             ),
 
             AnimatedPositioned(
               top: player3GreenY(width, height),
               left: player3GreenX(width),
-              child: PlayerWidget(color: GREEN_COLOR, showColor: animStage!=0),
               duration: animDuration,
               curve: _curve,
+              child: PlayerWidget(color: GREEN_COLOR, showColor: animStage!=0),
             ),
 
           ],

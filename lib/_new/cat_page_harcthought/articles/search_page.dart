@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_common_widgets/floating_container.dart';
-import 'package:harcapp/_new/cat_page_harcthought/articles/title_widget/article_card_widget_small.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_text.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_common_widgets/search_field.dart';
-import 'package:harcapp/_new/cat_page_harcthought/articles/article_widget.dart';
+import 'package:harcapp/_new/cat_page_harcthought/articles/article_page.dart';
 import 'package:harcapp_core/comm_classes/date_to_str.dart';
-import 'package:harcapp_core/comm_widgets/animated_child_slider.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
@@ -18,9 +16,10 @@ import 'package:harcapp_core_tags/tag_layout.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
-import 'article_core.dart';
+import 'article_card/article_card_widget_small.dart';
+import 'article_card/tag_widget.dart';
+import 'article.dart';
 import 'article_searcher.dart';
-import 'title_widget/article_tag_widget.dart';
 
 class ArticleSearchPage extends StatefulWidget{
 
@@ -39,7 +38,7 @@ class ArticleSearchPageState extends State<ArticleSearchPage>{
 
   //List<ArticleCore> searchedArticles;
 
-  TextEditingController? textController;
+  late TextEditingController textController;
 
   late ArticleSearchOptions options;
   late ArticleSearcher searcher;
@@ -134,15 +133,14 @@ class ArticleSearchPageState extends State<ArticleSearchPage>{
                         delegate: SliverChildBuilderDelegate((BuildContext context, int index) =>
                             ArticleCardWidgetSmall(
                               prov.currArticles![index],
-                              onTap: (context, article, background, articleSeenProv){
+                              onTap: (context, article, background){
                                 Navigator.pop(context);
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => ArticleWidget(
+                                        builder: (context) => ArticlePage(
                                           article,
                                           cover: background,
-                                          articleNotifProv: articleSeenProv,
                                         )
                                     )
                                 );
@@ -408,7 +406,7 @@ class BottomSheetOptionsState extends State<BottomSheetOptions>{
               const SizedBox(height: Dimen.BOTTOM_SHEET_MARG),
 
               TagLayout.customWrap(
-                allTags: ArticleTagWidget.TAGS,
+                allTags: TagWidget.TAGS,
                 onTagTap: (String tag, bool checked){
                   checked = !checked;
                   if(checked) checkedTags.remove(tag);
@@ -424,7 +422,7 @@ class BottomSheetOptionsState extends State<BottomSheetOptions>{
                       tag,
                       style: AppTextStyle(
                           fontSize: Dimen.TEXT_SIZE_BIG,
-                          color: checked?ArticleTagWidget.colors[tag]!.item1:hintEnab_(context),
+                          color: checked?TagWidget.colors[tag]!.item1:hintEnab_(context),
                           fontWeight: weight.bold,
                         shadow: checked
                       ),

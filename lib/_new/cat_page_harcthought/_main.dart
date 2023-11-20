@@ -17,7 +17,6 @@ import 'package:harcapp/_new/app_bottom_navigator.dart';
 import 'package:harcapp/_new/cat_page_harcthought/apel_ewan/apel_ewan.dart';
 import 'package:harcapp/_new/cat_page_harcthought/articles/all_articles_page.dart';
 import 'package:harcapp/_new/cat_page_harcthought/articles/bookmarked_articles_page.dart';
-import 'package:harcapp/_new/cat_page_harcthought/articles/title_widget/article_card_widget.dart';
 import 'package:harcapp/_new/cat_page_harcthought/harc_forms/harc_form_thumbnail_widget.dart';
 import 'package:harcapp/_new/cat_page_harcthought/common/short_read.dart';
 import 'package:harcapp/_new/cat_page_harcthought/wiersze/data.dart';
@@ -43,7 +42,8 @@ import 'apel_ewan/apel_ewan_page.dart';
 import 'apel_ewan/apel_ewan_thumbnail_widget.dart';
 import 'apel_ewan/apel_ewans_page.dart';
 import 'apel_ewan/data.dart';
-import 'articles/article_core.dart';
+import 'articles/article_card/article_card_widget.dart';
+import 'articles/article.dart';
 import 'articles/article_list_widget.dart';
 import 'articles/article_loader.dart';
 import 'articles/article_text_style.dart';
@@ -389,7 +389,7 @@ class _ArticleScrollViewState extends State<_ArticleScrollView>{
     LikedArticlesProvider likedArticlesProv = Provider.of<LikedArticlesProvider>(context, listen: false);
 
     loaderListener = ArticleLoaderListener(
-        onEnd: (ArticleLoaderError? err, bool forceFinished) async {
+        onEnd: (ArticleLoaderError? err, bool unknownError, bool forceFinished) async {
 
           if(forceFinished) return;
 
@@ -484,9 +484,9 @@ class _ArticleScrollViewState extends State<_ArticleScrollView>{
 
           onOpen:
           articleLoader.loadState == ArticleLoadState.LOADED ?
-          () => Navigator.push(
+          () => pushPage(
               context,
-              MaterialPageRoute(builder: (context) => const AllArticlesPage())
+              builder: (context) => const AllArticlesPage()
           ):null,
         ),
       ),
@@ -550,7 +550,7 @@ class _ArticleScrollViewState extends State<_ArticleScrollView>{
                   text: 'Polubione (${Article.likedIds.length})',
                   onTap: () => Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => LikedArticlesPage())
+                    MaterialPageRoute(builder: (context) => const LikedArticlesPage())
                   )
                 ),
               ),
@@ -607,7 +607,7 @@ class _ApelEwanScrollView extends StatelessWidget{
 
   final List<ApelEwan> apelEwanList;
 
-  const _ApelEwanScrollView(this.apelEwanList, {super.key});
+  const _ApelEwanScrollView(this.apelEwanList);
 
   @override
   Widget build(BuildContext context){

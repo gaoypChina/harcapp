@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
@@ -13,10 +12,12 @@ class WritingRulesPage extends StatelessWidget{
   static double headerSeparatorUp = 36.0;
   static double headerSeparatorDown = 24.0;
 
+  const WritingRulesPage({super.key});
+
   static TextStyle _headerStyle(BuildContext context) => AppTextStyle(fontSize: Dimen.TEXT_SIZE_APPBAR, fontWeight: weight.halfBold);
 
   static double textStyleFontSize = Dimen.TEXT_SIZE_BIG;
-  static TextStyle _textStyle = AppTextStyle(fontSize: textStyleFontSize);
+  static final TextStyle _textStyle = AppTextStyle(fontSize: textStyleFontSize);
 
   static double exampleStyleFontSize = Dimen.TEXT_SIZE_BIG;
   static Color exampleStyleColor(BuildContext context) => Colors.deepOrange;
@@ -29,23 +30,23 @@ class WritingRulesPage extends StatelessWidget{
 
     return BottomNavScaffold(
         body: CustomScrollView(
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           slivers: [
             SliverAppBar(
-              title: Text('Zasady harcerskiej pisowni'),
+              title: const Text('Zasady harcerskiej pisowni'),
               centerTitle: true,
               backgroundColor: background_(context),
               floating: true,
             ),
 
             SliverPadding(
-              padding: EdgeInsets.all(Dimen.SIDE_MARG),
+              padding: const EdgeInsets.all(Dimen.SIDE_MARG),
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
                   [
-                    Header('Pisownia nazw harcerskich jednostek'),
+                    const Header('Pisownia nazw harcerskich jednostek'),
 
-                    Item(
+                    const Item(
                       'Chorągiew, okręg, hufiec, namiestnictwo, komisja stopni instruktorskich, kapituła stopni wędrowniczych, związek drużyn, szczep – piszemy <b>wielką literą</b>, tylko jeśli mowa o konkretnej jednostce.',
                       [
                         'Wszędzie dobrze, ale w <b>Chorągwi</b> Śląskiej najlepiej,',
@@ -56,7 +57,7 @@ class WritingRulesPage extends StatelessWidget{
 
                     SizedBox(height: outerSeparator),
 
-                    Item(
+                    const Item(
                       'Jeśli wymieniamy jednostki, słowa „chorągiew”, „hufiec”, „związek drużyn”, „szczep” piszemy <b>małą literą</b>, a nazwy <b>wielką</b>,',
                       [
                         'Udział wzięły <b>chorągwie</b>: <b>Mazowiecka</b>, <b>Warmińsko-Mazurska</b>, <b>Ziemi Lubuskiej</b>.'
@@ -65,7 +66,7 @@ class WritingRulesPage extends StatelessWidget{
 
                     SizedBox(height: outerSeparator),
 
-                    Item(
+                    const Item(
                       'Jeśli używamy słowa „chorągiew”, „hufiec”, „drużyna” itp., pisząc w domyśle o konkretnej jednostce, ale nie wymieniając jej nazwy, to piszemy <b>małą literą</b>',
                       [
                         'Nasza <b>chorągiew</b> jest po prostu kozacka.',
@@ -73,9 +74,9 @@ class WritingRulesPage extends StatelessWidget{
                       ],
                     ),
 
-                    Header('Pisownia nazw władz'),
+                    const Header('Pisownia nazw władz'),
 
-                    Item(
+                    const Item(
                       'Komisje rewizyjne, sądy harcerskie, komendy – piszemy <b>wielkimi literami</b>, jeśli mowa o konkretnej władzy',
                       [
                         'Centralna Komisja Rewizyjna ZHP.',
@@ -87,7 +88,7 @@ class WritingRulesPage extends StatelessWidget{
 
                     SizedBox(height: outerSeparator),
 
-                    Item(
+                    const Item(
                       'O konkretnej władzy, ale nie wymieniając jej nazwy, piszemy <b>małymi literami</b>',
                       [
                         'Wczoraj <b>komisja rewizyjna</b> stwierdziła uchybienia.',
@@ -97,7 +98,7 @@ class WritingRulesPage extends StatelessWidget{
 
                     SizedBox(height: outerSeparator),
 
-                    Item(
+                    const Item(
                         'Skrótowce nazw władz piszemy zawsze <b>wielkimi literami</b>',
                         [
                           'KSI',
@@ -106,9 +107,9 @@ class WritingRulesPage extends StatelessWidget{
                         ]
                     ),
 
-                    Header('Pisownia nazw wydziałów, komisji i innych zespołów'),
+                    const Header('Pisownia nazw wydziałów, komisji i innych zespołów'),
 
-                    Item(
+                    const Item(
                         'Pełne nazwy wydziałów GK ZHP, zespołów, inspektoratów, komisji RN ZHP – piszemy <b>wielkimi literami</b> (z wyjątkiem przyimków i spójników)',
                         [
                           '<b>Wydział Zagraniczny GK ZHP</b>',
@@ -123,7 +124,7 @@ class WritingRulesPage extends StatelessWidget{
 
                     SizedBox(height: outerSeparator),
 
-                    Item(
+                    const Item(
                         'Powyższa zasada dotyczy również pełnych nazw jednostek, zespołów, referatów, komisji w chorągwiach i hufcach',
                         [
                           '<b>Namiestnictwo Harcerskie Hufca ZHP Pruszków</b>',
@@ -134,7 +135,7 @@ class WritingRulesPage extends StatelessWidget{
 
                     SizedBox(height: outerSeparator),
 
-                    Item(
+                    const Item(
                         'O konkretnym wydziale, zespole itd., ale nie wymieniając jego nazwy, piszemy <b>małymi literami</b>',
                         [
                           'Trzy dni temu <b>inspektorat</b> przeprowadził szkolenie,',
@@ -144,7 +145,7 @@ class WritingRulesPage extends StatelessWidget{
 
                     SizedBox(height: outerSeparator),
 
-                    Item(
+                    const Item(
                         'Skrótowce nazw jednostek piszemy zawsze <b>wielkimi literami</b>, a litery oznaczające przyimek lub spójnik – małą literą',
                         [
                           '<b>WPzK</b>',
@@ -153,9 +154,9 @@ class WritingRulesPage extends StatelessWidget{
                         ]
                     ),
 
-                    Header('Pisownia nazw funkcji'),
+                    const Header('Pisownia nazw funkcji'),
 
-                    Item(
+                    const Item(
                         'Zasada ogólna: formę męską możemy stosować w odniesieniu do osób niezależnie od ich płci. W przypadku funkcji pełnionych przez kobiety, można stosować formy żeńskie.',
                         [
                           'Marysia jest najlepszym komendantem szczepu od lat!',
@@ -166,7 +167,7 @@ class WritingRulesPage extends StatelessWidget{
                         ]
                     ),
                     SizedBox(height: outerSeparator),
-                    Item(
+                    const Item(
                         'Funkcje pełnione przez jedną osobę (bez nazwisk i z nazwiskami) piszemy <b>małymi literami</b>.',
                         [
                           'Dziś w południe <b>prezydent RP</b> wręczy...',
@@ -177,7 +178,7 @@ class WritingRulesPage extends StatelessWidget{
                         ]
                     ),
                     SizedBox(height: outerSeparator),
-                    Item(
+                    const Item(
                         'Inne funkcje piszemy <b>małymi literami<b>.',
                         [
                           '(...) drużynowy',
@@ -190,7 +191,7 @@ class WritingRulesPage extends StatelessWidget{
                         ]
                     ),
                     SizedBox(height: outerSeparator),
-                    Item(
+                    const Item(
                         'Jeśli piszemy niepełną nazwę funkcji (bez ZHP), jako wyraz pospolity – też używamy <b>małej litery</b>.',
                         [
                           '(...) <b>przewodniczący</b> spotkał się z...',
@@ -199,21 +200,21 @@ class WritingRulesPage extends StatelessWidget{
                         ]
                     ),
                     SizedBox(height: outerSeparator),
-                    Item(
+                    const Item(
                         'Jednoosobowe funkcje władz ZHP (przewodniczący ZHP, naczelnik ZHP, komendant chorągwi, komendant hufca) pisze się <b>wielką literą</b> w aktach prawnych.',
                         [
                           'Zjazd zwykły ZHP wybiera <b>Naczelnika ZHP</b>'
                         ]
                     ),
                     SizedBox(height: outerSeparator),
-                    Item(
+                    const Item(
                         'Jednoosobowe funkcje (władz ZHP i nieharcerskie) można zapisać <b>wielkimi literami</b> również w innych tekstach, pod warunkiem że nazwa taka odnosi się do konkretnej osoby i występuje w pełnym brzmieniu',
                         [
                           '<b>Prezydent Rzeczypospolitej Polskiej</b> wręczył...'
                         ]
                     ),
                     SizedBox(height: outerSeparator),
-                    Item(
+                    const Item(
                         '<b>Wielkimi literami</b> piszemy nazwy funkcji ze względów grzecznościowych (np. w pismach)',
                         [
                           'Szanowny <b>Panie Burmistrzu</b>',
@@ -221,9 +222,9 @@ class WritingRulesPage extends StatelessWidget{
                         ]
                     ),
 
-                    Header('Pisownia terminów: Prawo Harcerskie, Prawo Zucha, Obietnica Zucha itp.'),
+                    const Header('Pisownia terminów: Prawo Harcerskie, Prawo Zucha, Obietnica Zucha itp.'),
 
-                    Item(
+                    const Item(
                         '<b>Wielkimi literami</b> piszemy:',
                         [
                           '(...) <b>Obietnica Zucha</b>',
@@ -234,9 +235,9 @@ class WritingRulesPage extends StatelessWidget{
                         ]
                     ),
 
-                    Header('Pisownia nazw stopni'),
+                    const Header('Pisownia nazw stopni'),
 
-                    Item(
+                    const Item(
                         'Nazwy stopni piszemy <b>małą literą</b>.',
                         [
                           '(...) <b>zuch ochoczy</b>',
@@ -249,7 +250,7 @@ class WritingRulesPage extends StatelessWidget{
                         ]
                     ),
                     SizedBox(height: outerSeparator),
-                    Item(
+                    const Item(
                         'Skróty nazw stopni piszemy, podobnie jak inne skróty, np. tytułów naukowych, zgodnie z zasadami ortografii, czyli jeśli ostatnią literą skrótu nie jest ostatnia litera słowa – stawiamy kropkę.',
                         [
                           'hm.',
@@ -261,7 +262,7 @@ class WritingRulesPage extends StatelessWidget{
                         ]
                     ),
                     SizedBox(height: outerSeparator),
-                    Item(
+                    const Item(
                         'Na tej samej zasadzie piszemy: druhna, druhnie, druha, druhowi – skrót dh., ale druh – skrót dh (bez kropki)',
                         [
                           'Przyznaję stopień ćwika dh Marianowi Nowakowi.',
@@ -269,7 +270,7 @@ class WritingRulesPage extends StatelessWidget{
                         ]
                     ),
                     SizedBox(height: outerSeparator),
-                    Item(
+                    const Item(
                         'Skróty nazw stopni piszemy (wraz z ew. innymi skrótami) zawsze <b>przed imieniem</b> (inicjałem imienia) i nazwiskiem.',
                         [
                           'ks. <b>hm</b>. Andrzej Wielebny,',
@@ -277,14 +278,14 @@ class WritingRulesPage extends StatelessWidget{
                         ]
                     ),
                     SizedBox(height: outerSeparator),
-                    Item(
+                    const Item(
                         'W przypadku instruktorów nie podajemy dodatkowo stopnia harcerskiego (ani przed imieniem, ani po nazwisku).',
                         []
                     ),
 
-                    Header('Pisownia słów: zjazd, zlot, złaz, rajd'),
+                    const Header('Pisownia słów: zjazd, zlot, złaz, rajd'),
 
-                    Item(
+                    const Item(
                         'Jeśli mówimy o konkretnym przedsięwzięciu (jest to nazwa) – wtedy piszemy <b>wielką literą</b>.',
                         [
                           '(...) XL <b>Zjazd ZHP</b>',
@@ -295,7 +296,7 @@ class WritingRulesPage extends StatelessWidget{
                         ]
                     ),
                     SizedBox(height: outerSeparator),
-                    Item(
+                    const Item(
                         'W pozostałych przypadkach – <b>małą literą</b>.',
                         [
                           'na zjeździe przyjęto <b>uchwałę</b>',
@@ -303,9 +304,9 @@ class WritingRulesPage extends StatelessWidget{
                         ]
                     ),
 
-                    Header('Pisownia nazw przedsięwzieć programowych'),
+                    const Header('Pisownia nazw przedsięwzieć programowych'),
 
-                    Item(
+                    const Item(
                         '<b>Wielkimi literami</b> (z wyjątkiem przyimków i spójników).',
                         [
                           '(...) <b>Betlejemskie Światło Pokoju</b>',
@@ -314,7 +315,7 @@ class WritingRulesPage extends StatelessWidget{
                         ]
                     ),
                     SizedBox(height: outerSeparator),
-                    Item(
+                    const Item(
                         'Programy, propozycje programowe ZHP – „program”, „propozycja programowa” piszemy małą literą, nazwa w cudzysłowie (pierwsze słowo wielką literą, pozostałe małą).',
                         [
                           '(...) propozycja programowa „Światozmieniacze. Cel: dobro”',
@@ -323,9 +324,9 @@ class WritingRulesPage extends StatelessWidget{
                         ]
                     ),
 
-                    Header('Pisownia terminów metodycznych'),
+                    const Header('Pisownia terminów metodycznych'),
 
-                    Item(
+                    const Item(
                         'Małymi literami',
                         [
                           'metoda harcerska',
@@ -334,7 +335,7 @@ class WritingRulesPage extends StatelessWidget{
                         ]
                     ),
                     SizedBox(height: outerSeparator),
-                    Item(
+                    const Item(
                         'Sprawności – słowo „sprawność” piszemy <b>małą literą</b>, nazwa w cudzysłowie (pierwsze słowo wielką literą, pozostałe małą)',
                         [
                           '(...) <b>sprawność „Sobieradka obozowego”</b>',
@@ -343,28 +344,28 @@ class WritingRulesPage extends StatelessWidget{
                         ]
                     ),
                     SizedBox(height: outerSeparator),
-                    Item(
+                    const Item(
                         'Znaki służb – <b>wielkimi literami</b>',
                         [
                           'Wędrownicy z "Knieji" zrealizowali <b>Znak Służby Dziecku</b>',
                         ]
                     ),
                     SizedBox(height: outerSeparator),
-                    Item(
+                    const Item(
                         'Zadanie zespołowe – <b>małą literą</b>, zaś jego nazwa od <b>wielkiej litery</b>, w cudzysłowie',
                         [
                           '(...) zadanie zespołowe „Radosne andrzejki”',
                         ]
                     ),
                     SizedBox(height: outerSeparator),
-                    Item(
+                    const Item(
                         'Projekt – <b>małą literą</b>, zaś jego nazwa od <b>wielkiej litery</b>, w <b>cudzysłowie</b>',
                         [
                           'projekt „Dom”',
                         ]
                     ),
 
-                    Header('Pisownia nazw odznak, oznaczeń'),
+                    const Header('Pisownia nazw odznak, oznaczeń'),
 
                     DotParagraph(Text('Krzyż Harcerski, Znaczek Zucha', style: _textStyle)),
                     SizedBox(height: innerSeparator),
@@ -380,23 +381,23 @@ class WritingRulesPage extends StatelessWidget{
                     SizedBox(height: innerSeparator),
                     DotParagraph(Text('Srebrna (Złota) Honorowa Odznaka RPH.', style: _textStyle)),
 
-                    Header('Pisownia nazw ośrodków harcerskich'),
+                    const Header('Pisownia nazw ośrodków harcerskich'),
 
-                    Item(
+                    const Item(
                         '<b>Wielką literą</b>, w cudzysłowie: „Perkoz”, „Głodówka”, „Funka”, ale: ośrodek na Głodówce (na polanie Głodówka), HCEE w Funce (nazwa miejscowości), ale: w „Perkozie” (ponieważ nie ma miejscowości Perkoz).',
                         []
                     ),
 
-                    Header('Pisownia tytułów'),
+                    const Header('Pisownia tytułów'),
 
-                    Item(
+                    const Item(
                         'Uchwały i decyzje władz ZHP – słowo „uchwała”, „decyzja” piszemy <b>wielką literą</b> tylko wtedy, gdy jest to pierwsze słowo pełnej nazwy dokumentu.',
                         [
                           'W załączniku treść <b>Uchwały</b> nr 43/XXXVIII Rady Naczelnej ZHP z dnia 2 października 2016 r. w sprawie systemu stopni instruktorskich'
                         ]
                     ),
                     SizedBox(height: innerSeparator),
-                    Item(
+                    const Item(
                         'Tytuły uchwał piszemy od <b>wielkiej litery</b>.',
                         [
                           'Słyszałeś? Wyszedł nowy <b>System stopni instruktorskich<b>',
@@ -404,7 +405,7 @@ class WritingRulesPage extends StatelessWidget{
                         ]
                     ),
                     SizedBox(height: innerSeparator),
-                    Item(
+                    const Item(
                         'Tytuły czasopism – w cudzysłowie, <b>wielkimi literami<b>.',
                         [
                           'Bez dwóch zdań - <b>„Azymut”</b> jest najlepszy',
@@ -412,7 +413,7 @@ class WritingRulesPage extends StatelessWidget{
                         ]
                     ),
                     SizedBox(height: outerSeparator),
-                    Item(
+                    const Item(
                         'Tytuły książek, filmów, programów telewizyjnych',
                         [
                           'Antek Cwaniak',
@@ -436,7 +437,7 @@ class Header extends StatelessWidget{
 
   final String title;
 
-  const Header(this.title);
+  const Header(this.title, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -462,7 +463,7 @@ class Header extends StatelessWidget{
 class DotParagraph extends StatelessWidget{
 
   final Widget child;
-  const DotParagraph(this.child);
+  const DotParagraph(this.child, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -494,7 +495,7 @@ class Item extends StatelessWidget{
   final String text;
   final List<String> examples;
 
-  const Item(this.text, this.examples);
+  const Item(this.text, this.examples, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -529,7 +530,7 @@ class Item extends StatelessWidget{
               Column(
                 children: examples.map<Widget>((example)
                 => Padding(
-                  padding: EdgeInsets.only(top: 3.0, bottom: 3.0),
+                  padding: const EdgeInsets.only(top: 3.0, bottom: 3.0),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[

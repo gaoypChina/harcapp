@@ -35,10 +35,7 @@ class CopyPageState<T extends SongCore> extends State<CopyPage> with TickerProvi
   void initState() {
     tabController = TabController(length: 3, vsync: this);
 
-    String header = song.title +
-        '\nAutor słów: ' + song.authorsStr +
-        '\nWykonawca: ' + song.performersStr +
-        '\nKompozytor:' + song.composersStr + '\n';
+    String header = '${song.title}\nAutor słów: ${song.authorsStr}\nWykonawca: ${song.performersStr}\nKompozytor:${song.composersStr}\n';
 
     List<String> words = song.text.split('\n');
     List<String> chords = song.chords.split('\n');
@@ -48,8 +45,7 @@ class CopyPageState<T extends SongCore> extends State<CopyPage> with TickerProvi
     String content2 = '$header\n';
     for(int i=0; i<max(words.length, chords.length); i++){
       content2 += (
-          (i>chords.length || chords[i].isEmpty?'':('[' + chords[i] + ']'))
-              + '\n' + (i>words.length?'':words[i]) + '\n'
+          '${i>chords.length || chords[i].isEmpty?'':('[${chords[i]}]')}\n${i>words.length?'':words[i]}\n'
       );
     }
 
@@ -58,8 +54,7 @@ class CopyPageState<T extends SongCore> extends State<CopyPage> with TickerProvi
     String content3 = '$header\n';
     for(int i=0; i<max(words.length, chords.length); i++){
       content3 += (
-          (i>words.length?'':words[i]) + ' ' +
-              (i>chords.length || chords[i].isEmpty?'':('[' + chords[i] + ']')) + '\n'
+          '${i>words.length?'':words[i]} ${i>chords.length || chords[i].isEmpty?'':('[${chords[i]}]')}\n'
       );
     }
 

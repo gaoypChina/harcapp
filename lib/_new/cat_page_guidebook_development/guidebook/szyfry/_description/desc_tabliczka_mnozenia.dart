@@ -7,26 +7,28 @@ import 'package:harcapp_core/dimen.dart';
 import 'common.dart';
 
 class DescTabliczkaMnozenia extends StatelessWidget{
+  const DescTabliczkaMnozenia({super.key});
+
 
   @override
   Widget build(BuildContext context) {
     return ListView(
-      physics: BouncingScrollPhysics(),
-      padding: EdgeInsets.all(Dimen.SIDE_MARG),
+      physics: const BouncingScrollPhysics(),
+      padding: const EdgeInsets.all(Dimen.SIDE_MARG),
       children: <Widget>[
 
-        DescOnlyWidget(),
+        const DescOnlyWidget(),
 
-        SizedBox(height: Dimen.SIDE_MARG),
+        const SizedBox(height: Dimen.SIDE_MARG),
 
-        AppText(
+        const AppText(
           'Szyfrowanie wiadomości polega na przyporządkowaniu każdej literze pary liczb, których współrzędne wskazują na literę w poniższej tabeli.'
               '\n\nZaszyfrowane słowo: <b>H A R C E R Z</b> to:'
               '\n<b>2x3 1x1 4x2 1x3 1x5 4x2 5x3</b>.',
           size: Dimen.TEXT_SIZE_BIG,
         ),
 
-        SizedBox(height: 4*Dimen.defMarg),
+        const SizedBox(height: 4*Dimen.defMarg),
 
         Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -43,7 +45,7 @@ class DescTabliczkaMnozenia extends StatelessWidget{
                 Expanded(child: Text('5', style: AppTextStyle(color: AppColors.textHintEnab, fontSize: Dimen.TEXT_SIZE_BIG))),
               ],
             ),
-            SizedBox(height: Dimen.defMarg),
+            const SizedBox(height: Dimen.defMarg),
             Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -56,7 +58,7 @@ class DescTabliczkaMnozenia extends StatelessWidget{
                 Expanded(child: Text('E', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG))),
               ],
             ),
-            SizedBox(height: Dimen.defMarg),
+            const SizedBox(height: Dimen.defMarg),
             Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -69,7 +71,7 @@ class DescTabliczkaMnozenia extends StatelessWidget{
                 Expanded(child: Text('J', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG))),
               ],
             ),
-            SizedBox(height: Dimen.defMarg),
+            const SizedBox(height: Dimen.defMarg),
             Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -82,7 +84,7 @@ class DescTabliczkaMnozenia extends StatelessWidget{
                 Expanded(child: Text('O', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG))),
               ],
             ),
-            SizedBox(height: Dimen.defMarg),
+            const SizedBox(height: Dimen.defMarg),
             Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -95,7 +97,7 @@ class DescTabliczkaMnozenia extends StatelessWidget{
                 Expanded(child: Text('U', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG))),
               ],
             ),
-            SizedBox(height: Dimen.defMarg),
+            const SizedBox(height: Dimen.defMarg),
             Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,

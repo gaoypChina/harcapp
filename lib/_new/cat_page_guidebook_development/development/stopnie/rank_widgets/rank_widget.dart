@@ -595,7 +595,7 @@ class ShareDialogState extends State<ShareDialog>{
   void addNewUser() async {
     UserData? user = await openSearchUserDialog(
         context,
-        illegalUserKeys: initUsers!.map((user) => user.key).toList(),
+        isUserIllegal: (user) => initUsers!.contains(user.key),
         illegalAttemptMessage: 'Użytkownik ma już dostęp do stopnia.'
     );
 

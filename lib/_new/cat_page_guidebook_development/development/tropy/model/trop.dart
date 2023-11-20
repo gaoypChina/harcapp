@@ -957,8 +957,10 @@ class Trop extends TropBaseData with SyncableParamGroupMixin, SyncGetRespNode<Tr
     // selectively unsynced.
     if(synced != null)
       setAllSyncState(
-          synced == true ? SyncableParamSingleMixin.stateSynced :
-          SyncableParamSingleMixin.stateNotSynced);
+          synced == true ?
+          SyncableParamSingleMixin.stateSynced :
+          SyncableParamSingleMixin.stateNotSynced
+      );
 
     if(!localOnly)
       synchronizer.post();
@@ -1201,7 +1203,7 @@ class Trop extends TropBaseData with SyncableParamGroupMixin, SyncGetRespNode<Tr
   String get debugClassId => syncClassId;
 
   @override
-  SyncableParam? get parentParam => SyncGetRespNode.tropNodes;
+  SyncableParam? get parentParam => SyncGetRespNode.tropNode;
 
   @override
   String get paramId => lclId!;

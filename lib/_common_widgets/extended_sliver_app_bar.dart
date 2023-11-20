@@ -177,7 +177,7 @@ class _TitleText extends StatelessWidget{
 
 class _StretchProvider extends ChangeNotifier{
 
-  double _minSize;
+  final double _minSize;
   bool? _isMinSize;
 
   _StretchProvider(this._minSize){

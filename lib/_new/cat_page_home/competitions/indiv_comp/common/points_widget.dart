@@ -1,13 +1,7 @@
-import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:harcapp_core/comm_widgets/app_text.dart';
-import 'package:harcapp/_common_widgets/gradient_icon.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/common/points_icon.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
-import 'package:harcapp_core/comm_classes/color_pack.dart';
-import 'package:harcapp_core/dimen.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class PointsWidget extends StatelessWidget{
 

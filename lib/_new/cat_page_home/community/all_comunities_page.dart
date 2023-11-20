@@ -94,7 +94,7 @@ class AllCommunitiesPageState extends State<AllCommunitiesPage>{
         if(!mounted) return;
         showAppToast(context, text: simpleErrorMessage);
       },
-      onEnd: (_, __){
+      onEnd: (_, __, ___){
         if(!mounted) return;
         refreshController.loadComplete();
         refreshController.refreshCompleted();

@@ -17,7 +17,7 @@ class PlayerWidget extends StatelessWidget{
   final bool showColor;
   final PlayerType type;
 
-  const PlayerWidget({this.color, this.showColor = true, this.type = PlayerType.PLAYER});
+  const PlayerWidget({super.key, this.color, this.showColor = true, this.type = PlayerType.PLAYER});
 
   @override
   Widget build(BuildContext context) {
@@ -30,14 +30,14 @@ class PlayerWidget extends StatelessWidget{
     return Stack(
       children: [
         SimpleShadow(
-          child: Icon(icon, size: size, color: _color,),
-          offset: Offset(2, 2), // Default: Offset(2, 2)
-          sigma: 2,             // Default: 2,
+          offset: const Offset(2, 2), // Default: Offset(2, 2)
+          sigma: 2,
+          child: Icon(icon, size: size, color: _color,),             // Default: 2,
         ),
 
         AnimatedOpacity(
           opacity: showColor?1.0:0,
-          duration: Duration(milliseconds: 500),
+          duration: const Duration(milliseconds: 500),
           child: Icon(icon, size: size, color: color??_color),
         ),
 

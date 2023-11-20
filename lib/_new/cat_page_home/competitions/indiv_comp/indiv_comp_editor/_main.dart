@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/app_tab_bar_indicator.dart';
@@ -22,7 +23,6 @@ import '../../../../../_common_widgets/loading_widget.dart';
 import 'common_header.dart';
 import 'indiv_comp_colors_editor_widget.dart';
 import 'indiv_comp_danger_editor_widget.dart';
-import 'indiv_comp_icon_editor_widget.dart';
 import 'indiv_comp_mode_editor_widget.dart';
 import 'indiv_comp_tasks_editor_widget.dart';
 
@@ -65,7 +65,7 @@ class IndivCompEditorPageState extends State<IndivCompEditorPage> with TickerPro
   @override
   void initState() {
 
-    tabController = TabController(length: editMode?6:5, initialIndex: widget.initTab??0, vsync: this);
+    tabController = TabController(length: editMode?5:4, initialIndex: widget.initTab??0, vsync: this);
 
     controller = TextEditingController(text: widget.initComp?.name??widget.initTitle??'');
     focusNode = FocusNode();
@@ -130,65 +130,68 @@ class IndivCompEditorPageState extends State<IndivCompEditorPage> with TickerPro
                         return;
                       }
 
+                      if(!IndivCompModeEditorWidget.verifyHandleDateOrder(context))
+                        return;
+
                       if(mounted) showLoadingWidget(context, 'Ostatnia prosta...');
 
-                      if(IndivCompModeEditorWidget.verifyHandleDateOrder(context))
+                      if(editMode)
+                        await ApiIndivComp.update(
+                            key: widget.initComp!.key,
+                            name: widget.initComp!.name != controller.text?
+                            controller.text:
+                            null,
 
-                        if(editMode)
-                          await ApiIndivComp.update(
-                              key: widget.initComp!.key,
-                              name: controller.text,
+                            colorsKey:
+                            widget.initComp!.colorsKey != colorKeyProv.colorsKey?
+                            colorKeyProv.colorsKey:
+                            null,
 
-                              colorsKey:
-                              widget.initComp!.colorsKey != colorKeyProv.colorsKey?
-                              colorKeyProv.colorsKey:
-                              null,
+                            iconKey:
+                            widget.initComp!.iconKey != iconKeyProv.iconKey?
+                            iconKeyProv.iconKey:
+                            null,
 
-                              iconKey:
-                              widget.initComp!.iconKey != iconKeyProv.iconKey?
-                              iconKeyProv.iconKey:
-                              null,
+                            startTime:
+                            widget.initComp!.startTime != modeProv.startDate?
+                            modeProv.startDate:
+                            null,
 
-                              startTime:
-                              widget.initComp!.startTime != modeProv.startDate?
-                              modeProv.startDate:
-                              null,
+                            endTime:
+                            widget.initComp!.endTime != modeProv.endDate?
+                            modeProv.endDate:
+                            null,
 
-                              endTime:
-                              widget.initComp!.endTime != modeProv.endDate?
-                              modeProv.endDate:
-                              null,
+                            createTasks: taskBodiesProv.createdTasks(),
+                            updateTasks: taskBodiesProv.updatedTasks(),
+                            removeTasks: taskBodiesProv.removedTasks(),
 
-                              createTasks: taskBodiesProv.createdTasks(),
-                              updateTasks: taskBodiesProv.updatedTasks(),
-                              removeTasks: taskBodiesProv.removedTasks(),
+                            rankDispType:
+                            widget.initComp!.rankDispType != modeProv.rankDispType?
+                            modeProv.rankDispType:
+                            null,
 
-                              rankDispType:
-                              widget.initComp!.rankDispType != modeProv.rankDispType?
-                              modeProv.rankDispType:
-                              null,
+                            awards:
+                            !listEquals(widget.initComp!.awardsEncoded, awardsProv.awards)?
+                            awardsProv.awards:
+                            null,
 
-                              awards:
-                              widget.initComp!.awardsEncoded != awardsProv.awards?
-                              awardsProv.awards:
-                              null,
-
-                              onSuccess: (indivComp) async {
-                                if(mounted) await popPage(context);
-                                await widget.onSuccess?.call(indivComp);
-                              },
-                              onServerMaybeWakingUp: () {
-                                if(mounted) Navigator.pop(context); // Close loading widget.
-                                if(mounted) showServerWakingUpToast(context);
-                                return true;
-                              },
-                              onError: (){
-                                if(mounted) Navigator.pop(context); // Close loading widget.
-                                if(mounted) showAppToast(context, text: simpleErrorMessage);
-                              }
-                          );
-                        else
-                          await ApiIndivComp.create(
+                            onSuccess: (indivComp) async {
+                              if(mounted) await popPage(context);
+                              await widget.onSuccess?.call(indivComp);
+                            },
+                            onServerMaybeWakingUp: () {
+                              if(mounted) Navigator.pop(context); // Close loading widget.
+                              if(mounted) showServerWakingUpToast(context);
+                              return true;
+                            },
+                            onError: (){
+                              if(mounted) Navigator.pop(context); // Close loading widget.
+                              if(mounted) showAppToast(context, text: simpleErrorMessage);
+                            }
+                        );
+                      else
+                        await ApiIndivComp.create(
                               name: controller.text,
                               colorsKey: colorKeyProv.colorsKey,
                               iconKey: iconKeyProv.iconKey,
@@ -237,7 +240,6 @@ class IndivCompEditorPageState extends State<IndivCompEditorPage> with TickerPro
                         tabs: [
                           Tab(icon: Icon(MdiIcons.eyeOutline)),
                           Tab(icon: Icon(MdiIcons.paletteOutline)),
-                          Tab(icon: Icon(MdiIcons.flare)),
                           Tab(icon: Icon(MdiIcons.cubeOutline)),
                           Tab(icon: Icon(MdiIcons.trophyOutline)),
                           if(editMode) Tab(icon: Icon(MdiIcons.alertCircleOutline, color: Colors.red)),
@@ -259,7 +261,6 @@ class IndivCompEditorPageState extends State<IndivCompEditorPage> with TickerPro
           children: [
             const IndivCompModeEditorWidget(),
             const IndivCompColorsEditorWidget(),
-            const IndivCompIconEditorWidget(),
             const IndivCompTasksEditorWidget(),
             const IndivCompAwardsEditorWidget(),
             if(editMode) IndivCompDangerEditorWidget(widget.initComp!, onRemoved: widget.onRemoved),

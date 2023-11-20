@@ -14,7 +14,6 @@ import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
-import 'package:harcapp_core/comm_classes/no_glow_behavior.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/gradient_widget.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
@@ -94,7 +93,7 @@ class AllCompetitionsPageState extends State<AllCompetitionsPage>{
         if(!mounted) return;
         showAppToast(context, text: simpleErrorMessage);
       },
-      onEnd: (_, __){
+      onEnd: (_, __, ___){
         if(!mounted) return;
         refreshController.loadComplete();
         refreshController.refreshCompleted();
@@ -279,33 +278,29 @@ class AllCompetitionsPageState extends State<AllCompetitionsPage>{
 
   @override
   Widget build(BuildContext context) => Consumer2<ConnectivityProvider, IndivCompListProvider>(
-      builder: (context, connProv, indivCompProv, child) => ScrollConfiguration(
-          behavior: NoGlowBehavior(),
-          child: SmartRefresher(
-              physics:
-              shouldScroll?
-              const BouncingScrollPhysics():
-              const AlwaysScrollableScrollPhysics(),
+      builder: (context, connProv, indivCompProv, child) => SmartRefresher(
+          physics:
+          shouldScroll?
+          const BouncingScrollPhysics():
+          const AlwaysScrollableScrollPhysics(),
 
-              header: MaterialClassicHeader(backgroundColor: cardEnab_(context), color: accent_(context)),
-              controller: refreshController,
-              onRefresh: () async {
+          header: MaterialClassicHeader(backgroundColor: cardEnab_(context), color: accent_(context)),
+          controller: refreshController,
+          onRefresh: () async {
 
-                if(!await isNetworkAvailable()){
-                  if(!mounted) return;
-                  showAppToast(context, text: noInternetMessage);
-                  refreshController.refreshCompleted();
-                  return;
-                }
+            if(!await isNetworkAvailable()){
+              if(!mounted) return;
+              showAppToast(context, text: noInternetMessage);
+              refreshController.refreshCompleted();
+              return;
+            }
 
-                indivCompLoader.run();
-              },
-              child: CustomScrollView(
-                  physics:
-                  const BouncingScrollPhysics(),
+            indivCompLoader.run();
+          },
+          child: CustomScrollView(
+              physics: const BouncingScrollPhysics(),
 
-                  slivers: getSlivers(networkAvailable: connProv.connected)
-              )
+              slivers: getSlivers(networkAvailable: connProv.connected)
           )
       )
   );

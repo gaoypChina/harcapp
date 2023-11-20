@@ -9,7 +9,6 @@ import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_scaffold.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:flutter_map/src/layer/tile_layer/tile_layer.dart';
 import 'package:simple_shadow/simple_shadow.dart';
 
 import '../details/app_settings.dart';
@@ -21,9 +20,9 @@ class WDecheMarker extends Marker{
   WDecheMarker({
     required this.data,
     required super.point,
-    required super.builder,
     super.width = 30.0,
     super.height = 30.0,
+    required super.child,
   });
 
 }
@@ -51,7 +50,7 @@ class WDechePageState extends State<WDechePage> {
 
   double get northBound{
     try{
-      return mapController.bounds!.north;
+      return mapController.camera.visibleBounds.north;
     } catch(e){
       return double.nan;
     }
@@ -59,7 +58,7 @@ class WDechePageState extends State<WDechePage> {
 
   double get southBound{
     try{
-      return mapController.bounds!.south;
+      return mapController.camera.visibleBounds.south;
     } catch(e){
       return double.nan;
     }
@@ -67,7 +66,7 @@ class WDechePageState extends State<WDechePage> {
 
   double get westBound{
     try{
-      return mapController.bounds!.west;
+      return mapController.camera.visibleBounds.west;
     } catch(e){
       return double.nan;
     }
@@ -75,7 +74,7 @@ class WDechePageState extends State<WDechePage> {
 
   double get eastBound{
     try{
-      return mapController.bounds!.east;
+      return mapController.camera.visibleBounds.east;
     } catch(e){
       return double.nan;
     }
@@ -141,7 +140,7 @@ class WDechePageState extends State<WDechePage> {
         ),
         width: .8*MediaQuery.of(context).size.width,
         height: .8*MediaQuery.of(context).size.height,
-        builder: (context) => Center(
+        child: Center(
           child: Column(
             children: [
 
@@ -155,7 +154,7 @@ class WDechePageState extends State<WDechePage> {
                     fontFamily: fontFamily,
                     fontWeight: FontWeight.bold,
                     fontSize: 26,
-                    shadows: [
+                    shadows: const [
                       Shadow(
                         blurRadius: 5,
                         color: Colors.brown,

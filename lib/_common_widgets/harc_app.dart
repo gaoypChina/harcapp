@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:harcapp/values/colors.dart';
-import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 
@@ -10,7 +7,7 @@ class HarcApp extends StatelessWidget{
   final double size;
   final Color? color;
   final bool shadow;
-  const HarcApp({this.size = Dimen.TEXT_SIZE_BIG, this.color, this.shadow=false});
+  const HarcApp({super.key, this.size = Dimen.TEXT_SIZE_BIG, this.color, this.shadow=false});
 
   @override
   Widget build(BuildContext context) {

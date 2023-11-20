@@ -961,7 +961,7 @@ class MembersWidgetState extends State<MembersWidget>{
         if(!mounted) return;
         showAppToast(context, text: simpleErrorMessage);
       },
-      onEnd: (_, __){
+      onEnd: (_, __, ___){
         if(!mounted) return;
         setState((){});
       }
@@ -1050,7 +1050,7 @@ class MembersWidgetState extends State<MembersWidget>{
 
 class _CircleLoadingWidget extends StatelessWidget{
 
-  const _CircleLoadingWidget({super.key});
+  const _CircleLoadingWidget();
 
   @override
   Widget build(BuildContext context) => Center(

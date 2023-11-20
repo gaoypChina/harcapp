@@ -1,6 +1,6 @@
 class CustomDeque<E>{
 
-	List<E> _list;
+	final List<E> _list;
 
 	int i;
 	

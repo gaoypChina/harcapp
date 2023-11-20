@@ -3,17 +3,17 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/single_computer/single_computer.dart';
 import 'package:harcapp/_common_classes/single_computer/single_computer_listener.dart';
 import 'package:harcapp/_common_classes/storage.dart';
+import 'package:harcapp/logger.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
 import 'package:html_unescape/html_unescape.dart';
 import 'package:tuple/tuple.dart';
 import 'package:webfeed_revised/domain/atom_feed.dart';
 import 'package:webfeed_revised/domain/atom_item.dart';
 
-import 'article_core.dart';
+import 'article.dart';
 import 'common.dart';
 
 ArticleLoader articleLoader = ArticleLoader();
@@ -37,7 +37,7 @@ class ArticleLoaderListener extends SingleComputerListener<ArticleLoaderError>{
   ArticleLoaderListener({
       void Function()? onStart,
       Future<void> Function(ArticleLoaderError?)? onError,
-      void Function(ArticleLoaderError? err, bool forceFinished)? onEnd,
+      void Function(ArticleLoaderError? err, bool unknownError, bool forceFinished)? onEnd,
       this.onStateChanged,
   }):super(onStart: onStart, onError: onError, onEnd: onEnd);
 }
@@ -57,7 +57,7 @@ class ArticleLoader extends SingleComputer<ArticleLoaderError, ArticleLoaderList
 
   late bool all;
 
-  static List<Article> _responseToAzymutFeed(Response response){
+  static List<ArticleAzymut> _responseToAzymutArticles(Response response){
     AtomFeed atomFeed;
     try {
       atomFeed = AtomFeed.parse(HtmlUnescape().convert(response.data));
@@ -65,11 +65,10 @@ class ArticleLoader extends SingleComputer<ArticleLoaderError, ArticleLoaderList
       return [];
     }
 
-    List<Article> articles = [];
-    for(AtomItem item in atomFeed.items!)
+    List<ArticleAzymut> articles = [];
+    for(AtomItem item in atomFeed.items??[])
       try {
-        ArticleAzymut article = ArticleAzymut.from(item);
-        articles.add(article);
+        articles.add(ArticleAzymut.fromAtomItem(item));
       } catch (_) {
         debugPrint('${item.id} ${_.toString()}');
       }
@@ -79,7 +78,7 @@ class ArticleLoader extends SingleComputer<ArticleLoaderError, ArticleLoaderList
 
   static String _azymutFeedPageUrl(int page) => 'https://azymut.zhr.pl/feed/atom/?paged=$page';
 
-  static Future<List<Article>?> _getAzymutFromPage({int page = 0}) async {
+  static Future<List<Article>?> _getAzymutArticlesPage({int page = 0}) async {
 
     Dio dio = Dio(BaseOptions(
       connectTimeout: const Duration(seconds: 5),
@@ -91,34 +90,32 @@ class ArticleLoader extends SingleComputer<ArticleLoaderError, ArticleLoaderList
       Response response = await dio.get(_azymutFeedPageUrl(page));
 
       if(response.statusCode == HttpStatus.ok)
-        return _responseToAzymutFeed(response);
+        return _responseToAzymutArticles(response);
 
       return null;
     } on DioException catch(e){
       if(e.response == null)
         return null;
-      return _responseToAzymutFeed(e.response!);
+      return _responseToAzymutArticles(e.response!);
     }
 
   }
 
-  static Future<List<Article>?> downloadAllArticles({String? lastSeenId}) async {
+  static Future<List<Article>> _getNewAzymutArticles({String? lastSeenId}) async {
 
     List<Article> allArticles = [];
 
     int page = 0;
     while(true) {
-      List<Article>? articles = await _getAzymutFromPage(page: page);
-      if (articles == null)
-        return null;
+      List<Article>? articles = await _getAzymutArticlesPage(page: page);
+      if (articles == null) return [];
 
-      debugPrint('Downloaded page $page: ${articles.length} articles.');
-      if (articles.isEmpty)
-        break;
+      logger.i('Downloaded page $page: ${articles.length} articles.');
+      if (articles.isEmpty) break;
 
       bool doBreak = false;
       for (Article article in articles) {
-        if(lastSeenId != null && lastSeenId == article.id){
+        if(lastSeenId != null && lastSeenId == article.uniqName){
           doBreak = true;
           break;
         }
@@ -131,15 +128,21 @@ class ArticleLoader extends SingleComputer<ArticleLoaderError, ArticleLoaderList
       page++;
     }
 
-    Tuple2<List<String>, List<String>>? result = await ArticleHarcApp.downloadIDsAndBlackList();
+    return allArticles;
+  }
+  
+  static Future<List<Article>?> downloadNewArticles({String? lastSeenId}) async {
 
-    if(result == null) {
+    // Azymut articles
+    List<Article> newArticles = await _getNewAzymutArticles(lastSeenId: lastSeenId);
+
+    // HarcApp articles
+    var (artHarcAppIDs, blacklist) = await ArticleHarcApp.downloadIDsAndBlackList();
+
+    if(artHarcAppIDs == null || blacklist == null) {
       debugPrint('Problem downloading downloadIDsAndBlackList.');
       return null;
     }
-
-    List<String> artHarcAppIDs = result.item1;
-    List<String> blacklist = result.item2;
 
     for(String blackListID in blacklist)
       artHarcAppIDs.removeWhere((id) => id == blackListID);
@@ -147,10 +150,10 @@ class ArticleLoader extends SingleComputer<ArticleLoaderError, ArticleLoaderList
     for(String id in artHarcAppIDs) {
       Article? article = await ArticleHarcApp.downloadArticle(id);
       if(article == null) continue;
-      allArticles.add(article);
+      newArticles.add(article);
     }
 
-    return allArticles;
+    return newArticles;
   }
 
   static Future<Map<String, Tuple2<String, int>>?> downloadAltCoverUrls() async {
@@ -172,12 +175,12 @@ class ArticleLoader extends SingleComputer<ArticleLoaderError, ArticleLoaderList
         Map<String, Tuple2<String, int>> map = {};
         for(String line in lines) {
           if(line.isEmpty) continue;
-          List<String> line_parts = line.split(' ');
-          String id = line_parts[0];
-          String url = line_parts[1];
+          List<String> lineParts = line.split(' ');
+          String id = lineParts[0];
+          String url = lineParts[1];
           int version;
           try{
-            version = int.parse(line_parts[2]);
+            version = int.parse(lineParts[2]);
           }catch (e){
             version = 1;
           }
@@ -196,7 +199,7 @@ class ArticleLoader extends SingleComputer<ArticleLoaderError, ArticleLoaderList
 
   static Future<Tuple2<List<Article>, Map<String, Tuple2<String, int>>>?> _run(String? lastSeenId) async {
 
-    Future<List<Article>?> articles = downloadAllArticles(lastSeenId: lastSeenId);
+    Future<List<Article>?> articles = downloadNewArticles(lastSeenId: lastSeenId);
 
     Future<Map<String, Tuple2<String, int>>?> altCovers = downloadAltCoverUrls();
 
@@ -219,7 +222,7 @@ class ArticleLoader extends SingleComputer<ArticleLoaderError, ArticleLoaderList
     loadState = ArticleLoadState.CHECKING_NET;
 
     if(!await isNetworkAvailable()) {
-      await callError(NoInternetError());
+      await callKnownError(NoInternetError());
       loadState = ArticleLoadState.NO_NET;
       return;
     }
@@ -229,7 +232,7 @@ class ArticleLoader extends SingleComputer<ArticleLoaderError, ArticleLoaderList
     Tuple2<List<Article>, Map<String, Tuple2<String, int>>>? result = await compute(_run, all?null:Article.lastSeenId);
 
     if(result == null){
-      await callError(ArticleDownloadError());
+      await callKnownError(ArticleDownloadError());
       loadState = ArticleLoadState.FAILED;
       return;
     }
@@ -238,13 +241,12 @@ class ArticleLoader extends SingleComputer<ArticleLoaderError, ArticleLoaderList
       article.save();
 
     if(result.item1.isNotEmpty)
-      Article.lastSeenId = result.item1[0].id;
+      Article.lastSeenId = result.item1[0].uniqName;
 
     List<Article> articles = result.item1;
     Map<String, Tuple2<String, int>> altCoverUrls = result.item2;
 
-    if(articles != null)
-      Article.addAllToStart(articles);
+    Article.addAllToStart(articles);
     Article.altCoverUrls = altCoverUrls;
     await ArticleLoader.downloadMissingAltCovers(Article.altCoverUrls!);
 
@@ -271,7 +273,7 @@ class ArticleLoader extends SingleComputer<ArticleLoaderError, ArticleLoaderList
 
 List<Article> get storedArticles{
   
-  Directory dir = Directory(getArticleCoresFolderPath);
+  Directory dir = Directory(getArticlesFolderPath);
   dir.createSync(recursive: true);
   List<FileSystemEntity> fileEntities = dir.listSync();
   

@@ -20,7 +20,7 @@ import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/app_scaffold.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:wakelock/wakelock.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import 'common.dart';
@@ -188,7 +188,7 @@ class SlowoKluczMainGamePageState extends State<SlowoKluczMainGamePage>{
       DeviceOrientation.portraitUp,
     ]);
 
-    Wakelock.enable();
+    WakelockPlus.enable();
 /*
     post(
             () => showDialog(
@@ -209,7 +209,7 @@ class SlowoKluczMainGamePageState extends State<SlowoKluczMainGamePage>{
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    Wakelock.disable();
+    WakelockPlus.disable();
     super.dispose();
   }
 

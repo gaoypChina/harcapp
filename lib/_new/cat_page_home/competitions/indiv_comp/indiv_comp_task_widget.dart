@@ -15,7 +15,7 @@ class IndivCompTaskWidget extends StatelessWidget{
   @override
   Widget build(BuildContext context) => IndivCompTaskSkeletonWidget(
     elevation: AppCard.bigElevation,
-    trailing: PointsWidget(points: task.points, prefix: '+',),
+    trailing: PointsWidget(points: task.points, prefix: task.points>0?'+':'',),
     title: Text(task.title, style: IndivCompTaskSkeletonWidget.titleTextStyle(context)),
     description: Text(task.description!, style: IndivCompTaskSkeletonWidget.descriptionTextStyle(context)),
     bottom: bottom,

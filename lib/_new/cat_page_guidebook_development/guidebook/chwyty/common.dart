@@ -75,7 +75,7 @@ class Fretboard extends StatelessWidget{
 
     return AppCard(
       radius: AppCard.bigRadius,
-        padding: EdgeInsets.all(Dimen.defMarg/2),
+        padding: const EdgeInsets.all(Dimen.defMarg/2),
         color: Colors.brown,
         onTap: onTap as void Function()?,
         elevation: AppCard.bigElevation,

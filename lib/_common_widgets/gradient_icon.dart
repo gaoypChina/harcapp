@@ -10,7 +10,7 @@ class GradientIcon extends StatelessWidget {
 
   const GradientIcon(
       this.icon,
-      {required this.colorStart,
+      {super.key, required this.colorStart,
         required this.colorEnd,
         this.size = Dimen.ICON_SIZE
       });

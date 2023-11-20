@@ -104,7 +104,7 @@ class CircleMembersLoader extends SingleComputer<String?, CircleMembersLoaderLis
 
           return true;
         },
-        onError: () => callError(null),
+        onError: () => callKnownError(null),
     );
 
   }

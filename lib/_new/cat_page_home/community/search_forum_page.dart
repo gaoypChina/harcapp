@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:connectivity/connectivity.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:harcapp/_common_classes/sliver_child_builder_separated_delegate.dart';
 import 'package:harcapp/_common_widgets/app_custom_footer.dart';

@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:harcapp/_common_classes/single_computer/single_computer_listener.dart';
 import 'package:harcapp/logger.dart';
-import 'package:semaphore/semaphore.dart';
+import 'package:semaphore_plus/semaphore_plus.dart';
 
 abstract class SingleComputer<TErr, TListener extends SingleComputerListener<TErr?>>{
 
@@ -20,6 +20,7 @@ abstract class SingleComputer<TErr, TListener extends SingleComputerListener<TEr
   late bool _running;
   late Completer completer;
   TErr? _errorCalled;
+  late bool _unknownErrorCalled;
 
   bool get running => _runRequested || _running;
 
@@ -28,6 +29,7 @@ abstract class SingleComputer<TErr, TListener extends SingleComputerListener<TEr
     _runRequested = false;
     _running = false;
     _errorCalled = null;
+    _unknownErrorCalled = false;
   }
 
   void addListener(TListener listener) => listeners.add(listener);
@@ -67,14 +69,8 @@ abstract class SingleComputer<TErr, TListener extends SingleComputerListener<TEr
       // This is here to wait until the computer finishes and call the onEnd listeners.
       await runningSemaphore.acquire();
 
-      // await listenerRemoverSemaphore.acquire();
-      for(TListener listener in List.of(listeners)) // List.from is used to copy the list so that it can be modified by other processes while iterating.
-        if(!listener.toBeRemoved) await listener.onEnd?.call(null, false);
-      // listenerRemoverSemaphore.release();
+      _callFinish();
 
-      // _removeListeners();
-
-      runningSemaphore.release();
       if(awaitFinish) await completer.future;
       return false;
     }
@@ -88,21 +84,25 @@ abstract class SingleComputer<TErr, TListener extends SingleComputerListener<TEr
 
     // await listenerRemoverSemaphore.acquire();
     for(TListener listener in List.of(listeners)) // List.from is used to copy the list so that it can be modified by other processes while iterating.
-      if(!listener.toBeRemoved) await listener.onStart?.call();
+      if(!listener.toBeRemoved)
+        try{ await listener.onStart?.call(); }
+        catch(e){ registerUnknownError(e); }
     // listenerRemoverSemaphore.release();
 
     // _removeListeners();
 
     if(awaitFinish) {
-
-      await perform();
+      
+      try { await perform(); }
+      catch (e){ registerUnknownError(e); }
       await _callFinish(forceFinished: false);
       completer.complete();
 
     } else {
 
       () async {
-        await perform();
+        try { await perform(); }
+        catch (e){ registerUnknownError(e); }
         await _callFinish(forceFinished: false);
         completer.complete();
       }();
@@ -113,11 +113,29 @@ abstract class SingleComputer<TErr, TListener extends SingleComputerListener<TEr
 
   @protected
   Future<void> perform();
-  
-  Future<void> callError(TErr err) async {
+
+  void registerUnknownError(dynamic e){
+
+    String message = e is Error?
+    (e.stackTrace?.toString()??'Null stack trace'):
+
+    e is Exception?
+    e.toString():
+
+    'Unknown';
+
+    _unknownErrorCalled = true;
+    logger.i('Single computer $computerName raised an error while running the `perform` function.\n\n$message');
+  }
+
+  Future<void> callKnownError(TErr err) async {
     _errorCalled = err;
     for(TListener listener in List.from(listeners)) // List.from is used to copy the list so that it can be modified by other processes while iterating.
-      if(!listener.toBeRemoved) await listener.onError?.call(err);
+      if(!listener.toBeRemoved) try{
+        await listener.onError?.call(err);
+      } catch(e){
+        registerUnknownError(e);
+      }
   }
 
   @protected
@@ -129,9 +147,14 @@ abstract class SingleComputer<TErr, TListener extends SingleComputerListener<TEr
     checkRunningSemaphore.release();
 
     for(TListener listener in List.from(listeners)) // List.from is used to copy the list so that it can be modified by other processes while iterating.
-      if(!listener.toBeRemoved) await listener.onEnd?.call(_errorCalled, forceFinished);
+      if(!listener.toBeRemoved) try {
+        await listener.onEnd?.call(_errorCalled, _unknownErrorCalled, forceFinished);
+      } catch(e){
+        registerUnknownError(e);
+      }
 
     _errorCalled = null;
+    _unknownErrorCalled = false;
 
     runningSemaphore.release();
 

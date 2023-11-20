@@ -479,7 +479,7 @@ class ForumPageState extends State<ForumPage>{
 
 class _ForumLoadingWidget extends StatelessWidget{
 
-  const _ForumLoadingWidget({super.key});
+  const _ForumLoadingWidget();
 
   @override
   Widget build(BuildContext context) => Center(

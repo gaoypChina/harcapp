@@ -22,7 +22,7 @@ class RemindPasswordPart extends StatefulWidget{
 
   final String? email;
 
-  const RemindPasswordPart({this.email});
+  const RemindPasswordPart({super.key, this.email});
 
   @override
   State<StatefulWidget> createState() => RemindPasswordPartState();
@@ -101,7 +101,7 @@ class RemindPasswordPartState extends State<RemindPasswordPart>{
               ),
 
 
-              SizedBox(height: 2*Dimen.SIDE_MARG),
+              const SizedBox(height: 2*Dimen.SIDE_MARG),
 
               Row(
                 children: [
@@ -122,7 +122,7 @@ class RemindPasswordPartState extends State<RemindPasswordPart>{
                       )
                   ),
 
-                  SizedBox(width: Dimen.SIDE_MARG),
+                  const SizedBox(width: Dimen.SIDE_MARG),
 
                   Expanded(
                     child: MainButton(

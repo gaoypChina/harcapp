@@ -35,7 +35,7 @@ class AddPersEmailResolver extends AddPersResolver{
 
       if(!showSongCount)
         return PersonCard(
-            allPeopleByEmailMap[data.emailRef],
+            allPeopleByEmailMap[data.emailRef]!,
             textSize: textSize,
             textColor: textColor ?? hintEnab_(context)
         );
@@ -47,7 +47,7 @@ class AddPersEmailResolver extends AddPersResolver{
 
             Expanded(
               child: PersonCard(
-                  allPeopleByEmailMap[data.emailRef],
+                  allPeopleByEmailMap[data.emailRef]!,
                   textSize: textSize,
                   textColor: textColor ?? hintEnab_(context)
               ),

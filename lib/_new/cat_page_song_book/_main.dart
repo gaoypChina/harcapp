@@ -49,7 +49,7 @@ import 'package:harcapp_core_song_widget/song_rate.dart';
 import 'package:harcapp_core_song_widget/song_widget_template.dart';
 import 'package:provider/provider.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:wakelock/wakelock.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 import '../../main.dart';
 import '../app_drawer.dart';
@@ -169,7 +169,7 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
     if(!OwnAlbum.initialized) {
       loaderListener = SingleComputerListener<String>(
           onError: (fileName) async => showAppToast(context, text: 'Błąd wczytywania piosenki $fileName'),
-          onEnd: (String? err, bool forceFinished) async {
+          onEnd: (String? err, bool unknownError, bool forceFinished) async {
             if(!mounted) return;
 
             onAlbumChanged(BaseAlbum.current);
@@ -244,7 +244,7 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
 
     App.removeOrientationChangeListener(onOrientationChanged);
 
-    Wakelock.disable();
+    WakelockPlus.disable();
     notifier.dispose();
     if(loaderListener != null)
       songLoader.removeListener(loaderListener!);
@@ -265,7 +265,7 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
 
   void setSettings(){
     if(SongBookSettings.alwaysOnScreen) {
-      Wakelock.enable();
+      WakelockPlus.enable();
       showAppToast(context, text: 'Zawieszono wygaszanie ekranu');
     }
   }

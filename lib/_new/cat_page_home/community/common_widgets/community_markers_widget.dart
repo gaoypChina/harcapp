@@ -62,8 +62,8 @@ class MarkerWidget extends StatelessWidget{
           child: IgnorePointer(
             child: FlutterMap(
               options: MapOptions(
-                center: LatLng(marker.lat, marker.lng),
-                zoom: 16,
+                initialCenter: LatLng(marker.lat, marker.lng),
+                initialZoom: 16,
               ),
               children: [
                 TileLayer(
@@ -76,7 +76,7 @@ class MarkerWidget extends StatelessWidget{
                     markers:
                     customPointer==null?
                     [AppMarker(marker: marker)]:
-                    [Marker(point: LatLng(marker.lat, marker.lng), builder: (context) => customPointer!)]
+                    [Marker(point: LatLng(marker.lat, marker.lng), child: customPointer!)]
                 )
 
               ],

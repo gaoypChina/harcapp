@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:harcapp_core/comm_widgets/app_card.dart';
 
 class StripeWidget extends StatelessWidget{
 

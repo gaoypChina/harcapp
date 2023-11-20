@@ -135,4 +135,54 @@ List<HarcForm> allForms = [
       colorEnd: Colors.brown
   ),
 
+  HarcForm(
+      filename: 'milczace_ustalenia',
+      title: 'Milczące ustalenia',
+      icon: MdiIcons.microphoneOff,
+      meto: [metoZ, metoH, metoHS, metoW],
+      tags: [tagFormaZespolowa],
+      colorStart: Colors.deepPurple,
+      colorEnd: Colors.blue
+  ),
+
+  HarcForm(
+      filename: 'pocieta_historia',
+      title: 'Pocięta historia',
+      icon: MdiIcons.contentCut,
+      meto: [metoH, metoHS],
+      tags: [tagFormaZespolowa, tagSprawdzanieWiedzy],
+      colorStart: Colors.orange,
+      colorEnd: Colors.brown
+  ),
+
+  HarcForm(
+      filename: 'grupowe_wygibasy',
+      title: 'Grupowe wygibasy',
+      icon: MdiIcons.gymnastics,
+      meto: [metoH, metoHS, metoW],
+      tags: [tagFormaZespolowa, tagRuchowe],
+      colorStart: Colors.orange,
+      colorEnd: Colors.red[600]!
+  ),
+
+  HarcForm(
+      filename: 'beretowa',
+      title: 'Beretówa',
+      icon: MdiIcons.accountCowboyHatOutline,
+      meto: [metoH, metoHS, metoW],
+      tags: [tagFormaZespolowa, tagRuchowe, tagKontuzjogenne],
+      colorStart: Colors.green,
+      colorEnd: Colors.deepPurple
+  ),
+
+  HarcForm(
+      filename: 'dzwig_zespolowy',
+      title: 'Dźwig zespołowy',
+      icon: MdiIcons.crane,
+      meto: [metoH, metoHS, metoW],
+      tags: [tagFormaZespolowa, tagRuchowe],
+      colorStart: Colors.red,
+      colorEnd: Colors.deepPurple
+  ),
+
 ];

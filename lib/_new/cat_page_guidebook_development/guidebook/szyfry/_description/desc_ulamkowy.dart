@@ -12,6 +12,8 @@ class DescUlamkowy extends StatelessWidget{
 
   static const double FRACTION_MARGIN = 2;
 
+  const DescUlamkowy({super.key});
+
   @override
   Widget build(BuildContext context) {
 
@@ -22,7 +24,7 @@ class DescUlamkowy extends StatelessWidget{
       padding: const EdgeInsets.all(Dimen.SIDE_MARG),
       children: <Widget>[
 
-        DescOnlyWidget(),
+        const DescOnlyWidget(),
 
         const SizedBox(height: Dimen.SIDE_MARG),
 
@@ -81,9 +83,9 @@ class DescUlamkowy extends StatelessWidget{
         ),
 
         const AppText(
-          '\nSzyfr ułamkowy występuje w wielu formach. Najpopularniejsze spośród nich to formy \"grup po cztery\", \"grup po pięć\", oraz \"grup po sześć\". W celu wyjaśnienia istoty szyfru przyjęta zostanie forma <b>"grup po pięć"</b>.'
+          '\nSzyfr ułamkowy występuje w wielu formach. Najpopularniejsze spośród nich to formy "grup po cztery", "grup po pięć", oraz "grup po sześć". W celu wyjaśnienia istoty szyfru przyjęta zostanie forma <b>"grup po pięć"</b>.'
               '\n\nAby zaszyfrować literę, należy odnaleźć ją w kluczu i zastąpić ułamkiem według schematu:'
-              '\n\n - licznik zastąpiony zostaje wartością <b>pozycji</b> litery w swoim \"ułamku\",'
+              '\n\n - licznik zastąpiony zostaje wartością <b>pozycji</b> litery w swoim "ułamku",'
               '\n - mianownik przepisujemy posługując się <b>numerem grupy</b>.'
               '\n\nZaszyfrowane słowo <b>H A R C E R Z</b> to:\n',
           size: Dimen.TEXT_SIZE_BIG,

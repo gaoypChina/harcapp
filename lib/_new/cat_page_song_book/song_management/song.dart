@@ -484,20 +484,38 @@ abstract class Song<T extends SongGetResp> extends SongCore with SyncableParamGr
   @override
   int get rate => ratePrimWrap.get();
 
-  void setRate(int rate, {bool localOnly = false}) async {
+  void setRate(int rate, {bool localOnly = false, bool? synced = false}) async {
     ratePrimWrap.set(rate);
     ShaPref.setInt(ShaPref.SHA_PREF_SPIEWNIK_SONG_RATE_(lclId), rate);
-    setSingleState(paramRate, SyncableParamSingleMixin.stateNotSynced);
-    if(!localOnly) synchronizer.post();
+
+    if(synced != null)
+      setSingleState(
+          paramRate,
+          synced == true?
+          SyncableParamSingleMixin.stateSynced:
+          SyncableParamSingleMixin.stateNotSynced
+      );
+
+    if(!localOnly)
+      synchronizer.post();
   }
 
   bool get hasChordShift => ShaPref.exists(ShaPref.SHA_PREF_SPIEWNIK_SONG_CHORDS_SHIFT_(lclId));
   int get chordShift => readChordShift(lclId);
   static int readChordShift(String fileName) => ShaPref.getInt(ShaPref.SHA_PREF_SPIEWNIK_SONG_CHORDS_SHIFT_(fileName), 0);
-  void setChordShift(int chordShift, {bool localOnly = false}) {
+  void setChordShift(int chordShift, {bool localOnly = false, bool? synced = false}) {
     ShaPref.setInt(ShaPref.SHA_PREF_SPIEWNIK_SONG_CHORDS_SHIFT_(lclId), chordShift);
-    setSingleState(paramChordShift, SyncableParamSingleMixin.stateNotSynced);
-    if(!localOnly) synchronizer.post(aggregateDelay: SynchronizerEngine.aggregateChordChangeDuration);
+
+    if(synced != null)
+      setSingleState(
+          paramChordShift,
+          synced == true?
+          SyncableParamSingleMixin.stateSynced:
+          SyncableParamSingleMixin.stateNotSynced
+      );
+
+    if(!localOnly)
+      synchronizer.post(aggregateDelay: SynchronizerEngine.aggregateChordChangeDuration);
   }
 
   void addMemory(Memory memory){
@@ -555,6 +573,7 @@ abstract class Song<T extends SongGetResp> extends SongCore with SyncableParamGr
   @override
   int get hashCode => isConfid.hashCode + isOfficial.hashCode + lclId.hashCode;
 
+  @override
   String get debugClassId;
 
   //@override
@@ -591,10 +610,10 @@ abstract class Song<T extends SongGetResp> extends SongCore with SyncableParamGr
   @override
   void applySyncGetResp(T resp) {
     if(resp.rate != null)
-      setRate(resp.rate!, localOnly: true);
+      setRate(resp.rate!, localOnly: true, synced: true);
 
     if(resp.chordShift != null)
-      setChordShift(resp.chordShift!, localOnly: true);
+      setChordShift(resp.chordShift!, localOnly: true, synced: true);
 
     if(resp.memories != null)
       for (String memLclId in resp.memories!.keys) {

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_common_classes/common.dart';
@@ -108,12 +107,12 @@ class AccountHeaderWidget extends StatelessWidget{
   @override
   Widget build(BuildContext context){
 
-    dynamic _heroTag;
+    dynamic heroTag;
 
-    if(showDetailsButton && heroTag == null)
-      _heroTag = const Uuid().v4();
+    if(showDetailsButton && this.heroTag == null)
+      heroTag = const Uuid().v4();
     else
-      _heroTag = heroTag;
+      heroTag = this.heroTag;
 
     Widget header = Column(
       mainAxisSize: MainAxisSize.min,
@@ -178,7 +177,7 @@ class AccountHeaderWidget extends StatelessWidget{
                                         showDetailsButton: false,
                                         detailsBorderColor: detailsBorderColor??thumbnailBorderColor,
                                         shadow: shadow,
-                                        heroTag: _heroTag,
+                                        heroTag: heroTag,
                                       ),
                                     ),
 
@@ -229,26 +228,24 @@ class AccountHeaderWidget extends StatelessWidget{
       mainAxisSize: MainAxisSize.min,
       children: [
 
-        if(_heroTag == null)
+        if(heroTag == null)
           header
         else
           Hero(
-            tag: _heroTag,
+            tag: heroTag,
             child: header,
           ),
 
-        if(showDetails && (org != null || hufiec != null || druzyna != null || rankHarc != null || rankInstr != null))
+        if(showDetails && (org != null || (hufiec != null && hufiec!.isNotEmpty) || (druzyna != null && druzyna!.isNotEmpty) || rankHarc != null || rankInstr != null))
           Padding(
               padding: const EdgeInsets.only(
                 top: Dimen.SIDE_MARG,
-                // left: Dimen.SIDE_MARG,
-                // right: Dimen.SIDE_MARG,
               ),
               child: BorderMaterial(
                 borderColor: detailsBorderColor,
                 color: backgroundColor,
                 child: Padding(
-                  padding: const EdgeInsets.all(Dimen.SIDE_MARG - BorderMaterial.defBorderWidth),
+                  padding: const EdgeInsets.symmetric(vertical: Dimen.SIDE_MARG - BorderMaterial.defBorderWidth),
                   child: Builder(
                     builder: (context) {
 
@@ -262,7 +259,7 @@ class AccountHeaderWidget extends StatelessWidget{
                         children.add(const SizedBox(height: Dimen.SIDE_MARG));
                       }
 
-                      if(hufiec != null || showEmptyDetails) {
+                      if((hufiec != null && hufiec!.isNotEmpty) || showEmptyDetails) {
                         children.add(HufiecInputField(
                           enabled: false,
                           dimTextOnDisabled: false,
@@ -271,7 +268,7 @@ class AccountHeaderWidget extends StatelessWidget{
                         children.add(const SizedBox(height: Dimen.SIDE_MARG));
                       }
 
-                      if(druzyna != null || showEmptyDetails) {
+                      if((druzyna != null && druzyna!.isNotEmpty) || showEmptyDetails) {
                         children.add(DruzynaInputField(
                           enabled: false,
                           dimTextOnDisabled: false,

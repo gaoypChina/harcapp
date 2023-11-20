@@ -324,7 +324,7 @@ class ParticipTileExtendedState extends State<ParticipTileExtended>{
     showUpdateDialog(
       context: context,
       isMe: particip.key == AccountData.key,
-      loosingAdmin: newRole != CompRole.ADMIN,
+      loosingAdmin: particip.profile.role == CompRole.ADMIN && newRole != CompRole.ADMIN,
       currAdminCount: comp.loadedParticips.where((p) => p.profile.role == CompRole.ADMIN).length,
       looseAdminConfMess: 'Czy na pewno chcesz zrzec się roli <b>administratora</b> współzawodnictwa <b>${comp.name}</b>?',
       handleUpdate: () async {

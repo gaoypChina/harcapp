@@ -133,8 +133,6 @@ class _Circle extends StatelessWidget{
     height: size,
   );
 
-
-
 }
 
 class _Icon extends StatelessWidget{

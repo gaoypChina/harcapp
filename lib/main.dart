@@ -1,20 +1,18 @@
 import 'dart:async';
 
-import 'package:connectivity/connectivity.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:harcapp/_common_classes/org/org.dart';
-import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/models_common/rank_cat.dart';
-import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/models_common/rank_group.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/model/trop.dart';
 import 'package:harcapp/_new/cat_page_harc_map/model/marker_data.dart';
+import 'package:harcapp/_new/cat_page_harcthought/articles/article.dart';
 import 'package:harcapp/_new/cat_page_home/community/communities_loader.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_loader.dart';
 import 'package:harcapp/account/login_provider.dart';
-import 'package:harcapp/logger.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/color_pack_provider.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
@@ -33,8 +31,6 @@ import '_common_classes/storage.dart';
 import '_common_classes/time_settings.dart';
 import '_new/app_bottom_navigator.dart';
 import '_new/cat_page_guidebook_development/development/_sprawnosci/providers.dart';
-import '_new/cat_page_guidebook_development/development/stopnie/models_common/rank.dart';
-import '_new/cat_page_guidebook_development/development/stopnie/models_common/rank_task.dart';
 import '_new/cat_page_guidebook_development/guidebook/szyfry/providers.dart';
 import '_new/cat_page_harc_map/sample_points_optimizer.dart';
 import '_new/cat_page_harcthought/apel_ewan/apel_ewan_own_folder.dart';
@@ -73,6 +69,7 @@ enum AppMode{
   appModeWolyn,
   appModePowstWarsz,
   appModePowstanieWielkopolskie,
+  appModeAllSaints,
   appModeNiepodleglosc
 }
 
@@ -108,12 +105,8 @@ void main() async {
   var delegate = await LocalizationDelegate.create(
       fallbackLocale: 'pl',
       basePath: 'assets/locale/',
-      supportedLocales: ['pl']);
-
-  if(DateTime.now().isAfter(DateTime(2022, 4, 15, 14)) && DateTime.now().isBefore(DateTime(2022, 4, 17, 4)))
-    appMode = AppMode.appModeWielkiPiatek;
-  else if(DateTime.now().isAfter(DateTime(2022, 4, 17, 4)) && DateTime.now().isBefore(DateTime(2022, 4, 24, 0)))
-    appMode = AppMode.appModeZmartwychwstanie;
+      supportedLocales: ['pl']
+  );
 
   if(DateTime.now().isAfter(DateTime(2023, 4, 7, 14)) && DateTime.now().isBefore(DateTime(2023, 4, 9, 4)))
     appMode = AppMode.appModeWielkiPiatek;
@@ -126,12 +119,13 @@ void main() async {
     appMode = AppMode.appModeWolyn;
   else if(isDuringMonthAndDay(startDay: 1, stopDay: 3, month: 8))
     appMode = AppMode.appModePowstWarsz;
+  else if(isDuringMonthAndDay(startDay: 1, stopDay: 8, month: 11))
+    appMode = AppMode.appModeAllSaints;
   else if(isDuringMonthAndDay(startDay: 10, stopDay: 17, month: 11))
     appMode = AppMode.appModeNiepodleglosc;
   else if(isDuringMonthAndDay(startDay: 29, month: 11, stopDay: 24, stopMonth: 12))
     appMode = AppMode.appModeAdwent;
-  else if(isDuringMonthAndDay(startDay: 25, stopDay: 31, month: 12) ||
-          isDuringMonthAndDay(startDay: 1, stopDay: 3, month: 1))
+  else if(isDuringMonthAndDay(startDay: 25, stopDay: 31, month: 12) || isDuringMonthAndDay(startDay: 1, stopDay: 3, month: 1))
     appMode = AppMode.appModeChristmas;
   else
     appMode = AppMode.appModeDefault;
@@ -139,6 +133,7 @@ void main() async {
   await ShaPref.init();
   await initPaths();
   await AccountData.init();
+  await ArticleSyncData.init();
   await Trop.init();
 
   ApelEwanOwnFolder.loadAllOwnFolders();
@@ -160,19 +155,19 @@ void main() async {
             })),
             ChangeNotifierProvider(create: (context){
 
-              ColorPack _selColorPack;
+              ColorPack selColorPack;
 
               switch(appMode){
-                case AppMode.appModeDefault: _selColorPack = const ColorPackStartDefault(); break;
-                case AppMode.appModeAdwent: _selColorPack = const ColorPackStartAdwent(); break;
-                case AppMode.appModeChristmas: _selColorPack = const ColorPackStartChristmas(); break;
-                case AppMode.appModeZmartwychwstanie: _selColorPack = const ColorPackStartDefault(); break;
-                case AppMode.appModePowstWarsz: _selColorPack = const ColorPackStartDefault(); break;
-                default: _selColorPack = const ColorPackStartDefault(); break;
+                case AppMode.appModeDefault: selColorPack = const ColorPackStartDefault(); break;
+                case AppMode.appModeAdwent: selColorPack = const ColorPackStartAdwent(); break;
+                case AppMode.appModeChristmas: selColorPack = const ColorPackStartChristmas(); break;
+                case AppMode.appModeZmartwychwstanie: selColorPack = const ColorPackStartDefault(); break;
+                case AppMode.appModePowstWarsz: selColorPack = const ColorPackStartDefault(); break;
+                default: selColorPack = const ColorPackStartDefault(); break;
               }
 
               return ColorPackProvider(
-                  initColorPack: _selColorPack,
+                  initColorPack: selColorPack,
                   isDark: () => AppSettings.isDark,
                   colorPackDark: const ColorPackBlack()
               );
@@ -223,9 +218,10 @@ void main() async {
             ChangeNotifierProvider(create: (context) => RankProv()),
 
             // SPRAWNOŚCI
-            ChangeNotifierProvider(create: (context) => SprawSavedListProv()),
-            ChangeNotifierProvider(create: (context) => SprawInProgressListProv()),
-            ChangeNotifierProvider(create: (context) => SprawCompletedListProv()),
+            ChangeNotifierProvider(create: (context) => SprawProvider()),
+            ChangeNotifierProvider(create: (context) => SprawSavedListProvider()),
+            ChangeNotifierProvider(create: (context) => SprawInProgressListProvider()),
+            ChangeNotifierProvider(create: (context) => SprawCompletedListProvider()),
             ChangeNotifierProvider(create: (context) => CurrentSprawGroupProvider()),
 
             // TROPY
@@ -243,6 +239,7 @@ void main() async {
             ChangeNotifierProvider(create: (context) => GaderypolukiProvider()),
 
             // ARTICLES
+            ChangeNotifierProvider(create: (context) => ArticleNotifierProvider()),
             ChangeNotifierProvider(create: (context) => ArticleThemeProvider()),
             ChangeNotifierProvider(create: (context) => BookmarkedArticlesProvider()),
             ChangeNotifierProvider(create: (context) => LikedArticlesProvider()),
@@ -277,10 +274,8 @@ class AppNavigatorObserver extends NavigatorObserver{
     _onChangedListener.remove(listener);
 
   void callNavBarChanged(){
-
     for(void Function() onChangedListener in _onChangedListener)
       onChangedListener.call();
-
   }
 
   @protected
@@ -356,48 +351,6 @@ class AppState extends State<App> with WidgetsBindingObserver {
   
   late StreamSubscription<ConnectivityResult> subscription;
 
-  void convertOldData(){
-
-    if(true)
-
-      // Update Rank task uids
-      for(Rank rank in Rank.all){
-
-        Map<String, bool> taskComplMap = ShaPref.getMap<String, bool>(ShaPref.SHA_PREF_RANK_COMPLETED_REQ_MAP_(rank), {});
-        Map<String, String> taskNoteMap = ShaPref.getMap<String, String>(ShaPref.SHA_PREF_RANK_REQ_NOTES_MAP_(rank), {});
-
-        Map<String, bool?> newTaskComplMap = {};
-        Map<String, String?> newTaskNoteMap = {};
-
-        for(RankCat cat in rank.cats!)
-          for(RankGroup group in cat.groups!)
-            for(RankTask task in group.tasks!){
-
-              if(taskComplMap.containsKey(task.old_uid))
-                newTaskComplMap[task.uid] = taskComplMap[task.old_uid];
-              else if(taskComplMap.containsKey(task.uid))
-                newTaskComplMap[task.uid] = taskComplMap[task.uid];
-
-              if(taskNoteMap.containsKey(task.old_uid))
-                newTaskNoteMap[task.uid] = taskNoteMap[task.old_uid];
-              else if(taskNoteMap.containsKey(task.uid))
-                newTaskNoteMap[task.uid] = taskNoteMap[task.uid];
-
-            }
-
-        ShaPref.setMap(ShaPref.SHA_PREF_RANK_COMPLETED_REQ_MAP_(rank), newTaskComplMap);
-        ShaPref.setMap(ShaPref.SHA_PREF_RANK_REQ_NOTES_MAP_(rank), newTaskNoteMap);
-      }
-
-    if(ShaPref.getBool(ShaPref.SHA_PREF_RESET_STATS, true)){
-      Statistics.songStats = {};
-      Statistics.moduleStats = {};
-      ShaPref.setBool(ShaPref.SHA_PREF_RESET_STATS, false);
-      logger.d('Stats reset.');
-    }
-
-  }
-
   late LoginListener _loginListener;
 
   late SynchronizerListener syncListener;
@@ -418,7 +371,6 @@ class AppState extends State<App> with WidgetsBindingObserver {
         onLogin: (emailConf) async {
           if(!emailConf) return;
           await Statistics.commit();
-          // Trop.fixNoUserInOwnTrops();
         },
         onRegistered: () async{
           await Statistics.commit();
@@ -427,7 +379,6 @@ class AppState extends State<App> with WidgetsBindingObserver {
         onEmailConfirmChanged: (emailConf) async {
           if(!emailConf) return;
           await Statistics.commit();
-          // Trop.fixNoUserInOwnTrops();
           await indivCompLoader.run();
           await communitiesLoader.run();
         },
@@ -442,25 +393,31 @@ class AppState extends State<App> with WidgetsBindingObserver {
     );
     AccountData.addLoginListener(_loginListener);
 
+    ArticleNotifierProvider articleProv = ArticleNotifierProvider.of(context);
+
     ThemeProvider themeProv = ThemeProvider.of(context);
     AlbumProvider albumProvider = AlbumProvider.of(context);
 
     RankProv rankProv = RankProv.of(context);
 
-    SprawSavedListProv sprawSavedListProv = SprawSavedListProv.of(context);
-    SprawInProgressListProv sprawInProgressListProv = SprawInProgressListProv.of(context);
-    SprawCompletedListProv sprawCompletedListProv = SprawCompletedListProv.of(context);
+    SprawProvider sprawProv = SprawProvider.of(context);
+    SprawSavedListProvider sprawSavedListProv = SprawSavedListProvider.of(context);
+    SprawInProgressListProvider sprawInProgressListProv = SprawInProgressListProvider.of(context);
+    SprawCompletedListProvider sprawCompletedListProv = SprawCompletedListProvider.of(context);
 
     syncListener = SynchronizerListener(
       onEnd: (syncOper){
         if(syncOper == SyncOper.get){
 
           // Tutaj odświeżyć wszystkie providery, które zawierają jakieś synchronizowalne dane.
+          articleProv.notify();
+
           themeProv.notify();
           albumProvider.notify();
 
           rankProv.notify();
 
+          sprawProv.notify();
           sprawSavedListProv.notify();
           sprawInProgressListProv.notify();
           sprawCompletedListProv.notify();
@@ -495,7 +452,7 @@ class AppState extends State<App> with WidgetsBindingObserver {
     post(() async {
       await ZhpAccAuth.init(navigatorKey);
       if(!account && AccountData.loggedIn){
-        await AccountData.forgetAccount();
+        await AccountData.forgetAccount(false, loginProv: loginProv);
         setState(() {});
       }
     });
@@ -506,7 +463,7 @@ class AppState extends State<App> with WidgetsBindingObserver {
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
-    AccountData.removeLoginListener( _loginListener);
+    AccountData.removeLoginListener(_loginListener);
     synchronizer.removeListener(syncListener);
     super.dispose();
   }

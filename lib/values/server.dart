@@ -15,4 +15,4 @@ const String backendUrl = 'https://harcapp-api-beta-production-1-n3o2k7i8ch5.clo
 /*
 !!! WAŻNE !!!
 Zmiana wartości stałych (const) wymaga (!) restartu apki, a nie tylko Hot Reloadu!
- */
+*/

@@ -100,7 +100,7 @@ class TropyPageState extends State<TropyPage>{
           if(!mounted) return;
           showAppToast(context, text: simpleErrorMessage);
         },
-        onEnd: (_, __){
+        onEnd: (_, __, ___){
           if(!mounted) return;
           refreshController.loadComplete();  // This is called in `post()` inside.
           refreshController.refreshCompleted();  // This is called in `post()` inside.

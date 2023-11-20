@@ -10,12 +10,19 @@ class HufiecInputField extends StatelessWidget{
   final bool enabled;
   final bool dimTextOnDisabled;
   final InputFieldController? controller;
+  final bool asterisk;
 
-  const HufiecInputField({this.enabled = true, this.dimTextOnDisabled = true, this.controller, super.key});
+  const HufiecInputField({
+    this.enabled = true,
+    this.dimTextOnDisabled = true,
+    this.controller,
+    this.asterisk = false,
+    super.key
+  });
 
   @override
   Widget build(BuildContext context) => InputField(
-    hint: 'Hufiec:',
+    hint: 'Hufiec:${asterisk?' *':''}',
     hintTop: 'Hufiec',
     controller: controller,
     enabled: enabled,

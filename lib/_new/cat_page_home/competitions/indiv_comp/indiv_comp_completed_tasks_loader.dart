@@ -108,7 +108,7 @@ class IndivCompCompletedTasksLoader extends SingleComputer<String?, IndivCompCom
 
           return true;
         },
-        onError: () => callError(null),
+        onError: () => callKnownError(null),
     );
 
   }

@@ -4,7 +4,6 @@ import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/color_pack_provider.dart';
 import 'package:harcapp_core/comm_widgets/app_scaffold.dart';
-import 'package:provider/provider.dart';
 
 import '../main_page_new.dart';
 import 'layouts.dart';
@@ -50,14 +49,12 @@ class StartPageState extends State<StartPage> {
   }
 
   @override
-  Widget build(BuildContext context) {
-
-    return AppScaffold(
+  Widget build(BuildContext context) => AppScaffold(
         body: InkWell(
           onTap: tapable?(){
             SystemChrome.setPreferredOrientations(DeviceOrientation.values);
 
-            Provider.of<ColorPackProvider>(context, listen: false).colorPack = ColorPackSongBook();
+            ColorPackProvider.of(context).colorPack = ColorPackSongBook();
 
             pushPage(
               context,
@@ -67,7 +64,6 @@ class StartPageState extends State<StartPage> {
           }:null,
           child: const DefaultLayout()
       )
-
     );
-  }
+
 }

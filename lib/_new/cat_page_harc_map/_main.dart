@@ -33,7 +33,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:polybool/polybool.dart' as pb;
 import 'package:provider/provider.dart';
-import 'package:semaphore/semaphore.dart';
+import 'package:semaphore_plus/semaphore_plus.dart';
 
 import '../../values/consts.dart';
 import '../api/harc_map.dart';
@@ -170,8 +170,8 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
     double thisEastBound = eastBound;
     double thisZoom = zoom;
 
-    CustomPoint northWestDist = const SphericalMercator().project(LatLng(northBound, westBound));
-    CustomPoint southEastDist = const SphericalMercator().project(LatLng(southBound, eastBound));
+    Point northWestDist = const SphericalMercator().project(LatLng(northBound, westBound));
+    Point southEastDist = const SphericalMercator().project(LatLng(southBound, eastBound));
 
     double boundExtensionRation = publicOnly?1:.5;
 
@@ -229,11 +229,11 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
     int latDist = northWestDist.y.toInt() - southEastDist.y.toInt();
     int lngDist = southEastDist.x.toInt() - northWestDist.x.toInt();
 
-    CustomPoint reqNorthWestDist = CustomPoint(
+    Point reqNorthWestDist = Point(
         northWestDist.x - boundExtensionRation*lngDist,
         northWestDist.y + boundExtensionRation*latDist
     );
-    CustomPoint reqSouthEastDist = CustomPoint(
+    Point reqSouthEastDist = Point(
         southEastDist.x + boundExtensionRation*lngDist,
         southEastDist.y - boundExtensionRation*latDist
     );
@@ -356,6 +356,11 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
     await markerLoadingEnded(thisMarkerLoaderIndex);
   }
 
+  void checkNetworkShowToast() async {
+    if(!await isNetworkAvailable() && mounted)
+      showAppToast(context, text: noInternetMessage);
+  }
+
   @override
   void initState() {
 
@@ -392,6 +397,8 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
 
     AccountData.addLoginListener(loginListener);
 
+    checkNetworkShowToast();
+
     super.initState();
   }
 
@@ -403,7 +410,7 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
 
   double get northBound{
     try{
-      return mapController.bounds!.north;
+      return mapController.camera.visibleBounds.north;
     } catch(e){
       return double.nan;
     }
@@ -411,7 +418,7 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
 
   double get southBound{
     try{
-      return mapController.bounds!.south;
+      return mapController.camera.visibleBounds.south;
     } catch(e){
       return double.nan;
     }
@@ -419,7 +426,7 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
 
   double get westBound{
     try{
-      return mapController.bounds!.west;
+      return mapController.camera.visibleBounds.west;
     } catch(e){
       return double.nan;
     }
@@ -427,7 +434,7 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
 
   double get eastBound{
     try{
-      return mapController.bounds!.east;
+      return mapController.camera.visibleBounds.east;
     } catch(e){
       return double.nan;
     }
@@ -435,7 +442,7 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
 
   double get zoom{
     try{
-      return mapController.zoom;
+      return mapController.camera.zoom;
     } catch(e){
       return lastZoom;
     }
@@ -458,21 +465,26 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
 
                 FlutterMap(
                   options: MapOptions(
-                    center: lastCenter,
+                    initialCenter: lastCenter,
                     crs: const Epsg3857(),
-                    maxBounds: LatLngBounds(LatLng(-maxLatSpan, -maxLngSpan), LatLng(maxLatSpan, maxLngSpan)),
-                    zoom: lastZoom,
+                    maxBounds: LatLngBounds(
+                        LatLng(-maxLatSpan, -maxLngSpan),
+                        LatLng(maxLatSpan, maxLngSpan)
+                    ),
+                    initialZoom: lastZoom,
                     minZoom: 2,
                     maxZoom: CatPageHarcMap.maxZoom,
 
-                    interactiveFlags: CatPageHarcMap.interactiveFlags,
+                    interactionOptions: const InteractionOptions(
+                      flags: CatPageHarcMap.interactiveFlags
+                    ),
 
                     onMapReady: () => tryGetMarkers(publicOnly: !AccountData.loggedIn),
 
                     onMapEvent: (event){
 
-                      lastCenter = event.center;
-                      lastZoom = event.zoom;
+                      lastCenter = event.camera.center;
+                      lastZoom = event.camera.zoom;
 
                       if(event is MapEventMoveEnd || event is MapEventDoubleTapZoomEnd)
                         tryGetMarkers(publicOnly: !AccountData.loggedIn);
@@ -514,7 +526,7 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
                           child: Consumer<MapEventChangedProvider>(
                             builder: (context, prov, child){
 
-                              CustomPoint center = const SphericalMercator().project(LatLng(mapController.center.latitude, mapController.center.longitude));
+                              Point center = const SphericalMercator().project(LatLng(mapController.camera.center.latitude, mapController.camera.center.longitude));
                               var (latDistDelta, lngDistDelta) = HarcMapUtils.getDistanceDeltas(zoom);
 
                               return Text(
@@ -625,8 +637,8 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
                       onPressed: () => pushPage(
                           context,
                           builder: (context) => MarkerEditorPage(
-                            initZoom: mapController.zoom,
-                            initCenter: mapController.center,
+                            initZoom: mapController.camera.zoom,
+                            initCenter: mapController.camera.center,
                             onSuccess: (marker){
                               MarkerData.addToAll(marker);
                               setState(() => markersToDisplay = calculateMarkersToDisplay());
@@ -717,12 +729,12 @@ class SamplingPointsLayerWidgetState extends State<SamplingPointsLayerWidget>{
   List<LatLng>? get otherMarkersUncertaintySamples => widget.otherMarkersUncertaintySamples;
   MapController get mapController => widget.mapController;
 
-  double get northLat => mapController.bounds!.north;
-  double get southLat => mapController.bounds!.south;
-  double get westLng => mapController.bounds!.west;
-  double get eastLng => mapController.bounds!.east;
+  double get northLat => mapController.camera.visibleBounds.north;
+  double get southLat => mapController.camera.visibleBounds.south;
+  double get westLng => mapController.camera.visibleBounds.west;
+  double get eastLng => mapController.camera.visibleBounds.east;
 
-  double get zoom => mapController.zoom;
+  double get zoom => mapController.camera.zoom;
 
   Future<void> run() async {
     while(true){
@@ -752,7 +764,7 @@ class SamplingPointsLayerWidgetState extends State<SamplingPointsLayerWidget>{
   ).$1
       .map((samplePoint) => Marker(
       point: samplePoint,
-      builder: (context) => Icon(
+      child: Icon(
           MdiIcons.circleSmall,
           color: (
               (lastRequestedSamples??[]).contains(samplePoint)?
@@ -770,7 +782,7 @@ class SamplingPointsLayerWidgetState extends State<SamplingPointsLayerWidget>{
       (otherMarkersUncertaintySamples??[])
           .map((emptySpaceSample) => Marker(
           point: emptySpaceSample,
-          builder: (context) => Icon(
+          child: Icon(
             MdiIcons.plusThick,
             color: Colors.deepPurple.withOpacity(.8),
             size: 12,
@@ -801,7 +813,7 @@ class SeenPublicMapLayerWidget extends StatelessWidget{
   @override
   Widget build(BuildContext context) => PolygonLayer(
       polygons: (SamplePointsOptimizer.seenPublicMap[zoom]?.regions??[]).map((coordinates) => Polygon(
-          points: coordinates.map((coord) => const SphericalMercator().unproject(CustomPoint(coord.x, coord.y))).toList(),
+          points: coordinates.map((coord) => const SphericalMercator().unproject(Point(coord.x, coord.y))).toList(),
           isFilled: true,
           color: Colors.blue.withOpacity(.2),
           borderColor: Colors.blue.withOpacity(.5),

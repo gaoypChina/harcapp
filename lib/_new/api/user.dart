@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:collection/collection.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/common.dart';
@@ -29,7 +28,7 @@ class ApiUser{
     required String? lastUserName,
     required String? lastUserKey,
 
-    FutureOr<void> Function(List<UserDataNick> users)? onSuccess,
+    FutureOr<void> Function(List<ShadowUserData> users)? onSuccess,
     FutureOr<void> Function()? onError,
   }) async => await API.sendRequest(
       withToken: true,
@@ -42,9 +41,9 @@ class ApiUser{
         }
       ),
       onSuccess: (Response response, DateTime now) async {
-        List<UserDataNick> users = [];
+        List<ShadowUserData> users = [];
         for(Map data in response.data)
-          users.add(UserDataNick.fromRespMap(data, data['nick']));
+          users.add(ShadowUserData.fromRespMap(data));
 
         await onSuccess?.call(users);
       },
@@ -56,7 +55,7 @@ class ApiUser{
   static Future<Response?> createShadow(
       String? name,
       Sex? sex,
-      { FutureOr<void> Function(UserDataNick user)? onSuccess,
+      { FutureOr<void> Function(ShadowUserData user)? onSuccess,
         FutureOr<void> Function()? onError,
       }) async => await API.sendRequest(
       withToken: true,
@@ -67,28 +66,28 @@ class ApiUser{
           CREATE_SHADOW_REQ_SEX: sexToBool[sex!]
         })
       ),
-      onSuccess: (Response response, DateTime now) async => await onSuccess?.call(UserDataNick.fromRespMap(response.data, response.data['nick'])),
+      onSuccess: (Response response, DateTime now) async => await onSuccess?.call(ShadowUserData.fromRespMap(response.data)),
       onError: (DioException error) async => await onError?.call()
   );
 
   static String UPDATE_SHADOW_REQ_NAME = 'name';
   static String UPDATE_SHADOW_REQ_SEX = 'sex';
   static Future<Response?> updateShadow(
-      UserDataNick? user,
+      ShadowUserData user,
       String? name,
       Sex? sex,
-      { FutureOr<void> Function(UserDataNick user)? onSuccess,
+      { FutureOr<void> Function(ShadowUserData user)? onSuccess,
         FutureOr<void> Function()? onError,
       }) async => await API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.put(
-          '${API.baseUrl}api/user/shadow/${user!.key}',
+          '${API.baseUrl}api/user/shadow/${user.key}',
           data: FormData.fromMap({
             UPDATE_SHADOW_REQ_NAME: name,
             UPDATE_SHADOW_REQ_SEX: sexToBool[sex!]
           })
       ),
-      onSuccess: (Response response, DateTime now) async => await onSuccess?.call(UserDataNick.fromRespMap(response.data, response.data['nick'])),
+      onSuccess: (Response response, DateTime now) async => await onSuccess?.call(ShadowUserData.fromRespMap(response.data)),
       onError: (DioException error) async => await onError?.call()
   );
 
@@ -109,21 +108,48 @@ class ApiUser{
       onError: (DioException error) async => await onError?.call()
   );
 
+  static Future<Response?> mergeShadow(
+      String shadowKey,
+      String toMergeNick,
+      { FutureOr<void> Function(UserData)? onSuccess,
+        FutureOr<void> Function()? onError,
+      }) async => await API.sendRequest(
+      withToken: true,
+      requestSender: (Dio dio) => dio.post(
+          '${API.baseUrl}api/user/shadow/$shadowKey/merge/$toMergeNick'
+      ),
+      onSuccess: (Response response, DateTime now) async => await onSuccess?.call(
+          UserData.fromRespMap(response.data)
+      ),
+      onError: (DioException error) async => await onError?.call()
+  );
+
   static Future<Response?> searchByNick(
       String nick, 
-      { FutureOr<void> Function({bool? noSuchUser})? onError,
+      { searchShadow = false,
+        searchReal = true,
+        FutureOr<void> Function(bool noSuchUser)? onError,
         FutureOr<void> Function(UserDataNick user)? onSuccess,
       }) async => await API.sendRequest(
-    withToken: true,
     requestSender: (Dio dio) => dio.get(
       '${API.baseUrl}api/user/search/$nick',
+      queryParameters: {
+        'searchShadow': searchShadow,
+        'searchReal': searchReal,
+      }
     ),
-    onSuccess: (Response response, DateTime now) async => await onSuccess?.call(UserDataNick.fromRespMap(response.data, nick)),
+    onSuccess: (Response response, DateTime now) async => await onSuccess?.call(
+        response.data['shadow']==true?
+        ShadowUserData.fromRespMap(response.data):
+        UserDataNick.fromRespMap(response.data)
+    ),
     onError: (DioException error) async {
       bool noSuchUserStatus = error.response?.statusCode == HttpStatus.notFound;
-      bool noSuchUserBody = const DeepCollectionEquality().equals(error.response?.data, {'error': 'User not found'});
+      bool noSuchUserBody = false;
+      try{ noSuchUserBody = error.response?.data['error'] == 'no_such_user'; }
+      catch(e){}
 
-      await onError?.call(noSuchUser: noSuchUserStatus && noSuchUserBody);
+      await onError?.call(noSuchUserStatus && noSuchUserBody);
     }
 
   );
@@ -283,7 +309,7 @@ class ApiUser{
   }
 
 
-  static Future<Response?> resetNick({FutureOr<void> Function(String? nick)? onSuccess, FutureOr<void> Function(Response? response)? onError}) async => await API.sendRequest(
+  static Future<Response?> resetNick({FutureOr<void> Function(String nick)? onSuccess, FutureOr<void> Function(Response? response)? onError}) async => await API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.get(
           '${API.baseUrl}api/user/nick'
@@ -292,11 +318,30 @@ class ApiUser{
       onError: (DioException error) async => await onError!(error.response)
   );
 
+  static Future<Response?> resetShadowNick(String shadowKey, {FutureOr<void> Function(String nick)? onSuccess, FutureOr<void> Function(Response? response)? onError}) async => await API.sendRequest(
+      withToken: true,
+      requestSender: (Dio dio) => dio.get(
+          '${API.baseUrl}api/user/shadow/$shadowKey/nick'
+      ),
+      onSuccess: (Response response, DateTime now) async => await onSuccess?.call(response.data['nick']),
+      onError: (DioException error) async => await onError!(error.response)
+  );
+
   static String UPDATE_REQ_NICK_SEARCHABLE = 'nickSearchable';
-  static Future<Response?> nickSearchable({required searchable, FutureOr<void> Function(bool? searchable)? onSuccess, FutureOr<void> Function(Response? response)? onError}) async => await API.sendRequest(
+  static Future<Response?> nickSearchable({required searchable, FutureOr<void> Function(bool searchable)? onSuccess, FutureOr<void> Function(Response? response)? onError}) async => await API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.post(
           '${API.baseUrl}api/user/nickSearchable',
+          data: FormData.fromMap({UPDATE_REQ_NICK_SEARCHABLE: searchable})
+      ),
+      onSuccess: (Response response, DateTime now) async => await onSuccess?.call(response.data['nickSearchable']),
+      onError: (DioException error) async => await onError!(error.response)
+  );
+
+  static Future<Response?> shadowNickSearchable(String shadowKey, {required searchable, FutureOr<void> Function(bool searchable)? onSuccess, FutureOr<void> Function(Response? response)? onError}) async => await API.sendRequest(
+      withToken: true,
+      requestSender: (Dio dio) => dio.post(
+          '${API.baseUrl}api/user/shadow/$shadowKey/nickSearchable',
           data: FormData.fromMap({UPDATE_REQ_NICK_SEARCHABLE: searchable})
       ),
       onSuccess: (Response response, DateTime now) async => await onSuccess?.call(response.data['nickSearchable']),

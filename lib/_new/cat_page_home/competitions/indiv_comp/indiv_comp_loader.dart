@@ -59,7 +59,7 @@ class IndivCompLoader extends SingleComputer<String?, IndivCompLoaderListener>{
 
           return true;
         },
-        onError: (resp) => callError(null),
+        onError: (resp) => callKnownError(null),
     );
 
   }

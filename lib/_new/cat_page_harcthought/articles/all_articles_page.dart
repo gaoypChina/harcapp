@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_new/cat_page_harcthought/articles/search_page.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-import 'article_core.dart';
+import 'article.dart';
 import 'article_list_widget.dart';
 
 class AllArticlesPage extends StatelessWidget{
@@ -24,22 +25,16 @@ class AllArticlesPage extends StatelessWidget{
             forceElevated: innerBoxIsScrolled,
             actions: [
               IconButton(
-                  onPressed: () => Navigator.push(
+                  onPressed: () => pushPage(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => ArticleSearchPage(
-                            Article.all??[],
-                          )
-                      )
+                      builder: (context) => ArticleSearchPage(Article.all??[])
                   ),
                   icon: Icon(MdiIcons.magnify)
               )
             ],
           )
         ],
-        body: ArticleListWidget(
-            Article.all??[]
-        ),
+        body: ArticleListWidget(Article.all??[]),
       ),
     );
   }

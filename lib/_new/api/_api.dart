@@ -56,7 +56,7 @@ class RefreshTokenHandler extends SingleComputer<DioException, SingleComputerLis
       await AccountData.writeRefreshToken(response.data['refreshToken']);
 
     } on DioException catch (e){
-      await callError(e);
+      await callKnownError(e);
     }
 
   }
@@ -145,7 +145,7 @@ class API{
           Response? response;
 
           SingleComputerListener<DioException> listener = SingleComputerListener(
-            onEnd: (DioException? error, _) async {
+            onEnd: (DioException? error, bool unknownError, _) async {
 
               if(error == null)
                 response = await sendRequest(
@@ -165,7 +165,7 @@ class API{
                 response = error.response;
                 saveErrorMessage(error);
                 if (error.response?.statusCode == jwtInvalidHttpStatus) {
-                  await handleForgetAccount();
+                  await handleForceForgetAccount();
                   finish = await onForceLoggedOut?.call();
                 }
                 if(finish??false) return;
@@ -182,7 +182,7 @@ class API{
 
         } else if(respData == 'invalid_user_key'){
           saveErrorMessage(e);
-          await handleForgetAccount();
+          await handleForceForgetAccount();
           finish = await onForceLoggedOut?.call();
           if(finish??false) return e.response;
           await onError?.call(e);
@@ -199,7 +199,7 @@ class API{
     }
   }
 
-  static Future<void> handleForgetAccount() async {
+  static Future<void> handleForceForgetAccount() async {
     await SynchronizerEngine.changeSyncStateInAll([
       SyncableParamSingleMixin.stateSynced,
       SyncableParamSingleMixin.stateSyncInProgress,
@@ -207,8 +207,8 @@ class API{
       SyncableParamSingleMixin.stateNotSynced
     );
     SynchronizerEngine.lastSyncTimeLocal = null;
-    await AccountData.forgetAccount();
-    AccountData.callOnLogout(true);
+    await AccountData.forgetAccount_(true);
+    AccountData.callOnLogout_(true);
   }
 
   // INNE

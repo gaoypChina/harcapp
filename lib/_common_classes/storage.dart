@@ -1,11 +1,9 @@
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:flutter/services.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 late String _localPath;
 Future<void> initPaths() async{
@@ -63,13 +61,13 @@ String get getDuchoweFoldersPath => _localPath + getDuchoweFoldersLocalPath;
 String get getRemoveSyncReqFolderLocalPath => '/remove_sync_req/';
 String get getRemoveSyncReqFolderPath => _localPath + getRemoveSyncReqFolderLocalPath;
 
-String get _getArticleBaseFolderLocalPath => '/articles/';
-String get _getArticleBaseFolderPath => _localPath + _getArticleBaseFolderLocalPath;
-String get getArticleCoresFolderPath => '${_getArticleBaseFolderPath}cores/';
+String get _getArticlesFolderLocalPath => '/articles/';
+String get _getArticlesFolderPath => _localPath + _getArticlesFolderLocalPath;
+String get getArticlesFolderPath => '${_getArticlesFolderPath}cores/';
 
-String get getArticleCoverFolder => '${_getArticleBaseFolderPath}images/';
+String get getArticleCoverFolder => '${_getArticlesFolderPath}images/';
 String getArticleCoverPath(String id) => '$getArticleCoverFolder$id.jpg';
-String getArticleCorePath(String id) => getArticleCoresFolderPath + id;
+String getArticleCorePath(String id) => getArticlesFolderPath + id;
 
 String get getAuthorsFolderLocalPath => '/author/';
 String get getAuthorsFolderPath => _localPath + getAuthorsFolderLocalPath;
@@ -130,14 +128,16 @@ Future<String?> readStringFromAssets(String path) async {
 class FileNotFoundError extends Error{}
 
 String readFileAsString(String path){
-  if(File(path).existsSync())
-    return File(path).readAsStringSync();
+  File file = File(path);
+  if(file.existsSync())
+    return file.readAsStringSync();
   else throw FileNotFoundError();
 }
 
 String? readFileAsStringOrNull(String path){
-  if(File(path).existsSync())
-    return File(path).readAsStringSync();
+  File file = File(path);
+  if(file.existsSync())
+    return file.readAsStringSync();
   else return null;
 }
 

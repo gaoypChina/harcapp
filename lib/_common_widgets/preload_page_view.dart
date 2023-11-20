@@ -204,8 +204,7 @@ class PreloadPageView extends StatefulWidget {
     this.onPageChanged,
     required this.childrenDelegate,
     this.dragStartBehavior = DragStartBehavior.start,
-  })  : assert(childrenDelegate != null),
-        extents = 0,
+  })  : extents = 0,
         controller = controller ?? _defaultPageController,
         super(key: key);
 

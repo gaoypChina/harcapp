@@ -32,10 +32,6 @@ class InfoPartState extends State<InfoPart> with AutomaticKeepAliveClientMixin{
 
   MarkerData? get initMarker => widget.initMarker;
 
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context){

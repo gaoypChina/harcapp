@@ -46,7 +46,7 @@ class PreviewCardsGridWidget extends StatelessWidget{
 
         return GridView.count(
           clipBehavior: Clip.none,
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           crossAxisCount: 4,
           childAspectRatio: childAspectRatio,
           children: <Widget>[

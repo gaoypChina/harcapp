@@ -307,7 +307,7 @@ class RankZHPSim2022 extends RankZHPSim2022Templ<RankStateLocal>{
   static const String syncClassId = 'rank_zhp_sim_2022';
 
   @override
-  SyncableParam? get parentParam => SyncGetRespNode.rankZHPSim2022Nodes;
+  SyncableParam? get parentParam => SyncGetRespNode.rankZHPSim2022Node;
 
 }
 
@@ -323,6 +323,6 @@ class RankZHPSim2022Preview extends RankZHPSim2022Templ<RankStateShared>{
 
   @override
   // TODO: Separate the rank template stuff do that preview is not syncable.
-  SyncableParam? get parentParam => SyncGetRespNode.rankZHPSim2022Nodes;
+  SyncableParam? get parentParam => SyncGetRespNode.rankZHPSim2022Node;
 
 }

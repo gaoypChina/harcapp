@@ -246,7 +246,7 @@ void main() {
 
   test('polygonUnionOnEmptyTest', () async {
 
-    Polygon polyEmpty = Polygon(regions: []);
+    Polygon polyEmpty = const Polygon(regions: []);
 
     Polygon polySomething = Polygon(regions: [
       [

@@ -72,7 +72,7 @@ class ForumFollowersPageState extends State<ForumFollowersPage>{
         if(!mounted) return;
         showAppToast(context, text: simpleErrorMessage);
       },
-      onEnd: (_, __){
+      onEnd: (_, __, ___){
         if(!mounted) return;
         controller.loadComplete();
         controller.refreshCompleted();

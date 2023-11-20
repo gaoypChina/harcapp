@@ -29,13 +29,13 @@ class GDPRInputField extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
 
-    final GlobalKey _widgetKey = GlobalKey();
+    final GlobalKey widgetKey = GlobalKey();
 
-    InputFieldController _controller = controller??InputFieldController();
+    InputFieldController controller = this.controller??InputFieldController();
 
-    void Function() onTap = () async {
+    onTap() async {
 
-      final RenderBox renderBoxRed = _widgetKey.currentContext!.findRenderObject() as RenderBox;
+      final RenderBox renderBoxRed = widgetKey.currentContext!.findRenderObject() as RenderBox;
       final position = renderBoxRed.localToGlobal(Offset.zero);
 
       bool? selGdprAccepted = await showChooseGdprAcceptDialog(
@@ -46,9 +46,9 @@ class GDPRInputField extends StatelessWidget{
 
       if(selGdprAccepted != null){
         onAcceptChanged?.call(selGdprAccepted);
-        _controller.errorDimed = true;
+        controller.errorDimed = true;
       }
-    };
+    }
 
     return Stack(
       children: [
@@ -56,8 +56,8 @@ class GDPRInputField extends StatelessWidget{
         GestureDetector(
           onTap: enabled?() => showContent(context):null,
           child: InputField(
-            hint: 'Polityka prywatności *',
-            controller: _controller,
+            hint: 'Polityka prywatności',
+            controller: controller,
             hintTextColor: enabled && gdprAccepted != null?textEnab_(context):textDisab_(context),
             enabled: false,
             leading: Icon(MdiIcons.lockCheckOutline, color: iconDisab_(context)),
@@ -68,7 +68,7 @@ class GDPRInputField extends StatelessWidget{
           children: [
             Expanded(child: Container()),
             IconButton(
-                key: _widgetKey,
+                key: widgetKey,
                 icon: Icon(gdprAccepted==null?MdiIcons.circleOutline:(gdprAccepted!?acceptedIcon:notAcceptedIcon)),
                 onPressed: enabled?onTap:null
             )
@@ -146,7 +146,7 @@ class ChooseGdprAcceptDialog extends StatelessWidget{
 
 Future<bool?> showChooseGdprAcceptDialog(BuildContext context, double top, bool? gdprAccept) async {
 
-  bool? _gdprAccept;
+  bool? gdprAccept0;
 
   await openDialog(
       context: context,
@@ -154,13 +154,13 @@ Future<bool?> showChooseGdprAcceptDialog(BuildContext context, double top, bool?
           gdprAccept,
           top,
           onSelected: (selGdprAccept){
-            _gdprAccept = selGdprAccept;
+            gdprAccept0 = selGdprAccept;
             Navigator.pop(context);
           }
       )
   );
 
-  return _gdprAccept;
+  return gdprAccept0;
 
 }
 

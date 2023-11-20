@@ -103,7 +103,7 @@ class IndivCompParticipantsLoader extends SingleComputer<String?, IndivCompParti
 
           return true;
         },
-        onError: () => callError(null),
+        onError: () => callKnownError(null),
     );
 
   }

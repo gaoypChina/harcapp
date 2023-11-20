@@ -216,6 +216,8 @@ class IndivCompProfile{
       }
     }
 
+    showRank = rank!.specificData!.showRank;
+
     if(otherProfileNew?.rank?.specificData?.showRank != null && otherProfileNew!.active){
       int otherShowRank = otherProfileNew.rank!.specificData!.showRank;
       int? otherPoints = otherProfileNew.points;

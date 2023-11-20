@@ -135,7 +135,7 @@ class TropUsersPageState extends State<TropUsersPage>{
         if(!mounted) return;
         showAppToast(context, text: simpleErrorMessage);
       },
-      onEnd: (_, __){
+      onEnd: (_, __, ___){
         if(!mounted) return;
         controller.loadComplete();
         controller.refreshCompleted();

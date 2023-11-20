@@ -35,10 +35,6 @@ class CommunitiesPartState extends State<CommunitiesPart> with AutomaticKeepAliv
 
   MarkerData? get initMarker => widget.initMarker;
 
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context){

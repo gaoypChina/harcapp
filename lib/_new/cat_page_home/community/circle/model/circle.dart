@@ -148,7 +148,7 @@ class Circle extends CircleBasicData{
 
   bool get hasDescription => description != null && description!.isNotEmpty;
 
-  CircleMembersLoader _membersLoader;
+  final CircleMembersLoader _membersLoader;
 
   Member? getMember(String key){
     return _loadedMembersMap[key];
@@ -270,15 +270,15 @@ class Circle extends CircleBasicData{
     _announcementsMap.remove(announcement.key);
   }
 
-  List<Announcement> _allAnnouncements;
+  final List<Announcement> _allAnnouncements;
   List<Announcement> get allAnnouncements => _allAnnouncements;
 
   int pinnedCount;
-  List<Announcement> _pinnedAnnouncements;
+  final List<Announcement> _pinnedAnnouncements;
   List<Announcement> get pinnedAnnouncements => _pinnedAnnouncements;
 
   int awaitingCount;
-  List<Announcement> _awaitingAnnouncements;
+  final List<Announcement> _awaitingAnnouncements;
   List<Announcement> get awaitingAnnouncements => _awaitingAnnouncements;
 
   void resetAnnouncements(List<Announcement> allAnnouncements, List<Announcement> pinnedAnnouncements, List<Announcement> awaitingAnnouncements){
@@ -421,8 +421,8 @@ class Circle extends CircleBasicData{
     Member? me = _loadedMembersMap[accKey];
 
     if(me == null){
-      AccountData.forgetAccount();
-      AccountData.callOnLogout(true);
+      AccountData.forgetAccount_(false);
+      AccountData.callOnLogout_(false);
       return null;
     }
 

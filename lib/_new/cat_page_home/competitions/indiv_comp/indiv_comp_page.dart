@@ -614,7 +614,7 @@ class ParticipantsWidgetState extends State<ParticipantsWidget>{
     super.dispose();
   }
 
-  bool get hideMiniRanks => comp.myProfile?.role == CompRole.OBSERVER;
+  bool get hideMiniRanks => comp.myProfile?.role == CompRole.OBSERVER && comp.rankDispType != RankDispType.OMNI_EXACT;
 
   @override
   Widget build(BuildContext context) => Padding(

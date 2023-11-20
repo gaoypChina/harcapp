@@ -224,7 +224,7 @@ class MemberTileExtendedState extends State<MemberTileExtended>{
     showUpdateDialog(
         context: context,
         isMe: member.key == AccountData.key,
-        loosingAdmin: newRole != CircleRole.ADMIN,
+        loosingAdmin: member.role == CircleRole.ADMIN && newRole != CircleRole.ADMIN,
         currAdminCount: circle.loadedMembers.where((m) => m.role == CircleRole.ADMIN).length,
         looseAdminConfMess: 'Czy na pewno chcesz zrzec się roli <b>administratora</b> kręgu <b>${circle.name}</b>?',
         handleUpdate: () async {

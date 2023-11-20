@@ -193,7 +193,7 @@ class RankZHRD extends RankZHRDTempl<RankStateLocal>{
   static const String syncClassId = RankDef.syncClassId;
 
   @override
-  SyncableParam? get parentParam => SyncGetRespNode.rankDefNodes;
+  SyncableParam? get parentParam => SyncGetRespNode.rankDefNode;
 
 }
 
@@ -209,6 +209,6 @@ class RankZHRDPreview extends RankZHRDTempl<RankStateShared>{
 
   @override
   // TODO: Separate the rank template stuff do that preview is not syncable.
-  SyncableParam? get parentParam => SyncGetRespNode.rankDefNodes;
+  SyncableParam? get parentParam => SyncGetRespNode.rankDefNode;
 
 }

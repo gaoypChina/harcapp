@@ -49,15 +49,15 @@ class SwapCardLayout extends StatefulWidget {
       })
   {
 
-    this._cardBuilder = cardBuilder;
-    this._totalNum = totalNum;
+    _cardBuilder = cardBuilder;
+    _totalNum = totalNum;
     assert(stackNum > 1);
-    this._stackNum = stackNum;
-    this._animDuration = animDuration;
+    _stackNum = stackNum;
+    _animDuration = animDuration;
     assert(swipeEdge > 0);
-    this._swipeEdge = swipeEdge;
+    _swipeEdge = swipeEdge;
     assert(maxWidth > minWidth && maxHeight > minHeight);
-    this._allowVerticalMovement = allowVerticalMovement;
+    _allowVerticalMovement = allowVerticalMovement;
 
     double widthGap = maxWidth - minWidth;
     double heightGap = maxHeight - minHeight;
@@ -258,7 +258,7 @@ class _SwapCardLayoutState extends State<SwapCardLayout> with SingleTickerProvid
   }
 }
 
-typedef Widget CardBuilder(BuildContext context, int index);
+typedef CardBuilder = Widget Function(BuildContext context, int index);
 
 enum CardSwipeOrientation { LEFT, RIGHT, RECOVER }
 

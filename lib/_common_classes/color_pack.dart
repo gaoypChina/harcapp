@@ -1,4 +1,3 @@
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:harcapp/values/colors.dart';
@@ -276,10 +275,10 @@ class ColorPackBlack extends ColorPack{
   Color get defCardEnabled => CARD_ENAB;
 
   @override
-  Color get defCardDisabled => Color.fromARGB(255, 60, 60, 60);
+  Color get defCardDisabled => const Color.fromARGB(255, 60, 60, 60);
 
   @override
-  Color get defCardElevation => Color.fromARGB(120, 255, 255, 255);
+  Color get defCardElevation => const Color.fromARGB(120, 255, 255, 255);
 
 
   @override

@@ -6,6 +6,8 @@ import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:harcapp/_new/cat_page_harcthought/articles/article.dart';
+import 'package:harcapp/logger.dart';
 import 'package:intl/intl.dart';
 import 'package:harcapp/_app_common/common_color_data.dart';
 import 'package:harcapp/_app_common/common_icon_data.dart';
@@ -23,6 +25,7 @@ import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:harcapp/values/server.dart';
 import 'package:harcapp_core_song/song_core.dart';
 import 'package:harcapp_core_song_widget/song_rate.dart';
+import 'package:json_pretty/json_pretty.dart';
 
 import 'utils.dart';
 
@@ -36,11 +39,15 @@ void main() {
       dir.deleteSync(recursive: true);
 
     // Server has to be run in debug (non-release) mode.
+    // Account a@a.com must exists.
     testBackendUrl = 'http://0.0.0.0:8080';
 
     await initTestShaPref();
     await initTestPaths();
     await initTestAccountData();
+    await ArticleSyncData.init();
+    await Trop.init();
+
     await synchronizer.reloadSyncables();
 
     enableHttpRequests();
@@ -61,26 +68,42 @@ void main() {
 
     assert(response?.statusCode == 200);
 
+    Article article1 = ArticleSyncData('test', '12345');
+    article1.save();
+    article1.setBookmarked(true, localOnly: true);
+    article1.setLiked(false, localOnly: true);
+    article1.setSeen(true, localOnly: true);
+    Article.add(article1);
+
+    Article article2 = ArticleSyncData('test', '54321');
+    article2.save();
+    article2.setBookmarked(false, localOnly: true);
+    article2.setLiked(true, localOnly: true);
+    article2.setSeen(true, localOnly: true);
+    Article.add(article2);
+
     OffSong.allOfficial[0].setRate(SongRate.RATE_1, localOnly: true);
     OffSong.allOfficial[0].setChordShift(5, localOnly: true);
-    OffSong.allOfficial[0].addMemory(Memory.create(
-      songLclId: OffSong.allOfficial[0].lclId,
-      date: DateTime(2011, 11, 11),
-      place: 'Kraków',
-      desc: 'Rajd Nierozwiązanych Tajemnic',
-      fontIndex: 0,
-      published: false,
-      localOnly: true
-    ));
-    OffSong.allOfficial[0].addMemory(Memory.create(
+    Memory memory0 = Memory.create(
+        songLclId: OffSong.allOfficial[0].lclId,
+        date: DateTime(2011, 11, 11),
+        place: 'Kraków',
+        desc: 'Rajd Nierozwiązanych Tajemnic',
+        fontIndex: 0,
+        published: false,
+    );
+    memory0.save(localOnly: true);
+    OffSong.allOfficial[0].addMemory(memory0);
+    Memory memory1 = Memory.create(
         songLclId: OffSong.allOfficial[0].lclId,
         date: DateTime(2012, 12, 12),
         place: 'Gdańsk',
         desc: 'Rajd Dziwnych Tajemnic',
         fontIndex: 1,
         published: false,
-        localOnly: true
-    ));
+    );
+    memory1.save(localOnly: true);
+    OffSong.allOfficial[0].addMemory(memory1);
 
     Map song1CodeMap = jsonDecode(OwnSong.emptySongCode);
     song1CodeMap[SongCore.PARAM_TITLE] = 'Tytuł mojej super testowej piosenki 1';
@@ -172,24 +195,32 @@ void main() {
     await synchronizer.get();
     await synchronizer.get();
 
+    assert(ArticleSyncData('test', '12345').isBookmarked == true);
+    assert(ArticleSyncData('test', '12345').isLiked == false);
+    assert(ArticleSyncData('test', '12345').isSeen == true);
+
+    assert(ArticleSyncData('test', '54321').isBookmarked == false);
+    assert(ArticleSyncData('test', '54321').isLiked == true);
+    assert(ArticleSyncData('test', '54321').isSeen == true);
+
     assert(OffSong.allOfficial[0].rate == SongRate.RATE_1);
     assert(OffSong.allOfficial[0].chordShift == 5);
 
     assert(OffSong.allOfficial[0].memories.length == 2);
-    Memory memory1 = OffSong.allOfficial[0].memories.first;
-    assert(memory1.song.lclId == OffSong.allOfficial[0].lclId);
-    assert(memory1.date == DateTime(2011, 11, 11));
-    assert(memory1.place == 'Kraków');
-    assert(memory1.desc == 'Rajd Nierozwiązanych Tajemnic');
-    assert(memory1.fontIndex == 0);
-    assert(memory1.published == false);
-    Memory memory2 = OffSong.allOfficial[0].memories.last;
+    Memory memory2 = OffSong.allOfficial[0].memories.first;
     assert(memory2.song.lclId == OffSong.allOfficial[0].lclId);
-    assert(memory2.date == DateTime(2012, 12, 12));
-    assert(memory2.place == 'Gdańsk');
-    assert(memory2.desc == 'Rajd Dziwnych Tajemnic');
-    assert(memory2.fontIndex == 1);
+    assert(memory2.date == DateTime(2011, 11, 11));
+    assert(memory2.place == 'Kraków');
+    assert(memory2.desc == 'Rajd Nierozwiązanych Tajemnic');
+    assert(memory2.fontIndex == 0);
     assert(memory2.published == false);
+    Memory memory3 = OffSong.allOfficial[0].memories.last;
+    assert(memory3.song.lclId == OffSong.allOfficial[0].lclId);
+    assert(memory3.date == DateTime(2012, 12, 12));
+    assert(memory3.place == 'Gdańsk');
+    assert(memory3.desc == 'Rajd Dziwnych Tajemnic');
+    assert(memory3.fontIndex == 1);
+    assert(memory3.published == false);
 
     assert(OwnSong.allOwn.length == 3);
     assert(OwnSong.allOwnMap['abcd-1234-1']!.title == 'Tytuł mojej super testowej piosenki 1');
@@ -312,6 +343,10 @@ void main() {
     assert(Trop.allOwn[0].tasks[0].assigneeCustomText == trop.tasks[1].assigneeCustomText);
     assert(Trop.allOwn[0].tasks[0].completed == trop.tasks[1].completed);
 
+    Map unsynced = await synchronizer.allUnsynced();
+    logger.i(prettyPrintJson(jsonEncode(unsynced)));
+    assert(unsynced.isEmpty);
+
   });
 
   test('Sync post isolate test', () async {
@@ -327,24 +362,26 @@ void main() {
 
     OffSong.allOfficial[0].setRate(SongRate.RATE_1, localOnly: true);
     OffSong.allOfficial[0].setChordShift(5, localOnly: true);
-    OffSong.allOfficial[0].addMemory(Memory.create(
+    Memory memory4 = Memory.create(
         songLclId: OffSong.allOfficial[0].lclId,
         date: DateTime(2011, 11, 11),
         place: 'Kraków',
         desc: 'Rajd Nierozwiązanych Tajemnic',
         fontIndex: 0,
         published: false,
-        localOnly: true
-    ));
-    OffSong.allOfficial[0].addMemory(Memory.create(
+    );
+    memory4.save(localOnly: true);
+    OffSong.allOfficial[0].addMemory(memory4);
+    Memory memory5 = Memory.create(
         songLclId: OffSong.allOfficial[0].lclId,
         date: DateTime(2012, 12, 12),
         place: 'Gdańsk',
         desc: 'Rajd Dziwnych Tajemnic',
         fontIndex: 1,
         published: false,
-        localOnly: true
-    ));
+    );
+    memory5.save(localOnly: true);
+    OffSong.allOfficial[0].addMemory(memory5);
 
     Map song1CodeMap = jsonDecode(OwnSong.emptySongCode);
     song1CodeMap[SongCore.PARAM_TITLE] = 'Tytuł mojej super testowej piosenki 1';

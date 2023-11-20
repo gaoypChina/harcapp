@@ -41,6 +41,8 @@ class PatronListWidget extends StatelessWidget{
     Person(name: 'Patrycja Giermakowska'),
   ];
 
+  const PatronListWidget({super.key});
+
   @override
   Widget build(BuildContext context) => Scaffold(
     body: CustomScrollView(

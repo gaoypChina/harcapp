@@ -2,7 +2,6 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:harcapp/_common_classes/storage.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
 
@@ -22,7 +21,7 @@ class GoogleFormSender{
   Map<String, String?>? body;
 
   GoogleFormSender(this.url, {this.beforeSubmit, this.afterSubmit, this.body}){
-    if(body == null) body = {};
+    body ??= {};
   }
 
   addTextResponse(String entryId, String? text){
@@ -57,12 +56,12 @@ class GoogleFormSender{
 
     result = result.substring(0, result.length-1);
 
-    await saveStringAsFileToFolder(localPath, result);
+    saveStringAsFileToFolder(localPath, result);
   }
 
   static resend({required String folderLocalPath}) async{
 
-    String folderPath = await localToAbsolutePath(folderLocalPath);
+    String folderPath = localToAbsolutePath(folderLocalPath);
     if(!Directory(folderPath).existsSync()) return;
 
     List<FileSystemEntity> files = Directory(folderPath).listSync();

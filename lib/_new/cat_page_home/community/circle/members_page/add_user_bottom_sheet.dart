@@ -26,10 +26,10 @@ class AddUserBottomSheet extends StatelessWidget{
   Widget build(BuildContext _) => UserListAddNewBottomSheet(
     addUserMess: 'Dodaj członka',
     addUserWithHarcappAccountMess: 'Dodaj osobę posiadającą konto HarcApp.',
-    alreadyAddedMess: 'Już jest w kręgu',
+    // alreadyAddedMess: 'Już jest w kręgu',
     userAlreadyAddedMess: (name) => '$name już jest w kręgu!',
 
-    participatingUserKeys: circle.loadedMembersMap.keys.toList(),
+    isUserParticipating: (user) => circle.loadedMembersMap.containsKey(user.key),
     backgroundColor: CommunityCoverColors.backgroundColor(context, palette),
     handleAddingUser: (UserDataNick userData) async {
 

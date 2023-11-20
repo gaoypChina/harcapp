@@ -104,7 +104,7 @@ class CommunityManagersLoader extends SingleComputer<String?, CommunityManagersL
 
           return true;
         },
-        onError: () => callError(null),
+        onError: () => callKnownError(null),
     );
 
   }

@@ -1,9 +1,8 @@
 import 'dart:async';
 import 'dart:isolate';
 
-import 'package:flutter/cupertino.dart';
-import 'package:semaphore/semaphore.dart';
-import 'package:tuple/tuple.dart';
+import 'package:flutter/material.dart';
+import 'package:semaphore_plus/semaphore_plus.dart';
 
 
 abstract class SearchOptions{
@@ -42,8 +41,10 @@ void _runSearchProcess<TInItem, TOutItem, TOpt extends SearchOptions?>(
     if (message == null)
       return;
 
-    int currRunId = (message as Tuple2<int, String>).item1;
-    String phrase = message.item2;
+    message as (int, String);
+
+    int currRunId = message.$1;
+    String phrase = message.$2;
 
     lastRunId = currRunId;
 
@@ -156,7 +157,7 @@ class Searcher<TInItem, TOutItem, TOpt extends SearchOptions?>{
     for(void Function(String) listener in _onStartListeners)
       listener(phrase);
     
-    outPort.send(Tuple2(currRunId, phrase));
+    outPort.send((currRunId, phrase));
   }
 
   void dispose() => isolate?.kill();//await task?.cancel();

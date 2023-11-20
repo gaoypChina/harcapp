@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:harcapp/_app_common/accounts/account_header_widget.dart';
 import 'package:harcapp/_common_classes/org/org.dart';
 import 'package:harcapp/values/rank_harc.dart';

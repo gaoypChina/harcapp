@@ -1,6 +1,6 @@
 import 'dart:core';
 
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/sha_pref.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/models_common/rank.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/models_common/rank_cat.dart';
@@ -56,14 +56,14 @@ class RankStateLocal extends RankState<RankTaskStateLocal>{
 
   RankStateLocal(this.rank){
 
-    Map<String, RankTaskStateLocal> _tasks = {};
+    Map<String, RankTaskStateLocal> tasks = {};
 
     for(RankCat cat in rank.cats!)
       for(RankGroup group in cat.groups!)
         for(RankTask task in group.tasks!)
-          _tasks[task.uid] = RankTaskStateLocal(this, task.uid);
+          tasks[task.uid] = RankTaskStateLocal(this, task.uid);
 
-    tasks = _tasks;
+    this.tasks = tasks;
 
   }
 

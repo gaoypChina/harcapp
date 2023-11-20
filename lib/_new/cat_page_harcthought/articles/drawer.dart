@@ -1,5 +1,3 @@
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_new/cat_page_harcthought/articles/providers.dart';
 import 'package:harcapp/_new/cat_page_harcthought/articles/theme.dart';
@@ -16,9 +14,9 @@ class ArticleDrawer extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       mainAxisSize: MainAxisSize.min,
-      children: const [
+      children: [
 
         FontCard(Parag1TextStyle.FAMILY),
         FontCard(Parag2TextStyle.FAMILY),

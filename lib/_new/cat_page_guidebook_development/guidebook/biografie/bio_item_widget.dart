@@ -1,8 +1,6 @@
 import 'dart:math';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:harcapp/_common_widgets/border_material.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/main.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';

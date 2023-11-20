@@ -18,6 +18,7 @@ HarcFormTag tagOrientacjaWTerenie = HarcFormTag('Orientacja w terenie', MdiIcons
 HarcFormTag tagMuzyczne = HarcFormTag('Muzyczne', MdiIcons.music);
 HarcFormTag tagWspolzawodnictwo = HarcFormTag('Współzawodnictwo', MdiIcons.trophy);
 HarcFormTag tagArgumentacja = HarcFormTag('Argumentacja', MdiIcons.commentText);
+HarcFormTag tagKontuzjogenne = HarcFormTag('Kontuzjogenne', MdiIcons.accountInjury);
 
 class HarcFormMeto{
 

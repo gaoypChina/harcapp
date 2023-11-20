@@ -65,6 +65,13 @@ class ChildStopnie extends StatelessWidget{
             'Posiadanie wiedzy i umiejętności odpowiadających wymaganiom stawianym wychowawcom wypoczynku.',
           ],
           oznaczenie: 'Oznaką stopnia przewodnika jest granatowa podkładka pod Krzyżem Harcerskim i granatowa lilijka na lewym rękawie munduru.',
+          priviliges: [
+            'Możliwość przyjmowania w imieniu organizacji Obietnicy Zucha, Przyrzeczenie Harcerskiego',
+            'Możliwość pełnienia funkcji instruktorskich',
+            'Możliwość kandydowania do i zasiadania we władzach ZHP (z wyjątkiem komendanta chorągwi, Przewodniczącego ZHP, Naczelnika ZHP i członków sądów harcerskich, którymi mogą być wyłącznie harcmistrzowie)',
+            'Możliwość bycia wychowawcą w placówce wypoczynku, bez konieczności ukończenia kursu dla wychowawców placówek wypoczynku',
+            'Możliwość zdobycia Brązowej Odznaki Kadry Kształcącej',
+          ]
         ),
       ),
       child: Center(
@@ -117,6 +124,14 @@ class ChildStopnie extends StatelessWidget{
               'Ukończenie kursu podharcmistrzowskiego.'
             ],
             oznaczenie: 'Oznaką stopnia podharcmistrza jest zielona podkładka pod Krzyżem Harcerskim i zielona lilijka na lewym rękawie munduru.',
+            priviliges: const [
+              'Możliwość bycia opiekunem próby na stopień przewodnika',
+              'Możliwość bycia opiekunem próby na stopień podharcmistrza w przypadku uzyskania zgody właściwej KSI, posiadania stopień podharcmistrza od minimum 2 lat, otwartej próby harcmistrzowskiej, przeprowadzenie jako opiekun pozytywnie zamkniętej co najmniej jednej próby przewodnikowskiej',
+              'Możliwość bycia członkiem komisji stopni instruktorskich hufca',
+              'Możliwość zdobycia Srebrną Odznakę Kadry Kształcącej',
+              'Możliwość zostania odznaczonym Brązowym Krzyżem „Za Zasługi dla ZHP”',
+              'Możliwość bycia kierownikiem placówki wypoczynku',
+            ],
           ),
         ),
         child: Center(
@@ -165,6 +180,14 @@ class ChildStopnie extends StatelessWidget{
                 'Pełnienie funkcji opiekuna pozytywnie zakończonej próby na stopień instruktorski w okresie od zdobycia stopnia podharcmistrza.',
             ],
             oznaczenie: 'Oznaką stopnia harcmistrza jest czerwona podkładka pod Krzyżem Harcerskim i czerwona lilijka na lewym rękawie munduru.',
+            priviliges: const [
+              'Możliwość kandydowania i bycia wybranym na funkcję Przewodniczącego ZHP, Naczelnika ZHP, komendanta chorągwi',
+              'Możliwość pełnienia funkcji w sądach harcerskich',
+              'Możliwość pełnienia funkcji w komisjach stopni instruktorskich',
+              'Możliwość pełnienia funkcji opiekuna próby na każdy stopień instruktorski',
+              'Możliwość zdobycia Srebrnej i Złotej Odznaki Kadry Kształcącej',
+              'Możliwość zostania odznaczonym Srebrnym i Złotym Krzyżem za Zasługi dla ZHP',
+            ],
           ),
         ),
         child: Center(
@@ -225,6 +248,7 @@ class BottomSheetStopien extends StatelessWidget{
   final List<String> zadania;
   final List<String> warZamk;
   final String oznaczenie;
+  final List<String> priviliges;
 
   const BottomSheetStopien({
       required this.title,
@@ -235,7 +259,8 @@ class BottomSheetStopien extends StatelessWidget{
       required this.zadania,
       required this.warZamk,
       required this.oznaczenie,
-      Key? key,
+      required this.priviliges,
+    Key? key,
   }): super(key: key);
 
   Widget getListWidget(List<String> elements){
@@ -299,6 +324,11 @@ class BottomSheetStopien extends StatelessWidget{
           Text('Oznaczenie:', style: AppTextStyle(color: textColor, fontWeight: weight.halfBold, fontSize: Dimen.TEXT_SIZE_BIG)),
           const SizedBox(height: Dimen.defMarg),
           SelectableText(oznaczenie, style: AppTextStyle(color: textColor, fontSize: Dimen.TEXT_SIZE_BIG), textAlign: TextAlign.justify,),
+
+          const SizedBox(height: 2*Dimen.ICON_MARG),
+          Text('Uprawnienia:', style: AppTextStyle(color: textColor, fontWeight: weight.halfBold, fontSize: Dimen.TEXT_SIZE_BIG)),
+          const SizedBox(height: Dimen.defMarg),
+          getListWidget(priviliges),
         ],),
     );
   }

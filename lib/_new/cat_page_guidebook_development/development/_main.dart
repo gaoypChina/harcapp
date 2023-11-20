@@ -53,13 +53,15 @@ class DevelopmentSubpageState extends State<DevelopmentSubpage>{
   @override
   void initState() {
 
-    SprawSavedListProv sprawSavedListProv = SprawSavedListProv.of(context);
-    SprawInProgressListProv sprawInProgressListProv = SprawInProgressListProv.of(context);
-    SprawCompletedListProv sprawCompletedListProv = SprawCompletedListProv.of(context);
+    SprawProvider sprawProv = SprawProvider.of(context);
+    SprawSavedListProvider sprawSavedListProv = SprawSavedListProvider.of(context);
+    SprawInProgressListProvider sprawInProgressListProv = SprawInProgressListProvider.of(context);
+    SprawCompletedListProvider sprawCompletedListProv = SprawCompletedListProvider.of(context);
 
     syncListener = SynchronizerListener(
         onEnd: (oper){
           if(oper == SyncOper.get){
+            sprawProv.notify();
             sprawSavedListProv.notify();
             sprawInProgressListProv.notify();
             sprawCompletedListProv.notify();
@@ -174,7 +176,7 @@ class DevelopmentSubpageState extends State<DevelopmentSubpage>{
                       ),
                     ),
 
-                    SprawPreviewList(),
+                    const SprawPreviewList(),
 
                     SimpleButton.from(
                       context: context,
@@ -241,9 +243,11 @@ class DevelopmentSubpageState extends State<DevelopmentSubpage>{
 }
 
 class SprawPreviewList extends StatelessWidget{
+  const SprawPreviewList({super.key});
+
 
   @override
-  Widget build(BuildContext context) => Consumer3<SprawSavedListProv, SprawInProgressListProv, SprawCompletedListProv>(
+  Widget build(BuildContext context) => Consumer3<SprawSavedListProvider, SprawInProgressListProvider, SprawCompletedListProvider>(
     builder: (context, savedProv, inProgProv, complProv, child){
 
       String keyVal = '';
@@ -538,7 +542,7 @@ class TropyPreviewListState extends State<TropyPreviewList>{
           if(!mounted) return;
           showAppToast(context, text: simpleErrorMessage);
         },
-        onEnd: (_, __){
+        onEnd: (_, __, ___){
           if(mounted) setState(() {});
         }
     );

@@ -90,7 +90,7 @@ class FeedPageState extends State<FeedPage>{
         return true;
       },
       onError: (_){ if(mounted) setState((){}); },
-      onEnd: (_, __){ if(mounted) setState((){}); },
+      onEnd: (_, __, ___){ if(mounted) setState((){}); },
     );
     communitiesLoader.addListener(communitiesLoaderListener);
 

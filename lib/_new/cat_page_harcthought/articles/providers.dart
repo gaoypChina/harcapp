@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/sha_pref.dart';
 import 'package:provider/provider.dart';
 
-import 'article_core.dart';
+import 'article.dart';
 import 'article_text_style.dart';
 
 class ArticleNotifierProvider extends ChangeNotifier{
 
   static ArticleNotifierProvider of(BuildContext context) => Provider.of<ArticleNotifierProvider>(context, listen: false);
+  static void notify_(BuildContext context) => of(context).notify();
 
   void notify() => notifyListeners();
 
@@ -32,13 +33,13 @@ class BookmarkedArticlesProvider extends ChangeNotifier{
 
   void add(Article article){
     _articles!.add(article);
-    article.isBookmarked = true;
+    article.setBookmarked(true);
     notifyListeners();
   }
 
   void remove(Article article){
     _articles!.remove(article);
-    article.isBookmarked = false;
+    article.setBookmarked(false);
     notifyListeners();
   }
 
@@ -68,13 +69,13 @@ class LikedArticlesProvider extends ChangeNotifier{
 
   void add(Article article){
     _articles!.add(article);
-    article.isLiked = true;
+    article.setLiked(true);
     notifyListeners();
   }
 
   void remove(Article article){
     _articles!.remove(article);
-    article.isLiked = false;
+    article.setLiked(false);
     notifyListeners();
   }
 

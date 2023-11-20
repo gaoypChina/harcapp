@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
@@ -6,9 +7,9 @@ import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/dimen.dart';
 
-import 'article_core.dart';
-import 'title_widget/article_card_widget.dart';
-import 'article_widget.dart';
+import 'article_card/article_card_widget.dart';
+import 'article.dart';
+import 'article_page.dart';
 
 enum ArticleListMode{
   PageView,
@@ -81,16 +82,15 @@ class ArticleListWidget extends StatelessWidget{
     Widget child = ArticleCardWidget(
       articles[index],
       radius: AppCard.bigRadius,
-      onTap: (context, article, background, articleSeenProv) =>
+      onTap: (context, article, background) =>
       background == null?
       showAppToast(context, text: 'Ładowanie...'):
-      Navigator.push(
+      pushPage(
         context,
-        MaterialPageRoute(builder: (context) => ArticleWidget(
+        builder: (context) => ArticlePage(
           article,
-          articleNotifProv: articleSeenProv,
           cover: background,
-        )),
+        ),
       ),
       key: ValueKey(articles[index]),
     );

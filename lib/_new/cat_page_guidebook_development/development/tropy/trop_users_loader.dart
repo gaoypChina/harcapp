@@ -107,7 +107,7 @@ class TropUsersLoader extends SingleComputer<String?, TropUsersLoaderListener>{
 
           return true;
         },
-        onError: () => callError(null),
+        onError: () => callKnownError(null),
     );
 
   }

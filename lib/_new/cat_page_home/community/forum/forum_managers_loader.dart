@@ -103,7 +103,7 @@ class ForumManagersLoader extends SingleComputer<String?, ForumManagersLoaderLis
 
           return true;
         },
-        onError: () => callError(null),
+        onError: () => callKnownError(null),
     );
 
   }

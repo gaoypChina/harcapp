@@ -10,7 +10,7 @@ import 'package:harcapp/_new/cat_page_song_book/song_management/off_song.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/sync/syncable.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
-import 'package:semaphore/semaphore.dart';
+import 'package:semaphore_plus/semaphore_plus.dart';
 
 import '../_common_classes/storage.dart';
 import '../logger.dart';

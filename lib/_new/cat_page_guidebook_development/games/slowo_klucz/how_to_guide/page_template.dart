@@ -94,7 +94,7 @@ mixin class PageTemplateInterface{
   Duration get animDuration => const Duration(milliseconds: 1000);
   static const Duration pauseDuration = Duration(milliseconds: 5000);
   Duration convDuration = const Duration(milliseconds: 2600);
-  Duration get finishDuration => Duration(milliseconds: 5000);
+  Duration get finishDuration => const Duration(milliseconds: 5000);
   Duration get reverseWaitDuration => const Duration(milliseconds: 1500);
 
 }

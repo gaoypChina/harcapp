@@ -115,243 +115,247 @@ class SprawWidgetState extends State<SprawWidget> with TickerProviderStateMixin,
   }
 
   @override
-  Widget build(BuildContext context) => RankSprawTempWidget(
-    title: spraw.title,
-    color: SprawBookData.mapIdColorMap[spraw.sprawBook.id]!.avgColor(AppSettings.isDark),
+  Widget build(BuildContext context) => Consumer<SprawProvider>(
+    builder: (context, prov, _) {
+      return RankSprawTempWidget(
+        title: spraw.title,
+        color: SprawBookData.mapIdColorMap[spraw.sprawBook.id]!.avgColor(AppSettings.isDark),
 
-    completedText: 'Sprawność zdobyta!',
+        completedText: 'Sprawność zdobyta!',
 
-    titleTrailing:
-    widget.iconHeroTag?
-    Hero(
-      tag: spraw.iconPath,
-      child: TrailingWidget(spraw),
-    ):
-    TrailingWidget(spraw),
+        titleTrailing:
+        widget.iconHeroTag?
+        Hero(
+          tag: spraw.iconPath,
+          child: TrailingWidget(spraw),
+        ):
+        TrailingWidget(spraw),
 
-    underTitleLeading: SizedBox(
-        width: RankSprawTempWidget.trailingSize,
-        child: Center(child: LevelWidget(spraw))
-    ),
-    floatingButton: buildFloatingButton(),
-
-    inProgress: spraw.inProgress,
-    completenessPercent: spraw.completenessPercent,
-    isReadyToComplete: spraw.isReadyToComplete,
-    completed: spraw.completed,
-    completedDate: spraw.completionDate,
-    onCompleteDateChanged: (DateTime dateTime) => setState(() => spraw.setCompletionDate(dateTime)),
-
-    onStartStopTap: (bool inProgress){
-      setState(() => spraw.changeInProgress(context, value: !inProgress));
-      onStartStop.call(inProgress);
-    },
-    onAbandonTap: (){
-      spraw.changeCompleted(context);
-      //spraw.changeInProgress(context);
-      onAbandoned.call();
-      setState(() {});
-    },
-
-    showAppBar: showBack,
-    confettiController: confettiController,
-    child: Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-
-        if(spraw.requirements != null)
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-
-              Padding(
-                padding: const EdgeInsets.only(left: Dimen.SIDE_MARG),
-                child: Text(
-                  'Wymagania ogólne',
-                  style: AppTextStyle(
-                      fontSize: Dimen.TEXT_SIZE_APPBAR,
-                      fontWeight: weight.halfBold
-                  ),
-                ),
-              ),
-
-              Padding(
-                padding: const EdgeInsets.only(
-                  top: Dimen.defMarg,
-                  left: Dimen.SIDE_MARG,
-                  right: Dimen.SIDE_MARG,
-                ),
-                child: Builder(
-                  builder: (context){
-
-                    List<Widget> children = [];
-
-                    for(int i=0; i<spraw.requirements!.length; i++){
-                      String req = spraw.requirements![i];
-                      children.add(Text(
-                        'Wymaganie ${i+1}.',
-                        style: AppTextStyle(
-                          fontSize: Dimen.SIDE_MARG,
-                          fontWeight: weight.halfBold,
-                        ),
-                      ));
-                      children.add(AppText(
-                        req,
-                        size: Dimen.TEXT_SIZE_BIG,
-                      ));
-
-                      if(i < spraw.requirements!.length - 1)
-                        children.add(const SizedBox(height: Dimen.ICON_MARG));
-                    }
-
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: children,
-                    );
-
-                  },
-                ),
-              )
-
-            ],
-          ),
-
-        if(spraw.requirements != null)
-          const SizedBox(height: 2*Dimen.SIDE_MARG),
-
-        if(spraw.requirements != null)
-          Icon(
-            MdiIcons.circleMedium,
-            color: hintEnab_(context),
-          ),
-
-        if(spraw.requirements != null)
-          const SizedBox(height: 2*Dimen.SIDE_MARG),
-
-        RequirementsWidget(
-          spraw,
-          onChanged: (){
-            Provider.of<SprawInProgressListProv>(context, listen: false).notify();
-            setState(() {});
-            if(widget.onReqComplChanged != null) widget.onReqComplChanged!();
-          },
-          previewOnly: previewOnly,
+        underTitleLeading: SizedBox(
+            width: RankSprawTempWidget.trailingSize,
+            child: Center(child: LevelWidget(spraw))
         ),
+        floatingButton: buildFloatingButton(),
 
-        if(spraw.comment != null)
-          const SizedBox(height: 2*Dimen.SIDE_MARG),
+        inProgress: spraw.inProgress,
+        completenessPercent: spraw.completenessPercent,
+        isReadyToComplete: spraw.isReadyToComplete,
+        completed: spraw.completed,
+        completedDate: spraw.completionDate,
+        onCompleteDateChanged: (DateTime dateTime) => setState(() => spraw.setCompletionDate(dateTime)),
 
-        if(spraw.comment != null)
-          Icon(
-            MdiIcons.circleMedium,
-            color: hintEnab_(context),
-          ),
+        onStartStopTap: (bool inProgress){
+          setState(() => spraw.changeInProgress(context, value: !inProgress));
+          onStartStop.call(inProgress);
+        },
+        onAbandonTap: (){
+          spraw.changeCompleted(context);
+          //spraw.changeInProgress(context);
+          onAbandoned.call();
+          setState(() {});
+        },
 
-        if(spraw.comment != null)
-          const SizedBox(height: 2*Dimen.SIDE_MARG),
+        showAppBar: showBack,
+        confettiController: confettiController,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
 
-        if(spraw.comment != null)
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
+            if(spraw.requirements != null)
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
 
-              Padding(
-                padding: const EdgeInsets.only(left: Dimen.SIDE_MARG),
-                child: Text(
-                  'Komentarz',
-                  style: AppTextStyle(
-                      fontSize: Dimen.TEXT_SIZE_APPBAR,
-                      fontWeight: weight.halfBold
+                  Padding(
+                    padding: const EdgeInsets.only(left: Dimen.SIDE_MARG),
+                    child: Text(
+                      'Wymagania ogólne',
+                      style: AppTextStyle(
+                          fontSize: Dimen.TEXT_SIZE_APPBAR,
+                          fontWeight: weight.halfBold
+                      ),
+                    ),
                   ),
-                ),
+
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      top: Dimen.defMarg,
+                      left: Dimen.SIDE_MARG,
+                      right: Dimen.SIDE_MARG,
+                    ),
+                    child: Builder(
+                      builder: (context){
+
+                        List<Widget> children = [];
+
+                        for(int i=0; i<spraw.requirements!.length; i++){
+                          String req = spraw.requirements![i];
+                          children.add(Text(
+                            'Wymaganie ${i+1}.',
+                            style: AppTextStyle(
+                              fontSize: Dimen.SIDE_MARG,
+                              fontWeight: weight.halfBold,
+                            ),
+                          ));
+                          children.add(AppText(
+                            req,
+                            size: Dimen.TEXT_SIZE_BIG,
+                          ));
+
+                          if(i < spraw.requirements!.length - 1)
+                            children.add(const SizedBox(height: Dimen.ICON_MARG));
+                        }
+
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: children,
+                        );
+
+                      },
+                    ),
+                  )
+
+                ],
               ),
 
-              Padding(
-                padding: const EdgeInsets.only(
-                  top: Dimen.defMarg,
-                  left: Dimen.SIDE_MARG,
-                  right: Dimen.SIDE_MARG,
-                ),
-                child: AppText(
-                  spraw.comment!,
-                  size: Dimen.TEXT_SIZE_BIG,
-                ),
-              )
+            if(spraw.requirements != null)
+              const SizedBox(height: 2*Dimen.SIDE_MARG),
 
-            ],
-          ),
-
-        if(spraw.notesForLeaders != null)
-          const SizedBox(height: 2*Dimen.SIDE_MARG),
-
-        if(spraw.notesForLeaders != null)
-          Icon(
-            MdiIcons.circleMedium,
-            color: hintEnab_(context),
-          ),
-
-        if(spraw.notesForLeaders != null)
-          const SizedBox(height: 2*Dimen.SIDE_MARG),
-
-        if(spraw.notesForLeaders != null)
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-
-              Padding(
-                padding: const EdgeInsets.only(left: Dimen.SIDE_MARG),
-                child: Text(
-                  'Dla drużynowego',
-                  style: AppTextStyle(
-                      fontSize: Dimen.TEXT_SIZE_APPBAR,
-                      fontWeight: weight.halfBold
-                  ),
-                ),
+            if(spraw.requirements != null)
+              Icon(
+                MdiIcons.circleMedium,
+                color: hintEnab_(context),
               ),
 
-              Padding(
-                padding: const EdgeInsets.only(
-                  top: Dimen.defMarg,
-                  left: Dimen.SIDE_MARG,
-                  right: Dimen.SIDE_MARG,
-                  bottom: Dimen.SIDE_MARG,
-                ),
-                child: Builder(
-                  builder: (context){
+            if(spraw.requirements != null)
+              const SizedBox(height: 2*Dimen.SIDE_MARG),
 
-                    List<Widget> children = [];
+            RequirementsWidget(
+              spraw,
+              onChanged: (){
+                Provider.of<SprawInProgressListProvider>(context, listen: false).notify();
+                setState(() {});
+                if(widget.onReqComplChanged != null) widget.onReqComplChanged!();
+              },
+              previewOnly: previewOnly,
+            ),
 
-                    for(int i=0; i<spraw.notesForLeaders!.length; i++){
-                      String note = spraw.notesForLeaders![i];
-                      children.add(AppText(
-                        note,
-                        size: Dimen.TEXT_SIZE_BIG,
-                      ));
+            if(spraw.comment != null)
+              const SizedBox(height: 2*Dimen.SIDE_MARG),
 
-                      if(i < spraw.notesForLeaders!.length - 1)
-                        children.add(const SizedBox(height: Dimen.ICON_MARG));
-                    }
+            if(spraw.comment != null)
+              Icon(
+                MdiIcons.circleMedium,
+                color: hintEnab_(context),
+              ),
 
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: children,
-                    );
+            if(spraw.comment != null)
+              const SizedBox(height: 2*Dimen.SIDE_MARG),
 
-                  },
-                ),
-              )
+            if(spraw.comment != null)
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
 
-            ],
-          ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: Dimen.SIDE_MARG),
+                    child: Text(
+                      'Komentarz',
+                      style: AppTextStyle(
+                          fontSize: Dimen.TEXT_SIZE_APPBAR,
+                          fontWeight: weight.halfBold
+                      ),
+                    ),
+                  ),
 
-        if(spraw.notesForLeaders != null)
-          const SizedBox(height: Dimen.SIDE_MARG),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      top: Dimen.defMarg,
+                      left: Dimen.SIDE_MARG,
+                      right: Dimen.SIDE_MARG,
+                    ),
+                    child: AppText(
+                      spraw.comment!,
+                      size: Dimen.TEXT_SIZE_BIG,
+                    ),
+                  )
 
-      ],
-    ),
+                ],
+              ),
+
+            if(spraw.notesForLeaders != null)
+              const SizedBox(height: 2*Dimen.SIDE_MARG),
+
+            if(spraw.notesForLeaders != null)
+              Icon(
+                MdiIcons.circleMedium,
+                color: hintEnab_(context),
+              ),
+
+            if(spraw.notesForLeaders != null)
+              const SizedBox(height: 2*Dimen.SIDE_MARG),
+
+            if(spraw.notesForLeaders != null)
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+
+                  Padding(
+                    padding: const EdgeInsets.only(left: Dimen.SIDE_MARG),
+                    child: Text(
+                      'Dla drużynowego',
+                      style: AppTextStyle(
+                          fontSize: Dimen.TEXT_SIZE_APPBAR,
+                          fontWeight: weight.halfBold
+                      ),
+                    ),
+                  ),
+
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      top: Dimen.defMarg,
+                      left: Dimen.SIDE_MARG,
+                      right: Dimen.SIDE_MARG,
+                      bottom: Dimen.SIDE_MARG,
+                    ),
+                    child: Builder(
+                      builder: (context){
+
+                        List<Widget> children = [];
+
+                        for(int i=0; i<spraw.notesForLeaders!.length; i++){
+                          String note = spraw.notesForLeaders![i];
+                          children.add(AppText(
+                            note,
+                            size: Dimen.TEXT_SIZE_BIG,
+                          ));
+
+                          if(i < spraw.notesForLeaders!.length - 1)
+                            children.add(const SizedBox(height: Dimen.ICON_MARG));
+                        }
+
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: children,
+                        );
+
+                      },
+                    ),
+                  )
+
+                ],
+              ),
+
+            if(spraw.notesForLeaders != null)
+              const SizedBox(height: Dimen.SIDE_MARG),
+
+          ],
+        ),
+      );
+    }
   );
 
   Widget buildFloatingButton(){

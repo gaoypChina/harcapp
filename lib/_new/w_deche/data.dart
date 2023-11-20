@@ -13,7 +13,40 @@ class WDecheData{
 
   static const List<WDecheData> all = [
 
-    WDecheData(text: 'Sukces nie ma gwaracji. Jeśli chcesz gwarancję, to kup sobie toster.'),
+    WDecheData(
+      text: 'Skąd pierogi wiedzą, że mają wypłynąć, gdy są ugotowane...'
+            '\nNatura jest niesamowita!',
+    ),
+
+    WDecheData(
+      text: 'Weź się do kupy',
+      imageName: 'poop',
+      imageSize: 42.0,
+    ),
+
+    WDecheData(
+      text: 'Co złego jest w herbacie, że na świecie są wciąż antyteiści?!',
+      imageName: 'tea',
+      imageSize: 42.0,
+    ),
+
+    WDecheData(text: 'Czy tinder to sklep z ludźmi?'),
+
+    WDecheData(text: 'Nie całuj, jeśli nie kochasz'),
+
+    WDecheData(text: 'Nagrodą jest brak kary'),
+
+    WDecheData(text: 'Przegraliśmy z honorem i kretesem'),
+
+    WDecheData(
+      text: 'Tańczy byle jak, ale nie do byle czego',
+      imageName: 'music',
+      imageSize: 42.0,
+    ),
+
+    WDecheData(text: 'Ku pamięci, mięci kupa\nWpisał się Alojzy Dupa'),
+
+    WDecheData(text: 'Sukces nie ma gwaracji, jeśli chcesz gwarancję, to kup sobie toster'),
 
     WDecheData(text: 'A niektórzy z pełną powagą rzucają oskarżenia o "nieludzkim traktowaniu zwierząt"...'),
 
@@ -41,6 +74,11 @@ class WDecheData{
     WDecheData(text: 'Zaskocz przeciwnika ucieczką!'),
 
     WDecheData(text: 'Gdzie sika pani z kiosku?'),
+
+    WDecheData(text: 'Skończyła się srajtaśma?'
+        '\nTo kup! Kup kup kup kup!'),
+
+    WDecheData(text: 'Od tanich parówek gorsza jest tylko kiełbasa wyborcza'),
 
     WDecheData(
       text: 'Lepiej mieć tasiemca, niż żadnego życia wewnętrznego...',

@@ -125,8 +125,8 @@ class ScreenMainScreen extends StatelessWidget{
 
         Blur(
           sigma: sigmaBg,
-          child: Container(color: Colors.blue.withOpacity(.5)),
           mode: TileMode.mirror,
+          child: Container(color: Colors.blue.withOpacity(.5)),
         ),
 
         Padding(

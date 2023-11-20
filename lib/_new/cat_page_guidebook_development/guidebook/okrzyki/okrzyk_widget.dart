@@ -21,7 +21,7 @@ class OkrzykWidget extends StatefulWidget{
   final bool editable;
   final double elevation;
 
-  const OkrzykWidget(this.okrzyk, {this.editable = true, this.elevation = 1.0});
+  const OkrzykWidget(this.okrzyk, {super.key, this.editable = true, this.elevation = 1.0});
 
   @override
   State<StatefulWidget> createState() => OkrzykWidgetState();
@@ -150,7 +150,7 @@ class OkrzykWidgetState extends State<OkrzykWidget>{
                               key: UniqueKey(),
                               onDismissed: (dir) => Navigator.pop(context),
                               child: AppCard(
-                                padding: EdgeInsets.all(0),
+                                padding: const EdgeInsets.all(0),
                                 elevation: AppCard.bigElevation,
 
                                 child: QrImageView(

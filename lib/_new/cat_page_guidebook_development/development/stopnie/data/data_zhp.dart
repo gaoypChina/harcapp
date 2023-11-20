@@ -1043,7 +1043,7 @@ RankZHPSim2022Data rankZhp0Data = RankZHPSim2022Data(
                 taskData: [
                   RankTaskData(text: 'Znam i rozumiem treść Przyrzeczenia Harcerskiego.'),
                   RankTaskData(text: 'Znam i rozumiem Prawo Harcerskie.'),
-                  RankTaskData(text: 'Znam i rozumiem symbolikę krzyża harcerskiego, lilijki i koniczynki. Potrafię wyjaśnić, do czego zobowiązuje harcerskie pozdrowienie \"Czuwaj\".'),
+                  RankTaskData(text: 'Znam i rozumiem symbolikę krzyża harcerskiego, lilijki i koniczynki. Potrafię wyjaśnić, do czego zobowiązuje harcerskie pozdrowienie "Czuwaj".'),
                   RankTaskData(text: 'Znam hymn harcerski i umiem go zaśpiewać.'),
                   RankTaskData(text: 'Kompletuję swój mundur harcerski.'),
                   RankTaskData(text: 'Systematycznie uczestniczę w zbiórkach zastępu i drużyny.'),

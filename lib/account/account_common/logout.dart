@@ -163,6 +163,7 @@ class LogoutDialogState extends State<LogoutDialog> with TickerProviderStateMixi
             LoginProvider loginProv = LoginProvider.of(context);
 
             await ApiRegLog.logout(
+                loginProv,
                 onSuccess: () async {
                   loginProv.notify();
                   widget.onLoggedOut?.call();
@@ -219,9 +220,7 @@ Future<void> openForceLogoutDialog(BuildContext context) => showAlertDialog(
       AlertDialogButton(
           text: 'Tak',
           onTap: () async {
-            await AccountData.forgetAccount();
-            AccountData.callOnLogout(false);
-            LoginProvider.notify_(context);
+            await AccountData.forgetAccount(false, loginProv: LoginProvider.of(context));
             Navigator.pop(context);
             showAppToast(context, text: 'Wylogowano');
             Navigator.pop(context);

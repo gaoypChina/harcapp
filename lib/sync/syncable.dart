@@ -5,6 +5,7 @@ import 'package:harcapp/_common_classes/org/org_handler.dart';
 import 'package:harcapp/_new/api/sync_resp_body/sync_entity_resp.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/models/rank_def.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/model/trop.dart';
+import 'package:harcapp/_new/cat_page_harcthought/articles/article.dart';
 import 'package:harcapp/_new/details/app_settings.dart';
 import 'package:path/path.dart';
 
@@ -32,44 +33,50 @@ class InvalidParamIdException implements Exception{
 }
 
 mixin SyncGetRespNode<T extends SyncGetResp> on SyncableParam{
-
-  static SyncableParam get offSongNodes => SyncableParamGroup(
+  
+  static SyncableParam get articleNode => SyncableParamGroup(
+    null,
+    paramId: Article.syncClassId,
+    childParams: ArticleSyncData.initialized?ArticleSyncData.all:[],
+  );
+  
+  static SyncableParam get offSongNode => SyncableParamGroup(
     null,
     paramId: OffSong.syncClassId,
     childParams: OffSong.initialized?OffSong.allOfficial:[],
   );
 
-  static SyncableParam get ownSongNodes => SyncableParamGroup(
+  static SyncableParam get ownSongNode => SyncableParamGroup(
     null,
     paramId: OwnSong.syncClassId,
     childParams: OwnSong.initialized?OwnSong.allOwn:[],
   );
 
-  static SyncableParam get ownAlbumNodes => SyncableParamGroup(
+  static SyncableParam get ownAlbumNode => SyncableParamGroup(
       null,
       paramId: OwnAlbum.syncClassId,
       childParams: OwnAlbum.initialized?OwnAlbum.all:[],
   );
 
-  static SyncableParam get rankDefNodes => SyncableParamGroup(
+  static SyncableParam get rankDefNode => SyncableParamGroup(
       null,
       paramId: RankDef.syncClassId,
       childParams: Rank.allSyncClassIdDef,
   );
 
-  static SyncableParam get rankZHPSim2022Nodes => SyncableParamGroup(
+  static SyncableParam get rankZHPSim2022Node => SyncableParamGroup(
       null,
       paramId: RankZHPSim2022.syncClassId,
       childParams: RankZHPSim2022.all,
   );
 
-  static SyncableParam get sprawNodes => SyncableParamGroup(
+  static SyncableParam get sprawNode => SyncableParamGroup(
       null,
       paramId: Spraw.syncClassId,
       childParams: Spraw.all
   );
 
-  static SyncableParam get tropNodes => SyncableParamGroup(
+  static SyncableParam get tropNode => SyncableParamGroup(
       null,
       paramId: Trop.syncClassId,
       childParams: Trop.initialized?Trop.allOwn:[]
@@ -80,16 +87,17 @@ mixin SyncGetRespNode<T extends SyncGetResp> on SyncableParam{
     AppSettings(),
     SongBookSettings(),
 
-    offSongNodes,
-    ownSongNodes,
-    ownAlbumNodes,
+    articleNode,
+    offSongNode,
+    ownSongNode,
+    ownAlbumNode,
     ToLearnAlbum.loaded,
 
-    rankDefNodes,
-    rankZHPSim2022Nodes,
+    rankDefNode,
+    rankZHPSim2022Node,
 
-    sprawNodes,
-    tropNodes,
+    sprawNode,
+    tropNode,
   ];
 
   FutureOr<void> applySyncGetResp(T resp);
@@ -236,9 +244,7 @@ mixin SyncableParamSingleMixin implements SyncableParam{
   @override
   Future<dynamic> buildPostReq({bool includeDefaults = false, bool setSyncStateInProgress = false}) async {
 
-    int _state = state;
-
-    if(isNotSet || (_state == stateSynced || _state == stateWaitingDownload))
+    if(isNotSet || (state == stateSynced || state == stateWaitingDownload))
       throw NothingToSyncException();
 
     dynamic val = await value;
@@ -351,8 +357,8 @@ mixin SyncableParamGroupMixin implements SyncableParam{
     Map<String, dynamic> result = {};
 
     for(SyncableParam param in childParams){
-      Map _result = param.getUnsyncedMap();
-      if(_result.isNotEmpty) result[paramId] = _result;
+      Map result0 = param.getUnsyncedMap();
+      if(result0.isNotEmpty) result[paramId] = result0;
     }
 
     return result;
@@ -495,13 +501,13 @@ mixin RemoveSyncItem<T> on SyncableParam{
     dir.createSync(recursive: true);
     List<FileSystemEntity> entities = dir.listSync();
 
-    List<String> _all = [];
+    List<String> all = [];
     for(FileSystemEntity entity in entities){
       String fileName = basename(entity.path);
-      _all.add(fileName);
+      all.add(fileName);
     }
 
-    RemoveSyncItem.all = _all;
+    RemoveSyncItem.all = all;
   }
 
 }

@@ -9,6 +9,8 @@ import 'package:harcapp/_common_classes/org/org.dart';
 import 'package:harcapp/_common_widgets/border_material.dart';
 import 'package:harcapp/_common_widgets/floating_container.dart';
 import 'package:harcapp/_new/api/login_register.dart';
+import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
+import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_particip.dart';
 import 'package:harcapp/account/account_common/druzyna_input_field.dart';
 import 'package:harcapp/account/account_common/hufiec_input_field.dart';
 import 'package:harcapp/account/account_common/logout.dart';
@@ -46,6 +48,7 @@ import '../account_common/org_input_field.dart';
 import '../account_common/rank_harc_input_field.dart';
 import '../account_common/rank_instr_input_field.dart';
 import '../login_provider.dart';
+import '../shadow_user_manager_page.dart';
 
 
 class AccountPage extends StatefulWidget{
@@ -245,8 +248,7 @@ class AccountPageState extends State<AccountPage> with TickerProviderStateMixin{
             await AccountData.writeEmail(email);
             await AccountData.writeJwt(jwt);
 
-            loginProv.notify();
-            AccountData.callOnEmailConfirmChanged(false);
+            AccountData.callOnEmailConfirmChanged(false, loginProv: loginProv);
 
             if(mounted)
               pushReplacePage(context, builder: (context) => ConfEmailPart(email));
@@ -356,6 +358,33 @@ class AccountPageState extends State<AccountPage> with TickerProviderStateMixin{
   bool savable() =>
       emailController.text.isNotEmpty && nameController.text.isNotEmpty && sex != null;
 
+  void openShadowUsersPage() => pushPage(context, builder: (context) => ShadowUserManagerPage(
+    itemTrailingBuilder: (_, __) => IconButton(
+      onPressed: null,
+      icon: Icon(MdiIcons.dotsHorizontal, color: iconEnab_(context)),
+    ),
+    onShadowMerged: (index, shadowUser, mergedUser){
+
+      // Update particip in indivComp
+      for(String key in shadowUser.indivCompKeys){
+        IndivComp? comp = IndivComp.allMap![key];
+        if(comp == null) continue;
+        IndivCompParticip? shadowParticip = comp.removeLoadedParticipByKey(shadowUser.key, shrinkTotalCount: false);
+        if(shadowParticip == null){
+          comp.reloadParticipsPage();
+          return;
+        }
+        IndivCompParticip particip = IndivCompParticip.fromUserData(
+            mergedUser,
+            profile: shadowParticip.profile
+        );
+        if(comp.isParticipWithinLoaded(particip))
+          comp.addLoadedParticip(particip);
+      }
+      
+    },
+  ));
+
   @override
   Widget build(BuildContext context) => AppScaffold(
     body: CustomScrollView(
@@ -459,10 +488,11 @@ class AccountPageState extends State<AccountPage> with TickerProviderStateMixin{
             showDetails: false,
             showDetailsButton: false,
             leading: const SizedBox(width: Dimen.ICON_FOOTPRINT),
-            trailing: IconButton(
-                padding: const EdgeInsets.symmetric(horizontal: Dimen.ICON_MARG),
-                icon: Icon(MdiIcons.shareVariant),
-                onPressed: () => openDialog(
+            trailing: SimpleButton.from(
+                context: context,
+                icon: MdiIcons.shareVariant,
+                margin: EdgeInsets.zero,
+                onTap: () => openDialog(
                     context: context,
                     builder: (context) => const AccountNickDialog()
                 )
@@ -573,7 +603,7 @@ class AccountPageState extends State<AccountPage> with TickerProviderStateMixin{
                         enabled: editMode,
                         dimTextOnDisabled: false,
                         controller: sexController,
-                        onSexChanged: (sex) => setState(() => this.sex = sex)
+                        onChanged: (sex) => setState(() => this.sex = sex)
                     ),
 
                     const SizedBox(height: Dimen.SIDE_MARG),
@@ -583,7 +613,7 @@ class AccountPageState extends State<AccountPage> with TickerProviderStateMixin{
                         enabled: !AccountData.microsoftAcc && editMode,
                         dimTextOnDisabled: editMode && AccountData.microsoftAcc,
                         controller: orgController,
-                        onOrgChanged: (org) => setState(() => this.org = org)
+                        onChanged: (org) => setState(() => this.org = org)
                     ),
 
                     const SizedBox(height: Dimen.SIDE_MARG),
@@ -609,7 +639,7 @@ class AccountPageState extends State<AccountPage> with TickerProviderStateMixin{
                         enabled: editMode,
                         dimTextOnDisabled: false,
                         controller: rankHarcController,
-                        onRankHarcChanged: (rankHarc) => setState(() => this.rankHarc = rankHarc)
+                        onChanged: (rankHarc) => setState(() => this.rankHarc = rankHarc)
                     ),
 
                     const SizedBox(height: Dimen.SIDE_MARG),
@@ -619,7 +649,7 @@ class AccountPageState extends State<AccountPage> with TickerProviderStateMixin{
                         enabled: editMode,
                         dimTextOnDisabled: false,
                         controller: rankInstrController,
-                        onRankInstrChanged: (rankInstr) => setState(() => this.rankInstr = rankInstr)
+                        onChanged: (rankInstr) => setState(() => this.rankInstr = rankInstr)
                     ),
 
                   ],
@@ -721,6 +751,47 @@ class AccountPageState extends State<AccountPage> with TickerProviderStateMixin{
 
           if(AccountData.regularAcc)
             const SizedBox(height: Dimen.SIDE_MARG),
+
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+            child: BorderMaterial(
+              child: GestureDetector(
+                onTap: openShadowUsersPage,
+                child: Padding(
+                  padding: const EdgeInsets.all(Dimen.SIDE_MARG - BorderMaterial.defBorderWidth),
+                  child: Column(
+                    children: [
+
+                      TitleShortcutRowWidget(
+                          title: 'Konta widmo (${AccountData.shadowUserCount})',
+                          leading: const SizedBox(width: Dimen.SIDE_MARG),
+                          textAlign: TextAlign.start,
+                          titleColor: hintEnab_(context),
+                          trailing: IconButton(
+                            icon: Icon(MdiIcons.arrowRight, color: iconEnab_(context)),
+                            onPressed: openShadowUsersPage,
+                          )
+                      ),
+
+                      ListTile(
+                        title: Text(
+                          'Przeglądaj moje konta widmo',
+                          style: AppTextStyle(color: textEnab_(context)),
+                        ),
+                        subtitle: Text(
+                          '\nKonta widmo to sztuczne konta zakładane dla osób, które nie mają konta HarcApp.',
+                          style: AppTextStyle(color: textEnab_(context)),
+                        ),
+                      ),
+
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+
+          const SizedBox(height: Dimen.SIDE_MARG),
 
           if(!editMode)
             Padding(
@@ -916,8 +987,7 @@ class DeleteAccountDialogState extends State<DeleteAccountDialog>{
                               validAzureToken: await ZhpAccAuth.azureToken,
                               onSuccess: () async {
                                 String? email = AccountData.email;
-                                await AccountData.forgetAccount();
-                                loginProv.notify();
+                                await AccountData.forgetAccount(false, loginProv: loginProv);
 
                                 if (!mounted) return;
                                 showAppToast(context, text: 'Konto HarcApp <b>$email</b> trwale usunięte.');

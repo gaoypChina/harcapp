@@ -52,8 +52,8 @@ class StrukturaFunkcjeFragmentState extends State<StrukturaFunkcjeFragment> with
                         '\n• Naczelny Sąd Harcerski ZHP',
                     funkcje: funkcjeGK
                 ),
-                Row(
-                  children: const <Widget>[
+                const Row(
+                  children: <Widget>[
                     Line(),
                     Line(fat: true),
                   ],
@@ -86,8 +86,8 @@ class StrukturaFunkcjeFragmentState extends State<StrukturaFunkcjeFragment> with
                   const Expanded(flex: 2, child: LineHor()),
                   Expanded(flex: 1, child: Container()),
                 ],),
-                Row(
-                  children: const <Widget>[
+                const Row(
+                  children: <Widget>[
                     Line(fat: true),
                     Line(),
                   ],
@@ -162,14 +162,14 @@ class StrukturaFunkcjeFragmentState extends State<StrukturaFunkcjeFragment> with
                   const Expanded(flex: 7, child: LineHor()),
                   Expanded(flex: 2, child: Container()),
                 ]),
-                Row(
-                  children: const <Widget>[
+                const Row(
+                  children: <Widget>[
                     Line(fat: true),
                   ],
                 ),
                 Icon(MdiIcons.circle, color: textDisab_(context)),
-                Row(
-                  children: const <Widget>[
+                const Row(
+                  children: <Widget>[
                     Line(fat: true),
                   ],
                 ),
@@ -179,8 +179,8 @@ class StrukturaFunkcjeFragmentState extends State<StrukturaFunkcjeFragment> with
                   const Expanded(flex: 4, child: LineHor()),
                   Expanded(flex: 1, child: Container()),
                 ]),
-                Row(
-                  children: const <Widget>[
+                const Row(
+                  children: <Widget>[
                     Line(fat: true),
                     Line(fat: true),
                     Line(fat: true),
@@ -260,7 +260,7 @@ class Line extends StatelessWidget{
   final int flex;
   final bool fat;
   final long;
-  const Line({this.flex = 1, this.fat = false, this.long = false});
+  const Line({super.key, this.flex = 1, this.fat = false, this.long = false});
 
   @override
   Widget build(BuildContext context) {
@@ -354,7 +354,7 @@ class Funkcja extends StatelessWidget{
   final Color? sznur_cross;
   final Color? suwak1, suwak1_cross, suwak2, suwak2_cross, suwak3, suwak3_cross;
 
-  const Funkcja({
+  const Funkcja({super.key, 
     required this.name,
     required this.description,
     required this.sznur,

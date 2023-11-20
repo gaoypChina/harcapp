@@ -1,9 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 import 'package:harcapp/_app_common/common_icon_data.dart';
 import 'package:harcapp/_app_common/common_color_data.dart';
 import 'package:harcapp/_common_classes/sha_pref.dart';
+import 'package:harcapp/_common_classes/sorted_list.dart';
 import 'package:harcapp/_new/api/_api.dart';
 import 'package:harcapp/_new/api/indiv_comp.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_editor/indiv_comp_task_editable.dart';
@@ -59,11 +60,11 @@ class IndivCompAward{
   String? award;
 
   String get place{
-    String _place;
-    if(rangeFrom == rangeTo) _place = '$rangeFrom';
-    else _place = '$rangeFrom - $rangeTo';
+    String place;
+    if(rangeFrom == rangeTo) place = '$rangeFrom';
+    else place = '$rangeFrom - $rangeTo';
 
-    return _place;
+    return place;
   }
 
   IndivCompAward(this.rangeFrom, this.rangeTo, this.award);
@@ -306,11 +307,11 @@ class IndivComp{
       logger.w('Value of saved account data key is null. Are you logged in?');
       return null;
     }
-    IndivCompParticip? me = _loadedParticipMap[accKey];
+    IndivCompParticip? me = loadedParticipMap[accKey];
 
     if(me == null){
-      AccountData.forgetAccount();
-      AccountData.callOnLogout(true);
+      AccountData.forgetAccount_(false);
+      AccountData.callOnLogout_(false);
       return null;
     }
 
@@ -326,13 +327,13 @@ class IndivComp{
     return keyResult;
   }
 
-  final List<IndivCompParticip> loadedParticips;
-  final Map<String, IndivCompParticip> _loadedParticipMap;
+  final SortedList<IndivCompParticip> loadedParticips;
+  final Map<String, IndivCompParticip> loadedParticipMap;
 
   void clearLoadedParticips(){
-    IndivCompParticip me = _loadedParticipMap[AccountData.key!]!;
+    IndivCompParticip me = loadedParticipMap[AccountData.key!]!;
     loadedParticips.clear();
-    _loadedParticipMap.clear();
+    loadedParticipMap.clear();
     addLoadedParticips([me]);
   }
 
@@ -341,7 +342,7 @@ class IndivComp{
   int participCount;
   int activeParticipCount;
 
-  List<IndivCompTask> tasks;
+  SortedList<IndivCompTask> tasks;
   Map<String, IndivCompTask> taskMap;
 
   int get openTaskCount{
@@ -356,10 +357,11 @@ class IndivComp{
   List<IndivCompAward> awards;
   List<String?> get awardsEncoded{
     List<String?> result = [];
-    for(IndivCompAward award in awards)
-      for(int i=0; i<award.rangeTo - award.rangeFrom + 1; i++)
-        result.add(award.award);
-
+    for(IndivCompAward award in awards) {
+      result.add(award.award);
+      for (int i = 1; i < award.rangeTo - award.rangeFrom + 1; i++)
+        result.add(null);
+    }
     return result;
   }
 
@@ -370,8 +372,8 @@ class IndivComp{
   // Completed tasks loaded in the review page
   List<IndivCompCompletedTask> loadedPendingCompletedTasks;
 
-  late IndivCompParticipantsLoader _participantsLoader;
-  late IndivCompCompletedTasksLoader _completedTasksPendingLoader;
+  late final IndivCompParticipantsLoader _participantsLoader;
+  late final IndivCompCompletedTasksLoader _completedTasksPendingLoader;
 
   void update(IndivComp updatedComp){
     name = updatedComp.name;
@@ -443,19 +445,29 @@ class IndivComp{
   }
 
   IndivCompParticip? getParticip(String key){
-    return _loadedParticipMap[key]??sideLoadedParticipMap[key];
+    return loadedParticipMap[key]??sideLoadedParticipMap[key];
   }
 
   void addSideloadedParticip(IndivCompParticip particip){
     sideLoadedParticipMap[particip.key] = particip;
   }
 
+  void addLoadedParticip(IndivCompParticip newParticip, {BuildContext? context}){
+
+    if(loadedParticipMap[newParticip.key] != null) return;
+    loadedParticips.add(newParticip);
+    loadedParticipMap[newParticip.key] = newParticip;
+
+    if(context == null) return;
+    callProvidersWithParticipsOf(context);
+  }
+
   void addLoadedParticips(List<IndivCompParticip> newParticips, {BuildContext? context}){
 
     for(IndivCompParticip particip in newParticips) {
-      if(_loadedParticipMap[particip.key] != null) continue;
+      if(loadedParticipMap[particip.key] != null) continue;
       loadedParticips.add(particip);
-      _loadedParticipMap[particip.key] = particip;
+      loadedParticipMap[particip.key] = particip;
     }
 
     if(context == null) return;
@@ -464,7 +476,7 @@ class IndivComp{
 
   void setAllLoadedParticips(List<IndivCompParticip> allParticips, {BuildContext? context}){
     loadedParticips.clear();
-    _loadedParticipMap.clear();
+    loadedParticipMap.clear();
     addLoadedParticips(allParticips, context: context);
   }
 
@@ -473,8 +485,9 @@ class IndivComp{
     int index = loadedParticips.indexWhere((participIter) => participIter.key == newParticip.key);
     if(index == -1) return;
     loadedParticips.removeAt(index);
-    loadedParticips.insert(index, newParticip);
-    _loadedParticipMap[newParticip.key] = newParticip;
+    // loadedParticips.insert(index, newParticip);
+    loadedParticips.add(newParticip);
+    loadedParticipMap[newParticip.key] = newParticip;
 
     if(context == null) return;
     callProvidersWithParticipsOf(context);
@@ -489,11 +502,24 @@ class IndivComp{
     callProvidersWithParticipsOf(context);
   }
 
+  IndivCompParticip? removeLoadedParticipByKey(String participKey, {BuildContext? context, bool shrinkTotalCount=true}){
+
+    loadedParticips.removeWhere((particip) => particip.key == participKey);
+    IndivCompParticip? removed = loadedParticipMap.remove(participKey);
+    if(removed != null && shrinkTotalCount)
+      participCount = participCount - 1;
+
+    if(context == null) return removed;
+    callProvidersWithParticipsOf(context);
+
+    return removed;
+  }
+
   void removeLoadedParticipsByKey(List<String> participKeys, {BuildContext? context, bool shrinkTotalCount=true}){
 
     loadedParticips.removeWhere((particip) => participKeys.contains(particip.key));
     for(String participKey in participKeys){
-      IndivCompParticip? removed = _loadedParticipMap.remove(participKey);
+      IndivCompParticip? removed = loadedParticipMap.remove(participKey);
       if(removed != null && shrinkTotalCount)
         participCount = participCount - 1;
     }
@@ -541,11 +567,11 @@ class IndivComp{
       _participantsLoader.removeListener(listener);
 
   void addLoadedCompletedTasksForParticip(String participKey, List<IndivCompCompletedTask> completedTasks, {required bool onlyIfWithinLoaded, required bool increaseTotalCount}){
-    _loadedParticipMap[participKey]!.profile.addLoadedCompletedTasks(completedTasks, onlyIfWithinLoaded: onlyIfWithinLoaded, increaseTotalCount: increaseTotalCount);
+    loadedParticipMap[participKey]!.profile.addLoadedCompletedTasks(completedTasks, onlyIfWithinLoaded: onlyIfWithinLoaded, increaseTotalCount: increaseTotalCount);
   }
 
   void setAllLoadedCompletedTasksForParticip(String participKey, List<IndivCompCompletedTask> completedTasks, {required bool increaseTotalCount}){
-    _loadedParticipMap[participKey]!.profile.setAllLoadedCompletedTasks(completedTasks);
+    loadedParticipMap[participKey]!.profile.setAllLoadedCompletedTasks(completedTasks);
   }
   
   void removeCompletedTaskForParticip(String participKey, String complTaskKey, {BuildContext? context, bool shrinkTotalCount=true}){
@@ -662,7 +688,7 @@ class IndivComp{
     required this.completedTasksRejectedCount,
 
   }): taskMap = {for (var task in tasks) task.key: task},
-        _loadedParticipMap = {for (var particip in loadedParticips) particip.key: particip},
+        loadedParticipMap = {for (var particip in loadedParticips) particip.key: particip},
         sideLoadedParticipMap = {},
 
         loadedPendingCompletedTasks = [],
@@ -687,14 +713,10 @@ class IndivComp{
 
   static IndivComp fromRespMap(Map respMap){
 
-    List<IndivCompTask> tasks = [];
+    SortedList<IndivCompTask> tasks = SortedList((task1, task2) => task1.position.compareTo(task2.position));
     Map tasksRespMap = respMap['tasks']??(throw InvalidResponseError('tasks'));
     for (String taskKey in tasksRespMap.keys as Iterable<String>)
       tasks.add(IndivCompTask.fromRespMap(tasksRespMap[taskKey], key: taskKey));
-
-    tasks.sort((task1, task2) => task1.key.compareTo(task2.key));
-
-
 
     List<String?> awards = ((respMap['awards']??(throw InvalidResponseError('awards'))) as List).cast<String?>();
 
@@ -711,7 +733,7 @@ class IndivComp{
         endTime: DateTime.tryParse(respMap['endTime'] ?? ''),
         rankDispType: strToRankDispType[respMap['rankDispType']??(throw InvalidResponseError('rankDispType'))],
 
-        loadedParticips: [], // temporarly empty,
+        loadedParticips: SortedList(participComparator), // temporarly empty,
         participCount: respMap['participantCount'],
         activeParticipCount: respMap['activeParticipConut'],
 
@@ -745,10 +767,10 @@ class IndivComp{
       colorsKey: '',
       startTime: DateTime.now(),
       rankDispType: RankDispType.EXACT,
-      loadedParticips: [],
+      loadedParticips: SortedList(participComparator),
       participCount: 0,
       activeParticipCount: 0,
-      tasks: [],
+      tasks: SortedList((task1, task2) => task1.position.compareTo(task2.position)),
       awards: [],
       shareCode: '',
       shareCodeSearchable: true,

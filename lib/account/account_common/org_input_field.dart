@@ -14,19 +14,28 @@ class OrgInputField extends StatelessWidget{
   final bool enabled;
   final bool dimTextOnDisabled;
   final InputFieldController? controller;
-  final void Function(Org?)? onOrgChanged;
+  final void Function(Org?)? onChanged;
+  final bool asterisk;
 
-  const OrgInputField(this.org, {this.enabled = true, this.dimTextOnDisabled = true, this.controller, this.onOrgChanged, super.key});
+  const OrgInputField(
+      this.org,
+      { this.enabled = true,
+        this.dimTextOnDisabled = true,
+        this.controller,
+        this.onChanged,
+        this.asterisk = false,
+        super.key
+      });
 
   @override
   Widget build(BuildContext context) => HintDropdownWidget<Org?>(
-    hint: 'Org. harcerska:',
+    hint: 'Org. harcerska:${asterisk?' *':''}',
     hintTop: 'Organizacja harcerska',
     // MdiIcons.googleCirclesExtended
     leading: Icon(MdiIcons.homeVariantOutline, color: iconDisab_(context)),
     value: org,
-    onChanged: (value) async => onOrgChanged?.call(value),
-    onCleared: () async => onOrgChanged?.call(null),
+    onChanged: (value) async => onChanged?.call(value),
+    onCleared: () async => onChanged?.call(null),
     enabled: enabled,
     items: [
       DropdownMenuItem<Org>(

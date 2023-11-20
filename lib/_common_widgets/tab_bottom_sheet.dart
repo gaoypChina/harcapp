@@ -4,13 +4,13 @@ import 'package:harcapp_core/comm_classes/primitive_wrapper.dart';
 showTabBottomSheet({required BuildContext context, required WidgetBuilder builder, Color color = Colors.white, Widget Function(BuildContext, BottomSheetState)? sideBuilder}) {
 
   PrimitiveWrapper<bool> exceedsHeight = PrimitiveWrapper(true);
-  BottomSheet _bottomSheet = BottomSheet(builder: builder, exceedsHeight: exceedsHeight, color: color, sideBuilder: sideBuilder,);
+  BottomSheet bottomSheet = BottomSheet(builder: builder, exceedsHeight: exceedsHeight, color: color, sideBuilder: sideBuilder,);
 
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
-    builder: (context) => _bottomSheet,
+    builder: (context) => bottomSheet,
   );
 
 }
@@ -28,7 +28,7 @@ class BottomSheet extends StatefulWidget{
     _state.notify();
   }
 
-  BottomSheet({required this.builder, required this.exceedsHeight, this.color = Colors.white, this.sideBuilder});
+  BottomSheet({super.key, required this.builder, required this.exceedsHeight, this.color = Colors.white, this.sideBuilder});
 
   @override
   State<StatefulWidget> createState() {
@@ -57,9 +57,9 @@ class BottomSheetState extends State<BottomSheet>{
     return Container(
         decoration: BoxDecoration(
           color: widget.color,
-          borderRadius: BorderRadius.only(
-            topLeft: const Radius.circular(6.0),
-            topRight: const Radius.circular(6.0))),
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(6.0),
+            topRight: Radius.circular(6.0))),
         child: DraggableScrollableSheet(
           expand: false,
           builder: (context, scrollController) =>

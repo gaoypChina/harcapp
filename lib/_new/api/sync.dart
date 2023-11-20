@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:isolate';
 
 import 'package:dio/dio.dart';
@@ -7,6 +8,7 @@ import 'package:harcapp/_common_classes/org/org_handler.dart';
 import 'package:harcapp/_common_classes/sha_pref.dart';
 import 'package:harcapp/_new/api/sync_resp_body/album/own_album_resp.dart';
 import 'package:harcapp/_new/api/sync_resp_body/album/to_learn_album_resp.dart';
+import 'package:harcapp/_new/api/sync_resp_body/article_get_resp.dart';
 import 'package:harcapp/_new/api/sync_resp_body/off_song_get_resp.dart';
 import 'package:harcapp/_new/api/sync_resp_body/own_song_get_resp.dart';
 import 'package:harcapp/_new/api/sync_resp_body/rank_def_get_resp.dart';
@@ -19,6 +21,7 @@ import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/
 import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/models/rank_zhp_sim_2022.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/models_common/rank.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/model/trop.dart';
+import 'package:harcapp/_new/cat_page_harcthought/articles/article.dart';
 import 'package:harcapp/_new/cat_page_song_book/settings/song_book_settings_resp.dart';
 import 'package:harcapp/logger.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/album.dart';
@@ -26,8 +29,8 @@ import 'package:harcapp/_new/cat_page_song_book/song_management/off_song.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/own_song.dart';
 import 'package:harcapp/sync/syncable.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
-import 'package:pretty_json/pretty_json.dart';
 import 'package:intl/intl.dart';
+import 'package:json_pretty/json_pretty.dart';
 import 'package:tuple/tuple.dart';
 
 import '../../_common_classes/org/org_entity_resp.dart';
@@ -150,6 +153,7 @@ class ApiSync{
             bool? orgHandler,
             Map<String, dynamic>? appSettings,
             Map<String, dynamic>? songBookSettings,
+            Map<String, dynamic>? articles,
             Map<String, dynamic>? offSongs,
             Map<String, dynamic>? ownSongs,
             Map<String, dynamic>? ownAlbums,
@@ -221,7 +225,7 @@ class ApiSync{
     //
     // assert(const DeepCollectionEquality().equals(_reqMap, reqMap));
 
-    logger.i('Sync post request:\n${prettyJson(reqMap)}');
+    logger.i('Sync post request:\n${prettyPrintJson(jsonEncode(reqMap))}');
 
     return await API.sendRequest(
       withToken: true,
@@ -230,6 +234,7 @@ class ApiSync{
         dynamic orgHandler = response.data[OrgHandler.syncClassId];
         Map<String, dynamic>? appSettings = response.data[AppSettings.syncClassId];
         Map<String, dynamic>? songBookSettings = response.data[SongBookSettings.syncClassId];
+        Map<String, dynamic>? articles = response.data[Article.syncClassId];
         Map<String, dynamic>? offSongs = response.data[OffSong.syncClassId];
         Map<String, dynamic>? ownSongs = response.data[OwnSong.syncClassId];
         Map<String, dynamic>? ownAlbums = response.data[OwnAlbum.syncClassId];
@@ -245,13 +250,14 @@ class ApiSync{
 
         DateTime? syncedTime = DateTime.tryParse(response.data['time']);
 
-        logger.i('Sync post response:\n${prettyJson(response.data)}');
+        logger.i('Sync post response:\n${prettyPrintJson(jsonEncode(response.data))}');
 
         await onSuccess?.call(
           response,
           orgHandler,
           appSettings,
           songBookSettings,
+          articles,
           offSongs,
           ownSongs,
           ownAlbums,
@@ -281,6 +287,7 @@ class ApiSync{
           dynamic orgHandler, 
           Map? appSettings,
           Map? songBookSettings,
+          Map? articles,
           Map? offSongs,
           Map? ownSongs, 
           Map? ownAlbums,
@@ -305,6 +312,10 @@ class ApiSync{
 
         if(songBookSettings != null)
           SongBookSettings().saveSyncResult(songBookSettings, syncedTime);
+
+        if(articles != null)
+          for(String uniqName in articles.keys as Iterable<String>)
+            ArticleSyncData.fromUniqName(uniqName).saveSyncResult(articles[uniqName], syncedTime);
 
         if(offSongs != null)
           for(String lclId in offSongs.keys as Iterable<String>)
@@ -357,6 +368,7 @@ class ApiSync{
         OrgEntityResp? orgResp,
         AppSettingsResp? appSettingsResp,
         SongBookSettingsResp? songBookSettingsResp,
+        Map<String, ArticleGetResp> articles,
         Map<String, OffSongGetResp> offSongs,
         Map<String, OwnSongGetResp> ownSongs,
         Map<String, OwnAlbumGetResp> albums,
@@ -392,6 +404,18 @@ class ApiSync{
           if(songBookSettingsData != null)
             songBookSettingsResp = SongBookSettingsResp.from(songBookSettingsData);
 
+          Map<String, dynamic>? articles = response.data[ArticleGetResp.collName];
+          Map<String, ArticleGetResp> articleResps = {};
+          if(articles != null)
+            for(String uniqName in articles.keys){
+              Map<String, dynamic> response = articles[uniqName];
+              try {
+                articleResps[uniqName] = ArticleGetResp.from(response);
+              } catch (e){
+                logger.e('Article "$uniqName" from response creation error: ${e.toString()}');
+              }
+            }
+
           Map<String, dynamic>? offSongs = response.data[OffSongGetResp.collName];
           Map<String, OffSongGetResp> offSongResps = {};
           if(offSongs != null)
@@ -400,7 +424,7 @@ class ApiSync{
               try {
                 offSongResps[lclId] = OffSongGetResp.from(response);
               } catch (e){
-                logger.e('OffSong from response creation error: ${e.toString()}');
+                logger.e('OffSong "$lclId" from response creation error: ${e.toString()}');
               }
             }
 
@@ -412,7 +436,7 @@ class ApiSync{
               try {
                 ownSongResps[lclId] = OwnSongGetResp.from(response);
               } catch (e){
-                logger.e('OwnSong from response creation error: ${e.toString()}');
+                logger.e('OwnSong "$lclId" from response creation error: ${e.toString()}');
               }
             }
 
@@ -424,7 +448,7 @@ class ApiSync{
               try {
                 albumResps[lclId] = OwnAlbumGetResp.from(response);
               } catch (e){
-                logger.e('OwnAlbum from response creation error: ${e.toString()}');
+                logger.e('OwnAlbum "$lclId" from response creation error: ${e.toString()}');
               }
             }
 
@@ -446,7 +470,7 @@ class ApiSync{
               try {
                 sprawResps[uniqName] = SprawGetResp.from(response);
               } catch (e){
-                logger.e('Spraw from response creation error: ${e.toString()}');
+                logger.e('Spraw "$uniqName" from response creation error: ${e.toString()}');
               }
             }
 
@@ -458,7 +482,7 @@ class ApiSync{
               try {
                 rankDefResps[uniqName] = RankDefGetResp.from(response);
               } catch (e){
-                logger.e('RankDef from response creation error: ${e.toString()}');
+                logger.e('RankDef "$uniqName" from response creation error: ${e.toString()}');
               }
             }
 
@@ -470,7 +494,7 @@ class ApiSync{
               try {
                 rankZhpSim2022Resps[uniqName] = RankZhpSim2022GetResp.from(response);
               } catch (e){
-                logger.e('RankZhpSim2022 from response creation error: ${e.toString()}');
+                logger.e('RankZhpSim2022 "$uniqName" from response creation error: ${e.toString()}');
               }
             }
 
@@ -482,7 +506,7 @@ class ApiSync{
               try {
                 tropResps[uniqName] = TropGetResp.fromRespMap(response);
               } catch (e){
-                logger.e('Trop from response creation error: ${e.toString()}');
+                logger.e('Trop "$uniqName" from response creation error: ${e.toString()}');
               }
             }
 
@@ -494,27 +518,29 @@ class ApiSync{
 
           logger.i('Sync get response received:'
               '\n\nOrgData:'
-              '\n${prettyJson(orgData)}'
+              '\n${prettyPrintJson(jsonEncode(orgData))}'
               '\n\nAppSettings:'
-              '\n${prettyJson(appSettingsData)}'
+              '\n${prettyPrintJson(jsonEncode(appSettingsData))}'
               '\n\nSongBookSettings:'
-              '\n${prettyJson(songBookSettingsData)}'
+              '\n${prettyPrintJson(jsonEncode(songBookSettingsData))}'
+              '\n\nArticles:'
+              '\n${prettyPrintJson(jsonEncode(articles))}'
               '\n\nOffSongs:'
-              '\n${prettyJson(offSongs)}'
+              '\n${prettyPrintJson(jsonEncode(offSongs))}'
               '\n\nOwnSongs:'
-              '\n${prettyJson(ownSongs)}'
+              '\n${prettyPrintJson(jsonEncode(ownSongs))}'
               '\n\nOwnAlbums:'
-              '\n${prettyJson(albums)}'
+              '\n${prettyPrintJson(jsonEncode(albums))}'
               '\n\nToLearnAlbum:'
-              '\n${prettyJson(toLearnAlbum)}'
+              '\n${prettyPrintJson(jsonEncode(toLearnAlbum))}'
               '\n\nSpraws:'
-              '\n${prettyJson(spraws)}'
+              '\n${prettyPrintJson(jsonEncode(spraws))}'
               '\n\nRankDefs:'
-              '\n${prettyJson(rankDefs)}'
+              '\n${prettyPrintJson(jsonEncode(rankDefs))}'
               '\n\nRankZhpSim2022:'
-              '\n${prettyJson(rankZhpSim2022)}'
+              '\n${prettyPrintJson(jsonEncode(rankZhpSim2022))}'
               '\n\nTrop:'
-              '\n${prettyJson(trops)}'
+              '\n${prettyPrintJson(jsonEncode(trops))}'
 
           );
 
@@ -523,6 +549,7 @@ class ApiSync{
               orgResp,
               appSettingsResp,
               songBookSettingsResp,
+              articleResps,
               offSongResps,
               ownSongResps,
               albumResps,
@@ -547,6 +574,7 @@ class ApiSync{
           OrgEntityResp? orgResp,
           AppSettingsResp? appSettingsResp,
           SongBookSettingsResp? songBookSettingsResp,
+          Map<String, ArticleGetResp> articles,
           Map<String, OffSongGetResp> offSongs,
           Map<String, OwnSongGetResp> ownSongs,
           Map<String, OwnAlbumGetResp> albums,
@@ -566,6 +594,11 @@ class ApiSync{
 
         if(songBookSettingsResp != null)
           SongBookSettings().applySyncGetResp(songBookSettingsResp);
+
+        for(String uniqName in articles.keys){
+          ArticleGetResp articleResp = articles[uniqName]!;
+          ArticleSyncData.fromUniqName(uniqName).applySyncGetResp(articleResp);
+        }
 
         for(String lclId in offSongs.keys){
           OffSong? song = OffSong.allOfficialMap[lclId];

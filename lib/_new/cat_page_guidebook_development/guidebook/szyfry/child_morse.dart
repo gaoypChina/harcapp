@@ -92,7 +92,7 @@ class ChildMorseState extends State<ChildMorse> with AutomaticKeepAliveClientMix
 
   late String _additionalMorseLetter;
 
-  TextEditingController? controller;
+  late TextEditingController controller;
 
   @override
   void initState() {
@@ -109,7 +109,7 @@ class ChildMorseState extends State<ChildMorse> with AutomaticKeepAliveClientMix
 
   @override
   void dispose() {
-    controller!.dispose();
+    controller.dispose();
     super.dispose();
   }
 
@@ -182,7 +182,7 @@ class ChildMorseState extends State<ChildMorse> with AutomaticKeepAliveClientMix
 
                       String latinLetter = decodeAdditionalMorse(_additionalMorseLetter);
                       _input += latinLetter;
-                      controller!.text += latinLetter;
+                      controller.text += latinLetter;
                       _additionalMorseLetter = '';
                     }),
                     child: Icon(MdiIcons.slashForward)
@@ -210,7 +210,7 @@ class ChildMorseState extends State<ChildMorse> with AutomaticKeepAliveClientMix
     String output = '';
     for(int i=0; i<input.length; i++){
       String letter = input.substring(i, i+1);
-      output += lettersMap[letter]! + ' ';
+      output += '${lettersMap[letter]!} ';
     }
     if(additionalMorseLetter!=null)
       output += additionalMorseLetter;
@@ -225,8 +225,7 @@ class ChildMorseState extends State<ChildMorse> with AutomaticKeepAliveClientMix
     additionalMorseLetter = additionalMorseLetter.replaceAll(' ', '');
     String? latinLetter = reverseLettersMap[additionalMorseLetter];
 
-    if(latinLetter == null)
-      latinLetter = letterUnknown;
+    latinLetter ??= letterUnknown;
     return latinLetter;
   }
 
@@ -236,7 +235,7 @@ class MorseFlash extends StatefulWidget{
 
   final ChildMorseCommonValues? commonVals;
 
-  const MorseFlash(this.commonVals);
+  const MorseFlash(this.commonVals, {super.key});
 
   @override
   State<StatefulWidget> createState() => MorseFlashState();
@@ -446,7 +445,8 @@ class MorseFlashState extends State<MorseFlash>{
                         children: [
                           Padding(
                               padding: const EdgeInsets.all(Dimen.ICON_MARG),
-                              child: Container(
+                              child: SizedBox(
+                                width: 82,
                                 child: Text('WYWOŁUJ',
                                     style: AppTextStyle(
                                         fontSize: Dimen.TEXT_SIZE_BIG,
@@ -455,12 +455,11 @@ class MorseFlashState extends State<MorseFlash>{
                                     ),
                                     textAlign: TextAlign.center
                                 ),
-                                width: 82,
                               )
                           ),
                           Padding(
                             padding: const EdgeInsets.all(Dimen.ICON_MARG),
-                            child: Container(
+                            child: SizedBox(
                               width: 82,
                               child: Text('PRZERWIJ',
                                   style: AppTextStyle(

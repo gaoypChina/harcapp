@@ -86,7 +86,7 @@ class ForumFollowersLoader extends SingleComputer<String?, ForumFollowersLoaderL
 
           return true;
         },
-        onError: () => callError(null),
+        onError: () => callKnownError(null),
     );
 
   }

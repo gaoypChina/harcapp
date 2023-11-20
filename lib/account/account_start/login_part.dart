@@ -98,8 +98,7 @@ class LoginPartState extends State<LoginPart>{
             List<CommunityPublishable> feed
         ) async {
 
-          loginProv.notify();
-          AccountData.callOnLogin(emailConf);
+          AccountData.callOnLogin(emailConf, loginProv: loginProv);
 
           IndivComp.init(indivComps);
           IndivComp.callProviders(indivCompProv, indivCompListProv);
@@ -181,8 +180,7 @@ class LoginPartState extends State<LoginPart>{
 
             if(mounted) await popPage(context); // close login alert dialog
 
-            loginProv.notify();
-            AccountData.callOnLogin(emailConf);
+            AccountData.callOnLogin(emailConf, loginProv: loginProv);
 
             IndivComp.init(indivComps);
             IndivComp.callProviders(indivCompProv, indivCompListProv);
@@ -323,13 +321,15 @@ class LoginPartState extends State<LoginPart>{
                                 textColor: processing?iconDisab_(context):iconEnab_(context),
                                 text: 'Dołącz',
                                 icon: MdiIcons.accountPlusOutline,
-                                onTap: processing?null:() => pushReplacePage(
-                                    context,
-                                    builder: (context) => RegisterPart(
-                                      initEmail: emailController!.text,
-                                      initPassword: passwordController!.text,
-                                    )
-                                ),
+                                onTap: processing?null:(){
+                                  pushReplacePage(
+                                      context,
+                                      builder: (context) => RegisterPart(
+                                        initEmail: emailController!.text,
+                                        initPassword: passwordController!.text,
+                                      )
+                                  );
+                                }
                               ),
                             )
                         ),

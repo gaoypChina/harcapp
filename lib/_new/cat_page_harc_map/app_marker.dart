@@ -48,69 +48,71 @@ class AppMarker extends Marker{
       height: 24.0 + (marker.anyDoubleCommunityCategories?(2 + Dimen.TEXT_SIZE_BIG):0),
       width: 24.0 * max(marker.communitiesBasicData.length, 1),
       point: LatLng(marker.lat, marker.lng),
-      builder: (context) => InkWell(
-        onTap: () => showMarkerDialog(context, marker, onUpdated: onUpdated, onRemoved: onRemoved),
-        child: Builder(
-            builder: (context){
+      child: Builder(
+        builder: (context) => InkWell(
+          onTap: () => showMarkerDialog(context, marker, onUpdated: onUpdated, onRemoved: onRemoved),
+          child: Builder(
+              builder: (context){
 
-              List<Widget> children = [];
-              for(CommunityCategory commCat in marker.communitiesBasicData.keys) {
-                Widget? widget = commCatToWidget(commCat, size: Dimen.ICON_SIZE, elevated: true);
-                Color color = getCommCatColor(commCat);
-                children.add(
-                  marker.communitiesBasicData[commCat] == 1?
-                  widget:
-                  Material(
-                      color: color.withOpacity(.5),
-                      borderRadius: BorderRadius.circular(Dimen.ICON_SIZE),
-                      elevation: 2.0,
-                      child: Column(
-                        children: [
+                List<Widget> children = [];
+                for(CommunityCategory commCat in marker.communitiesBasicData.keys) {
+                  Widget? widget = commCatToWidget(commCat, size: Dimen.ICON_SIZE, elevated: true);
+                  Color color = getCommCatColor(commCat);
+                  children.add(
+                    marker.communitiesBasicData[commCat] == 1?
+                    widget:
+                    Material(
+                        color: color.withOpacity(.5),
+                        borderRadius: BorderRadius.circular(Dimen.ICON_SIZE),
+                        elevation: 2.0,
+                        child: Column(
+                          children: [
 
-                          widget,
+                            widget,
 
-                          const SizedBox(height: 1),
+                            const SizedBox(height: 1),
 
-                          Text(
-                            marker.communitiesBasicData[commCat].toString(),
-                            style: AppTextStyle(
-                                fontWeight: weight.halfBold,
-                                color: color.red + color.green + color.blue < 255*1.5?Colors.white:Colors.black
+                            Text(
+                              marker.communitiesBasicData[commCat].toString(),
+                              style: AppTextStyle(
+                                  fontWeight: weight.halfBold,
+                                  color: color.red + color.green + color.blue < 255*1.5?Colors.white:Colors.black
+                              ),
                             ),
-                          ),
 
-                          const SizedBox(height: 1),
+                            const SizedBox(height: 1),
 
-                        ],
+                          ],
+                        )
+                    ),
+                  );
+                }
+
+                if(children.isEmpty)
+                  return Center(
+                      child: markerTypeToWidget(
+                        marker.type,
+                        size: Dimen.ICON_SIZE,
+                        elevated: true,
                       )
+                    // child: Material(
+                    //   color: Colors.white,
+                    //   elevation: 2.0,
+                    //   borderRadius: BorderRadius.circular(Dimen.ICON_SIZE),
+                    //   child: Icon(MdiIcons.mapMarker, color: Colors.black),
+                    // ),
+                  );
+
+                return Center(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: children,
                   ),
                 );
+
               }
-
-              if(children.isEmpty)
-                return Center(
-                    child: markerTypeToWidget(
-                      marker.type,
-                      size: Dimen.ICON_SIZE,
-                      elevated: true,
-                    )
-                  // child: Material(
-                  //   color: Colors.white,
-                  //   elevation: 2.0,
-                  //   borderRadius: BorderRadius.circular(Dimen.ICON_SIZE),
-                  //   child: Icon(MdiIcons.mapMarker, color: Colors.black),
-                  // ),
-                );
-
-              return Center(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: children,
-                ),
-              );
-
-            }
+          ),
         ),
       )
   );

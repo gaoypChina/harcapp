@@ -148,7 +148,7 @@ class RankPageState extends State<RankPage> with ModuleStatsMixin{
                         rankZhp5,
                         rankZhp6
                       ],
-                      onOpen: (context) => null,
+                      onOpen: (context) {},
                       tabTitle: (List<String> titles) => '${titles[0]} - ${titles[1]}',
                     ),
                   ],
@@ -174,7 +174,7 @@ class RankPageState extends State<RankPage> with ModuleStatsMixin{
                         rankZhpOldZuch2,
                         rankZhpOldZuch3
                       ],
-                      onOpen: (context) => null,
+                      onOpen: (context) {},
                     ),
 
                     const SizedBox(height: 3*Dimen.SIDE_MARG),
@@ -195,7 +195,7 @@ class RankPageState extends State<RankPage> with ModuleStatsMixin{
                         rankZhpOld5,
                         rankZhpOld6
                       ],
-                      onOpen: (context) => null,
+                      onOpen: (context) {},
                       tabTitle: (List<String> titles) => '${titles[0]} - ${titles[1]}',
                     ),
 
@@ -220,7 +220,7 @@ class RankPageState extends State<RankPage> with ModuleStatsMixin{
                         rankZhrZuchD2,
                         rankZhrZuchD3
                       ],
-                      onOpen: (context) => null,
+                      onOpen: (context) {},
                     ),
 
                     const SizedBox(height: 3*Dimen.SIDE_MARG),
@@ -243,7 +243,7 @@ class RankPageState extends State<RankPage> with ModuleStatsMixin{
                         rankZhrHarcD4S,
                         rankZhrHarcD5
                       ],
-                      onOpen: (context) => null,
+                      onOpen: (context) {},
                     ),
 
                   ],
@@ -267,7 +267,7 @@ class RankPageState extends State<RankPage> with ModuleStatsMixin{
                         rankZhrZuchC2,
                         rankZhrZuchC3
                       ],
-                      onOpen: (context) => null,
+                      onOpen: (context) {},
                     ),
 
                     const SizedBox(height: 3*Dimen.SIDE_MARG),
@@ -286,7 +286,7 @@ class RankPageState extends State<RankPage> with ModuleStatsMixin{
                         rankZhrHarcC4,
                         rankZhrHarcC5,
                       ],
-                      onOpen: (context) => null,
+                      onOpen: (context) {},
                     ),
 
                   ],

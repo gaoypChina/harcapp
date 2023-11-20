@@ -57,7 +57,7 @@ class SongBasicData1{
 
     String moderator = lines[4];
 
-    String? youtubeLink = null;
+    String? youtubeLink;
     if (lines[5].isNotEmpty)
       youtubeLink = lines[5];
 

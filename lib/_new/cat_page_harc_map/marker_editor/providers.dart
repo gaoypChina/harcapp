@@ -39,10 +39,12 @@ class PositionProvider extends ChangeNotifier{
           height: 24,
           width: 24,
           point: point,
-          builder: (context) =>
-          PositionProvider.of(context).editMode?
-          Icon(MdiIcons.circleSmall, color: Colors.black):
-          Icon(MdiIcons.mapMarkerCircle, color: Colors.black)
+          child: Builder(
+              builder: (context) =>
+              PositionProvider.of(context).editMode?
+              Icon(MdiIcons.circleSmall, color: Colors.black):
+              Icon(MdiIcons.mapMarkerCircle, color: Colors.black)
+          )
       );
 
   static void applyPosition_(BuildContext context) => of(context).applyPosition();

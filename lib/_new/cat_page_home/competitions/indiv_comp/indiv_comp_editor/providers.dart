@@ -89,41 +89,52 @@ class TaskBodiesProvider extends ChangeNotifier{
 
   static TaskBodiesProvider of(BuildContext context) => Provider.of<TaskBodiesProvider>(context, listen: false);
 
-  List<IndivCompTaskEditable>? _taskEditables;
+  late List<IndivCompTaskEditable> _taskEditables;
 
   TaskBodiesProvider({List<IndivCompTask>? tasks}){
     _taskEditables = tasks?.map((task) => IndivCompTaskEditable(task)).toList()??[];
   }
 
-  List<IndivCompTaskEditable>? get taskEditables => _taskEditables;
+  List<IndivCompTaskEditable> get taskEditables => _taskEditables;
   void create(int position){
-    _taskEditables!.add(IndivCompTaskEditable.empty(position));
+    _taskEditables.add(IndivCompTaskEditable.empty(position));
     notifyListeners();
   }
+
+  void recalcPositions(){
+    for(int i=0; i<_taskEditables.length; i++){
+      IndivCompTaskEditable task = _taskEditables[i];
+      task.editedPosition = i;
+    }
+  }
+
+  void removeAt(int index) => _taskEditables.removeAt(index);
+
+  void insert(int index, IndivCompTaskEditable task) => _taskEditables.insert(index, task);
 
   void update(int i, {String? title, String? desc, int? points, int? position, TaskState? state, bool silent = false}){
 
     if(title != null)
-      _taskEditables![i].editedTitle = title;
+      _taskEditables[i].editedTitle = title;
 
     if(desc != null)
-      _taskEditables![i].editedDescription = desc;
+      _taskEditables[i].editedDescription = desc;
 
     if(points != null)
-      _taskEditables![i].editedPoints = points;
+      _taskEditables[i].editedPoints = points;
 
     if(position != null)
-      _taskEditables![i].editedPosition = position;
+      _taskEditables[i].editedPosition = position;
 
     if(state != null)
-      _taskEditables![i].editedState = state;
+      _taskEditables[i].editedState = state;
 
     if(!silent)
       notifyListeners();
   }
 
   void remove(int i, bool value, {bool silent = false}){
-    _taskEditables![i].remove = value;
+    _taskEditables[i].remove = value;
     if(!silent)
       notifyListeners();
   }
@@ -131,7 +142,7 @@ class TaskBodiesProvider extends ChangeNotifier{
   List<IndivTaskBody> createdTasks(){
 
     List<IndivTaskBody> taskBodies = [];
-    for(IndivCompTaskEditable taskEditable in _taskEditables!)
+    for(IndivCompTaskEditable taskEditable in _taskEditables)
       if(!taskEditable.created)
         taskBodies.add(taskEditable.toTaskBody());
 
@@ -141,7 +152,7 @@ class TaskBodiesProvider extends ChangeNotifier{
   List<IndivTaskBody> updatedTasks(){
 
     List<IndivTaskBody> taskBodies = [];
-    for(IndivCompTaskEditable taskEditable in _taskEditables!)
+    for(IndivCompTaskEditable taskEditable in _taskEditables)
       if(taskEditable.created && taskEditable.isEdited())
         taskBodies.add(taskEditable.toTaskBody());
 
@@ -151,7 +162,7 @@ class TaskBodiesProvider extends ChangeNotifier{
   List<String?> removedTasks(){
 
     List<String?> taskBodies = [];
-    for(IndivCompTaskEditable taskEditable in _taskEditables!)
+    for(IndivCompTaskEditable taskEditable in _taskEditables)
       if(taskEditable.created && taskEditable.remove!)
         taskBodies.add(taskEditable.task.key);
 
@@ -177,13 +188,13 @@ class AwardsProvider extends ChangeNotifier{
   }
 
   static AwardsProvider fromIndivCompAwards(List<IndivCompAward> data){
-    List<String?> _awards = [];
+    List<String?> awards = [];
     for(IndivCompAward _d in data){
-      _awards.add(_d.award);
+      awards.add(_d.award);
       for(int i=0; i<_d.rangeTo - _d.rangeFrom; i++)
-        _awards.add(null);
+        awards.add(null);
     }
-    return AwardsProvider(awards: _awards);
+    return AwardsProvider(awards: awards);
   }
 
   List<String?>? get awards => _awards;

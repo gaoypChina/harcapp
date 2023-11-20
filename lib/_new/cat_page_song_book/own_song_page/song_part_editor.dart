@@ -15,7 +15,7 @@ class SongPartEditor extends StatefulWidget{
   final Function(String, int)? onChordsChanged;
   final Function(bool)? onShiftedChanged;
 
-  const SongPartEditor({this.initText, this.initChords, this.initShifted, this.isRefren = false, this.onTextChanged, this.onChordsChanged, this.onShiftedChanged});
+  const SongPartEditor({super.key, this.initText, this.initChords, this.initShifted, this.isRefren = false, this.onTextChanged, this.onChordsChanged, this.onShiftedChanged});
 
   @override
   State<StatefulWidget> createState() => SongPartEditorState();

@@ -47,10 +47,10 @@ class DokumentyFragmentState extends State<DokumentyFragment> with ModuleStatsMi
             ),
           ),
         ],
-        body: TabBarView(
-          physics: const BouncingScrollPhysics(),
+        body: const TabBarView(
+          physics: BouncingScrollPhysics(),
           children: <Widget>[
-            const ChildDokumenty(),
+            ChildDokumenty(),
             ChildFaktury()
           ],
           //controller: _tabController,

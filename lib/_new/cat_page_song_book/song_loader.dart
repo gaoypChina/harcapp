@@ -140,10 +140,8 @@ class SongLoader extends SingleComputer<String, SingleComputerListener<String>>{
     String? ownSongsCode;
     try {
       ownSongsCode = readFileAsString(getOldOwnSongFilePath);
-    } on FileNotFoundError{}
-    catch (e) {
-      logger.e(e);
     }
+    catch (e) {}
 
     Tuple7 result = await compute(decodeSongs, Tuple3(allSongsCode, ownSongsCode, audioMetaRaw));
 
@@ -164,7 +162,7 @@ class SongLoader extends SingleComputer<String, SingleComputerListener<String>>{
       song.initReadableParams();
 
     for (String fileName in result.item7)
-      await callError(fileName);
+      await callKnownError(fileName);
 
     // LOAD MEMORIES
     // LOAD MEMORIES

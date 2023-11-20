@@ -148,7 +148,7 @@ class ChildMetodyki extends StatelessWidget{
 }
 
 class BottomSheetMeto extends BottomSheetDef{
-  BottomSheetMeto({
+  BottomSheetMeto({super.key, 
     required Color? color,
     required String title,
     required String zalozenia,
@@ -198,7 +198,7 @@ class MetoButton extends StatelessWidget{
 
   final void Function() onTap;
 
-  const MetoButton({
+  const MetoButton({super.key, 
     required this.name,
     required this.imagePath,
     required this.age,

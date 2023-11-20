@@ -10,6 +10,8 @@ import '../common.dart';
 import 'phone_widget.dart';
 
 class Page8 extends StatefulWidget{
+  const Page8({super.key});
+
 
   @override
   State<StatefulWidget> createState() => Page8State();
@@ -217,6 +219,8 @@ class Page8State extends State<Page8> with PageTemplateInterface{
               top: 2*initGridSize(width),
               left: 0,
               right: 0,
+              duration: animDuration,
+              curve: curve,
               child: SizedBox(
                   height: initGridSize(width),
                   child: AnimatedOpacity(
@@ -240,7 +244,7 @@ class Page8State extends State<Page8> with PageTemplateInterface{
                                     fontWeight: weight.bold
                                 )
                             ),
-                            SizedBox(height: 3.0),
+                            const SizedBox(height: 3.0),
                             Text(
                                 convText,
                                 style: AppTextStyle(
@@ -254,8 +258,6 @@ class Page8State extends State<Page8> with PageTemplateInterface{
                     ),
                   )
               ),
-              duration: animDuration,
-              curve: curve,
             ),
 
             // FIRST COLUMN
@@ -263,17 +265,17 @@ class Page8State extends State<Page8> with PageTemplateInterface{
             AnimatedPositioned(
               top: leaderRedY(width, height),
               left: leaderRedX(width, height),
-              child: PlayerWidget(color: RED_COLOR,  type: PlayerType.LEADER),
               duration: animDuration,
               curve: curve,
+              child: const PlayerWidget(color: RED_COLOR,  type: PlayerType.LEADER),
             ),
 
             AnimatedPositioned(
               top: multiPlayerRedY(width, height),
               left: multiPlayerRedX(width, height),
-              child: PlayerWidget(color: RED_COLOR, type: PlayerType.MULTI),
               duration: animDuration,
               curve: curve,
+              child: const PlayerWidget(color: RED_COLOR, type: PlayerType.MULTI),
             ),
 
             // SECOND COLUMN
@@ -281,23 +283,23 @@ class Page8State extends State<Page8> with PageTemplateInterface{
             AnimatedPositioned(
               top: leaderGreenY(width, height),
               left: leaderGreenX(width),
-              child: Opacity(
+              duration: animDuration,
+              curve: curve,
+              child: const Opacity(
                 opacity: PREV_INACTIVE_SIDE_OPACITY,
                 child: PlayerWidget(color: GREEN_COLOR,  type: PlayerType.LEADER),
               ),
-              duration: animDuration,
-              curve: curve,
             ),
 
             AnimatedPositioned(
               top: multiPlayerGreenY(width, height),
               left: multiPlayerGreenX(width),
-              child: Opacity(
+              duration: animDuration,
+              curve: curve,
+              child: const Opacity(
                 opacity: PREV_INACTIVE_SIDE_OPACITY,
                 child: PlayerWidget(color: GREEN_COLOR, type: PlayerType.MULTI),
               ),
-              duration: animDuration,
-              curve: curve,
             ),
 
             // PHONES
@@ -305,6 +307,8 @@ class Page8State extends State<Page8> with PageTemplateInterface{
             AnimatedPositioned(
               top: bottomPhoneY(width, height),
               left: bottomPhoneX(width),
+              duration: animDuration,
+              curve: curve,
               child: AnimatedRotation(
                 turns: -.25,
                 curve: curve,
@@ -315,25 +319,23 @@ class Page8State extends State<Page8> with PageTemplateInterface{
                   duration: animDuration,
                 ),
               ),
-              duration: animDuration,
-              curve: curve,
             ),
 
             AnimatedPositioned(
               top: upperPhoneY(width, height),
               left: upperPhoneX(width),
+              duration: animDuration,
+              curve: curve,
               child: AnimatedRotation(
                 turns: -.25,
                 curve: curve,
                 duration: animDuration,
                 child: PhoneWidget(
-                  builder: (context, width) => ScreenGamePlay(withColors: true, withWords: true),
+                  builder: (context, width) => const ScreenGamePlay(withColors: true, withWords: true),
                   size: upperPhoneWidth(width),
                   duration: animDuration,
                 ),
               ),
-              duration: animDuration,
-              curve: curve,
             ),
 
             /*

@@ -10,18 +10,18 @@ import 'common.dart';
 
 class DescCzekoladka extends StatelessWidget{
 
-  const DescCzekoladka();
+  const DescCzekoladka({super.key});
 
   @override
   Widget build(BuildContext context) {
     return ListView(
-        physics: BouncingScrollPhysics(),
-        padding: EdgeInsets.all(Dimen.SIDE_MARG),
+        physics: const BouncingScrollPhysics(),
+        padding: const EdgeInsets.all(Dimen.SIDE_MARG),
         children: <Widget>[
 
-          DescOnlyWidget(),
+          const DescOnlyWidget(),
 
-          SizedBox(height: Dimen.SIDE_MARG),
+          const SizedBox(height: Dimen.SIDE_MARG),
 
           Text(
             'Szyfr czekoladka zamienia każdą literę w szyfrowanej wiadomości na symbol, któremu dana litera odpowiada w poniższym zestawie tabelek.'
@@ -29,12 +29,12 @@ class DescCzekoladka extends StatelessWidget{
             style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG),
           ),
 
-          SizedBox(height: Dimen.SIDE_MARG),
+          const SizedBox(height: Dimen.SIDE_MARG),
 
           Row(
             children: <Widget>[
 
-              SizedBox(width: 2*Dimen.defMarg),
+              const SizedBox(width: 2*Dimen.defMarg),
 
               Expanded(
                   child: Column(
@@ -72,7 +72,7 @@ class DescCzekoladka extends StatelessWidget{
                     ],
                   )
               ),
-              SizedBox(width: 20.0),
+              const SizedBox(width: 20.0),
               Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
@@ -83,25 +83,26 @@ class DescCzekoladka extends StatelessWidget{
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              RotateText('Y'),
+                              const RotateText('Y'),
                               Container(height: 36, width: 2, color: textEnab_(context)),
-                              RotateText('T'),
+                              const RotateText('T'),
                             ],),
                           Container(height: 2, width: 2*36.0, color: textEnab_(context)),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              RotateText('W'),
+                              const RotateText('W'),
                               Container(height: 36, width: 2, color: textEnab_(context)),
-                              RotateText('U'),
+                              const RotateText('U'),
                             ],),
                         ])
                     ),
                   ),
 
-                  SizedBox(height: 20.0),
+                  const SizedBox(height: 20.0),
 
                   Stack(
+                    alignment: Alignment.center,
                     children: <Widget>[
                       RoundContainer(
                           34,
@@ -113,13 +114,12 @@ class DescCzekoladka extends StatelessWidget{
                           background_(context),
                           Center(child: Text('Z', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_APPBAR, fontWeight: weight.halfBold)))
                       )
-                    ],
-                    alignment: Alignment.center,)
+                    ],)
 
                 ],
               ),
 
-              SizedBox(width: 2*Dimen.defMarg),
+              const SizedBox(width: 2*Dimen.defMarg),
 
             ],),
 
@@ -133,7 +133,7 @@ class RotateText extends StatelessWidget{
 
   final String string;
 
-  const RotateText(this.string);
+  const RotateText(this.string, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -155,7 +155,7 @@ class RoundContainer extends StatelessWidget{
   final double radius;
   final Color? color;
   final Widget child;
-  const RoundContainer(this.radius, this.color, this.child);
+  const RoundContainer(this.radius, this.color, this.child, {super.key});
 
   @override
   Widget build(BuildContext context) {

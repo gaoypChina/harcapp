@@ -1,6 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_classes/org/org.dart';
+import 'package:harcapp/_common_widgets/loading_widget.dart';
+import 'package:harcapp/_new/api/user.dart';
 import 'package:harcapp/account/account_common/druzyna_input_field.dart';
 import 'package:harcapp/account/account_common/hufiec_input_field.dart';
 import 'package:harcapp/account/account_common/rank_harc_input_field.dart';
@@ -26,6 +29,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import '../../_app_common/accounts/user_data.dart';
 import '../account_common/org_input_field.dart';
 import '../account_common/rank_instr_input_field.dart';
+import '../account_common/shadow_nick_input_field.dart';
 import 'input_field_controller.dart';
 import 'main_button.dart';
 
@@ -34,7 +38,7 @@ class RegisterMicrosoftAddDataPart extends StatefulWidget{
   final String? azureToken;
   final void Function()? onAbandon;
 
-  const RegisterMicrosoftAddDataPart(this.azureToken, {this.onAbandon});
+  const RegisterMicrosoftAddDataPart(this.azureToken, {super.key, this.onAbandon});
 
   @override
   State<StatefulWidget> createState() => _RegisterMicrosoftAddDataPartState();
@@ -43,6 +47,7 @@ class RegisterMicrosoftAddDataPart extends StatefulWidget{
 
 class _RegisterMicrosoftAddDataPartState extends State<RegisterMicrosoftAddDataPart>{
 
+  late InputFieldController shadowNickController;
   late InputFieldController sexController;
   late InputFieldController orgController;
   late InputFieldController hufiecController;
@@ -70,6 +75,7 @@ class _RegisterMicrosoftAddDataPartState extends State<RegisterMicrosoftAddDataP
 
     LoginProvider loginProv = LoginProvider.of(context);
 
+    shadowNickController.errorText = '';
     sexController.errorText = '';
     orgController.errorText = '';
     hufiecController.errorText = '';
@@ -84,6 +90,8 @@ class _RegisterMicrosoftAddDataPartState extends State<RegisterMicrosoftAddDataP
 
     await ApiRegLog.registerMicrosoft(
         widget.azureToken,
+        shadowNickController.text,
+
         sex,
         org,
         hufiecController.text,
@@ -106,13 +114,11 @@ class _RegisterMicrosoftAddDataPartState extends State<RegisterMicrosoftAddDataP
             RankHarc? rankHarc,
             RankInstr? rankInstr,
         ) async {
-
-          loginProv.notify();
-          AccountData.callOnRegister();
-
+          AccountData.callOnRegister(loginProv: loginProv);
+          if(!mounted) return;
+          showAppToast(context, text: accountCreatedGreetingMessage);
           registered = true;
-
-          if(mounted) Navigator.pop(context);
+          Navigator.pop(context);
         },
         onServerMaybeWakingUp: () {
           if(mounted) showServerWakingUpToast(context);
@@ -124,6 +130,7 @@ class _RegisterMicrosoftAddDataPartState extends State<RegisterMicrosoftAddDataP
 
             Map? errorFieldMap = response!.data['errors'];
             if(errorFieldMap != null) {
+              shadowNickController.errorText = errorFieldMap[ApiRegLog.REGISTER_REQ_SHADOW_NICK] ?? '';
               sexController.errorText = errorFieldMap[ApiRegLog.REGISTER_MICROSOFT_REQ_SEX] ?? '';
               orgController.errorText = errorFieldMap[ApiRegLog.REGISTER_MICROSOFT_REQ_ORG] ?? '';
               hufiecController.errorText = errorFieldMap[ApiRegLog.REGISTER_MICROSOFT_REQ_HUFIEC] ?? '';
@@ -136,6 +143,7 @@ class _RegisterMicrosoftAddDataPartState extends State<RegisterMicrosoftAddDataP
             }
 
             generalError = response.data['error'];
+            showAppToast(context, text: 'Błąd w formularzu. Zerknij wyżej!');
 
           }catch (e){
             showAppToast(context, text: simpleErrorMessage);
@@ -149,6 +157,7 @@ class _RegisterMicrosoftAddDataPartState extends State<RegisterMicrosoftAddDataP
   @override
   void dispose() {
 
+    shadowNickController.dispose();
     sexController.dispose();
     orgController.dispose();
     hufiecController.dispose();
@@ -163,6 +172,7 @@ class _RegisterMicrosoftAddDataPartState extends State<RegisterMicrosoftAddDataP
 
   @override
   void initState() {
+    shadowNickController = InputFieldController();
     sexController = InputFieldController();
     orgController = InputFieldController();
     hufiecController = InputFieldController();
@@ -186,48 +196,58 @@ class _RegisterMicrosoftAddDataPartState extends State<RegisterMicrosoftAddDataP
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
 
+              ShadowNickInputField(
+                controller: shadowNickController,
+                asterisk: true,
+              ),
+
               const SizedBox(height: Dimen.SIDE_MARG),
 
               SexInputField(
                   sex,
                   controller: sexController,
-                  onSexChanged: (sex) => setState(() => this.sex = sex)
+                  onChanged: (sex) => setState(() => this.sex = sex)
               ),
 
               const SizedBox(height: Dimen.SIDE_MARG),
 
               OrgInputField(
-                  org,
-                  controller: orgController,
-                  onOrgChanged: (org) => setState(() => this.org = org)
+                org,
+                controller: orgController,
+                onChanged: (org) => setState(() => this.org = org),
+                asterisk: true,
               ),
 
               const SizedBox(height: Dimen.SIDE_MARG),
 
               HufiecInputField(
-                  controller: hufiecController,
+                controller: hufiecController,
+                asterisk: true,
               ),
 
               const SizedBox(height: Dimen.SIDE_MARG),
 
               DruzynaInputField(
                 controller: druzynaController,
+                asterisk: true,
               ),
 
               const SizedBox(height: Dimen.SIDE_MARG),
 
               RankHarcInputField(
-                  rankHarc,
-                  controller: rankHarcController,
-                  onRankHarcChanged: (rankHarc) => setState(() => this.rankHarc = rankHarc)
+                rankHarc,
+                controller: rankHarcController,
+                onChanged: (rankHarc) => setState(() => this.rankHarc = rankHarc),
+                asterisk: true,
               ),
 
               const SizedBox(height: Dimen.SIDE_MARG),
 
               RankInstrInputField(
-                  rankInstr,
-                  controller: rankInstrController,
-                  onRankInstrChanged: (rankInstr) => setState(() => this.rankInstr = rankInstr)
+                rankInstr,
+                controller: rankInstrController,
+                onChanged: (rankInstr) => setState(() => this.rankInstr = rankInstr),
+                asterisk: true,
               ),
 
               const SizedBox(height: 3*Dimen.SIDE_MARG),
@@ -244,7 +264,7 @@ class _RegisterMicrosoftAddDataPartState extends State<RegisterMicrosoftAddDataP
               GDPRInputField(
                   gdprAccept,
                   controller: gdprController,
-                  onAcceptChanged: (accept) => setState(() => this.gdprAccept = accept)
+                  onAcceptChanged: (accept) => setState(() => gdprAccept = accept)
               ),
 
               const SizedBox(height: Dimen.SIDE_MARG),
@@ -252,7 +272,7 @@ class _RegisterMicrosoftAddDataPartState extends State<RegisterMicrosoftAddDataP
               RegulaminInputField(
                   regulaminAccept,
                   controller: regulaminController,
-                  onAcceptChanged: (accept) => setState(() => this.regulaminAccept = accept)
+                  onAcceptChanged: (accept) => setState(() => regulaminAccept = accept)
               ),
 
               const SizedBox(height: 3*Dimen.SIDE_MARG),
@@ -270,10 +290,44 @@ class _RegisterMicrosoftAddDataPartState extends State<RegisterMicrosoftAddDataP
                           textColor: processing!?iconDisab_(context):iconEnab_(context),
                           text: 'Rezygnuję',
                           icon: MdiIcons.close,
-                          onTap: processing!?null:(){
-                            Navigator.pop(context);
-                            widget.onAbandon?.call();
-                          },
+                          onTap: processing!?null:() async => showAlertDialog(
+                              context,
+                              title: 'Porzucić konto?',
+                              content: 'Czy na pewno chcesz porzucić to konto?',
+                              actionBuilder: (context) => [
+
+                                AlertDialogButton(
+                                  text: 'Nie',
+                                  onTap: () async {
+
+                                    LoginProvider loginProv = LoginProvider.of(context);
+
+                                    Navigator.pop(context);
+                                    showLoadingWidget(context, 'Usuwanie konta...');
+                                    await ApiUser.delete(
+                                        onSuccess: (){
+                                          showAppToast(context, text: 'Konto porzucone');
+                                          AccountData.forgetAccount(false, loginProv: loginProv);
+                                          widget.onAbandon?.call();
+                                        },
+                                        onError: (_){
+                                          showAppToast(context, text: simpleErrorMessage);
+                                        }
+                                    );
+
+                                    Navigator.pop(context); // Close loading widget.
+                                    Navigator.pop(context);
+
+                                  },
+                                ),
+
+                                AlertDialogButton(
+                                  text: 'Nie',
+                                  onTap: () => Navigator.pop(context),
+                                ),
+
+                              ]
+                          )
                         ),
                       )
                   ),

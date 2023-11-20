@@ -1390,8 +1390,8 @@ SprawBook sprawBookZHRC = SprawBookData(
                   ),
 
                   SprawData(
-                      id: 'sportowiec',
-                      title: 'Sportowiec',
+                      id: 'zawodnik',
+                      title: 'Zawodnik',
                       level: 2,
                       tasks: [
                         'Umie grać na wybranej pozycji lub w wybranej roli w zespole stosując specjalistyczne techniki gry z nią związane (np. piąstkowanie bramkarza w piłce nożnej, krótki atak w siatkówce, rzut za 3 pkt w koszykówce).',

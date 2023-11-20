@@ -64,9 +64,9 @@ class SamplePointsOptimizer{
       Coordinate(westDist, southDist),
     ]]);
 
-    int _zoom = zoom.floor();
+    int zoom0 = zoom.floor();
 
-    for(int itZoom = _zoom; itZoom>0; itZoom--){
+    for(int itZoom = zoom0; itZoom>0; itZoom--){
       if(seenPublicMap[itZoom] == null)
         seenPublicMap[itZoom] = const Polygon(regions: []);
 

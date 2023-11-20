@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
@@ -13,7 +13,7 @@ class RadioButtonGroup<T> extends StatefulWidget{
   final Axis orientation;
   final Function(T id)? onChanged;
 
-  const RadioButtonGroup({
+  const RadioButtonGroup({super.key, 
     required this.buttonIDs,
     required this.buttonNames,
     this.buttonIcons,
@@ -73,13 +73,13 @@ class _RadioButtonGroupState<T> extends State<RadioButtonGroup<T?>>{
 
 class _RadioButton<T> extends StatelessWidget{
 
-  T buttonID;
-  IconData? icon;
-  String buttonName;
-  T currID;
-  Function(T currID) onTap;
+  final T buttonID;
+  final IconData? icon;
+  final String buttonName;
+  final T currID;
+  final Function(T currID) onTap;
 
-  _RadioButton({
+  const _RadioButton({
     required this.buttonID,
     this.icon,
     required this.buttonName,
@@ -94,9 +94,10 @@ class _RadioButton<T> extends StatelessWidget{
     bool isSelected = buttonID == currID;
 
     return SimpleButton(
-      padding: EdgeInsets.all(Dimen.ICON_MARG),
+      padding: const EdgeInsets.all(Dimen.ICON_MARG),
       radius: 100,
       onTap: () => onTap(buttonID),
+      key: key,
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -104,7 +105,7 @@ class _RadioButton<T> extends StatelessWidget{
           if(icon != null)
             Icon(icon, color: isSelected?accent_(context):textEnab_(context)),
           if(icon != null)
-            SizedBox(width: Dimen.ICON_MARG),
+            const SizedBox(width: Dimen.ICON_MARG),
 
           Text(
             buttonName,
@@ -117,7 +118,6 @@ class _RadioButton<T> extends StatelessWidget{
           ),
         ],
       ),
-      key: key,
     );
   }
 

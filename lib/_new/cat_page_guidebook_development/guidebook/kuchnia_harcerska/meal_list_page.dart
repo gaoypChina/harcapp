@@ -19,7 +19,7 @@ class MealListPage extends StatefulWidget{
   final KuchniaHarcerskaFragmentState parent;
   final List<Meal> meals;
 
-  const MealListPage(this.parent, this.meals);
+  const MealListPage(this.parent, this.meals, {super.key});
 
   @override
   State<StatefulWidget> createState() => MealListPageState();

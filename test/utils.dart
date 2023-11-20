@@ -49,7 +49,7 @@ void enableHttpRequests() {
 }
 
 void enableTestConnected() {
-  const MethodChannel channel = MethodChannel('plugins.flutter.io/connectivity');
+  const MethodChannel channel = MethodChannel('dev.fluttercommunity.plus/connectivity');
   channel.setMockMethodCallHandler((MethodCall methodCall) async {
     if(methodCall.method == 'check')
       return 'wifi';

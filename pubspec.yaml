@@ -15,46 +15,48 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 3.1.28+114 # 3.2.28+113 #
+version: 3.1.36+136 # 3.2.36+137 #
 
 environment:
   sdk: '>=3.0.2 <4.0.0'
 
 dependencies:
 
-  aad_oauth: ^0.4.0
+  aad_oauth: ^1.0.0
   after_layout: ^1.1.0
   animated_text_kit: ^4.2.1
-  assets_audio_player: ^3.0.6
+  assets_audio_player: ^3.1.1
   auto_size_text: ^3.0.0
   back_button_interceptor: ^7.0.0
   confetti: ^0.7.0
-  # date_picker_timeline: ^1.2.3
-  device_info_plus: ^8.2.2
+  connectivity_plus: ^4.0.2
+  device_info_plus: ^10.0.0
   dio: ^5.0.0
   dropdown_button2: ^2.0.0
   expandable_text: ^2.3.0
   extended_nested_scroll_view: ^6.0.0
   flip_card: ^0.7.0
   flutter_email_sender: ^6.0.0
-  flutter_image_compress: ^2.0.3
+  flutter_image_compress: ^2.0.4
   flutter_keyboard_visibility: ^5.2.0
   flutter_link_previewer: ^3.0.1
-  flutter_map: ^4.0.0
-  flutter_reorderable_list: ^1.2.0
-  flutter_secure_storage: ^8.0.0
+  flutter_map: ^6.0.0
+  flutter_reorderable_list: ^1.3.1
+  flutter_secure_storage: ^9.0.0
   flutter_slidable: ^3.0.0
   flutter_spinkit: ^5.1.0
   flutter_staggered_animations: ^1.1.1
   flutter_svg: ^2.0.4
   flutter_translate: ^4.0.2
-  google_fonts: ^4.0.1
+  flutter_widget_from_html: ^0.14.3
+  google_fonts: ^6.1.0
+  html: ^0.15.4
   html_unescape: ^2.0.0
   image: ^4.0.13
   image_gallery_saver: ^2.0.1
   image_picker: ^1.0.0
   implicitly_animated_reorderable_list_2: ^0.5.1
-  latlong2: ^0.8.1
+  latlong2: ^0.9.0
   lifecycle: ^0.8.0
   logger: ^2.0.1
   material_design_icons_flutter: ^7.0.7296
@@ -71,17 +73,14 @@ dependencies:
   percent_indicator: ^4.2.2
   permission_handler: ^11.0.0
   polybool: ^0.2.0
-  pretty_json: ^2.0.0
+  json_pretty: ^1.0.4
   printing: ^5.9.1
   pull_to_refresh_flutter3: ^2.0.1
   qr_flutter: ^4.1.0 #generator
-#  qr_flutter:
-#    git:
-#      url: https://github.com/lukef/qr.flutter
   qrscan: ^0.3.2
-  semaphore: ^0.2.1
-  sensors_plus: ^3.0.1
-  share: ^2.0.4
+  semaphore_plus: ^0.3.1
+  sensors_plus: ^4.0.0
+  share_plus: ^8.0.0
   shared_preferences: ^2.0.15
   simple_shadow: ^0.3.0
   smooth_page_indicator: ^1.0.0+2
@@ -90,8 +89,7 @@ dependencies:
   torch_light: ^1.0.0
   url_launcher: ^6.1.2
   uuid: ^3.0.7
-  wakelock: ^0.6.2
-  # webfeed: ^0.7.0
+  wakelock_plus: ^1.1.1
   webfeed_revised: ^0.7.2
   youtube_player_flutter: ^8.1.0 # add dependencies to iOS # add dependencies to Android
 
@@ -181,12 +179,14 @@ flutter:
     - assets/images/scout_org_logos/
     - assets/images/snowflake/
     - assets/images/start/
+    - assets/images/start/saints/
     - assets/images/stref_duch/
     - assets/images/symb/
     - assets/images/trop/harc/
     - assets/images/trop/zuch/
     - assets/images/w_deche/
     - assets/images/znaki_patro/
+    -
     - assets/konspekty/
     - assets/konspekty/gang_potencjalnych_porywaczy/
     - assets/songs/
@@ -217,7 +217,7 @@ flutter:
 
     - assets/spraw/zhr_harc_c/ozdobnictwo_i_przyroda/
     - assets/spraw/zhr_harc_c/ozdobnictwo_i_przyroda/rozpalanie_ognia/
-    - assets/spraw/zhr_harc_c/ozdobnictwo_i_przyroda/orient_w_teren/
+    - assets/spraw/zhr_harc_c/ozdobnictwo_i_przyroda/orientacja_w_terenie/
     - assets/spraw/zhr_harc_c/ozdobnictwo_i_przyroda/samarytanka/
     - assets/spraw/zhr_harc_c/ozdobnictwo_i_przyroda/musztra/
     - assets/spraw/zhr_harc_c/ozdobnictwo_i_przyroda/lacznosc/

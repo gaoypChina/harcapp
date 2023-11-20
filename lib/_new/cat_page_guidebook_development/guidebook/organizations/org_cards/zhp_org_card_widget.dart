@@ -10,7 +10,7 @@ class ZHPOrgCardWidget extends StatelessWidget{
 
   final void Function(BuildContext)? onTap;
 
-  const ZHPOrgCardWidget({this.onTap});
+  const ZHPOrgCardWidget({super.key, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class ZHPOrgCardWidget extends StatelessWidget{
           colorStart: AppColors.zhpGreen,
           colorEnd: Colors.green,
           child: Padding(
-              padding: EdgeInsets.all(24.0),
+              padding: const EdgeInsets.all(24.0),
               child: SvgPicture.asset('assets/images/scout_org_logos/logo_zhp_extended.svg', color: Colors.white)
           ),
         )

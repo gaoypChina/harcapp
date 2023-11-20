@@ -152,7 +152,7 @@ class TropUserTileExtendedState extends State<TropUserTileExtended>{
     showUpdateDialog(
         context: context,
         isMe: user.key == AccountData.key,
-        loosingAdmin: newRole != TropRole.OWNER,
+        loosingAdmin: user.role == TropRole.OWNER && newRole != TropRole.OWNER,
         currAdminCount: trop.loadedUsers.where((m) => m.role == TropRole.OWNER).length,
         looseAdminConfMess: 'Czy na pewno chcesz zrzec się roli <b>koordynatora</b> tropu <b>${trop.name}</b>?',
         handleUpdate: () async {

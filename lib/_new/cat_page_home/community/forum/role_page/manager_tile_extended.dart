@@ -158,7 +158,7 @@ class ForumManagerTileExtendedState extends State<ForumManagerTileExtended>{
     showUpdateDialog(
         context: context,
         isMe: manager.key == AccountData.key,
-        loosingAdmin: newRole != ForumRole.ADMIN,
+        loosingAdmin: manager.role == ForumRole.ADMIN && newRole != ForumRole.ADMIN,
         currAdminCount: forum.loadedManagers.where((m) => m.role == ForumRole.ADMIN).length,
         looseAdminConfMess: 'Czy na pewno chcesz zrzec się roli <b>administratora</b> forum <b>${forum.name}</b>?',
         handleUpdate: () async {

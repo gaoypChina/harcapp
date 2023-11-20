@@ -241,7 +241,9 @@ class CompletedSprawFolder extends BaseSprawFolder{
 
 class OwnSprawFolder extends BaseSprawFolder{
 
+  @override
   final String id;
+  @override
   final List<Spraw> spraws;
 
   const OwnSprawFolder({required this.id, required this.spraws});
@@ -318,20 +320,20 @@ class OwnSprawFolder extends BaseSprawFolder{
   static Future<OwnSprawFolder> create({String? name, String? iconKey, String? colorsKey}) async {
 
     int lastUsedId = ShaPref.getInt(ShaPref.SHA_PREF_SPRAW_FOLDER_LAST_USED_ID, 0);
-    int _id = lastUsedId + 1;
-    await ShaPref.setInt(ShaPref.SHA_PREF_SPRAW_FOLDER_LAST_USED_ID, _id);
+    int id = lastUsedId + 1;
+    await ShaPref.setInt(ShaPref.SHA_PREF_SPRAW_FOLDER_LAST_USED_ID, id);
 
-    String id = _id.toString();
+    String idStr = id.toString();
 
     List<String> allIds = ownFolderIds;
-    allIds.add(id);
+    allIds.add(idStr);
     await setOwnFolderIds(allIds);
 
-    if(name != null) await _setName(id, name);
-    if(iconKey != null) await setIconKey(id, iconKey);
-    if(colorsKey != null) await setColorKey(id, colorsKey);
+    if(name != null) await _setName(idStr, name);
+    if(iconKey != null) await setIconKey(idStr, iconKey);
+    if(colorsKey != null) await setColorKey(idStr, colorsKey);
 
-    return OwnSprawFolder(id: id, spraws: []);
+    return OwnSprawFolder(id: idStr, spraws: []);
   }
 
   @override
@@ -372,13 +374,12 @@ class OwnSprawFolder extends BaseSprawFolder{
   @override
   bool remove(String sprawUniqName){
 
-    bool success = sprawUIDs.remove(sprawUniqName);
-    List<String> _sprawUIDs = BaseSprawFolder.getSprawUIDs(id);
+    List<String> tmpSprawUIDs = BaseSprawFolder.getSprawUIDs(id);
 
-    _sprawUIDs.remove(sprawUniqName);
+    bool success = tmpSprawUIDs.remove(sprawUniqName);
     spraws.removeWhere((spraw) => spraw.uniqName == sprawUniqName);
 
-    sprawUIDs = _sprawUIDs;
+    sprawUIDs = tmpSprawUIDs;
 
     return success;
   }

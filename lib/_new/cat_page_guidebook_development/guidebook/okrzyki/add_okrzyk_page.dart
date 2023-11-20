@@ -45,8 +45,8 @@ class AddOkrzykPageState extends State<AddOkrzykPage> {
 
   final List<ItemCard> elements = [];
 
-  TextEditingController? titleController;
-  ScrollController? scrollController;
+  late TextEditingController titleController;
+  late ScrollController scrollController;
 
   @override
   void initState() {
@@ -80,8 +80,8 @@ class AddOkrzykPageState extends State<AddOkrzykPage> {
 
     if(scrollListView) {
       post(() =>
-          scrollController!.animateTo(
-              scrollController!.position.maxScrollExtent,
+          scrollController.animateTo(
+              scrollController.position.maxScrollExtent,
               duration: const Duration(milliseconds: 200),
               curve: Curves.easeOut));
 
@@ -126,7 +126,7 @@ class AddOkrzykPageState extends State<AddOkrzykPage> {
             text: 'Zapisz',
             onTap: () async{
               String path = getOkrzykiFolderLocalPath;
-              saveStringAsFileToFolder(path, Okrzyk(titleController!.text, elements.map((element) => element.toSoundElement()).toList(), official: false).toString());
+              saveStringAsFileToFolder(path, Okrzyk(titleController.text, elements.map((element) => element.toSoundElement()).toList(), official: false).toString());
               Navigator.pop(context);
 
               if(widget.onSaved != null)
@@ -154,7 +154,7 @@ class AddOkrzykPageState extends State<AddOkrzykPage> {
 
               OkrzykWidget(
                   Okrzyk(
-                      titleController!.text,
+                      titleController.text,
                       elements.map((element) => element.toSoundElement()).toList()
                   ),
                   editable: false,
@@ -210,7 +210,7 @@ class ItemCard extends StatelessWidget{
 
   final TextEditingController ctrlTon, ctrlTimeFract, ctrlWords, ctrlSeparators;
 
-  const ItemCard(this.parentState, this.ctrlTon, this.ctrlTimeFract, this.ctrlWords, this.ctrlSeparators);
+  const ItemCard(this.parentState, this.ctrlTon, this.ctrlTimeFract, this.ctrlWords, this.ctrlSeparators, {super.key});
 
   static ItemCard from(AddOkrzykPageState parentState, {String initTon = '25', String initTimeFract = '4', String initWords = '', String initSeparators = ''}){
     TextEditingController ctrlTon = TextEditingController(text: initTon);

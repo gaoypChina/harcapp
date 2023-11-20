@@ -9,7 +9,6 @@ import 'package:harcapp/_new/cat_page_guidebook_development/development/common/t
 import 'package:harcapp/_new/cat_page_guidebook_development/providers.dart';
 import 'package:harcapp/sync/syncable.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
-import 'package:provider/provider.dart';
 
 
 class SprawTaskData{
@@ -62,7 +61,8 @@ class SprawTask with SyncableParamGroupMixin, SyncGetRespNode<SprawTaskGetResp> 
     _completed = completed;
     setSingleState(paramCompleted, SyncableParamSingleMixin.stateNotSynced);
     synchronizer.post();
-    Provider.of<SprawInProgressListProv>(context, listen: false).notify();
+    SprawInProgressListProvider.notify_(context);
+    SprawProvider.notify_(context);
   }
 
   @override

@@ -12,7 +12,6 @@ import 'package:harcapp/_new/cat_page_guidebook_development/development/common/r
 import 'package:harcapp/_new/cat_page_guidebook_development/providers.dart';
 import 'package:harcapp/sync/syncable.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
-import 'package:provider/provider.dart';
 
 
 class SprawData{
@@ -135,8 +134,8 @@ class Spraw extends RankSprawTemplate<SprawGetResp>{
     setSingleState(paramInProgress, SyncableParamSingleMixin.stateNotSynced);
     if(!localOnly) synchronizer.post();
 
-    SprawSavedListProv.notify_(context);
-
+    SprawSavedListProvider.notify_(context);
+    SprawProvider.notify_(context);
   }
 
   set _savedInOmega(bool value) => SavedSprawFolder().changeSavedInOmega(uniqName, value: value);
@@ -144,7 +143,8 @@ class Spraw extends RankSprawTemplate<SprawGetResp>{
   void changeSavedInOmega(BuildContext context, {bool? value}){
     value ??= !savedInOmega;
     _savedInOmega = value;
-    Provider.of<SprawSavedListProv>(context, listen: false).notify();
+    SprawSavedListProvider.notify_(context);
+    SprawProvider.notify_(context);
   }
 
   Map<String, bool?> get taskComplMap => ShaPref.getMap<String, bool?>(ShaPref.SHA_PREF_SPRAW_COMPLETED_REQ_MAP_(uniqName), {});
@@ -178,7 +178,8 @@ class Spraw extends RankSprawTemplate<SprawGetResp>{
     setSingleState(paramInProgress, SyncableParamSingleMixin.stateNotSynced);
     if(!localOnly) synchronizer.post();
 
-    Provider.of<SprawInProgressListProv>(context, listen: false).notify();
+    SprawInProgressListProvider.notify_(context);
+    SprawProvider.notify_(context);
 
   }
 
@@ -221,8 +222,8 @@ class Spraw extends RankSprawTemplate<SprawGetResp>{
     setSingleState(paramCompleted, SyncableParamSingleMixin.stateNotSynced);
     if(!localOnly) synchronizer.post();
 
-    Provider.of<SprawCompletedListProv>(context, listen: false).notify();
-
+    SprawCompletedListProvider.notify_(context);
+    SprawProvider.notify_(context);
   }
 
   @override
@@ -288,7 +289,7 @@ class Spraw extends RankSprawTemplate<SprawGetResp>{
   String get debugClassId => syncClassId;
 
   @override
-  SyncableParam? get parentParam => SyncGetRespNode.sprawNodes;
+  SyncableParam? get parentParam => SyncGetRespNode.sprawNode;
 
   @override
   String get paramId => uniqName;

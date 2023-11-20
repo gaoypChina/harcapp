@@ -175,8 +175,7 @@ class Memory with SyncableParamGroupMixin, SyncGetRespNode<MemoryGetResp>, Remov
       required String? place,
       required String? desc,
       required int fontIndex,
-      required bool published, 
-      bool localOnly=false
+      required bool published
   }){
 
     lclId = lclId??const Uuid().v4();
@@ -191,9 +190,6 @@ class Memory with SyncableParamGroupMixin, SyncGetRespNode<MemoryGetResp>, Remov
     Song song = _songLclIdToSong(songLclId);
 
     Memory memory = Memory(lclId, song, date, place, desc, fontIndex, published);
-    memory.setAllSyncState(SyncableParamSingleMixin.stateNotSynced);
-    if(!localOnly)
-      synchronizer.post();
     return memory;
   }
 
@@ -240,7 +236,7 @@ class Memory with SyncableParamGroupMixin, SyncGetRespNode<MemoryGetResp>, Remov
 
   }
 
-  void save({bool localOnly = false, bool synced = false}) {
+  void save({bool localOnly = false, bool? synced = false}) {
 
     saveStringAsFileToFolder(
         getSongMemoriesFolderLocalPath,
@@ -248,9 +244,12 @@ class Memory with SyncableParamGroupMixin, SyncGetRespNode<MemoryGetResp>, Remov
         fileName: lclId
     );
 
-    setAllSyncState(
-        synced?SyncableParamSingleMixin.stateSynced:
-        SyncableParamSingleMixin.stateNotSynced);
+    if(synced != null)
+      setAllSyncState(
+          synced == true?
+          SyncableParamSingleMixin.stateSynced:
+          SyncableParamSingleMixin.stateNotSynced
+      );
 
     if(!localOnly)
       synchronizer.post();
@@ -268,27 +267,19 @@ class Memory with SyncableParamGroupMixin, SyncGetRespNode<MemoryGetResp>, Remov
     required String? desc,
     required int? fontIndex,
     required bool? published,
-    bool localOnly=false})
-  {
+  }) {
     if(date != null) this.date = date;
     if(place != null) this.place = place;
     if(desc != null) this.desc = desc;
     if(fontIndex != null) this.fontIndex = fontIndex;
     if(published != null) this.published = published;
-
-    save(localOnly: localOnly);
   }
 
-  @override
-  bool operator == (Object other) => other is Memory && lclId == other.lclId;
 
   static const syncClassId = 'memory';
 
   @override
   String get debugClassId => syncClassId;
-
-  @override
-  int get hashCode => lclId.hashCode;
 
   @override
   SyncableParam get parentParam => song.syncParamMemories;
@@ -340,7 +331,13 @@ class Memory with SyncableParamGroupMixin, SyncGetRespNode<MemoryGetResp>, Remov
     fontIndex = resp.fontKey;
     published = resp.published;
 
-    save(localOnly: true);
+    save(localOnly: true, synced: true);
   }
+
+  @override
+  int get hashCode => lclId.hashCode;
+
+  @override
+  bool operator == (Object other) => other is Memory && lclId == other.lclId;
 
 }

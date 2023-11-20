@@ -1,6 +1,6 @@
 import 'package:harcapp_core/comm_classes/common.dart';
 
-const List<ItemData> items = [
+const List<ItemData> allItems = [
   ItemData('z1_isc', 'Iść tędy',
       ['iść naprzód', 'iść do przodu', 'iść prosto',
         'idź naprzód', 'idź do przodu', 'idź prosto']),

@@ -9,7 +9,6 @@ import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import 'common.dart';
 import 'data.dart';
@@ -58,20 +57,20 @@ class SearchPageState extends State<SearchPage> {
                 onChanged: (text){
 
                   text = remPolChars(text);
-                  List<ItemData> _data = [];
+                  List<ItemData> data = [];
 
                   for(ItemData item in items){
                     if(remPolChars(item.name).contains(text))
-                      _data.add(item);
+                      data.add(item);
                     else
                       for(String tag in remPolCharsList(item.tags))
                         if(tag.contains(text)) {
-                          _data.add(item);
+                          data.add(item);
                           break;
                         }
                   }
 
-                  setState(() => this.data = _data);
+                  setState(() => data = data);
                 },
               ),
               height: SearchField.height

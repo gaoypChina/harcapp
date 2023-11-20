@@ -269,6 +269,7 @@ class SuperSearchPageState extends State<SuperSearchPage>{
 
               if(item is Forum)
                 return _ForumTile(forum: item);
+              return null;
             },
             childCount: searched.length,
           ))
@@ -313,7 +314,7 @@ class _IndivCompTile extends StatelessWidget{
 
   final IndivComp comp;
 
-  const _IndivCompTile({required this.comp, super.key});
+  const _IndivCompTile({required this.comp});
 
   @override
   Widget build(BuildContext context) => TemplateTile(
@@ -330,7 +331,7 @@ class _CommunityTile extends StatelessWidget{
 
   final Community community;
 
-  const _CommunityTile({required this.community, super.key});
+  const _CommunityTile({required this.community});
 
   @override
   Widget build(BuildContext context) => TemplateTile(
@@ -355,7 +356,7 @@ class _CircleTile extends StatelessWidget{
 
   final Circle circle;
 
-  const _CircleTile({required this.circle, super.key});
+  const _CircleTile({required this.circle});
 
   @override
   Widget build(BuildContext context) => TemplateTile(
@@ -382,7 +383,7 @@ class _ForumTile extends StatelessWidget{
 
   final Forum forum;
 
-  const _ForumTile({required this.forum, super.key});
+  const _ForumTile({required this.forum});
 
   @override
   Widget build(BuildContext context) => TemplateTile(

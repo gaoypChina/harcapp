@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/org/org.dart';
 import 'package:harcapp/_new/api/sync_resp_body/rank_def_get_resp.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/data/data_zhr_c.dart';
@@ -68,8 +68,7 @@ class RankZHRCData extends RankData{
     //if(koment != null)
     //  allCats.add(StopCat(title: 'Komentarze', groups: koment));
 
-    if(cats != null)
-      allCats.addAll(cats);
+    allCats.addAll(cats);
 
     return RankZHRCData(
         title: title,
@@ -148,7 +147,7 @@ class RankZHRC<T extends RankState> extends RankZHRCTempl<RankStateLocal>{
   static const String syncClassId = RankDef.syncClassId;
 
   @override
-  SyncableParam? get parentParam => SyncGetRespNode.rankDefNodes;
+  SyncableParam? get parentParam => SyncGetRespNode.rankDefNode;
 
 }
 
@@ -164,6 +163,6 @@ class RankZHRCPreview extends RankZHRCTempl<RankStateShared>{
 
   @override
   // TODO: Separate the rank template stuff do that preview is not syncable.
-  SyncableParam? get parentParam => SyncGetRespNode.rankDefNodes;
+  SyncableParam? get parentParam => SyncGetRespNode.rankDefNode;
 
 }

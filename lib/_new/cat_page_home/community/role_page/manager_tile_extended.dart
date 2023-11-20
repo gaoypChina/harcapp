@@ -153,7 +153,7 @@ class CommunityManagerTileExtendedState extends State<CommunityManagerTileExtend
     showUpdateDialog(
         context: context,
         isMe: manager.key == AccountData.key,
-        loosingAdmin: newRole != CommunityRole.ADMIN,
+        loosingAdmin: manager.role == CommunityRole.ADMIN && newRole != CommunityRole.ADMIN,
         currAdminCount: community.loadedManagers.where((m) => m.role == CommunityRole.ADMIN).length,
         looseAdminConfMess: 'Czy na pewno chcesz zrzec się roli <b>administratora</b> środowiska <b>${community.name}</b>?',
         handleUpdate: () async {

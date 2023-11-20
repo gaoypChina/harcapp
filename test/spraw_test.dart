@@ -5,8 +5,6 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read Lk_9_28b-36$text, and verify that the values of widget properties are correct.
 
-import 'package:harcapp/_common_classes/sha_pref.dart';
-import 'package:harcapp/_common_classes/storage.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/_sprawnosci/models/spraw.dart';
 
 import 'package:harcapp/sync/synchronizer_engine.dart';

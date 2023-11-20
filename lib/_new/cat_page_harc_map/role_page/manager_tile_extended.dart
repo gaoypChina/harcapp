@@ -162,7 +162,7 @@ class MarkerManagerTileExtendedState extends State<MarkerManagerTileExtended>{
     showUpdateDialog(
         context: context,
         isMe: manager.key == AccountData.key,
-        loosingAdmin: newRole != MarkerRole.ADMIN,
+        loosingAdmin: marker.myRole == MarkerRole.ADMIN && newRole != MarkerRole.ADMIN,
         currAdminCount: marker.loadedManagers.where((m) => m.role == MarkerRole.ADMIN).length,
         looseAdminConfMess: 'Czy na pewno chcesz zrzec się roli <b>administratora</b> miejsca <b>${marker.name}</b>?',
         handleUpdate: () async {

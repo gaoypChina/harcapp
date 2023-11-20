@@ -35,11 +35,11 @@ class ZHROrgPageState extends State<ZHROrgPage> with ModuleStatsMixin{
 
       const SizedBox(height: commonPadding),
 
-      AppCard(
+      const AppCard(
         radius: AppCard.bigRadius,
         color: AppColors.zhr_red,
         child: Column(
-          children: const [
+          children: [
 
             Padding(
               padding: EdgeInsets.all(commonPadding),
@@ -96,7 +96,7 @@ class ZHROrgPageState extends State<ZHROrgPage> with ModuleStatsMixin{
             'Przedwojenne wartości',
             'ZHR jest wspólnotą, której członkowie w zmieniającym się społeczeństwie są wierni tradycyjnemu Przyrzeczeniu i Prawu Harcerskiemu.',
             titleColor: AppColors.zhr_red,
-            titleLeading: Row(children: [Icon(MdiIcons.compass, color: AppColors.zhr_red), SizedBox(width: Dimen.ICON_MARG)]),
+            titleLeading: Row(children: [Icon(MdiIcons.compass, color: AppColors.zhr_red), const SizedBox(width: Dimen.ICON_MARG)]),
             inCard: false,
           ),
 
@@ -106,7 +106,7 @@ class ZHROrgPageState extends State<ZHROrgPage> with ModuleStatsMixin{
             'Organizacja Harcerek i Harcerzy',
             'Praca wychowawcza prowadzona jest w oparciu o metodę harcerską w odrębnych organizacjach harcerek i harcerzy.',
             titleColor: AppColors.zhr_red,
-            titleLeading: Row(children: [Icon(MdiIcons.humanMaleFemale, color: AppColors.zhr_red), SizedBox(width: Dimen.ICON_MARG)]),
+            titleLeading: Row(children: [Icon(MdiIcons.humanMaleFemale, color: AppColors.zhr_red), const SizedBox(width: Dimen.ICON_MARG)]),
             inCard: false,
           ),
 
@@ -116,7 +116,7 @@ class ZHROrgPageState extends State<ZHROrgPage> with ModuleStatsMixin{
             'Odpowiedzialna, doświadczona kadra',
             'Kadrę Związku stanowią instruktorki i instruktorzy – pełnoletni, kompetentni i będący chrześcijanami.',
             titleColor: AppColors.zhr_red,
-            titleLeading: Row(children: [Icon(MdiIcons.accountCowboyHat, color: AppColors.zhr_red), SizedBox(width: Dimen.ICON_MARG)]),
+            titleLeading: Row(children: [Icon(MdiIcons.accountCowboyHat, color: AppColors.zhr_red), const SizedBox(width: Dimen.ICON_MARG)]),
             inCard: false,
           ),
 
@@ -126,7 +126,7 @@ class ZHROrgPageState extends State<ZHROrgPage> with ModuleStatsMixin{
             'Aktualny program',
             'Związek modyfikuje swój program i sposoby działania, aby odpowiadać na wyzwania zmieniającej się rzeczywistości.',
             titleColor: AppColors.zhr_red,
-            titleLeading: Row(children: [Icon(MdiIcons.formatListChecks, color: AppColors.zhr_red), SizedBox(width: Dimen.ICON_MARG)]),
+            titleLeading: Row(children: [Icon(MdiIcons.formatListChecks, color: AppColors.zhr_red), const SizedBox(width: Dimen.ICON_MARG)]),
             inCard: false,
           ),
 
@@ -136,7 +136,7 @@ class ZHROrgPageState extends State<ZHROrgPage> with ModuleStatsMixin{
             'Zasięg',
             'Organizacja inicjuje i wspiera środowiska działające we wszystkich miejscowościach, niezależnie od ich wielkości.',
             titleColor: AppColors.zhr_red,
-            titleLeading: Row(children: [Icon(MdiIcons.signalCellular3, color: AppColors.zhr_red), SizedBox(width: Dimen.ICON_MARG)]),
+            titleLeading: Row(children: [Icon(MdiIcons.signalCellular3, color: AppColors.zhr_red), const SizedBox(width: Dimen.ICON_MARG)]),
             inCard: false,
           ),
 
@@ -146,7 +146,7 @@ class ZHROrgPageState extends State<ZHROrgPage> with ModuleStatsMixin{
             'Członkowie',
             'Członkowie ZHR są aktywni w życiu społecznym, mają wpływ na kształtowanie stylu życia młodych ludzi, podejmują służbę na rzecz innych i środowiska naturalnego.',
             titleColor: AppColors.zhr_red,
-            titleLeading: Row(children: [Icon(MdiIcons.accountGroup, color: AppColors.zhr_red), SizedBox(width: Dimen.ICON_MARG)]),
+            titleLeading: Row(children: [Icon(MdiIcons.accountGroup, color: AppColors.zhr_red), const SizedBox(width: Dimen.ICON_MARG)]),
             inCard: false,
           ),
         ],

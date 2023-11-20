@@ -23,20 +23,20 @@ class SexInputField extends StatelessWidget{
   final bool enabled;
   final bool dimTextOnDisabled;
   final InputFieldController? controller;
-  final void Function(Sex)? onSexChanged;
+  final void Function(Sex)? onChanged;
 
-  const SexInputField(this.sex, {this.enabled = true, this.dimTextOnDisabled = true, this.controller, this.onSexChanged, super.key});
+  const SexInputField(this.sex, {this.enabled = true, this.dimTextOnDisabled = true, this.controller, this.onChanged, super.key});
 
   @override
   Widget build(BuildContext context) {
 
-    final GlobalKey _widgetKey = GlobalKey();
+    final GlobalKey widgetKey = GlobalKey();
 
-    InputFieldController _controller = controller??InputFieldController();
+    InputFieldController controller = this.controller??InputFieldController();
 
-    void Function() onTap = () async {
+    onTap() async {
 
-      final RenderBox renderBoxRed = _widgetKey.currentContext!.findRenderObject() as RenderBox;
+      final RenderBox renderBoxRed = widgetKey.currentContext!.findRenderObject() as RenderBox;
       final position = renderBoxRed.localToGlobal(Offset.zero);
 
       Sex? selSex = await showChooseSexDialog(
@@ -46,20 +46,20 @@ class SexInputField extends StatelessWidget{
       );
 
       if(selSex != null){
-        onSexChanged?.call(selSex);
-        _controller.errorDimed = true;
+        onChanged?.call(selSex);
+        controller.errorDimed = true;
       }
-    };
+    }
 
     return Stack(
-      key: _widgetKey,
+      key: widgetKey,
       children: [
 
         GestureDetector(
           onTap: enabled?onTap:null,
           child: InputField(
             hint: 'Płeć:',
-            controller: _controller,
+            controller: controller,
             hintTextColor: enabled && sex != null?textEnab_(context):(dimTextOnDisabled?textDisab_(context):textEnab_(context)),
             enabled: false,
             leading: Icon(MdiIcons.genderMaleFemale, color: iconDisab_(context)),

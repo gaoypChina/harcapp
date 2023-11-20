@@ -5588,7 +5588,7 @@ SprawBook sprawBookZHRD = SprawBookData(
                 ]
             ),
 
-            SprawFamilyData(
+            const SprawFamilyData(
                 id: 'x',
                 sprawData: [
 

@@ -60,7 +60,7 @@ void main() {
     bool finished = false;
 
     late SingleComputerListener<String> listener = SingleComputerListener<String>(
-      onEnd: (_, __) async => finished = true,
+      onEnd: (_, __, ___) async => finished = true,
     );
 
     testLoader.addListener(listener);
@@ -81,7 +81,7 @@ void main() {
 
     late SingleComputerListener<String> listener = SingleComputerListener<String>(
       onStart: () => listenerOnStartCalled = true,
-      onEnd: (_, __) async => listenerOnEndCalled = true,
+      onEnd: (_, __, ___) async => listenerOnEndCalled = true,
     );
 
     testLoader.addListener(listener);
@@ -101,7 +101,7 @@ void main() {
     late SingleComputerListener<String> listener;
     listener = SingleComputerListener<String>(
       onStart: () => testLoader.removeListener(listener),
-      onEnd: (_, __) async => listenerOnEndCalled = true,
+      onEnd: (_, __, ___) async => listenerOnEndCalled = true,
     );
 
     testLoader.addListener(listener);
@@ -146,7 +146,7 @@ void main() {
 
     late SingleComputerListener<String> listener;
     listener = SingleComputerListener<String>(
-      onEnd: (_, __) => testLoader.removeListener(listener)
+      onEnd: (_, __, ___) => testLoader.removeListener(listener)
     );
 
     testLoader.addListener(listener);
@@ -165,13 +165,13 @@ void main() {
     late SingleComputerListener<String> listenerSecond;
 
     listenerSecond = SingleComputerListener<String>(
-      onEnd: (_, __){
+      onEnd: (_, __, ___){
         listenerSecondOnEndCalled = true;
       },
     );
 
     listenerFirst = SingleComputerListener<String>(
-      onEnd: (_, __){
+      onEnd: (_, __, ___){
         testLoader.removeListener(listenerSecond);
       },
     );

@@ -1,5 +1,3 @@
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:harcapp/_common_classes/sliver_child_builder_separated_delegate.dart';
@@ -39,7 +37,7 @@ class SlownikFragmentState extends State<SlownikFragment> with ModuleStatsMixin{
 
   final GlobalKey keyPDF = GlobalKey();
 
-  TextEditingController? controller;
+  late TextEditingController controller;
 
   late List<TransData> _items;
 
@@ -63,11 +61,8 @@ class SlownikFragmentState extends State<SlownikFragment> with ModuleStatsMixin{
   @override
   Widget build(BuildContext context) {
 
-    Lang? _lang1 = lang1;
-    Lang? _lang2 = lang2;
-
     if(lang1 == lang2 && lang2 == Lang.pol)
-      _lang2 = Lang.mug;
+      lang2 = Lang.mug;
 
     return BottomNavScaffold(
       body: CustomScrollView(
@@ -82,7 +77,7 @@ class SlownikFragmentState extends State<SlownikFragment> with ModuleStatsMixin{
             actions: <Widget>[
               IconButton(
                 icon: const Icon(Icons.spellcheck),
-                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => WritingRulesPage())),
+                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const WritingRulesPage())),
               ),
             ],
             bottom: PreferredSize(
@@ -101,8 +96,8 @@ class SlownikFragmentState extends State<SlownikFragment> with ModuleStatsMixin{
             sliver: SliverList(
               delegate: SliverChildSeparatedBuilderDelegate((BuildContext context, int index) {
 
-                TransLangData langData1 = _items[index].get(_lang1)!;
-                TransLangData langData2 = _items[index].get(_lang2)!;
+                TransLangData langData1 = _items[index].get(lang1)!;
+                TransLangData langData2 = _items[index].get(lang2)!;
 
                 return Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -175,10 +170,10 @@ class SlownikFragmentState extends State<SlownikFragment> with ModuleStatsMixin{
 
   List<TransData> sortFilterItems(List<TransData> items){
 
-    List<TransData> _items = List.of(items);
-    _items.removeWhere((element) => element.get(lang1) == null || element.get(lang2) == null);
+    List<TransData> items0 = List.of(items);
+    items0.removeWhere((element) => element.get(lang1) == null || element.get(lang2) == null);
 
-    _items.sort((TransData a, TransData b){
+    items0.sort((TransData a, TransData b){
       String strA = a.get(lang1)!.word.word.toLowerCase()
           .replaceAll('(', '')
           .replaceAll(')', '');
@@ -190,18 +185,18 @@ class SlownikFragmentState extends State<SlownikFragment> with ModuleStatsMixin{
       return strA.compareTo(strB);
     });
 
-    return _items;
+    return items0;
   }
 
   List<TransData> getItems(){
 
     List<TransData> allItems = sortFilterItems(allWordsData);
-    if(controller!.text.isEmpty) return allItems;
+    if(controller.text.isEmpty) return allItems;
 
     List<TransData> resultItems = [];
     for(TransData item in allItems)
-      if(remPolChars(remSpecChars(item.get(lang1)!.word.word)).contains(remPolChars(remSpecChars(controller!.text))) ||
-          remPolChars(remSpecChars(item.get(lang2)!.word.word)).contains(remPolChars(remSpecChars(controller!.text))))
+      if(remPolChars(remSpecChars(item.get(lang1)!.word.word)).contains(remPolChars(remSpecChars(controller.text))) ||
+          remPolChars(remSpecChars(item.get(lang2)!.word.word)).contains(remPolChars(remSpecChars(controller.text))))
         resultItems.add(item);
 
     return resultItems;
