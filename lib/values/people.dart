@@ -29,6 +29,7 @@ List<Person> allPeople = [
   ALEKSANDRA_WOJCIECHOWSKA,
   ALICJA_JEZNACKA,
   ALICJA_MAJCHER,
+  ANNA_RAJEWSKA,
   ANTONINA_PIERZCHALA,
   ANTONINA_ROMANSKA,
   ANTONINA_SZTYGLIC,
@@ -101,6 +102,7 @@ List<Person> allPeople = [
   JAN_KUCZA,
   JAN_NOWAK,
   JAN_STANULA,
+  JANUSZ_ORLUTA,
   JAROSLAW_JAKUBIAK,
   JAROSLAW_ZASACKI,
   JOANNA_MICHALOWSKA,
@@ -155,6 +157,7 @@ List<Person> allPeople = [
   LENA_PATLA,
   LENA_WEISS,
   LILIANA_MIROTA,
+  LUCJA_TALKOWSKA,
   LUKASZ_SZEPIELAK,
   LUKASZ_KRYWULT,
   LUKASZ_RYBINSKI,
@@ -166,6 +169,7 @@ List<Person> allPeople = [
   MACIEJ_PAWLICA,
   MACIEJ_SZOLC,
   MACIEJ_WYSOCKI,
+  MAGDALENA_KALISZ,
   MAGDALENA_KOZLOWSKA,
   MAJA_WOJTYNIAK,
   MAKSYMILIAN_SPADLO,
@@ -193,6 +197,7 @@ List<Person> allPeople = [
   MATEUSZ_KOBYLAREK,
   MATEUSZ_KORZENIOWSKI,
   MATEUSZ_MIKLASZEWSKI,
+  MATEUSZ_PYSZKA,
   MATEUSZ_STEPNIEWSKI,
   MATEUSZ_SWIEBODA,
   MATEUSZ_URBANIAK,
@@ -213,6 +218,7 @@ List<Person> allPeople = [
   NADIA_WYSZOGRODZKA,
   NATALIA_STODOLNA,
   OLGA_JAJKO,
+  OLGA_LUCZAK,
   OLIWIA_MAJDA,
   OLIWIA_STANCZYK,
   OLIWIER_STARCZEWSKI,
@@ -284,6 +290,7 @@ List<Person> allPeople = [
   ZUZANNA_KOLIS,
   ZUZANNA_KOWALCZYK,
   ZUZANNA_MIERZEJEWSKA,
+  ZUZANNA_NAWROT,
   ZUZANNA_NIEWEGLOWSKA,
   ZUZANNA_PIWKO,
   ZUZANNA_ROMANISZYN,
@@ -432,6 +439,12 @@ const Person ALICJA_MAJCHER = Person(
     hufiec: huf_zhp_warszawa_wola,
     org: Org.zhp,
     email: ['alicja.majcher@zhp.net.pl']
+);
+const Person ANNA_RAJEWSKA = Person(
+    name: 'Anna Rajewska',
+    druzyna: '2. Drużyna im. Leona Zadurskiego w Żukowie',
+    hufiec: huf_zhp_kartuzy,
+    email: ['anna.rajewska14@gmail.com']
 );
 const Person ANTONINA_PIERZCHALA = Person(
     name: 'Antonina Pierzchała',
@@ -861,6 +874,13 @@ const Person JAN_STANULA = Person(
   hufiec: huf_zhp_trzebinia,
   org: Org.zhp
 );
+const Person JANUSZ_ORLUTA = Person(
+  name: 'Janusz Orluta',
+  rankHarc: RankHarc.zhpHRc,
+  rankInstr: RankInstr.hm,
+  druzyna: 'Krąg Instruktorski "Amfibia"',
+  email: ['janusz.orluta@zhp.net.pl']
+);
 const Person JAROSLAW_JAKUBIAK = Person(name: 'Jarosław Jakubiak', rankHarc: RankHarc.dhc,
   hufiec: huf_zhp_uk,
 );
@@ -1145,10 +1165,17 @@ const Person LENA_WEISS = Person(
 const Person LILIANA_MIROTA = Person(
     name: 'Liliana Mirota',
     druzyna: '7. BDH „Wrzosowisko”',
-    hufiec: huf_zhp_redukta,
+    hufiec: huf_zhp_reduta,
     rankHarc: RankHarc.zhpOchotniczka,
     org: Org.zhp,
     email: ['lilianamirota@gmail.com', 'lilianokotek@wp.pl']
+);
+const Person LUCJA_TALKOWSKA = Person(
+    name: 'Łucja Talkowska',
+    druzyna: 'Callis',
+    rankHarc: RankHarc.zhrOchotniczka,
+    org: Org.zhr_o,
+    email: ['lusitalkowska@gmail.com']
 );
 const Person LUKASZ_SZEPIELAK = Person(name: 'Łukasz Szepielak', rankHarc: RankHarc.dhc, org: Org.zhp,);
 const Person LUKASZ_SZTANDERA = Person(
@@ -1229,6 +1256,13 @@ const Person MACIEJ_WYSOCKI = Person(
     hufiec: huf_zhp_warszawa_zoliborz,
     org: Org.zhp,
     email: ['pan.macieq@gmail.com']
+);
+const Person MAGDALENA_KALISZ = Person(
+    name: 'Magdalena Kalisz',
+    druzyna: '64. WDH „Skaut”',
+    hufiec: huf_zhp_warszawa_praga_pn,
+    org: Org.zhp,
+    email: ['magdalena.kalisz@zhp.net.pl']
 );
 const Person MAGDALENA_KOZLOWSKA = Person(
     name: 'Magdalena Kozłowska',
@@ -1393,6 +1427,12 @@ const Person MATEUSZ_MIKLASZEWSKI = Person(
     org: Org.zhp,
     email: ['mateusz.miklaszewski@gmail.com']
 );
+const Person MATEUSZ_PYSZKA = Person(
+    name: 'Mateusz Pyszka',
+    druzyna: '70. SDH',
+    org: Org.zhr_o,
+    email: ['mati.matixos@gmail.com']
+);
 const Person MATEUSZ_STEPNIEWSKI = Person(
   name: 'Mateusz Stępniewski',
   druzyna: '119',
@@ -1538,6 +1578,13 @@ const Person OLGA_JAJKO = Person(
   druzyna: '1. Krakowska Drużyna Harcerska HRP',
   org: Org.hrp,
   email: ['olgajajko2004@gmail.com']
+);
+const Person OLGA_LUCZAK = Person(
+    name: 'Olga Łuczak',
+    druzyna: '1. DH „Huragan”',
+    hufiec: huf_zhp_sieradz,
+    org: Org.zhp,
+    email: ['oluczak390@gmail.com']
 );
 const Person OLIWIA_MAJDA = Person(
     name: 'Oliwia Majda',
@@ -1933,6 +1980,14 @@ const Person ZUZANNA_MIERZEJEWSKA = Person(
   druzyna: '13. Lubańska Drużyna Starszoharcerska „Brzask”',
   hufiec: huf_zhp_luban,
   org: Org.zhp
+);
+const Person ZUZANNA_NAWROT = Person(
+    name: 'Zuzanna Nawrot',
+    druzyna: '9. BGZ „Pszczółki”',
+    hufiec: huf_zhp_reduta,
+    rankHarc: RankHarc.zhpSamarytanka,
+    org: Org.zhp,
+    email: ['zuzannanawrot5c@gmail.com']
 );
 const Person ZUZANNA_NIEWEGLOWSKA = Person(
     name: 'Zuzanna Niewęgłowska',

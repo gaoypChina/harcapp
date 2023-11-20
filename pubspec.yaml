@@ -15,7 +15,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 3.2.35+134 # 3.1.35+133 #
+version: 3.2.36+137 # 3.1.36+136 #
 
 environment:
   sdk: '>=3.0.2 <4.0.0'
@@ -26,14 +26,10 @@ dependencies:
   after_layout: ^1.1.0
   animated_text_kit: ^4.2.1
   assets_audio_player: ^3.1.1
-#  assets_audio_player:
-#    git:
-#      url: https://github.com/n3o2k7i8ch5/Flutter-AssetsAudioPlayer
   auto_size_text: ^3.0.0
   back_button_interceptor: ^7.0.0
   confetti: ^0.7.0
   connectivity_plus: ^4.0.2
-  # date_picker_timeline: ^1.2.3
   device_info_plus: ^10.0.0
   dio: ^5.0.0
   dropdown_button2: ^2.0.0
@@ -42,9 +38,6 @@ dependencies:
   flip_card: ^0.7.0
   flutter_email_sender: ^6.0.0
   flutter_image_compress: ^2.0.4
-#  flutter_image_compress:
-#    git:
-#      url: https://github.com/n3o2k7i8ch5/flutter_image_compress
   flutter_keyboard_visibility: ^5.2.0
   flutter_link_previewer: ^3.0.1
   flutter_map: ^6.0.0
@@ -84,9 +77,6 @@ dependencies:
   printing: ^5.9.1
   pull_to_refresh_flutter3: ^2.0.1
   qr_flutter: ^4.1.0 #generator
-#  qr_flutter:
-#    git:
-#      url: https://github.com/lukef/qr.flutter
   qrscan: ^0.3.2
   semaphore_plus: ^0.3.1
   sensors_plus: ^4.0.0
@@ -100,7 +90,6 @@ dependencies:
   url_launcher: ^6.1.2
   uuid: ^3.0.7
   wakelock_plus: ^1.1.1
-  # webfeed: ^0.7.0
   webfeed_revised: ^0.7.2
   youtube_player_flutter: ^8.1.0 # add dependencies to iOS # add dependencies to Android
 

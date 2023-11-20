@@ -1,11 +1,11 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class AutoRotate extends StatefulWidget{
 
-  int speed;
-  Widget? child;
+  final int speed;
+  final Widget? child;
 
-  AutoRotate({super.key, required this.speed, this.child});
+  const AutoRotate({super.key, required this.speed, this.child});
 
   @override
   State<StatefulWidget> createState() => AutoRotateState();

@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/rect_decomp/binary_matrix.dart';
 import 'package:harcapp/_common_classes/rect_decomp/decomposition_result.dart';
 import 'package:harcapp/_common_classes/rect_decomp/rectilinear_decomposer.dart';

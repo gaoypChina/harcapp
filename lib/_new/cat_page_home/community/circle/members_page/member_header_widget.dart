@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:harcapp/_app_common/accounts/account_header_widget.dart';
 import 'package:harcapp/_new/cat_page_home/community/common/community_cover_colors.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';

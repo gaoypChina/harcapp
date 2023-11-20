@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
@@ -73,13 +73,13 @@ class _RadioButtonGroupState<T> extends State<RadioButtonGroup<T?>>{
 
 class _RadioButton<T> extends StatelessWidget{
 
-  T buttonID;
-  IconData? icon;
-  String buttonName;
-  T currID;
-  Function(T currID) onTap;
+  final T buttonID;
+  final IconData? icon;
+  final String buttonName;
+  final T currID;
+  final Function(T currID) onTap;
 
-  _RadioButton({
+  const _RadioButton({
     required this.buttonID,
     this.icon,
     required this.buttonName,

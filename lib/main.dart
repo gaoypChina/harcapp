@@ -7,15 +7,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:harcapp/_common_classes/org/org.dart';
-import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/models_common/rank_cat.dart';
-import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/models_common/rank_group.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/model/trop.dart';
 import 'package:harcapp/_new/cat_page_harc_map/model/marker_data.dart';
 import 'package:harcapp/_new/cat_page_harcthought/articles/article.dart';
 import 'package:harcapp/_new/cat_page_home/community/communities_loader.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_loader.dart';
 import 'package:harcapp/account/login_provider.dart';
-import 'package:harcapp/logger.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/color_pack_provider.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
@@ -34,8 +31,6 @@ import '_common_classes/storage.dart';
 import '_common_classes/time_settings.dart';
 import '_new/app_bottom_navigator.dart';
 import '_new/cat_page_guidebook_development/development/_sprawnosci/providers.dart';
-import '_new/cat_page_guidebook_development/development/stopnie/models_common/rank.dart';
-import '_new/cat_page_guidebook_development/development/stopnie/models_common/rank_task.dart';
 import '_new/cat_page_guidebook_development/guidebook/szyfry/providers.dart';
 import '_new/cat_page_harc_map/sample_points_optimizer.dart';
 import '_new/cat_page_harcthought/apel_ewan/apel_ewan_own_folder.dart';
@@ -110,7 +105,8 @@ void main() async {
   var delegate = await LocalizationDelegate.create(
       fallbackLocale: 'pl',
       basePath: 'assets/locale/',
-      supportedLocales: ['pl']);
+      supportedLocales: ['pl']
+  );
 
   if(DateTime.now().isAfter(DateTime(2023, 4, 7, 14)) && DateTime.now().isBefore(DateTime(2023, 4, 9, 4)))
     appMode = AppMode.appModeWielkiPiatek;
@@ -278,10 +274,8 @@ class AppNavigatorObserver extends NavigatorObserver{
     _onChangedListener.remove(listener);
 
   void callNavBarChanged(){
-
     for(void Function() onChangedListener in _onChangedListener)
       onChangedListener.call();
-
   }
 
   @protected
@@ -357,48 +351,6 @@ class AppState extends State<App> with WidgetsBindingObserver {
   
   late StreamSubscription<ConnectivityResult> subscription;
 
-  void convertOldData(){
-
-    if(true)
-
-      // Update Rank task uids
-      for(Rank rank in Rank.all){
-
-        Map<String, bool> taskComplMap = ShaPref.getMap<String, bool>(ShaPref.SHA_PREF_RANK_COMPLETED_REQ_MAP_(rank), {});
-        Map<String, String> taskNoteMap = ShaPref.getMap<String, String>(ShaPref.SHA_PREF_RANK_REQ_NOTES_MAP_(rank), {});
-
-        Map<String, bool?> newTaskComplMap = {};
-        Map<String, String?> newTaskNoteMap = {};
-
-        for(RankCat cat in rank.cats!)
-          for(RankGroup group in cat.groups!)
-            for(RankTask task in group.tasks!){
-
-              if(taskComplMap.containsKey(task.old_uid))
-                newTaskComplMap[task.uid] = taskComplMap[task.old_uid];
-              else if(taskComplMap.containsKey(task.uid))
-                newTaskComplMap[task.uid] = taskComplMap[task.uid];
-
-              if(taskNoteMap.containsKey(task.old_uid))
-                newTaskNoteMap[task.uid] = taskNoteMap[task.old_uid];
-              else if(taskNoteMap.containsKey(task.uid))
-                newTaskNoteMap[task.uid] = taskNoteMap[task.uid];
-
-            }
-
-        ShaPref.setMap(ShaPref.SHA_PREF_RANK_COMPLETED_REQ_MAP_(rank), newTaskComplMap);
-        ShaPref.setMap(ShaPref.SHA_PREF_RANK_REQ_NOTES_MAP_(rank), newTaskNoteMap);
-      }
-
-    if(ShaPref.getBool(ShaPref.SHA_PREF_RESET_STATS, true)){
-      Statistics.songStats = {};
-      Statistics.moduleStats = {};
-      ShaPref.setBool(ShaPref.SHA_PREF_RESET_STATS, false);
-      logger.d('Stats reset.');
-    }
-
-  }
-
   late LoginListener _loginListener;
 
   late SynchronizerListener syncListener;
@@ -419,7 +371,6 @@ class AppState extends State<App> with WidgetsBindingObserver {
         onLogin: (emailConf) async {
           if(!emailConf) return;
           await Statistics.commit();
-          // Trop.fixNoUserInOwnTrops();
         },
         onRegistered: () async{
           await Statistics.commit();
@@ -428,7 +379,6 @@ class AppState extends State<App> with WidgetsBindingObserver {
         onEmailConfirmChanged: (emailConf) async {
           if(!emailConf) return;
           await Statistics.commit();
-          // Trop.fixNoUserInOwnTrops();
           await indivCompLoader.run();
           await communitiesLoader.run();
         },

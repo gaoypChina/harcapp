@@ -14,6 +14,11 @@ class WDecheData{
   static const List<WDecheData> all = [
 
     WDecheData(
+      text: 'Skąd pierogi wiedzą, że mają wypłynąć, gdy są ugotowane...'
+            '\nNatura jest niesamowita!',
+    ),
+
+    WDecheData(
       text: 'Weź się do kupy',
       imageName: 'poop',
       imageSize: 42.0,

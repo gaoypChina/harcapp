@@ -1,6 +1,6 @@
 import 'dart:core';
 
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/sha_pref.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/models_common/rank.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/models_common/rank_cat.dart';

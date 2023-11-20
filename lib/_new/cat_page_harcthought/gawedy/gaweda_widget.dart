@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 import 'package:harcapp/_new/module_statistics_registrator.dart';
 import '../common/short_read_widget.dart';

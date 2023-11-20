@@ -39,7 +39,20 @@ List<TropIdea> harcHTropIdeas = const [
         '\n\n• Zorganizuj razem z zastępem pogadankę na temat praw dziecka. Jej odbiorcami mogą być osoby, z którymi spędzacie czas na co dzień lub też zaproszeni goście z waszego otoczenia. Pamiętajcie, by tematy pogadanki skonsultować z drużynowym.'
         '\n\n• Przygotuj i przeprowadź razem z zastępem kampanię promującą prawa ucznia/dziecka w Waszej okolicy. Wykorzystaj w niej zgromadzone przez Was wnioski i zaprezentujcie je w dowolnej formie (plakaty, akcja w mediach społecznościowych, apel w szkole, FlashMob w trakcie długiej przerwy, happening itp.). Pomysły skonsultujcie z drużynowym.'
         '\n\n• Na jakich zasadach działa samorząd w Waszej szkole? Co może Wam dać posiadanie tam swojego reprezentanta? Czy macie w nim harcerskich przedstawicieli? Zorganizuj dyskusję na ten temat w drużynie i zastanówcie się, czy nie macie spośród Was potencjalnego kandydata do samorządu, który będzie reprezentował w nim Wasz głos – zadanie dla zastępowego.'
-        '\n\n• Zorganizuj wspólne oglądanie w zastępie filmu dotyczącego walki o swoje prawa. Propozycje: Sekrety wojny (reż. D. Bots, Holandia 2014), Selma (reż. Ava DuVernay, USA/Wielka Brytania 2014), Chłopiec i świat (reż. A. Abreu, Brazylia 2013), Fritzi - przyjaźń bez granic (M. Bruhn, R. Kukula, Niemcy 2019), Jak ukraść psa? (Kim Sung-ho, Korea Południowa 2014), Lek na całe zło (reż. T. Schram, Holandia 2014), Mamo, kocham cię (reż. J. Nords, Łotwa 2013), Małpia afera (reż. J. Nijenhuis, Holandia 2015), Nowy (reż. R. Rosenberg, Francja 2015), Żałuję (reż. D. Schram, Holandia 2013), Storm. Opowieść o odwadze (reż. D. Bots, Holandia 2017), Powrót do Brundibára (reż. D. Wolfsperger, Niemcy/Czechy 2014), Rabarbar (reż. M. de Cloe, Holandia 2014)',
+        '\n\n• Zorganizuj wspólne oglądanie w zastępie filmu dotyczącego walki o swoje prawa. Propozycje:'
+        '\n- Sekrety wojny (reż. D. Bots, Holandia 2014),'
+        '\n- Selma (reż. Ava DuVernay, USA/Wielka Brytania 2014),'
+        '\n- Chłopiec i świat (reż. A. Abreu, Brazylia 2013),'
+        '\n- Fritzi - przyjaźń bez granic (M. Bruhn, R. Kukula, Niemcy 2019),'
+        '\n- Jak ukraść psa? (Kim Sung-ho, Korea Południowa 2014),'
+        '\n- Lek na całe zło (reż. T. Schram, Holandia 2014),'
+        '\n- Mamo, kocham cię (reż. J. Nords, Łotwa 2013), '
+        '\n- Małpia afera (reż. J. Nijenhuis, Holandia 2015),'
+        '\n- Nowy (reż. R. Rosenberg, Francja 2015),'
+        '\n- Żałuję (reż. D. Schram, Holandia 2013),'
+        '\n- Storm. Opowieść o odwadze (reż. D. Bots, Holandia 2017),'
+        '\n- Powrót do Brundibára (reż. D. Wolfsperger, Niemcy/Czechy 2014),'
+        '\n- Rabarbar (reż. M. de Cloe, Holandia 2014)',
     summary: 'Zastanówcie się, czy Wy i Wasi rówieśnicy wykorzystujecie na co dzień przysługujące Wam prawa. Czy dzięki przeprowadzonym przez Was działaniom udało się innym pomóc lub uświadomić ich, do czego mają prawo na co dzień? Zaprezentujcie zebranie wnioski Waszej drużynie. Podsumujcie, jakie mieliście największe trudności w trakcie realizacji tego tropu, a z czego jesteście najbardziej dumni.',
   ),
 
